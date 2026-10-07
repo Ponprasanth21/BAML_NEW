@@ -154,7 +154,7 @@ public class CronJobScheduler {
 	//0 */1 * * *  
 	
 	///@Scheduled(cron = "0 40 */1 ? * *")
-	@Scheduled(cron = "0 * * ? * *")
+	//@Scheduled(cron = "0 * * ? * *")
 	public String execute() throws Exception {
 
 		logger.info("EMAIL STARTS");
@@ -322,7 +322,7 @@ public class CronJobScheduler {
 	// @Scheduled(cron = " 0 0/5 * * * *")
 	// @Scheduled(cron = "0 0 9,15 * * *")
 	//@Scheduled(cron = "0 0 9,12 * * *")
-	@Scheduled(cron = "*/5 * * * * ?")
+	//@Scheduled(cron = "*/5 * * * * ?")
 	public void UNSC() {
 
 		logger.info("Time to Refresh the UNSC Entity Data");
@@ -338,7 +338,7 @@ public class CronJobScheduler {
 
 //	@Scheduled(cron = "*/5 * * * * ?")//for every 5 min
 	// @Scheduled(cron = "0 0 15 * * ?")//for everyday 11 pm
-	@Scheduled(cron = "0 0 23 * * *")
+	//@Scheduled(cron = "0 0 23 * * *")
 	public void executeListManagement() throws JRException, SQLException, IOException {
 		logger.info("Scheduler for ListManagement Begins");
 		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");

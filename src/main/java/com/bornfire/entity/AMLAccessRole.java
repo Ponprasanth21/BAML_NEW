@@ -2,242 +2,364 @@ package com.bornfire.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "BAML_ACCESS_ROLE_TABLE")
+@Table(name = "\"BAML_ACCESS_ROLE_TABLE\"", schema = "\"AML\"")
 public class AMLAccessRole {
 
 	@Id
-	private String	role_id;
-	private String	role_desc;
-	private String	permissions;
-	private String	work_class;
-	private String	domain_id;
-	private String	admin;
-	private String	inquiry;
-	private String	monitoring;
-	private String	list_management;
-	private String	interfaces;
-	private String	screening;
-	private String	risk_management;
-	private String	transaction;
-	private String	general;
-	private String	report;
-	private String	entity_flg;
-	private String	auth_flg;
-	private String	modify_flg;
-	private String	del_flg;
-	private String	menulist;
-	private String	case_management;
-	private String  thirdparty_transaction;
-	private String	amlreport;
-	private String 	strreport;
-	private String 	auditlog;
-	private String	amlarchival;
-	private String	entry_user;
-	private String	modify_user;
-	private String	auth_user;
-	private Date	entry_time;
-	private Date	modify_time;
-	private Date	auth_time;
-	
+	@Column(name = "\"ROLE_ID\"")
+	private String role_id;
+
+	@Column(name = "\"ROLE_DESC\"")
+	private String role_desc;
+
+	@Column(name = "\"PERMISSIONS\"")
+	private String permissions;
+
+	@Column(name = "\"WORK_CLASS\"")
+	private String work_class;
+
+	@Column(name = "\"DOMAIN_ID\"")
+	private String domain_id;
+
+	@Column(name = "\"ADMIN\"")
+	private String admin;
+
+	@Column(name = "\"INQUIRY\"")
+	private String inquiry;
+
+	@Column(name = "\"MONITORING\"")
+	private String monitoring;
+
+	@Column(name = "\"LIST_MANAGEMENT\"")
+	private String list_management;
+
+	@Column(name = "\"INTERFACES\"")
+	private String interfaces;
+
+	@Column(name = "\"SCREENING\"")
+	private String screening;
+
+	@Column(name = "\"RISK_MANAGEMENT\"")
+	private String risk_management;
+
+	@Column(name = "\"TRANSACTION\"")
+	private String transaction;
+
+	@Column(name = "\"GENERAL\"")
+	private String general;
+
+	@Column(name = "\"REPORT\"")
+	private String report;
+
+	@Column(name = "\"ENTITY_FLG\"")
+	private String entity_flg;
+
+	@Column(name = "\"AUTH_FLG\"")
+	private String auth_flg;
+
+	@Column(name = "\"MODIFY_FLG\"")
+	private String modify_flg;
+
+	@Column(name = "\"DEL_FLG\"")
+	private String del_flg;
+
+	@Column(name = "\"MENULIST\"")
+	private String menulist;
+
+	@Column(name = "\"CASE_MANAGEMENT\"")
+	private String case_management;
+
+	@Column(name = "\"THIRDPARTY_TRANSACTION\"")
+	private String thirdparty_transaction;
+
+	@Column(name = "\"AMLREPORT\"")
+	private String amlreport;
+
+	@Column(name = "\"STRREPORT\"")
+	private String strreport;
+
+	@Column(name = "\"AUDITLOG\"")
+	private String auditlog;
+
+	@Column(name = "\"AMLARCHIVAL\"")
+	private String amlarchival;
+
+	@Column(name = "\"ENTRY_USER\"")
+	private String entry_user;
+
+	@Column(name = "\"MODIFY_USER\"")
+	private String modify_user;
+
+	@Column(name = "\"AUTH_USER\"")
+	private String auth_user;
+
+	@Column(name = "\"ENTRY_TIME\"")
+	private Date entry_time;
+
+	@Column(name = "\"MODIFY_TIME\"")
+	private Date modify_time;
+
+	@Column(name = "\"AUTH_TIME\"")
+	private Date auth_time;
+
 	public String getRole_id() {
 		return role_id;
 	}
+
 	public void setRole_id(String role_id) {
 		this.role_id = role_id;
 	}
+
 	public String getRole_desc() {
 		return role_desc;
 	}
+
 	public void setRole_desc(String role_desc) {
 		this.role_desc = role_desc;
 	}
+
 	public String getPermissions() {
 		return permissions;
 	}
+
 	public void setPermissions(String permissions) {
 		this.permissions = permissions;
 	}
+
 	public String getWork_class() {
 		return work_class;
 	}
+
 	public void setWork_class(String work_class) {
 		this.work_class = work_class;
 	}
+
 	public String getDomain_id() {
 		return domain_id;
 	}
+
 	public void setDomain_id(String domain_id) {
 		this.domain_id = domain_id;
 	}
+
 	public String getAdmin() {
 		return admin;
 	}
+
 	public void setAdmin(String admin) {
 		this.admin = admin;
 	}
+
 	public String getInquiry() {
 		return inquiry;
 	}
+
 	public void setInquiry(String inquiry) {
 		this.inquiry = inquiry;
 	}
+
 	public String getMonitoring() {
 		return monitoring;
 	}
+
 	public void setMonitoring(String monitoring) {
 		this.monitoring = monitoring;
 	}
+
 	public String getList_management() {
 		return list_management;
 	}
+
 	public void setList_management(String list_management) {
 		this.list_management = list_management;
 	}
+
 	public String getInterfaces() {
 		return interfaces;
 	}
+
 	public void setInterfaces(String interfaces) {
 		this.interfaces = interfaces;
 	}
+
 	public String getScreening() {
 		return screening;
 	}
+
 	public void setScreening(String screening) {
 		this.screening = screening;
 	}
+
 	public String getRisk_management() {
 		return risk_management;
 	}
+
 	public void setRisk_management(String risk_management) {
 		this.risk_management = risk_management;
 	}
+
 	public String getTransaction() {
 		return transaction;
 	}
+
 	public void setTransaction(String transaction) {
 		this.transaction = transaction;
 	}
+
 	public String getGeneral() {
 		return general;
 	}
+
 	public void setGeneral(String general) {
 		this.general = general;
 	}
+
 	public String getReport() {
 		return report;
 	}
+
 	public void setReport(String report) {
 		this.report = report;
 	}
+
 	public String getEntity_flg() {
 		return entity_flg;
 	}
+
 	public void setEntity_flg(String entity_flg) {
 		this.entity_flg = entity_flg;
 	}
+
 	public String getAuth_flg() {
 		return auth_flg;
 	}
+
 	public void setAuth_flg(String auth_flg) {
 		this.auth_flg = auth_flg;
 	}
+
 	public String getModify_flg() {
 		return modify_flg;
 	}
+
 	public void setModify_flg(String modify_flg) {
 		this.modify_flg = modify_flg;
 	}
+
 	public String getDel_flg() {
 		return del_flg;
 	}
+
 	public void setDel_flg(String del_flg) {
 		this.del_flg = del_flg;
 	}
+
 	public String getMenulist() {
 		return menulist;
 	}
+
 	public void setMenulist(String menulist) {
 		this.menulist = menulist;
 	}
+
 	public String getCase_management() {
 		return case_management;
 	}
+
 	public void setCase_management(String case_management) {
 		this.case_management = case_management;
 	}
+
 	public String getAmlreport() {
 		return amlreport;
 	}
+
 	public void setAmlreport(String amlreport) {
 		this.amlreport = amlreport;
 	}
+
 	public String getStrreport() {
 		return strreport;
 	}
+
 	public void setStrreport(String strreport) {
 		this.strreport = strreport;
 	}
+
 	public String getAuditlog() {
 		return auditlog;
 	}
+
 	public void setAuditlog(String auditlog) {
 		this.auditlog = auditlog;
 	}
+
 	public String getAmlarchival() {
 		return amlarchival;
 	}
+
 	public void setAmlarchival(String amlarchival) {
 		this.amlarchival = amlarchival;
 	}
+
 	public String getEntry_user() {
 		return entry_user;
 	}
+
 	public void setEntry_user(String entry_user) {
 		this.entry_user = entry_user;
 	}
+
 	public String getModify_user() {
 		return modify_user;
 	}
+
 	public void setModify_user(String modify_user) {
 		this.modify_user = modify_user;
 	}
+
 	public String getAuth_user() {
 		return auth_user;
 	}
+
 	public void setAuth_user(String auth_user) {
 		this.auth_user = auth_user;
 	}
+
 	public Date getEntry_time() {
 		return entry_time;
 	}
+
 	public void setEntry_time(Date entry_time) {
 		this.entry_time = entry_time;
 	}
+
 	public Date getModify_time() {
 		return modify_time;
 	}
+
 	public void setModify_time(Date modify_time) {
 		this.modify_time = modify_time;
 	}
+
 	public Date getAuth_time() {
 		return auth_time;
 	}
+
 	public void setAuth_time(Date auth_time) {
 		this.auth_time = auth_time;
 	}
 
-	
-	
-	
-	
 	public String getThirdparty_transaction() {
 		return thirdparty_transaction;
 	}
+
 	public void setThirdparty_transaction(String thirdparty_transaction) {
 		this.thirdparty_transaction = thirdparty_transaction;
 	}
@@ -246,6 +368,7 @@ public class AMLAccessRole {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 	public AMLAccessRole(String role_id, String role_desc, String permissions, String work_class, String domain_id,
 			String admin, String inquiry, String monitoring, String list_management, String interfaces,
 			String screening, String risk_management, String transaction, String general, String report,
@@ -287,9 +410,5 @@ public class AMLAccessRole {
 		this.modify_time = modify_time;
 		this.auth_time = auth_time;
 	}
-	
-	
-	
-		
-	
+
 }

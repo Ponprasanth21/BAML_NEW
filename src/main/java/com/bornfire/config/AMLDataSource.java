@@ -103,6 +103,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 import javax.validation.constraints.NotNull;
 
+import org.postgresql.ds.PGSimpleDataSource;
 import
 org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -158,29 +159,37 @@ public class AMLDataSource {
      }
 
 	private final Properties hibernateProperties() {
-         Properties hibernateProperties = new Properties();
-         hibernateProperties.setProperty(
-           "hibernate.dialect","org.hibernate.dialect.Oracle10gDialect");
-         return hibernateProperties;
-     }
+	    Properties hibernateProperties = new Properties();
 
+	    hibernateProperties.setProperty(
+	        "hibernate.dialect",
+	        "org.hibernate.dialect.PostgreSQLDialect"
+	    );
 
+	    return hibernateProperties;
+	}
 
 	@Bean
 	DataSource srcdataSource() throws SQLException {
-		OracleDataSource dataSource = new OracleDataSource();
-		dataSource.setUser(username);
-		dataSource.setPassword(password);
-		dataSource.setURL(url);
-		dataSource.setImplicitCachingEnabled(true);
-		dataSource.setFastConnectionFailoverEnabled(true);
-		return dataSource;
+
+	    PGSimpleDataSource dataSource = new PGSimpleDataSource();
+
+	    dataSource.setUser(username);
+	    dataSource.setPassword(password);
+	    dataSource.setUrl(url);
+
+	    return dataSource;
 	}
 
 	@Bean
 	public PlatformTransactionManager datasrcTransactionManager() throws SQLException {
-		JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory(datasrc().getObject());
-		return transactionManager;
+
+	    JpaTransactionManager transactionManager = new JpaTransactionManager();
+
+	    transactionManager.setEntityManagerFactory(
+	        datasrc().getObject()
+	    );
+
+	    return transactionManager;
 	}
 }

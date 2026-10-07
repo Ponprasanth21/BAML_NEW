@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Transactional
-public interface UserProfileRep extends CrudRepository<UserProfile,String>{
-	
+public interface UserProfileRep extends CrudRepository<UserProfile, String> {
 
 	public Optional<UserProfile> findByusername(String userName);
-	
-	@Query(value = "select count(*) from BAML_USER_PROFILE_TABLE where del_flg='N'  and user_id=?1 ", nativeQuery = true)
+
+	@Query(value = "SELECT COUNT(*) " + "FROM BAML_USER_PROFILE_TABLE " + "WHERE del_flg = 'N' "
+			+ "AND user_id = ?1", nativeQuery = true)
 	String getusercount(String custId);
 }

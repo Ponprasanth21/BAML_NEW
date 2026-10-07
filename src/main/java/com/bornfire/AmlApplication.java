@@ -7,22 +7,20 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-
-
-
 @SpringBootApplication
 @Configuration
 @EnableScheduling
-public class AmlApplication extends SpringBootServletInitializer{
-	
+public class AmlApplication extends SpringBootServletInitializer {
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(AmlApplication.class);
-	}
+    @Override
+    protected SpringApplicationBuilder configure(
+            SpringApplicationBuilder application) {
 
-	public static void main(String[] args) {
-		SpringApplication.run(AmlApplication.class, args);
+        return application.sources(AmlApplication.class);
+    }
 
-	}
+    public static void main(String[] args) {
+
+        SpringApplication.run(AmlApplication.class, args);
+    }
 }

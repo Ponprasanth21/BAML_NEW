@@ -22,76 +22,181 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "BAML_USER_PROFILE_TABLE")
-public class UserProfile implements UserDetails{
+@Table(name = "\"BAML_USER_PROFILE_TABLE\"", schema = "\"AML\"")
+public class UserProfile implements UserDetails {
 	private static final long serialVersionUID = 1L;
+	@Column(name = "\"BANK_CODE\"")
 	private String bank_code;
+
+	@Column(name = "\"BANK_NAME\"")
 	private String bank_name;
+
+	@Column(name = "\"BRANCH_CODE\"")
 	private String branch_code;
+
+	@Column(name = "\"BRANCH_NAME\"")
 	private String branch_name;
-	
-	@Column(name = "emp_id")
+
+	@Column(name = "\"EMP_ID\"")
 	private String empid;
+
+	@Column(name = "\"EMP_NAME\"")
 	private String emp_name;
-	
+
 	@Id
-	@Column(name="user_id")
+	@Column(name = "\"USER_ID\"")
 	private String userid;
-	
-	@Column(name = "user_name")
+
+	@Column(name = "\"USER_NAME\"")
 	private String username;
+
+	@Column(name = "\"INACTIVE_TIME\"")
 	private String inactive_time;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"ACC_EXP_DATE\"")
 	private Date acc_exp_date;
+
+	@Column(name = "\"LOGIN_LOW\"")
 	private String login_low;
+
+	@Column(name = "\"LOGIN_HIGH\"")
 	private String login_high;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"DISABLE_START_DATE\"")
 	private Date disable_start_date;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"DISABLE_END_DATE\"")
 	private Date disable_end_date;
+
+	@Column(name = "\"PASSWORD\"")
 	private String password;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"PASS_EXP_DATE\"")
 	private Date pass_exp_date;
+
+	@Column(name = "\"USER_STATUS\"")
 	private String user_status;
+
+	@Column(name = "\"LOGIN_STATUS\"")
 	private String login_status;
+
+	@Column(name = "\"VIRTUAL_FLG\"")
 	private String virtual_flg;
+
+	@Column(name = "\"WORK_CLASS\"")
 	private String work_class;
+
+	@Column(name = "\"MOB_NUMBER\"")
 	private String mob_number;
+
+	@Column(name = "\"EMAIL_ID\"")
 	private String email_id;
+
+	@Column(name = "\"ROLE_ID\"")
 	private String role_id;
+
+	@Column(name = "\"ROLE_DESC\"")
 	private String role_desc;
+
+	@Column(name = "\"PERMISSIONS\"")
 	private String permissions;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"PER_EFFCTIVE_DATE\"")
 	private String per_effctive_date;
+
+	@Column(name = "\"ADMIN\"")
 	private String admin;
+
+	@Column(name = "\"XBRL_CONFIGURATION\"")
 	private String xbrl_configuration;
+
+	@Column(name = "\"XBRL_REPORT\"")
 	private String xbrl_report;
+
+	@Column(name = "\"SCHEDULER\"")
 	private String scheduler;
+
+	@Column(name = "\"EXECUTION\"")
 	private String execution;
+
+	@Column(name = "\"MIS_REPORTS\"")
 	private String mis_reports;
+
+	@Column(name = "\"XML_REPORTS\"")
 	private String xml_reports;
+
+	@Column(name = "\"ARCHIVEL\"")
 	private String archivel;
+
+	@Column(name = "\"GENERAL_INQ\"")
 	private String general_inq;
+
+	@Column(name = "\"AUDIT_INQ\"")
 	private String audit_inq;
+
+	@Column(name = "\"CHANNEL\"")
 	private String channel;
+
+	@Column(name = "\"ENTRY_USER\"")
 	private String entry_user;
+
+	@Column(name = "\"ENTRY_TIME\"")
 	private Date entry_time;
+
+	@Column(name = "\"AUTH_USER\"")
 	private String auth_user;
+
+	@Column(name = "\"AUTH_TIME\"")
 	private Date auth_time;
+
+	@Column(name = "\"MODIFY_USER\"")
 	private String modify_user;
+
+	@Column(name = "\"MODIFY_TIME\"")
 	private Date modify_time;
+
+	@Column(name = "\"ENTITY_FLG\"")
 	private String entity_flg;
+
+	@Column(name = "\"AUTH_FLG\"")
 	private String auth_flg;
+
+	@Column(name = "\"MODIFY_FLG\"")
 	private String modify_flg;
+
+	@Column(name = "\"DEL_FLG\"")
 	private String del_flg;
+
+	@Column(name = "\"SESSION_ID\"")
 	private String session_id;
+
+	@Column(name = "\"LOGIN_FLG\"")
 	private String login_flg;
+
+	@Column(name = "\"USER_LOCKED_FLG\"")
 	private String user_locked_flg;
+
+	@Column(name = "\"NO_OF_ATTMP\"")
 	private Integer no_of_attmp;
+
+	@Column(name = "\"DISABLE_FLG\"")
 	private String disable_flg;
+
+	@Column(name = "\"PHOTO\"")
 	private Blob photo;
+
+	@Column(name = "\"DOMAIN_ID\"")
 	private String domain_id;
+
+	@Column(name = "\"NEW_USER_FLG\"")
 	private String new_user_flg;
+
+	@Column(name = "\"REMARK\"")
 	private String remark;
 
 	public String getNew_user_flg() {
@@ -182,7 +287,6 @@ public class UserProfile implements UserDetails{
 	public void setAcc_exp_date(Date acc_exp_date) {
 		this.acc_exp_date = acc_exp_date;
 	}
-
 
 	public String getLogin_low() {
 		return login_low;
@@ -505,8 +609,6 @@ public class UserProfile implements UserDetails{
 		this.user_locked_flg = user_locked_flg;
 	}
 
-	
-
 	public String getRemark() {
 		return remark;
 	}
@@ -514,6 +616,7 @@ public class UserProfile implements UserDetails{
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+
 	public Integer getNo_of_attmp() {
 		return no_of_attmp;
 	}
@@ -529,6 +632,7 @@ public class UserProfile implements UserDetails{
 	public void setDisable_flg(String disable_flg) {
 		this.disable_flg = disable_flg;
 	}
+
 	@JsonIgnore
 	public Blob getPhoto() {
 		return photo;
@@ -565,11 +669,11 @@ public class UserProfile implements UserDetails{
 
 	@Override
 	public boolean isAccountNonLocked() {
-		boolean status=true;
+		boolean status = true;
 		if (this.getUser_locked_flg().equals("Y")) {
-			status=false;
+			status = false;
 		} else {
-			status=true;
+			status = true;
 		}
 
 		return status;
@@ -586,41 +690,41 @@ public class UserProfile implements UserDetails{
 
 	@Override
 	public boolean isEnabled() {
-		
+
 		Date currDate = new Date();
-		if (this.getDisable_flg().equals("Y") || (currDate.after(this.getDisable_start_date()) && currDate.before(this.disable_end_date)) || this.entity_flg.equals("N")) {
+		if (this.getDisable_flg().equals("Y")
+				|| (currDate.after(this.getDisable_start_date()) && currDate.before(this.disable_end_date))
+				|| this.entity_flg.equals("N")) {
 			return false;
 		} else {
 			return true;
 		}
 	}
-	
+
 	public boolean isLoginAllowed() {
-		
+
 		DateFormat dateFormat = new SimpleDateFormat("hh:mm");
-		
+
 		try {
 			Date loginHigh = dateFormat.parse(this.login_high);
 			Date loginLow = dateFormat.parse(this.login_low);
-			
+
 			LocalTime high = LocalDateTime.ofInstant(loginHigh.toInstant(), ZoneId.systemDefault()).toLocalTime();
 			LocalTime low = LocalDateTime.ofInstant(loginLow.toInstant(), ZoneId.systemDefault()).toLocalTime();
 			LocalTime currTime = java.time.LocalTime.now();
-			
-			if(currTime.isAfter(low) && currTime.isBefore(high)) {
+
+			if (currTime.isAfter(low) && currTime.isBefore(high)) {
 				return true;
-			}else {
-				
+			} else {
+
 				return false;
 			}
-				
-			
+
 		} catch (ParseException e) {
-			
+
 			e.printStackTrace();
 		}
-		
-		
+
 		return false;
 	}
 
@@ -634,7 +738,7 @@ public class UserProfile implements UserDetails{
 			String channel, String entry_user, Date entry_time, String auth_user, Date auth_time, String modify_user,
 			Date modify_time, String entity_flg, String auth_flg, String modify_flg, String del_flg, String session_id,
 			String login_flg, String user_locked_flg, Integer no_of_attmp, String disable_flg, String domain_id,
-			String new_user_flg,String remark) {
+			String new_user_flg, String remark) {
 		super();
 		this.bank_code = bank_code;
 		this.bank_name = bank_name;
@@ -690,10 +794,11 @@ public class UserProfile implements UserDetails{
 		this.disable_flg = disable_flg;
 		this.domain_id = domain_id;
 		this.new_user_flg = new_user_flg;
-		this.remark=remark;
+		this.remark = remark;
 	}
-	
-	public UserProfile() {}
+
+	public UserProfile() {
+	}
 
 	@Override
 	public String toString() {
@@ -714,7 +819,8 @@ public class UserProfile implements UserDetails{
 				+ modify_time + ", entity_flg=" + entity_flg + ", auth_flg=" + auth_flg + ", modify_flg=" + modify_flg
 				+ ", del_flg=" + del_flg + ", session_id=" + session_id + ", login_flg=" + login_flg
 				+ ", user_locked_flg=" + user_locked_flg + ", no_of_attmp=" + no_of_attmp + ", disable_flg="
-				+ disable_flg + ", domain_id=" + domain_id + ", new_user_flg=" + new_user_flg +", remark=" + remark + "]";
+				+ disable_flg + ", domain_id=" + domain_id + ", new_user_flg=" + new_user_flg + ", remark=" + remark
+				+ "]";
 	}
 
 	public boolean isPresent() {
@@ -726,8 +832,8 @@ public class UserProfile implements UserDetails{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	public  UserProfile(UserProfileModEn userProfile) {
+
+	public UserProfile(UserProfileModEn userProfile) {
 		this.bank_code = userProfile.getBank_code();
 		this.bank_name = userProfile.getBank_name();
 		this.branch_code = userProfile.getBranch_code();
@@ -775,20 +881,16 @@ public class UserProfile implements UserDetails{
 		this.auth_flg = userProfile.getAuth_flg();
 		this.modify_flg = userProfile.getModify_flg();
 		this.del_flg = userProfile.getDel_flg();
-		this.session_id = userProfile.getSession_id();;
+		this.session_id = userProfile.getSession_id();
+		;
 		this.login_flg = userProfile.getLogin_flg();
 		this.user_locked_flg = userProfile.getUser_locked_flg();
 		this.no_of_attmp = userProfile.getNo_of_attmp();
 		this.disable_flg = userProfile.getDisable_flg();
 		this.domain_id = userProfile.getDomain_id();
 		this.new_user_flg = userProfile.getNew_user_flg();
-		this.remark=userProfile.getRemark();
-		
+		this.remark = userProfile.getRemark();
+
 	}
 
-	
-	
-	
-
-	
 }

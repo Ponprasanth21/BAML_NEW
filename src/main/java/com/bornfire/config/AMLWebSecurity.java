@@ -51,43 +51,36 @@ import com.bornfire.entity.TransMonitoringRepository;
 import com.bornfire.entity.UserProfile;
 import com.bornfire.entity.UserProfileRep;
 
-
-
 @Configuration
 @EnableWebSecurity
 
 public class AMLWebSecurity extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserProfileRep userProfileRep;
-	
+
 	@Autowired
 	SessionFactory sessionFactory;
-	
+
 	@Autowired
 	CMGrepository cmgrepository;
 
 	@Autowired
 	TransMonitoringRepository transmonitoringrepository;
-	
 
 	@Autowired
 	private AML_AUDIT_LOCAL_REP auditLocal;
 
-	
 	private static final Logger logger = LoggerFactory.getLogger(AMLWebSecurity.class);
-	
-	 public final Integer SESSION_TIMEOUT_IN_SECONDS = 600;
-	
+
+	public final Integer SESSION_TIMEOUT_IN_SECONDS = 600;
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/webjars/**", "/images/**", "/login*", "/freezeColumn/**","favicon.ico").permitAll()
-				.anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll()
-				.failureHandler(amlAuthFailHandle()).successHandler(amlAuthSuccessHandle())
-				.usernameParameter("userid").and().logout().permitAll().and()
-				.logout().logoutSuccessHandler(amlLogoutSuccessHandler()).permitAll()
-				.and().sessionManagement().maximumSessions(1)
-				.maxSessionsPreventsLogin(false);
-				
+		http.authorizeRequests().antMatchers("/webjars/**", "/images/**", "/login*", "/freezeColumn/**", "favicon.ico")
+				.permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll()
+				.failureHandler(amlAuthFailHandle()).successHandler(amlAuthSuccessHandle()).usernameParameter("userid")
+				.and().logout().permitAll().and().logout().logoutSuccessHandler(amlLogoutSuccessHandler()).permitAll()
+				.and().sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false);
 
 		http.csrf().disable();
 
@@ -96,7 +89,7 @@ public class AMLWebSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider());
-	
+
 	}
 
 	@Bean
@@ -109,9 +102,19 @@ public class AMLWebSecurity extends WebSecurityConfigurerAdapter {
 			public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 				String userid = authentication.getName();
 				String password = authentication.getCredentials().toString();
-				
+
+				System.out.println("USER ID  : " + userid);
+				System.out.println("PASSWORD : " + password);
+
 				Optional<UserProfile> up = userProfileRep.findById(userid);
-			
+
+				if (up.isPresent()) {
+				    System.out.println("User found");
+				    System.out.println("UserProfile : " + up.get());
+				} else {
+				    System.out.println("User not found for USER ID : " + userid);
+				}
+
 				try {
 
 					if (up.isPresent()) {
@@ -119,27 +122,21 @@ public class AMLWebSecurity extends WebSecurityConfigurerAdapter {
 
 						if (!usr.isAccountNonExpired()) {
 							System.out.println("Account Expired");
-							/*Session hs = sessionFactory.getCurrentSession();
-							BigDecimal Number1 = (BigDecimal) hs.createNativeQuery("SELECT RULESEQUENCE_1.NEXTVAL AS SRL_NO FROM DUAL")
-									.getSingleResult();
-			                 AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
-							
-							audit.setAudit_date(new Date());
-							audit.setEntry_time(new Date());
-							audit.setEntry_user(usr.getUserid());
-							audit.setFunc_code("LOGIN FAILED");
-							audit.setRemarks("LOGIN");
-							audit.setAudit_table("AML_USER_PROFILE_TABLE");
-							audit.setAudit_screen("AML LOGIN");
-							audit.setEvent_id(up.get().getUserid());
-							audit.setEvent_name(up.get().getUsername());
-							audit.setModi_details("Account Expired");
-							audit.setAudit_ref_no(Number1.toString());
-							auditLocal.save(audit);*/
-						throw new AccountExpiredException("Account Expired");
-							
-							
-			
+							/*
+							 * Session hs = sessionFactory.getCurrentSession(); BigDecimal Number1 =
+							 * (BigDecimal)
+							 * hs.createNativeQuery("SELECT RULESEQUENCE_1.NEXTVAL AS SRL_NO FROM DUAL")
+							 * .getSingleResult(); AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
+							 * 
+							 * audit.setAudit_date(new Date()); audit.setEntry_time(new Date());
+							 * audit.setEntry_user(usr.getUserid()); audit.setFunc_code("LOGIN FAILED");
+							 * audit.setRemarks("LOGIN"); audit.setAudit_table("AML_USER_PROFILE_TABLE");
+							 * audit.setAudit_screen("AML LOGIN"); audit.setEvent_id(up.get().getUserid());
+							 * audit.setEvent_name(up.get().getUsername());
+							 * audit.setModi_details("Account Expired");
+							 * audit.setAudit_ref_no(Number1.toString()); auditLocal.save(audit);
+							 */
+							throw new AccountExpiredException("Account Expired");
 
 						} else if (!usr.isCredentialsNonExpired()) {
 
@@ -160,17 +157,22 @@ public class AMLWebSecurity extends WebSecurityConfigurerAdapter {
 						} else if (!PasswordEncryption.validatePassword(password, usr.getPassword())) {
 							logger.info("Passing Userid :" + userid);
 
-				 			Session hs = sessionFactory.getCurrentSession();
+							Session hs = sessionFactory.getCurrentSession();
 							Transaction tr = hs.getTransaction();
 							hs.createQuery(
-									"update UserProfile a set a.no_of_attmp=nvl(a.no_of_attmp,0)+1, a.user_locked_flg=decode(nvl(a.no_of_attmp,0)+1,'3','Y','N'), a.login_status=decode(nvl(a.no_of_attmp,0)+1,'3','Inactive','Active') where userid=?1")
+									"update UserProfile a " + "set a.no_of_attmp = coalesce(a.no_of_attmp, 0) + 1, "
+											+ "a.user_locked_flg = case "
+											+ "    when coalesce(a.no_of_attmp, 0) + 1 = 3 then 'Y' " + "    else 'N' "
+											+ "end, " + "a.login_status = case "
+											+ "    when coalesce(a.no_of_attmp, 0) + 1 = 3 then 'Inactive' "
+											+ "    else 'Active' " + "end " + "where a.userid = ?1")
 									.setParameter(1, userid).executeUpdate();
 							tr.commit();
 							hs.close();
 							throw new BadCredentialsException("Authentication failed");
 
 						} else {
-							
+
 							return new UsernamePasswordAuthenticationToken(userid, password, Collections.emptyList());
 
 						}
@@ -184,7 +186,7 @@ public class AMLWebSecurity extends WebSecurityConfigurerAdapter {
 					e.printStackTrace();
 					authentication.setAuthenticated(false);
 				}
-				System.out.println(authentication.getAuthorities()+"useer");
+				System.out.println(authentication.getAuthorities() + "useer");
 
 				return authentication;
 
@@ -202,6 +204,7 @@ public class AMLWebSecurity extends WebSecurityConfigurerAdapter {
 
 		return ap;
 	}
+
 	@Bean
 	@Override
 	public UserDetailsService userDetailsService() {
@@ -224,7 +227,7 @@ public class AMLWebSecurity extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public AuthenticationFailureHandler amlAuthFailHandle( ) {
+	public AuthenticationFailureHandler amlAuthFailHandle() {
 		return new AuthenticationFailureHandler() {
 
 			@Override
@@ -233,34 +236,26 @@ public class AMLWebSecurity extends WebSecurityConfigurerAdapter {
 
 				response.setStatus(HttpStatus.UNAUTHORIZED.value());
 				response.sendRedirect("login?error=" + exception.getMessage());
-;
-			
-		
-/*				Session hs = sessionFactory.openSession();
-				BigDecimal Number1 = (BigDecimal) hs.createNativeQuery("SELECT RULESEQUENCE_1.NEXTVAL AS SRL_NO FROM DUAL")
-						.getSingleResult();
-AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
-				
-				audit.setAudit_date(new Date());
-				audit.setEntry_time(new Date());
-				audit.setEntry_user("");
-				audit.setFunc_code(exception.getMessage());
-				audit.setRemarks("LOGIN");
-				audit.setAudit_table("AML_USER_PROFILE_TABLE");
-				audit.setAudit_screen("AML LOGIN");
-				audit.setEvent_id("");
-				audit.setEvent_name("");
-				audit.setModi_details(exception.getMessage());
-				audit.setAudit_ref_no(Number1.toString());
-				auditLocal.save(audit);
-*/
+				;
+
+				/*
+				 * Session hs = sessionFactory.openSession(); BigDecimal Number1 = (BigDecimal)
+				 * hs.createNativeQuery("SELECT RULESEQUENCE_1.NEXTVAL AS SRL_NO FROM DUAL")
+				 * .getSingleResult(); AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
+				 * 
+				 * audit.setAudit_date(new Date()); audit.setEntry_time(new Date());
+				 * audit.setEntry_user(""); audit.setFunc_code(exception.getMessage());
+				 * audit.setRemarks("LOGIN"); audit.setAudit_table("AML_USER_PROFILE_TABLE");
+				 * audit.setAudit_screen("AML LOGIN"); audit.setEvent_id("");
+				 * audit.setEvent_name(""); audit.setModi_details(exception.getMessage());
+				 * audit.setAudit_ref_no(Number1.toString()); auditLocal.save(audit);
+				 */
 			}
 
 		};
 
 	}
 
-	
 	@Bean
 	public AuthenticationFailureHandler xbrlAuthFailHandle() {
 		return new AuthenticationFailureHandler() {
@@ -282,22 +277,22 @@ AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
 	@Bean
 	public AuthenticationSuccessHandler amlAuthSuccessHandle() {
 		return new AuthenticationSuccessHandler() {
-		Session hs1 = sessionFactory.openSession();
+			Session hs1 = sessionFactory.openSession();
 
-			BigDecimal Number1 = (BigDecimal) hs1.createNativeQuery("SELECT AML_AUDIT_SEQ.NEXTVAL AS SRL_NO FROM DUAL")
+			BigDecimal Number1 = (BigDecimal) hs1
+					.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
 					.getSingleResult();
 
 			@Override
 			public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 					Authentication authentication) throws IOException, ServletException {
-				
-				
+
 				Optional<UserProfile> up = userProfileRep.findById(authentication.getName());
 				UserProfile user = up.get();
 				user.setNo_of_attmp(0);
 				user.setUser_locked_flg("N");
-		AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
-				
+				AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
+
 				audit.setAudit_date(new Date());
 				audit.setEntry_time(new Date());
 				audit.setEntry_user(user.getUserid());
@@ -312,59 +307,57 @@ AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
 				auditLocal.save(audit);
 
 				userProfileRep.save(user);
-hs1.close();
+				hs1.close();
 				/*
 				 * long custcount =cmgrepository.findCustomcount(); long trancount =
 				 * transmonitoringrepository.findtrancount(); long transucescount =
 				 * transmonitoringrepository.findtransucescount(); long tranfailurecount =
 				 * transmonitoringrepository.findtranfailurecount();
 				 */
-				//loginServices.SessionLogging("LOGIN","M1",request.getSession().getId(),user.getUserid(),request.getRemoteAddr(),
-				//		"ACTIVE");
-				//used t set the session time out for the application 
-				 request.getSession().setMaxInactiveInterval(SESSION_TIMEOUT_IN_SECONDS);
-				 
+				// loginServices.SessionLogging("LOGIN","M1",request.getSession().getId(),user.getUserid(),request.getRemoteAddr(),
+				// "ACTIVE");
+				// used t set the session time out for the application
+				request.getSession().setMaxInactiveInterval(SESSION_TIMEOUT_IN_SECONDS);
+
 				request.getSession().setAttribute("USERID", user.getUserid());
 				request.getSession().setAttribute("USERNAME", user.getUsername());
 				request.getSession().setAttribute("ROLEID", user.getRole_id());
-				request.getSession().setAttribute("DOMAINID", user.getDomain_id()); 
+				request.getSession().setAttribute("DOMAINID", user.getDomain_id());
 				request.getSession().setAttribute("PERMISSIONS", user.getPermissions());
 				request.getSession().setAttribute("WORKCLASS", user.getWork_class());
 //				request.getSession().setAttribute("CustomerCount",custcount);
 //				request.getSession().setAttribute("trancount",trancount);
 //				request.getSession().setAttribute("transucescount",transucescount);
 //				request.getSession().setAttribute("tranfailurecount",tranfailurecount);
-				
-				
+
 				response.sendRedirect("Dashboard");
 			}
-  
+
 		};
 
 	}
-	
+
 	@Bean
 	public LogoutSuccessHandler amlLogoutSuccessHandler() {
-		
+
 		return new LogoutSuccessHandler() {
 
 			@Override
 			public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
 					Authentication authentication) throws IOException, ServletException {
-				
-				 HttpSession session = request.getSession(false);
-				    if (session != null) {
-				        session.invalidate();
-				    }
-				    Optional<UserProfile> up = userProfileRep.findById(authentication.getName());
-					UserProfile user = up.get();
-					
-				
-			AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
+
+				HttpSession session = request.getSession(false);
+				if (session != null) {
+					session.invalidate();
+				}
+				Optional<UserProfile> up = userProfileRep.findById(authentication.getName());
+				UserProfile user = up.get();
+
+				AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
 				Session hs1 = sessionFactory.openSession();
 
-				BigDecimal Number1 = (BigDecimal) hs1.createNativeQuery("SELECT aml_audit_seq.NEXTVAL AS SRL_NO FROM DUAL")
-						.getSingleResult();
+				BigDecimal Number1 = (BigDecimal) hs1
+						.createNativeQuery("SELECT aml_audit_seq.NEXTVAL AS SRL_NO FROM DUAL").getSingleResult();
 
 				audit.setAudit_date(new Date());
 				audit.setEntry_time(new Date());
@@ -378,16 +371,13 @@ hs1.close();
 				audit.setModi_details("USER LOGOUT ");
 				audit.setAudit_ref_no(Number1.toString());
 				auditLocal.save(audit);
-				
+
 				response.sendRedirect("login?logout");
 				hs1.close();
 
-			
 			}
-		
-		
-	};
-}
 
-	
+		};
+	}
+
 }
