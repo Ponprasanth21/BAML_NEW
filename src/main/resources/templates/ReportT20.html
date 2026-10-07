@@ -1,0 +1,1833 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!-- 
+MODIFIED BY	: MANIVANNAN B.
+MODIFIED ON	: 04-MARCH-2020
+PURPOSE		: Report TABLE 20
+ -->
+<html lang="en" >
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/multifreeze/multifreezer.css"
+	th:href="@{/multifreeze/multifreezer.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+		
+		
+		
+		var permission = /*[[${session.PERMISSIONS}]]*/null;
+	
+		var reportsummary = /*[[${reportsummary}]]*/null;
+		
+		var dtltype = /*[[${dtltype}]]*/null;
+		
+		//to make the summary button active on load
+		$(function(){
+			
+			console.log(reportsummary);
+			
+			$("#summarybtn").addClass("active");
+
+		});
+		function home(){
+			location.href = "/AML/rbsreports";
+
+	}
+	/*to show details page - 3 parameters
+		mode - valid values are : nextpage, prevpage, givenpage, firstpage
+		num - page number to show to the user
+		maxpage - maximum number of pages avaialble in the data
+	*/
+	function showdetails(mode,num,maxpage,instancecode) {
+		
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+		Callurl = Callurl+"&instancecode="+instancecode;
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+		
+		
+		$.ajax({
+			type : 'get',
+			url : Callurl,
+			success : function(data) {
+				
+				/*<![CDATA[*/
+				
+
+				$('.content').html(data);
+				$("#detailsbtn").addClass("active");
+				/*]]>*/
+
+			}
+		})
+	}
+	
+	
+	//to fetch summary from the database - called from the summary button
+	function showsummary(mode,num,maxpage) {
+		
+
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Summary'(fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+		
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+
+		
+	window.location.href=Callurl;
+	}
+	
+
+	//to check for report or arch
+	//if report --->>> precheck and then save report else throws error
+	function savereport(){
+		
+		if(dtltype=='report'){
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/PrecheckFromrpt'(fromdate=${fromdate},todate=${todate})}]]*/
+				$.ajax({
+					type : 'get',
+					url : Callurl,
+					success : function(data) {
+
+						if (data == 'success') {	
+							
+							
+							$("#loader").show();
+							
+							
+							var Callurl = /*[[@{'/Reports/'+${reportid}+'/save'(fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+								$.ajax({
+									type : 'get',
+									url : Callurl,
+									success : function(data) {
+
+										
+										if(data=='success'){
+											
+										 var Callurl = /*[[@{'/Reports/'+${reportid}+'/DownloadFormRptScr'(fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+											Callurl = Callurl+"&filetype=xbrl";
+											location.href=Callurl;
+											$("#loader").hide();
+										}
+										else{
+											$("#loader").hide();
+											 $("#alertmsg").text(data);
+											 $('#alert').modal("toggle");
+										}
+									}
+								})
+								
+							
+							
+						} else {
+							$("#alertmsg").text("Please verify the Pending Records Before Generating XBRL Instance");
+							$("#alert").modal("toggle");
+						}
+
+					}
+					});
+			
+		}
+		else{
+			
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/DownloadFormRptScr'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+				 Callurl = Callurl+"&filetype=xbrl";
+				 location.href=Callurl;
+				 $("#loader").hide();
+		}
+		
+	}
+	/*]]>*/
+</script>
+<!----------------------------------------Scripts to edit report details-------------------------------------------->
+<script th:inline="javascript">
+/*<![CDATA[*/
+	 var currlist = /*[[${currlist}]]*/null;
+
+
+					
+				function editRecord(a){
+					
+					
+	
+					if(permission=='W' && dtltype=='report') {
+						
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800edit'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Assign selected values to the model box fields
+					/* 
+					$("#trade_date").val(a.getAttribute("data-trade_date"));
+					$("#value_date").val(a.getAttribute("data-value_date"));
+					$("#isin").val(a.getAttribute("data-isin"));
+					$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+					$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+					$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+					$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+					$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+					$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+					$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+					$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+					$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+					$("#mat_date").val(a.getAttribute("data-mat_date"));
+					$("#resid_days").val(a.getAttribute("data-resid_days"));
+					$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+					$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+					$("#report_date").val(a.getAttribute("data-report_date"));
+					$("#del_flg").val(a.getAttribute("data-del_flg"));
+					$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+					$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+					$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+					$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+					$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+					$("#verify_time").val(a.getAttribute("data-verify_time"));
+ */
+					$("#addedit").modal("toggle");
+					
+				
+					//Make readonly fields
+					//$("#cntprty_code").attr("readonly",true);
+					//$("#report_date").attr("readonly",true);
+					
+					/* $("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					}); */
+					
+					}
+					
+				};
+				function addRecord(){
+					
+					if(permission=='W' && dtltype=='report') {
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Reset form if any data present
+					document.getElementById("dataedit").reset();
+					
+					//make readonly false to unique fields
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",false);
+					$("#report_date").attr("readonly",false);
+					
+					//Reset errors
+					var validator = $("#dataedit").validate();
+					validator.resetForm();
+					
+					$("#addedit").modal("toggle");
+                    
+					
+					 
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					
+					}
+				};
+				
+				function deleteRecord(a){
+					
+					if(permission=='W' && dtltype=='report') {
+					
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800delete'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url);
+					
+					
+					//Assign selected values to the model box fields
+					
+						$("#trade_date").val(a.getAttribute("data-trade_date"));
+						$("#value_date").val(a.getAttribute("data-value_date"));
+						$("#isin").val(a.getAttribute("data-isin"));
+						$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+						$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+						$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+						$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+						$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+						$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+						$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+						$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+						$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+						$("#mat_date").val(a.getAttribute("data-mat_date"));
+						$("#resid_days").val(a.getAttribute("data-resid_days"));
+						$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+						$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+						$("#report_date").val(a.getAttribute("data-report_date"));
+						$("#del_flg").val(a.getAttribute("data-del_flg"));
+						$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+						$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+						$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+						$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+						$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+						$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+
+					$("#datadelete").modal("toggle");
+					
+					} 
+					
+				};
+				$(function() {
+
+					$("#entry_time,verify_time,modify_time").datepicker({
+
+						changeMonth : true,
+
+						changeYear : true,
+
+						maxDate : new Date(),
+
+						dateFormat : "dd-mm-yy"
+
+					});
+
+					var today = new Date();
+
+					var dd = today.getDate();
+
+					var mm = today.getMonth() + 1; //January is 0!
+
+					var yyyy = today.getFullYear();
+
+					if (dd < 10) {
+
+						dd = '0' + dd;
+
+					}
+
+					if (mm < 10) {
+
+						mm = '0' + mm;
+
+					}
+
+					var today = dd + '-' + mm + '-' + yyyy;
+
+					document.getElementById('entry_time').value = today;
+
+					document.getElementById('verify_time').value = today;
+
+					document.getElementById('modify_time').value = today;
+
+				});
+
+				
+          function searchRecord(){
+					
+					document.getElementById("searchdtl").reset();
+					
+					$("#search").modal("toggle");
+					
+					$("#report_dates").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				};
+				
+				function submitSearchRecord(){
+					
+					
+					
+					if($("#searchdtl").valid()){
+						
+						
+						
+						var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800Search'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+						$("#searchdtl").attr('action', url);
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#searchdtl').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 $(".modal").modal("hide");
+							 $('.content').html(responseText);
+							 $("#detailsbtn").addClass("active");
+							 $(".modal-backdrop").remove();
+							 
+						 }	
+					}
+					
+				};
+				
+				
+				function submitdataform(a) {
+					
+					
+					// var reportdate = $("#report_date").val();
+					 //alert(reportdate);
+					// alert("Alive");
+					if ($("#dataedit").valid()) {
+						 
+						var url = "./T20Edit?";
+						//alert(url);
+
+						$("#dataedit").attr('action', url);
+
+						var options = {
+							success : showResponse
+							
+						// post-submit callback 
+						};
+
+						$("#dataedit").ajaxSubmit(options);
+
+						function showResponse(responseText, statusText, xhr, $form) {
+							
+							//alert(responseText);
+
+							$("#alertmsg").text(responseText);
+
+							$('#alert').modal("toggle");
+
+						}
+						;
+					}
+				};
+				
+				
+				
+				
+				function verifydataform(a) {
+					
+					//alert("veri");
+					
+	                   if ($("#dataverify").valid()) {
+						
+						var url = "./T20Verify?";
+						//alert(url);
+
+						$("#dataverify").attr('action', url);
+
+						var options = {
+							success : showResponse
+						// post-submit callback 
+						};
+
+						$("#dataverify").ajaxSubmit(options);
+
+						function showResponse(responseText, statusText, xhr, $form) {
+							//alert(responseText);
+
+							$("#alertmsg").text(responseText);
+
+							$('#alert').modal("toggle");
+
+						}
+						;
+					}
+					
+				};	
+				
+				
+/*]]>*/
+</script>
+<style>
+.nav-buttons {
+	float: right;
+}
+
+.reptitle {
+	float: left;
+}
+
+.reptitle>p {
+	margin-top:;
+}
+
+.customcol {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.first_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 0;
+	width: 30px;
+}
+
+.second_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 30px;
+	width: 30px;
+}
+
+.third_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 60px;
+	width: 150px;
+}
+
+.inner {
+	overflow-x: scroll;
+	overflow-y: visible;
+	margin-left: 48px;
+}
+
+.btn-primary {
+	background-color: #E77400;
+	border-color: #0c0c0c;
+}
+
+.btn-primary:not (:disabled ):not (.disabled ).active, .btn-primary:not
+	 (:disabled ):not (.disabled ):active, .show>.btn-primary.dropdown-toggle
+	{
+	color: #fff;
+	background-color: #cc000000;
+	border-color: #161617;
+}
+
+.addedit {
+	color: #007bff;
+}
+
+.addedit:hover {
+	color: #0056b3;
+}
+</style>
+<script>
+function editalert(a) {
+	
+	alert("Please Verify the Pending Records");
+	
+}
+
+function editsum(a){
+	
+	
+	
+	
+	
+	if(permission=='W' && dtltype=='report') {
+	//Assign action url for the edit/add form
+	var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+	$("#dataedit").attr('action', url); 
+	//Reset form if any data present
+	document.getElementById("dataedit").reset();
+	
+	/* //make readonly false to unique fields
+	//Make readonly fields
+	$("#cntprty_code").attr("readonly",false);
+	$("#report_date").attr("readonly",false); */
+	
+	//Reset errors
+	var validator = $("#dataedit").validate();
+	validator.resetForm();
+	
+
+    
+	$("#addedit").modal("toggle");
+	
+	
+	
+	}
+};
+
+
+
+
+function verifyscreen(a){
+	
+	
+	
+	
+	
+	if(permission=='W' && dtltype=='report') {
+	//Assign action url for the edit/add form
+	var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+	$("#dataedit").attr('action', url); 
+	//Reset form if any data present
+	document.getElementById("dataedit").reset();
+	
+	/* //make readonly false to unique fields
+	//Make readonly fields
+	$("#cntprty_code").attr("readonly",false);
+	$("#report_date").attr("readonly",false); */
+	
+	//Reset errors
+	var validator = $("#dataedit").validate();
+	validator.resetForm();
+	
+
+    
+	$("#addverify").modal("toggle");
+	
+	
+	
+	}
+};
+function edi3(a)  {
+	//alert("its time to edit");
+	$("#hideme3").hide();
+	$("#showme3").show();
+}
+function edi1(a)  {
+	//alert("its time to edit");
+	$("#hideme1").hide();
+	$("#showme1").show();
+}
+function edi2(a)  {
+	//alert("its time to edit");
+	$("#hideme2").hide();
+	$("#showme2").show();
+}
+</script>
+</head>
+<body>
+	<!----------------------------------------------------- Header Section starts ----------------------------------------------------->
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" aria-hidden="true"
+		onclick="docEmb('Report')" id="ques"></i>
+	<!----------------------------------------------------- Header Section Ends ------------------------------------------------------->
+	<div style="margin-left: 310px; margin-top: 76px;">
+		<div class="container content" th:fragment="reportcontent">
+
+
+
+			<!--------------------------------------------------------------- Report title starts -------------------------------------------->
+			<div class="row" style="width: 1100px; margin-left: 0px;">
+				<div class="col-sm-12 customcol"
+					style="background-color: #4d8cb9; padding-top: 10px; padding-bottom: 10px; padding-left: 5px;">
+					<!-- <select id="reporttype" style="background-color: #e9ecef;">
+						<option th:each="title : ${reportTitle}"
+							th:value="${title.reportName}" th:text="${title.reportName}"></option>
+
+					</select> -->
+					<div class="btn-group nav-buttons">
+						<!-- <button type="button" class="btn btn-primary"
+							onclick="showdetails('firstpage','1','0','0');" id="detailsbtn">Details</button> -->
+						<button type="button" class="btn btn-primary"
+							onclick="showsummary();" id="summarybtn">Summary</button>
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary dropdown-toggle"
+								data-toggle="dropdown">
+								Download <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/DownloadFormRptScr'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=pdf|">Pdf</a></li>
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/DownloadFormRptScr'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=excel|">Excel</a></li>
+								<li th:if="${displaymode}=='detail'"><a
+									th:href="|@{'/Reports/'+${reportid}+'/DownloadFormRptScr'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=detailexcel|">Excel</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report title ends ------------------------------------------------->
+			<!--------------------------------------------------------------- Report buttons section starts ------------------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol" style="background-color: #adb5bd;">
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report buttons section ends ------------------------------------->
+			<!------------------------------ Report summary section starts it will shown only if summary button clicked------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol"
+					th:if="${displaymode}=='summary' or ${displaymode}==null"
+					style="overflow-x: auto;">
+					<div class="card-header" id="modheadtitle" style="width: 1100px;">
+						<b>Table 20: Suspicion Reports</b>
+						<div class="btn-group nav-buttons"th:if="${type} !='ARCHIVAL'">
+							<button type="button" class="btn btn-primary"
+								onclick="editsum(this);" style="margin-top: -12px;"
+								title="Click to EDIT Records"
+								th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+								id="addRecord">Modify</button>
+						</div>
+						<div class="btn-group nav-buttons"th:if="${type} !='ARCHIVAL'">
+							<button type="button" class="btn btn-primary"
+								style="margin-right: 0px; margin-top: -12px; background-color: #4d8cb9;"
+								title="Click to add new Records" id="addRecord">Inquiry</button>
+						</div>
+
+						<div th:each="repdetail: ${reportsummary}"
+							th:if="${repdetail?.entity_flg}=='N' AND ${type} !='ARCHIVAL'"
+							class="btn-group nav-buttons">
+							<button type="button" class="btn btn-primary"
+								onclick="verifyscreen(this);"
+								style="margin-right: 0px; margin-top: -12px;"
+								th:classappend="${session.PERMISSIONS == 'R'} AND ${dtltype == 'report'} ? verify "
+								title="Click to verify the edited records" id="addRecord">Verify</button>
+						</div>
+
+					</div>
+					<table class="table  table-bordered  table-hover table-sm" id=""
+						style="width: 1100px;">
+						<thead class="thead-light">
+							<!-- <tr>
+								<th></th>
+								<th>Previous Quarter</th>
+								<th>Current Quarter</th>
+							</tr>
+ -->
+
+
+						</thead>
+						<tbody th:each="report : ${reportsummary}">
+
+							<tr>
+								<td th:text="${report.d1a_str_mlro}">CHENNAI</td>
+								<!-- 								<td th:text="${report.p1b_nof_str_filed_mlro}">CHENNAI</td>
+ -->
+								<td th:text="${report.c1c_nof_str_filed_mlro}">CHENNAI</td>
+
+
+							</tr>
+
+
+							<tr>
+								<td th:text="${report.d2a_avg_time__raising_str}">CHENNAI</td>
+								<!-- 								<td th:text="${report.p2b_avg_time__raising_str}">CHENNAI</td>
+ -->
+								<td th:text="${report.c2c_avg_time__raising_str}">CHENNAI</td>
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d3a_str_closed_mlro}">CHENNAI</td>
+								<!-- 								<td th:text="${report.p3b_nof_str_closed_mlro}">CHENNAI</td>
+ -->
+								<td th:text="${report.c3c_nof_str_closed_mlro}">CHENNAI</td>
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d4a_avg_time_cls_str}">CHENNAI</td>
+								<!-- 								<td th:text="${report.p4b_avg_time_closed_mlro}">CHENNAI</td>
+ -->
+								<td th:text="${report.c4c_avg_time_closed_mlro}">CHENNAI</td>
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d5a_nof_str_by_mlro}">CHENNAI</td>
+								<!-- 								<td th:text="${report.p5b_nof_str_filed_mlro}">CHENNAI</td>
+ -->
+								<td th:text="${report.c5c_nof_str_filed_mlro}">CHENNAI</td>
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d6a_avg_time_filing_str}">CHENNAI</td>
+								<!-- 								<td th:text="${report.p6b_avg_time_filed_str}">CHENNAI</td>
+ -->
+								<td th:text="${report.c6c_avg_time_filed_str}">CHENNAI</td>
+
+							</tr>
+
+
+
+
+
+
+						</tbody>
+					</table>
+
+
+					<!------------------------------ Report Summary pagination - shown if paginated --------------------------------------------------->
+					<!-- <div class="float-right" th:if="${reportsummary.totalPages} gt 1">
+					<a href="#"><i class="fas fa-caret-left fa-2x"
+						th:onclick="|showsummary('prevpage',${reportsummary.number},${reportsummary.totalPages});|"></i></a>
+					<input type="text" id="pageno" style="width: 30px"
+						th:value="${reportsummary.number+1}"
+						th:onchange="|showsummary('givenpage',${reportsummary.number},${reportsummary.totalPages});|"></input>
+					of <font th:text="${reportsummary.totalPages}"></font> <a href="#"><i
+						class="fas fa-caret-right fa-2x"
+						th:onclick="|showsummary('nextpage',${reportsummary.number},${reportsummary.totalPages});|"></i></a>
+				</div> -->
+					<!------------------------------ Report Summary pagination - shown if paginated ---------------------------------------------------->
+					<div class="card-footer text-center"
+						style="background-color: #386276";>
+						<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+							onclick="home();">Home</button>
+						<!-- <button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button> -->
+					</div>
+				</div>
+
+				<!-- -----------------------------------Details edit modal form----------------------------------------------------->
+
+
+
+				<div class="modal fade" style="overflow-x: auto; display: none;"
+					id="addedit" th:fragment="dataedit">
+
+					<div class="modal-dialog modal-lg" style="margin-top: 135px;">
+
+						<div class="modal-content" style="width: 735px;">
+
+
+
+
+							<div class="modal-header" style="background-color: #eaecee;">
+								<b>Suspicion report - Modify</b>
+
+
+								<!-- <div class="btn-group nav-buttons float-right">
+												<button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button>
+												<button type="button" class="btn btn-xs btn-primary btns"
+													id="btnInq" onclick="list()">List</button>
+											</div>
+ -->
+							</div>
+
+
+							<div class="modal-body"
+								style="background-color: #eaecee; text-align: center">
+
+								<form action="#" th:object="${dataedit}" method="POST"
+									autocomplete="off" id="dataedit">
+
+									<table class="table  table-bordered  table-hover table-sm"
+										id="">
+										<thead class="thead-light">
+											<!-- <tr>
+												<th></th>
+												<th>previous Quarter</th>
+												<th>Current Quarter</th>
+											</tr>
+ -->
+
+
+										</thead>
+										<tbody th:each="report : ${reportsummary}">
+
+											<tr>
+
+
+												<td style="width: 12px;"><input type="text"
+													style="width: 400px; height: 30px; color: black;"
+													th:value="${report.d1a_str_mlro}" id="d1a_str_mlro"
+													class="form-control form-control-sm" name="d1a_str_mlro"
+													autocomplete="off" /></td>
+
+												<!-- <td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${report.p1b_nof_str_filed_mlro}"
+													id="p1b_nof_str_filed_mlro"
+													class="form-control form-control-sm"
+													name="p1b_nof_str_filed_mlro" autocomplete="off" readonly /></td> -->
+
+
+												<td width="12px;"><input type="text"
+													style="width: 230px; color: black;"
+													th:value="${report.c1c_nof_str_filed_mlro}"
+													id="c1c_nof_str_filed_mlro"
+													class="form-control form-control-sm"
+													name="c1c_nof_str_filed_mlro" autocomplete="off" /></td>
+												<!-- <td th:text="${report.c1c_nof_str_filed_mlro}">CHENNAI</td> -->
+
+
+											</tr>
+
+
+											<tr>
+												<td width="12px;"><input type="text"
+													style="width: 400px; color: black;"
+													th:value="${report.d2a_avg_time__raising_str}"
+													id="d2a_avg_time__raising_str"
+													class="form-control form-control-sm"
+													name="d2a_avg_time__raising_str" autocomplete="off" /></td>
+
+
+												<td width="12px;"><input type="text"
+													style="width: 230px; height: 30px; color: black;"
+													th:value="${report.c2c_avg_time__raising_str}" id="hideme1"
+													onclick="edi1(this);" class="form-control form-control-sm"
+													autocomplete="off" /> <select
+													class="form-control form-control-sm" id="showme1"
+													name="c2c_avg_time__raising_str"
+													style="float: left; font-size: 13px; width: 230px; display: none;"
+													required>
+														<option th:value="${report?.c2c_avg_time__raising_str}">Select</option>
+														<option value=""></option>
+														<option value="< 1day"><1 day</option>
+														<option value="2 to 7 days">2 to 7 days</option>
+														<option value="8 to 15 days">8 to 15 days</option>
+														<option value="16 to 30 days">16 to 30 days</option>
+														<option value="30 days">>30 days</option>
+
+
+												</select></td>
+
+
+												<!-- 	<td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${report.p2b_avg_time__raising_str}"
+													id="p2b_avg_time__raising_str"
+													class="form-control form-control-sm"
+													name="p2b_avg_time__raising_str" autocomplete="off"
+													/readonly></td> -->
+
+
+
+											</tr>
+
+											<tr>
+
+
+												<td width="12px;"><input type="text"
+													style="width: 400px; height: 30px; color: black;"
+													th:value="${report.d3a_str_closed_mlro}"
+													id="d3a_str_closed_mlro"
+													class="form-control form-control-sm"
+													name="d3a_str_closed_mlro" autocomplete="off" /></td>
+												<!-- 	<td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${report.p3b_nof_str_closed_mlro}"
+													id="p3b_nof_str_closed_mlro"
+													class="form-control form-control-sm"
+													name="p3b_nof_str_closed_mlro" autocomplete="off" readonly /></td> -->
+
+
+												<td width="12px;"><input type="text"
+													style="width: 230px; color: black;"
+													th:value="${report.c3c_nof_str_closed_mlro}"
+													id="c3c_nof_str_closed_mlro"
+													class="form-control form-control-sm"
+													name="c3c_nof_str_closed_mlro" autocomplete="off" /></td>
+
+											</tr>
+
+											<tr>
+
+												<td width="12px;"><input type="text"
+													style="width: 400px; color: black;"
+													th:value="${report.d4a_avg_time_cls_str}"
+													id="d4a_avg_time_cls_str"
+													class="form-control form-control-sm"
+													name="d4a_avg_time_cls_str" autocomplete="off" /></td>
+
+												<td width="12px;"><input type="text"
+													style="width: 230px; height: 30px; color: black;"
+													th:value="${report.c4c_avg_time_closed_mlro}" id="hideme2"
+													onclick="edi2(this);" class="form-control form-control-sm"
+													autocomplete="off" /><select
+													class="form-control form-control-sm" id="showme2"
+													name="c4c_avg_time_closed_mlro"
+													style="float: left; font-size: 13px; width: 230px; display: none;"
+													required>
+														<option th:value="${report?.c4c_avg_time_closed_mlro}">Select</option>
+														<option value=""></option>
+														<option value="< 1day"><1 day</option>
+														<option value="2 to 7 days">2 to 7 days</option>
+														<option value="8 to 15 days">8 to 15 days</option>
+														<option value="16 to 30 days">16 to 30 days</option>
+														<option value="30 days">>30 days</option>
+
+
+												</select></td>
+
+
+
+												<!-- 	<td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${report.p4b_avg_time_closed_mlro}"
+													id="p4b_avg_time_closed_mlro"
+													class="form-control form-control-sm"
+													name="p4b_avg_time_closed_mlro" autocomplete="off" readonly /></td> -->
+
+
+
+											</tr>
+
+											<tr>
+
+
+
+												<td width="12px;"><input type="text"
+													style="width: 400px; height: 30px; color: black;"
+													th:value="${report.d5a_nof_str_by_mlro}"
+													id="d5a_nof_str_by_mlro"
+													class="form-control form-control-sm"
+													name="d5a_nof_str_by_mlro" autocomplete="off" /></td>
+
+
+												<!-- <td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${report.p5b_nof_str_filed_mlro}"
+													id="p5b_nof_str_filed_mlro"
+													class="form-control form-control-sm"
+													name="p5b_nof_str_filed_mlro" autocomplete="off" readonly /></td> -->
+
+												<td width="12px;"><input type="text"
+													style="width: 230px; color: black;"
+													th:value="${report.c5c_nof_str_filed_mlro}"
+													id="c5c_nof_str_filed_mlro"
+													class="form-control form-control-sm"
+													name="c5c_nof_str_filed_mlro" autocomplete="off" /></td>
+
+											</tr>
+
+											<tr>
+
+
+												<td width="12px;"><input type="text"
+													style="width: 400px; color: black;"
+													th:value="${report.d6a_avg_time_filing_str}"
+													id="d6a_avg_time_filing_str"
+													class="form-control form-control-sm"
+													name="d6a_avg_time_filing_str" autocomplete="off" /></td>
+
+
+												<td width="12px;"><input type="text"
+													style="width: 230px; height: 30px; color: black;"
+													th:value="${report.c6c_avg_time_filed_str}" id="hideme3"
+													onclick="edi3(this);" class="form-control form-control-sm"
+													autocomplete="off" /><select
+													class="form-control form-control-sm" id="showme3"
+													name="c6c_avg_time_filed_str"
+													style="float: left; font-size: 13px; width: 230px; display: none;"
+													required>
+														<option th:value="${report?.c6c_avg_time_filed_str}">Select</option>
+														<option value=""></option>
+														<option value="< 1day"><1 day</option>
+														<option value="2 to 7 days">2 to 7 days</option>
+														<option value="8 to 15 days">8 to 15 days</option>
+														<option value="16 to 30 days">16 to 30 days</option>
+														<option value="30 days">>30 days</option>
+
+
+												</select></td>
+
+
+
+												<!-- <td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${report.p6b_avg_time_filed_str}"
+													id="p6b_avg_time_filed_str"
+													class="form-control form-control-sm"
+													name="p6b_avg_time_filed_str" autocomplete="off" readonly /></td> -->
+
+
+
+												<!-- 	<td th:text="${report.c6c_avg_time_filed_str}">CHENNAI</td> -->
+
+											</tr>
+
+											<tr>
+												<td style="display: none;"><input type="text"
+													style="color: black; display: none;"
+													th:value="${#dates.format(report?.report_date ,'dd/MM/yyyy')}"
+													id="report_date" class="form-control form-control-sm"
+													name="report_date" autocomplete="off" /></td>
+												<td style="display: none;"><input type="text"
+													style="color: black; display: none;"
+													th:value="${#dates.format(report?.rep_period_from ,'dd/MM/yyyy')}"
+													id="rep_period_from" class="form-control form-control-sm"
+													name="rep_period_from" autocomplete="off" /></td>
+												<td style="display: none;"><input type="text"
+													style="color: black; display: none;"
+													th:value="${#dates.format(report?.rep_period_to ,'dd/MM/yyyy')}"
+													id="rep_period_to" class="form-control form-control-sm"
+													name="rep_period_to" autocomplete="off" /></td>
+											</tr>
+
+
+
+
+										</tbody>
+									</table>
+
+
+
+
+									<div class="card-footer text-center"
+										style="height: 38px; background-color: #eaecee;">
+										<button type="button" style="margin-top: -12px;"
+											class="btn btn-xs btn-primary"
+											onclick="submitdataform(this);" form="dataedit"
+											id="btnSubmit">Submit</button>
+
+										<button type="button" style="margin-top: -12px;"
+											class="btn btn-xs btn-primary" id="btnclose"
+											data-dismiss="modal">Close</button>
+
+
+									</div>
+
+									<div class="container content"
+										style="border: 1px solid #36404a; padding: 15px;">
+
+										<div class="row formline">
+
+
+											<label class="col-sm-2">Entry User</label>
+
+											<div class="col-sm-2">
+
+												<input type="text" th:value="${session.USERID}" id="entry"
+													name="entry_user" class="form-control form-control-sm"
+													autocomplete="off" readonly />
+
+
+											</div>
+
+											<label class="col-sm-2">Modify User</label>
+
+											<div class="col-sm-2">
+
+												<input type="text" th:value="${session.USERID}" id="modify"
+													name="modify_user" class="form-control form-control-sm"
+													autocomplete="off" readonly />
+
+											</div>
+
+											<label class="col-sm-2">Verify User</label>
+
+											<div class="col-sm-2">
+
+												<input type="text" th:value="${report?.verify_user}"
+													id="verify" name="verify_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+
+										</div>
+
+										<div class="row formline">
+
+											<label style="height: 2px;"></label>
+
+
+										</div>
+
+										<div class="row formline">
+
+
+											<label class="col-sm-2">Entry Time</label>
+
+											<div class="col-sm-2">
+
+												<input type="text" id="verify_time1" name="entry_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+
+
+											<label class="col-sm-2">Modify Time</label>
+
+											<div class="col-sm-2">
+
+												<input type="text" id="entry_time1" name="modify_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+
+											</div>
+
+
+
+
+											<label class="col-sm-2">Verify Time</label>
+
+											<div class="col-sm-2">
+
+												<input type="text"
+													th:value="${#dates.format(report?.verify_time,'dd/MM/yyyy')}"
+													id="verify_time" name="verify_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+
+											</div>
+
+
+											<label></label>
+
+										</div>
+
+
+
+
+
+									</div>
+
+
+
+								</form>
+
+							</div>
+
+
+
+						</div>
+					</div>
+
+				</div>
+
+
+				<!-------------------------------------Details edit modal form----------------------------------------------------->
+
+
+
+
+				<!-- -----------------------------------Details edit modal form----------------------------------------------------->
+
+
+
+				<div class="modal fade" style="overflow-x: auto; display: none;"
+					id="addverify" th:fragment="dataverify">
+
+					<div class="modal-dialog modal-lg" style="margin-top: 135px;">
+
+						<div class="modal-content" style="width: 735px;">
+
+
+
+
+
+							<div class="modal-header" style="background-color: #eaecee;">
+								<b>Suspicion report - Verify</b>
+
+
+								<!-- <div class="btn-group nav-buttons float-right">
+												<button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button>
+												<button type="button" class="btn btn-xs btn-primary btns"
+													id="btnInq" onclick="list()">List</button>
+											</div>
+ -->
+							</div>
+
+
+							<div class="modal-body"
+								style="background-color: #eaecee; text-align: center">
+
+								<form action="#" th:object="${dataverify}" method="POST"
+									autocomplete="off" id="dataverify">
+
+									<table class="table  table-bordered  table-hover table-sm"
+										id="">
+										<thead class="thead-light">
+											<tr>
+												<th style="width: 102px;"></th>
+												<!-- 												<th>previous Quarter</th>
+ -->
+												<th style="width: 102px;">Current Quarter</th>
+											</tr>
+
+
+
+										</thead>
+										<tbody th:each="report : ${reportsummary}">
+
+											<tr>
+
+
+												<td width="12px;"><input type="text"
+													style="width: 400px; height: 30px; background-color: #e3e3e4; color: black;"
+													th:value="${report.d1a_str_mlro}" id="d1a_str_mlro"
+													class="form-control form-control-sm" name="d1a_str_mlro"
+													autocomplete="off" readonly /></td>
+
+												<!-- 	<td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${report.p1b_nof_str_filed_mlro}"
+													id="p1b_nof_str_filed_mlro"
+													class="form-control form-control-sm"
+													name="p1b_nof_str_filed_mlro" autocomplete="off" readonly /></td>
+ -->
+
+												<td width="12px;"><input type="text"
+													style="width: 280px; background-color: #e3e3e4; color: black;"
+													th:value="${report.c1c_nof_str_filed_mlro}"
+													id="c1c_nof_str_filed_mlro"
+													class="form-control form-control-sm"
+													name="c1c_nof_str_filed_mlro" autocomplete="off" readonly /></td>
+												<!-- <td th:text="${report.c1c_nof_str_filed_mlro}">CHENNAI</td> -->
+
+
+											</tr>
+
+
+											<tr>
+
+
+
+												<td width="12px;"><input type="text"
+													style="width: 400px; height: 30px; background-color: #e3e3e4; color: black;"
+													th:value="${report.d2a_avg_time__raising_str}"
+													id="d2a_avg_time__raising_str"
+													class="form-control form-control-sm"
+													name="d2a_avg_time__raising_str" autocomplete="off"
+													readonly /></td>
+
+
+												<!-- <td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${report.p2b_avg_time__raising_str}"
+													id="p2b_avg_time__raising_str"
+													class="form-control form-control-sm"
+													name="p2b_avg_time__raising_str" autocomplete="off"
+													/readonly></td> -->
+												<td width="12px;"><input type="text"
+													style="width: 280px; background-color: #eaecee; color: black;"
+													th:value="${report.c2c_avg_time__raising_str}"
+													id="c2c_avg_time__raising_str"
+													class="form-control form-control-sm"
+													name="c2c_avg_time__raising_str" autocomplete="off"
+													readonly /></td>
+
+
+
+											</tr>
+
+											<tr>
+
+
+												<td width="12px;"><input type="text"
+													style="width: 400px; height: 30px; background-color: #e3e3e4; color: black;"
+													th:value="${report.d3a_str_closed_mlro}"
+													id="d3a_str_closed_mlro"
+													class="form-control form-control-sm"
+													name="d3a_str_closed_mlro" autocomplete="off" readonly /></td>
+												<!-- <td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${report.p3b_nof_str_closed_mlro}"
+													id="p3b_nof_str_closed_mlro"
+													class="form-control form-control-sm"
+													name="p3b_nof_str_closed_mlro" autocomplete="off" readonly /></td>
+
+ -->
+												<td width="12px;"><input type="text"
+													style="width: 280px; background-color: #eaecee; color: black;"
+													th:value="${report.c3c_nof_str_closed_mlro}"
+													id="c3c_nof_str_closed_mlro"
+													class="form-control form-control-sm"
+													name="c3c_nof_str_closed_mlro" autocomplete="off" readonly /></td>
+
+											</tr>
+
+											<tr>
+
+
+
+												<td width="12px;"><input type="text"
+													style="width: 400px; height: 30px; background-color: #e3e3e4; color: black;"
+													th:value="${report.d4a_avg_time_cls_str}"
+													id="d4a_avg_time_cls_str"
+													class="form-control form-control-sm"
+													name="d4a_avg_time_cls_str" autocomplete="off" readonly /></td>
+
+
+
+
+												<!-- 	<td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${report.p4b_avg_time_closed_mlro}"
+													id="p4b_avg_time_closed_mlro"
+													class="form-control form-control-sm"
+													name="p4b_avg_time_closed_mlro" autocomplete="off" readonly /></td> -->
+												<td width="12px;"><input type="text"
+													style="width: 280px; background-color: #eaecee; color: black;"
+													th:value="${report.c1c_nof_str_filed_mlro}"
+													id="c4c_avg_time_closed_mlro"
+													class="form-control form-control-sm"
+													name="c4c_avg_time_closed_mlro" autocomplete="off" readonly /></td>
+
+
+											</tr>
+
+											<tr>
+
+
+
+												<td width="12px;"><input type="text"
+													style="width: 400px; height: 30px; background-color: #e3e3e4; color: black;"
+													th:value="${report.d5a_nof_str_by_mlro}"
+													id="d5a_nof_str_by_mlro"
+													class="form-control form-control-sm"
+													name="d5a_nof_str_by_mlro" autocomplete="off" readonly /></td>
+
+
+												<!-- <td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${report.p5b_nof_str_filed_mlro}"
+													id="p5b_nof_str_filed_mlro"
+													class="form-control form-control-sm"
+													name="p5b_nof_str_filed_mlro" autocomplete="off" readonly /></td>
+ -->
+												<td width="12px;"><input type="text"
+													style="width: 280px; background-color: #eaecee; color: black;"
+													th:value="${report.c5c_nof_str_filed_mlro}"
+													id="c5c_nof_str_filed_mlro"
+													class="form-control form-control-sm"
+													name="c5c_nof_str_filed_mlro" autocomplete="off" readonly /></td>
+
+											</tr>
+
+											<tr>
+
+
+
+												<td width="12px;"><input type="text"
+													style="width: 400px; height: 30px; background-color: #e3e3e4; color: black;"
+													th:value="${report.d6a_avg_time_filing_str}"
+													id="d6a_avg_time_filing_str"
+													class="form-control form-control-sm"
+													name="d6a_avg_time_filing_str" autocomplete="off" readonly /></td>
+
+
+
+
+												<!-- <td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${report.p6b_avg_time_filed_str}"
+													id="p6b_avg_time_filed_str"
+													class="form-control form-control-sm"
+													name="p6b_avg_time_filed_str" autocomplete="off" readonly /></td>
+
+ -->
+												<td width="12px;"><input type="text"
+													style="width: 280px; background-color: #eaecee; color: black;"
+													th:value="${report.c6c_avg_time_filed_str}"
+													id="c6c_avg_time_filed_str"
+													class="form-control form-control-sm"
+													name="c6c_avg_time_filed_str" autocomplete="off" readonly /></td>
+												<!-- 	<td th:text="${report.c6c_avg_time_filed_str}">CHENNAI</td> -->
+
+											</tr>
+
+											<tr>
+												<td style="display: none;"><input type="text"
+													style="color: black; display: none;"
+													th:value="${#dates.format(report?.report_date ,'dd/MM/yyyy')}"
+													id="report_date" class="form-control form-control-sm"
+													name="report_date" autocomplete="off" /></td>
+												<td style="display: none;"><input type="text"
+													style="color: black; display: none;"
+													th:value="${#dates.format(report?.rep_period_from ,'dd/MM/yyyy')}"
+													id="rep_period_from" class="form-control form-control-sm"
+													name="rep_period_from" autocomplete="off" /></td>
+												<td style="display: none;"><input type="text"
+													style="color: black; display: none;"
+													th:value="${#dates.format(report?.rep_period_to ,'dd/MM/yyyy')}"
+													id="rep_period_to" class="form-control form-control-sm"
+													name="rep_period_to" autocomplete="off" /></td>
+											</tr>
+
+
+
+
+
+										</tbody>
+									</table>
+
+
+
+									<div class="card-footer text-center"
+										style="height: 38px; background-color: #eaecee;">
+										<button type="button" style="margin-top: -12px;"
+											class="btn btn-xs btn-primary"
+											onclick="verifydataform(this);" form="dataverify"
+											id="btnSubmit">Verify</button>
+
+										<button type="button" style="margin-top: -12px;"
+											class="btn btn-xs btn-primary" id="btnclose"
+											data-dismiss="modal">Close</button>
+
+
+									</div>
+
+
+
+
+
+									<div class="container content"
+										th:each="report : ${reportsummary}"
+										style="border: 1px solid #36404a; padding: 15px;">
+
+										<div class="row formline">
+
+
+											<label class="col-sm-2">Entry User</label>
+
+											<div class="col-sm-2">
+
+												<input type="text" th:value="${session.USERID}"
+													id="entry_user1" name="entry_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+
+											</div>
+
+											<label class="col-sm-2">Modify User</label>
+
+											<div class="col-sm-2">
+
+												<input type="text" th:value="${report?.modify_user}"
+													id="modify_user1" name="modify_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+
+											<label class="col-sm-2">Verify User</label>
+
+											<div class="col-sm-2">
+
+												<input type="text" th:value="${session.USERID}"
+													id="verify_user1" name="verify_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+
+										</div>
+
+										<div class="row formline">
+
+											<label style="height: 2px;"></label>
+
+
+										</div>
+
+										<div class="row formline">
+
+
+											<label class="col-sm-2">Entry Time</label>
+
+											<div class="col-sm-2">
+
+												<input type="text" id="entry_time2" name="entry_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+
+
+											<label class="col-sm-2">Modify Time</label>
+
+											<div class="col-sm-2">
+
+												<input type="text"
+													th:value="${#dates.format(report?.modify_time,'dd/MM/yyyy')}"
+													id="modify_time" name="modify_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+
+											</div>
+
+
+
+
+											<label class="col-sm-2">Verify Time</label>
+
+											<div class="col-sm-2">
+
+												<input type="text" id="verify_time2" name="verify_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+
+											</div>
+
+
+											<label></label>
+
+										</div>
+
+
+
+
+
+									</div>
+
+
+								</form>
+
+							</div>
+
+
+
+						</div>
+
+					</div>
+				</div>
+
+				<!-------------------------------------Details edit modal form----------------------------------------------------->
+
+
+
+
+
+
+				<!------------------------------ Report summary section ends it will shown only if summary button clicked------------------------->
+				<!------------------------------ Report Details section starts it will shown only if Details button clicked------------------------->
+				<div class="col-sm-12 customcol" th:if="${displaymode}=='detail'"
+					th:fragment="detail" style="margin-left: 13px;">
+
+					<div style="overflow-x: auto; border-right: 1px solid #dee2e6"
+						th:class="${searchmsg == null}?'inner'">
+
+
+						<table th:if="${searchmsg} == null"
+							class="table table-bordered table-sm" style="width: 898px"
+							id="detailtb">
+
+							<thead class="thead-light">
+								<tr>
+									<th rowspan="5" class="first_left"><a
+										data-toggle="tooltip" class="editrec"
+										title="Click to add new Records"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype}=='report' ? addedit "
+											class="fa fa-plus-circle" onclick="addRecord();"
+											aria-hidden="true"></i></a></th>
+									<th rowspan="5" class="second_left"><a href="#"
+										data-toggle="tooltip" title="Click to Search Record"><i
+											class="fa fa-search" onclick="searchRecord();"
+											aria-hidden="true"></i></a></th>
+
+									<th>customer id</th>
+									<th>customer name</th>
+									<th>account number</th>
+									<th>account name</th>
+
+
+
+
+								</tr>
+
+							</thead>
+							<tbody>
+								<tr th:each="repdetail : ${reportdetails.content}">
+									<td class="first_left"><a data-toggle="tooltip"
+										class="editrec" title="Click to Edit this Record"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+											class="fas fa-edit" onclick="editRecord(this)"></i></a></td>
+									<td class="second_left"><a data-toggle="tooltip"
+										class="editrec" title="Click to delete this Record"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+											class="fas fa-minus-circle" onclick="deleteRecord(this)"></i></a></td>
+
+
+									<td th:text="${repdetail.cust_id}">CHENNAI</td>
+									<td th:text="${repdetail.cust_name}">CHENNAI</td>
+									<td th:text="${repdetail.acct_no}">CHENNAI</td>
+									<td th:text="${repdetail.acct_name}">CHENNAI</td>
+
+
+
+
+
+
+
+
+
+								</tr>
+							</tbody>
+						</table>
+						<table th:if="${searchmsg} != null"
+							class="table table-bordered table-sm" style="width: 1500px"
+							id="detailtb">
+							<thead class="thead-light">
+								<tr>
+									<th><a data-toggle="tooltip" class="editrec"
+										title="Click to add new Records"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype}=='report' ? addedit "
+											class="fa fa-plus-circle" onclick="addRecord();"
+											aria-hidden="true"></i></a></th>
+									<th><a data-toggle="tooltip"
+										title="Click to Search Record"><i class="fa fa-search"
+											onclick="searchRecord();" aria-hidden="true"></i></a></th>
+
+									<th>Customer name</th>
+									<th>customer ownership</th>
+									<th>customer rating internal</th>
+									<th>customer rating date</th>
+									<th>customer rating External</th>
+									<th>Branch Name</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="10">No Data Available</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+
+
+
+
+					<div class="modal fade" id="verifybox">
+						<div
+							class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+							<div class="modal-content">
+								<div class="modal-body" style="text-align: center">
+									<p id="verifyboxmsg"></p>
+									<button type="button" class="btn btn-primary" id="close">OK</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+				</div>
+				<!------------------------------ Report Details section ends it will shown only if Details button clicked------------------------->
+			</div>
+		</div>
+
+		<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+		<div class="modal fade" id="alert">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-body" style="text-align: center">
+						<p id="alertmsg"></p>
+						<button type="button" class="btn btn-primary" id="close"
+							onclick="showsummary();">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	</div>
+	<script>
+	$(document).ready(function(){
+        $("#close").click(function(){
+            location.reload(true);
+        });
+    });
+	function back(a) {
+
+		window.history.back(-1);
+
+	}
+	
+	$(function() {
+		
+		
+
+	
+	$(function() {
+		
+		
+		
+		$("#entry_time2,verify_time2,modify_time2").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd/mm/yyyy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '/' + mm + '/' + yyyy;  
+		document.getElementById('entry_time2').value = today;
+		document.getElementById('verify_time2').value = today; 
+		document.getElementById('modify_time2').value = today;
+	});
+	</script>
+</body>
+</html>
+
+

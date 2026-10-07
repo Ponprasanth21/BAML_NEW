@@ -1,0 +1,281 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLCMDocuments
+CREATED BY	: RAMPRASATH
+CREATED ON	: 27-JAN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<script src="./js/bootstrap411.js"></script>
+
+<style>
+.row1 {
+	padding: 7px;
+}
+
+.error {
+	color: red;
+	padding-left: 10px;
+}
+
+.col-sm-12 {
+	flex: 0 0 100%;
+	max-width: 75%;
+}
+
+.col-sm-3 {
+	flex: 0 0 44%;
+	max-width: 66%;
+}
+</style>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	var reportlist = /*[[${reportlist}]]*/null;
+	var reportidnav = /*[[${reportid}]]*/null;
+	var frequency;
+
+	$(function() {
+
+		$("#dt1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+		$("#dt2").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd/mm/yy"
+		});
+	});
+
+	function showReportName() {
+		/* var fun = $('#function :selected').val();
+		var selectedIndex = $("#reportlist option:selected").index();
+		
+		var report = reportlist[selectedIndex - 1];
+		 */var reportId = reportidnav;
+		/* frequency = report.report_frequency;
+		
+		$("#repname").text(report.report_name);
+		$("#reportTimediv").hide();
+		
+		if(reportId=='FIM0500'){
+			
+			$("#reportTimediv").show();
+			$("#reportingTime").addAttr("required");
+		} */
+
+	};
+
+	function submitform(a) {
+		//alert("responseText");
+
+		var input = document.getElementById("dt2");
+		var validformat = /^\d{2}\/\d{2}\/\d{4}$/ //Basic check for format validity
+
+		if (!validformat.test(input.value)) {
+
+			$("#alertmsg1").text("Invalid Date Format");
+			$("#alert1").modal("toggle");
+
+		} else {
+			location.href = "rbsValidations?reportDate=" + $("#dt2").val();
+		}
+	}
+
+	/*]]>*/
+</script>
+
+<script>
+	function close123() {
+
+		location.href = "AMLReportsGeneration";
+	}
+</script>
+</head>
+<title>BAML</title>
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('AMLReportsGeneration')" id="ques"></i>
+	<div class="container content"
+		style="padding-top: 7%; width: 985px; padding-left: 14%;">
+
+		<div class="row">
+
+			<div class="col-sm-12">
+				<form class="form-horizontal" method="post" name="CriteriaForm"
+					id="reportform">
+					<div class="card">
+						<div class="card-header">
+							<h4 th:text="${reportvalue}">AML Reports</h4>
+						</div>
+						<div class="card-body" style="height: 100px;">
+							<div class="form-group">
+
+								<!-- <div class="row row1">
+									<label class="col-sm-3 control-label">Function</label> <select
+										name="function" id="function" class="col-sm-3 form-control"
+										required>
+										<option value="Select">Select</option>
+										<option value="view" th:selected="${session.PERMISSIONS}!='W'">View
+											Report</option>
+										<option
+											th:if="${session.PERMISSIONS}=='W' OR ${session.WORKCLASS}=='C'"
+											value="verify">Verify Report</option>
+										
+									</select> <span
+										style="color: red; font-size: 10px; display: none; padding-left: 125px;"
+										id="fun" class="error">Enter function Name</span>
+								</div> -->
+
+
+								<!-- <div class="row row1">
+									<label class="col-sm-3 control-label">As On date</label> <input
+										type="text" name="asondate" id="asonDate" value=""
+										class="col-sm-3 form-control" placeholder="dd-mm-yyyy"
+										required /> <span
+										style="color: red; font-size: 10px; display: none;"
+										id="asondt" class="error">Select as on date</span>
+								</div> -->
+
+								<!-- date change -->
+								<!-- 	<div class="row row1">
+								<label class="col-sm-3 control-label">From Date<span
+										style="color: red; font-size: 10px;" class="mant"></span></label>
+										<label th:text="${fromDate}"></label>
+								</div>
+								
+								<div class="row row1">
+								<label class="col-sm-3 control-label">To Date<span
+										style="color: red; font-size: 10px;" class="mant"></span></label>
+										<label th:text="${toDate}"></label>
+								</div> -->
+
+
+								<!-- <div class="row row1">
+									<label class="col-sm-3 control-label">From date<span
+										style="color: red; font-size: 10px;" class="mant">*</span></label> <input
+										type="text" name="fromdate" id="dt1" value=""
+										class="col-sm-3 form-control" placeholder="dd-mm-yyyy"
+										required />
+								</div> -->
+
+								<div class="row row1">
+									<label class="col-sm-3 control-label">Report Date<span
+										style="color: red; font-size: 10px;" class="mant">*</span></label> <input
+										type="text" name="todate" id="dt2" value=""
+										
+										class="col-sm-3 form-control" placeholder="dd/mm/yyyy"
+										required />
+								</div>
+
+								<!-- <div class="row row1" id="reportTimediv">
+									<label class="col-sm-3 control-label">Reporting Time</label> <select
+										name="reportingTime" id="reportingTime"
+										class="col-sm-3 form-control">
+										<option value="Select">Select</option>
+										<option value="AM" th:selected="${session.PERMISSIONS}!='W'">Morning</option>
+										<option th:if="${session.PERMISSIONS}=='W'" value="PM">Afternoon</option>
+									</select>
+								</div> -->
+								<!-- <div class="row row1">
+									<label class="col-sm-3 control-label">Report Currency<span
+										style="color: red; font-size: 10px;" class="mants"></span></label> <select
+										name="currency" id="rptcurrency" class="col-sm-3 form-control"
+										required>
+										<option value="MUR">MUR</option>
+										<option value="USD">USD</option>
+									</select>
+								</div> -->
+							</div>
+						</div>
+						<div class="card-footer text-center">
+
+							<button type="button" class="btn btn-xs btn-primary"
+								id="btnDownload" onclick="submitform(this);" form="reportform">Download</button>
+							<button type="reset" class="btn btn-xs btn-primary" id="btnClear">Clear</button>
+
+
+
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="alert1">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg1"></p>
+					<button type="button" class="btn btn-primary" onclick="close123()">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+
+
+
+</body>
+</body>
+</html>

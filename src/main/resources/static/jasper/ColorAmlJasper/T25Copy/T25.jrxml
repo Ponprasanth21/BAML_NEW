@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="T25" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="35dd9975-bc54-4a82-9cc3-5c97f1b5171c">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="aml@local"/>
+	<style name="Title" mode="Opaque" backcolor="#D6DCE4"/>
+	<style name="Dropdown" mode="Opaque" backcolor="#DEEBF6"/>
+	<parameter name="REPORT_DATE" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM T25_AMLCFT_APPL_MOD_TABLE
+WHERE REPORT_DATE=$P{REPORT_DATE}]]>
+	</queryString>
+	<field name="D1A_HO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D1A_HO"/>
+	</field>
+	<field name="D2A_BO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D2A_BO"/>
+	</field>
+	<field name="D3A_NBDTI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D3A_NBDTI"/>
+	</field>
+	<field name="C1B_HO_FULLY_APPLIED" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C1B_HO_FULLY_APPLIED"/>
+	</field>
+	<field name="C2B_BO_FULLY_APPLIED" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C2B_BO_FULLY_APPLIED"/>
+	</field>
+	<field name="C3B_NBDTI_NOT_APPLICABLE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C3B_NBDTI_NOT_APPLICABLE"/>
+	</field>
+	<field name="REPORT_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_CODE"/>
+	</field>
+	<field name="REPORT_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_NAME"/>
+	</field>
+	<field name="REPORT_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_DATE"/>
+	</field>
+	<field name="REPORT_DUE_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_DUE_DATE"/>
+	</field>
+	<field name="REP_SUBMIT_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REP_SUBMIT_DATE"/>
+	</field>
+	<field name="REP_PERIOD_FROM" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REP_PERIOD_FROM"/>
+	</field>
+	<field name="REP_PERIOD_TO" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REP_PERIOD_TO"/>
+	</field>
+	<field name="REP_FREQ" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REP_FREQ"/>
+	</field>
+	<field name="NIL_REPORT_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NIL_REPORT_FLG"/>
+	</field>
+	<field name="ARCH_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ARCH_FLG"/>
+	</field>
+	<field name="ENTITY_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ENTITY_FLG"/>
+	</field>
+	<field name="MODIFY_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MODIFY_FLG"/>
+	</field>
+	<field name="DEL_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DEL_FLG"/>
+	</field>
+	<field name="ENTRY_USER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ENTRY_USER"/>
+	</field>
+	<field name="MODIFY_USER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MODIFY_USER"/>
+	</field>
+	<field name="VERIFY_USER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="VERIFY_USER"/>
+	</field>
+	<field name="ENTRY_TIME" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="ENTRY_TIME"/>
+	</field>
+	<field name="MODIFY_TIME" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="MODIFY_TIME"/>
+	</field>
+	<field name="VERIFY_TIME" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="VERIFY_TIME"/>
+	</field>
+	<title>
+		<band height="99">
+			<staticText>
+				<reportElement style="Title" x="0" y="69" width="477" height="30" uuid="3b09fea9-a1cd-4707-bcc7-42bfd3da6fdf">
+					<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Bookman Old Style" isBold="true"/>
+					<paragraph spacingBefore="5"/>
+				</textElement>
+				<text><![CDATA[Application of NBDTI's AML-CFT risk management framework]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="229" height="30" uuid="d9931b38-34a4-4818-b776-575447f44664"/>
+				<text><![CDATA[Reporting Currency - MUR ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="234" y="0" width="94" height="30" uuid="f401c811-b6a7-4473-ba9c-cd93079affba"/>
+				<text><![CDATA[Reporting Quarter -]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="330" y="0" width="115" height="30" uuid="05a5d6ab-d7b5-4cca-a615-df3fa00b4dfd"/>
+				<textFieldExpression><![CDATA[$P{REPORT_DATE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<summary>
+		<band height="90" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="210" height="30" uuid="4604bee6-2bf6-4252-92df-9f323d94718d">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Head Office"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="30" width="210" height="30" uuid="3173613d-07ef-424e-9608-b60424a835d9">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Branches"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="60" width="210" height="30" uuid="3f1898c7-c27c-4384-944e-cd599db9c80e">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NBDTI's (outsourced) service providers"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Dropdown" x="210" y="0" width="267" height="30" uuid="b0557fbf-3219-4ba0-9d34-f4539b0106cb">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C1B_HO_FULLY_APPLIED}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Dropdown" x="210" y="30" width="267" height="30" uuid="a86c775a-9aca-4073-9f13-e8d39709e386">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C2B_BO_FULLY_APPLIED}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Dropdown" x="210" y="60" width="267" height="30" uuid="4185bd8e-116a-4782-9093-741f746091be">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C3B_NBDTI_NOT_APPLICABLE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

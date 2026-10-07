@@ -1,0 +1,1335 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!-- 
+MODIFIED BY	: MANIVANNAN B.
+MODIFIED ON	: 04-MARCH-2020
+PURPOSE		: Report TABLE 2
+ -->
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/multifreeze/multifreezer.css"
+	th:href="@{/multifreeze/multifreezer.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+ 
+<script th:inline="javascript">
+	/*<![CDATA[*/
+		
+		var subreportid = /*[[${subreportid}]]*/null;
+	
+		var secid = /*[[${secid}]]*/null;
+		
+		var permission = /*[[${session.PERMISSIONS}]]*/null;
+	
+		var reportsummary = /*[[${reportsummary}]]*/null;
+		
+		var dtltype = /*[[${dtltype}]]*/null;
+		
+		var submitflg;
+		
+		var editenabled ;
+		
+		var editbutton = /*[[${editButton}]]*/ null;
+		
+		//to make the summary button active on load
+		$(function(){
+			
+			if(permission!='W' || dtltype!='report'){
+				
+				$('#reportForm :input').attr('readonly','readonly');
+			};
+			
+			if(editbutton=='Y'){
+			
+			$('#reportForm :input').attr('readonly','readonly');
+			
+			}
+			
+			$("#editbtn").on("click",function(){
+				
+				if(editenabled !='Y'){
+				
+				$('#reportForm :input').removeAttr('readonly');
+				
+				
+				
+				$("#di0,#di1,#di2,#di3,#di4,#di5,#di6,#di7,#di8,#di9,#di10,#di11,#di12,#di13,#di14,#di15,#di16,#di17,#di18,#di19,#di20,#di21,#di22,#di23,#di24,#di25,#di26,#di27,#di28,#di29,#di30,#di31,#di32,#di33,#di34,#di35,#di36").attr("readonly",false);
+ 				$(".bu1,.bu2,.bu3,.bu4").show();
+												
+				$("#editbtn").text("Un Edit");
+				
+				editenabled='Y';
+				
+			
+				
+				
+				
+				} else {
+					
+					$('#reportForm :input').attr('readonly','readonly');
+					$("#editbtn").text("Edit");
+					editenabled='N';
+				}
+				
+				
+				$("#di0").on("click",function(){
+					$("#di2,#di3,#di4,#di5").attr("disabled",true);
+					$("#di2,#di3,#di4,#di5").val('');
+				});
+				$("#di1").on("click",function(){
+					$("#di2,#di3,#di4,#di5").attr("disabled",true);
+					$("#di2,#di3,#di4,#di5").val('');
+				});
+				
+				$("#di2").on("click",function(){
+					$("#di0,#di1,#di4,#di5").attr("disabled",true);
+					$("#di0,#di1,#di4,#di5").val('');
+				});
+				
+				$("#di3").on("click",function(){
+					$("#di0,#di1,#di4,#di5").attr("disabled",true);
+					$("#di0,#di1,#di4,#di5").val('');
+				});
+				$("#di4").on("click",function(){
+					$("#di0,#di1,#di2,#di3").attr("disabled",true);
+					$("#di0,#di1,#di2,#di3").val('');
+				});
+				$("#di5").on("click",function(){
+					$("#di0,#di1,#di2,#di3").attr("disabled",true);
+					$("#di0,#di1,#di2,#di3").val('');
+				});
+				$(".bu1").on("click",function(){
+					$("#di0,#di1,#di2,#di3,#di4,#di5").attr("disabled",false);
+					
+					$('#di0').val('');
+					$('#di1').val('');
+					$('#di2').val('');
+					$('#di3').val('');
+					$('#di4').val('');
+					$('#di5').val('');
+
+				});
+				$("#di6").on("click",function(){
+					$("#di8,#di9,#di10,#di11").attr("disabled",true);
+					$("#di8,#di9,#di10,,#di11").val('');
+
+				});
+				$("#di7").on("click",function(){
+					$("#di8,#di9,#di10,#di11").attr("disabled",true);
+					$("#di8,#di9,#di10,#di11").val('');
+
+				});
+				
+				$("#di8").on("click",function(){
+					$("#di6,#di7,#di10,#di11").attr("disabled",true);
+					$("#di6,#di7,#di10,#di11").val('');
+				});
+				$("#di9").on("click",function(){
+					$("#di6,#di7,#di10,#di11").attr("disabled",true);
+					$("#di6,#di7,#di10,#di11").val('');
+				});
+				
+				
+				$("#di10").on("click",function(){
+					$("#di6,#di7,#di8,#di9").attr("disabled",true);
+					$("#di6,#di7,#di8,#di9").val('');
+				});
+				$("#di11").on("click",function(){
+					$("#di6,#di7,#di8,#di9").attr("disabled",true);
+					$("#di6,#di7,#di8,#di9").val('');
+				});
+				
+				$(".bu2").on("click",function(){
+					$("#di6,#di7,#di8,#di9,#di10,#di11").attr("disabled",false);
+					
+					$('#di6').val('');
+					$('#di7').val('');
+					$('#di8').val('');
+					$('#di9').val('');
+					$('#di10').val('');
+					$('#di11').val('');
+				});
+
+				$("#di14").on("click",function(){
+					$("#di15,#di16,#di17,#di18,#di19,#di20").attr("disabled",true);
+					$("#di15,#di16,#di17,#di18,#di19,#di20").val('');
+
+				});
+				$("#di15").on("click",function(){
+					$("#di14,#di16,#di17,#di18,#di19,#di20").attr("disabled",true);
+					$("#di14,#di16,#di17,#di18,#di19,#di20").val('');
+				});
+				$("#di16").on("click",function(){
+					$("#di14,#di15,#di17,#di18,#di19,#di20").attr("disabled",true);
+					$("#di14,#di15,#di17,#di18,#di19,#di20").val('');
+
+				});
+				$("#di17").on("click",function(){
+					$("#di14,#di15,#di16,#di18,#di19,#di20").attr("disabled",true);
+					$("#di14,#di15,#di16,#di18,#di19,#di20").val('');
+
+				});
+				$("#di18").on("click",function(){
+					$("#di14,#di15,#di16,#di17,#di19,#di20").attr("disabled",true);
+					$("#di14,#di15,#di16,#di17,#di19,#di20").val('');
+
+				});
+				$("#di19").on("click",function(){
+					$("#di14,#di15,#di16,#di17,#di18").attr("disabled",true);
+					$("#di14,#di15,#di16,#di17,#di18").val('');
+
+				});
+				
+				$(".bu3").on("click",function(){
+					$("#di14,#di15,#di16,#di17,#di18,#di19,#di20").attr("disabled",false);
+					
+					$('#di14').val('');
+					$('#di15').val('');
+					$('#di16').val('');
+					$('#di17').val('');
+					$('#di18').val('');
+					$('#di19').val('');
+					$('#di20').val('');
+				
+				});
+
+				$(".bu4").on("click",function(){
+					$("#di23,#di24,#di25,#di26,#di27").attr("disabled",false);
+					
+					$('#di23').val('');
+					$('#di24').val('');
+					$('#di25').val('');
+					$('#di26').val('');
+					$('#di27').val('');
+				});
+				$("#di23").on("click",function(){
+					$("#di25,#di26,#di27").attr("disabled",true);
+					$("#di25,#di26,#di27").val('');
+
+				});
+				$("#di24").on("click",function(){
+					$("#di25,#di26,#di27").attr("disabled",true);
+					$("#di25,#di26,#di27").val('');
+
+				});
+				$("#di25").on("click",function(){
+					$("#di23,#di24,#di27").attr("disabled",true);
+					$("#di23,#di24,#di27").val('');
+			});
+				
+				$("#di26").on("click",function(){
+					$("#di23,#di24,#di27").attr("disabled",true);
+					$("#di23,#di24,#di27").val('');
+			});
+				$("#di27").on("click",function(){
+					$("#di23,#di24,#di25,#di26").attr("disabled",true);
+					$("#di23,#di24,#di25,#di26").val('');
+
+				});
+				
+			});
+			
+			
+		});
+
+		
+		//When report type change: set subreportid and secid and show summary.
+		function changeReptype(){
+			
+			subreportid = $("#reporttype").find(':selected').val();
+			
+			secid = "1";
+			
+			showsummary();
+			
+		};
+		
+		
+		//to fetch summary from the database - called from the summary button
+		function showsummary() {
+			
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/Summary'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+			Callurl = Callurl+"&subreportid="+subreportid+"&secid="+secid;
+			
+			$.ajax({
+				type : 'get',
+				url : Callurl,
+				success : function(data) {
+
+					/*<![CDATA[*/
+					
+					$('.content').html(data);
+					$("#summarybtn").addClass("active");
+					
+					//To enable auto calculation of form elements
+					
+					/*]]>*/
+				}
+			})
+		}
+
+		
+
+	
+function savereportFIM0700(){
+		
+		if($("#reportForm").valid()){
+			
+			var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0700Save'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+			$("#reportForm").attr('action', url);
+			
+			var options = {
+			        success: showResponse  // post-submit callback 
+			    }; 
+			
+			 $('#reportForm').ajaxSubmit(options);
+			 
+			 function showResponse(responseText, statusText, xhr, $form) { 
+				 
+				 $("#alertmsg").text(responseText);
+				 $('#alert').modal("toggle");
+				 submitflg = 'Y';
+	                
+			 }
+			
+			
+		}	else {
+			
+			 $("#alertmsg").text("Please fill all Required Fields");
+			 
+			 $('#alert').modal("toggle");
+			
+		}
+		
+	}
+	
+	//to save the report to the database
+	//User may click the XBRL download without clicking save button.
+	//So, Whenever XBRL Download button clicked, it will first save the form data in Detail table
+	//And the call the save function - which will move the data into the report table - And generates xbrl instance.
+	//And then download the file.
+	//to check for report or arch
+	//if report --->>> precheck and then save report else throws error
+	function savereport(){
+		
+		if(dtltype=='report'){
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Precheck'(asondate=${asondate},fromdate=${fromdate},todate=${todate})}]]*/
+				$.ajax({
+					type : 'get',
+					url : Callurl,
+					success : function(data) {
+
+						if (data == 'success') {	
+							
+							
+							$("#loader").show();
+							
+							
+							var Callurl = /*[[@{'/Reports/'+${reportid}+'/save'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+								$.ajax({
+									type : 'get',
+									url : Callurl,
+									success : function(data) {
+
+										
+										if(data=='success'){
+											
+										 var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+											Callurl = Callurl+"&filetype=xbrl";
+											location.href=Callurl;
+											$("#loader").hide();
+										}
+										else{
+											$("#loader").hide();
+											 $("#alertmsg").text(data);
+											 $('#alert').modal("toggle");
+										}
+									}
+								})
+								
+							
+							
+						} else {
+							$("#alertmsg").text("Please verify the Pending Records Before Generating XBRL Instance");
+							$("#alert").modal("toggle");
+						}
+
+					}
+					});
+			
+		}
+		else{
+			
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+				 Callurl = Callurl+"&filetype=xbrl";
+				 location.href=Callurl;
+				 $("#loader").hide();
+		}
+		
+	}
+	/*]]>*/
+</script>
+
+
+<style>
+.nav-buttons {
+	float: right;
+}
+
+.reptitle {
+	float: left;
+}
+
+.reptitle>p {
+	margin-top:;
+}
+
+.error {
+	color: red;
+}
+
+.customcol {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.first_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 0;
+	width: 30px;
+}
+
+.second_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 30px;
+	width: 30px;
+}
+
+.third_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 60px;
+	width: 150px;
+}
+
+.inner {
+	overflow-x: scroll;
+	overflow-y: visible;
+	margin-left: 60px;
+}
+
+.btn-primary {
+	background-color: #E77400;
+	border-color: #0c0c0c;
+}
+
+.btn-primary:not (:readonly ):not (.readonly ).active, .btn-primary:not
+	 (:readonly ):not (.readonly ):active, .show>.btn-primary.dropdown-toggle
+	{
+	color: #fff;
+	background-color: #cc000000;
+	border-color: #161617;
+}
+
+.addedit {
+	color: #007bff;
+}
+
+.addedit:hover {
+	color: #0056b3;
+}
+
+.head2 {
+	padding-left: 30px;
+}
+
+.head3 {
+	padding-left: 60px;
+}
+
+.formholder {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	height: 600px;
+	overflow-y: auto;
+	border-style: groove;
+}
+
+.formsec {
+	background-color: #e7740085;
+	line-height: 30px;
+}
+
+.table .thead-light th {
+	border-color: #b3b6b9;
+}
+
+.table-bordered {
+	border: 0px;
+}
+
+.form-group {
+	margin-bottom: 10px;
+}
+</style>
+</head>
+<body>
+	<!----------------------------------------------------- Header Section starts ----------------------------------------------------->
+	<div th:insert="XBRLHeaderMenu :: header"></div>
+	<!----------------------------------------------------- Header Section Ends ------------------------------------------------------->
+	<div class="container content" th:fragment="reportcontent">
+
+
+		<!--------------------------------------------------------------- Report title starts -------------------------------------------->
+		<div class="row">
+			<div class="col-sm-12 customcol"
+				style="background-color: #4d8cb9; padding-top: 10px; padding-bottom: 10px; padding-left: 5px;">
+				<select id="reporttype" style="background-color: #e9ecef;"
+					onchange="changeReptype()">
+					<option th:each="title : ${reportTitle}"
+						th:value="${title.reportId}" th:text="${title.reportName}"></option>
+
+				</select>
+				<div class="btn-group nav-buttons">
+					<button
+						th:if=" ${dtltype} == 'report' AND  ${session.PERMISSIONS} =='W' AND ${editButton}=='Y'"
+						type="button" class="btn btn-primary" id="editbtn">Edit</button>
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary dropdown-toggle"
+							data-toggle="dropdown">Download</button>
+						<ul class="dropdown-menu" role="menu">
+							<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+								th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=pdf|">Pdf</a></li>
+							<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+								th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},,dtltype=${dtltype})}&filetype=excel|">Excel</a></li>
+							<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+								href="#" onclick="savereport();">XBRL</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--------------------------------------------------------------- Report title ends ------------------------------------------------->
+		<!--------------------------------------------------------------- Report buttons section starts ------------------------------------->
+		<div class="row">
+			<div class="col-sm-12 customcol" style="background-color: #adb5bd;">
+			</div>
+		</div>
+		<!--------------------------------------------------------------- Report buttons section ends ------------------------------------->
+		<!------------------------------ Report summary section starts it will shown only if summary button clicked------------------------->
+		<div class="row">
+			<div class="col-sm-12 customcol formholder">
+				<form th:object="${reportsummary}" id="reportForm" method="post">
+
+
+				
+
+					<div class="row col-sm-12 form-group">
+						<label class="col-sm-12 control-label formsec"><b>A.Domestic
+								Foreign Exchange Market</b></label>
+					</div>
+					<div class="row col-sm-12 form-group">
+
+
+						<div class="col-sm-8">
+							<label class="control-label head2">1(a) How much are the
+								current conditions on the domestic foreign exchange market in
+								excess supply of FX</label>
+						</div>
+						<div class="col-sm-3 ">
+
+
+
+							<select type="text" class="form-control form-control-sm"
+								autocomplete="off" name="sbn.di0" id="di0"
+								th:field="*{excess_supply}" th:value="*{excess_supply}"
+								onclick="" readonly required>
+								<option value="">Select</option>
+								<option value="Less than and equal to USD 5 million">Less
+									than and equal to USD 5 million</option>
+								<option
+									value="More than USD 5 million but less than or equal to USD 10 million">More
+									than USD 5 million but less than or equal to USD 10 million</option>
+								<option
+									value="More than USD 10 million but less than or equal to USD 20 million">More
+									than USD 10 million but less than or equal to USD 20 million</option>
+								<option
+									value="More than USD 20 million but less than or equal to USD 40 million">More
+									than USD 20 million but less than or equal to USD 40 million</option>
+								<option value="More than USD 40 million">More than USD
+									40 million</option>
+
+							</select>
+
+
+						</div>
+
+					<div class="col-sm-1">
+						<a href="#"><i class="fas fa-sync bu1" 
+							id="search"></i></a>
+					</div>
+
+					</div>
+
+					
+
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elaborate
+								on factors responsible for excess supply of FX<span
+								style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<textarea style="height: 40px;" type="text" name="sbn.di1"
+								id="di1" th:field="*{elab_excess_supply}" th:value="*{elab_excess_supply}"  value="" class="form-control form-control-sm formnum"
+								autocomplete="off" ></textarea>
+						</div>
+					</div>
+
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">1(b) How much are the
+								current conditions on the domestic foreign exchange market in
+								excess demand of FX <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<select name="sbn.di2" id="di2"  th:field="*{excess_demand}" th:value="*{excess_demand}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Less than and equal to USD 5 million">Less
+									than and equal to USD 5 million</option>
+								<option
+									value="More than USD 5 million but less than or equal to USD 10 million">More
+									than USD 5 million but less than or equal to USD 10 million</option>
+								<option
+									value="More than USD 10 million but less than or equal to USD 20 million">More
+									than USD 10 million but less than or equal to USD 20 million</option>
+								<option
+									value="More than USD 20 million but less than or equal to USD 40 million">More
+									than USD 20 million but less than or equal to USD 40 million</option>
+								<option value="More than USD 40 million">More than USD
+									40 million</option>
+
+							</select>
+						</div>
+
+					</div>
+
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elaborate
+								on factors responsible for excess demand of FX <span
+								style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<textarea type="text" style="height: 40px;" name="sbn.di3"
+								id="di3" th:field="*{elab_excess_demand}" th:value="*{elab_excess_demand}" value="" class="form-control form-control-sm formnum"
+								autocomplete="off" > </textarea>
+						</div>
+
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">1(c) Whether the
+								current conditions on the domestic foreign exchange market are
+								balanced <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+
+							<select name="sbn.di4" id="di4" th:field="*{balanced}" th:value="*{balanced}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Yes">Yes</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elaborate
+								on factors responsible for balance of FX <span
+								style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<textarea type="text" style="height: 40px;" name="sbn.di5"
+								id="di5" th:field="*{elab_balanced}" th:value="*{elab_balanced}"  value="" class="form-control form-control-sm formnum"
+								autocomplete="off" > </textarea>
+						</div>
+
+					</div>
+
+					<br>
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">2(a) Is conditions on
+								the domestic foreign exchange market evolving over the coming
+								month in excess supply of FX <span style="color: red;"
+								class="mant"></span>
+							</label>
+
+						</div>
+						<div class="col-sm-3 ">
+
+							<select name="sbn.di6" id="di6" th:field="*{com_excess_supply}" th:value="*{com_excess_supply}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Yes">Yes</option>
+							</select>
+						</div>
+						<div class="col-sm-1">
+						<a href="#"><i class="fas fa-sync bu2" 
+							id="search" ></i></a>
+					</div>
+					</div>
+					
+
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If
+								yes, please quantify excess supply of FX<span
+								style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<select name="sbn.di7" id="di7" th:field="*{com_excess_supply_val}" th:value="*{com_excess_supply_val}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Less than and equal to USD 5 million">Less
+									than and equal to USD 5 million</option>
+								<option
+									value="More than USD 5 million but less than or equal to USD 10 million">More
+									than USD 5 million but less than or equal to USD 10 million</option>
+								<option
+									value="More than USD 10 million but less than or equal to USD 20 million">More
+									than USD 10 million but less than or equal to USD 20 million</option>
+								<option
+									value="More than USD 20 million but less than or equal to USD 40 million">More
+									than USD 20 million but less than or equal to USD 40 million</option>
+								<option value="More than USD 40 million">More than USD
+									40 million</option>
+							</select>
+						</div>
+					</div>
+
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">2(b) Is conditions on
+								the domestic foreign exchange market evolving over the coming
+								month in excess demand of FX <span style="color: red;"
+								class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+
+							<select name="sbn.di8" id="di8" th:field="*{com_excess_demand}" th:value="*{com_excess_demand}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Yes">Yes</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If
+								yes, please quantify excess demand of FX <span
+								style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<select name="sbn.di9" id="di9" th:field="*{com_excess_demand_val}" th:value="*{com_excess_demand_val}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+
+								<option value="">Select</option>
+								<option value="Less than and equal to USD 5 million">Less
+									than and equal to USD 5 million</option>
+								<option
+									value="More than USD 5 million but less than or equal to USD 10 million">More
+									than USD 5 million but less than or equal to USD 10 million</option>
+								<option
+									value="More than USD 10 million but less than or equal to USD 20 million">More
+									than USD 10 million but less than or equal to USD 20 million</option>
+								<option
+									value="More than USD 20 million but less than or equal to USD 40 million">More
+									than USD 20 million but less than or equal to USD 40 million</option>
+								<option value="More than USD 40 million">More than USD
+									40 million</option>
+
+
+							</select>
+						</div>
+
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">2(c) Is conditions on
+								the domestic foreign exchange market evolving over the coming
+								month is balanced <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+
+							<select name="sbn.di10" id="di10" th:field="*{com_balanced}" th:value="*{com_balanced}"  onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Yes">Yes</option>
+							</select>
+
+						</div>
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elaborate
+								on factors responsible for conditions on the domestic foreign
+								exchange market evolving over the coming month <span
+								style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+
+
+							<textarea type="text" style="height: 40px;" name="sbn.di11"
+								id="di11" th:field="*{elab_com_balanced}" th:value="*{elab_com_balanced}"   value="" class="form-control form-control-sm formnum"
+								autocomplete="off" ></textarea>
+
+						</div>
+					</div>
+
+					<br>
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">3. How do you view the
+								current value of the Rupee against the USD? <span
+								style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<select name="sbn.di12" id="di12" th:field="*{usd_val}" th:value="*{usd_val}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="At an appropriate level">At an
+									appropriate level</option>
+								<option value="Overvalued">Overvalued</option>
+								<option value="Undervalued">Undervalued</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								Please quantify in percentage <span style="color: red;"
+								class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<textarea type="text" style="height: 40px;" name="sbn.di13"
+								id="di13" th:field="*{usd_pcnt}" th:value="*{usd_pcnt}" value="" class="form-control form-control-sm formnum"
+								autocomplete="off" > </textarea>
+
+						</div>
+					</div>
+					<br>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">4. What are the
+								factors influencing the current rupee exchange rate? <span
+								style="color: red;" class="mant"></span>
+							</label>
+						</div>
+					</div>
+
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a)
+								International currency movements <span style="color: red;"
+								class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+
+							<select name="sbn.di14" id="di14" th:field="*{int_cncy_move}" th:value="*{int_cncy_move}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Yes">Yes</option>
+							</select>
+
+						</div>
+						<div class="col-sm-1">
+						<a href="#"><i class="fas fa-sync bu3" 
+							id="search"></i></a>
+					</div>
+					</div>
+					
+
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(b)
+								Interest rate differentials <span style="color: red;"
+								class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<select name="sbn.di15" id="di15" th:field="*{interest_rate_diff}" th:value="*{interest_rate_diff}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Yes">Yes</option>
+							</select>
+
+						</div>
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(c)
+								Inflation differentials <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+
+						<div class="col-sm-3 ">
+
+							<select name="sbn.di16" id="di16" th:field="*{inflation_diff}" th:value="*{inflation_diff}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Yes">Yes</option>
+							</select>
+
+						</div>
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(d)
+								Expectations of rupee depreciation <span style="color: red;"
+								class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+
+							<select name="sbn.di17" id="di17" th:field="*{exp_mur_dep}" th:value="*{exp_mur_dep}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Yes">Yes</option>
+							</select>
+
+						</div>
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(e)
+								Expectations of rupee appreciation <span style="color: red;"
+								class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<select name="sbn.di18" id="di18" th:field="*{exp_mur_app}" th:value="*{exp_mur_app}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Yes">Yes</option>
+							</select>
+
+						</div>
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(f)
+								Other <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+
+							<select name="sbn.di19" id="di19" th:field="*{others}" th:value="*{others}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Yes">Yes</option>
+							</select>
+
+						</div>
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If
+								"(f) Other" is selected as "Yes" then please specify <span
+								style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<textarea style="height: 40px;" type="text" name="sbn.di20"
+								id="di20" th:field="*{other_val}" th:value="*{other_val}" value="" class="form-control form-control-sm formnum"
+								autocomplete="off" ></textarea>
+
+						</div>
+					</div>
+					<br>
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">5. How do you see the
+								Rupee evolving against the USD during the coming month? <span
+								style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<select name="sbn.di21" id="di21" th:field="*{com_usd_val}" th:value="*{com_usd_val}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Appreciate">Appreciate</option>
+								<option value="Depreciate">Depreciate</option>
+								<option value="Stable">Stable</option>
+							</select>
+						</div>
+
+
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								Please specify reasons <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<textarea style="height: 40px;" type="text" name="sbn.di22"
+								id="di22" th:field="*{usd_val_reason}" th:value="*{usd_val_reason}" value="" class="form-control form-control-sm formnum"
+								autocomplete="off" > </textarea>
+
+						</div>
+					</div>
+
+					<br>
+
+					<div class="row col-sm-12 form-group">
+						<label class="col-sm-12 control-label formsec"><b>B.
+								Money Market</b></label>
+					</div>
+
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">6(a) Is there Excess
+								liquidity is the current conditions on the domestic money
+								market? <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<select name="sbn.di23" id="di23" th:field="*{excess_liq_mm}" th:value="*{excess_liq_mm}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Yes">Yes</option>
+							</select>
+
+						</div>
+						<div class="col-sm-1">
+						<a href="#"><i class="fas fa-sync bu4" 
+							id="search" ></i></a>
+					</div>
+					</div>
+					
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								Please quantify <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+
+
+							<select name="sbn.di24" id="di24" th:field="*{excess_liq_mm_val}" th:value="*{excess_liq_mm_val}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option
+									value="Excess liquidity-More than Rs 4,000 million and less than and equal to Rs 5,000 million">Excess
+									liquidity-More than Rs 4,000 million and less than and equal to
+									Rs 5,000 million</option>
+								<option
+									value="Excess liquidity-More than Rs 5,000 million and less than and equal to Rs 8,000 million">Excess
+									liquidity-More than Rs 5,000 million and less than and equal to
+									Rs 8,000 million</option>
+								<option value="Excess liquidity-More than Rs 8,000 million">Excess
+									liquidity-More than Rs 8,000 million</option>
+
+							</select>
+						</div>
+					</div>
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">6(b) Is there Shortage
+								of liquidity is the current conditions on the domestic money
+								market? <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+
+							<select name="sbn.di25" id="di25" th:field="*{short_liq_mm}" th:value="*{short_liq_mm}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Yes">Yes</option>
+							</select>
+
+						</div>
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								Please quantify <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<select name="sbn.di26" id="di26" th:field="*{short_liq_mm_val}" th:value="*{short_liq_mm_val}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option
+									value="Shortage of liquidity-Less than or equal to Rs 2,500 million">Shortage
+									of liquidity-Less than or equal to Rs 2,500 million</option>
+								<option
+									value="Shortage of liquidity-More than Rs 2,500 million and less than and equal to Rs 4,0000">Shortage
+									of liquidity-More than Rs 2,500 million and less than and equal
+									to Rs 4,0000</option>
+
+
+							</select>
+						</div>
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">6(c) Is there Square
+								Position is the current conditions on the domestic money market?
+								<span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<select name="sbn.di27" id="di27" th:field="*{position_mm}" th:value="*{position_mm}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Yes">Yes</option>
+							</select>
+
+						</div>
+						<br>
+
+					</div>
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">7. How do you see your
+								liquidity position evolving during the coming month? <span
+								style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+
+
+							<select name="sbn.di28" id="di28" th:field="*{com_liq_position}" th:value="*{com_liq_position}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Decrease">Decrease</option>
+								<option value="Increase">Increase</option>
+								<option value="Unchanged">Unchanged</option>
+							</select>
+
+						</div>
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								Please quantify in rupees million <span style="color: red;"
+								class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<textarea style="height: 40px;" type="text" name="sbn.di29"
+								id="di29" th:field="*{com_liq_mur_val}" th:value="*{com_liq_mur_val}" value="" class="form-control form-control-sm formnum"
+								autocomplete="off" ></textarea>
+
+						</div>
+					</div>
+					<br>
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">8. Elaborate the
+								factors that could be influencing your liquidity position in the
+								coming month <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<textarea style="height: 40px;" type="text" name="sbn.di30"
+								id="di30" th:field="*{com_liq_influence}" th:value="*{com_liq_influence}" value="" class="form-control form-control-sm formnum"
+								autocomplete="off" ></textarea>
+
+						</div>
+					</div>
+					<br>
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">9. On average, how
+								much voluntary reserves in rupees do you plan to keep over and
+								above the minimum cash ratio requirements during the coming
+								month? <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<textarea style="height: 40px;" type="text" name="sbn.di31"
+								id="di31" th:field="*{com_crr}" th:value="*{com_crr}" value="" class="form-control form-control-sm formnum"
+								autocomplete="off" > </textarea>
+
+						</div>
+					</div>
+					<br>
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">10. How do you see the
+								overnight interbank money market rate evolving over the coming
+								month? <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+
+						<div class="col-sm-3 ">
+
+
+							<select name="sbn.di32" id="di32" th:field="*{com_mm_rate}" th:value="*{com_mm_rate}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Decrease">Decrease</option>
+								<option value="Increase">Increase</option>
+								<option value="Unchanged">Unchanged</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please
+								specify reasons <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+
+						<div class="col-sm-3 ">
+							<textarea style="height: 40px;" type="text" name="sbn.di33"
+								id="di33" th:field="*{com_mm_rate_reason}" th:value="*{com_mm_rate_reason}" value="" class="form-control form-control-sm formnum"
+								autocomplete="off" ></textarea>
+						</div>
+					</div>
+					<br>
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">11. How do you see the
+								yields on treasury bills evolving over the coming month? <span
+								style="color: red;" class="mant"></span>
+							</label>
+						</div>
+
+						<div class="col-sm-3 ">
+
+
+							<select name="sbn.di34" id="di34" th:field="*{com_yields_treasury}" th:value="*{com_yields_treasury}" onclick=""
+								class="form-control form-control-sm formnum" readonly>
+								<option value="">Select</option>
+								<option value="Decrease">Decrease</option>
+								<option value="Increase">Increase</option>
+								<option value="Unchanged">Unchanged</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please
+								specify reasons <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+						<div class="col-sm-3 ">
+							<textarea style="height: 40px;" type="text" name="sbn.di35"
+								id="di35" th:field="*{com_yields_reason}" th:value="*{com_yields_reason}" value="" class="form-control form-control-sm formnum"
+								autocomplete="off" ></textarea>
+						</div>
+					</div>
+					<br>
+					<div class="row col-sm-12 form-group">
+						<div class="col-sm-8">
+							<label class="control-label head2">12. Any additional
+								comments or other relevant issues that you may wish to
+								highlight? <span style="color: red;" class="mant"></span>
+							</label>
+						</div>
+
+						<div class="col-sm-3 ">
+							<textarea style="height: 40px;" type="text" name="sbn.noatminopa"
+								id="di36" th:field="*{comments}" th:value="*{comments}" value="" class="form-control form-control-sm formnum"
+								autocomplete="off" > </textarea>
+
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+		<div class="row col-sm-12">
+			<button type="button" class="btn btn-primary"
+				onclick="savereportFIM0700();"
+				style="margin: auto; margin-top: 15px; margin-bottom: 15px;">Submit</button>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	
+</body>
+</html>
+

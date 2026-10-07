@@ -1,0 +1,513 @@
+
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLCustmaster
+CREATED BY	: RAMPRASATH
+CREATED ON	: 27-JAN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+</head>
+<script>
+function home() {
+	location.href = 'Dashboard'
+}
+
+function back() {
+	window.history.back();
+}
+</script>
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-12 ">
+						<div th:if="${formmode}=='list'" class=" content">
+							<div class="card">
+								<div class="card-header">
+									<div class="float-left">
+										<h4>Customer Master</h4>
+									</div>
+
+								</div>
+								<div class="card-body">
+
+
+									<div class="form-group">
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="cust_id"> Customer Id</label>
+											</div>
+
+											<div class="col-sm-3">
+												<input type="text" th:value="${Custmaster?.cust_id}"
+													id="cust_id" class="form-control form-control-sm" readonly
+													name="cust_id" autocomplete="off" required>
+											</div>
+											<div class="col-sm-1"></div>
+											<label class="col-sm-2">Sol Id</label>
+
+
+											<div class="col-sm-3">
+												<input type="text" th:value="${Custmaster?.primary_sol_id}"
+													id="primary_sol_id" name="sol_id" readonly
+													class="form-control form-control-sm" autocomplete="false"
+													required />
+											</div>
+
+										</div>
+
+										<label></label>
+
+										<div class="form-group">
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="srl_no"> Customer Full Name</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.cust_name}"
+														id="cust_name" class="form-control form-control-sm" readonly
+														name="cust_id" autocomplete="off" required>
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Customer First Name</label>
+
+
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.cust_first_name}"
+														id="cust_first_name" name="cust_first_name" readonly
+														class="form-control form-control-sm" autocomplete="false"
+														required />
+												</div>
+
+											</div>
+
+											<label></label>
+											<div class="row formline">
+
+												<label class="col-sm-2">Customer Short Name</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.cust_short_name}"
+														id="cust_short_name" name="cust_short_name" value="" readonly
+														class="form-control form-control-sm" autocomplete="false"
+														required />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Customer Middle Name</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.cust_middle_name}"
+														id="cust_middle_name" name="cust_middle_name" value="" readonly
+														class="form-control form-control-sm txtalign"
+														autocomplete="false" required />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+
+
+											<label></label>
+											<div class="row formline">
+
+												<label class="col-sm-2">Customer SurName </label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.cust_last_name}"
+														id="acct_num" name="acct_num" value="" readonly
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Customer Last Name</label>
+												<div class="col-sm-3">
+													<input type="number" th:value="${Custmaster?.cust_last_name}"
+														id="cust_last_name" name="cust_last_name" value="" readonly
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+											<div class="row formline">
+
+												<label class="col-sm-2">Email Id </label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.email_id}"
+														id="email_id" name="email_id" value="" readonly
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Phone Number</label>
+												<div class="col-sm-3">
+													<input type="number"
+														th:value="${Custmaster?.cust_perm_phone_num}" id="cust_perm_phone_num"
+														name="cust_perm_phone_num" value="" readonly
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+
+											<label></label>
+
+											<div class="row formline">
+
+												<label class="col-sm-2">National Id Card </label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.nat_id_card_num}"
+														id="nat_id_card_num" name="nat_id_card_num" value="" readonly
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Date Of Issue</label>
+												<div class="col-sm-3">
+													<input type="number"
+														th:value="${Custmaster?.psprt_issu_date}" id="psprt_issu_date"
+														name="psprt_issu_date" value="" readonly
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Passport Number </label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${Custmaster?.psprt_num}"
+														id="psprt_num" value="" name="psprt_num" readonly
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Country Of Issue </label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.free_text_2}"
+														id="email_user_1" value="" name="email_user_1" readonly
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Passport Date Of Issue </label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${Custmaster?.psprt_issu_date}"
+														id="psprt_issu_date" value="" name="psprt_issu_date" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Passport Expiry Date </label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.psprt_exp_date}"
+														id="psprt_exp_date" value="" name="psprt_exp_date" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+											</div>
+											<label></label>
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Country Of Origin</label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${Custmaster?.free_text_3}"
+														id="email_2" value="" name="email_2" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Country Of Residence </label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.free_text_4}"
+														id="email_user_2" value="" name="email_user_2" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">country Of Incorporation </label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${Custmaster?.free_text_5}"
+														id="email_2" value="" name="email_2" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Country Of Occupation </label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.cust_occp_code}"
+														 readonly id="cust_occp_code" value="" name="cust_occp_code"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Address type </label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${Custmaster?.address_type}"
+														readonly id="email_2" value="" name="email_2"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">State Code </label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${Custmaster?.cust_perm_state_code}"
+														 readonly id="cust_perm_state_code" value="" name="cust_perm_state_code"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">City Code </label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.cust_perm_city_code}"
+														 readonly id="cust_perm_city_code" value="" name="cust_perm_city_code"
+														class="form-control form-control-sm" autocomplete="off" /> 
+												</div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Address 1 </label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${Custmaster?.cust_perm_addr1}"
+														id="cust_perm_addr1" value="" name="cust_perm_addr1" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Address 2 </label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.cust_perm_addr2}"
+														id="cust_perm_addr2" value="" name="cust_perm_addr2" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Kyc Date </label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${Custmaster?.free_text_6}"
+														id="email_2" value="" name="email_2" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Kyc Review Date </label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.free_text_7}"
+														id="email_user_2" value="" name="email_user_2" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Risk Profiling </label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${Custmaster?.free_text_8}"
+														id="email_2" value="" name="email_2" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Risk Rating </label>
+												<div class="col-sm-3"> 
+													<input type="text" th:value="${Custmaster?.cust_rating_code}"
+														id="email_user_2" value="" name="email_user_2" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Risk Rate Date </label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${Custmaster?.cust_rating_date}"
+														id="email_2" value="" name="email_2" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Risk Rate Due Date </label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.free_text_11}"
+														id="email_user_2" value="" name="email_user_2" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Occupation</label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${Custmaster?.cust_occp_code}"
+														id="email_2" value="" name="email_2"
+														class="form-control form-control-sm" autocomplete="off" readonly/>
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Place Of Birth </label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.cust_perm_city_code}"
+														id="email_user_2" value="" name="email_user_2"
+														class="form-control form-control-sm" autocomplete="off" readonly />
+												</div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Source Of Income </label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${Custmaster?.income_src}"
+														id="income_src" value="" name="income_src"
+														class="form-control form-control-sm" autocomplete="off" readonly/>
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Monthly Income </label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.cust_salary}"
+														id="cust_salary" value="" name="cust_salary"
+														class="form-control form-control-sm" autocomplete="off" readonly />
+												</div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Average Income </label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${Custmaster?.free_text_12}"
+														id="email_2" value="" name="email_2"
+														class="form-control form-control-sm" autocomplete="off" readonly />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Annual Income </label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${Custmaster?.free_text_13}"
+														id="email_user_2" value="" name="email_user_2"
+														class="form-control form-control-sm" autocomplete="off" readonly />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-footer text-center">
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnHome" onclick="home();">Home</button>
+
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnBack" onclick="back();">Back</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+</body>
+</html>

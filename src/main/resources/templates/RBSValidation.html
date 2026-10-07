@@ -1,0 +1,526 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : rbs validation
+CREATED BY	: Ramprasath
+CREATED ON	: 21-may-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+
+<script src="js/bootstrap411.js"></script>
+
+<style type="text/css">
+.btn {
+	line-height: 0.5rem;
+}
+
+.dropdown-menu a:hover {
+	background-color: black;
+}
+
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+</style>
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	function back() {
+
+		window.history.back();
+	}
+
+/* 	$(function() {
+		$("#disableDate").datepicker(
+				{
+					maxDate : 0,
+					changeMonth : true,
+					changeYear : true,
+					dateFormat : "dd/mm/yy",
+					onSelect : function(selected) {
+						var dt = $(this).datepicker('getDate');
+						dt.setDate(dt.getDate());
+						$("#disableTilDate")
+								.datepicker("option", "minDate", dt);
+
+						//alert( $("#disableDate").val());
+
+						location.href = "rbsValidations?reportDate="
+								+ $("#disableDate").val();
+
+					}
+				});
+	}) */
+
+	/*]]>*/
+</script>
+<script>
+	function check(a) {
+		//alert("responseText");
+
+		var srl_no = a.getAttribute("data-srl_no");
+		var report_date = $("#disableDate").val();
+		var url = "./rbsValidationsChk?srl_no=" + srl_no + "&report_date="
+				+ report_date;
+		//alert(url);
+
+		$("#reportform").attr('action', url);
+
+		var options = {
+			success : showResponse
+		// post-submit callback 
+		};
+
+		$("#reportform").ajaxSubmit(options);
+
+		function showResponse(responseText, statusText, xhr, $form) {
+
+			if (responseText.genID == "0") {
+				//$('#alert').modal("toggle");
+				//alert("responseText"+responseText.status);
+				$("#amtalertmsg").text(responseText.status);
+				$('#amtalert').modal("toggle");
+
+			} else {
+				$("#amtalertmsg").text("Ok");
+				$('#amtalert').modal("toggle");
+			}
+
+		}
+		;
+	}
+
+	function refreshpage(a) {
+		location.href = "rbsValidations?reportDate=" + $("#disableDate").val();
+
+	}
+	
+	
+
+		
+</script>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	var reportlist = /*[[${reportlist}]]*/null;
+	var reportidnav=/*[[${reportid}]]*/null;
+	var frequency;
+
+	$(function() {
+		
+		$("#reportTimediv").hide();
+		
+		$.validator.addMethod("valueNotEquals", function(value, element, arg){
+			  return arg !== value;
+			 }, "Please Select");
+		
+		 $("#reportform").validate({
+			 rules: {
+				 reportid: { valueNotEquals: "Select" },
+		 		 function: { valueNotEquals: "Select" },
+		 		reportingTime: { valueNotEquals: "Select" }
+				  },
+				  messages: {
+				   reportid : { valueNotEquals: "Please Select a Report Id" },
+				   function :  { valueNotEquals: "Please Select a function" },
+				   reportingTime : { valueNotEquals : "Please Select Reporting Time" },
+				   asondate : "Please Select Report Date",
+				   fromdate : "Plese Select From Date",
+				   todate	: "Plesae Select To Date",
+				   currency : "Plesae Select Reporting currency"
+				  }  ,
+			  submitHandler: function(form) {
+					 var fun = $('#function :selected').val();
+					 /*var selectedIndex = $("#reportlist option:selected").index();
+					var report = reportlist[selectedIndex - 1];
+					
+ */
+
+ 
+ if (fun == "view") {
+
+						$("#reportform").attr('action', "Reports/" +reportidnav+"?dtltype=report");
+						var reportid = $('#reportlist :selected').text();
+						var asondate = $('#asonDate').val();
+						var fromdate = $('#dt1').val();
+						var todate = $('#disableDate').val();
+						//alert(todate);
+						var reportingTime = $('#reportingTime :selected').text();
+						
+						var Callurl;
+						
+						
+							Callurl =  './Reports/' + reportidnav + '/Precheck?fromdate=' + fromdate + '&todate=' + todate;
+						$.ajax({
+							type : 'get',
+							url : Callurl,
+							success : function(data) {
+								if (data == 'success') {
+									form.submit();
+								} else {
+									$("#alertmsg").text(data);
+									$("#alert").modal("toggle");
+								}
+
+							}
+						});
+					} else if (fun == "nil"){
+						
+						
+						
+						var reportid = $('#reportlist :selected').text();
+						var asondate = $('#asonDate').val();
+						var fromdate = $('#dt1').val();
+						var todate = $('#disableDate').val();
+						//alert(todate);
+						var reportingTime = $('#reportingTime :selected').text();
+						
+						Callurl = './Reports/' + reportid + '/nilReport?asondate='
+						+ asondate + '&fromdate=' + fromdate + '&todate=' + todate + '&reportingTime='+reportingTime;
+						
+						
+						$.ajax({
+							type : 'get',
+							url : Callurl,
+							success : function(data) {
+								
+								$("#alertmsg").text(data);
+								$("#alert").modal("toggle");
+
+							}
+						});
+						
+					}
+					
+					else {
+						
+						/* $("#reportform").attr('action',
+								"Reports/" + report.reportid + "/verify");	 */		
+								var todate = $('#disableDate').val();
+							//alert("hii"+todate);
+								var reportid = "generation";
+								$("#reportform").attr('action', './Reports/' +reportid +'/Download');
+						
+						var reportid = "generation";
+						
+						var Callurl;	
+							Callurl =  './Reports/' + reportid + '/Precheck?todate=' + todate;
+						//alert(todate);
+						$.ajax({
+							type : 'get',
+							url : Callurl,
+							success : function(data) {
+
+								if (data == 'success') {
+									//alert("data");
+									form.submit();
+									
+								} else {
+									
+									$("#alertmsg").text("No data Available for Verification");
+									$("#alert").modal("toggle");
+									
+									
+									
+								}
+
+
+							}
+						});
+						
+						
+						
+					}
+				  }
+				});	 
+		
+		/* $("#asonDate").datepicker(
+				{
+					changeMonth : true,
+					changeYear : true,
+					dateFormat : "dd-mm-yy",
+					maxDate: new Date(),
+					onClose : function() {
+						var asondate = $(this).datepicker('getDate');
+
+						if (asondate) {
+							
+							if (frequency == "Monthly") {
+								
+								asondate = new Date(asondate.getFullYear(),asondate.getMonth() + 1, 0);
+								$(this).datepicker("setDate", asondate);
+								$('#dt2').datepicker("setDate", asondate);
+								asondate.setDate(1);
+								$('#dt1').datepicker("setDate", asondate);
+								
+							} else if (frequency == "Daily") {
+												
+					            $("#dt2").datepicker("setDate", asondate);
+					            $('#dt1').datepicker("setDate", asondate);
+
+							} else if (frequency == "Fortnightly") {
+								
+								$("#dt2").datepicker('setDate', asondate);
+								asondate.setDate(asondate.getDate()-13);
+								$('#dt1').datepicker("setDate", asondate);
+								 
+							} else if (frequency == "Half Yearly") {
+								
+								asondate.setMonth((Math.trunc(asondate.getMonth()/6)*6)+5);
+								asondate = new Date(asondate.getFullYear(), asondate.getMonth() + 1, 0);
+					            $(this).datepicker('setDate', asondate);
+					            $("#dt2").datepicker('setDate', asondate);
+
+					            asondate.setDate(1);
+					            asondate.setMonth(Math.trunc(asondate.getMonth()/6)*6);
+					            $("#dt1").datepicker('setDate', asondate);
+
+							} else if (frequency == "Yearly") {
+								
+								asondate.setDate(31);
+								asondate.setMonth(11);
+								$('#dt2').datepicker("setDate",asondate);
+								$(this).datepicker('setDate', asondate);
+								 
+								asondate.setDate(1);
+								asondate.setMonth(0);
+						        $( "#dt1" ).datepicker("setDate", asondate);
+								
+								
+							} else if (frequency == "Quarterly") {
+								
+								
+								asondate.setMonth((Math.trunc(asondate.getMonth()/3)*3)+2);
+								asondate = new Date(asondate.getFullYear(), asondate.getMonth() + 1, 0);
+						        $(this).datepicker('setDate', asondate);
+						        $("#dt2").datepicker('setDate', asondate);
+
+						        asondate.setDate(1);
+						        asondate.setMonth(Math.trunc(asondate.getMonth()/3)*3);
+						         	
+						        $("#dt1").datepicker('setDate', asondate);
+								
+
+							} else if (frequency == "Weekly") {
+								
+
+							};
+
+						}
+					}
+
+				});
+	 */	$("#dt1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate: new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+		/* $("#disableDate").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd/mm/yy"
+		}); */
+	});
+	
+	function showReportName() {
+		/* var fun = $('#function :selected').val();
+		var selectedIndex = $("#reportlist option:selected").index();
+		
+		var report = reportlist[selectedIndex - 1];
+	 */	var reportId = reportidnav;
+		/* frequency = report.report_frequency;
+		
+		$("#repname").text(report.report_name);
+		$("#reportTimediv").hide();
+		
+		if(reportId=='FIM0500'){
+			
+			$("#reportTimediv").show();
+			$("#reportingTime").addAttr("required");
+		} */
+
+	};
+	
+	
+
+
+	/*]]>*/
+</script>
+</head>
+
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" aria-hidden="true"
+		style="float: right; margin-top: 10%;" onclick="docEmb('rbsreports')"
+		id="ques"></i>
+
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+
+				<div class="content">
+					<div class="row">
+						<div class="col-sm-12">
+
+							<div class="card-header " id="modheadtitle">
+								<b>RBS Validation Report</b>
+
+								<div class="float-right">
+
+									<div class="row formline">
+
+										<label style="color: white; padding-right: 20px;">Report
+											Date </label>
+										<div>
+											<input type="text" style="margin-top: -3px;" readonly
+												th:value="${reportDate1}" id="disableDate1" value=""
+												class="form-control form-control-sm" autocomplete="off" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-body" style="height: 740px;">
+						<form action="#" th:object="${reportform}" method="post"
+								autocomplete="off" id="reportform"> 
+								<!-- <form class="form-horizontal" method="post"
+									th:object="${reportform}" name="reportform" id="reportform">  -->
+									<table class="table table-bordered  table-hover table-sm"
+										style="width: 100%" id="usertable">
+										<thead class="thead-light">
+
+											<tr>
+												<!-- <th></th> -->
+												<th>Srl</th>
+												<th>Validation Details</th>
+												<th>Tables</th>
+												<th>Check</th>
+												<th>Validation</th>
+
+
+											</tr>
+										</thead>
+										<tbody>
+
+											<tr th:each="userProfile : ${RepValid}" class="userlist">
+
+
+												<td style="display: none;"><input type="text"
+													name="todate" id="disableDate" th:value="${reportDate1}"
+													class="col-sm-3 form-control" placeholder="dd/mm/yyyy" /></td>
+
+
+												<td th:text="${userProfile.srl_no}"></td>
+												<td th:text="${userProfile.val_det}"></td>
+												<td th:text="${userProfile.val_tables}"></td>
+												<td><button class="btn-primary" type="button"
+														th:attr="data-srl_no=${userProfile.srl_no}"
+														form="reportform" onclick="check(this);">Check</button></td>
+												<th:block th:switch="${userProfile?.cur_status}">
+													<td th:case="'Y'" style="color: green;">Ok</td>
+													<td th:case="'N'" style="color: red;">Not ok</td>
+
+													<td th:case="*" style="color: red;"></td>
+												</th:block>
+												<!-- <th:block th:if="${reportDate1}!=${testDate}"
+													th:switch="${userProfile?.pre_status}">
+													<td th:case="'Y'" style="color: green;">Ok</td>
+													<td th:case="'N'" style="color: red;">Not ok</td>
+													<td th:case="*" style="color: red;"></td>
+												</th:block> -->
+
+											</tr>
+										</tbody>
+									</table>
+									<div class="card-footer text-center">
+
+										<button type="submit" class="btn btn-xs btn-primary"
+											id="btnDownload" onclick="submitform(this);"
+											form="reportform">Download</button>
+
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnBack" onclick="back();">Back</button>
+
+
+									</div>
+								</form>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="amtalert" data-backdrop="static"
+		data-keyboard="false">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+			data-backdrop="static" data-keyboard="false">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="amtalertmsg"></p>
+					<button type="button" class="btn btn-primary"
+						onclick="refreshpage(this);">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+</body>
+</html>

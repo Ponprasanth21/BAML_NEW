@@ -1,0 +1,1874 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : InputRejectionReports
+CREATED BY	: Ramprasath 
+CREATED ON	: 25-MAY-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+
+<script src="js/bootstrap411.js"></script>
+
+<style type="text/css">
+.btn {
+	line-height: 0.5rem;
+}
+
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+
+.dropdown-menu a:hover {
+	background-color: black;
+}
+</style>
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+
+		var Callurl = 'RejectReport?formmode=Customer';
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		location.href = Callurl;
+	}
+	function CustAdd(a) {
+
+		location.href = 'RejectReport?formmode=CustomerAdd';
+	}
+
+	function AccountAdd(a) {
+
+		location.href = 'RejectReport?formmode=AccountAdd';
+	}
+
+	function TranAdd(a) {
+		location.href = 'RejectReport?formmode=TransactionAdd';
+		//$("#addedit").modal("toggle");
+	}
+	/* function Summary(a) {
+		location.href = 'RejectReport?formmode=TransactionSummary';
+
+	} */
+
+	function home() {
+		location.href = 'Dashboard'
+	}
+	function home1() {
+		$("#dataHome").modal("toggle");
+	}
+
+	function back() {
+
+		location.href = './RejectReport?formmode=Customer';
+	}
+	function back1() {
+
+		location.href = './RejectReport?formmode=Account';
+	}
+
+	function Customer(a) {
+		location.href = './RejectReport?formmode=Customer';
+	}
+	function Account(a) {
+		location.href = './RejectReport?formmode=Account';
+	}
+	function Transaction(a) {
+		location.href = './RejectReport?formmode=Transaction';
+	}
+
+	/* function Details(a) {
+		location.href = './RejectReport?formmode=Transaction';
+	} */
+
+	function CustomerSubmit(a) {
+
+		if ($("#CustomerRej").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+			//var DateAppl = $("#date_of_appl1").val();
+			//var Daterej  =$("#date_of_rej1").val();	
+			var url = "./RejectAdd?formmode=" + formmode;
+			$("#CustomerRej").attr('action', url);
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+			$("#CustomerRej").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+
+			}
+			;
+		}
+	};
+
+	function AccountSubmit(a) {
+
+		if ($("#AccountRej").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+			var url = "./RejectAdd?formmode=" + formmode;
+			$("#AccountRej").attr('action', url);
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#AccountRej").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+
+			}
+			;
+		}
+	};
+
+	function TransactionSubmit(a) {
+
+		//alert("Hiii");
+
+		if ($("#TransactionRej").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+		
+			var url = "./RejectAdd?formmode=" + formmode;
+			//alert(url);
+
+			$("#TransactionRej").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#TransactionRej").ajaxSubmit(options);
+			function showResponse(responseText, statusText, xhr, $form) {
+				$("#alertmsg").text(responseText);
+				$('#alert').modal("toggle");
+
+			}
+			;
+		}
+	};
+
+	function cust123(a) {
+
+		var cust_id = document.getElementById("cust_id12345").value;
+		//alert(cust_id);
+		if (cust_id != "") {
+
+			location.href = "./RejectReport?formmode=TransactionAdd1&cust_id="
+					+ cust_id;
+
+		}
+	}
+
+	function pdfCustomerdown(a) {
+		var filetype = a.getAttribute("data-filetype")
+		location.href = './DownloadRej?formmode=Customer' + '&reportid=T4'
+				+ '&filetype=' + filetype;
+	}
+	function xcelCustomerdown(a) {
+		var filetype = a.getAttribute("data-filetype")
+		location.href = './DownloadRej?formmode=Customer' + '&reportid=T4'
+				+ '&filetype=' + filetype;
+	}
+	function pdfAccountdown(a) {
+		var filetype = a.getAttribute("data-filetype")
+		location.href = './AccDownloadRej?formmode=Account'
+				+ '&reportid=T4Account' + '&filetype=' + filetype;
+	}
+	function xcelAccountdown(a) {
+		var filetype = a.getAttribute("data-filetype")
+		location.href = './AccDownloadRej?formmode=Account'
+				+ '&reportid=T4Account' + '&filetype=' + filetype;
+	}
+
+	function pdfTransactiondown(a) {
+		var filetype = a.getAttribute("data-filetype")
+		location.href = './TranDownloadRej?formmode=TransactionSummary'
+				+ '&reportid=T11' + '&filetype=' + filetype;
+	}
+	function xcelTransactiondown(a) {
+		var filetype = a.getAttribute("data-filetype")
+		location.href = './TranDownloadRej?formmode=TransactionSummary'
+				+ '&reportid=T11' + '&filetype=' + filetype;
+	}
+
+	$(function() {
+
+		$("#date_of_appl1,date_of_rej1,modify_time1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd/MM/yyyy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '/' + mm + '/' + yyyy;
+		document.getElementById('date_of_appl1').value = today;
+		document.getElementById('date_of_rej1').value = today;
+		document.getElementById('modify_time1').value = today;
+	});
+
+	$(function() {
+
+		$("#date_of_appl2,date_of_rej2,modify_time2").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd/MM/yyyy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '/' + mm + '/' + yyyy;
+		document.getElementById('date_of_appl2').value = today;
+		document.getElementById('date_of_rej2').value = today;
+		document.getElementById('modify_time1').value = today;
+	});
+
+	$(function() {
+
+		$("#date_tran3,date_of_rej3,modify_time3").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd/MM/yyyy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '/' + mm + '/' + yyyy;
+		document.getElementById('date_tran3').value = today;
+		document.getElementById('date_of_rej2').value = today;
+		document.getElementById('modify_time1').value = today;
+	});
+
+	/*]]>*/
+</script>
+<style>
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('RejectReport')" id="ques"></i>
+	<div class="content-page">
+
+		<div class="content">
+			<div class="container-fluid">
+
+				<div th:if="${formmode}=='Customer'" class="container content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle" style="height: 65px;">
+								<b th:text="${menuname}"></b>
+
+								<div class="btn-group nav-buttons float-right">
+									<button type="button" class="btn btn-primary"
+										onclick="CustAdd(this)" id="detailsbtn">Add</button>
+
+									 <div class="btn-group">
+										<button type="button" class="btn btn-primary dropdown-toggle"
+											data-toggle="dropdown">
+											Download <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><a class="underline" id="pdf"
+												onclick="pdfCustomerdown(this);"
+												th:attr="data-filetype='pdf'">Pdf</a></li>
+											<li><a class="underline" id="xcel"
+												onclick="xcelCustomerdown(this);"
+												th:attr="data-filetype='excel'">Excel</a></li>
+
+
+										</ul>
+									</div>
+								</div>
+							</div>
+							<label></label>
+							<div class="form-group">
+								<div class="row formline">
+									<button type="button" class="btn btn-primary"
+										style="border: 2px solid black; background-color: #26729f; margin-left: 15px; width: 10%;"
+										id="btnHome" onclick="Customer(this);">Customer</button>
+									<button type="button" class="btn btn-primary"
+										style="border: 2px solid black; width: 12%;" id="btnBack"
+										onclick="Account(this);">Account</button>
+									<button type="button" class="btn btn-primary"
+										style="border: 2px solid black; width: 12%;" id="btnBack"
+										onclick="Transaction(this);">Transaction</button>
+
+
+								</div>
+								<label></label>
+								<table class="table  table-bordered  table-hover table-sm" id="">
+									<thead class="thead-light">
+										<tr>
+											<!-- <th></th> -->
+
+
+											<th>SRL No</th>
+											<th>Customer Name</th>
+											<th>Customer Type</th>
+											<th>Date Of Application</th>
+											<th>Reason For Rejection</th>
+											<th>Date Of Rejection</th>
+											<th>Remarks</th>
+
+										</tr>
+
+
+									</thead>
+									<tbody th:each="reportsummary : ${reportsummary}">
+										<tr>
+											<td th:text="${reportsummary?.srl_no}">CHENNAI</td>
+											<td th:text="${reportsummary?.cust_name}">CHENNAI</td>
+											<td th:text="${reportsummary?.cust_type}">CHENNAI</td>
+											<td
+												th:text="${#dates.format(reportsummary?.date_of_appl,'dd/MM/yyyy')}">CHENNAI</td>
+											<td th:text="${reportsummary?.reason_reject}">CHENNAI</td>
+											<td
+												th:text="${#dates.format(reportsummary?.date_of_rej,'dd/MM/yyyy')}">CHENNAI</td>
+											<td th:text="${reportsummary?.remarks}">CHENNAI</td>
+										</tr>
+
+
+									</tbody>
+								</table>
+
+							</div>
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+							<div class="float-right" th:if="${reportsummary.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${reportsummary.number},${reportsummary.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${reportsummary.number+1}"
+									th:onchange="|getUserlist('givenpage',${reportsummary.number},${reportsummary.totalPages});|"></input>
+								of <font th:text="${reportsummary.totalPages}"></font> <a
+									href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${reportsummary.number},${reportsummary.totalPages});|"></i></a>
+							</div>
+
+
+
+
+						</div>
+						<div class="text-center"
+							style="background-color: #386276; padding: 5px; width: 100%;">
+
+							<div class="btn-group nav-buttons " style="align: center;">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+				<div th:if="${formmode}=='CustomerAdd'">
+					<div class="row">
+						<div class="col-sm-12">
+							<form action="#" th:object="${CustomerRej}" method="POST"
+								autocomplete="off" id="CustomerRej">
+
+								<div class="card">
+									<div class="card-header">
+										<div class="float-left">
+											<b th:text="${menuname1}"></b> <input type="hidden"
+												th:value="${formmode}" id="formmode1" style="display: none;">
+										</div>
+
+										<div class="btn-group nav-buttons float-right">
+											<!-- <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button> -->
+											<button type="button" class="btn btn-xs btn-primary btns"
+												id="btnInq" onclick="Customer(this)">List</button>
+										</div>
+
+									</div>
+									<div class="card-body">
+
+
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="dataid">Srl No</label>
+											</div>
+
+											<div class="col-sm-3">
+												<input type="text" id="srl_no" th:value="${CUSTREJ}"
+													class="form-control form-control-sm" name="srl_no"
+													autocomplete="off" required /> <input type="hidden"
+													id="srl_no" th:value="${repDate}"
+													class="form-control form-control-sm" name="report_date"
+													autocomplete="off" required />
+											</div>
+											<div class="col-sm-1"></div>
+											<label class="col-sm-2">Customer Name</label>
+
+
+											<div class="col-sm-3">
+												<input type="text" id="cust_name" name="cust_name"
+													class="form-control form-control-sm" autocomplete="false"
+													required />
+											</div>
+
+										</div>
+
+										<label></label>
+
+										<div class="form-group">
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="first_name">Customer Type</label>
+												</div>
+
+												<div class="col-sm-3">
+													<select class="form-control form-control-sm" id="showme3"
+														name="cust_type" style="float: left; font-size: 13px;"
+														required>
+														<option value="">Select</option>
+
+														<option value="INDR">Individuals - Residents</option>
+														<option value="INDNR">Individuals - Non-Residents</option>
+														<option value="CFIR">Corporates: Financial
+															Institutions -Residents</option>
+														<option value="CFINR">Corporates: Financial
+															Institutions - Non-Residents</option>
+														<option value="CNFIR">Corporates: Non Financial
+															Institutions -Residents</option>
+														<option value="CNFINR">Corporates: Non Financial
+															Institutions - Non-Residents</option>
+														<option value="NPORC">Non Profit Organisations -
+															Residents - Charities</option>
+														<option value="NPORT">Non Profit Organisations -
+															Residents - Trust</option>
+														<option value="NPORR">Non Profit Organisations -
+															Residents - Religious Organizations</option>
+														<option value="NPORN">Non Profit Organisations -
+															Residents - Non-Government Organizations</option>
+														<option value="NPORO">Non Profit Organisations -
+															Residents - Other NPOs</option>
+														<option value="NPONRC">Non Profit Organisations -
+															Non-Residents - Charities</option>
+														<option value="NPONRT">Non Profit Organisations -
+															Non-Residents - Trust</option>
+														<option value="NPONRR">Non Profit Organisations -
+															Non-Residents - Religious Organizations</option>
+														<option value="NPONRN">Non Profit Organisations -
+															Non-Residents - Non-Government Organizations</option>
+														<option value="NPONRO">Non Profit Organisations -
+															Non-Residents - Other NPOs</option>
+														<option value="TR">Trusts (Other than NPOs and
+															TCSPs)-Residents</option>
+														<option value="TNR">Trusts (Other than NPOs and
+															TCSPs)- Non-Residents</option>
+														<option value="OTHR">All others - Residents</option>
+														<option value="OTHNR">All others - Non-Residents</option>
+														<option value="PEPD">PEPs-Domestic</option>
+														<option value="PEPF">PEPs-Foreign</option>
+														<option value="CLG">Car & Luxury Goods Dealers</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+														<!-- <option th:each="monitoringparam : ${custType}"
+															th:text="${monitoringparam}"></option> -->
+													</select>
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Date Of Application</label>
+
+
+												<div class="col-sm-3">
+													<input type="text" id="date_of_appl1" name="date_of_appl"
+														class="form-control form-control-sm" autocomplete="false"
+														 />
+												</div>
+
+											</div>
+
+											<label></label>
+
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="first_name">Reason For Rejection</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" id="reason_reject"
+														class="form-control form-control-sm" name="reason_reject"
+														autocomplete="off" required>
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Date Of Rejection</label>
+
+
+												<div class="col-sm-3">
+													<input type="text" id="date_of_rej1"  name="date_of_rej" 
+														class="form-control form-control-sm" autocomplete="false"
+														readonly />
+												</div>
+
+											</div>
+
+											<label></label>
+
+
+											<div class="row formline">
+
+												<label class="col-sm-2">Remarks</label>
+												<div class="col-sm-3">
+													<input type="text" id="remarks" name="remarks" value=""
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+
+
+										</div>
+									</div>
+								</div>
+
+
+
+								<div class="card-footer text-center" style="height: 38px;">
+
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnHome" style="margin-top: -12px;" onclick="home();">Home</button>
+									<button th:if="${formmode}=='CustomerAdd' " type="button"
+										style="margin-top: -12px;" class="btn btn-xs btn-primary"
+										onclick="CustomerSubmit(this);" form="CustomerRej"
+										id="btnSubmit" th:attr="data-formmode=${formmode}">Submit</button>
+
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnBack" style="margin-top: -12px;" onclick="back();">Back</button>
+
+								</div>
+							</form>
+						</div>
+					</div>
+
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+				<!-- ------------------Account-List -->
+				<div th:if="${formmode}=='Account'" class="container content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle" style="height: 65px;">
+								<b th:text="${menuname}"></b>
+
+								<div class="btn-group nav-buttons float-right">
+									<button type="button" class="btn btn-primary"
+										onclick="AccountAdd(this)" id="detailsbtn">Add</button>
+
+									<!-- <div class="btn-group">
+										<button type="button" class="btn btn-primary dropdown-toggle"
+											data-toggle="dropdown">
+											Download <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><a class="underline" id="pdf"
+												onclick="pdfAccountdown(this);"
+												th:attr="data-filetype='pdf'">Pdf</a></li>
+											<li><a class="underline" id="xcel"
+												onclick="xcelAccountdown(this);"
+												th:attr="data-filetype='excel'">Excel</a></li>
+
+
+
+										</ul>
+									</div> -->
+								</div>
+							</div>
+							<label></label>
+							<div class="form-group">
+								<div class="row formline">
+									<button type="button" class="btn btn-primary"
+										style="border: 2px solid black; margin-left: 15px; width: 10%;"
+										id="btnHome" onclick="Customer();">Customer</button>
+									<button type="button" class="btn btn-primary"
+										style="border: 2px solid black; background-color: #26729f; width: 12%;"
+										id="btnBack" onclick="Account();">Accounts</button>
+									<button type="button" class="btn btn-primary"
+										style="border: 2px solid black; width: 12%;" id="btnBack"
+										onclick="Transaction();">Transaction</button>
+
+
+								</div>
+								<label></label>
+
+								<table class="table  table-bordered  table-hover table-sm" id="">
+									<thead class="thead-light">
+										<tr>
+											<!-- <th></th> -->
+
+
+											<th>SRL No</th>
+											<th>Account Name</th>
+											<th>Account Type</th>
+											<th>Date Of Application</th>
+											<th>Reason For Rejection</th>
+											<th>Date Of Rejection</th>
+											<th>Remarks</th>
+
+										</tr>
+
+
+									</thead>
+									<tbody th:each="reportsummary : ${reportsummary}">
+										<tr>
+											<td th:text="${reportsummary.srl_no}">CHENNAI</td>
+											<td th:text="${reportsummary?.acct_name}">CHENNAI</td>
+											<td th:text="${reportsummary?.acct_type}">CHENNAI</td>
+											<td
+												th:text="${#dates.format(reportsummary?.date_of_appl,'dd/MM/yyyy')}">CHENNAI</td>
+											<td th:text="${reportsummary?.reason_reject}">CHENNAI</td>
+											<td
+												th:text="${#dates.format(reportsummary?.date_of_rej,'dd/MM/yyyy')}">CHENNAI</td>
+											<td th:text="${reportsummary?.remarks}">CHENNAI</td>
+										</tr>
+
+
+									</tbody>
+								</table>
+
+
+
+								<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+								<div class="float-right"
+									th:if="${reportsummary.totalPages} gt 1">
+									<a href="#"><i class="fas fa-caret-left fa-2x"
+										th:onclick="|getUserlist('prevpage',${reportsummary.number},${reportsummary.totalPages});|"></i></a>
+									<input type="text" id="pageno" style="width: 30px"
+										th:value="${reportsummary.number+1}"
+										th:onchange="|getUserlist('givenpage',${reportsummary.number},${reportsummary.totalPages});|"></input>
+									of <font th:text="${reportsummary.totalPages}"></font> <a
+										href="#"><i class="fas fa-caret-right fa-2x"
+										th:onclick="|getUserlist('nextpage',${reportsummary.number},${reportsummary.totalPages});|"></i></a>
+								</div>
+
+
+							</div>
+						</div>
+						<div class="text-center"
+							style="background-color: #386276; padding: 5px; width: 100%;">
+
+							<div class="btn-group nav-buttons " style="align: center;">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+
+
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back1();">Back</button>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+				<!--------------------------entityview--------------------- -->
+
+				<div th:if="${formmode}=='AccountAdd'">
+					<div class="row">
+						<div class="col-sm-12">
+							<form action="#" th:object="${AccountRej}" method="POST"
+								autocomplete="off" id="AccountRej">
+
+								<div class="card">
+									<div class="card-header">
+										<div class="float-left">
+											<b th:text="${menuname1}"></b> <input type="hidden"
+												th:value="${formmode}" id="formmode1" style="display: none;">
+										</div>
+
+										<div class="btn-group nav-buttons float-right">
+											<!-- <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button> -->
+											<button type="button" class="btn btn-xs btn-primary btns"
+												id="btnInq" onclick="Account(this)">List</button>
+										</div>
+
+									</div>
+									<div class="card-body">
+
+
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="dataid">Srl No</label>
+											</div>
+
+											<div class="col-sm-3">
+												<input type="text" id="srl_no" th:value="${ACCREJ}"
+													class="form-control form-control-sm" name="srl_no"
+													autocomplete="off" required />
+											</div>
+											<div class="col-sm-1"></div>
+											<label class="col-sm-2">Account Name</label>
+
+
+											<div class="col-sm-3">
+												<input type="text" id="acct_name" name="acct_name"
+													class="form-control form-control-sm" autocomplete="false" />
+											</div>
+
+										</div>
+
+										<label></label>
+
+										<div class="form-group">
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="first_name">Account Type</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" id="acct_type"
+														class="form-control form-control-sm" name="acct_type"
+														autocomplete="off" required>
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Date Of Applications</label>
+
+
+												<div class="col-sm-3">
+													<input type="text" id="date_of_appl2" name="date_of_appl"
+														class="form-control form-control-sm" autocomplete="false"
+														required />
+												</div>
+
+											</div>
+
+											<label></label>
+											<div class="row formline">
+
+												<label class="col-sm-2">Reason For Rejecton</label>
+												<div class="col-sm-3">
+													<input type="text" id="reason_reject" name="reason_reject"
+														value="" class="form-control form-control-sm"
+														autocomplete="false" required />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Date Of Rejection</label>
+												<div class="col-sm-3">
+													<input type="text" id="date_of_rej2" name="date_of_rej"
+														value="" class="form-control form-control-sm txtalign"
+														autocomplete="false" />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+
+
+											<label></label>
+											<div class="row formline">
+
+												<label class="col-sm-2">Remarks</label>
+												<div class="col-sm-3">
+													<input type="text" id="remarks" name="remarks" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+
+
+										</div>
+									</div>
+								</div>
+
+
+
+								<div class="card-footer text-center" style="height: 38px;">
+
+
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnHome" style="margin-top: -12px;" onclick="home();">Home</button>
+									<button th:if="${formmode}=='AccountAdd'" type="button"
+										style="margin-top: -12px;" class="btn btn-xs btn-primary"
+										onclick="AccountSubmit(this);" form="AccountRej"
+										id="btnSubmit" th:attr="data-formmode=${formmode}">Submit</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnBack" style="margin-top: -12px;" onclick="back();">Back</button>
+
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- ------------------Account-List -->
+				<div th:if="${formmode}=='Transaction'" class="container content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle" style="height: 50px;">
+								<b th:text="${menuname}"></b>
+
+								<div class="btn-group nav-buttons float-right">
+									<button type="button" class="btn btn-xs btn-primary "
+										onclick='TranAdd(this)' id="btnUpload">Add</button>
+
+									<button type="button" class="btn btn-xs btn-primary "
+										style="background-color: #26729f;" onclick='Transaction(this)'>Detail</button>
+
+									<!-- <button type="button" class="btn btn-xs btn-primary "
+										onclick='TransactionSummary(this)'>Summary</button> -->
+
+								</div>
+							</div>
+							<label></label>
+							<div class="form-group">
+								<div class="row formline">
+									<button type="button" class="btn btn-primary"
+										style="border: 2px solid black; margin-left: 15px; width: 10%;"
+										id="btnHome" onclick="Customer();">Customer</button>
+									<button type="button" class="btn btn-primary"
+										style="border: 2px solid black; width: 12%;" id="btnBack"
+										onclick="Account();">Account</button>
+									<button type="button" class="btn btn-primary"
+										style="border: 2px solid black; background-color: #26729f; width: 12%;"
+										id="btnBack" onclick="Transaction();">Transaction</button>
+
+
+								</div>
+								<label></label>
+
+								<table th:if="${searchmsg} == null"
+									class="table table-bordered table-sm" id="detailtb">
+									<thead class="thead-light">
+
+
+										<tr>
+											<th>Customer Id</th>
+											<th>Customer Name</th>
+											<th>Customer Type</th>
+											<th>Customer Rating</th>
+											<th>Account No</th>
+											<th>Account Name</th>
+											<th>Tran Type</th>
+											<th>Tran Sub Type</th>
+											<th>Tran date</th>
+											<th>Tran Id</th>
+											<th>Part Tran Id</th>
+											<th>Part Tran Type</th>
+											<th>Tran Currency</th>
+											<th>Tran Amount</th>
+											<th>Tran Category</th>
+											<th>Quarter Flag</th>
+
+										</tr>
+
+									</thead>
+									<tbody>
+
+										<!-- <td class="first_left"><a data-toggle="tooltip"
+										class="editrec" title="Click to Edit this Record"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+											class="fas fa-edit" onclick="editRecord(this)"></i></a></td>
+									<td class="second_left"><a data-toggle="tooltip"
+										class="editrec" title="Click to delete this Record"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+											class="fas fa-minus-circle" onclick="deleteRecord(this)"></i></a></td> -->
+										<tr th:each="repdetail : ${reportdetails.content}">
+											<td th:text="${repdetail.cust_id	}">CHENNAI</td>
+											<td th:text="${repdetail.cust_name	}">CHENNAI</td>
+											<td th:text="${repdetail.cust_type}">CHENNAI</td>
+											<td th:text="${repdetail.cust_rating	}">CHENNAI</td>
+											<td th:text="${repdetail.acct_no	}">CHENNAI</td>
+											<td th:text="${repdetail.acct_name	}">CHENNAI</td>
+											<td th:text="${repdetail.tran_type	}">CHENNAI</td>
+											<td th:text="${repdetail.tran_sub_type	}">CHENNAI</td>
+											<td
+												th:text="${#dates.format(repdetail.tran_date	,'dd/MM/yyyy')}">CHENNAI</td>
+											<td th:text="${repdetail.tran_id	}">CHENNAI</td>
+											<td th:text="${repdetail.part_tran_id	}">CHENNAI</td>
+											<td th:text="${repdetail.part_tran_type	}">CHENNAI</td>
+											<td th:text="${repdetail.tran_crncy	}">CHENNAI</td>
+											<td
+												th:text="${#numbers.formatDecimal(repdetail.tran_amt	,1,'COMMA',2,'POINT')}"
+												align="right">CHENNAI</td>
+											<td th:text="${repdetail.tran_category	}">CHENNAI</td>
+											<td th:text="${repdetail.qtr_flg	}">CHENNAI</td>
+
+
+										</tr>
+									</tbody>
+								</table>
+								<table th:if="${searchmsg} != null"
+									class="table table-bordered table-sm" style="width: 1500px"
+									id="detailtb">
+									<thead class="thead-light">
+										<tr>
+
+											<th>Customer Id</th>
+											<th>Customer Name</th>
+											<th>Customer Type</th>
+											<th>Customer Rating</th>
+											<th>Account No</th>
+											<th>Account Name</th>
+											<th>Tran Type</th>
+											<th>Tran Sub Type</th>
+											<th>Tran date</th>
+											<th>Tran Id</th>
+											<th>Part Tran Id</th>
+											<th>Part Tran Type</th>
+											<th>Tran Currency</th>
+											<th>Tran Amount</th>
+											<th>Tran Category</th>
+											<th>Quarter Flag</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td colspan="10">No Data Available</td>
+										</tr>
+									</tbody>
+								</table>
+
+
+								<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+								<div class="float-right"
+									th:if="${reportdetails.totalPages} gt 1">
+									<a href="#"><i class="fas fa-caret-left fa-2x"
+										th:onclick="|getUserlist('prevpage',${reportdetails.number},${reportdetails.totalPages});|"></i></a>
+									<input type="text" id="pageno" style="width: 30px"
+										th:value="${reportdetails.number+1}"
+										th:onchange="|getUserlist('givenpage',${reportdetails.number},${reportdetails.totalPages});|"></input>
+									of <font th:text="${reportdetails.totalPages}"></font> <a
+										href="#"><i class="fas fa-caret-right fa-2x"
+										th:onclick="|getUserlist('nextpage',${reportdetails.number},${reportdetails.totalPages});|"></i></a>
+								</div>
+
+
+							</div>
+						</div>
+						<div class="text-center"
+							style="background-color: #386276; padding: 5px; width: 100%;">
+
+							<div class="btn-group nav-buttons " style="align: center;">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back1();">Back</button>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+				<!--------------------------entityview--------------------- -->
+
+				<div th:if="${formmode}=='TransactionAdd'">
+					<div class="row">
+						<div class="col-sm-12">
+							<form action="#" th:object="${TransactionRej}" method="POST"
+								autocomplete="off" id="TransactionRej">
+
+								<div class="card">
+									<div class="card-header">
+										<div class="float-left">
+											<b th:text="${menuname1}"></b> <input type="hidden"
+												th:value="${formmode}" id="formmode1" style="display: none;">
+										</div>
+
+										<div class="btn-group nav-buttons float-right">
+											<!-- <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button> -->
+											<button type="button" class="btn btn-xs btn-primary btns"
+												id="btnInq" onclick="Details(this)">List</button>
+										</div>
+
+									</div>
+									<div class="card-body">
+
+
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="customerId">Customer Id</label>
+											</div>
+											<div class="col-sm-3">
+												<input type="text" id="cust_id12345" name="cust_id" onblur="cust123(this)"
+													class="form-control form-control-sm" autocomplete="off"
+													required />
+													<input type="hidden" id="srl_no" th:value="${TRANREJ}" name="srl_no"
+													class="form-control form-control-sm" autocomplete="off"
+													required />
+											</div>
+											<div class="col-sm-1">
+												<!-- <a href="#"><i class="fas fa-search searchico"
+													data-toggle="modal" data-target="#finusers" id="iconacc"></i></a> -->
+											</div>
+
+											<div class="col-sm-2">
+												<label for="customerName">Customer Name</label>
+											</div>
+											<div class="col-sm-3">
+												<input type="text" id="cust_name" name="cust_name"
+													class="form-control form-control-sm" autocomplete="false" />
+											</div>
+										</div>
+
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+											<label class="col-sm-2">Customer Type</label>
+											<div class="col-sm-3">
+												<input name="cust_type" id="cust_type"
+													class="form-control form-control-sm">
+
+
+											</div>
+
+
+											<div class="col-sm-1"></div>
+
+
+											<label class="col-sm-2">Customer Rating</label>
+
+											<div class="col-sm-3">
+												<input name="cust_rating" id="cust_rating"
+													class="form-control form-control-sm">
+
+
+
+											</div>
+
+
+											<div class="col-sm-1"></div>
+										</div>
+
+
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+											<label class="col-sm-2">Account No</label>
+											<div class="col-sm-3">
+												<input name="acct_no" id="acct_no"
+													class="form-control form-control-sm">
+
+
+
+											</div>
+											<div class="col-sm-1"></div>
+
+
+											<label class="col-sm-2">Account Name</label>
+											<div class="col-sm-3">
+												<input type="text" id="acct_name" name="acct_name" value=""
+													class="form-control form-control-sm" autocomplete="off" />
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+
+
+											<div class="col-sm-2">
+												<label for="userId">Transaction Type</label>
+											</div>
+											<div class="col-sm-3">
+											
+												<select class="form-control form-control-sm" id="tran_type"
+													name="tran_type" style="float: left; font-size: 13px;">
+													<option value="">SELECT</option>
+													<option id="Transfer">Transfer</option>
+													<option id="Cash">Cash</option>
+													<option id="Clearing">Clearing</option>
+												</select>
+											</div>
+
+
+
+
+
+
+											<div class="col-sm-1"></div>
+
+											<label class="col-sm-2">Transaction Sub Type</label>
+											<div class="col-sm-3">
+												<select class="form-control form-control-sm"
+													id="tran_sub_type" name="tran_sub_type"
+													style="float: left; font-size: 13px;">
+													<option value="">Select</option>
+													<option th:each="monitoringparam : ${tranCat}"
+														th:text="${monitoringparam}"></option>
+												</select>
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+											<label class="col-sm-2">Transaction Date</label>
+											<div class="col-sm-3">
+												<input type="text" id="date_tran3" name="tran_date"
+													class="form-control form-control-sm" autocomplete="off" />
+											</div>
+											<div class="col-sm-1"></div>
+
+
+											<label class="col-sm-2">Transaction Id</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control form-control-sm"
+													name="tran_id" id="tran_id" autocomplete="off" />
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+											<label class="col-sm-2">Part Tran Serial No</label>
+											<div class="col-sm-3">
+												<input id="part_tran_id" name="part_tran_id"
+													class="form-control form-control-sm" readonly>
+
+
+											</div>
+
+
+											<div class="col-sm-1"></div>
+
+											<label class="col-sm-2">Part Tran Type</label>
+											<div class="col-sm-3">
+												<select class="form-control form-control-sm"
+													id="part_tran_type" name="part_tran_type"
+													style="float: left; font-size: 13px;">
+													<option value="">SELECT</option>
+													<option value="D">Debit</option>
+													<option value="C">Credit</option>
+
+												</select>
+
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+
+											<label class="col-sm-2">Tran Currency Code</label>
+											<div class="col-sm-3">
+												<input type="text" id="tran_crncy" value=""
+													name="tran_crncy" class="form-control form-control-sm"
+													autocomplete="off" />
+											</div>
+
+											<div class="col-sm-1"></div>
+
+											<label class="col-sm-2">Tran Amount</label>
+											<div class="col-sm-3">
+												<input type="text" id="tran_amt" name="tran_amt" value=""
+													class="form-control form-control-sm" autocomplete="off" />
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+
+											<label class="col-sm-2">Tran Category</label>
+											<div class="col-sm-3">
+												<input type="text" style="background-color: #d2dae0;"
+													id="tran_category" value="" name="tran_category"
+													class="form-control form-control-sm" autocomplete="off"
+													 />
+											</div>
+
+											<div class="col-sm-1"></div>
+
+											<label class="col-sm-2">Tran Particulars</label>
+											<div class="col-sm-3">
+												<input type="text" style="background-color: #d2dae0;"
+													id="tran_category" value="" name="tran_reason"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+
+											<label class="col-sm-2">Reject Reason</label>
+											<div class="col-sm-3">
+												<input type="text" style="background-color: #d2dae0;"
+													id="cft" value="" name="cft"
+													class="form-control form-control-sm" autocomplete="off" />
+
+												<!-- 	<input type="hidden" style="background-color: #d2dae0;"
+													id="qtr_flg" value="" name="qtr_flg"
+													class="form-control form-control-sm" autocomplete="off" /> -->
+											</div>
+
+											<div class="col-sm-1"></div>
+											<label class="col-sm-2">CDD or CFT</label>
+											<div class="col-sm-3">
+												<select class="form-control form-control-sm" id="cdd"
+													name="cdd" style="float: left; font-size: 13px;" required>
+													<option value="">SELECT</option>
+													<option value="Y">CDD</option>
+													<option value="N">CFT</option>
+												</select>
+											</div>
+										</div>
+
+
+										<div class="row formline">
+
+
+											<!-- <label class="col-sm-2">Report Date</label> -->
+											<div class="col-sm-3">
+												<input type="hidden" style="background-color: #d2dae0;"
+													id="report_date" th:value="${CURDATE}" name="report_date"
+													class="form-control form-control-sm" autocomplete="off" />
+
+
+												<!-- 	<input type="hidden" style="background-color: #d2dae0;"
+													id="qtr_flg" value="" name="qtr_flg"
+													class="form-control form-control-sm" autocomplete="off" /> -->
+											</div>
+
+											<div class="col-sm-1"></div>
+											<!-- <label class="col-sm-2">CDD or CFT</label>
+											<div class="col-sm-3">
+												<select class="form-control form-control-sm" id="tran_crncy"
+													name="cdd" style="float: left; font-size: 13px;">
+													<option value="">SELECT</option>
+													<option value="Y">CDD</option>
+													<option value="N">CFT</option>
+												</select>
+											</div> -->
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+
+
+					<div class="card-footer text-center" style="height: 38px;">
+
+
+						<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+							style="margin-top: -12px;" onclick="home();">Home</button>
+						<button th:if="${formmode}=='TransactionAdd'" type="button"
+							style="margin-top: -12px;" class="btn btn-xs btn-primary"
+							onclick="TransactionSubmit(this);" form="TransactionRej"
+							id="btnSubmit" th:attr="data-formmode=${formmode}">Submit</button>
+						<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+							style="margin-top: -12px;" onclick="back();">Back</button>
+
+					</div>
+					</form>
+				</div>
+
+
+				<!-- ---------------------------------------------------------- -->
+
+
+<div th:if="${formmode}=='TransactionAdd1'">
+					<div class="row">
+						<div class="col-sm-12">
+							<form action="#" th:object="${TransactionRej}" method="POST"
+								autocomplete="off" id="TransactionRej">
+
+								<div class="card">
+									<div class="card-header">
+										<div class="float-left">
+											<b th:text="${menuname1}"></b> <input type="hidden"
+												th:value="${formmode}" id="formmode1" style="display: none;">
+										</div>
+
+										<div class="btn-group nav-buttons float-right">
+											<!-- <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button> -->
+											<button type="button" class="btn btn-xs btn-primary btns"
+												id="btnInq" onclick="Details(this)">List</button>
+										</div>
+
+									</div>
+									<div class="card-body">
+
+
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="customerId">Customer ID</label>
+											</div>
+											<div class="col-sm-3">
+												<input type="text" id="cust_id" name="cust_id"  th:value="${CustName?.cif_id}"
+													class="form-control form-control-sm" autocomplete="off"
+													required />
+													<input type="hidden" id="srl_no" th:value="${TRANREJ}" name="srl_no"
+													class="form-control form-control-sm" autocomplete="off"
+													required />
+											</div>
+											<div class="col-sm-1">
+												<!-- <a href="#"><i class="fas fa-search searchico"
+													data-toggle="modal" data-target="#finusers" id="iconacc"></i></a> -->
+											</div>
+
+											<div class="col-sm-2">
+												<label for="customerName">Customer Name</label>
+											</div>
+											<div class="col-sm-3">
+												<input type="text" id="cust_name" name="cust_name"  th:value="${CustName?.cust_name}"
+													class="form-control form-control-sm" autocomplete="false" />
+											</div>
+										</div>
+
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+											<label class="col-sm-2">Customer Type</label>
+											<div class="col-sm-3">
+												<input name="cust_type" id="cust_type"  th:value="${CustType}"
+													class="form-control form-control-sm">
+
+
+											</div>
+
+
+											<div class="col-sm-1"></div>
+
+
+											<label class="col-sm-2">Customer Rating</label>
+
+											<div class="col-sm-3">
+												<input name="cust_rating" id="cust_rating"  th:value="${CustName?.localetext}"
+													class="form-control form-control-sm">
+
+
+
+											</div>
+
+
+											<div class="col-sm-1"></div>
+										</div>
+
+
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+											<label class="col-sm-2">Account No</label>
+											<div class="col-sm-3">
+												<input name="acct_no" id="acct_no"
+													class="form-control form-control-sm">
+
+
+
+											</div>
+											<div class="col-sm-1"></div>
+
+
+											<label class="col-sm-2">Account Name</label>
+											<div class="col-sm-3">
+												<input type="text" id="acct_name" name="acct_name" value=""
+													class="form-control form-control-sm" autocomplete="off" />
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+
+
+											<div class="col-sm-2">
+												<label for="userId">Transaction Type</label>
+											</div>
+											<div class="col-sm-3">
+											
+												<select class="form-control form-control-sm" id="tran_type"
+													name="tran_type" style="float: left; font-size: 13px;">
+													<option value="">SELECT</option>
+													<option id="Transfer">Transfer</option>
+													<option id="Cash">Cash</option>
+													<option id="Clearing">Clearing</option>
+												</select>
+											</div>
+
+
+
+
+
+
+											<div class="col-sm-1"></div>
+
+											<label class="col-sm-2">Transaction Sub Type</label>
+											<div class="col-sm-3">
+												<select class="form-control form-control-sm"
+													id="tran_sub_type" name="tran_sub_type"
+													style="float: left; font-size: 13px;">
+													<option value="">Select</option>
+													<option th:each="monitoringparam : ${tranCat}"
+														th:text="${monitoringparam}"></option>
+												</select>
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+											<label class="col-sm-2">Transaction Date</label>
+											<div class="col-sm-3">
+												<input type="text" id="date_tran3" name="tran_date"
+													class="form-control form-control-sm" autocomplete="off" />
+											</div>
+											<div class="col-sm-1"></div>
+
+
+											<label class="col-sm-2">Transaction Id</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control form-control-sm"
+													name="tran_id" id="tran_id" autocomplete="off" />
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+											<label class="col-sm-2">Part Tran Serial No</label>
+											<div class="col-sm-3">
+												<input id="part_tran_id" name="part_tran_id"
+													class="form-control form-control-sm" readonly>
+
+
+											</div>
+
+
+											<div class="col-sm-1"></div>
+
+											<label class="col-sm-2">Part Tran Type</label>
+											<div class="col-sm-3">
+												<select class="form-control form-control-sm"
+													id="part_tran_type" name="part_tran_type"
+													style="float: left; font-size: 13px;">
+													<option value="">SELECT</option>
+													<option value="D">Debit</option>
+													<option value="C">Credit</option>
+
+												</select>
+
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+
+											<label class="col-sm-2">Tran Currency Code</label>
+											<div class="col-sm-3">
+												<input type="text" id="tran_crncy" value=""
+													name="tran_crncy" class="form-control form-control-sm"
+													autocomplete="off" />
+											</div>
+
+											<div class="col-sm-1"></div>
+
+											<label class="col-sm-2">Tran Amount</label>
+											<div class="col-sm-3">
+												<input type="text" id="tran_amt" name="tran_amt" value=""
+													class="form-control form-control-sm" autocomplete="off" />
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+
+											<label class="col-sm-2">Tran Category</label>
+											<div class="col-sm-3">
+												<input type="text" style="background-color: #d2dae0;"
+													id="tran_category" value="" name="tran_category"
+													class="form-control form-control-sm" autocomplete="off"
+													 />
+											</div>
+
+											<div class="col-sm-1"></div>
+
+											<label class="col-sm-2">Tran Particulars</label>
+											<div class="col-sm-3">
+												<input type="text" style="background-color: #d2dae0;"
+													id="tran_category" value="" name="tran_reason"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+
+											<label class="col-sm-2">Reject Reason</label>
+											<div class="col-sm-3">
+												<input type="text" style="background-color: #d2dae0;"
+													id="cft" value="" name="cft"
+													class="form-control form-control-sm" autocomplete="off" />
+
+												<!-- 	<input type="hidden" style="background-color: #d2dae0;"
+													id="qtr_flg" value="" name="qtr_flg"
+													class="form-control form-control-sm" autocomplete="off" /> -->
+											</div>
+
+											<div class="col-sm-1"></div>
+											<label class="col-sm-2">CDD or CFT</label>
+											<div class="col-sm-3">
+												<select class="form-control form-control-sm" id="cdd"
+													name="cdd" style="float: left; font-size: 13px;" required>
+													<option value="">SELECT</option>
+													<option value="Y">CDD</option>
+													<option value="N">CFT</option>
+												</select>
+											</div>
+										</div>
+
+
+										<div class="row formline">
+
+
+											<!-- <label class="col-sm-2">Report Date</label> -->
+											<div class="col-sm-3">
+												<input type="hidden" style="background-color: #d2dae0;"
+													id="report_date" th:value="${CURDATE}" name="report_date"
+													class="form-control form-control-sm" autocomplete="off" />
+
+
+												<!-- 	<input type="hidden" style="background-color: #d2dae0;"
+													id="qtr_flg" value="" name="qtr_flg"
+													class="form-control form-control-sm" autocomplete="off" /> -->
+											</div>
+
+											<div class="col-sm-1"></div>
+											<!-- <label class="col-sm-2">CDD or CFT</label>
+											<div class="col-sm-3">
+												<select class="form-control form-control-sm" id="tran_crncy"
+													name="cdd" style="float: left; font-size: 13px;">
+													<option value="">SELECT</option>
+													<option value="Y">CDD</option>
+													<option value="N">CFT</option>
+												</select>
+											</div> -->
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+
+
+					<div class="card-footer text-center" style="height: 38px;">
+
+
+						<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+							style="margin-top: -12px;" onclick="home();">Home</button>
+						<button th:if="${formmode}=='TransactionAdd1'" type="button"
+							style="margin-top: -12px;" class="btn btn-xs btn-primary"
+							onclick="TransactionSubmit(this);" form="TransactionRej"
+							id="btnSubmit" th:attr="data-formmode=${formmode}">Submit</button>
+						<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+							style="margin-top: -12px;" onclick="back();">Back</button>
+
+					</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<!-- -----------------------------------Details edit modal form----------------------------------------------------->
+	<div class="modal fade" id="finusers">
+		<div class="modal-dialog modal-lg" style="margin-top: 135px;">
+			<div class="modal-content">
+				<div class="card">
+					<div class="card-header" id="modheadtitle">
+						<b>Transactions terminated or not processed due to concerns
+							about CDD - Search</b>
+					</div>
+					<div class="modal-body" style="text-align: center">
+						<input autocomplete="false" name="hidden" type="text"
+							style="display: none;">
+						<div class="form-group">
+							<div class="row formline">
+								<div class="col-sm-2">
+									<label for="customerId">Customer Id</label>
+								</div>
+								<div class="col-sm-3">
+									<input type="text" id="cust_id32423" name="cust_id"
+										placeholder="Enter the Customer Id" onblur="cust123(this)"
+										class="form-control form-control-sm" autocomplete="off"
+										required />
+								</div>
+								<div class="col-sm-1"></div>
+								<div class="col-sm-2">
+									<label for="customerName">Customer Name</label>
+								</div>
+								<div class="col-sm-3">
+									<input type="text" id="cust_name" name="cust_name"
+										class="form-control form-control-sm" autocomplete="false"
+										readonly />
+								</div>
+							</div>
+
+							<div class="row formline">
+								<label style="height: 2px;"></label>
+
+							</div>
+
+
+
+
+
+							<div class="row formline">
+								<label style="height: 2px;"></label>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg"></p>
+					<button type="button" class="btn btn-primary"
+						onclick="Transaction(this);">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="alert1">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg1"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="list1();">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="verifybox">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="verifyboxmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+</body>
+</html>

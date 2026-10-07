@@ -1,0 +1,3028 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: BAML
+FILE NAME   : AMLUNSCList
+CREATED BY	: Ramprasath
+CREATED ON	: 09-MAR-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+
+<script src="js/bootstrap411.js"></script>
+
+<style type="text/css">
+.btn {
+	line-height: 0.5rem;
+}
+
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+
+.dropdown-menu a:hover {
+	background-color: black;
+}
+</style>
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+
+		var Callurl = 'AMLUNSCList?formmode=listindividual';
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		location.href = Callurl;
+	}
+	function fnClick(a) {
+		var dataid = a.getAttribute("data-dataId")
+		location.href = 'AMLUNSCList?formmode=view&dataid=' + dataid;
+	}
+
+	function fnClick12(a) {
+		var dataid = a.getAttribute("data-dataId")
+		location.href = 'AMLUNSCList?formmode=viewentity&dataid=' + dataid;
+	}
+	function home() {
+		location.href = 'Dashboard'
+	}
+	function home1() {
+		$("#dataHome").modal("toggle");
+	}
+
+	function back() {
+
+		location.href = './AMLUNSCList?formmode=listindividual';
+	}
+	function back1() {
+
+		location.href = './AMLUNSCList?formmode=listentity';
+	}
+	function Individual() {
+
+		location.href = './AMLUNSCList?formmode=listindividual';
+
+	}
+	function Entity() {
+
+		location.href = './AMLUNSCList?formmode=listentity';
+	}
+
+	function list() {
+		location.href = './AMLUNSCList?formmode=listindividual';
+	}
+	function list1() {
+		location.href = './AMLUNSCList?formmode=listentity';
+	}
+	function openUploadModal() {
+		$("#fileupload").modal("toggle");
+	}
+	function openAppendModalEnt() {
+		$("#fileupload4").modal("toggle");
+	}
+	function openAppendModalInd() {
+		$("#fileupload3").modal("toggle");
+	}
+
+	function openUploadIndModal() {
+		$("#fileupload1").modal("toggle");
+	}
+	function custlastnamesearch() {
+		$("#CustLastNameSearch").modal("toggle");
+	}
+	function custRefNoSearch() {
+		$("#CustRefNoSearch").modal("toggle");
+	}
+	function custRefNoSearch1() {
+		$("#CustRefNoSearch1").modal("toggle");
+	}
+	function custDataIdSearch() {
+		$("#CustDataIdSearch").modal("toggle");
+	}
+	function custDataIdSearch1() {
+		$("#CustDataIdSearch1").modal("toggle");
+	}
+	function searchcustlastname() {
+		$("#CustLastNameSearch").modal('hide');
+		var custlastname1 = $("#custlastname").val();
+
+		location.href = 'AMLUNSCList?formmode=listindividual&name='
+				+ custlastname1;
+
+	}
+	
+	function searchcustrefno() {
+		$("#CustRefNoSearch").modal('hide');
+		var custRefNum = $("#custref").val();
+        //alert(custRefNum);
+		location.href = 'AMLUNSCListRef?formmode=listindividual&custRefNum='
+				+ custRefNum;
+
+	}
+	
+	function searchcustDataId() {
+		$("#CustRefNoSearch").modal('hide');
+		var DataId = $("#custdataid").val();
+		//alert(DataId);
+		location.href = 'AMLUNSCListDataID?formmode=listindividual&DataId='
+				+ DataId;
+
+	}
+	
+	function custlastnamesearchEntity() {
+		$("#CustLastNameSearchEntity").modal("toggle");
+	}
+	function searchcustlastnameEntity() {
+		$("#CustLastNameSearchEntity").modal('hide');
+		var custlastname1a = $("#custlastnameEntity").val();
+
+		location.href = 'AMLUNSCList?formmode=listentity&entityname='
+				+ custlastname1a;
+
+	}
+	function searchcustrefno1() {
+		$("#CustRefNoSearch1").modal('hide');
+		var custRefNum = $("#custref1").val().trim();
+      //alert(custRefNum);
+		location.href = 'AMLUNSCListRef1?formmode=listentity&custRefNum='
+				+ custRefNum;
+
+	}
+	function searchcustDataId1() {
+		$("#CustDataIdSearch1").modal('hide');
+		var DataId = $("#custdataid1").val().trim();
+		//alert(DataId);
+		location.href = 'AMLUNSCListDataID1?formmode=listentity&DataId='
+				+ DataId;
+
+	}
+	function EntAdd(a) {
+
+		location.href = "AMLUNSCList?formmode=addentity";
+
+	}
+	function IndAdd(a) {
+
+		location.href = "AMLUNSCList?formmode=addindividual";
+
+	}
+	function edit_btn_submitInt(a) {
+
+		var dataid = a.getAttribute("data-dataid");
+		location.href = 'AMLUNSCList?formmode=editindividual&dataid=' + dataid;
+	}
+
+	function edit_btn_submitEnt(a) {
+
+		var dataid = a.getAttribute("data-dataid");
+		location.href = 'AMLUNSCList?formmode=editentity&dataid=' + dataid;
+	}
+
+	function verify_btn_submitInt(a) {
+
+		var dataid = a.getAttribute("data-dataid");
+		location.href = 'AMLUNSCList?formmode=verifyindividual&dataid='
+				+ dataid;
+	}
+	function verify_btn_submitEnt(a) {
+
+		var dataid = a.getAttribute("data-dataid");
+		location.href = 'AMLUNSCList?formmode=verifyentity&dataid=' + dataid;
+	}
+	function addSubmit(a) {
+		//alert("add");
+		
+		$("#proceedalert").hide();
+		if ($("#AMLUNSCINDList").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+			var url = "./createUNSCInd?formmode=" + formmode;
+			//alert(url);
+
+			$("#AMLUNSCINDList").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#AMLUNSCINDList").ajaxSubmit(options);
+			function showResponse(responseText, statusText, xhr, $form) {
+				//	alert(responseText);
+				
+				if (responseText.tranID == "0") {
+					//alert("limit1"+responseText.status);
+					$("#proalertmsg").text(responseText.status);
+					$('#proceedalert').modal("toggle");
+				} else {
+					//alert("limit2"+responseText.status);
+					$("#alertmsg").text(responseText.status);
+					$('#alert').modal("toggle");
+				}
+				
+
+			}
+			;
+		}
+	};
+
+	function addSub(a) {
+		//alert("add");
+		if ($("#AMLUNSCENTList").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+			var url = "./createUNSCEnt?formmode=" + formmode;
+			//alert(url);
+
+			$("#AMLUNSCENTList").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#AMLUNSCENTList").ajaxSubmit(options);
+			function showResponse(responseText, statusText, xhr, $form) {
+				//	alert(responseText);
+				$("#alertmsg1").text(responseText);
+				$('#alertent').modal("toggle");
+
+			}
+			;
+		}
+	};
+	
+	
+	function editSubmit(a) {
+
+		if ($("#AMLUNSCINDList").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+			var url = "./createUNSCInd?formmode=" + formmode;
+			//alert(url);
+
+			$("#AMLUNSCINDList").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#AMLUNSCINDList").ajaxSubmit(options);
+			function showResponse(responseText, statusText, xhr, $form) {
+				$("#alertmsg").text(responseText);
+				$('#alert').modal("toggle");
+
+			}
+			;
+		}
+	};
+	
+	
+	function editSub(a) {
+
+		if ($("#AMLUNSCENTList").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+			var url = "./createUNSCEnt?formmode=" + formmode;
+			//alert(url);
+
+			$("#AMLUNSCENTList").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#AMLUNSCENTList").ajaxSubmit(options);
+			function showResponse(responseText, statusText, xhr, $form) {
+				//alert(responseText);
+				$("#entityalertmsg").text(responseText);
+				$('#entityalert').modal("toggle");
+
+			}
+			;
+		}
+	};
+	
+	
+	function verifySubmit(a) {
+		//alert("2432");
+		if ($("#AMLUNSCINDList").valid()) {
+			var entry = $("#entry_userind").val();
+			//alert(entry);
+			var modify = $("#modify_userind").val();
+			//alert(modify);
+			var verify = $("#verify_userind").val();
+			//alert(verify);
+			
+			if (modify != null) {
+				//alert("2432");
+				if (modify != verify) {
+				//	alert("2432");
+					var formmode = a.getAttribute("data-formmode");
+					var url = "./createUNSCInd?formmode=" + formmode;
+					//alert(url);
+					$("#AMLUNSCINDList").attr('action', url);
+
+					var options = {
+						success : showResponse
+					// post-submit callback 
+					};
+
+					$("#AMLUNSCINDList").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#alertmsg").text(responseText);
+
+						$('#alert').modal("toggle");
+
+					}
+					;
+				} else {
+					//alert("35235");
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+					$('#verifybox').modal("toggle");
+
+				}
+			} else if (modify == null) {
+				if (entry != verify) {
+					var formmode = a.getAttribute("data-formmode");
+					var url = "./createUNSCInd?formmode=" + formmode;
+
+					$("#AMLUNSCINDList").attr('action', url);
+
+					var options = {
+						success : showResponse
+					// post-submit callback 
+					};
+
+					$("#AMLUNSCINDList").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#alertmsg").text(responseText);
+
+						$('#alert').modal("toggle");
+
+					}
+					;
+				} else {
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+					$('#verifybox').modal("toggle");
+
+				}
+
+			}
+
+		}
+	};
+	
+	
+	function verifySub(a) {
+		if ($("#AMLUNSCENTList").valid()) {
+			var entry = $("#entry_user").val();
+			var modify = $("#modify_user").val();
+			var verify = $("#verify_user").val();
+
+			if (modify != null) {
+				if (modify != verify) {
+					var formmode = a.getAttribute("data-formmode");
+					var url = "./createUNSCEnt?formmode=" + formmode;
+
+					$("#AMLUNSCENTList").attr('action', url);
+
+					var options = {
+						success : showResponse
+					// post-submit callback 
+					};
+
+					$("#AMLUNSCENTList").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#entityalertmsg").text(responseText);
+						$('#entityalert').modal("toggle");
+
+					};
+				} else {
+
+					$("#entityverifymsg").text("Same User Cannot Verify!");
+					$('#entityverify').modal("toggle");
+
+				}
+			} else if (modify == null) {
+				if (entry != verify) {
+					var formmode = a.getAttribute("data-formmode");
+					var url = "./createUNSCEnt?formmode=" + formmode;
+
+					$("#AMLUNSCENTList").attr('action', url);
+
+					var options = {
+						success : showResponse
+					// post-submit callback 
+					};
+
+					$("#AMLUNSCENTList").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+						$("#entityalertmsg").text(responseText);
+
+						$('#entityalert').modal("toggle");
+
+					}
+					;
+				} else {
+					$("#entityverifymsg").text("Same User Cannot Verify!");
+					$('#entityverify').modal("toggle");
+
+				}
+
+			}
+
+		}
+	};
+
+
+	/*]]>*/
+</script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+
+	$(function() {
+
+		$("#alert_date").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		
+		if (dd < 10) {
+			
+			dd = '0' + dd;
+			
+		}
+		
+		if (mm < 10) {
+			
+			mm = '0' + mm;
+			
+		}
+		
+		var today = dd + '/' + mm + '/' + yyyy;
+		document.getElementById('alert_date').value = today;
+		
+	});
+	$(function() {
+
+		$("#entry_time1,verify_time1,modify_time1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd/mm/yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '/' + mm + '/' + yyyy;
+		document.getElementById('entry_time1').value = today;
+		document.getElementById('verify_time1').value = today;
+		document.getElementById('modify_time1').value = today;
+		
+	});
+
+	$(function() {
+
+		$("#add_time1,add_time2,add_time3").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd/mm/yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '/' + mm + '/' + yyyy;
+		document.getElementById('add_time1').value = today;
+		document.getElementById('add_time2').value = today;
+		document.getElementById('add_time3').value = today;
+	});
+</script>
+<script>
+	function openUploadIndModal321() {
+		
+		
+		$.ajax({
+			type : "POST",
+			var data = new FormData(form);
+			url : "./marshallindupload",
+			data : data,
+			processData : false, //prevent jQuery from automatically transforming the data into a query string
+			contentType : false,
+			cache : false,
+			timeout : 600000,
+			success : function(data) {
+
+				$("#alertmsg").text(data);
+				$("#alert").modal("toggle");
+
+			},
+			error : function(e) {
+
+				$("#alertmsg").text(e.responseText);
+				$("#alert").modal("toggle");
+
+				/*				location.href = './AMLUNSCList?formmode=listentity';
+	*/
+			}
+		});
+	}
+</script>
+</head>
+
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('UNSCLIST')" id="ques"></i>
+	<div class="content-page">
+
+		<div class="content">
+			<div class="container-fluid">	
+
+				<div th:if="${formmode}=='listindividual'" class="container content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle" style="height: 50px;">
+								<b th:text="${menuname}"></b>
+								<div class="btn-group nav-buttons float-right">
+
+									<button type="button" class="btn btn-xs btn-primary "
+										onclick='IndAdd(this)'>Add</button>
+									<!-- 	<button type="button" class="btn btn-xs btn-primary "
+										onclick='openUploadIndModal321()' id="btnUpload">Upload</button> -->
+								</div>
+								<!--  <div class="btn-group nav-buttons float-right">
+									
+
+
+
+									<button type="button" class="btn btn-xs btn-primary "
+										onclick='openAppendModalInd(this)'>Append</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnInq" onclick="list()" style="border-color: #66dbe0;">List</button>
+								</div> -->
+							</div>
+							<label></label>
+							<div class="form-group">
+								<div class="row formline">
+									<button type="button" class="btn btn-primary"
+										style="border: 2px solid black; background-color: #26729f; margin-left: 15px; width: 10%;"
+										id="btnHome" onclick="Individual();">Individual</button>
+									<button type="button" class="btn btn-primary"
+										style="border: 2px solid black; width: 12%;" id="btnBack"
+										onclick="Entity()">Entity</button>
+
+
+								</div>
+								<label></label>
+								<table class="table table-bordered  table-hover table-sm"
+									style="width: 100%" id="usertable">
+									<thead class="thead-light">
+
+										<tr>
+											<th>Date Freezed</th>
+											<th>Master Data ID<i class="fas fa-search searchico"
+												style="float: right;" aria-hidden="true"
+												onclick="custDataIdSearch()"></i></th>
+											<th>Reference No<i class="fas fa-search searchico"
+												style="float: right;" aria-hidden="true"
+												onclick="custRefNoSearch()"></i></th>
+											<th>Unlist Type</th>
+											<th style="width: 12%;">Name<i
+												class="fas fa-search searchico" style="float: right;"
+												aria-hidden="true" onclick="custlastnamesearch()"></i></th>
+											<th>Address</th>
+											<!-- 	<th>Date Of Birth</th> -->
+											<th>Place Of Birth</th>
+											<th>Country</th>
+											<th>Inquiry</th>
+											<th>Status</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="alert: ${NegativeList.content}" class="userlist">
+
+											<td style="width: 7%;"
+												th:text="${#dates.format(alert.listed_on, 'dd/MM/yyyy')}"></td>
+											<td th:text="${alert.dataid}"></td>
+
+											<td th:text="${alert.reference_number}"></td>
+											<td th:text="${alert.un_list_type}"></td>
+											<td th:text="${alert.first_name}"></td>
+											<td th:text="${alert.individual_address_note}"></td>
+											<!-- <td style="width: 7%;"
+												th:text="${#dates.format(alert.individual_date_of_birth_date, 'dd-MM-yyyy')}"></td> -->
+
+											<td th:text="${alert.individual_address_country}"></td>
+											<td th:text=" ${alert?.individual_place_of_birth_country}"></td>
+											<!-- <th:block th:switch="${alert?.entity_flg}">
+											<td th:case="'Y'" style="color: green;">Verified</td>
+											<td th:case="'N'" style="color: red;">UnVerified</td>
+										</th:block>  -->
+											<td class="underline"><i
+												th:attr="data-dataId=${alert.dataid}" title="Inquiry"
+												class="fa fa-eye" onclick="fnClick(this)" id="view"></i></td>
+											<th:block th:switch="${alert?.entity_flg}">
+												<td th:case="'Y'" style="color: green;">Verified</td>
+												<td th:case="'N'" style="color: red;">UnVerified</td>
+											</th:block>
+											<td>
+												<div class="dropdown">
+													<button class="btn btn-secondary dropdown-toggle"
+														type="button" id="dropdownMenuButton"
+														style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+														data-toggle="dropdown" aria-haspopup="true"
+														aria-expanded="false">Action</button>
+													<div class="dropdown-menu"
+														aria-labelledby="dropdownMenuButton"
+														style="background-color: #e3e3e4; color: #3a4550;">
+
+														<a th:attr="data-dataid=${alert.dataid}"
+															th:if="${AMLRoleMenu.work_class} == 'M'"
+															class="dropdown-item" title="Modify"
+															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+															id="edit_value" onclick="edit_btn_submitInt(this)">Modify</a>
+
+
+														<div class="dropdown-divider"
+															th:if="${alert.entity_flg}=='N'"></div>
+														<a
+															th:if="${alert.entity_flg}=='N'and ${AMLRoleMenu.work_class} == 'C'"
+															th:attr="data-dataid=${alert.dataid}"
+															class="dropdown-item" title="Verify"
+															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+															id="verify_value" onclick="verify_btn_submitInt(this)">verify</a>
+
+
+
+													</div>
+												</div>
+											</td>
+
+										</tr>
+									</tbody>
+								</table>
+
+
+							</div>
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+							<div class="float-right" th:if="${NegativeList.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${NegativeList.number},${NegativeList.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${NegativeList.number+1}"
+									th:onchange="|getUserlist('givenpage',${NegativeList.number},${NegativeList.totalPages});|"></input>
+								of <font th:text="${NegativeList.totalPages}"></font> <a
+									href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${NegativeList.number},${NegativeList.totalPages});|"></i></a>
+							</div>
+
+
+
+
+						</div>
+						<div class="text-center"
+							style="background-color: #386276; padding: 5px; width: 100%;">
+
+							<div class="btn-group nav-buttons " style="align: center;">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- ------------------Entity-List -->
+				<div th:if="${formmode}=='listentity'" class="container content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle" style="height: 50px;">
+								<b th:text="${menuname}"></b>
+								<div class="btn-group nav-buttons float-right">
+									<button type="button" class="btn btn-xs btn-primary "
+										onclick='EntAdd(this)'>Add</button>
+
+								</div>
+								<!-- <div class="btn-group nav-buttons float-right">
+									<button type="button" class="btn btn-xs btn-primary "
+										onclick='openUploadModal()' id="btnUpload">Upload</button>
+
+
+
+									<button type="button" class="btn btn-xs btn-primary "
+										onclick='openAppendModalEnt(this)'>Append</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnInq" onclick="list()" style="border-color: #66dbe0;">List</button>
+								</div> -->
+							</div>
+							<label></label>
+							<div class="form-group">
+								<div class="row formline">
+									<button type="button" class="btn btn-primary"
+										style="border: 2px solid black; margin-left: 15px; width: 10%;"
+										id="btnHome" onclick="Individual();">Individual</button>
+									<button type="button" class="btn btn-primary"
+										style="border: 2px solid black; background-color: #26729f; width: 12%;"
+										id="btnBack" onclick="Entity();">Entity</button>
+
+
+								</div>
+								<label></label>
+
+								<table class="table table-bordered  table-hover table-sm"
+									style="width: 100%" id="usertable">
+									<thead class="thead-light">
+
+										<tr>
+											<th>Date Freezed</th>
+											<th>Master Data ID<i class="fas fa-search searchico"
+												style="float: right;" aria-hidden="true"
+												onclick="custDataIdSearch1()"></i></th>
+											<th>Reference No<i class="fas fa-search searchico"
+												style="float: right;" aria-hidden="true"
+												onclick="custRefNoSearch1()"></i></th>
+											<th>Unlist Type</th>
+											<th>Name<i class="fas fa-search searchico"
+												style="float: right;" aria-hidden="true"
+												onclick="custlastnamesearchEntity()"></i></th>
+
+											<th>Address</th>
+											<!-- <th>Date Of Birth</th> -->
+
+											<th>Country</th>
+
+											<th>Inquiry</th>
+											<th>Status</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="alert: ${NegativeList}" class="userlist">
+
+											<td style="width: 9%;"
+												th:text="${#dates.format(alert.listed_on, 'dd/MM/yyyy')}"></td>
+											<td th:text="${alert.dataid}"></td>
+
+											<td th:text="${alert.reference_number}"></td>
+											<td th:text="${alert.un_list_type}"></td>
+											<td th:text="${alert.first_name}"></td>
+
+											<td th:text="${alert?.entity_address_country}"></td>
+
+											<!-- <td th:text="${alert.entity_date_of_birth_date}"></td> -->
+
+											<td th:text="${alert.entity_address_country}"></td>
+											<td class="underline"><i
+												th:attr="data-dataId=${alert.dataid}" title="Inquiry"
+												class="fa fa-eye" onclick="fnClick12(this)" id="view"></i></td>
+
+											<th:block th:switch="${alert?.entity_flg}">
+												<td th:case="'Y'" style="color: green;">Verified</td>
+												<td th:case="'N'" style="color: red;">UnVerified</td>
+											</th:block>
+											<td>
+												<div class="dropdown">
+													<button class="btn btn-secondary dropdown-toggle"
+														type="button" id="dropdownMenuButton"
+														style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+														data-toggle="dropdown" aria-haspopup="true"
+														aria-expanded="false">Action</button>
+													<div class="dropdown-menu"
+														aria-labelledby="dropdownMenuButton"
+														style="background-color: #e3e3e4; color: #3a4550;">
+
+														<a th:attr="data-dataid=${alert.dataid}"
+															class="dropdown-item" title="Modify"
+															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+															id="edit_value" onclick="edit_btn_submitEnt(this)">Modify</a>
+
+
+														<div class="dropdown-divider"
+															th:if="${alert.entity_flg}=='N'"></div>
+														<a th:if="${alert.entity_flg}=='N'"
+															th:attr="data-dataid=${alert.dataid}"
+															class="dropdown-item" title="Verify"
+															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+															id="verify_value" onclick="verify_btn_submitEnt(this)">verify</a>
+
+
+
+													</div>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+
+
+
+								<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+								<div class="float-right" th:if="${NegativeList.totalPages} gt 1">
+									<a href="#"><i class="fas fa-caret-left fa-2x"
+										th:onclick="|getUserlist('prevpage',${NegativeList.number},${NegativeList.totalPages});|"></i></a>
+									<input type="text" id="pageno" style="width: 30px"
+										th:value="${NegativeList.number+1}"
+										th:onchange="|getUserlist('givenpage',${NegativeList.number},${NegativeList.totalPages});|"></input>
+									of <font th:text="${NegativeList.totalPages}"></font> <a
+										href="#"><i class="fas fa-caret-right fa-2x"
+										th:onclick="|getUserlist('nextpage',${NegativeList.number},${NegativeList.totalPages});|"></i></a>
+								</div>
+
+
+							</div>
+						</div>
+						<div class="text-center"
+							style="background-color: #386276; padding: 5px; width: 100%;">
+
+							<div class="btn-group nav-buttons " style="align: center;">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back1();">Back</button>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+				<!--------------------------entityview--------------------- -->
+
+				<div
+					th:if="${formmode}=='viewentity' OR ${formmode}=='addentity' OR ${formmode}=='editentity' OR ${formmode}=='verifyentity' ">
+					<div class="row">
+						<div class="col-sm-12">
+							<form action="#" th:object="${AMLUNSCENTList}" method="POST"
+								autocomplete="off" id="AMLUNSCENTList">
+
+								<div class="card">
+									<div class="card-header">
+										<div class="float-left">
+											<b th:text="${menuname1}"></b> <input type="hidden"
+												th:value="${formmode}" id="formmode1" style="display: none;">
+										</div>
+
+										<div class="btn-group nav-buttons float-right">
+											<!-- <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button> -->
+											<button type="button" class="btn btn-xs btn-primary btns"
+												id="btnInq" onclick="list1()">List</button>
+										</div>
+
+									</div>
+									<div class="card-body">
+
+
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="dataid">Data ID</label>
+											</div>
+
+											<div th:if="${formmode}=='viewentity'" class="col-sm-3">
+												<input type="text" th:value="${Entity?.dataid}" id="dataid"
+													class="form-control form-control-sm" name="dataid"
+													autocomplete="off" readonly />
+											</div>
+											<div th:if="${formmode}=='addentity'" class="col-sm-3">
+												<input type="text" th:value="${ENTSRL}" id="dataid"
+													class="form-control form-control-sm" name="dataid"
+													autocomplete="off" readonly />
+											</div>
+											<div th:if="${formmode}=='editentity'" class="col-sm-3">
+												<input type="text" th:value="${Entity?.dataid}" id="dataid"
+													class="form-control form-control-sm" name="dataid"
+													autocomplete="off" readonly />
+											</div>
+											<div th:if="${formmode}=='verifyentity'" class="col-sm-3">
+												<input type="text" th:value="${Entity?.dataid}" id="dataid"
+													class="form-control form-control-sm" name="dataid"
+													autocomplete="off" readonly />
+											</div>
+											<div class="col-sm-1"></div>
+											<label class="col-sm-2">Reference Number</label>
+
+
+											<div th:if="${formmode}=='viewentity'" class="col-sm-3">
+												<input type="text" th:value="${Entity?.reference_number}"
+													id="reference_number" name="reference_number" readonly
+													class="form-control form-control-sm" autocomplete="false"
+													required />
+											</div>
+											<div th:if="${formmode}=='addentity'" class="col-sm-3">
+												<input type="text" th:value="${Entity?.reference_number}"
+													id="reference_number" name="reference_number"
+													class="form-control form-control-sm" autocomplete="false" />
+											</div>
+											<div th:if="${formmode}=='editentity'" class="col-sm-3">
+												<input type="text" th:value="${Entity?.reference_number}"
+													id="reference_number" name="reference_number"
+													class="form-control form-control-sm" autocomplete="false" />
+											</div>
+											<div th:if="${formmode}=='verifyentity'" class="col-sm-3">
+												<input type="text" th:value="${Entity?.reference_number}"
+													id="reference_number" name="reference_number" readonly
+													class="form-control form-control-sm" autocomplete="false" />
+											</div>
+
+										</div>
+
+										<label></label>
+
+										<div class="form-group">
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="first_name">First Name</label>
+												</div>
+
+												<div th:if="${formmode}=='viewentity'" class="col-sm-3">
+													<input type="text" th:value="${Entity?.first_name}"
+														id="first_name" class="form-control form-control-sm"
+														readonly name="first_name" autocomplete="off" required>
+												</div>
+												<div th:if="${formmode}=='addentity'" class="col-sm-3">
+													<input type="text" th:value="${Entity?.first_name}"
+														id="first_name" class="form-control form-control-sm"
+														name="first_name" autocomplete="off">
+												</div>
+												<div th:if="${formmode}=='editentity'" class="col-sm-3">
+													<input type="text" th:value="${Entity?.first_name}"
+														id="first_name" class="form-control form-control-sm"
+														name="first_name" autocomplete="off">
+												</div>
+												<div th:if="${formmode}=='verifyentity'" class="col-sm-3">
+													<input type="text" th:value="${Entity?.first_name}"
+														id="first_name" class="form-control form-control-sm"
+														readonly name="first_name" autocomplete="off">
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">UnList Type</label>
+
+
+												<div th:if="${formmode}=='viewentity'" class="col-sm-3">
+													<input type="text" th:value="${Entity?.un_list_type}"
+														id="un_list_type" name="un_list_type" readonly
+														class="form-control form-control-sm" autocomplete="false"
+														required />
+												</div>
+												<div th:if="${formmode}=='addentity'" class="col-sm-3">
+													<input type="text" th:value="${Entity?.un_list_type}"
+														id="un_list_type" name="un_list_type"
+														class="form-control form-control-sm" autocomplete="false" />
+												</div>
+
+												<div th:if="${formmode}=='editentity'" class="col-sm-3">
+													<input type="text" th:value="${Entity?.un_list_type}"
+														id="un_list_type" name="un_list_type"
+														class="form-control form-control-sm" autocomplete="false" />
+												</div>
+
+												<div th:if="${formmode}=='verifyentity'" class="col-sm-3">
+													<input type="text" th:value="${Entity?.un_list_type}"
+														id="un_list_type" name="un_list_type" readonly
+														class="form-control form-control-sm" autocomplete="false" />
+												</div>
+
+
+											</div>
+
+											<label></label>
+											<div class="row formline">
+
+												<label class="col-sm-2">Good Quality</label>
+												<div th:if="${formmode}=='viewentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_alias_good_name}"
+														id="entity_alias_good_name" name="entity_alias_good_name"
+														value="" readonly class="form-control form-control-sm"
+														autocomplete="false" required />
+												</div>
+												<div th:if="${formmode}=='addentity'" class="col-sm-3">
+													<input type="text" id="entity_alias_good_name"
+														name="entity_alias_good_name" value=""
+														class="form-control form-control-sm" autocomplete="false" />
+												</div>
+												<div th:if="${formmode}=='editentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_alias_good_name}"
+														id="entity_alias_good_name" name="entity_alias_good_name"
+														value="" class="form-control form-control-sm"
+														autocomplete="false" />
+												</div>
+												<div th:if="${formmode}=='verifyentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_alias_good_name}"
+														id="entity_alias_good_name" name="entity_alias_good_name"
+														value="" readonly class="form-control form-control-sm"
+														autocomplete="false" />
+												</div>
+
+
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Low Quality</label>
+												<div th:if="${formmode}=='viewentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_alias_low_name}"
+														id="entity_alias_low_name" name="entity_alias_low_name"
+														value="" readonly
+														class="form-control form-control-sm txtalign"
+														autocomplete="false" required />
+												</div>
+												<div th:if="${formmode}=='addentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_alias_low_name}"
+														id="entity_alias_low_name" name="entity_alias_low_name"
+														value="" class="form-control form-control-sm txtalign"
+														autocomplete="false" />
+												</div>
+												<div th:if="${formmode}=='editentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_alias_low_name}"
+														id="entity_alias_low_name" name="entity_alias_low_name"
+														value="" class="form-control form-control-sm txtalign"
+														autocomplete="false" />
+												</div>
+												<div th:if="${formmode}=='verifyentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_alias_low_name}"
+														id="entity_alias_low_name" name="entity_alias_low_name"
+														value="" readonly
+														class="form-control form-control-sm txtalign"
+														autocomplete="false" />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+
+
+											<label></label>
+											<div class="row formline">
+
+												<label class="col-sm-2">Address</label>
+												<div th:if="${formmode}=='viewentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_address_country}"
+														id="entity_address_country" name="entity_address_country"
+														value="" readonly class="form-control form-control-sm"
+														autocomplete="off" required />
+												</div>
+												<div th:if="${formmode}=='addentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_address_country}"
+														id="entity_address_country" name="entity_address_country"
+														value="" class="form-control form-control-sm"
+														autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_address_country}"
+														id="entity_address_country" name="entity_address_country"
+														value="" class="form-control form-control-sm"
+														autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_address_country}"
+														id="entity_address_country" name="entity_address_country"
+														value="" readonly class="form-control form-control-sm"
+														autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Nationality</label>
+												<div th:if="${formmode}=='viewentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_address_country}"
+														id="entity_address_country" name="entity_address_country"
+														value="" readonly class="form-control form-control-sm"
+														autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='addentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_address_country}"
+														id="entity_address_country" name="entity_address_country"
+														value="" class="form-control form-control-sm"
+														autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_address_country}"
+														id="entity_address_country" name="entity_address_country"
+														value="" class="form-control form-control-sm"
+														autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${Entity?.entity_address_country}"
+														id="entity_address_country" name="entity_address_country"
+														value="" readonly class="form-control form-control-sm"
+														autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+											<div class="row formline">
+
+												<label class="col-sm-2">Listed On</label>
+												<div th:if="${formmode}=='viewentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${#dates.format(Entity?.listed_on,'dd/MM/yyyy')}"
+														id="listed_on" name="listed_on" value="" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='addentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${#dates.format(Entity?.listed_on,'dd/MM/yyyy')}"
+														id="listed_on" name="listed_on" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${#dates.format(Entity?.listed_on,'dd/MM/yyyy')}"
+														id="listed_on" name="listed_on" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyentity'" class="col-sm-3">
+													<input type="text"
+														th:value="${#dates.format(Entity?.listed_on,'dd/MM/yyyy')}"
+														id="listed_on" name="listed_on" value="" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Other Information</label>
+												<div th:if="${formmode}=='viewentity'" class="col-sm-3">
+													<input type="text" id="name_original_script"
+														name="individual_place_of_birth_note" value="" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='addentity'" class="col-sm-3">
+													<input type="text" id="name_original_script"
+														name="individual_place_of_birth_note" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editentity'" class="col-sm-3">
+													<input type="text" id="name_original_script"
+														name="individual_place_of_birth_note" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyentity'" class="col-sm-3">
+													<input type="text" id="name_original_script"
+														name="individual_place_of_birth_note" value="" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+
+											<label></label>
+
+
+
+
+										</div>
+									</div>
+								</div>
+
+
+
+								<div class="card-footer text-center" style="height: 38px;">
+
+
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnHome" style="margin-top: -12px;" onclick="home();">Home</button>
+									<button th:if="${formmode}=='addentity'" type="button"
+										class="btn btn-xs btn-primary" id="btnHome"
+										th:attr="data-formmode='addentity'" style="margin-top: -12px;"
+										form="AMLUNSCENTList" onclick="addSub(this);">Submit</button>
+									<button th:if="${formmode}=='editentity'" type="button"
+										class="btn btn-xs btn-primary" id="btnHome"
+										th:attr="data-formmode='editentity'"
+										style="margin-top: -12px;" form="AMLUNSCENTList"
+										onclick="editSub(this);">Submit</button>
+									<button th:if="${formmode}=='verifyentity'" type="button"
+										class="btn btn-xs btn-primary" id="btnHome"
+										th:attr="data-formmode='verifyentity'"
+										style="margin-top: -12px;" form="AMLUNSCENTList"
+										onclick="verifySub(this);">Verify</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnBack" style="margin-top: -12px;" onclick="back();">Back</button>
+
+								</div>
+								<label></label>
+								<div
+									th:if="${formmode}=='addentity' OR ${formmode}=='editentity' OR ${formmode}=='verifyentity' "
+									style="border: 1px solid #36404a; padding: 15px;">
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Entry User</label>
+										<div class="col-sm-2">
+											<input type="text" th:if="${formmode}=='addentity'"
+												th:value="${session.USERID}" id="entry_user"
+												name="entry_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if=" ${formmode}=='editentity'" id="entry_user"
+												th:value="${session.USERID}" name="entry_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if=" ${formmode}=='verifyentity'" id="entry_user"
+												name="entry_user" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+
+										</div>
+										<label class="col-sm-2">Modify User</label>
+										<div class="col-sm-2">
+											<input type="text" th:if="${formmode}=='addentity'"
+												id="modify_user" name="modify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='editentity'"
+												th:value="${session.USERID}" id="modify_user"
+												name="modify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='verifyenitty'" id="modify_user"
+												name="modify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+										</div>
+										<label class="col-sm-2">Verify User</label>
+										<div class="col-sm-2">
+											<input type="text" th:if="${formmode}=='addentity'"
+												id="verify_user" name="verify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='editentity'" id="verify_user"
+												name="verify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='verifyentity'" id="verify_user"
+												name="verify_user" th:value="${session.USERID}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+									</div>
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Entry Time</label>
+										<div class="col-sm-2">
+											<input type="text" th:if="${formmode}=='addentity'"
+												id="entry_date" name="entry_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='editentity'" id="entry_date"
+												name="entry_time" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='verifyentity'" id="entry_date"
+												name="entry_time" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+										</div>
+
+										<label class="col-sm-2">Modify Time</label>
+										<div class="col-sm-2">
+											<input type="text" th:if="${formmode}=='addentity'"
+												id="verify_date" name="modify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='editentity'" id="verify_date"
+												name="modify_time" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='verifyentity'" id="verify_date"
+												name="modify_time" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+
+										</div>
+
+
+
+										<label class="col-sm-2">Verify Time</label>
+										<div class="col-sm-2">
+											<input type="text" th:if="${formmode}=='addentity'"
+												th:value="${#dates.format(Entity?.verify_time,'dd/MM/yyyy')}"
+												id="verify_time" name="verify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='editentity'"
+												th:value="${#dates.format(Entity?.verify_time,'dd/MM/yyyy')}"
+												id="verify_time" name="verify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='verifyentity'"
+												th:value="${#dates.format(Entity?.verify_time,'dd/MM/yyyy')}"
+												id="verify_time" name="verify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<!-- <div class="container content"
+									style="border: 1px solid #36404a; padding: 15px;">
+									<div class="row formline">
+
+										<label class="col-sm-2">Entry User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${NegativeParameter?.aml_entry_user}" id="aml_entry_user"
+												name="aml_entry_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='add'" th:value="${session.USERID}"
+												id="aml_entry_user" name="aml_entry_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+										<label class="col-sm-2">Modify User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${NegativeParameter?.aml_modify_user}" id="aml_modify_user"
+												name="aml_modify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+												
+												 <input type="text"
+												th:if="${formmode}=='edit' " th:value="${session.USERID}"
+												id="aml_modify_user" name="aml_modify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+										<label class="col-sm-2">Verify User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${NegativeParameter?.aml_verify_user}" id="aml_verify_user"
+												name="aml_verify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> 
+												
+												<input type="text"
+												th:if="${formmode}=='verify' " th:value="${session.USERID}"
+												id="aml_verify_user" name="aml_verify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+									</div>
+									<div class="row formline">
+										<label style="height: 2px;"></label>
+
+									</div>
+									<div class="row formline">
+
+										<label class="col-sm-2">Entry Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${#dates.format(NegativeParameter?.aml_entry_time,'dd-MM-yyyy')}"
+												id="aml_entry_time" name="aml_entry_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+												
+												 <input type="text" th:if="${formmode}=='add'"
+												th:value="${#dates.format(NegativeParameter?.aml_entry_time,'dd-MM-yyyy')}"
+												id="entry_time1" name="aml_entry_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+
+										<label class="col-sm-2">Modify Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${#dates.format(NegativeParameter?.aml_modify_time,'dd-MM-yyyy')}"
+												id="aml_modify_time" name="aml_modify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+												
+												 <input type="text" th:if="${formmode}=='edit' "
+												th:value="${#dates.format(NegativeParameter?.aml_modify_time,'dd-MM-yyyy')}"
+												id="entry_time1" name="aml_modify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+
+
+										<label class="col-sm-2">Verify Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${#dates.format(NegativeParameter?.aml_verify_time,'dd-MM-yyyy')}"
+												id="aml_verify_time" name="aml_verify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+												
+												 <input type="text"
+												th:if="${formmode}=='verify'"
+												th:value="${#dates.format(NegativeParameter?.aml_verify_time,'dd-MM-yyyy')}"
+												id="entry_time1" name="aml_verify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+
+										<label></label>
+									</div>
+
+ -->
+
+
+				</div>
+
+				</form>
+
+
+				<!------------------------Pop window - Domain  list Ends--------------------------------->
+				<div
+					th:if="${formmode}=='view' OR ${formmode}=='addindividual' OR ${formmode}=='editindividual' OR ${formmode}=='verifyindividual'">
+					<div class="row">
+						<div class="col-sm-12">
+							<form action="#" th:object="${AMLUNSCINDList}" method="POST"
+								autocomplete="off" id="AMLUNSCINDList">
+
+								<div class="card">
+									<div class="card-header">
+										<div class="float-left">
+											<b th:text="${menuname1}"></b> <input type="hidden"
+												th:value="${formmode}" id="formmode1" style="display: none;">
+										</div>
+
+										<div class="btn-group nav-buttons float-right">
+											<!-- <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button> -->
+											<button type="button" class="btn btn-xs btn-primary btns"
+												id="btnInq" onclick="list()">List</button>
+										</div>
+
+									</div>
+									<div class="card-body">
+
+
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="dataid">Data ID</label>
+											</div>
+
+											<div th:if="${formmode}=='view'" class="col-sm-3">
+												<input type="text" th:value="${KYC?.dataid}" id="dataid"
+													class="form-control form-control-sm" name="dataid"
+													autocomplete="off" readonly />
+											</div>
+											<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+												<input type="text" id="dataid" required th:value="${INDSRL}"
+													class="form-control form-control-sm" name="dataid"
+													autocomplete="off" readonly />
+											</div>
+											<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+												<input type="text" th:value="${KYC?.dataid}" id="dataid"
+													class="form-control form-control-sm" name="dataid"
+													autocomplete="off" />
+											</div>
+											<div th:if="${formmode}=='verifyindividual'" class="col-sm-3">
+												<input type="text" th:value="${KYC?.dataid}" id="dataid"
+													class="form-control form-control-sm" name="dataid"
+													autocomplete="off" readonly />
+											</div>
+											<div class="col-sm-1"></div>
+											<label class="col-sm-2">Reference Number</label>
+
+
+											<div th:if="${formmode}=='view'" class="col-sm-3">
+												<input type="text" th:value="${KYC?.reference_number}"
+													id="reference_number" name="reference_number" readonly
+													class="form-control form-control-sm" autocomplete="false" />
+											</div>
+											<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+												<input type="text" id="reference_number"
+													name="reference_number"
+													class="form-control form-control-sm" autocomplete="false" />
+											</div>
+											<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+												<input type="text" th:value="${KYC?.reference_number}"
+													id="reference_number" name="reference_number"
+													class="form-control form-control-sm" autocomplete="false" />
+											</div>
+											<div th:if="${formmode}=='verifyindividual'" class="col-sm-3">
+												<input type="text" th:value="${KYC?.reference_number}"
+													id="reference_number" name="reference_number" readonly
+													class="form-control form-control-sm" autocomplete="false" />
+											</div>
+
+										</div>
+
+										<label></label>
+
+										<div class="form-group">
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="first_name">First Name</label>
+												</div>
+
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text" th:value="${KYC?.first_name}"
+														id="first_name" class="form-control form-control-sm"
+														readonly name="first_name" autocomplete="off" required>
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text" id="first_name"
+														class="form-control form-control-sm" name="first_name"
+														autocomplete="off">
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text" th:value="${KYC?.first_name}"
+														id="first_name" class="form-control form-control-sm"
+														name="first_name" autocomplete="off">
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text" th:value="${KYC?.first_name}"
+														id="first_name" class="form-control form-control-sm"
+														readonly name="first_name" autocomplete="off">
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Second Name</label>
+
+
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text" th:value="${KYC?.second_name}"
+														id="second_name" name="second_name" readonly
+														class="form-control form-control-sm" autocomplete="false"
+														required />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text" id="second_name" name="second_name"
+														class="form-control form-control-sm" autocomplete="false" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text" th:value="${KYC?.second_name}"
+														id="second_name" name="second_name"
+														class="form-control form-control-sm" autocomplete="false" />
+
+
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text" th:value="${KYC?.second_name}"
+														id="second_name" name="second_name" readonly
+														class="form-control form-control-sm" autocomplete="false" />
+
+
+												</div>
+
+
+											</div>
+
+											<label></label>
+
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="third_name">Third Name</label>
+												</div>
+
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text" th:value="${KYC?.third_name}"
+														id="first_name" class="form-control form-control-sm"
+														readonly name="third_name" autocomplete="off" required>
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text" id="first_name"
+														class="form-control form-control-sm" name="third_name"
+														autocomplete="off">
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text" th:value="${KYC?.third_name}"
+														id="first_name" class="form-control form-control-sm"
+														name="third_name" autocomplete="off">
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text" th:value="${KYC?.third_name}"
+														id="first_name" class="form-control form-control-sm"
+														readonly name="third_name" autocomplete="off">
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Full Name</label>
+
+
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text" th:value="${KYC?.full_name}"
+														id="full_name" name="full_name" readonly
+														class="form-control form-control-sm" autocomplete="false" />
+												</div>
+
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text" class="form-control form-control-sm"
+														id="full_name" name="full_name" autocomplete="false"
+														required />
+												</div>
+
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text" id="full_name" name="full_name"
+														class="form-control form-control-sm" autocomplete="false" />
+												</div>
+
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text" readonly name="full_name"
+														class="form-control form-control-sm" autocomplete="false" />
+												</div>
+
+
+											</div>
+
+											<label></label>
+
+
+											<div class="row formline">
+
+												<label class="col-sm-2">Title</label>
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text" th:value="${KYC?.title_value}"
+														id="list_type_value" name="list_type_value" value=""
+														readonly class="form-control form-control-sm"
+														autocomplete="off" required />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text" id="list_type_value"
+														name="list_type_value" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text" th:value="${KYC?.title_value}"
+														id="title_value" name="title_value" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text" th:value="${KYC?.title_value}"
+														id="title_value" name="title_value" value="" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Designation</label>
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text" th:value="${KYC?.designation_value}"
+														id="designation_value" name="designation_value" value=""
+														readonly class="form-control form-control-sm"
+														autocomplete="off" required />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text" id="designation_value"
+														name="designation_value" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text" th:value="${KYC?.designation_value}"
+														id="designation_value" name="designation_value" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text" th:value="${KYC?.designation_value}"
+														id="designation_value" name="designation_value" value=""
+														readonly class="form-control form-control-sm"
+														autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+											<div class="row formline">
+
+												<label class="col-sm-2">Date Of Birth</label>
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text"
+														th:value="${#dates.format(KYC?.individual_date_of_birth_date ,'dd/MM/yyyy')}"
+														id="individual_date_of_birth_date"
+														name="individual_date_of_birth_date" value="" readonly
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text"
+														th:value="${#dates.format(KYC?.individual_date_of_birth_date ,'dd/MM/yyyy')}"
+														id="individual_date_of_birth_date"
+														name="individual_date_of_birth_date" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text"
+														th:value="${#dates.format(KYC?.individual_date_of_birth_date ,'dd/MM/yyyy')}"
+														id="individual_date_of_birth_date"
+														name="individual_date_of_birth_date" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text"
+														th:value="${#dates.format(KYC?.individual_date_of_birth_date ,'dd/MM/yyyy')}"
+														id="individual_date_of_birth_date"
+														name="individual_date_of_birth_date" value="" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Place Of Birth City</label>
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_place_of_birth_city}"
+														id="individual_place_of_birth_city"
+														name="individual_place_of_birth_city" value="" readonly
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_place_of_birth_city}"
+														id="individual_place_of_birth_city"
+														name="individual_place_of_birth_city" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_place_of_birth_city}"
+														id="individual_place_of_birth_city"
+														name="individual_place_of_birth_city" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_place_of_birth_city}"
+														id="individual_place_of_birth_city"
+														name="individual_place_of_birth_city" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+											<div class="row formline">
+
+												<label class="col-sm-2">Date Of Birth Year</label>
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_date_of_birth_year}"
+														id="individual_date_of_birth_year"
+														name="individual_date_of_birth_year" value="" readonly
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_date_of_birth_year}"
+														id="individual_date_of_birth_year"
+														name="individual_date_of_birth_year" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_date_of_birth_year}"
+														id="individual_date_of_birth_year"
+														name="individual_date_of_birth_year" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_date_of_birth_year}"
+														id="individual_date_of_birth_year"
+														name="individual_date_of_birth_year" value="" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Place Of Birth Country</label>
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text"
+														th:value=" ${KYC?.individual_place_of_birth_country}"
+														id="individual_place_of_birth_note"
+														name="individual_place_of_birth_country" value="" readonly
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text"
+														th:value=" ${KYC?.individual_place_of_birth_country}"
+														id="individual_place_of_birth_country"
+														name="individual_place_of_birth_country" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text"
+														th:value=" ${KYC?.individual_place_of_birth_country}"
+														id="individual_place_of_birth_country"
+														name="individual_place_of_birth_country" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text"
+														th:value=" ${KYC?.individual_place_of_birth_country}"
+														id="individual_place_of_birth_country"
+														name="individual_place_of_birth_country" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+												<label class="col-sm-2">Good Quality </label>
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_alias_good_name}"
+														id="individual_alias_good_name"
+														name="individual_alias_good_name" value="" readonly
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_alias_good_name}"
+														id="individual_alias_good_name"
+														name="individual_alias_good_name" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_alias_good_name}"
+														id="individual_alias_good_name"
+														name="individual_alias_good_name" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_alias_good_name}"
+														id="individual_alias_good_name"
+														name="individual_alias_good_name" value="" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Low Quality</label>
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_alias_low_name}"
+														id="individual_alias_low_name"
+														name="individual_alias_low_name" value="" readonly
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text" id="individual_alias_low_name"
+														name="individual_alias_low_name" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_alias_low_name}"
+														id="individual_alias_low_name"
+														name="individual_alias_low_name" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_alias_low_name}"
+														id="individual_alias_low_name"
+														name="individual_alias_low_name" value="" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Nationality</label>
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text" th:value="${KYC?.nationality_value}"
+														id="nationality_value" value="" name="nationality_value"
+														readonly class="form-control form-control-sm"
+														autocomplete="off" required />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text" th:value="${KYC?.nationality_value}"
+														id="nationality_value" value="" name="nationality_value"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text" th:value="${KYC?.nationality_value}"
+														id="nationality_value" value="" name="nationality_value"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text" th:value="${KYC?.nationality_value}"
+														id="nationality_value" value="" name="nationality_value"
+														readonly class="form-control form-control-sm"
+														autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Type Of Document</label>
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text" id="email_user_1" value=""
+														name="email_user_1" readonly
+														th:value="${KYC?.individual_document_type_of_document1}"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text"
+														id="individual_document_type_of_document1" value=""
+														name="individual_document_type_of_document1"
+														th:value="${KYC?.individual_document_type_of_document1}"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text"
+														id="individual_document_type_of_document1" value=""
+														name="individual_document_type_of_document1"
+														th:value="${KYC?.individual_document_type_of_document1}"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text"
+														id="individual_document_type_of_document1" value=""
+														name="individual_document_type_of_document1" readonly
+														th:value="${KYC?.individual_document_type_of_document1}"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Document No </label>
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text" id="individual_document_num" value=""
+														name="individual_document_num" readonly
+														th:value="${KYC?.individual_document_num}"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text" id="individual_document_num" value=""
+														name="individual_document_num"
+														th:value="${KYC?.individual_document_num}"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text" id="individual_document_num" value=""
+														name="individual_document_num"
+														th:value="${KYC?.individual_document_num}"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text" id="individual_document_num" value=""
+														name="individual_document_num" readonly
+														th:value="${KYC?.individual_document_num}"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Address</label>
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_address_country}"
+														id="individual_address_country" value=""
+														name="individual_address_country" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text" id="individual_address_country" value=""
+														name="individual_address_country"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_address_country}"
+														id="individual_address_country" value=""
+														name="individual_address_country"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text"
+														th:value="${KYC?.individual_address_country}"
+														id="individual_address_country" value=""
+														name="individual_address_country" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+											</div>
+											<label></label>
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Listed On</label>
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text"
+														th:value="${#dates.format(KYC?.listed_on ,'dd/MM/yyyy')}"
+														id="listed_on" value="" name="listed_on" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text"
+														th:value="${#dates.format(KYC?.listed_on ,'dd/MM/yyyy')}"
+														id="listed_on" value="" name="listed_on"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text"
+														th:value="${#dates.format(KYC?.listed_on ,'dd/MM/yyyy')}"
+														id="listed_on" value="" name="listed_on"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text"
+														th:value="${#dates.format(KYC?.listed_on ,'dd/MM/yyyy')}"
+														id="listed_on" value="" name="listed_on" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Other Information</label>
+												<div th:if="${formmode}=='view'" class="col-sm-3">
+													<input type="text" id="comments1" value="" name="comments1"
+														readonly class="form-control form-control-sm"
+														th:value="${KYC?.comments1}" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='addindividual'" class="col-sm-3">
+													<input type="text" id="comments1" value="" name="comments1"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='editindividual'" class="col-sm-3">
+													<input type="text" id="comments1" value="" name="comments1"
+														readonly class="form-control form-control-sm"
+														th:value="${KYC?.comments1}" autocomplete="off" />
+												</div>
+												<div th:if="${formmode}=='verifyindividual'"
+													class="col-sm-3">
+													<input type="text" id="comments1"
+														th:value="${KYC?.comments1}" name="comments1" readonly
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+											</div>
+											<label></label>
+
+
+										</div>
+									</div>
+								</div>
+
+
+
+								<div class="card-footer text-center" style="height: 38px;">
+
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnHome" style="margin-top: -12px;" onclick="home();">Home</button>
+									<button th:if="${formmode}=='addindividual'" type="button"
+										class="btn btn-xs btn-primary" id="btnHome"
+										th:attr="data-formmode='addindividual'"
+										style="margin-top: -12px;" form="AMLUNSCINDList"
+										onclick="addSubmit(this);">Submit</button>
+									<button th:if="${formmode}=='editindividual'"
+										form="AMLUNSCINDList" type="button"
+										class="btn btn-xs btn-primary" id="btnHome"
+										th:attr="data-formmode='editindividual'"
+										style="margin-top: -12px;" onclick="editSubmit(this);">Submit</button>
+									<button th:if="${formmode}=='verifyindividual'" type="button"
+										class="btn btn-xs btn-primary" id="btnHome"
+										style="margin-top: -12px;" form="AMLUNSCINDList"
+										th:attr="data-formmode='verifyindividual'"
+										onclick="verifySubmit(this);">Verify</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnBack" style="margin-top: -12px;" onclick="back();">Back</button>
+
+								</div>
+
+								<div
+									th:if="${formmode}=='addindividual' OR ${formmode}=='editindividual' OR ${formmode}=='verifyindividual' "
+									style="border: 1px solid #36404a; padding: 15px;">
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Entry User</label>
+										<div class="col-sm-2">
+											<input type="text" th:if=" ${formmode}=='addindividual'"
+												th:value="${session.USERID}" id="entry_user"
+												name="entry_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if=" ${formmode}=='editindividual'"
+												th:value="${session.USERID}" id="entry_user"
+												name="entry_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if=" ${formmode}=='verifyindividual'"
+												th:value="${session.USERID}" id="entry_userind"
+												name="entry_user" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+
+										</div>
+										<label class="col-sm-2">Modify User</label>
+										<div class="col-sm-2">
+											<input type="text" th:if="${formmode}=='addindividual'"
+												th:value="${session.USERID}" id="modify_user"
+												name="modify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='editindividual'"
+												th:value="${session.USERID}" id="modify_user"
+												name="modify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='verifyindividual'"
+												th:value="${KYC?.modify_user}" id="modify_userind"
+												name="modify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+										</div>
+										<label class="col-sm-2">Verify User</label>
+										<div class="col-sm-2">
+											<input type="text" th:if="${formmode}=='addindividual'"
+												id="verify_user" name="verify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='editindividual'" id="verify_user"
+												name="verify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='verifyindividual'" id="verify_userind"
+												name="verify_user" th:value="${session.USERID}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+									</div>
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Entry Time</label>
+										<div class="col-sm-2">
+											<input type="text" th:if="${formmode}=='addindividual'"
+												id="entry_time1" name="entry_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='editindividual'" id="entry_date"
+												th:value="${#dates.format(KYC?.entry_time,'dd/MM/yyyy')}"
+												name="entry_time" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='verifyindividual'" id="entry_date"
+												name="entry_time" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+										</div>
+
+										<label class="col-sm-2">Modify Time</label>
+										<div class="col-sm-2">
+											<input type="text" th:if="${formmode}=='addindividual'"
+												id="modify_time1" name="modify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='editindividual'" id="modify_time1"
+												name="modify_time" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='verifyindividual'" id="verify_date"
+												name="modify_time" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+
+										</div>
+
+
+
+										<label class="col-sm-2">Verify Time</label>
+										<div class="col-sm-2">
+											<input type="text" th:if="${formmode}=='addindividual'"
+												id="verify_time" name="verify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='editindividual'" id="verify_time"
+												name="verify_time" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='verifyindividual'" id="verify_time1"
+												name="verify_time" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+
+										</div>
+
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<!-- <div class="container content"
+									style="border: 1px solid #36404a; padding: 15px;">
+									<div class="row formline">
+
+										<label class="col-sm-2">Entry User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${NegativeParameter?.aml_entry_user}" id="aml_entry_user"
+												name="aml_entry_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='add'" th:value="${session.USERID}"
+												id="aml_entry_user" name="aml_entry_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+										<label class="col-sm-2">Modify User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${NegativeParameter?.aml_modify_user}" id="aml_modify_user"
+												name="aml_modify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+												
+												 <input type="text"
+												th:if="${formmode}=='edit' " th:value="${session.USERID}"
+												id="aml_modify_user" name="aml_modify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+										<label class="col-sm-2">Verify User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${NegativeParameter?.aml_verify_user}" id="aml_verify_user"
+												name="aml_verify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> 
+												
+												<input type="text"
+												th:if="${formmode}=='verify' " th:value="${session.USERID}"
+												id="aml_verify_user" name="aml_verify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+									</div>
+									<div class="row formline">
+										<label style="height: 2px;"></label>
+
+									</div>
+									<div class="row formline">
+
+										<label class="col-sm-2">Entry Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${#dates.format(NegativeParameter?.aml_entry_time,'dd-MM-yyyy')}"
+												id="aml_entry_time" name="aml_entry_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+												
+												 <input type="text" th:if="${formmode}=='add'"
+												th:value="${#dates.format(NegativeParameter?.aml_entry_time,'dd-MM-yyyy')}"
+												id="entry_time1" name="aml_entry_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+
+										<label class="col-sm-2">Modify Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${#dates.format(NegativeParameter?.aml_modify_time,'dd-MM-yyyy')}"
+												id="aml_modify_time" name="aml_modify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+												
+												 <input type="text" th:if="${formmode}=='edit' "
+												th:value="${#dates.format(NegativeParameter?.aml_modify_time,'dd-MM-yyyy')}"
+												id="entry_time1" name="aml_modify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+
+
+										<label class="col-sm-2">Verify Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${#dates.format(NegativeParameter?.aml_verify_time,'dd-MM-yyyy')}"
+												id="aml_verify_time" name="aml_verify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+												
+												 <input type="text"
+												th:if="${formmode}=='verify'"
+												th:value="${#dates.format(NegativeParameter?.aml_verify_time,'dd-MM-yyyy')}"
+												id="entry_time1" name="aml_verify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+
+										<label></label>
+									</div>
+
+ -->
+
+
+				</div>
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+	<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+	<div class="modal fade" id="datadelete">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					Are you Sure want to delete?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						onclick="submitformdelete(this);" th:attr="data-formmode=delete">Submit</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="dataHome">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					Are you Sure want to Leave?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="home();">Yes</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="dataBack">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					Are you Sure want to Leave?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="back();">Yes</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+	<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="list();">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="alert1">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg1"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="list1();">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="entityalert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="entityalertmsg"></p>
+					<button type="button" class="btn btn-primary" onclick="list1();">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="entityverify">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="entityverifymsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="verifybox1">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="verifyboxmsg1"></p>
+					<button type="button" class="btn btn-primary" onclick="list1();">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="verifybox">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="verifyboxmsg"></p>
+					<button type="button" class="btn btn-primary" onclick="list1();">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</div>
+	</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+
+	<div class="modal fade" id="CustLastNameSearch">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="width: 60%;">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<input type="text" placeholder="Enter Customer Name"
+						id="custlastname"><i class="fas fa-search searchico"
+						style="float: right;" aria-hidden="true"
+						onclick="searchcustlastname()"></i>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="CustRefNoSearch">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="width: 60%;">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<input type="text" placeholder="Enter Reference Num" id="custref"><i
+						class="fas fa-search searchico" style="float: right;"
+						aria-hidden="true" onclick="searchcustrefno()"></i>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="CustRefNoSearch1">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="width: 60%;">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<input type="text" placeholder="Enter Reference Num" id="custref1"><i
+						class="fas fa-search searchico" style="float: right;"
+						aria-hidden="true" onclick="searchcustrefno1()"></i>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="CustDataIdSearch1">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="width: 60%;">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<input type="text" placeholder="Enter Data ID" id="custdataid1"><i
+						class="fas fa-search searchico" style="float: right;"
+						aria-hidden="true" onclick="searchcustDataId1()"></i>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="CustDataIdSearch">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="width: 60%;">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<input type="text" placeholder="Enter Data ID" id="custdataid"><i
+						class="fas fa-search searchico" style="float: right;"
+						aria-hidden="true" onclick="searchcustDataId()"></i>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="CustLastNameSearchEntity">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="width: 60%;">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<input type="text" placeholder="Enter Customer Last Name"
+						id="custlastnameEntity"><i class="fas fa-search searchico"
+						style="float: right;" aria-hidden="true"
+						onclick="searchcustlastnameEntity()"></i>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="CustLastNameSearchEntity">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="width: 60%;">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<input type="text" placeholder="Enter Customer Last Name"
+						id="custlastnameEntity"><i class="fas fa-search searchico"
+						style="float: right;" aria-hidden="true"
+						onclick="searchcustlastnameEntity()"></i>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="CustLastNameSearchEntity">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="width: 60%;">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<input type="text" placeholder="Enter Customer Last Name"
+						id="custlastnameEntity"><i class="fas fa-search searchico"
+						style="float: right;" aria-hidden="true"
+						onclick="searchcustlastnameEntity()"></i>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------File Upload Modal Starts----------------------------------------------------------->
+	<div class="modal fade" id="fileupload">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<h1>Upload only xml file</h1>
+					<br /> <br />
+
+					<form action="#" th:object="${uploadform}" method="POST"
+						autocomplete="off" id="uploadform" enctype="multipart/form-data">
+
+						<input id="file" type="file" name="file"
+							style="background-color: white;" /><br /> <br />
+
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="fire_ajax_submit(this);"
+							form="uploadform" id="btn_Upload_Submit">Submit</button>
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="Individual();"
+							form="uploadform" id="btn_Upload_Submit">Cancel</button>
+
+						<!-- <form method="POST" action="upload" enctype="multipart/form-data">
+   									<input id="file" type="file" name="file" style="background-color: white;"/><br/><br/>
+    								<input  type="submit" value="Submit" /> -->
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="fileupload1">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<h1>Upload only xml file</h1>
+					<br /> <br />
+
+					<form action="#" th:object="${uploadform1}" method="POST"
+						autocomplete="off" id="uploadform1" enctype="multipart/form-data">
+
+						<input id="file" type="file" name="file"
+							style="background-color: white;" /><br /> <br />
+
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="fire_ajax_submit1(this);"
+							form="uploadform1" id="btn_Upload_Submit">Submit</button>
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="Entity();"
+							form="uploadform" id="btn_Upload_Submit">Cancel</button>
+
+						<!-- <form method="POST" action="upload" enctype="multipart/form-data">
+   									<input id="file" type="file" name="file" style="background-color: white;"/><br/><br/>
+    								<input  type="submit" value="Submit" /> -->
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="fileupload3">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<h1>Append only xml file</h1>
+					<br /> <br />
+
+					<form action="#" th:object="${uploadform3}" method="POST"
+						autocomplete="off" id="uploadform3" enctype="multipart/form-data">
+
+						<input id="file" type="file" name="file"
+							style="background-color: white;" /><br /> <br />
+
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="fire_ajax_submit3(this);"
+							form="uploadform3" id="btn_Upload_Submit">Submit</button>
+
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="Individual();"
+							form="uploadform" id="btn_Upload_Submit">Cancel</button>
+						<!-- <form method="POST" action="upload" enctype="multipart/form-data">
+   									<input id="file" type="file" name="file" style="background-color: white;"/><br/><br/>
+    								<input  type="submit" value="Submit" /> -->
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="fileupload4">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<h1>Upload only xml file</h1>
+					<br /> <br />
+
+					<form action="#" th:object="${uploadform4}" method="POST"
+						autocomplete="off" id="uploadform4" enctype="multipart/form-data">
+
+						<input id="file" type="file" name="file"
+							style="background-color: white;" /><br /> <br />
+
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="fire_ajax_submit4(this);"
+							form="uploadform4" id="btn_Upload_Submit">Submit</button>
+
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="Entity();"
+							form="uploadform" id="btn_Upload_Submit">Cancel</button>
+						<!-- <form method="POST" action="upload" enctype="multipart/form-data">
+   									<input id="file" type="file" name="file" style="background-color: white;"/><br/><br/>
+    								<input  type="submit" value="Submit" /> -->
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!--------------------------------------------File Upload Modal Ends----------------------------------------------------------->
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<script th:inline="javascript">
+		function fire_ajax_submit() {
+
+			// Get form
+			var form = $('#uploadform')[0];
+
+			var data = new FormData(form);
+
+			$.ajax({
+				type : "POST",
+				enctype : 'multipart/form-data',
+				url : "ws/marshallupload",
+				data : data,
+				processData : false, //prevent jQuery from automatically transforming the data into a query string
+				contentType : false,
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+
+					$('#fileupload').hide();
+
+					$("#alertmsg1").text(data);
+
+					$("#alert1").modal("toggle");
+
+				},
+				error : function(e) {
+
+					$('#fileupload').hide();
+
+					$("#alertmsg1").text(e.responseText);
+					$("#alert1").modal("toggle");
+
+					/* 					location.href = './AMLUNSCList?formmode=listentity';
+					 */
+				}
+			});
+		}
+	</script>
+
+	<script th:inline="javascript">
+		function fire_ajax_submit3() {
+
+			// Get form
+			var form = $('#uploadform3')[0];
+
+			var data = new FormData(form);
+
+			$.ajax({
+				type : "POST",
+				enctype : 'multipart/form-data',
+				url : "ws/marshallindappend",
+				data : data,
+				processData : false, //prevent jQuery from automatically transforming the data into a query string
+				contentType : false,
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+
+					$('#fileupload3').hide();
+
+					$("#alertmsg").text(data);
+
+					$("#alert").modal("toggle");
+
+				},
+				error : function(e) {
+
+					$('#fileupload3').hide();
+
+					$("#alertmsg").text(e.responseText);
+					$("#alert").modal("toggle");
+
+					/* 					location.href = './AMLUNSCList?formmode=listentity';
+					 */
+				}
+			});
+		}
+	</script>
+
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<script th:inline="javascript">
+		function fire_ajax_submit1() {
+
+			// Get form
+
+			$.ajax({
+				type : "POST",
+
+				url : "ws/marshallindupload",
+				data : data,
+				processData : false, //prevent jQuery from automatically transforming the data into a query string
+				contentType : false,
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+
+					$("#alertmsg").text(data);
+					$("#alert").modal("toggle");
+
+				},
+				error : function(e) {
+
+					$("#alertmsg").text(e.responseText);
+					$("#alert").modal("toggle");
+
+					/* 					location.href = './AMLUNSCList?formmode=listentity';
+					 */
+				}
+			});
+		}
+	</script>
+
+	<script th:inline="javascript">
+		function fire_ajax_submit4() {
+
+			// Get form
+			var form = $('#uploadform4')[0];
+
+			var data = new FormData(form);
+
+			$.ajax({
+				type : "POST",
+				enctype : 'multipart/form-data',
+				url : "ws/marshallindappend",
+				data : data,
+				processData : false, //prevent jQuery from automatically transforming the data into a query string
+				contentType : false,
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+
+					$('#fileupload4').hide();
+
+					$("#alertmsg1").text(data);
+
+					$("#alert1").modal("toggle");
+
+				},
+				error : function(e) {
+
+					$('#fileupload4').hide();
+
+					$("#alertmsg").text(e.responseText);
+					$("#alert").modal("toggle");
+
+					/* 					location.href = './AMLUNSCList?formmode=listentity';
+					 */
+				}
+			});
+		}
+	</script>
+	<!--------------------------------------------------------------- Modal for dialog messages-------------------------------->
+	<div class="modal fade" id="fileUpload_alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="fileupload_alertmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="openUploadModal();">Yes</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="proceedalert" data-backdrop="static"
+		data-keyboard="false">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+			data-backdrop="static" data-keyboard="false">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="proalertmsg"></p>
+					<button type="button" class="btn btn-primary"
+						th:attr="data-formmode='proceed'" form="ThirdParty"
+						onclick="addSubmit(this)">Proceed</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+
+
+
+</body>
+</html>

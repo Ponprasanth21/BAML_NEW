@@ -1,0 +1,452 @@
+
+ <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLAccountsInquiry
+CREATED BY	: DHARSHINI NIVEDHA
+CREATED ON	: 28-NOV-2019
+MODIFY ON   :
+PURPOSE		: 
+ --> 
+<html lang="en" >
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="js/bootstrap411.js"></script>
+<style>
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+</style>
+<script th:inline="javascript">
+	$(function() {
+		var custfirstname = document.getElementById("custid");
+		custfirstname.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				searchcustid();
+			}
+		});
+		var custName = document.getElementById("Accno");
+		custName.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				searchAccno();
+			}
+		});
+		var custNATID = document.getElementById("Accname");
+		custNATID.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				searchaccname();
+			}
+		});
+		var custDOB = document.getElementById("Schcode");
+		custDOB.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				searchschcode();
+			}
+		});
+		var custNumber = document.getElementById("Curcode");
+		custNumber.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				searchcurcode();
+			}
+		});
+		var custNumber = document.getElementById("Accbal");
+		custNumber.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				searchaccbal();
+			}
+		});
+	});
+
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+
+		/* 		alert(n+"  "+max);
+		 */var Callurl = 'AMLAccountsInquiry?formmode=list';
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		/* 		alert(Callurl);
+		 */location.href = Callurl;
+	}
+
+	function home() {
+		location.href = 'Dashboard'
+	}
+
+	function back() {
+		window.history.back();
+	}
+	
+	$(document).ready(function() {
+		  $('#CustSearch').on('shown.bs.modal', function() {
+		    $('#custid').trigger('focus');
+		  });
+		});
+	
+	function custidsearch(){
+		$("#CustSearch").modal("toggle");
+	}$(document).ready(function() {
+		  $('#CustSearch').on('shown.bs.modal', function() {
+			    $('#custid').trigger('focus');
+			  });
+			});
+		
+	function accnosearch(){
+		$("#AccnoSearch").modal("toggle");
+	}$(document).ready(function() {
+		  $('#AccnoSearch').on('shown.bs.modal', function() {
+			    $('#Accno').trigger('focus');
+			  });
+			});
+		
+	function accnamesearch(){
+		$("#AccnameSearch").modal("toggle");
+	}$(document).ready(function() {
+		  $('#AccnameSearch').on('shown.bs.modal', function() {
+			    $('#Accname').trigger('focus');
+			  });
+			});
+		
+	function schcodesearch(){
+		$("#SchcodeSearch").modal("toggle");
+	}$(document).ready(function() {
+		  $('#SchcodeSearch').on('shown.bs.modal', function() {
+			    $('#Schcode').trigger('focus');
+			  });
+			});
+		
+	function curcodesearch(){
+		$("#CurcodeSearch").modal("toggle");
+	}$(document).ready(function() {
+		  $('#CurcodeSearch').on('shown.bs.modal', function() {
+			    $('#Curcode').trigger('focus');
+			  });
+			});
+		
+	function accbalsearch(){
+		$("#AccbalSearch").modal("toggle");
+	}$(document).ready(function() {
+		  $('#AccbalSearch').on('shown.bs.modal', function() {
+			    $('#Accbal').trigger('focus');
+			  });
+			});
+		
+	
+	
+	function searchcustid() {
+		$("#CustSearch").modal('hide');
+		var custName2 = $("#custid").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'getACCcustomerId?search=custID' +'&custName2='+ custName2;
+		$('#AccountInq').empty();
+	}
+	function searchAccno() {
+		$("#AccnoSearch").modal('hide');
+		var custName2 = $("#Accno").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'getACCcustomerId?search=custACC' +'&custName2='+ custName2;
+		$('#AccountInq').empty();
+			}
+	function searchaccname() {
+		$("#AccnameSearch").modal('hide');
+		var custName2 = $("#Accname").val();
+		$('#paginationCust').hide();
+		$("#loadermodal").modal("toggle");
+		location.href = 'getACCcustomerId?search=custNAME' +'&custName2='+ custName2;
+		$('#AccountInq').empty();
+
+	}
+	function searchschcode() {
+		$("#SchcodeSearch").modal('hide');
+		var custName2 = $("#Schcode").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'getACCcustomerId?search=custSCH' +'&custName2='+ custName2;
+		$('#AccountInq').empty();
+	}
+	function searchcurcode() {
+		$("#CurcodeSearch").modal('hide');
+		var custName2 = $("#Curcode").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'getACCcustomerId?search=custCUR' +'&custName2='+ custName2;
+		$('#AccountInq').empty();
+	}
+	function searchaccbal() {
+		$("#AccbalSearch").modal('hide');
+		var custName2 = $("#Accbal").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'getACCcustomerId?search=custBAL' +'&custName2='+ custName2;
+		$('#AccountInq').empty();
+	}
+	function fnClickacid(a) {
+		$("#loadermodal").modal("toggle");
+		var acctnum = a.getAttribute("data-acctnum")
+		var CUSTID = a.getAttribute("data-custid")
+		var acid = a.getAttribute("data-acid")
+		location.href = 'AMLAccountInquiry1?acctnum=' + acctnum + '&CUSTID='+CUSTID + '&acid='+acid;
+	}
+	function fnClick(a) {
+		$("#loadermodal").modal("toggle");
+		var custId = a.getAttribute("data-custId")
+		location.href = 'AMLCustInquiry1?custId=' + custId;
+	}
+	/*]]>*/
+</script>
+</head>
+<title>AML</title>
+
+<body>
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('AMLAccountsInquiry')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+				<div th:if="${formmode}=='list' OR ${formmode}=='add'" class="content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle">
+								<b th:text="${menuname}"></b>
+							</div>
+							<table class="table table-bordered  table-hover table-sm"
+								style="width: 100%" id="usertable">
+								<thead class="thead-light">
+
+									<tr>
+										<!-- <th></th> -->
+										<th style="width:9%;">Customer ID<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custidsearch()"></i></th>
+										<th style="width:13%;">Account Number<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="accnosearch()"></i></th>
+										<th style="width:37%;">Account Name<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="accnamesearch()"></i></th>
+										<th style="width:11%;">Scheme Code<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="schcodesearch()"></i></th>
+										<th style="width:10%;">Currency Code<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="curcodesearch()"></i></th>
+										<th style="width:20%;">Account Balance<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="accbalsearch()"></i></th>
+
+
+
+									</tr>
+								</thead>
+								<tbody id="AccountInq">
+								<tr th:if="${count}=='0' ">
+										<td colspan="9" style="text-align: center; color: red">No
+											Data Found</td>
+									</tr>
+									
+									<tr th:each="account : ${AccountList}">
+<td class="underline" onclick="fnClick(this);" th:attr="data-custId=${account.cif_id}"
+											th:text="${account.cif_id}">
+										</td>
+																				
+										<td class="underline" onclick="fnClickacid(this);"
+											th:attr="data-acctnum=${account.foracid},data-custid=${account.cif_id},data-acid=${account.acid}"
+											th:text="${account.foracid}">
+										</td>
+										
+										<td th:text="${account.acct_name}"></td>
+										<td th:text="${account.schm_code}"></td>
+										<td th:text="${account.acct_crncy_code}"></td>
+										
+										
+										<td th:text="${#numbers.formatDecimal(account.clr_bal_amt 	,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td>
+								
+									</tr>
+								</tbody>
+							</table>
+
+
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+						<div th:if="${formmode}=='list'"><div class="float-right" th:if="${AccountList.totalPages} gt 1 " id="paginationCust">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${AccountList.number},${AccountList.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${AccountList.number+1}"
+									th:onchange="|getUserlist('givenpage',${AccountList.number},${AccountList.totalPages});|"></input>
+								of <font th:text="${AccountList.totalPages}"></font> <a href="#"><i
+									class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${AccountList.number},${AccountList.totalPages});|"></i></a>
+							</div>
+								
+</div>	</div>
+<div class="text-center"
+							style="background-color: #386276; padding: 5px; width: 100%;">
+
+							<div class="btn-group nav-buttons " style="align: center;">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+
+
+
+				<!------------------------Pop window - Domain  list Ends--------------------------------->
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+				<div class="modal fade" id="CustSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width:60%;">
+							<div class="modal-body" style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Customer ID" id="custid"><i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="searchcustid()"></i>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="AccnoSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width:60%;">
+							<div class="modal-body" style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Account Number" id="Accno"><i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="searchAccno()"></i>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="SchcodeSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width:60%;">
+							<div class="modal-body" style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Scheme Code" onkeyup="this.value = this.value.toUpperCase();" id="Schcode"><i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="searchschcode()"></i>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CurcodeSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width:60%;">
+							<div class="modal-body" style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Currency Code" onkeyup="this.value = this.value.toUpperCase();" id="Curcode"><i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="searchcurcode()"></i>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="AccbalSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width:60%;">
+							<div class="modal-body" style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Account Balance" id="Accbal"><i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="searchaccbal()"></i>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="AccnameSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width:60%;">
+							<div class="modal-body" style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text"  onkeyup="this.value = this.value.toUpperCase();" placeholder="Enter Account Name" id="Accname"><i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="searchaccname()"></i>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="alert">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="alertmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="loadermodal" data-backdrop="static"
+					data-keyboard="false">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="background-color: #94b8dd00;">
+							<div class="modal-body" style="text-align: center">
+								<div class="loader">Loading...</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+			</div>
+		</div>
+	</div>
+</body>
+</html>

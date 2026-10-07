@@ -1,0 +1,1061 @@
+
+ <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLAccountsInquiry
+CREATED BY	: DHARSHINI NIVEDHA
+CREATED ON	: 28-NOV-2019
+MODIFY ON   :
+PURPOSE		: 
+ --> 
+<html lang="en" >
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="js/bootstrap411.js"></script>
+<style>
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+</style>
+<script th:inline="javascript">
+	$(function() {
+		$("#TRANDATES").datepicker({
+			maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+
+			}
+		});
+		var custfirstname = document.getElementById("TranrefNo");
+		custfirstname.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				TranrefNoSearchFun();
+			}
+		});
+		var custName = document.getElementById("customerid");
+		custName.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				CustomeridsearchFun();
+			}
+		});
+		var custNATID = document.getElementById("TRANDATES");
+		custNATID.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				TrandateSearchFun();
+			}
+		});
+		var custDOB = document.getElementById("TranId");
+		custDOB.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				TranIdSearchFun();
+			}
+		});
+		var custNumber = document.getElementById("PtranId");
+		custNumber.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				PtranIdSearchFun();
+			}
+		});
+		var custNumber = document.getElementById("Ptrantype");
+		custNumber.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				PtrantypeSearchFun();
+			}
+		});
+		var custNumber = document.getElementById("Tranamt");
+		custNumber.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				TranamtSearchFun();
+			}
+		});
+		var custNumber = document.getElementById("Transtatus");
+		custNumber.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				TranstatusSearchFun();
+			}
+		});
+		var custNumber = document.getElementById("TranAcct");
+		custNumber.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				TranAcctSearchFun();
+			}
+		});
+		var custNumber = document.getElementById("TranCust");
+		custNumber.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				TranCustSearchFun();
+			}
+		});
+		var custNumber = document.getElementById("Trancrncy");
+		custNumber.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				TrancrncySearchFun();
+			}
+		});
+		
+		$("#entry_time1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-M-yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;
+
+	});
+	
+
+/* 	function getUserlist1(mode, num, maxpage) {
+		$("#loadermodal").modal("toggle");
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+
+		var fromdate = $("#f1").val();
+		var todate = $("#t1").val();
+
+		var Callurl = 'TransactionInquirydate?fromdate=' + fromdate
+				+ '&todate=' + todate;
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+location.href = Callurl;
+	}
+ */
+ 
+ function getUserlist1(mode, num, maxpage) {
+		$("#loadermodal").modal("toggle");
+		
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+		var fromdate = $("#f1").val();
+		var todate = $("#t1").val();
+		var Callurl = 'transactionInquiry?fromdate=' + fromdate
+				+ '&todate=' + todate;
+	
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+location.href = Callurl;
+	} 
+	function getUserlist(mode, num, maxpage) {
+		$("#loadermodal").modal("toggle");
+		
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+		var fromdate = $("#f1").val();
+		var todate = $("#t1").val();
+		var Callurl = 'TransactionInquirydate?fromdate=' + fromdate
+				+ '&todate=' + todate;
+	
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+location.href = Callurl;
+	} 
+
+	function home() {
+		$("#loadermodal").modal("toggle");
+		location.href = 'Dashboard'
+	}
+
+	function back() {
+		$("#loadermodal").modal("toggle");
+		window.history.back();
+	}
+
+	function tranrefNosearch() {
+		$("#TranrefNoSearch").modal("toggle");
+	}
+	$(document).ready(function() {
+		$('#TranrefNoSearch').on('shown.bs.modal', function() {
+			$('#TranrefNo').trigger('focus');
+		});
+	});
+	function Customeridsearch1() {
+		$("#Customeridsearch").modal("toggle");
+	}
+	$(document).ready(function() {
+		$('#Customeridsearch').on('shown.bs.modal', function() {
+			$('#customerid').trigger('focus');
+		});
+	});
+	function ActiveProductsearch1() {
+		$("#activeproduct").modal("toggle");
+	}
+	$(document).ready(function() {
+		$('#activeproduct').on('shown.bs.modal', function() {
+			$('#ActiveProductType').trigger('focus');
+		});
+	});
+
+	function trandatesearch() {
+		$("#TrandateSearch").modal("toggle");
+	}
+	$(document).ready(function() {
+		$('#TrandateSearch').on('shown.bs.modal', function() {
+			$('#TRANDATES').trigger('focus');
+		});
+	});
+	function tranIdsearch() {
+		$("#TranIdSearch").modal("toggle");
+	}
+	$(document).ready(function() {
+		$('#TranIdSearch').on('shown.bs.modal', function() {
+			$('#TranId').trigger('focus');
+		});
+	});
+	function ptranIdsearch() {
+		$("#PtranIdSearch").modal("toggle");
+	}
+	$(document).ready(function() {
+		$('#PtranIdSearch').on('shown.bs.modal', function() {
+			$('#PtranId').trigger('focus');
+		});
+	});
+	function ptrantypesearch() {
+		$("#PtrantypeSearch").modal("toggle");
+	}
+	$(document).ready(function() {
+		$('#PtrantypeSearch').on('shown.bs.modal', function() {
+			$('#Ptrantype').trigger('focus');
+		});
+	});
+	function tranamtsearch() {
+		$("#TranamtSearch").modal("toggle");
+	}
+	$(document).ready(function() {
+		$('#TranamtSearch').on('shown.bs.modal', function() {
+			$('#Tranamt').trigger('focus');
+		});
+	});
+	function transtatussearch() {
+		$("#TranstatusSearch").modal("toggle");
+	}
+	$(document).ready(function() {
+		$('#TranstatusSearch').on('shown.bs.modal', function() {
+			$('#Transtatus').trigger('focus');
+		});
+	});
+	function trancurncysearch() {
+		$("#TrancrncySearch").modal("toggle");
+	}
+	$(document).ready(function() {
+		$('#TrancrncySearch').on('shown.bs.modal', function() {
+			$('#Trancrncy').trigger('focus');
+		});
+	});
+	function tranacctsearch() {
+		$("#TranAcctSearch").modal("toggle");
+	}
+	$(document).ready(function() {
+		$('#TranAcctSearch').on('shown.bs.modal', function() {
+			$('#TranAcct').trigger('focus');
+		});
+	});
+	function tranCustsearch() {
+		$("#TranCustSearch").modal("toggle");
+	}
+	$(document).ready(function() {
+		$('#TranCustSearch').on('shown.bs.modal', function() {
+			$('#TranCust').trigger('focus');
+		});
+	});
+	function convertDate(dateString) {
+		var p = dateString.split(/\D/g)
+		return [ p[2], p[1], p[0] ].join("-")
+	}
+	function TranrefNoSearchFun() {
+		$("#TranrefNoSearch").modal('hide');
+		var custName2 = $("#TranrefNo").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'GetTransactionSearch?search=TRANREF' + '&custName2='
+				+ custName2;
+		$('#TransactionInq').empty();
+	}
+
+	function ActiveProductTypeSearchFun() {
+		$("#activeproduct").modal('hide');
+		var custName2 = $("#ActiveProductType").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'GetTransactionSearch?search=ACTIVEPRODUCT'
+				+ '&custName2=' + custName2;
+		$('#TransactionInq').empty();
+	}
+	function TrandateSearchFun() {
+		$("#TrandateSearch").modal('hide');
+		var custName2 = $("#TRANDATES").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'GetTransactionSearch?search=TRANDATE' + '&custName2='
+				+ custName2;
+		$('#TransactionInq').empty();
+	}
+	function CustomeridsearchFun() {
+		$("#Customeridsearch").modal('hide');
+		var custName2 = $("#customerid").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'GetTransactionSearch?search=CUSTID' + '&custName2='
+				+ custName2;
+		$('#TransactionInq').empty();
+	}
+
+	function TranIdSearchFun() {
+		$("#TranIdSearch").modal('hide');
+		var custName2 = $("#TranId").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'GetTransactionSearch?search=TRANID' + '&custName2='
+				+ custName2;
+		$('#TransactionInq').empty();
+	}
+
+	function PtranIdSearchFun() {
+		$("#PtranIdSearch").modal('hide');
+		var custName2 = $("#PtranId").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'GetTransactionSearch?search=PARTTRANID'
+				+ '&custName2=' + custName2;
+		$('#TransactionInq').empty();
+	}
+
+	function PtrantypeSearchFun() {
+		$("#PtrantypeSearch").modal('hide');
+		var custName2 = $("#Ptrantype").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'GetTransactionSearch?search=PARTTRANTYPE'
+				+ '&custName2=' + custName2;
+		$('#TransactionInq').empty();
+	}
+
+	function TranamtSearchFun() {
+		$("#TranamtSearch").modal('hide');
+		var custName2 = $("#Tranamt").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'GetTransactionSearch?search=TRANAMT' + '&custName2='
+				+ custName2;
+		$('#TransactionInq').empty();
+	}
+
+	function TranstatusSearchFun() {
+		$("#TranstatusSearch").modal('hide');
+		var custName2 = $("#Transtatus").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'GetTransactionSearch?search=TRANSTATUS'
+				+ '&custName2=' + custName2;
+		$('#TransactionInq').empty();
+	}
+	function TranAcctSearchFun() {
+		$("#TranAcctSearch").modal('hide');
+		var custName2 = $("#TranAcct").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'GetTransactionSearch?search=TRANACCT' + '&custName2='
+				+ custName2;
+		$('#TransactionInq').empty();
+	}
+	function TrancrncySearchFun() {
+		$("#TrancrncySearch").modal('hide');
+		var custName2 = $("#Trancrncy").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'GetTransactionSearch?search=TRANCRNCY' + '&custName2='
+				+ custName2;
+		$('#TransactionInq').empty();
+	}
+	function TranCustSearchFun() {
+		$("#TranCustSearch").modal('hide');
+		var custName2 = $("#TranCust").val();
+		$("#loadermodal").modal("toggle");
+		location.href = 'GetTransactionSearch?search=TRANCUST' + '&custName2='
+				+ custName2;
+		$('#TransactionInq').empty();
+	}
+	function fnClick(a) {
+		$("#loadermodal").modal("toggle");
+		var tranid = a.getAttribute("data-tran_id");
+		var tranrefno = a.getAttribute("data-tran_ref_no");
+		/* var parttranid = a.getAttribute("data-part_tran_id"); */
+		var acid = a.getAttribute("data-foracid");
+		var parttranid = a.getAttribute("data-parttran");
+		var trandate = a.getAttribute("data-trandate");
+		location.href = 'AMLTranInquiry?tranid=' + tranid + '&tranrefno='
+				+ tranrefno + '&acid=' + acid + '&parttranid=' + parttranid
+				+ '&trandate=' + trandate;
+	}
+
+	function gettrandate() {
+		$("#loadermodal").modal("toggle");
+		var fromdate = $("#fromdate").val();
+		var todate = $("#todate").val();
+
+		location.href = 'TransactionInquirydate?fromdate=' + fromdate
+				+ '&todate=' + todate;
+	}
+	$(function() {
+
+		$("#fromdate")
+				.datepicker(
+						{
+							maxDate : 0,
+							changeMonth : true,
+							changeYear : true,
+							dateFormat : "dd/mm/yy",
+							onSelect : function(selected) {
+								var dt = $(this).datepicker('getDate');
+								dt.setDate(dt.getDate());
+								var fromdate = document
+										.getElementById("fromdate").value;
+								var todate = document.getElementById("todate").value;
+								if (fromdate == "") {
+									alert("Enter From date");
+								} else {
+									/* $("#loadermodal").modal("toggle");
+									location.href = 'TransactionInquirydate?fromdate='
+											+ fromdate + '&todate=' + todate; */
+								}
+								/* $("#todate")
+										.datepicker("option", "minDate", dt); */
+
+							}
+						});
+		$("#todate")
+				.datepicker(
+						{
+							//minDate : 0,
+							changeMonth : true,
+							changeYear : true,
+							dateFormat : "dd/mm/yy",
+							onSelect : function(selected) {
+								var dt = new Date(selected);
+								dt.setDate(dt.getDate() - 1);
+								var fromdate = document
+										.getElementById("fromdate").value;
+								var todate = document.getElementById("todate").value;
+								if (fromdate == "") {
+									alert("Enter From date");
+								} else {
+									$("#loadermodal").modal("toggle");
+									location.href = 'TransactionInquirydate?fromdate='
+											+ fromdate + '&todate=' + todate;
+								}
+
+								//$("#start_date").datepicker("option", "maxDate", dt);
+							}
+						});
+	});
+	function fnClickAcct(a) {
+		$("#loadermodal").modal("toggle");
+		var acctnum = a.getAttribute("data-acctnum")
+		var CUSTID = a.getAttribute("data-custid")
+		var acid = a.getAttribute("data-acid")
+		if(CUSTID == null){
+			$("#alertmsg").text("Office Account Not Accessible! ");
+
+			$('#alert').modal("toggle");
+		}else{
+			location.href = 'AMLAccountInquiry1?acctnum=' + acctnum + '&CUSTID='
+			+ CUSTID + '&acid=' + acid;
+		}
+		
+	}
+	function fnClickCUST(a) {
+		$("#loadermodal").modal("toggle");
+		var custId = a.getAttribute("data-custId")
+		location.href = 'AMLCustInquiry1?custId=' + custId;
+	}
+	/*]]>*/
+</script>
+</head>
+<title>AML</title>
+
+<body>
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('TransactionInquiry')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+
+				<div
+					th:if="${formmode}=='list' OR ${formmode}=='SEARCH' OR ${select}=='datefield'"
+					class="content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle">
+								<b th:text="${menuname}"></b> <input type="hidden" id="f1"
+									th:value="${fromdate}"> <input type="hidden" id="t1"
+									th:value="${todate}">
+							</div>
+							<label></label>
+							<div class="row formline" style="padding-left: 40px;"
+								>
+<!-- th:if="${datatype}=='list' AND ${fromdate} != ''" -->
+								<div class="col-sm-2" style="padding-top: 8px;">
+									<label for="userId">Start Date</label>
+								</div>
+								<div class="col-sm-3" style="padding-top: 8px;">
+									<input type="text" id="fromdate" th:value="${fromdate}"
+										class="form-control form-control-sm" name="fromdate"
+										autocomplete="off"  />
+								</div>
+								<div class="col-sm-1"></div>
+
+								<div class="col-sm-2" style="padding-top: 8px;">
+									<label for="userName">End Date</label>
+								</div>
+								<div class="col-sm-3" style="padding-top: 8px;">
+
+									<input type="text" id="todate" th:value="${todate}"
+										class="form-control form-control-sm" autocomplete="false"
+										 />
+								</div>
+								<!-- <i class="fa fa-arrow-circle-right"
+									style="font-size: 48px; color: #080876; float: right;"
+									onclick="gettrandate();"></i> -->
+							</div>
+							<label></label>
+							<div class="table-responsive"
+								style="overflow-x: scroll; overflow-y: hidden;">
+
+
+								<table class="table table-bordered  table-hover table-sm"
+									style="overflow-x: scroll; overflow-y: hidden; width: 150%"
+									id="usertable">
+									<thead class="thead-light">
+
+										<tr>
+											<!-- <th></th> -->
+
+											<th>Customer ID<i class="fas fa-search searchico"
+												style="float: right;" aria-hidden="true"
+												onclick="Customeridsearch1()"></i></th>
+											<th style="">Account Name<i
+												class="fas fa-search searchico" style="float: right;"
+												aria-hidden="true" onclick="tranCustsearch()"></i></th>
+													
+													<th style="">Transaction Date<i
+												class="fas fa-search searchico" style="float: right;"
+												aria-hidden="true" onclick="trandatesearch()"></i></th>
+												
+												<th style="">Transaction Amount<i
+												class="fas fa-search searchico" style="float: right;"
+												aria-hidden="true" onclick="tranamtsearch()"></i></th>
+												
+												
+											<th>Active Product Type<i
+												class="fas fa-search searchico" style="float: right;"
+												aria-hidden="true" ></i></th> 
+												
+												<th>Transaction Type</th>
+												
+												<th style="">Transaction Id<i
+												class="fas fa-search searchico" style="float: right;"
+												aria-hidden="true" onclick="tranIdsearch()"></i></th>
+												
+											<th style="">Part Transaction Id<i
+												class="fas fa-search searchico" style="float: right;"
+												aria-hidden="true" onclick="ptranIdsearch()"></i></th>
+												
+												
+												<th style="">Part Transaction Type<i
+												class="fas fa-search searchico" style="float: right;"
+												aria-hidden="true" onclick="ptrantypesearch()"></i></th>
+												
+												<th style="">Transaction Account<i
+												class="fas fa-search searchico" style="float: right;"
+												aria-hidden="true" onclick="tranacctsearch()"></i></th>
+												
+												<th style="">Transaction Status<i
+												class="fas fa-search searchico" style="float: right;"
+												aria-hidden="true" ></i></th><!-- onclick="transtatussearch()" -->
+												
+												<!-- onclick="ActiveProductsearch1()" -->
+												
+												
+											<!-- <th>Transaction Ref No<i class="fas fa-search searchico"
+												style="float: right;" aria-hidden="true"
+												onclick="tranrefNosearch()"></i></th> -->
+										
+											
+											
+											<!-- <th style="">Transaction Currency<i
+												class="fas fa-search searchico" style="float: right;"
+												aria-hidden="true" onclick="trancurncysearch()"></i></th> -->
+											
+											
+											
+											
+
+
+										</tr>
+									</thead>
+									<tbody id="TransactionInq">
+										<tr th:if="${count}=='0' ">
+											<td colspan="13" style="text-align: LEFT; color: red">No
+												Data Found</td>
+										</tr>
+										<tr th:each="transaction : ${transactionInquiry}"
+											th:id="${transaction.transactionmasterembeddedid.tran_id}"
+											class="userlist">
+
+											<td class="underline" onclick="fnClickCUST(this);"
+												th:attr="data-custId=${transaction.aCCT_MASTER.cif_id}"
+												th:text="${transaction.aCCT_MASTER.cif_id}"></td>
+												
+											 <td th:text="${transaction.aCCT_MASTER.acct_name}"></td>
+													
+											 <td th:text="${#dates.format(transaction.tran_date,'dd/MM/yyyy')}"></td>
+													
+											 <td th:text="${#numbers.formatDecimal(transaction.tran_amt,1,'COMMA',2,'POINT')}" align="right">CHENNAI</td>
+													
+											 <td th:attr="data-custId=${transaction.aCCT_MASTER.schm_code}" th:text="${transaction.aCCT_MASTER.schm_type}"></td>
+											 
+											 <th:block th:if="${transaction.aCCT_MASTER.schm_type} !='LAA' AND ${transaction.aCCT_MASTER.schm_type} !='TDA' and ${transaction.tran_sub_type} != 'NP' AND ${transaction.tran_sub_type} != 'NR' OR ${transaction.aCCT_MASTER.schm_type} =='OAB' "
+												th:switch="${transaction.transactionmasterembeddedid.part_tran_type}">
+												<td th:case="'C'">Other Receipts</td>
+												<td th:case="'D'">Other Withdrawal</td>
+											</th:block> 
+											<th:block th:if="${transaction.aCCT_MASTER.schm_type} =='LAA' AND ${transaction.dtt_flow_code} == ''" th:switch="${transaction.transactionmasterembeddedid.part_tran_type}" >
+											<td th:case="'C'">Other Receipts</td>
+												<td th:case="'D'">Other Withdrawal</td>
+											</th:block>
+												
+											<td th:if="${transaction.aCCT_MASTER.schm_type} =='LAA' AND ${transaction.dtt_flow_code} != null" th:text="${transaction.dtt_flow_code}" ></td>
+										
+												
+											<td class="underline" onclick="fnClick(this);"
+												th:attr="data-tran_id=${transaction.transactionmasterembeddedid.tran_id},data-tran_ref_no=${transaction?.ref_num},data-foracid=${transaction.aCCT_MASTER.acid},data-parttran=${transaction.part_tran_srl_num},data-trandate = ${#dates.format(transaction.tran_date,'dd-MMM-yyyy')}"
+												th:text="${transaction.transactionmasterembeddedid.tran_id}">
+											</td>
+												
+											<td th:text="${transaction.part_tran_srl_num}"></td>
+											
+											<th:block
+												th:switch="${transaction.transactionmasterembeddedid.part_tran_type}">
+												<td th:case="'T'">Transfer</td>
+												<td th:case="'C'">Credit</td>
+												<td th:case="'D'">Deposit</td>
+											</th:block>
+												
+											<!-- <td th:text="${transaction?.ref_num}"></td> -->
+											
+											<!-- <td th:if="${transaction.aCCT_MASTER.schm_code} =='TDA'" th:text="${transaction.dtt_flow_code}"></td>
+											 
+											 <td
+												th:if="${transaction.aCCT_MASTER.schm_code} =='LAA'"
+												th:text="${transaction.loan_flow_code}"></td>
+												
+											<th:block th:if="${transaction.aCCT_MASTER.schm_code} !='LAA' AND ${transaction.aCCT_MASTER.schm_code} !='TDA'"
+												th:switch="${transaction.tran_sub_type}">
+												<td th:case="'NR'">Cash Receipts</td>
+												<td th:case="'NP'">Cash Withdrawal</td>
+											</th:block>	
+											 -->
+										
+											
+											<td class="underline" onclick="fnClickAcct(this);" 
+												th:attr="data-acctnum=${transaction.aCCT_MASTER.foracid},data-custid=${transaction.aCCT_MASTER.cif_id},data-acid=${transaction.aCCT_MASTER.acid}"
+												th:text="${transaction.aCCT_MASTER.foracid}"></td>
+											
+											<th:block
+												th:switch="${transaction.aCCT_MASTER.tam_deposit_status}">
+												<td th:case="'A'">Active</td>
+												<td th:case="'N'">Normal</td>
+												<td th:case="'P'">Premature</td>
+												<td th:case="'R'">Renewal</td>
+												<td th:case="*">Others</td>
+											</th:block>
+											
+<!-- 											<td th:text="${transaction.tran_crncy_code}"></td>
+ -->
+											
+										
+
+
+										
+
+										</tr>
+									</tbody>
+								</table>
+
+							</div>
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+							<div th:if="${formmode}=='list'">
+								<div class="float-right"
+									th:if="${transactionInquiry.totalPages} gt 1"
+									id="paginationCust">
+									<a href="#"><i class="fas fa-caret-left fa-2x"
+										th:onclick="|getUserlist1('prevpage',${transactionInquiry.number},${transactionInquiry.totalPages});|"></i></a>
+									<input type="text" id="pageno" style="width: 30px"
+										th:value="${transactionInquiry.number+1}"
+										th:onchange="|getUserlist1('givenpage',${transactionInquiry.number},${transactionInquiry.totalPages});|"></input>
+									of <font th:text="${transactionInquiry.totalPages}"></font> <a
+										href="#"><i class="fas fa-caret-right fa-2x"
+										th:onclick="|getUserlist1('nextpage',${transactionInquiry.number},${transactionInquiry.totalPages});|"></i></a>
+								</div>
+							</div> 
+							<!--  <div th:if="${select}=='datefield'">
+								<div class="float-right"
+									th:if="${transactionInquiry.totalPages} gt 1"
+									id="paginationCust">
+									<a href="#"><i class="fas fa-caret-left fa-2x"
+										th:onclick="|getUserlist1('prevpage',${transactionInquiry.number},${transactionInquiry.totalPages});|"></i></a>
+									<input type="text" id="pageno" style="width: 30px"
+										th:value="${transactionInquiry.number+1}"
+										th:onchange="|getUserlist1('givenpage',${transactionInquiry.number},${transactionInquiry.totalPages});|"></input>
+									of <font th:text="${transactionInquiry.totalPages}"></font> <a
+										href="#"><i class="fas fa-caret-right fa-2x"
+										th:onclick="|getUserlist1('nextpage',${transactionInquiry.number},${transactionInquiry.totalPages});|"></i></a>
+								</div>
+							</div> 
+ -->
+
+						</div>
+					</div>
+				</div>
+				<div class="text-center"
+					style="background-color: #386276; padding: 5px; width: 100%;">
+
+					<div class="btn-group nav-buttons " style="align: center;">
+						<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+							onclick="home();" style="margin-right: 10px;">Home</button>
+						<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+							onclick="back();">Back</button>
+					</div>
+				</div>
+
+				<!------------------------Pop window - Domain  list Ends--------------------------------->
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+				<div class="modal fade" id="TranrefNoSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Tran Reference Number"
+									id="TranrefNo"><i class="fas fa-search searchico"
+									style="float: right;" aria-hidden="true"
+									onclick="TranrefNoSearchFun()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="TrandateSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Tran Date" id="TRANDATES"><i
+									class="fas fa-search searchico" style="float: right;"
+									aria-hidden="true" onclick="TrandateSearchFun()" readonly></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="Customeridsearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Customer ID"
+									id="customerid"><i class="fas fa-search searchico"
+									style="float: right;" aria-hidden="true"
+									onclick="CustomeridsearchFun()" readonly></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="TranIdSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Tran ID" id="TranId"><i
+									class="fas fa-search searchico" style="float: right;"
+									aria-hidden="true" onclick="TranIdSearchFun()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="PtrantypeSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Part Trantype"
+									id="Ptrantype"><i class="fas fa-search searchico"
+									style="float: right;" aria-hidden="true"
+									onclick="PtrantypeSearchFun()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="PtranIdSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Part Trantype"
+									id="PtranId"><i class="fas fa-search searchico"
+									style="float: right;" aria-hidden="true"
+									onclick="PtranIdSearchFun()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="TranamtSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Tran Amount" id="Tranamt"><i
+									class="fas fa-search searchico" style="float: right;"
+									aria-hidden="true" onclick="TranamtSearchFun()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="TranstatusSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Tran Status"
+									id="Transtatus"><i class="fas fa-search searchico"
+									style="float: right;" aria-hidden="true"
+									onclick="TranstatusSearchFun()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="TranAcctSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Account Number"
+									id="TranAcct"><i class="fas fa-search searchico"
+									style="float: right;" aria-hidden="true"
+									onclick="TranAcctSearchFun()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="TranCustSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Customer Name"
+									onkeyup="this.value = this.value.toUpperCase();" id="TranCust"><i
+									class="fas fa-search searchico" style="float: right;"
+									aria-hidden="true" onclick="TranCustSearchFun()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="TrancrncySearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Tran Currency"onkeyup="this.value = this.value.toUpperCase();" 
+									id="Trancrncy"><i class="fas fa-search searchico"
+									style="float: right;" aria-hidden="true"
+									onclick="TrancrncySearchFun()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="activeproduct">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Active ProductType"
+									id="ActiveProductType" maxlength="1"onkeyup="this.value = this.value.toUpperCase();"><i
+									class="fas fa-search searchico" style="float: right;"
+									aria-hidden="true" onclick="ActiveProductTypeSearchFun()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+
+				<div class="modal fade" id="alert">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="alertmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="loadermodal" data-backdrop="static"
+					data-keyboard="false">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="background-color: #94b8dd00;">
+							<div class="modal-body" style="text-align: center">
+								<div class="loader">Loading...</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+</body>
+</html>

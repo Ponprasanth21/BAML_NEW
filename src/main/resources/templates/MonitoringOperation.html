@@ -1,0 +1,406 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLCMDocuments
+CREATED BY	: MANIVANNAN
+CREATED ON	: 27-JAN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en"  >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+
+<!-- 	 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ -->
+<script src="js/bootstrap411.js"></script>
+<style type="text/css">
+.btn {
+	line-height: 0.5rem;
+}
+</style>
+
+<style>
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+
+.dataTables_filter {
+	margin-top: -22px;
+}
+
+#usertable1_filter {
+	display: none;
+}
+
+#histtable_filter {
+	display: none;
+}
+</style>
+
+<script>
+	$(function() {
+		$("#Fromdate").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd-M-yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+				$("#Todate").datepicker("option", "minDate", dt);
+
+			}
+		});
+		$("#Todate")
+				.datepicker(
+						{
+							changeMonth : true,
+							changeYear : true,
+							minDate : 0,
+							dateFormat : "dd-M-yy",
+							onSelect : function(selected) {
+								var dt = new Date(selected);
+								dt.setDate(dt.getDate() - 1);
+								var Fromdate = document
+										.getElementById("Fromdate").value;
+								var Todate = document.getElementById("Todate").value;
+								var Todate1 = document.getElementById("rule_type1").value;
+								if (Fromdate == "") {
+									alert("Enter From date");
+								} else {
+									location.href = 'BAMLMONITORINGOPERATION?Fromdate='
+											+ Fromdate + '&Todate=' + Todate;
+								}
+
+								//$("#period_start_date").datepicker("option", "maxDate", dt);
+							}
+						});
+	});
+
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+		var Fromdate = document.getElementById("Fromdate").value;
+		var Todate = document.getElementById("Todate").value; 
+		
+		var Callurl = 'BAMLMONITORINGOPERATION?Fromdate=' + Fromdate
+				+ '&Todate=' + Todate;
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+
+		}
+
+		location.href = Callurl;
+	}
+	function home() {
+		location.href = 'Dashboard'
+	}
+
+	function back() {
+		window.history.back();
+	}
+</script>
+</head>
+<title>AML</title>
+
+<body>
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+
+
+
+
+
+				<!-- -------------------------list-Starts-------------------------- -->
+				<div class="content">
+					<div class="row">
+						<div class="col-sm-12">
+
+							<div class="card">
+								<div class="card-header" id="modheadtitle" style="height: 47px;">
+									<b th:text="${menuname}"></b>
+
+								</div>
+								<label></label>
+								<div class="row formline">
+									<div class="col-sm-1"></div>
+								
+
+									<div class="col-sm-2">
+										<label for="CUSTID">Reference No :</label>
+									</div>
+
+									<div class="col-sm-2">
+										<select class="form-control form-control-sm"
+														
+														id="rule_type" name="rule_type"
+														style="float: left; font-size: 13px;" required>
+														<option value="">SELECT</option>
+														<option th:each="monitoringparam : ${MonitoringParameter}"
+															th:value="${monitoringparam.ref_no}"
+															th:text="${monitoringparam.ref_no}"></option>
+													</select>
+									</div>
+									<div class="col-sm-1"></div>
+
+									<div class="col-sm-2">
+										<label for="custName">Reference Value</label>
+									</div>
+
+									<div class="col-sm-2">
+										<select class="form-control form-control-sm"
+														
+														id="rule_type1" name="rule_type"
+														style="float: left; font-size: 13px;" required>
+														<option value="">SELECT</option>
+														<option th:each="monitoringparam : ${MonitoringParameter}"
+															th:value="${monitoringparam.table_field}"
+															th:text="${monitoringparam.value1}"></option>
+													</select>
+									</div> 
+
+
+
+
+								</div>
+								
+								<label></label>
+								<div class="row formline">
+									<div class="col-sm-1"></div>
+								
+
+									<div class="col-sm-2">
+										<label for="CUSTID">From Date</label>
+									</div>
+
+									<div class="col-sm-2">
+										<input type="text" id="Fromdate" th:value="${Fromdate}"
+											class="form-control form-control-sm" name="cust_id"
+											autocomplete="off" />
+									</div>
+									<div class="col-sm-1"></div>
+
+									<div class="col-sm-2">
+										<label for="custName">To Date</label>
+									</div>
+
+									<div class="col-sm-2">
+										<input type="text" id="Todate" name="cust_name"
+											th:value="${Todate}" class="form-control form-control-sm"
+											autocomplete="false" required />
+									</div>
+
+
+
+
+								</div>
+
+								<label></label>
+
+								<!-- <div class="card-body"> -->
+								<table class="table  table-bordered  table-hover table-sm"
+									th:if="${formmode}=='list1'" style="margin-bottom: 0px"
+									id="usertable12">
+									<thead class="thead-light">
+										<tr>
+											<!-- <th></th> -->
+											<th>Report Date</th>
+											<th>Audit Date</th>
+											<th>Customer Id</th>
+											<th>Account Number</th>
+											<th>Field</th>
+											<th>Old Value</th>
+											<th>New Value</th>
+											<th>Entry User</th>
+											<th>Entry Time</th>
+											<th>Auth User</th>
+											<th>Auth Time</th>
+											<th>Remarks</th>
+
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:if="${AuditList.totalPages} == '0'">
+											<td colspan="10" style="text-align: left; color: red">No
+												record available for this Account</td>
+										</tr>
+										<tr th:if="${AuditList.totalPages} != '0'"
+											th:each="auditdata : ${AuditList}" class="userlist">
+											<td
+												th:text="${#dates.format(auditdata?.audit_date, 'dd-MM-yyyy')}"></td>
+											<td
+												th:text="${#dates.format(auditdata?.audit_date, 'dd-MM-yyyy')}"></td>
+											<td><span
+												th:if="${#strings.arraySplit(auditdata?.table_key, '/')[0]} != ''"
+												th:text="${#strings.arraySplit(auditdata?.table_key, '/')[0]}"></span><br>
+											<span
+												th:if="${#strings.arraySplit(auditdata?.table_key, '/')[0]} == ''"
+												th:text=null></span>
+											</td>
+											<td th:text="${auditdata?.foracid}"></td>
+
+											<td><span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, ':')[0]} != ''"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, ':')[0]}"></span>
+												<br> <span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, ':')[3]} != ''"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, ':')[3]}"></span>
+												<br></td>
+											<td><span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, ':')[1]} != ''"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, ':')[1]}"></span>
+												<br> <span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, ':').length} > '4'"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, ':')[4]}"></span>
+												<span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, ':').length} < '4'"
+												th:text=""></span></td>
+											<td><span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, ':').length} >  '2'"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, ':')[2]}"></span>
+												<br> <span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, ':').length} >'5'"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, ':')[5]}"></span>
+											</td>
+											<td th:text="${auditdata?.enterer_id}"></td>
+											<td th:text="${auditdata?.remarks}"></td>
+											<td th:text="${auditdata?.auth_id}"></td>
+											<td th:text="${auditdata?.auth_id}"></td>
+											<td th:text="${auditdata?.remarks}"></td>
+											<!-- <td
+												th:if="${#strings.arraySplit(auditdata?.modified_value, ':')[3]} != ''"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, ':')[0]}+ '' +${#strings.arraySplit(auditdata?.modified_value, ':')[3]}"></td>
+
+											<td
+												th:if="${#strings.arraySplit(auditdata?.modified_value, ':')[4]} == ''"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, ':')[1]}"></td>
+
+											<td
+												th:if="${#strings.arraySplit(auditdata?.modified_value, ':')[4]} != ''"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, ':')[1]}+ ',' +${#strings.arraySplit(auditdata?.modified_value, ':')[4]}"></td>
+
+
+											<td
+												th:if="${#strings.arraySplit(auditdata?.modified_value, ':')[5]} == ''"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, ':')[2]}"></td>
+
+											<td
+												th:if="${#strings.arraySplit(auditdata?.modified_value, ':')[5]} != ''"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, ':')[2]}+ ',' +${#strings.arraySplit(auditdata?.modified_value, ':')[5]}"></td>
+
+ -->
+
+
+										</tr>
+									</tbody>
+								</table>
+								<div class="text-center"
+									style="background-color: #386276; padding: 5px; width: 100%;">
+
+									<div class="btn-group nav-buttons " style="align: center;">
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnBack" onclick="back();">Back</button>
+									</div>
+								</div>
+								<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+								<div th:if="${formmode}=='list1'">
+									<div class="float-right" th:if="${AuditList.totalPages} gt 1">
+										<a href="#"><i class="fas fa-caret-left fa-2x"
+											th:onclick="|getUserlist('prevpage',${AuditList.number},${AuditList.totalPages});|"></i></a>
+										<input type="text" id="pageno" style="width: 30px"
+											th:value="${AuditList.number+1}"
+											th:onchange="|getUserlist('givenpage',${AuditList.number},${AuditList.totalPages});|"></input>
+										of <font th:text="${AuditList.totalPages}"></font> <a href="#"><i
+											class="fas fa-caret-right fa-2x"
+											th:onclick="|getUserlist('nextpage',${AuditList.number},${AuditList.totalPages});|"></i></a>
+									</div>
+								</div>
+
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<!------------------------list Ends--------------------------------->
+
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,1075 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="T23" pageWidth="850" pageHeight="842" columnWidth="810" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9800ca25-1d03-40d1-8c89-363c8a4ee36d">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="aml@local"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="Title" mode="Opaque" backcolor="#D6DCE4"/>
+	<style name="Header" mode="Opaque" backcolor="#B3C6E7"/>
+	<style name="Cell" mode="Opaque" backcolor="#AFABAB"/>
+	<parameter name="REPORT_DATE" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from T23_AML_CFT_REVIEWS_TABLE  where report_date = $P{REPORT_DATE}]]>
+	</queryString>
+	<field name="D1A_ACCT_OPN_APPL" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D1A_ACCT_OPN_APPL"/>
+	</field>
+	<field name="D2A_CUST_RATE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D2A_CUST_RATE"/>
+	</field>
+	<field name="D3A_LARGE_CASH_TRAN" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D3A_LARGE_CASH_TRAN"/>
+	</field>
+	<field name="D4A_HIGH_RISK_CLIENT_TRAN" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D4A_HIGH_RISK_CLIENT_TRAN"/>
+	</field>
+	<field name="D5A_HIGH_RISK_CLIENT_FILES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D5A_HIGH_RISK_CLIENT_FILES"/>
+	</field>
+	<field name="D6A_MED_RISK_CLIENT_TRAN" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D6A_MED_RISK_CLIENT_TRAN"/>
+	</field>
+	<field name="D7A_MED_RISK_CLIENT_FILES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D7A_MED_RISK_CLIENT_FILES"/>
+	</field>
+	<field name="D8A_HITS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D8A_HITS"/>
+	</field>
+	<field name="D9A_ALERTS_RAISED" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D9A_ALERTS_RAISED"/>
+	</field>
+	<field name="D10A_ALERTS_CLOSED" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D10A_ALERTS_CLOSED"/>
+	</field>
+	<field name="D11A_INT_SUSP_RPTS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D11A_INT_SUSP_RPTS"/>
+	</field>
+	<field name="D12A_INT_SUPS_RPTS_CLOSED" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D12A_INT_SUPS_RPTS_CLOSED"/>
+	</field>
+	<field name="D13A_ACCTS_CLOSED" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D13A_ACCTS_CLOSED"/>
+	</field>
+	<field name="D14A_INACT_ACCTS_REACT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D14A_INACT_ACCTS_REACT"/>
+	</field>
+	<field name="D15A_NOF_ABAND_ACCTS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D15A_NOF_ABAND_ACCTS"/>
+	</field>
+	<field name="P1B_PRE_ACCT_OPN_APPL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P1B_PRE_ACCT_OPN_APPL"/>
+	</field>
+	<field name="P2B_PRE_CUST_RATE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P2B_PRE_CUST_RATE"/>
+	</field>
+	<field name="P3B_PRE_LARGE_CASH_TRAN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P3B_PRE_LARGE_CASH_TRAN"/>
+	</field>
+	<field name="P4B_PRE_HIGH_RISK_CLIENT_TRAN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P4B_PRE_HIGH_RISK_CLIENT_TRAN"/>
+	</field>
+	<field name="P5B_PRE_HIGH_RISK_CLIENT_FILES" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P5B_PRE_HIGH_RISK_CLIENT_FILES"/>
+	</field>
+	<field name="P6B_PRE_MED_RISK_CLIENT_TRAN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P6B_PRE_MED_RISK_CLIENT_TRAN"/>
+	</field>
+	<field name="P7B_PRE_MED_RISK_CLIENT_FILES" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P7B_PRE_MED_RISK_CLIENT_FILES"/>
+	</field>
+	<field name="P8B_PRE_HITS" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P8B_PRE_HITS"/>
+	</field>
+	<field name="P9B_PRE_ALERTS_RAISED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P9B_PRE_ALERTS_RAISED"/>
+	</field>
+	<field name="P10B_PRE_ALERTS_CLOSED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P10B_PRE_ALERTS_CLOSED"/>
+	</field>
+	<field name="P11B_PRE_INT_SUSP_RPTS" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P11B_PRE_INT_SUSP_RPTS"/>
+	</field>
+	<field name="P12B_PRE_INT_SUPS_RPTS_CLOSED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P12B_PRE_INT_SUPS_RPTS_CLOSED"/>
+	</field>
+	<field name="P13B_PRE_ACCTS_CLOSED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P13B_PRE_ACCTS_CLOSED"/>
+	</field>
+	<field name="P14B_PRE_INACT_ACCTS_REACT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P14B_PRE_INACT_ACCTS_REACT"/>
+	</field>
+	<field name="P15B_PRE_NOF_ABAND_ACCTS" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P15B_PRE_NOF_ABAND_ACCTS"/>
+	</field>
+	<field name="P1C_PRE_GR_ACCT_OPN_APPL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P1C_PRE_GR_ACCT_OPN_APPL"/>
+	</field>
+	<field name="P2C_PRE_GR_CUST_RATE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P2C_PRE_GR_CUST_RATE"/>
+	</field>
+	<field name="P3C_PRE_GR_LARGE_CASH_TRAN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P3C_PRE_GR_LARGE_CASH_TRAN"/>
+	</field>
+	<field name="P4C_PRE_GR_HIGH_RISK_CLIENT_TRAN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P4C_PRE_GR_HIGH_RISK_CLIENT_TRAN"/>
+	</field>
+	<field name="P5C_PRE_GR_HIGH_RISK_CLIENT_FILES" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P5C_PRE_GR_HIGH_RISK_CLIENT_FILES"/>
+	</field>
+	<field name="P6C_PRE_GR_MED_RISK_CLIENT_TRAN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P6C_PRE_GR_MED_RISK_CLIENT_TRAN"/>
+	</field>
+	<field name="P7C_PRE_GR_MED_RISK_CLIENT_FILES" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P7C_PRE_GR_MED_RISK_CLIENT_FILES"/>
+	</field>
+	<field name="P8C_PRE_GR_HITS" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P8C_PRE_GR_HITS"/>
+	</field>
+	<field name="P9C_PRE_GR_ALERTS_RAISED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P9C_PRE_GR_ALERTS_RAISED"/>
+	</field>
+	<field name="P10C_PRE_GR_ALERTS_CLOSED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P10C_PRE_GR_ALERTS_CLOSED"/>
+	</field>
+	<field name="P11C_PRE_GR_INT_SUSP_RPTS" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P11C_PRE_GR_INT_SUSP_RPTS"/>
+	</field>
+	<field name="P12C_PRE_GR_INT_SUPS_RPTS_CLOSED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P12C_PRE_GR_INT_SUPS_RPTS_CLOSED"/>
+	</field>
+	<field name="P13C_PRE_GR_ACCTS_CLOSED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P13C_PRE_GR_ACCTS_CLOSED"/>
+	</field>
+	<field name="P14C_PRE_GR_INACT_ACCTS_REACT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P14C_PRE_GR_INACT_ACCTS_REACT"/>
+	</field>
+	<field name="P15C_PRE_GR_NOF_ABAND_ACCTS" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="P15C_PRE_GR_NOF_ABAND_ACCTS"/>
+	</field>
+	<field name="C1D_CUR_ACCT_OPN_APPL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1D_CUR_ACCT_OPN_APPL"/>
+	</field>
+	<field name="C2D_CUR_CUST_RATE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2D_CUR_CUST_RATE"/>
+	</field>
+	<field name="C3D_CUR_LARGE_CASH_TRAN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3D_CUR_LARGE_CASH_TRAN"/>
+	</field>
+	<field name="C4D_CUR_HIGH_RISK_CLIENT_TRAN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4D_CUR_HIGH_RISK_CLIENT_TRAN"/>
+	</field>
+	<field name="C5D_CUR_HIGH_RISK_CLIENT_FILES" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5D_CUR_HIGH_RISK_CLIENT_FILES"/>
+	</field>
+	<field name="C6D_CUR_MED_RISK_CLIENT_TRAN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6D_CUR_MED_RISK_CLIENT_TRAN"/>
+	</field>
+	<field name="C7D_CUR_MED_RISK_CLIENT_FILES" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7D_CUR_MED_RISK_CLIENT_FILES"/>
+	</field>
+	<field name="C8D_CUR_HITS" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8D_CUR_HITS"/>
+	</field>
+	<field name="C9D_CUR_ALERTS_RAISED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9D_CUR_ALERTS_RAISED"/>
+	</field>
+	<field name="C10D_CUR_ALERTS_CLOSED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10D_CUR_ALERTS_CLOSED"/>
+	</field>
+	<field name="C11D_CUR_INT_SUSP_RPTS" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11D_CUR_INT_SUSP_RPTS"/>
+	</field>
+	<field name="C12D_CUR_INT_SUCP_RPTS_CLOSED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12D_CUR_INT_SUCP_RPTS_CLOSED"/>
+	</field>
+	<field name="C13D_CUR_ACCTS_CLOSED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C13D_CUR_ACCTS_CLOSED"/>
+	</field>
+	<field name="C14D_CUR_INACT_ACCTS_REACT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C14D_CUR_INACT_ACCTS_REACT"/>
+	</field>
+	<field name="C15D_CUR_NOF_ABAND_ACCTS" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C15D_CUR_NOF_ABAND_ACCTS"/>
+	</field>
+	<field name="C1E_CUR_GR_ACCT_OPN_APPL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1E_CUR_GR_ACCT_OPN_APPL"/>
+	</field>
+	<field name="C2E_CUR_GR_CUST_RATE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2E_CUR_GR_CUST_RATE"/>
+	</field>
+	<field name="C3E_CUR_GR_LARGE_CASH_TRAN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3E_CUR_GR_LARGE_CASH_TRAN"/>
+	</field>
+	<field name="C4E_CUR_GR_HIGH_RISK_CLIENT_TRAN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4E_CUR_GR_HIGH_RISK_CLIENT_TRAN"/>
+	</field>
+	<field name="C5E_CUR_GR_HIGH_RISK_CLIENT_FILES" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5E_CUR_GR_HIGH_RISK_CLIENT_FILES"/>
+	</field>
+	<field name="C6E_CUR_GR_MED_RISK_CLIENT_TRAN" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6E_CUR_GR_MED_RISK_CLIENT_TRAN"/>
+	</field>
+	<field name="C7E_CUR_GR_MED_RISK_CLIENT_FILES" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7E_CUR_GR_MED_RISK_CLIENT_FILES"/>
+	</field>
+	<field name="C8E_CUR_GR_HITS" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8E_CUR_GR_HITS"/>
+	</field>
+	<field name="C9E_CUR_GR_ALERTS_RAISED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9E_CUR_GR_ALERTS_RAISED"/>
+	</field>
+	<field name="C10E_CUR_GR_ALERTS_CLOSED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10E_CUR_GR_ALERTS_CLOSED"/>
+	</field>
+	<field name="C11E_CUR_GR_INT_SUSP_RPTS" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11E_CUR_GR_INT_SUSP_RPTS"/>
+	</field>
+	<field name="C12E_CUR_GR_INT_SUSP_RPTS_CLOSED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12E_CUR_GR_INT_SUSP_RPTS_CLOSED"/>
+	</field>
+	<field name="C13E_CUR_GR_ACCTS_CLOSED" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C13E_CUR_GR_ACCTS_CLOSED"/>
+	</field>
+	<field name="C14E_CUR_GR_INACT_ACCTS_REACT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C14E_CUR_GR_INACT_ACCTS_REACT"/>
+	</field>
+	<field name="C15E_CUR_GR_NOF_ABAND_ACCTS" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C15E_CUR_GR_NOF_ABAND_ACCTS"/>
+	</field>
+	<field name="REPORT_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_CODE"/>
+	</field>
+	<field name="REPORT_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_NAME"/>
+	</field>
+	<field name="REPORT_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_DATE"/>
+	</field>
+	<field name="REPORT_DUE_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_DUE_DATE"/>
+	</field>
+	<field name="REP_SUBMIT_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REP_SUBMIT_DATE"/>
+	</field>
+	<field name="REP_PERIOD_FROM" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REP_PERIOD_FROM"/>
+	</field>
+	<field name="REP_PERIOD_TO" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REP_PERIOD_TO"/>
+	</field>
+	<field name="REP_FREQ" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REP_FREQ"/>
+	</field>
+	<field name="NIL_REPORT_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NIL_REPORT_FLG"/>
+	</field>
+	<field name="ARCH_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ARCH_FLG"/>
+	</field>
+	<field name="ENTRY_USER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ENTRY_USER"/>
+	</field>
+	<field name="MODIFY_USER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MODIFY_USER"/>
+	</field>
+	<field name="VERIFY_USER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="VERIFY_USER"/>
+	</field>
+	<field name="ENTRY_TIME" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="ENTRY_TIME"/>
+	</field>
+	<field name="MODIFY_TIME" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="MODIFY_TIME"/>
+	</field>
+	<field name="VERIFY_TIME" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="VERIFY_TIME"/>
+	</field>
+	<field name="MODIFY_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MODIFY_FLG"/>
+	</field>
+	<title>
+		<band height="110" splitType="Stretch">
+			<textField pattern="MMM/yyyy" isBlankWhenNull="true">
+				<reportElement x="340" y="0" width="115" height="30" uuid="2e19eaa1-42a5-4115-8b23-671a3375d114"/>
+				<textFieldExpression><![CDATA[$P{REPORT_DATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="18" y="0" width="222" height="13" uuid="042bc437-4aa8-4f19-b84c-9784b22eeb28"/>
+				<text><![CDATA[Reporting Currency - MUR ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="0" width="94" height="30" uuid="20a607c9-42cf-4b63-974d-9abf468b68ba"/>
+				<text><![CDATA[Reporting Quarter -]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Title" x="14" y="80" width="473" height="30" uuid="c7b5c825-f968-46ed-be4f-922706121a7c"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Table 23: Compliance AML-CFT reviews/ checks]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="490" splitType="Stretch">
+			<staticText>
+				<reportElement style="Header" x="14" y="0" width="236" height="20" uuid="3d746117-a68a-4522-b7c9-895ffb2b8612"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="250" y="0" width="75" height="20" uuid="cb22baeb-6b6d-42d9-a85b-37ef7f2677be">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="325" y="0" width="162" height="20" uuid="03195a64-ee4a-4321-beb8-ebe0d18fa144">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[No. graded less than "fully compliant"
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="14" y="20" width="236" height="30" uuid="52fc139b-9b33-4612-9119-c60b1788b99c"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D1A_ACCT_OPN_APPL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="50" width="75" height="30" uuid="d09e2bdd-6561-46ec-8dc2-6ec722421043">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C2D_CUR_CUST_RATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="14" y="110" width="236" height="30" uuid="e744b86a-7ba3-4ea6-84f8-3a591a63c3f6">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D4A_HIGH_RISK_CLIENT_TRAN}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="325" y="50" width="162" height="30" uuid="be9e32cd-364b-438c-8971-edb42594e3b2">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C2E_CUR_GR_CUST_RATE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="140" width="75" height="30" uuid="ce5662a0-2c99-4fd3-ac48-4a83036357bb">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C5D_CUR_HIGH_RISK_CLIENT_FILES}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="325" y="110" width="162" height="30" uuid="62755c54-13df-4f2b-ba9e-ef0ee6c7990d">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C4E_CUR_GR_HIGH_RISK_CLIENT_TRAN}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="325" y="80" width="162" height="30" uuid="71201f0a-5f48-4caa-bff7-3015ec0e60fd">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C3E_CUR_GR_LARGE_CASH_TRAN}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="14" y="50" width="236" height="30" uuid="161bde42-9cd3-4a59-b590-1236943d39cf">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D2A_CUST_RATE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="110" width="75" height="30" uuid="a21c68d4-31f9-41ef-9c0e-fc43811bc5f7">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C4D_CUR_HIGH_RISK_CLIENT_TRAN}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="14" y="140" width="236" height="30" uuid="abc24320-9651-4ed5-a8e2-cced82bc6097">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D5A_HIGH_RISK_CLIENT_FILES}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="325" y="140" width="162" height="30" uuid="4df04027-70df-4ffd-853c-b5187103ea9e">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C5E_CUR_GR_HIGH_RISK_CLIENT_FILES}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="80" width="75" height="30" uuid="46ed2855-7eda-4fa2-9b66-cd3ca960fe0e">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C3D_CUR_LARGE_CASH_TRAN}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="14" y="80" width="236" height="30" uuid="a3bfc3c1-4c72-495e-bddb-81ce9dadcae1">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D3A_LARGE_CASH_TRAN}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="325" y="170" width="162" height="30" uuid="5f2c8d26-fb80-4dcb-82ff-3a3dc59b3c31">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C6D_CUR_MED_RISK_CLIENT_TRAN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="170" width="75" height="30" uuid="ef3a929b-b121-49a1-a5c9-3c861008d315">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C6D_CUR_MED_RISK_CLIENT_TRAN}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="14" y="170" width="236" height="30" uuid="e92d7a00-2614-4061-9dd5-93a06d654b10">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D6A_MED_RISK_CLIENT_TRAN}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="14" y="200" width="236" height="30" uuid="94038534-fe62-4f86-9c86-567fef53ae5d">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D7A_MED_RISK_CLIENT_FILES}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="200" width="75" height="30" uuid="1058e2a6-5d07-454d-a480-54c94d656eb0">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C7D_CUR_MED_RISK_CLIENT_FILES}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="325" y="200" width="162" height="30" uuid="c590f5e8-d002-4452-8253-c32478af9a68">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C7E_CUR_GR_MED_RISK_CLIENT_FILES}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="14" y="230" width="236" height="30" uuid="c6f26f24-1ab0-4571-b2f5-d48c55be2be9">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D8A_HITS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="230" width="75" height="30" uuid="4a82a647-dd6f-4acb-8d39-f69a28f324d2">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C8D_CUR_HITS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="325" y="230" width="162" height="30" uuid="9a9d9d7c-843e-4c64-a563-9e6000ab8647">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C8E_CUR_GR_HITS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="14" y="260" width="236" height="30" uuid="23323261-7408-4f48-b538-75d995e6cc40">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D9A_ALERTS_RAISED}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="260" width="75" height="30" uuid="5818f0d2-16f0-45e2-9a9b-3ac5dbceaaaf">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C9D_CUR_ALERTS_RAISED}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="325" y="260" width="162" height="30" uuid="c6d3b716-85ce-4724-bc0a-8a669e155b0a">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C9E_CUR_GR_ALERTS_RAISED}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="14" y="290" width="236" height="30" uuid="e2b96ba7-7c0b-4bbc-afc5-9917a7870b41">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D10A_ALERTS_CLOSED}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="290" width="75" height="30" uuid="ca7e9518-1afc-4506-a6cc-c43b28ad518a">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C10D_CUR_ALERTS_CLOSED}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="325" y="290" width="162" height="30" uuid="428d17e1-ea8a-482b-8e51-e559af70bd3a">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C10E_CUR_GR_ALERTS_CLOSED}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="14" y="320" width="236" height="30" uuid="3b88fb3d-9ead-4d2a-85e5-44e4f42b0a67">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D11A_INT_SUSP_RPTS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="320" width="75" height="30" uuid="8bd14942-95ba-450d-86ea-eed56b68f068">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C11D_CUR_INT_SUSP_RPTS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="325" y="320" width="162" height="30" uuid="35929674-2926-4eca-b25b-832220f6cd8d">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C11E_CUR_GR_INT_SUSP_RPTS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="440" width="74" height="30" uuid="8379d55b-1e77-4eb1-b346-274939452786">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C15D_CUR_NOF_ABAND_ACCTS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="380" width="74" height="30" uuid="1b4a92b8-13d2-4f48-8eb6-4da422b2b15c">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C13D_CUR_ACCTS_CLOSED}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="410" width="74" height="30" uuid="813ea21f-d345-4b4b-a4b9-c04f6c510562">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C14D_CUR_INACT_ACCTS_REACT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="14" y="440" width="236" height="30" uuid="2d6d2aa9-628a-45a9-89dd-278dcf6e2e28">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D15A_NOF_ABAND_ACCTS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="14" y="410" width="236" height="30" uuid="38b65394-c6db-484a-aa38-fc9809979521">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D14A_INACT_ACCTS_REACT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="14" y="350" width="236" height="30" uuid="6b0c0caa-8575-4b05-9e6f-bc669aae9dbc">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D12A_INT_SUPS_RPTS_CLOSED}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="350" width="74" height="30" uuid="9227e137-248a-4ba4-8a53-23be76bb038f">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C12D_CUR_INT_SUCP_RPTS_CLOSED}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="14" y="380" width="236" height="30" uuid="6cabaf0b-12ee-44b9-9cc8-da5492a6bb7f">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D13A_ACCTS_CLOSED}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Cell" x="324" y="380" width="162" height="30" uuid="2f7695ac-6de8-4493-b75c-8256a6f317af">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C13E_CUR_GR_ACCTS_CLOSED}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="324" y="440" width="162" height="30" uuid="9d45145a-2a0a-486b-854e-d7721563b98b">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C15E_CUR_GR_NOF_ABAND_ACCTS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="324" y="350" width="162" height="30" uuid="4ee47bc6-4692-455d-a1bd-4388699482fe">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C12E_CUR_GR_INT_SUSP_RPTS_CLOSED}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="324" y="410" width="162" height="30" uuid="e2b5211f-6095-4b8a-832b-52520e8b3e31">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C14E_CUR_GR_INACT_ACCTS_REACT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="250" y="20" width="75" height="30" uuid="839d46c7-eebf-4e00-b52b-a9193be2a67f">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C1D_CUR_ACCT_OPN_APPL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="325" y="20" width="162" height="30" uuid="f8ad7e17-98f2-4853-bfa0-045c64e53481">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C1E_CUR_GR_ACCT_OPN_APPL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

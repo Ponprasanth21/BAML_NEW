@@ -1,0 +1,2648 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AML_SCR_PARMETER
+CREATED BY	: VIJAY CORDA
+CREATED ON	: 30-MAR-2020
+MODIFY ON   : 
+PURPOSE		: 
+ -->
+<html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+
+
+</head>
+
+
+
+
+<title>AML</title>
+<style>
+nav>.nav.nav-tabs {
+	border: none;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
+	border: none;
+	padding: 18px 25px;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link.active:after {
+	content: "";
+	position: relative;
+	bottom: -60px;
+	left: -10%;
+	border: 15px solid transparent;
+	border-top-color: #1b6491;
+}
+
+.tab-content {
+	background: #fdfdfd;
+	line-height: 25px;
+	width: 100%;
+	border: 1px solid #ddd;
+	border-top: 5px solid #594a43;
+	border-bottom: 5px solid #594a43;
+	padding: 30px 25px;
+}
+
+nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
+	border: none;
+	background: #002942;
+	color: #fff;
+	border-radius: 0;
+	transition: background 0.20s linear;
+}
+
+
+
+</style>
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	var formode = $("#formmode1").val();
+	
+	var formmode = /*[[${formmode}]]*/null;
+	if (formmode != null) {
+		if (formmode == 'view' || formmode == 'verify') {
+			$('#Ind_ListParameter').datetimepicker({
+				Readonly : true
+			});
+		}
+	}
+	
+	if(formode == "Ind_view"){
+		$('input').attr('readonly', true);
+		$('select').attr('readonly', true);
+		 document.querySelector('#start_date').style.background = '#c4c7cc';
+		 document.querySelector('#end_date').style.background = '#c4c7cc';
+		$("start_date").attr('readonly', true);
+		$("end_date").attr('readonly', true);	
+	}else if(formode == "Ind_verify"){
+		$('input').attr('readonly', true);
+		$('select').attr('readonly', true);
+		 document.querySelector('#start_date').style.background = '#c4c7cc';
+		 document.querySelector('#end_date').style.background = '#c4c7cc';
+		$("start_date").attr('readonly', true);
+		$("end_date").attr('readonly', true);	
+	}else if(formode == "Ind_delete"){
+		$('input').attr('readonly', true);
+		$('select').attr('readonly', true);
+		 document.querySelector('#start_date').style.background = '#c4c7cc';
+		 document.querySelector('#end_date').style.background = '#c4c7cc';
+		$("start_date").attr('readonly', true);
+		$("end_date").attr('readonly', true);	
+	}
+	
+	$("#start_date").datepicker({
+		
+		dateFormat : "dd-mm-yy",
+		onSelect : function(selected) {
+			var dt = $(this).datepicker('getDate');
+			dt.setDate(dt.getDate());
+			$("#disableTilDate").datepicker("option", "minDate", dt);
+
+		}
+	});
+	
+	$("#end_date").datepicker({
+		minDate : 0,
+		dateFormat : "dd-mm-yy",
+		onSelect : function(selected) {
+			var dt = new Date(selected);
+			dt.setDate(dt.getDate() - 1);
+			//$("#start_date").datepicker("option", "maxDate", dt);
+		}
+	});
+	
+	
+
+	
+	
+});
+
+var deleteval;
+
+function getInd_Userlist(mode, num, maxpage) {
+
+	var n = parseInt(num);
+	var max = parseInt(maxpage);
+
+	var Callurl = 'ScreeningParameter_Cust?formmode=Ind_list';
+
+	switch (mode) {
+	case "nextpage":
+		n = n + 1;
+		if (n > max) {
+			break;
+		}
+		Callurl = Callurl + "&page=" + n;
+		break;
+	case "prevpage":
+		n = n - 1;
+		if (n < 0) {
+			break;
+		}
+		Callurl = Callurl + "&page=" + n;
+		break;
+	case "givenpage":
+		n = parseInt($("#pageno").val()) - 1;
+		if (n > max || n < 0) {
+			break;
+		}
+		Callurl = Callurl + "&page=" + n;
+	}
+
+	location.href = Callurl;
+}
+
+
+
+	function back() {
+		window.history.back();
+	}
+	function back1() {
+		$("#dataBack").modal("toggle");
+		
+	}
+	
+	function home() {
+		location.href = 'Dashboard'
+	}
+	
+	function home1() {
+		$("#dataHome").modal("toggle");
+	}
+	
+	
+	function alert_Ind_add(a) {
+
+		var formmode = a.getAttribute("frmode");
+		
+		location.href = "./ScreeningParameter_Cust?formmode=" + formmode;
+		
+	}
+	function list_Ind() {
+		location.href = './ScreeningParameter_Cust?formmode=Ind_list';
+	}
+	
+	function delete_btn_submitIND(a) {
+		$("#datadeleteIND").modal("toggle");
+	}
+	
+	function Ind_submitform(a) {
+		if ($("#Ind_ListParameter").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+			var url = "./createSCR_Cust_List?formmode=" + formmode;
+
+			$("#Ind_ListParameter").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#Ind_ListParameter").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				
+				
+				$("#datadeleteIND").hide();  
+				
+	 			$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+				
+			
+
+			}
+			;
+		}
+	};
+
+	function Ind_edit_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-uniqueidnumber");
+			location.href = 'ScreeningParameter_Cust?formmode=Ind_edit&srlno=' + srlno ;
+	}
+	
+	function Ind_alert_verify(a) {
+
+		var srlno = a.getAttribute("data-uniqueidnumber");
+		location.href = 'ScreeningParameter_Cust?formmode=Ind_verify&srlno=' + srlno ;
+	}
+	
+	function Ind_delete_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-uniqueidnumber");
+		location.href = 'ScreeningParameter_Cust?formmode=Ind_delete&srlno=' + srlno ;
+		/* deleteval = srlno;
+		$("#datadelete").modal("toggle"); */
+
+	}
+	function Ind_submitformdelete(a) {
+
+		var srlno = a.getAttribute("data-uniqueidnumber");
+
+		location.href = 'ScreeningParameter_Cust?formmode=Ind_delete&srlno='
+				+ deleteval + "&formmodecorp=x";
+
+	};
+	function Ind_view_btn_submit(a) {
+		
+		var srlno = a.getAttribute("data-uniqueidnumber");
+	
+		location.href = 'ScreeningParameter_Cust?formmode=Ind_view&srlno=' + srlno;
+
+	}
+	
+	
+	function Ind_verifyform(a) {
+		if ($("#Ind_ListParameter").valid()) {
+			var entry=$("#aml_entry_user").val();
+			var modify=$("#aml_modify_user").val();
+			var verify=$("#aml_verify_user").val();
+			
+			if(modify!= null){
+				if(modify != verify && entry != verify){
+					var formmode = a.getAttribute("data-formmode");
+					var url = "./createSCR_Cust_List?formmode=" + formmode;
+
+					$("#Ind_ListParameter").attr('action', url);
+
+					var options = {
+						success : showResponse
+					// post-submit callback 
+					};
+					
+
+					$("#Ind_ListParameter").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#alertmsg").text(responseText);
+
+						$('#alert').modal("toggle");
+
+					};
+				}else{
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+					$('#verifybox').modal("toggle");
+				
+					
+				}
+			}else if( modify == null){
+				if(entry != verify){
+					var formmode = a.getAttribute("data-formmode");
+					var url = "./createSCR_Cust_List?formmode=" + formmode;
+
+					$("#Ind_ListParameter").attr('action', url);
+
+					var options = {
+						success : showResponse
+					// post-submit callback 
+					};
+
+					$("#Ind_ListParameter").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#alertmsg").text(responseText);
+
+						$('#alert').modal("toggle");
+
+					};
+				}else{
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+					$('#verifybox').modal("toggle");
+				
+					
+				}
+				
+			}
+			
+		}
+	};
+	
+$(function() {
+		
+		
+		
+		$("#entry_time1,verify_time1,modify_time1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;  
+		document.getElementById('entry_time1').value = today;
+		document.getElementById('verify_time1').value = today; 
+		document.getElementById('modify_time1').value = today;
+	});
+
+	//******************************************************************************************************************************
+	//******************************************************************************************************************************
+	//************************************************ SCHEME TAB starts ************************************************
+	//************************************************ SCHEME TAB starts ********************************************
+	//************************************************ SCHEME TAB starts *********************************************
+	//************************************************ SCHEME TAB starts *********************************************
+	//************************************************ SCHEME TAB starts ********************************************
+	//******************************************************************************************************************************
+	//******************************************************************************************************************************
+
+	
+	   $(document).ready(function() {
+	
+	var formmode = $("#formmode2").val();
+	
+	if(formmode == "Corp_view"){
+		$('input').attr('readonly', true);
+		$('select').attr('readonly', true);
+		
+		 document.querySelector('#end_date1').style.Corp_background = '#c4c7cc';
+		 document.querySelector('#end_date1').style.Corp_background = '#c4c7cc';
+		$("start_date1").attr('readonly', true);
+		$("end_date1").attr('readonly', true);
+		
+	}else if(formmode == "Corp_verify"){
+		$('input').attr('readonly', true);
+		$('select').attr('readonly', true);
+		 document.querySelector('#end_date1').style.Corp_background = '#c4c7cc';
+		 document.querySelector('#end_date1').style.Corp_background = '#c4c7cc';
+		$("start_date1").attr('readonly', true);
+		$("end_date1").attr('readonly', true);
+	}else if(formmode == "Corp_delete"){
+		
+		$('input').attr('readonly', true);
+		$('select').attr('readonly', true);
+		 document.querySelector('#end_date1').style.Corp_background = '#c4c7cc';
+		 document.querySelector('#end_date1').style.Corp_background = '#c4c7cc';
+		$("start_date1").attr('readonly', true);
+		$("end_date1").attr('readonly', true);
+	}
+	
+$("#start_date1").datepicker({
+		
+		dateFormat : "dd-mm-yy",
+		onSelect : function(selected) {
+			var dt = $(this).datepicker('getDate');
+			dt.setDate(dt.getDate());
+			$("#disableTilDate").datepicker("option", "minDate", dt);
+
+		}
+	});
+$("#end_date1").datepicker({
+	minDate : 0,
+	dateFormat : "dd-mm-yy",
+	onSelect : function(selected) {
+		var dt = new Date(selected);
+		dt.setDate(dt.getDate() - 1);
+		//$("#start_date").datepicker("option", "maxDate", dt);
+	}
+});
+	
+	
+	
+});
+
+var deleteval;
+
+function getCorp_Userlist(mode, num, maxpage) {
+
+	var n = parseInt(num);
+	var max = parseInt(maxpage);
+
+	var Callurl = 'ScreeningParameter_Schm?formmode=Corp_list';
+
+	switch (mode) {
+	case "nextpage":
+		n = n + 1;
+		if (n > max) {
+			break;
+		}
+		Callurl = Callurl + "&page=" + n;
+		break;
+	case "prevpage":
+		n = n - 1;
+		if (n < 0) {
+			break;
+		}
+		Callurl = Callurl + "&page=" + n;
+		break;
+	case "givenpage":
+		n = parseInt($("#pageno").val()) - 1;
+		if (n > max || n < 0) {
+			break;
+		}
+		Callurl = Callurl + "&page=" + n;
+	}
+
+	location.href = Callurl;
+}
+
+
+
+	function Corp_back() {
+		window.history.back();
+	}
+	function Corp_back1() {
+		$("#dataCorp_back").modal("toggle");
+		
+	}
+	
+	function Corp_home() {
+		location.href = 'Dashboard'
+	}
+	
+	function Corp_home1() {
+		$("#dataCorp_home").modal("toggle");
+	}
+	
+	
+	function alert_Corp_add(a) {
+
+		var formmodecorp = a.getAttribute("frmode_corp");
+
+		location.href = "./ScreeningParameter_Schm?formmode=" + formmodecorp;
+
+	}
+	function list_Corp() {
+		location.href = './ScreeningParameter_Schm?formmode=Corp_list';
+	}
+	
+	function delete_btn_submitCORP(a) {
+		$("#datadeleteCORP").modal("toggle");
+	}
+	function Corp_submitform(a) {
+	
+		if ($("#Corp_ListParameter").valid()) {
+			var formmodecorp = a.getAttribute("data-formmode_corp");
+			
+			var url = "./createSCR_Schm_List?formmode=" + formmodecorp;
+
+			$("#Corp_ListParameter").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callCorp_back 
+			};
+
+			$("#Corp_ListParameter").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#datadeleteCORP").hide();
+				
+				$("#corpalertmsg").text(responseText);
+
+				$('#corpalert').modal("toggle");
+
+			};
+		}
+	};
+
+	function Corp_edit_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-black_list_corp_data_setid");
+			location.href = 'ScreeningParameter_Schm?formmode=Corp_edit&srlno=' + srlno;
+	}
+	
+	function Corp_delete_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-black_list_corp_data_setid");
+		location.href = 'ScreeningParameter_Schm?formmode=Corp_delete&srlno=' + srlno;
+	}
+	function Corp_verify_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-black_list_corp_data_setid");
+		location.href = 'ScreeningParameter_Schm?formmode=Corp_verify&srlno=' + srlno;
+		/* deleteval = srlno;
+		$("#datadelete").modal("toggle"); */
+
+	}
+	function Corp_submitformdelete(a) {
+
+		var srlno = a.getAttribute("data-black_list_corp_data_setid");
+
+		location.href = 'ScreeningParameter_Schm?formmode=Corp_delete&srlno='
+				+ deleteval;
+
+	};
+	function Corp_view_btn_submit(a) {
+		
+		var srlno = a.getAttribute("data-black_list_corp_data_setid");
+	
+		location.href = 'ScreeningParameter_Schm?formmode=Corp_view&srlno=' + srlno;
+
+	}
+	function Individual() {
+		location.href = 'ScreeningParameter_Cust?formmode=Ind_list';
+	}
+
+	function Corporate() {
+		location.href = 'ScreeningParameter_Schm?formmode=Corp_list';
+	}
+	
+	function Corp_verifyform(a) {
+		if ($("#Corp_ListParameter").valid()) {
+			var entry=$("#aml_entry_user").val();
+			var modify=$("#aml_modify_user").val();
+			var verify=$("#aml_verify_user").val();
+			
+			if(modify!= null){
+				if(modify != verify && entry != verify){
+					var formmodecorp = a.getAttribute("data-formmode_corp");
+					 console.log(formmodecorp);
+					var url = "./createSCR_Schm_List?formmode=" + formmodecorp;
+
+					$("#Corp_ListParameter").attr('action', url);
+
+					var options = {
+						success : showResponse
+					// post-submit callCorp_back 
+					};
+					
+
+					$("#Corp_ListParameter").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#corpalertmsg").text(responseText);
+
+						$('#corpalert').modal("toggle");
+
+					};
+				}else{
+					$("#corpverifyboxmsg").text("Same User Cannot Verify!");
+					$('#corpverifybox').modal("toggle");
+				
+					
+				}
+			}else if( modify == null){
+				if(entry != verify){
+					var formmodecorp = a.getAttribute("data-formmode_corp");
+					var url = "./createSCR_Schm_List?formmodecorp=" + formmodecorp;
+
+					$("#Corp_ListParameter").attr('action', url);
+
+					var options = {
+						success : showResponse
+					// post-submit callCorp_back 
+					};
+
+					$("#Corp_ListParameter").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#corpalertmsg").text(responseText);
+
+						$('#corpalert').modal("toggle");
+
+					};
+				}else{
+					$("#corpverifyboxmsg").text("Same User Cannot Verify!");
+					$('#corpverifybox').modal("toggle");
+				
+					
+				}
+				
+			}
+			
+		}
+	};
+	
+$(function() {
+		
+		
+		
+		$("#entry_time2,verify_time2,modify_time2").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;  
+		document.getElementById('entry_time2').value = today;
+		document.getElementById('verify_time2').value = today; 
+		document.getElementById('modify_time2').value = today;
+		
+		
+		
+		
+		
+	});
+
+
+
+
+</script>
+
+
+
+<script>
+
+function refnosearch() {
+	$("#RefnoSearch").modal("toggle");
+	$('#refno').focus();
+}$(document).ready(function() {
+	  $('#RefnoSearch').on('shown.bs.modal', function() {
+		    $('#refno').trigger('focus');
+		  });
+		});
+function loansearch() {
+	$("#LoanSearch").modal("toggle");
+	$('#loan').focus();
+}$(document).ready(function() {
+	  $('#LoanSearch').on('shown.bs.modal', function() {
+		    $('#loan').trigger('focus');
+		  });
+		});
+		
+function refnosearch1() {
+	$("#RefnoSearch1").modal("toggle");
+	$('#refno1').focus();
+}$(document).ready(function() {
+	  $('#RefnoSearch1').on('shown.bs.modal', function() {
+		    $('#refno1').trigger('focus');
+		  });
+		});
+function loansearch1() {
+	$("#LoanSearch1").modal("toggle");
+	$('#loan1').focus();
+}$(document).ready(function() {
+	  $('#LoanSearch1').on('shown.bs.modal', function() {
+		    $('#loan1').trigger('focus');
+		  });
+		});
+function loanschmsearch() {
+	$("#LoanschmSearch1").modal("toggle");
+	$('#loanschm1').focus();
+}$(document).ready(function() {
+	  $('#LoanschmSearch1').on('shown.bs.modal', function() {
+		    $('#loanschm1').trigger('focus');
+		  });
+		});
+
+function custtypesearch() {
+	$("#CusttypeSearch").modal("toggle");
+	$('#custtype').focus();
+}$(document).ready(function() {
+	  $('#CusttypeSearch').on('shown.bs.modal', function() {
+		    $('#custtype').trigger('focus');
+		  });
+		});
+function custsubsearch() {
+	$("#CustsubSearch").modal("toggle");
+	$('#custsub').focus();
+}$(document).ready(function() {
+	  $('#CustsubSearch').on('shown.bs.modal', function() {
+		    $('#custsub').trigger('focus');
+		  });
+		});
+		
+function schmsearch1() {
+	$("#SchmSearch1").modal("toggle");
+	$('#schm1').focus();
+}$(document).ready(function() {
+	  $('#SchmSearch1').on('shown.bs.modal', function() {
+		    $('#schm1').trigger('focus');
+		  });
+		});
+		
+function glsearch1() {
+	$("#GlSearch1").modal("toggle");
+	$('#glsub1').focus();
+}$(document).ready(function() {
+	  $('#GlSearch1').on('shown.bs.modal', function() {
+		    $('#glsub1').trigger('focus');
+		  });
+		});
+function schmsearch() {
+	$("#SchmSearch").modal("toggle");
+	$('#schm').focus();
+}$(document).ready(function() {
+	  $('#SchmSearch').on('shown.bs.modal', function() {
+		    $('#schm').trigger('focus');
+		  });
+		});
+		
+function glsearch() {
+	$("#GlSearch").modal("toggle");
+	$('#glsub').focus();
+}$(document).ready(function() {
+	  $('#GlSearch').on('shown.bs.modal', function() {
+		    $('#glsub').trigger('focus');
+		  });
+		});
+
+function searchrefno() {
+	$("#RefnoSearch").modal('hide');
+	
+	var search = $("#refno").val();
+	if (search != '') {
+		$("#loadermodal").modal("toggle");
+		location.href = 'ScreeningParameter_Cust?formmode=Ind_list'+ '&Search=refno'+'&Values='+search;
+		$('#CustomerInq').empty();
+	}
+	}
+function searchrefno1() {
+	$("#RefnoSearch1").modal('hide');
+	
+	var search = $("#refno1").val();
+	if (search != '') {
+		$("#loadermodal").modal("toggle");
+		location.href = 'ScreeningParameter_Schm?formmode=Corp_list'+ '&Search=refno'+'&Values='+search;
+		$('#CustomerInq').empty();
+	}
+	}
+	
+function searchloan() {
+	$("#LoanSearch").modal('hide');
+	
+	var search = $("#loan").val();
+	if (search != '') {
+		$("#loadermodal").modal("toggle");
+		location.href = 'ScreeningParameter_Cust?formmode=Ind_list'+ '&Search=loan'+'&Values='+search;
+		$('#CustomerInq').empty();
+	}
+	}
+function searchloan1() {
+	$("#LoanSearch").modal('hide');
+	
+	var search = $("#loan1").val();
+	if (search != '') {
+		$("#loadermodal").modal("toggle");
+		location.href = 'ScreeningParameter_Schm?formmode=Corp_list'+ '&Search=loan'+'&Values='+search;
+		$('#CustomerInq').empty();
+	}
+	}
+function searchschmloan1() {
+	$("#LoanschmSearch1").modal('hide');
+	
+	var search = $("#loanschm1").val();
+	if (search != '') {
+		$("#LoanschmSearch1").modal("toggle");
+		location.href = 'ScreeningParameter_Schm?formmode=Corp_list'+ '&Search=loanschm'+'&Values='+search;
+		$('#CustomerInq').empty();
+	}
+	}
+
+function searchcusttype() {
+	$("#CusttypeSearch").modal('hide');
+	
+	var search = $("#custtype").val();
+	if (search != '') {
+		$("#loadermodal").modal("toggle");
+		location.href = 'ScreeningParameter_Cust?formmode=Ind_list'+ '&Search=custtype'+'&Values='+search;
+		$('#CustomerInq').empty();
+	}
+	}
+function searchcustsub() {
+	$("#CustsubSearch").modal('hide');
+	
+	var search = $("#custsub").val();
+	if (search != '') {
+		$("#loadermodal").modal("toggle");
+		location.href = 'ScreeningParameter_Cust?formmode=Ind_list'+ '&Search=custsub'+'&Values='+search;
+		$('#CustomerInq').empty();
+	}
+	}
+function searchschm() {
+	$("#SchmSearch").modal('hide');
+	
+	var search = $("#schm").val();
+	if (search != '') {
+		$("#loadermodal").modal("toggle");
+		location.href = 'ScreeningParameter_Cust?formmode=Ind_list'+ '&Search=schm'+'&Values='+search;
+		$('#CustomerInq').empty();
+	}
+	}
+function searchschm1() {
+	$("#SchmSearch1").modal('hide');
+	
+	var search = $("#schm1").val();
+	if (search != '') {
+		$("#loadermodal").modal("toggle");
+		location.href = 'ScreeningParameter_Schm?formmode=Corp_list'+ '&Search=schm'+'&Values='+search;
+		$('#CustomerInq').empty();
+	}
+	}
+function searchgl() {
+	$("#GlSearch").modal('hide');
+	
+	var search = $("#glsub").val();
+	if (search != '') {
+		$("#loadermodal").modal("toggle");
+		location.href = 'ScreeningParameter_Cust?formmode=Ind_list'+ '&Search=glsub'+'&Values='+search;
+		$('#CustomerInq').empty();
+	}
+	}
+function searchgl1() {
+	$("#Gl1Search").modal('hide');
+	
+	var search = $("#glsub1").val();
+	if (search != '') {
+		$("#loadermodal").modal("toggle");
+		location.href = 'ScreeningParameter_Schm?formmode=Corp_list'+ '&Search=glsub'+'&Values='+search;
+		$('#CustomerInq').empty();
+	}
+	}
+</script>
+
+
+<script>
+	
+
+
+</script>
+
+<body>
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('ScreeningParamter')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+
+			<div class="container-fluid">
+
+				<div class="card">
+					<div class="card-header">
+						<div class="float-left">
+							<h4> Screening Parameter</h4>
+						</div>
+
+					</div>
+					
+					
+					<div class="card-body">
+						<div class="form-group">
+
+							<div class="row formline">
+								<button th:if="${formmode}=='Corp_list' OR ${formmode}=='Ind_list'" type="button" class="btn btn-primary"
+									style="border: 2px solid black; width: 50%;" id="btnHome"
+									onclick="Individual();"
+									th:disabled="${formmode}=='Ind_list'">Customer Type And Limits</button>
+
+								<button th:if="${formmode}=='Corp_list' OR ${formmode}=='Ind_list'" type="button" class="btn btn-primary "
+									style="border: 2px solid black; width: 50%;" id="btnBack"
+									onclick="Corporate();"
+									th:disabled="${formmode}=='Corp_list'">Loan Schemes And Limits</button>
+							</div>
+
+							<label></label>
+
+							<!-- ***********************Individual Tab*************************************** -->
+							<div th:if="${formmode}=='Ind_list'" class="container content">
+										<div class="row"  style="width : 100%;">
+											<div class="col-sm-12" style="width : 100%;">
+											  <div class="card"  style="width : 100%;">
+												<div class="card-header " id="modheadtitle"
+													style="height: 50px; width : 100%;">
+													<b th:text="${menuname}"></b> 
+
+													<div class="btn-group nav-buttons float-right">
+														
+														<button type="button" class="btn btn-xs btn-primary "
+															onclick='alert_Ind_add(this)' th:attr="frmode=Ind_add">Add</button>
+														<button type="button" class="btn btn-xs btn-primary"
+															id="btnInq" onclick="list_Ind()"
+															style="border-color: #66dbe0;">List</button>
+													</div>
+												</div>
+												<table class="table table-bordered  table-hover table-sm"
+													style="width: 100%" id="usertable">
+													<thead class="thead-light">
+
+														<tr>
+															<th style="width: 8%;">Ref No<i
+											class="fas fa-search searchico" style="float: right;" for="custid"
+											aria-hidden="true" onclick="refnosearch()"></i></th>
+															<th style="width: 6%;">Currency</th>
+															<th style="width: 12%;">Loan Limit<i
+											class="fas fa-search searchico" style="float: right;" for="custid"
+											aria-hidden="true" onclick="loansearch()"></i></th>
+															<th style="width: 12%;">Customer Type<i
+											class="fas fa-search searchico" style="float: right;" for="custid"
+											aria-hidden="true" onclick="custtypesearch()"></i></th>
+															<th style="width: 12%;">Customer Sub Type<i
+											class="fas fa-search searchico" style="float: right;" for="custid"
+											aria-hidden="true" onclick="custsubsearch()"></i></th>
+															<th style="width: 8%;">Schm Code<i
+											class="fas fa-search searchico" style="float: right;" for="custid"
+											aria-hidden="true" onclick="schmsearch()"></i></th>
+															<th style="width: 10%;">GL Sub Head Code<i
+											class="fas fa-search searchico" style="float: right;" for="custid"
+											aria-hidden="true" onclick="glsearch()"></i></th>
+															<th style="width: 7%;">Customer ID</th>
+															<th style="width: 8%;">Parameter</th>
+															<th style="width: 8%;">Start Date</th>
+															<th style="width: 8%;">End Date</th>
+															<th style="width: 10%;">Other Condition</th>
+															<th>Status</th>
+															<th>Select</th>
+														</tr>
+													</thead>
+													<tbody>
+													
+														<tr th:each="alert: ${custIndblackList.content}"
+															th:attr="data-uniqueidnumber=${alert.ref_no}"
+															th:id="${alert.ref_no}" class="userlist">
+
+															<td th:text="${alert.ref_no}"></td>
+															<td th:text="${alert.crncy_code}"></td>
+															
+															<td th:text="${#numbers.formatDecimal(alert.loan_limit	,1,'COMMA',2,'POINT')}"align="right"></td>
+															<td th:text="${alert.cust_type}"></td>
+															<td th:text="${alert.cust_sub_type}"></td>
+
+															<td th:text="${alert.schm_code}"></td>
+															<td th:text="${alert.gl_sub_head_code}"></td>
+															<td th:text="${alert.cust_id}"></td>
+
+															<td th:text="${alert.parameters}"></td>
+															<td
+																th:text="${#dates.format(alert.start_date, 'dd-MM-yyyy')}"></td>
+															<td
+																th:text="${#dates.format(alert.end_date, 'dd-MM-yyyy')}"></td>
+
+															<td th:text="${alert.remarks2}"></td>
+
+															<th:block th:switch="${alert.entity_flag}">
+																<td th:case="'Y'" style="color: green;">Verified</td>
+																<td th:case="'N'" style="color: red;">UnVerified</td>
+															</th:block>
+															<td>
+																<div class="dropdown">
+																	<button class="btn btn-secondary dropdown-toggle"
+																		type="button" id="dropdownMenuButton"
+																		style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+																		data-toggle="dropdown" aria-haspopup="true"
+																		aria-expanded="false">Action</button>
+																	<div class="dropdown-menu"
+																		aria-labelledby="dropdownMenuButton"
+																		style="background-color: #e3e3e4; color: #3a4550;">
+																		<a
+																			th:attr="data-uniqueidnumber=${alert.ref_no}"
+																			class="dropdown-item" title="Inquiry"
+																			style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																			onclick="Ind_view_btn_submit(this)" id="view_btn">Inquiry
+																		</a>
+
+																		<div class="dropdown-divider"></div>
+
+																		<a th:if="${alert.entity_flag}=='Y'"
+																			th:attr="data-uniqueidnumber=${alert.ref_no}"
+																			class="dropdown-item" title="Modify"
+																			style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																			id="edit_value" onclick="Ind_edit_btn_submit(this)">Modify</a>
+
+																		<div class="dropdown-divider" th:if="${alert.entity_flag}=='Y'"></div>
+
+
+																		<a th:if="${alert.entity_flag}=='Y' and  ${AMLRoleMenu.work_class} == 'C'"
+																			th:attr="data-uniqueidnumber=${alert.ref_no}"
+																			class="dropdown-item" title="Ind_delete"
+																			style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																			onclick="Ind_delete_btn_submit(this)"
+																			id="delete_value">Delete</a>
+
+																		<div class="dropdown-divider"
+																			th:if="${alert.entity_flag}=='Y' and  ${AMLRoleMenu.work_class} == 'C'"></div>
+
+																		<a th:if="${alert.entity_flag}=='N' and  ${AMLRoleMenu.work_class} == 'C'"
+																			th:attr="data-uniqueidnumber=${alert.ref_no}"
+																			class="dropdown-item" title="Ind_verify"
+																			style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																			id="verify_value" onclick="Ind_alert_verify(this)">Verify</a>
+
+
+																	</div>
+																</div>
+															</td>
+
+														</tr>
+													</tbody>
+												</table>
+
+
+
+												<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+												<div class="float-right"
+													th:if="${custIndblackList.totalPages} gt 1">
+													<a href="#"><i class="fas fa-caret-left fa-2x"
+														th:onclick="|getInd_Userlist('prevpage',${custIndblackList.number},${custIndblackList.totalPages});|"></i></a>
+													<input type="text" id="pageno" style="width: 30px"
+														th:value="${custIndblackList.number+1}"
+														th:onchange="|getInd_Userlist('givenpage',${custIndblackList.number},${custIndblackList.totalPages});|"></input>
+													of <font th:text="${custIndblackList.totalPages}"></font> <a
+														href="#"><i class="fas fa-caret-right fa-2x"
+														th:onclick="|getInd_Userlist('nextpage',${custIndblackList.number},${custIndblackList.totalPages});|"></i></a>
+												</div>
+
+												<!--<div class="text-center"
+													style="background-color: #386276; padding: 5px; width: 100%;">
+
+													 <div class="btn-group nav-buttons " style="align: center;">
+														<button type="button" class="btn btn-xs btn-primary"
+															id="btnHome" onclick="home()" style="margin-right: 10px;">Home</button>
+														<button type="button" class="btn btn-xs btn-primary"
+															id="btnBack" onclick="back()">Back</button>
+													</div>
+												</div> -->
+												</div>
+											</div>
+
+										</div>
+									</div>
+									
+									
+									  <div th:if="${formmode}=='Ind_edit' OR ${formmode}=='Ind_add' OR ${formmode}=='Ind_view' OR ${formmode}=='Ind_verify'OR ${formmode}=='Ind_delete'"
+										class="container content">
+										<div class="row"  style="width : 100%;">
+											<div class="col-sm-22"  style="width : 100%;">
+
+												<form action="#" th:object="${Ind_ListParameter}"
+													method="POST" autocomplete="off" id="Ind_ListParameter">
+													<div class="card">
+														<div class="card-header">
+															<div class="float-left">
+																<b th:text="${menuname1}"></b> <input type="hidden"
+																	th:value="${formmode}" id="formmode1"
+																	style="display: none;">
+															</div>
+
+															<div class="btn-group nav-buttons float-right">
+																<button type="button" class="btn btn-xs btn-primary"
+																	id="btnInq" onclick="list_Ind()"
+																	style="border-color: #66dbe0;">List</button>
+															</div>
+
+														</div>
+														<div class="card-body">
+
+															<input autocomplete="false" name="hidden" type="text"
+																style="display: none;">
+															<div class="form-group">
+																<div class="row formline">
+
+
+																	<label class="col-sm-2">Ref No</label>
+
+
+																	<div class="col-sm-2"
+																		th:if="${formmode}=='Ind_edit' OR ${formmode}=='Ind_view' OR ${formmode}=='Ind_verify' OR ${formmode}=='Ind_delete'">
+																		<input type="text"
+																			th:value="${Ind_ListParameter?.ref_no}"
+																			id="ref_no"
+																			class="form-control form-control-sm"
+																			name="ref_no" autocomplete="off"
+																			required >
+																	</div>
+
+																	<div class="col-sm-2" th:if=" ${formmode}=='Ind_add'">
+																		<input type="text" th:value="${RefNo}"
+																			id="ref_no"
+																			class="form-control form-control-sm"
+																			name="ref_no" autocomplete="off"
+																			>
+																	</div>
+
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2">Currency</label>
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Ind_ListParameter?.crncy_code}" id="crncy_code"
+																			name="crncy_code" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2">Loan Limit</label>
+
+
+
+																	<div class="col-sm-2">
+																		<input type="number"
+																			th:value="${Ind_ListParameter?.loan_limit}"
+																			id="loan_limit"
+																			class="form-control form-control-sm"
+																			name="loan_limit" autocomplete="off" 
+																			>
+																	</div>
+
+
+																</div>
+
+																<div class="row formline">
+																	<label style="height: 2px;"></label>
+																</div>
+
+																<div class="row formline">
+
+																	<div class="col-sm-2">
+																		<label for="negativelistdatasetid">
+																			Customer Type</label>
+																	</div>
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Ind_ListParameter?.cust_type}"
+																			id="cust_type" name="cust_type" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2">Customer Sub Type</label>
+
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Ind_ListParameter?.cust_sub_type}"
+																			id="cust_sub_type" name="cust_sub_type" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2">Scheme Code</label>
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Ind_ListParameter?.schm_code}"
+																			id="schm_code" name="schm_code" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+																</div>
+
+
+																<div class="row formline">
+																	<label style="height: 2px;"></label>
+																</div>
+
+
+																<div class="row formline">
+
+																	<div class="col-sm-2">
+																		<label for="negativelistdatasetid">GL Sub Head Code</label>
+																	</div>
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Ind_ListParameter?.gl_sub_head_code}"
+																			id="gl_sub_head_code" name="gl_sub_head_code" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2"> Customer ID</label>
+
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Ind_ListParameter?.cust_id}"
+																			id="cust_id" name="cust_id" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2"> Parameter</label>
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Ind_ListParameter?.parameters}"
+																			id="parameters" name="parameters" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+
+																</div>
+
+																<div class="row formline">
+																	<label style="height: 2px;"></label>
+																</div>
+
+
+																<div class="row formline">
+
+																	<div class="col-sm-2">
+																		<label for="negativelistdatasetid">Start Date</label>
+																	</div>
+
+																		<div class="col-sm-2" th:if="${formmode}=='Ind_add' OR ${formmode}=='Ind_edit'">
+																			<input type="text" style="background-color: #d2dae0;"
+																			th:value="${#dates.format(Ind_ListParameter?.start_date,'dd-MM-yyyy')}"
+																			id="start_date" value="" name="start_date"
+																			class="form-control form-control-sm" autocomplete="off"
+																			readonly />
+																		</div>	
+																		<div class="col-sm-2" th:if="${entity_flg=='N'} OR ${formmode}=='Ind_view' OR ${formmode}=='Ind_viewnew' OR ${formmode}=='Ind_verify' OR ${formmode}=='Ind_delete'">
+																			<input type="text" style="background-color: #9a9fa5;"
+																					th:value="${#dates.format(Ind_ListParameter?.start_date,'dd-MM-yyyy')}"
+																					id="" value="" name="start_date"
+																					class="form-control form-control-sm" autocomplete="off"
+																						readonly />
+																		</div>
+																	
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2">End Date</label>
+
+
+														<div class="col-sm-2" th:if="${formmode}=='Ind_add' OR ${formmode}=='Ind_edit'">
+															<input type="text" style="background-color: #d2dae0;"
+																th:value="${#dates.format(Ind_ListParameter?.end_date,'dd-MM-yyyy')}"
+																id="end_date" value="" name="end_date"
+																class="form-control form-control-sm" autocomplete="off"
+															readonly />
+														</div>	
+														<div class="col-sm-2" th:if="${entity_flg=='N'} OR ${formmode}=='Ind_view' OR ${formmode}=='Ind_viewnew' OR ${formmode}=='Ind_verify' OR ${formmode}=='Ind_delete'">
+															<input type="text" style="background-color: #9a9fa5;"
+																th:value="${#dates.format(Ind_ListParameter?.end_date,'dd-MM-yyyy')}"
+																id="" value="" name="end_date"
+																class="form-control form-control-sm" autocomplete="off"
+																readonly />
+														</div>
+																	
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2"> Record Status</label>
+
+															<div class="col-sm-2"
+																th:if=" ${formmode}=='Ind_view' OR ${formmode}=='Ind_verify'">
+																<input id="entity_flag" th:value="${entity_flag}"
+																	th:field="*{entity_flag}"
+																	class="form-control form-control-sm" readonly>
+
+
+															</div>
+															<div class="col-sm-2"
+																th:if=" ${formmode}=='Ind_add' OR ${formmode}=='Ind_edit' OR ${formmode}=='Ind_delete'">
+																<select id="entity_flag" name="entity_flag"
+																	class="form-control form-control-sm"
+																	th:value="${entity_flag}" th:field="*{entity_flag}">
+																	<option value="O">Select</option>
+																	<option value="Y">Yes</option>
+																	<option value="N">No</option>
+																</select>
+
+															</div>
+														</div>
+
+																<div class="row formline">
+																	<label style="height: 2px;"></label>
+																</div>
+
+																<div class="row formline">
+																<div class="col-sm-2">
+																		<label for="negativelistdatasetid">Delete Status</label>
+																	</div>
+
+																	<div class="col-sm-2" th:if=" ${formmode}=='Ind_view' OR ${formmode}=='Ind_verify' ">
+																		 <input id="del_flag" th:value="${del_flag}"
+																			th:field="*{del_flag}"
+																			class="form-control form-control-sm" readonly>
+
+
+																	</div>
+																	<div class="col-sm-2" th:if=" ${formmode}=='Ind_add' OR ${formmode}=='Ind_edit' OR ${formmode}=='Ind_delete'">
+																		<select id="del_flag" name="del_flag"
+																			class="form-control form-control-sm"
+																			th:value="${del_flag}" th:field="*{del_flag}">
+																			<option value="O">Select</option>
+																			<option value="Y">Yes</option>
+																			<option value="N" selected>No</option>
+																		</select>
+
+																	</div>
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2">Other Condition</label>
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Ind_ListParameter?.remarks2}" id="remarks2"
+																			name="remarks2" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2">Remarks</label>
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Ind_ListParameter?.remarks1}" id="remarks1"
+																			name="remarks1" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+																</div>
+
+															</div>
+
+
+
+															<div class="card-footer text-center"
+																style="height: 48px;">
+																<button th:if="${formmode}=='Ind_delete'" type="button"
+																	class="btn btn-xs btn-primary"
+																	style="margin-top: -16px;"
+																	onclick="delete_btn_submitIND(this);"
+																	form="Ind_ListParameter" id="btnDelete"
+																	th:attr="data-formmode=${formmode}">Delete</button>
+
+																<button th:if="${formmode}=='Ind_verify'" type="button"
+																	class="btn btn-xs btn-primary"
+																	style="margin-top: -12px;"
+																	onclick="Ind_verifyform(this);"
+																	form="Ind_ListParameter" id="btnVerify"
+																	th:attr="data-formmode=${formmode}">Verify</button>
+
+																<button
+																	th:if="${formmode}=='Ind_edit' OR ${formmode}=='Ind_add'"
+																	type="button" style="margin-top: -12px;"
+																	class="btn btn-xs btn-primary"
+																	onclick="Ind_submitform(this);"
+																	form="Ind_ListParameter" id="btnSubmit"
+																	th:attr="data-formmode=${formmode}">Submit</button>
+
+																<button type="button" class="btn btn-xs btn-primary"
+																	id="btnHome" style="margin-top: -12px;"
+																	onclick="home1();">Home</button>
+
+																<button type="button" class="btn btn-xs btn-primary"
+																	id="btnBack" style="margin-top: -12px;"
+																	onclick="back1();">Back</button>
+
+															</div>
+														</div>
+													</div>
+
+													<div class="container content"
+														style="border: 1px solid #36404a; padding: 15px;">
+														<div class="row formline">
+
+															<label class="col-sm-2">Entry User</label>
+															<div class="col-sm-2">
+																<input type="text"
+																	th:if="${formmode}=='Ind_edit' OR ${formmode}=='Ind_verify' OR ${formmode}=='Ind_view' OR ${formmode}=='Ind_delete'"
+																	th:value="${Ind_ListParameter?.aml_entry_user}"
+																	id="aml_entry_user" name="aml_entry_user"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly /> <input type="text"
+																	th:if="${formmode}=='Ind_add'"
+																	th:value="${session.USERID}" id="aml_entry_user"
+																	name="aml_entry_user"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly />
+
+															</div>
+															<label class="col-sm-2">Modify User</label>
+															<div class="col-sm-2">
+																<input type="text"
+																	th:if="${formmode}=='Ind_add' OR ${formmode}=='Ind_verify' OR ${formmode}=='Ind_view' OR ${formmode}=='Ind_delete'"
+																	th:value="${Ind_ListParameter?.aml_modify_user}"
+																	id="aml_modify_user" name="aml_modify_user"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly /> <input type="text"
+																	th:if="${formmode}=='Ind_edit' "
+																	th:value="${session.USERID}" id="aml_modify_user"
+																	name="aml_modify_user"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly />
+															</div>
+															<label class="col-sm-2">Verify User</label>
+															<div class="col-sm-2">
+																<input type="text"
+																	th:if="${formmode}=='Ind_add' OR ${formmode}=='Ind_edit' OR ${formmode}=='Ind_view' OR ${formmode}=='Ind_delete'"
+																	th:value="${Ind_ListParameter?.aml_verify_user}"
+																	id="aml_verify_user" name="aml_verify_user"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly /> <input type="text"
+																	th:if="${formmode}=='Ind_verify' "
+																	th:value="${session.USERID}" id="aml_verify_user"
+																	name="aml_verify_user"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly />
+															</div>
+														</div>
+														<div class="row formline">
+															<label style="height: 2px;"></label>
+
+														</div>
+														<div class="row formline">
+
+															<label class="col-sm-2">Entry Time</label>
+															<div class="col-sm-2">
+																<input type="text"
+																	th:if="${formmode}=='Ind_edit' OR ${formmode}=='Ind_verify' OR ${formmode}=='Ind_view' OR ${formmode}=='Ind_delete'"
+																	th:value="${#dates.format(Ind_ListParameter?.aml_entry_time,'dd-MM-yyyy')}"
+																	id="aml_entry_time" name="aml_entry_time"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly /> <input type="text"
+																	th:if="${formmode}=='Ind_add'"
+																	th:value="${#dates.format(Ind_ListParameter?.aml_entry_time,'dd-MM-yyyy')}"
+																	id="entry_time1" name="aml_entry_time"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly />
+															</div>
+
+															<label class="col-sm-2">Modify Time</label>
+															<div class="col-sm-2">
+																<input type="text"
+																	th:if="${formmode}=='Ind_add' OR ${formmode}=='Ind_verify' OR ${formmode}=='Ind_view' OR ${formmode}=='Ind_delete'"
+																	th:value="${#dates.format(Ind_ListParameter?.aml_modify_time,'dd-MM-yyyy')}"
+																	id="aml_modify_time" name="aml_modify_time"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly /> <input type="text"
+																	th:if="${formmode}=='Ind_edit' "
+																	th:value="${#dates.format(Ind_ListParameter?.aml_modify_time,'dd-MM-yyyy')}"
+																	id="entry_time1" name="aml_modify_time"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly />
+
+															</div>
+
+
+															<label class="col-sm-2">verify Time</label>
+															<div class="col-sm-2">
+																<input type="text"
+																	th:if="${formmode}=='Ind_add' OR ${formmode}=='Ind_edit' OR ${formmode}=='Ind_view' OR ${formmode}=='Ind_delete'"
+																	th:value="${#dates.format(Ind_ListParameter?.aml_verify_time,'dd-MM-yyyy')}"
+																	id="aml_verify_time" name="aml_verify_time"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly /> <input type="text"
+																	th:if="${formmode}=='Ind_verify'"
+																	th:value="${#dates.format(Ind_ListParameter?.aml_verify_time,'dd-MM-yyyy')}"
+																	id="entry_time1" name="aml_verify_time"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly />
+
+															</div>
+
+															<label></label>
+														</div>
+
+
+
+
+													</div>
+
+												</form>
+
+											</div>
+										</div>
+									</div>
+
+									<!------------------------Pop window - Domain  list Ends--------------------------------->
+
+									<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+									<div class="modal fade" id="datadeleteIND">
+										<div
+											class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+											<div class="modal-content">
+												<div class="modal-body"
+													style="margin-top: 8px; text-align: center; color: aliceblue;">
+													<button type="button" class="close" data-dismiss="modal">×</button>
+													Are you Sure want to delete?
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary"
+														onclick="Ind_submitform(this);"
+														th:attr="data-formmode=Ind_delete">Submit</button>
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal">Cancel</button>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="modal fade" id="dataHome">
+										<div
+											class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+											<div class="modal-content">
+												<div class="modal-body"
+													style="margin-top: 8px; text-align: center; color: aliceblue;">
+													<button type="button" class="close" data-dismiss="modal">×</button>
+													Are you Sure want to Leave?
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary"
+														onclick="home();">Yes</button>
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal">No</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="modal fade" id="dataBack">
+										<div
+											class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+											<div class="modal-content">
+												<div class="modal-body"
+													style="margin-top: 8px; text-align: center; color: aliceblue;">
+													<button type="button" class="close" data-dismiss="modal">×</button>
+													Are you Sure want to Leave?
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary"
+														onclick="back();">Yes</button>
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal">No</button>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+
+
+
+
+									<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+									<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+									<div class="modal fade" id="alert">
+										<div
+											class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+											<div class="modal-content">
+												<div class="modal-body" style="text-align: center">
+													<p id="alertmsg"></p>
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal" onclick="list_Ind()">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="modal fade" id="verifybox">
+										<div
+											class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+											<div class="modal-content">
+												<div class="modal-body" style="text-align: center">
+													<p id="verifyboxmsg"></p>
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal">OK</button>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									
+
+							<!-- ***********************Corporate Black list tab*************************************** -->
+							<!-- ***********************Corporate Black list tab*************************************** -->
+							<!-- ***********************Corporate Black list tab*************************************** -->
+							<!-- ***********************Corporate Black list tab*************************************** -->
+							<!-- ***********************Corporate Black list tab*************************************** -->
+							
+							<div th:if="${formmode}=='Corp_list'"
+										class="container content" id="abc">
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="card-header " id="modheadtitle"
+													style="height: 50px;">
+													<b th:text="${menuname_corp}"></b>
+
+													<div class="btn-group nav-buttons float-right">
+														
+														<button type="button" class="btn btn-xs btn-primary "
+															onclick='alert_Corp_add(this)'
+															th:attr="frmode_corp=Corp_add">add</button>
+														<button type="button" class="btn btn-xs btn-primary"
+															id="btnInq" onclick="list_Corp()"
+															style="border-color: #66dbe0;">List</button>
+													</div>
+												</div>
+												<table class="table table-bordered  table-hover table-sm"
+													style="width: 100%" id="usertable">
+													<thead class="thead-light">
+
+														<tr>
+															<th style="width: 8%;">Ref No <i
+											class="fas fa-search searchico" style="float: right;" for="refno1"
+											aria-hidden="true" onclick="refnosearch1()"></i></th>
+															<th style="width: 8%;">Currency</th>
+															<th style="width: 10%;">Loan Limit<i
+											class="fas fa-search searchico" style="float: right;" for="loan1"
+											aria-hidden="true" onclick="loansearch1()"></i></th>
+															<th style="width: 14%;">Loan Scheme<i
+											class="fas fa-search searchico" style="float: right;" for="loanschm"
+											aria-hidden="true" onclick="loanschmsearch()"></i></th>
+															<th style="width: 8%;">Conditions</th>
+															<th style="width: 8%;">Schm Code<i
+											class="fas fa-search searchico" style="float: right;" for="schm1"
+											aria-hidden="true" onclick="schmsearch1()"></i></th>
+															<th style="width: 10%;">GL Sub Head Code<i
+											class="fas fa-search searchico" style="float: right;" for="glsub1"
+											aria-hidden="true" onclick="glsearch1()"></i></th>
+															<th style="width: 7%;">Customer ID</th>
+															<th style="width: 9%;">Parameter</th>
+															<th style="width: 8%;">Start Date</th>
+															<th style="width: 8%;">End Date</th>
+															<th style="width: 10%;">Remarks</th>
+															<th>Status</th>
+															<th>Select</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="alert: ${custCorpblackList.content}"
+															th:attr="data-uniqueidnumber=${alert.ref_no}"
+															th:id="${alert.ref_no}" class="userlist">
+
+															<td th:text="${alert.ref_no}"></td>
+															<td th:text="${alert.crncy_code}"></td>
+															<td th:text="${alert.loan_limit}"></td>
+															<td th:text="${alert.loan_scheme}"></td>
+															<td th:text="${alert.loan_conditions}"></td>
+
+															<td th:text="${alert.schm_code}"></td>
+															<td th:text="${alert.gl_sub_head_code}"></td>
+															<td th:text="${alert.cust_id}"></td>
+
+															<td th:text="${alert.parameters}"></td>
+															<td
+																th:text="${#dates.format(alert.start_date, 'dd-MM-yyyy')}"></td>
+															<td
+																th:text="${#dates.format(alert.end_date, 'dd-MM-yyyy')}"></td>
+
+															<td th:text="${alert.remarks1}"></td>
+
+															<th:block th:switch="${alert.entity_flag}">
+																<td th:case="'Y'" style="color: green;">Verified</td>
+																<td th:case="'N'" style="color: red;">UnVerified</td>
+															</th:block>
+															<td>
+																<div class="dropdown">
+																	<button class="btn btn-secondary dropdown-toggle"
+																		type="button" id="dropdownMenuButton"
+																		style="line-height: 0.7; font-size: 11px; color: #3a4550;  background: #e3e3e4;"
+																		data-toggle="dropdown" aria-haspopup="true"
+																		aria-expanded="false">Action</button>
+																	<div class="dropdown-menu"
+																		aria-labelledby="dropdownMenuButton"
+																		style="background-color: #e3e3e4; color: #3a4550;">
+																		<a
+																			th:attr="data-black_list_corp_data_setid=${alert.ref_no}"
+																			class="dropdown-item" title="Inquiry"
+																			style="cursor: pointer; height: 20px; color: #12161b;  background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																			onclick="Corp_view_btn_submit(this)" id="view_btn">Inquiry
+																		</a>
+
+																		<div class="dropdown-divider" ></div>
+
+																		<a th:if="${alert.entity_flag}=='Y'"
+																			th:attr="data-black_list_corp_data_setid=${alert.ref_no}"
+																			class="dropdown-item" title="Modify"
+																			style="cursor: pointer; height: 20px; color: #12161b;  background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																			id="edit_value" onclick="Corp_edit_btn_submit(this)">Modify</a>
+
+																		<div class="dropdown-divider" th:if="${alert.entity_flag}=='Y'"></div>
+
+
+																		<a th:if="${alert.entity_flag}=='Y' and ${AMLRoleMenu.work_class} == 'C'"
+																			th:attr="data-black_list_corp_data_setid=${alert.ref_no}"
+																			class="dropdown-item" title="Corp_delete"
+																			style="cursor: pointer; height: 20px; color: #12161b;  background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																			onclick="Corp_delete_btn_submit(this)"
+																			id="delete_value">delete</a>
+
+																		<div class="dropdown-divider"
+																			th:if="${alert.entity_flag}=='Y' and ${AMLRoleMenu.work_class} == 'C'"></div>
+
+																		<a th:if="${alert.entity_flag}=='N' and ${AMLRoleMenu.work_class} == 'C' "
+																			th:attr="data-black_list_corp_data_setid=${alert.ref_no}"
+																			class="dropdown-item" title="Corp_verify"
+																			style="cursor: pointer; height: 20px; color: #12161b;  background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																			id="verify_value"
+																			onclick="Corp_verify_btn_submit(this)">Verify</a>
+
+
+																	</div>
+																</div>
+															</td>
+
+														</tr>
+													</tbody>
+												</table>
+
+
+
+												<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+												<div class="float-right"
+													th:if="${custCorpblackList.totalPages} gt 1">
+													<a href="#"><i class="fas fa-caret-left fa-2x"
+														th:onclick="|getCorp_Userlist('prevpage',${custCorpblackList.number},${custCorpblackList.totalPages});|"></i></a>
+													<input type="text" id="pageno" style="width: 30px"
+														th:value="${custCorpblackList.number+1}"
+														th:onchange="|getCorp_Userlist('givenpage',${custCorpblackList.number},${custCorpblackList.totalPages});|"></input>
+													of <font th:text="${custCorpblackList.totalPages}"></font>
+													<a href="#"><i class="fas fa-caret-right fa-2x"
+														th:onclick="|getCorp_Userlist('nextpage',${custCorpblackList.number},${custCorpblackList.totalPages});|"></i></a>
+												</div>
+
+												<!--<div class="text-center"
+													style="background-color: #386276; padding: 5px; width: 100%;">
+
+													 <div class="btn-group nav-buttons " style="align: center;">
+														<button type="button" class="btn btn-xs btn-primary"
+															id="btnCorp_home" onclick="Corp_home()"
+															style="margin-right: 10px;">Home</button>
+														<button type="button" class="btn btn-xs btn-primary"
+															id="btnCorp_back" onclick="Corp_back()">Back</button>
+													</div> 
+												</div>-->
+
+											</div>
+
+										</div>
+									</div>		
+									
+									<div th:if="${formmode}=='Corp_edit' OR ${formmode}=='Corp_add' OR ${formmode}=='Corp_view' OR ${formmode}=='Corp_verify' OR ${formmode}=='Corp_delete'"
+										class="container content">
+										<div class="row">
+											<div class="col-sm-22 "  style="width : 100%;">
+
+												<form action="#" th:object="${Corp_ListParameter}"
+													method="POST" autocomplete="off" id="Corp_ListParameter">
+													<div class="card">
+														<div class="card-header">
+															<div class="float-left">
+																<b th:text="${menuname_corp}"></b> <input type="hidden"
+																	th:value="${formmode}" id="formmode2"
+																	style="display: none;">
+															</div>
+
+															<div class="btn-group nav-buttons float-right">
+																<button type="button" class="btn btn-xs btn-primary"
+																	id="btnInq" onclick="list_Corp()"
+																	style="border-color: #66dbe0;">List</button>
+															</div>
+
+														</div>
+														<div class="card-body">
+
+															<input autocomplete="false" name="hidden" type="text"
+																style="display: none;">
+															<div class="form-group">
+																<div class="row formline">
+
+
+																	<label class="col-sm-2">Ref No</label>
+
+
+																	<div class="col-sm-2"
+																		th:if="${formmode}=='Corp_edit' OR ${formmode}=='Corp_view' OR ${formmode}=='Corp_verify' OR ${formmode}=='Corp_delete'">
+																		<input type="text"
+																			th:value="${Corp_ListParameter?.ref_no}"
+																			id="ref_no1"
+																			class="form-control form-control-sm"
+																			name="ref_no" autocomplete="off"
+																			required readonly>
+																	</div>
+
+																	<div class="col-sm-2" th:if=" ${formmode}=='Corp_add'">
+																		<input type="text" th:value="${CorpRefNo}"
+																			id="ref_no1"
+																			class="form-control form-control-sm"
+																			name="ref_no" autocomplete="off"
+																			readonly>
+																	</div>
+
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2">Currency</label>
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Corp_ListParameter?.crncy_code}" id="crncy_code"
+																			name="crncy_code" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2">Loan Limit</label>
+
+
+
+																	<div class="col-sm-2">
+																		<input type="number"
+																			th:value="${Corp_ListParameter?.loan_limit}"
+																			id="loan_limit"
+																			class="form-control form-control-sm"
+																			name="loan_limit" autocomplete="off" required
+																			>
+																	</div>
+
+
+																</div>
+
+																<div class="row formline">
+																	<label style="height: 2px;"></label>
+																</div>
+
+																<div class="row formline">
+
+																	<div class="col-sm-2">
+																		<label for="negativelistdatasetid">
+																			Loan Scheme</label>
+																	</div>
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Corp_ListParameter?.loan_scheme}"
+																			id="loan_scheme" name="loan_scheme" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2">Conditions</label>
+
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Corp_ListParameter?.loan_conditions}"
+																			id="loan_conditions" name="loan_conditions" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2">Scheme Code</label>
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Corp_ListParameter?.schm_code}"
+																			id="schm_code" name="schm_code" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+																</div>
+
+
+																<div class="row formline">
+																	<label style="height: 2px;"></label>
+																</div>
+
+
+																<div class="row formline">
+
+																	<div class="col-sm-2">
+																		<label for="negativelistdatasetid">GL Sub Head Code</label>
+																	</div>
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Corp_ListParameter?.gl_sub_head_code}"
+																			id="gl_sub_head_code" name="gl_sub_head_code" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2"> Customer ID</label>
+
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Corp_ListParameter?.cust_id}"
+																			id="cust_id" name="cust_id" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2"> Parameter</label>
+
+																	<div class="col-sm-2">
+																		<input type="text"
+																			th:value="${Corp_ListParameter?.parameters}"
+																			id="parameters" name="parameters" value=""
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+
+
+																</div>
+
+																<div class="row formline">
+																	<label style="height: 2px;"></label>
+																</div>
+
+
+																<div class="row formline">
+
+																	<div class="col-sm-2">
+																		<label for="negativelistdatasetid">Start Date</label>
+																	</div>
+																	
+																	<div class="col-sm-2">
+																			
+																		<input th:if="${formmode}=='Corp_view' OR ${formmode}=='Corp_verify'"
+																			type="text" id=""
+																			th:value="${#dates.format(start_date,'dd-MM-yyyy')}"
+																			th:field="*{start_date}"
+																			class="form-control form-control-sm" readonly /> 
+																			
+																			
+																		<input th:if="${formmode}=='Corp_delete'"
+																			style="background-color: #9a9fa5;"
+																			type="text" id=""
+																			th:value="${#dates.format(start_date,'dd-MM-yyyy')}"
+																			th:field="*{start_date}"
+																			class="form-control form-control-sm" readonly /> 
+																	
+																		<input th:if="${formmode}=='Corp_add'" type="text"
+																			style="background-color: #d2dae0;"
+																			id="start_date1"
+																			th:field="*{start_date}"
+																			th:value="${#dates.format(date_freezed,'dd-MM-yyyy')}"
+																			class="form-control form-control-sm" autocomplete="off"  /> 
+																		
+																		<input th:if="${formmode}=='Corp_edit'" type="text"
+																			id="start_date1"
+																			th:value="${#dates.format(start_date,'dd-MM-yyyy')}"
+																			th:field="*{start_date}"
+																			class="form-control form-control-sm" autocomplete="off" />
+																			
+																	</div>
+															
+
+															<div class="col-sm-0"></div>
+															<label for="userName" class="col-sm-2">End Date</label>
+															
+															
+															<div class="col-sm-2">
+																	
+																		<input th:if="${formmode}=='Corp_view' OR ${formmode}=='Corp_verify'"
+																			type="text" id=""
+																			th:value="${#dates.format(end_date,'dd-MM-yyyy')}"
+																			th:field="*{end_date}"
+																			class="form-control form-control-sm" readonly /> 
+																			
+																			
+																		<input th:if="${formmode}=='Corp_delete'"
+																			type="text" id=""
+																			th:value="${#dates.format(end_date,'dd-MM-yyyy')}"
+																			th:field="*{end_date}"
+																			class="form-control form-control-sm" readonly /> 
+																	
+																		<input th:if="${formmode}=='Corp_add'" type="text"
+																			style="background-color: #d2dae0;"
+																			id="end_date1"
+																			th:value="${#dates.format(end_date,'dd-MM-yyyy')}"
+																			class="form-control form-control-sm" autocomplete="off"  /> 
+																	
+																		<input th:if="${formmode}=='Corp_edit'" type="text"
+																			id="end_date1"
+																			th:value="${#dates.format(end_date,'dd-MM-yyyy')}"
+																			th:field="*{end_date}"
+																			class="form-control form-control-sm" autocomplete="off" />
+																	
+																	</div>
+
+															
+
+
+															<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2">Record Status</label>
+																	<div class="col-sm-2"
+																th:if=" ${formmode}=='Corp_view' OR ${formmode}=='Corp_verify'">
+																<input id="entity_flag" th:value="${Corp_ListParameter?.entity_flag}"
+																	th:field="*{entity_flag}"
+																	class="form-control form-control-sm" readonly>
+
+
+															</div>
+															<div class="col-sm-2"
+																th:if=" ${formmode}=='Corp_add' OR ${formmode}=='Corp_edit' OR ${formmode}=='Corp_delete'">
+																<select id="entity_flag" name="entity_flag"
+																	class="form-control form-control-sm"
+																	th:value="${entity_flag}" th:field="*{entity_flag}">
+																	<option value="O">Select</option>
+																	<option value="Y">Yes</option>
+																	<option value="N">No</option>
+																</select>
+
+															</div>
+																</div>
+
+																<div class="row formline">
+																	<label style="height: 2px;"></label>
+																</div>
+
+																<div class="row formline">
+
+																	<div class="col-sm-2">
+																		<label for="negativelistdatasetid">Delete Status</label>
+																	</div>
+
+																	<div class="col-sm-2" th:if=" ${formmode}=='Corp_view' OR ${formmode}=='Corp_verify' ">
+																		 <input id="del_flag" th:value="${del_flag}"
+																			th:field="*{del_flag}"
+																			class="form-control form-control-sm" readonly>
+
+
+																	</div>
+																	<div class="col-sm-2" th:if=" ${formmode}=='Corp_add' OR ${formmode}=='Corp_edit' OR ${formmode}=='Corp_delete'">
+																		<select id="del_flag" name="del_flag"
+																			class="form-control form-control-sm"
+																			th:value="${del_flag}" th:field="*{del_flag}">
+																			<option value="O">Select</option>
+																			<option value="Y">Yes</option>
+																			<option value="N" selected>No</option>
+																		</select>
+
+																	</div>
+
+																	<div class="col-sm-0"></div>
+																	
+
+																	<div class="col-sm-0"></div>
+																	<label for="userName" class="col-sm-2">Remarks 1</label>
+																	<div class="col-sm-2">
+																	
+																		<input th:if="${formmode}=='Corp_view' OR ${formmode}=='Corp_verify'"
+																			type="text" id=""
+																			th:value="${remarks1}"
+																			th:field="*{remarks1}"
+																			class="form-control form-control-sm" readonly /> 
+																			
+																			
+																		<input th:if="${formmode}=='Corp_delete'"
+																			type="text" id=""
+																			th:value="${remarks1}"
+																			th:field="*{remarks1}"
+																			class="form-control form-control-sm" readonly /> 
+																	
+																		<input th:if="${formmode}=='Corp_add'" type="text"
+																			style="background-color: #d2dae0;"
+																			id="remarks11"
+																			th:value="${remarks1}"
+																			class="form-control form-control-sm" autocomplete="off"  /> 
+																	
+																		<input th:if="${formmode}=='Corp_edit'" type="text"
+																			id="remarks11"
+																			th:value="${remarks1}"
+																			th:field="*{remarks1}"
+																			class="form-control form-control-sm" autocomplete="off" />
+																	
+																	</div>
+																	<label for="userName" class="col-sm-2">Remarks 2</label>
+
+																	<div class="col-sm-2">
+																	
+																		<input th:if="${formmode}=='Corp_view' OR ${formmode}=='Corp_verify'"
+																			type="text" id=""
+																			th:value="${remarks2}"
+																			th:field="*{remarks2}"
+																			class="form-control form-control-sm" readonly /> 
+																			
+																			
+																		<input th:if="${formmode}=='Corp_delete'"
+																			type="text" id=""
+																			th:value="${remarks2}"
+																			th:field="*{remarks2}"
+																			class="form-control form-control-sm" readonly /> 
+																	
+																		<input th:if="${formmode}=='Corp_add'" type="text"
+																			style="background-color: #d2dae0;"
+																			id="remarks12"
+																			th:value="${remarks2}"
+																			class="form-control form-control-sm" autocomplete="off"  /> 
+																	
+																		<input th:if="${formmode}=='Corp_edit'" type="text"
+																			id="remarks12"
+																			th:value="${remarks2}"
+																			th:field="*{remarks2}"
+																			class="form-control form-control-sm" autocomplete="off" />
+																	
+																	</div>
+
+																</div>
+
+															</div>
+
+
+
+															<div class="card-footer text-center"
+																style="height: 48px;">
+																<button th:if="${formmode}=='Corp_delete'"
+																	type="button" class="btn btn-xs btn-primary"
+																	style="margin-top: -16px;"
+																	onclick="delete_btn_submitCORP(this);"
+																	form="Corp_ListParameter" id="btnDelete"
+																	th:attr="data-formmode_corp=${formmode}">Delete</button>
+
+																<button th:if="${formmode}=='Corp_verify'"
+																	type="button" class="btn btn-xs btn-primary"
+																	style="margin-top: -12px;"
+																	onclick="Corp_verifyform(this);"
+																	form="Corp_ListParameter" id="btnVerify"
+																	th:attr="data-formmode_corp=${formmode}">Verify</button>
+
+																<button
+																	th:if="${formmode}=='Corp_edit' OR ${formmode}=='Corp_add'"
+																	type="button" style="margin-top: -12px;"
+																	class="btn btn-xs btn-primary"
+																	onclick="Corp_submitform(this);"
+																	form="Corp_ListParameter" id="btnSubmit"
+																	th:attr="data-formmode_corp=${formmode}">Submit</button>
+
+																<button type="button" class="btn btn-xs btn-primary"
+																	id="btnCorp_home" style="margin-top: -12px;"
+																	onclick="Corp_home1();">Home</button>
+
+																<button type="button" class="btn btn-xs btn-primary"
+																	id="btnCorp_back" style="margin-top: -12px;"
+																	onclick="Corp_back1();">Back</button>
+
+															</div>
+														</div>
+													</div>
+
+													<div class="container content"
+														style="border: 1px solid #36404a; padding: 15px;">
+														<div class="row formline">
+
+															<label class="col-sm-2">Entry User</label>
+															<div class="col-sm-2">
+																<input type="text"
+																	th:if="${formmode}=='Corp_edit' OR ${formmode}=='Corp_verify' OR ${formmode}=='Corp_view' OR ${formmode}=='Corp_delete'"
+																	th:value="${Corp_ListParameter?.aml_entry_user}"
+																	id="aml_entry_user" name="aml_entry_user"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly /> 
+																	<input type="text"
+																	th:if="${formmode}=='Corp_add'"
+																	th:value="${session.USERID}" id="aml_entry_user"
+																	name="aml_entry_user"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly />
+
+															</div>
+															<label class="col-sm-2">Modify User</label>
+															<div class="col-sm-2">
+																<input type="text"
+																	th:if="${formmode}=='Corp_add' OR ${formmode}=='Corp_verify' OR ${formmode}=='Corp_view' OR ${formmode}=='Corp_delete'"
+																	th:value="${Corp_ListParameter?.aml_modify_user}"
+																	id="aml_modify_user" name="aml_modify_user"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly /> <input type="text"
+																	th:if="${formmode}=='Corp_edit' "
+																	th:value="${session.USERID}" id="aml_modify_user"
+																	name="aml_modify_user"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly />
+															</div>
+															<label class="col-sm-2">Verify User</label>
+															<div class="col-sm-2">
+																<input type="text"
+																	th:if="${formmode}=='Corp_add' OR ${formmode}=='Corp_edit' OR ${formmode}=='Corp_view' OR ${formmode}=='Corp_delete'"
+																	th:value="${Corp_ListParameter?.aml_verify_user}"
+																	id="aml_verify_user" name="aml_verify_user"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly /> <input type="text"
+																	th:if="${formmode}=='Corp_verify' "
+																	th:value="${session.USERID}" id="aml_verify_user"
+																	name="aml_verify_user"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly />
+															</div>
+														</div>
+														<div class="row formline">
+															<label style="height: 2px;"></label>
+
+														</div>
+														<div class="row formline">
+
+															<label class="col-sm-2">Entry Time</label>
+															<div class="col-sm-2">
+																<input type="text"
+																	th:if="${formmode}=='Corp_edit' OR ${formmode}=='Corp_verify' OR ${formmode}=='Corp_view' OR ${formmode}=='Corp_delete'"
+																	th:value="${#dates.format(Corp_ListParameter?.aml_entry_time,'dd-MM-yyyy')}"
+																	id="aml_entry_time" name="aml_entry_time"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly /> <input type="text"
+																	th:if="${formmode}=='Corp_add'"
+																	th:value="${#dates.format(Corp_ListParameter?.aml_entry_time,'dd-MM-yyyy')}"
+																	id="entry_time2" name="aml_entry_time"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly />
+															</div>
+
+															<label class="col-sm-2">Modify Time</label>
+															<div class="col-sm-2">
+																<input type="text"
+																	th:if="${formmode}=='Corp_add' OR ${formmode}=='Corp_verify' OR ${formmode}=='Corp_view' OR ${formmode}=='Corp_delete'"
+																	th:value="${#dates.format(Corp_ListParameter?.aml_modify_time,'dd-MM-yyyy')}"
+																	id="aml_modify_time" name="aml_modify_time"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly /> <input type="text"
+																	th:if="${formmode}=='Corp_edit' "
+																	th:value="${#dates.format(Corp_ListParameter?.aml_modify_time,'dd-MM-yyyy')}"
+																	id="entry_time2" name="aml_modify_time"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly />
+
+															</div>
+
+
+															<label class="col-sm-2">Verify Time</label>
+															<div class="col-sm-2">
+																<input type="text"
+																	th:if="${formmode}=='Corp_add' OR ${formmode}=='Corp_edit' OR ${formmode}=='Corp_view' OR ${formmode}=='Corp_delete'"
+																	th:value="${#dates.format(Corp_ListParameter?.aml_verify_time,'dd-MM-yyyy')}"
+																	id="aml_verify_time" name="aml_verify_time"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly /> <input type="text"
+																	th:if="${formmode}=='Corp_verify'"
+																	th:value="${#dates.format(Corp_ListParameter?.aml_verify_time,'dd-MM-yyyy')}"
+																	id="entry_time2" name="aml_verify_time"
+																	class="form-control form-control-sm" autocomplete="off"
+																	readonly />
+
+															</div>
+
+															<label></label>
+														</div>
+
+
+
+
+													</div>
+
+												</form>
+
+											</div>
+										</div>
+									</div>
+							
+<!------------------------Pop window - Domain  list Ends--------------------------------->
+
+									<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+									<div class="modal fade" id="datadeleteCORP">
+										<div
+											class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+											<div class="modal-content">
+												<div class="modal-body"
+													style="margin-top: 8px; text-align: center; color: aliceblue;">
+													<button type="button" class="close" data-dismiss="modal">×</button>
+													Are you Sure want to delete?
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary"
+														onclick="Corp_submitform(this);"
+														th:attr="data-formmode_corp=Corp_delete">Submit</button>
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal">Cancel</button>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="modal fade" id="dataCorp_home">
+										<div
+											class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+											<div class="modal-content">
+												<div class="modal-body"
+													style="margin-top: 8px; text-align: center; color: aliceblue;">
+													<button type="button" class="close" data-dismiss="modal">×</button>
+													Are you Sure want to Leave?
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary"
+														onclick="Corp_home();">Yes</button>
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal">No</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="modal fade" id="dataCorp_back">
+										<div
+											class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+											<div class="modal-content">
+												<div class="modal-body"
+													style="margin-top: 8px; text-align: center; color: aliceblue;">
+													<button type="button" class="close" data-dismiss="modal">×</button>
+													Are you Sure want to Leave?
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary"
+														onclick="Corp_back();">Yes</button>
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal">No</button>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+
+
+
+
+									<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+									<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+									<div class="modal fade" id="corpalert">
+										<div
+											class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+											<div class="modal-content">
+												<div class="modal-body" style="text-align: center">
+													<p id="corpalertmsg"></p>
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal" onclick="list_Corp()">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="modal fade" id="corpverifybox">
+										<div
+											class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+											<div class="modal-content">
+												<div class="modal-body" style="text-align: center">
+													<p id="corpverifyboxmsg"></p>
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal">OK</button>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+
+
+
+
+<!-- ***********************Corporate Black list tab END*************************************** -->
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="card-footer text-center"
+				style="background-color: #386276";>
+				<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+					onclick="home();">Home</button>
+				<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+					onclick="back();">Back</button>
+			</div>
+		</div>
+	</div>
+
+
+<div class="modal fade" id="RefnoSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Ref No" id="refno" onblur="searchrefno()"><i
+									class="fas fa-search searchico" style="float: right;" 
+									aria-hidden="true" onclick="searchrefno()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				
+				<div class="modal fade" id="RefnoSearch1">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Ref No" id="refno1" onblur="searchrefno1()"><i
+									class="fas fa-search searchico" style="float: right;" 
+									aria-hidden="true" onclick="searchrefno1()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="LoanSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Loan Limit" id="loan" onblur="searchloan()"><i
+									class="fas fa-search searchico" style="float: right;" 
+									aria-hidden="true" onclick="searchloan()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				
+				<div class="modal fade" id="LoanSearch1">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Loan Limit" id="loan1" onblur="searchloan1()"><i
+									class="fas fa-search searchico" style="float: right;" 
+									aria-hidden="true" onclick="searchloan1()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				
+				<div class="modal fade" id="LoanschmSearch1">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Loan Schm Limit" id="loanschm1" onblur="searchschmloan1()"><i
+									class="fas fa-search searchico" style="float: right;" 
+									aria-hidden="true" onclick="searchschmloan1()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				
+				<div class="modal fade" id="CusttypeSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Customer Type" id="custtype" onblur="searchcusttype()"><i
+									class="fas fa-search searchico" style="float: right;" 
+									aria-hidden="true" onclick="searchcusttype()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				
+				<div class="modal fade" id="CustsubSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Customer Sub Type" id="custsub" onblur="searchcustsub()"><i
+									class="fas fa-search searchico" style="float: right;" 
+									aria-hidden="true" onclick="searchcustsub()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				
+				<div class="modal fade" id="SchmSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Schm Type" id="schm" onblur="searchschm()"><i
+									class="fas fa-search searchico" style="float: right;" 
+									aria-hidden="true" onclick="searchschm()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+					<div class="modal fade" id="SchmSearch1">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Schm Type" id="schm1" onblur="searchschm1()"><i
+									class="fas fa-search searchico" style="float: right;" 
+									aria-hidden="true" onclick="searchschm1()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="GlSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter GlSub Head Code" id="glsub" onblur="searchgl()"><i
+									class="fas fa-search searchico" style="float: right;" 
+									aria-hidden="true" onclick="searchgl()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="GlSearch1">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter GlSub Head Code" id="glsub1" onblur="searchgl1()"><i
+									class="fas fa-search searchico" style="float: right;" 
+									aria-hidden="true" onclick="searchgl1()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+
+
+</body>
+
+
+
+
+</html>

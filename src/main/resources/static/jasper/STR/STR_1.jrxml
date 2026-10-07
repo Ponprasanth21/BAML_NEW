@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="STR_1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="de9ea2a3-de0e-4fc4-afbd-05cc9bd0f2a1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<parameter name="REPORT_ID" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select  REPORT_ID,
+REPORT_TYPE,
+ENTITY_REFERENCE_NO,
+FIU_REFERENCE_NO,
+to_Char(SUBMISSION_DATE,'dd-mm-yyyy'),
+BUSINESS_TYPE,
+DETAILS_FOR_OTHERS_1,
+NAME_ENTITY,
+ACRONYM,
+SECTOR,
+FIRST_NAME_2,
+LAST_NAME_2,
+to_Char(DATE_OF_BIRTH_2,'dd-mm-yyyy'),
+NIC,
+OCCUPATION_2,
+STREET_ADDRESS_2_2,
+CITY_2_2,
+COUNTRY_2,
+TELEPHONE_NO_2,
+FAX_NO_2,
+SUPERVISED_BY,
+TOTAL_STR,
+IN_OFF1,
+IN_OFF2,
+IN_OFF3,
+IN_OFF4,
+IN_OFF5,
+IN_OFF6,
+DETAILS_FOR_OTHERS_3,
+DESCRIPTION_TAKEN_3_2,
+MATERIAL_IMPACT,
+MATERIAL_IMPACT_DESC,
+DESCRIPTION_TAKEN_3_3,
+TRAN_ID,
+to_Char(TRAN_DATE,'dd-mm-yyyy'),
+to_Char(TRAN_DATE_1,'dd-mm-yyyy'),
+TRAN_TYPE,
+to_Char(DATE_DETECTED,'dd-mm-yyyy'),
+CRNCY_CODE,
+FX_TRAN_AMT,
+RATE_5_8,
+TRAN_AMT,
+TRAN_PARTICULAR,
+ITEM_TYPE,
+COMMENTS_SERVICES,
+PREVIOUSLY_TO,
+PRESENTLY_TO,
+ESTIMATE_VALUE,
+STATUS_CODE,
+DISPOSED_VALUE,
+STREET_ADDRESS,
+CITY_5,
+NAME_PERSONS_1,
+REPORTING_ENTITY_1,
+CAPACITY_TRANSACTION_1,
+NAME_PERSONS_2,
+REPORTING_ENTITY_2,
+CAPACITY_TRANSACTION_2,
+NAME_PERSONS_3,
+REPORTING_ENTITY_3,
+CAPACITY_TRANSACTION_3,
+NAME_PERSONS_4,
+REPORTING_ENTITY_4,
+CAPACITY_TRANSACTION_4,
+NAME_PERSONS_5,
+REPORTING_ENTITY_5,
+CAPACITY_TRANSACTION_5,
+FROM_TYPE,
+FROM_PARTY,TO_TYPE,
+TO_PARTY,
+CLIENT_ACCOUNT,
+CLIENT_TYPE,
+CLIENT_PERSON,
+NON_CLIENT_ACCOUNT,
+NON_TYPE,
+NON_PERSON,
+REF_NUM,
+PARTY_CODE,
+ROLE_6,
+FUNDS_TYPE_6,
+COUNTRY_6,
+FORACID,
+ACCT_NAME,
+ACCT_NAME_1,
+SCHM_TYPE,
+ACCT_CRNCY_CODE,
+ACCT_STATUS,
+to_Char(ACCT_OPN_DATE,'dd-mm-yyyy'),
+to_Char(ACCT_CLOSED_DATE,'dd-mm-yyyy'),
+CLR_BAL_AMT,
+to_Char(TRAN_DATE_7,'dd-mm-yyyy'),
+COMMENTS_DETAILS_6,
+TRAN_ID_7,
+PARTY_CODE_7,
+ROLE_7,
+FUNDS_TYPE_7,
+COUNTRY_7_4,
+NAME_7,
+INCORPORATION_FORM_7,
+SECTOR_7,
+REGISTRATION_NUMBER,
+ADDR_7,
+to_Char(DATE_OF_INCORPORATION,'dd-mm-yyyy'),
+COUNTRYOFINCORPORATION,
+CITY_7,
+COUNTRY_7_13,
+PHONE_7,
+COMMENTS_DETAILS_7,
+TRAN_ID_8,
+PARTY_CODE_8,
+ROLE_8,
+FUNDS_TYPE_8,
+COUNTRY_8_4,
+GENDER_8,
+CUST_FIRST_NAME,
+CUST_LAST_NAME,
+ADDR_8,
+CITY_8,
+COUNTRY_8_10,
+PHONE_8,
+to_Char(DATE_OF_BIRTH_8,'dd-mm-yyyy'),
+NATIONALITY_8,
+RESIDENCE_COUNTRY,
+IDENTIFIER_8,
+INSIDER_RELATIONSHIP,
+to_Char(DATE_OF_SUSPENSION,'dd-mm-yyyy'),
+IS_SIGNATORY,
+PRIMARY_SIGNATORY_ROLE,
+ROLE_8_18,
+COMMENTS_DETAILS_8
+ from  BAML_STR_TABLE where  REPORT_ID=$P{REPORT_ID}]]>
+	</queryString>
+	<field name="REPORT_ID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_ID"/>
+	</field>
+	<field name="REPORT_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_TYPE"/>
+	</field>
+	<field name="ENTITY_REFERENCE_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ENTITY_REFERENCE_NO"/>
+	</field>
+	<field name="FIU_REFERENCE_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FIU_REFERENCE_NO"/>
+	</field>
+	<field name="TO_CHAR(SUBMISSION_DATE,&apos;DD-MM-YYYY&apos;)" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label">
+			<![CDATA[TO_CHAR(SUBMISSION_DATE,'DD-MM-YYYY')]]>
+		</property>
+	</field>
+	<field name="BUSINESS_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="BUSINESS_TYPE"/>
+	</field>
+	<field name="DETAILS_FOR_OTHERS_1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DETAILS_FOR_OTHERS_1"/>
+	</field>
+	<field name="NAME_ENTITY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NAME_ENTITY"/>
+	</field>
+	<field name="ACRONYM" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ACRONYM"/>
+	</field>
+	<field name="SECTOR" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SECTOR"/>
+	</field>
+	<field name="FIRST_NAME_2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FIRST_NAME_2"/>
+	</field>
+	<field name="LAST_NAME_2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="LAST_NAME_2"/>
+	</field>
+	<field name="TO_CHAR(DATE_OF_BIRTH_2,&apos;DD-MM-YYYY&apos;)" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label">
+			<![CDATA[TO_CHAR(DATE_OF_BIRTH_2,'DD-MM-YYYY')]]>
+		</property>
+	</field>
+	<field name="NIC" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NIC"/>
+	</field>
+	<field name="OCCUPATION_2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="OCCUPATION_2"/>
+	</field>
+	<field name="STREET_ADDRESS_2_2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="STREET_ADDRESS_2_2"/>
+	</field>
+	<field name="CITY_2_2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CITY_2_2"/>
+	</field>
+	<field name="COUNTRY_2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="COUNTRY_2"/>
+	</field>
+	<field name="TELEPHONE_NO_2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TELEPHONE_NO_2"/>
+	</field>
+	<field name="FAX_NO_2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FAX_NO_2"/>
+	</field>
+	<field name="SUPERVISED_BY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SUPERVISED_BY"/>
+	</field>
+	<field name="TOTAL_STR" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="TOTAL_STR"/>
+	</field>
+	<field name="IN_OFF1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="IN_OFF1"/>
+	</field>
+	<field name="IN_OFF2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="IN_OFF2"/>
+	</field>
+	<field name="IN_OFF3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="IN_OFF3"/>
+	</field>
+	<field name="IN_OFF4" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="IN_OFF4"/>
+	</field>
+	<field name="IN_OFF5" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="IN_OFF5"/>
+	</field>
+	<field name="IN_OFF6" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="IN_OFF6"/>
+	</field>
+	<field name="DETAILS_FOR_OTHERS_3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DETAILS_FOR_OTHERS_3"/>
+	</field>
+	<field name="DESCRIPTION_TAKEN_3_2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DESCRIPTION_TAKEN_3_2"/>
+	</field>
+	<field name="MATERIAL_IMPACT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MATERIAL_IMPACT"/>
+	</field>
+	<field name="MATERIAL_IMPACT_DESC" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MATERIAL_IMPACT_DESC"/>
+	</field>
+	<field name="DESCRIPTION_TAKEN_3_3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DESCRIPTION_TAKEN_3_3"/>
+	</field>
+	<field name="TRAN_ID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_ID"/>
+	</field>
+	<field name="TO_CHAR(TRAN_DATE,&apos;DD-MM-YYYY&apos;)" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label">
+			<![CDATA[TO_CHAR(TRAN_DATE,'DD-MM-YYYY')]]>
+		</property>
+	</field>
+	<field name="TO_CHAR(TRAN_DATE_1,&apos;DD-MM-YYYY&apos;)" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label">
+			<![CDATA[TO_CHAR(TRAN_DATE_1,'DD-MM-YYYY')]]>
+		</property>
+	</field>
+	<field name="TRAN_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_TYPE"/>
+	</field>
+	<field name="TO_CHAR(DATE_DETECTED,&apos;DD-MM-YYYY&apos;)" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label">
+			<![CDATA[TO_CHAR(DATE_DETECTED,'DD-MM-YYYY')]]>
+		</property>
+	</field>
+	<field name="CRNCY_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CRNCY_CODE"/>
+	</field>
+	<field name="FX_TRAN_AMT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="FX_TRAN_AMT"/>
+	</field>
+	<field name="RATE_5_8" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="RATE_5_8"/>
+	</field>
+	<field name="TRAN_AMT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_AMT"/>
+	</field>
+	<field name="TRAN_PARTICULAR" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_PARTICULAR"/>
+	</field>
+	<field name="ITEM_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ITEM_TYPE"/>
+	</field>
+	<field name="COMMENTS_SERVICES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="COMMENTS_SERVICES"/>
+	</field>
+	<field name="PREVIOUSLY_TO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PREVIOUSLY_TO"/>
+	</field>
+	<field name="PRESENTLY_TO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PRESENTLY_TO"/>
+	</field>
+	<field name="ESTIMATE_VALUE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="ESTIMATE_VALUE"/>
+	</field>
+	<field name="STATUS_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="STATUS_CODE"/>
+	</field>
+	<field name="DISPOSED_VALUE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="DISPOSED_VALUE"/>
+	</field>
+	<field name="STREET_ADDRESS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="STREET_ADDRESS"/>
+	</field>
+	<field name="CITY_5" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CITY_5"/>
+	</field>
+	<field name="NAME_PERSONS_1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NAME_PERSONS_1"/>
+	</field>
+	<field name="REPORTING_ENTITY_1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORTING_ENTITY_1"/>
+	</field>
+	<field name="CAPACITY_TRANSACTION_1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CAPACITY_TRANSACTION_1"/>
+	</field>
+	<field name="NAME_PERSONS_2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NAME_PERSONS_2"/>
+	</field>
+	<field name="REPORTING_ENTITY_2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORTING_ENTITY_2"/>
+	</field>
+	<field name="CAPACITY_TRANSACTION_2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CAPACITY_TRANSACTION_2"/>
+	</field>
+	<field name="NAME_PERSONS_3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NAME_PERSONS_3"/>
+	</field>
+	<field name="REPORTING_ENTITY_3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORTING_ENTITY_3"/>
+	</field>
+	<field name="CAPACITY_TRANSACTION_3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CAPACITY_TRANSACTION_3"/>
+	</field>
+	<field name="NAME_PERSONS_4" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NAME_PERSONS_4"/>
+	</field>
+	<field name="REPORTING_ENTITY_4" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORTING_ENTITY_4"/>
+	</field>
+	<field name="CAPACITY_TRANSACTION_4" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CAPACITY_TRANSACTION_4"/>
+	</field>
+	<field name="NAME_PERSONS_5" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NAME_PERSONS_5"/>
+	</field>
+	<field name="REPORTING_ENTITY_5" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORTING_ENTITY_5"/>
+	</field>
+	<field name="CAPACITY_TRANSACTION_5" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CAPACITY_TRANSACTION_5"/>
+	</field>
+	<field name="FROM_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FROM_TYPE"/>
+	</field>
+	<field name="FROM_PARTY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FROM_PARTY"/>
+	</field>
+	<field name="TO_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TO_TYPE"/>
+	</field>
+	<field name="TO_PARTY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TO_PARTY"/>
+	</field>
+	<field name="CLIENT_ACCOUNT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CLIENT_ACCOUNT"/>
+	</field>
+	<field name="CLIENT_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CLIENT_TYPE"/>
+	</field>
+	<field name="CLIENT_PERSON" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CLIENT_PERSON"/>
+	</field>
+	<field name="NON_CLIENT_ACCOUNT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NON_CLIENT_ACCOUNT"/>
+	</field>
+	<field name="NON_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NON_TYPE"/>
+	</field>
+	<field name="NON_PERSON" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NON_PERSON"/>
+	</field>
+	<field name="REF_NUM" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REF_NUM"/>
+	</field>
+	<field name="PARTY_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PARTY_CODE"/>
+	</field>
+	<field name="ROLE_6" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ROLE_6"/>
+	</field>
+	<field name="FUNDS_TYPE_6" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FUNDS_TYPE_6"/>
+	</field>
+	<field name="COUNTRY_6" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="COUNTRY_6"/>
+	</field>
+	<field name="FORACID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FORACID"/>
+	</field>
+	<field name="ACCT_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ACCT_NAME"/>
+	</field>
+	<field name="ACCT_NAME_1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ACCT_NAME_1"/>
+	</field>
+	<field name="SCHM_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SCHM_TYPE"/>
+	</field>
+	<field name="ACCT_CRNCY_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ACCT_CRNCY_CODE"/>
+	</field>
+	<field name="ACCT_STATUS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ACCT_STATUS"/>
+	</field>
+	<field name="TO_CHAR(ACCT_OPN_DATE,&apos;DD-MM-YYYY&apos;)" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label">
+			<![CDATA[TO_CHAR(ACCT_OPN_DATE,'DD-MM-YYYY')]]>
+		</property>
+	</field>
+	<field name="TO_CHAR(ACCT_CLOSED_DATE,&apos;DD-MM-YYYY&apos;)" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label">
+			<![CDATA[TO_CHAR(ACCT_CLOSED_DATE,'DD-MM-YYYY')]]>
+		</property>
+	</field>
+	<field name="CLR_BAL_AMT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="CLR_BAL_AMT"/>
+	</field>
+	<field name="TO_CHAR(TRAN_DATE_7,&apos;DD-MM-YYYY&apos;)" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label">
+			<![CDATA[TO_CHAR(TRAN_DATE_7,'DD-MM-YYYY')]]>
+		</property>
+	</field>
+	<field name="COMMENTS_DETAILS_6" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="COMMENTS_DETAILS_6"/>
+	</field>
+	<field name="TRAN_ID_7" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_ID_7"/>
+	</field>
+	<field name="PARTY_CODE_7" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PARTY_CODE_7"/>
+	</field>
+	<field name="ROLE_7" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ROLE_7"/>
+	</field>
+	<field name="FUNDS_TYPE_7" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FUNDS_TYPE_7"/>
+	</field>
+	<field name="COUNTRY_7_4" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="COUNTRY_7_4"/>
+	</field>
+	<field name="NAME_7" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NAME_7"/>
+	</field>
+	<field name="INCORPORATION_FORM_7" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="INCORPORATION_FORM_7"/>
+	</field>
+	<field name="SECTOR_7" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SECTOR_7"/>
+	</field>
+	<field name="REGISTRATION_NUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REGISTRATION_NUMBER"/>
+	</field>
+	<field name="ADDR_7" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ADDR_7"/>
+	</field>
+	<field name="TO_CHAR(DATE_OF_INCORPORATION,&apos;DD-MM-YYYY&apos;)" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label">
+			<![CDATA[TO_CHAR(DATE_OF_INCORPORATION,'DD-MM-YYYY')]]>
+		</property>
+	</field>
+	<field name="COUNTRYOFINCORPORATION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="COUNTRYOFINCORPORATION"/>
+	</field>
+	<field name="CITY_7" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CITY_7"/>
+	</field>
+	<field name="COUNTRY_7_13" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="COUNTRY_7_13"/>
+	</field>
+	<field name="PHONE_7" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PHONE_7"/>
+	</field>
+	<field name="COMMENTS_DETAILS_7" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="COMMENTS_DETAILS_7"/>
+	</field>
+	<field name="TRAN_ID_8" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_ID_8"/>
+	</field>
+	<field name="PARTY_CODE_8" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PARTY_CODE_8"/>
+	</field>
+	<field name="ROLE_8" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ROLE_8"/>
+	</field>
+	<field name="FUNDS_TYPE_8" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FUNDS_TYPE_8"/>
+	</field>
+	<field name="COUNTRY_8_4" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="COUNTRY_8_4"/>
+	</field>
+	<field name="GENDER_8" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="GENDER_8"/>
+	</field>
+	<field name="CUST_FIRST_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_FIRST_NAME"/>
+	</field>
+	<field name="CUST_LAST_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_LAST_NAME"/>
+	</field>
+	<field name="ADDR_8" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ADDR_8"/>
+	</field>
+	<field name="CITY_8" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CITY_8"/>
+	</field>
+	<field name="COUNTRY_8_10" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="COUNTRY_8_10"/>
+	</field>
+	<field name="PHONE_8" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PHONE_8"/>
+	</field>
+	<field name="TO_CHAR(DATE_OF_BIRTH_8,&apos;DD-MM-YYYY&apos;)" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label">
+			<![CDATA[TO_CHAR(DATE_OF_BIRTH_8,'DD-MM-YYYY')]]>
+		</property>
+	</field>
+	<field name="NATIONALITY_8" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NATIONALITY_8"/>
+	</field>
+	<field name="RESIDENCE_COUNTRY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="RESIDENCE_COUNTRY"/>
+	</field>
+	<field name="IDENTIFIER_8" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="IDENTIFIER_8"/>
+	</field>
+	<field name="INSIDER_RELATIONSHIP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="INSIDER_RELATIONSHIP"/>
+	</field>
+	<field name="TO_CHAR(DATE_OF_SUSPENSION,&apos;DD-MM-YYYY&apos;)" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label">
+			<![CDATA[TO_CHAR(DATE_OF_SUSPENSION,'DD-MM-YYYY')]]>
+		</property>
+	</field>
+	<field name="IS_SIGNATORY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="IS_SIGNATORY"/>
+	</field>
+	<field name="PRIMARY_SIGNATORY_ROLE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PRIMARY_SIGNATORY_ROLE"/>
+	</field>
+	<field name="ROLE_8_18" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ROLE_8_18"/>
+	</field>
+	<field name="COMMENTS_DETAILS_8" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="COMMENTS_DETAILS_8"/>
+	</field>
+	<title>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="160" y="0" width="240" height="30" uuid="18f09076-07fa-4dd0-b109-6142b087862d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUSPICIOUS TRANSACTION REPORT]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="400" y="0" width="156" height="20" uuid="1f664d11-c4d0-4711-a7b4-48261e1e5df1"/>
+				<textFieldExpression><![CDATA["REPORT ID:"+$F{REPORT_ID}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MMM/yyyy">
+				<reportElement x="403" y="20" width="153" height="20" uuid="7fde875d-69cc-45b6-a399-090dd9ae2c88"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["SUBMITTED ON:"+$F{TO_CHAR(SUBMISSION_DATE,'DD-MM-YYYY')}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="40" width="156" height="20" uuid="17caa9f3-3c68-478e-8203-7501fa3dde81"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[LOCAL CURRENCY CODE:MUR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="30" width="100" height="20" uuid="88d4c7fb-aeae-4d3c-bbc6-4b1d1e335f06"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[(STR)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="720" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="180" height="20" uuid="2c29fffa-82f7-406f-a370-a06d14b285bd"/>
+				<textFieldExpression><![CDATA["Report Entity :"+$F{REPORT_TYPE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="1" width="200" height="19" uuid="6b16422b-3953-48ec-acbf-96df370a88fc"/>
+				<textFieldExpression><![CDATA["Entity ID"+$F{ENTITY_REFERENCE_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="20" width="200" height="18" uuid="ab8c1e74-2115-4a57-a6e8-c0224d161cad"/>
+				<textFieldExpression><![CDATA["Submission Date :"+$F{TO_CHAR(SUBMISSION_DATE,'DD-MM-YYYY')}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="380" y="0" width="176" height="18" uuid="56ce056a-b3c6-4b19-828e-030a1c2cf444"/>
+				<textFieldExpression><![CDATA["FIU Reference :"+($F{FIU_REFERENCE_NO} ==null?"" :$F{FIU_REFERENCE_NO})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="39" width="560" height="20" uuid="6820925f-6e10-41af-9756-9fc75b305461"/>
+				<textFieldExpression><![CDATA["Reason :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="59" width="560" height="20" uuid="55a7598a-91a4-473f-b112-780d1ab67523"/>
+				<textFieldExpression><![CDATA["Action"+$F{FIU_REFERENCE_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="21" width="180" height="18" uuid="cb238a44-7c64-44aa-9d88-96518ff03bc7"/>
+				<textFieldExpression><![CDATA["Reporting Entity Reference :"+$F{ENTITY_REFERENCE_NO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="79" width="110" height="20" uuid="8b4a4a91-e00a-4cf5-a871-5b3a95b210b1"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Reporting Person]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="100" width="180" height="18" uuid="15a1198d-bddb-4bc7-a409-8b0cd6023542"/>
+				<textFieldExpression><![CDATA["Title : Mr/Mrs"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="181" y="100" width="200" height="18" uuid="6a541409-6284-4e81-ad1b-c07646c423f0"/>
+				<textFieldExpression><![CDATA["First Name :"+$F{FIRST_NAME_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="381" y="100" width="180" height="18" uuid="e6db627a-cc75-492a-82e6-94eb7a43829f"/>
+				<textFieldExpression><![CDATA["Middle Name : FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="129" width="180" height="18" uuid="47c0f791-0283-4a69-9c84-eeb70775d3bb"/>
+				<textFieldExpression><![CDATA["Last Name: "+$F{LAST_NAME_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="129" width="200" height="18" uuid="f60308e0-5a6c-4828-a1d6-ef65e9c23d68"/>
+				<textFieldExpression><![CDATA["Birth Date :"+$F{TO_CHAR(DATE_OF_BIRTH_2,'DD-MM-YYYY')}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="129" width="180" height="18" uuid="0d7366e4-c4d5-4bfd-9285-5f90e85a96f0"/>
+				<textFieldExpression><![CDATA["Gender : FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="159" width="180" height="18" uuid="122cd000-3c92-46ff-8a08-a39ada7ca114"/>
+				<textFieldExpression><![CDATA["Prefix : FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="159" width="200" height="18" uuid="23e9bb51-2660-477d-9ab0-e00562877d71"/>
+				<textFieldExpression><![CDATA["Birth Place : FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="159" width="180" height="18" uuid="024d9c8f-bc69-404d-a12f-d361f97b6587"/>
+				<textFieldExpression><![CDATA["Middle Name : FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="189" width="180" height="18" uuid="5a79a178-1e12-4b85-8bcb-61ced4189a40"/>
+				<textFieldExpression><![CDATA["Alias :FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="181" y="189" width="200" height="18" uuid="c756e260-9d1e-4667-a598-88f83ff3f1e4"/>
+				<textFieldExpression><![CDATA["NIC :"+$F{NIC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="381" y="189" width="180" height="18" uuid="2a840b38-d72c-4131-8572-933eb94e570a"/>
+				<textFieldExpression><![CDATA["ID Number: FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="219" width="180" height="18" uuid="0265d678-112f-4b62-a01c-17b35339bb18"/>
+				<textFieldExpression><![CDATA["Nationality 1 :"+$F{COUNTRY_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="181" y="219" width="200" height="18" uuid="4758b425-0cc5-4267-960b-9dd5b45779e2"/>
+				<textFieldExpression><![CDATA["Nationality 2 :"+$F{COUNTRY_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="381" y="219" width="180" height="18" uuid="bd8344ca-7c4b-4bd2-8ac1-f1f06d3ad6ea"/>
+				<textFieldExpression><![CDATA["Nationality 3 :"+$F{COUNTRY_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="249" width="180" height="18" uuid="d7d0de1f-e1db-46ca-83e7-8397897e4feb"/>
+				<textFieldExpression><![CDATA["Residence :"+$F{CITY_2_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="181" y="249" width="200" height="18" uuid="20be7077-7341-4647-bf51-9daf7ddd844c"/>
+				<textFieldExpression><![CDATA["Occupation :"+$F{OCCUPATION_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="381" y="249" width="180" height="18" uuid="b24fb92d-5866-4838-93bf-053582427d22"/>
+				<textFieldExpression><![CDATA["Employer Name : FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="279" width="180" height="18" uuid="aea317ca-b45a-4753-a456-3b6913e377f4"/>
+				<textFieldExpression><![CDATA["Tax Number : FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="279" width="200" height="18" uuid="acb5b7f0-e2f8-48d4-bfb5-438818f1b977"/>
+				<textFieldExpression><![CDATA["Tax Reg.Number : FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="279" width="180" height="18" uuid="9866683b-d2c7-42f7-8c0c-c91610413f4e"/>
+				<textFieldExpression><![CDATA["Source of Wealth : FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="309" width="180" height="18" uuid="274e3570-9fbf-4562-baf4-579b232e0938"/>
+				<textFieldExpression><![CDATA["Passport Number : FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="309" width="200" height="18" uuid="6a6251d8-d9ea-4425-8ef3-f9c993892b21"/>
+				<textFieldExpression><![CDATA["Passport Country : FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="309" width="180" height="18" uuid="c5a05022-01f0-4039-90f8-1f671c631de1"/>
+				<textFieldExpression><![CDATA["Date of Death : FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-1" y="342" width="180" height="18" uuid="3eb913f5-6b48-4f16-a1a5-bb7ae327ba99"/>
+				<textFieldExpression><![CDATA["Comments : FIELD NEEDED"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-3" y="361" width="110" height="21" uuid="0a892386-4e26-4bdb-aa1a-a3d11d853381"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Phones]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="382" width="175" height="20" uuid="526465f1-e599-4057-83bf-5e8d379ae393"/>
+				<textElement verticalAlignment="Top">
+					<paragraph lineSpacingSize="2.0"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Contact Type :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="402" width="175" height="20" uuid="780e358f-7637-4f47-891b-ead4aeaa8d7c"/>
+				<textFieldExpression><![CDATA["Comm. Type :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="422" width="176" height="20" uuid="4cce8241-0559-4866-bc24-37fa90fef7e3"/>
+				<textFieldExpression><![CDATA["Country prefix :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="442" width="176" height="20" uuid="258d2cc1-4720-404a-adfd-e053c4f3877c"/>
+				<textFieldExpression><![CDATA["Number :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="462" width="176" height="20" uuid="7f74f1bf-2d97-46c8-b1ae-a95048766c67"/>
+				<textFieldExpression><![CDATA["Extension :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="482" width="557" height="20" uuid="b31acbf0-dbe8-4539-9b9b-a47c692943fa"/>
+				<textFieldExpression><![CDATA["Comments :"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-2" y="502" width="110" height="18" uuid="9c5eefb3-f119-44e8-ac97-88b14183b12a"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Addresses ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="520" width="176" height="20" uuid="5bc1cfa1-9905-4551-bfe8-eb1dee01e2d1"/>
+				<textFieldExpression><![CDATA["Type :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="540" width="176" height="20" uuid="36e634ad-f7e8-40a7-a3cd-9a65b6d2d97a"/>
+				<textFieldExpression><![CDATA["Address :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="560" width="176" height="20" uuid="4da98bd9-9cb4-4ca6-932e-b99fbab3237f"/>
+				<textFieldExpression><![CDATA["Town :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="580" width="176" height="20" uuid="b6cf4e22-4479-4e06-a1a7-4f7d1c2ed7bb"/>
+				<textFieldExpression><![CDATA["City :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="600" width="176" height="20" uuid="90162194-8371-4a38-95a7-c7a1801faa3c"/>
+				<textFieldExpression><![CDATA["Zip :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="620" width="176" height="20" uuid="6d519a1e-1d12-4e02-8431-4f75102b7167"/>
+				<textFieldExpression><![CDATA["Country :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="640" width="176" height="20" uuid="fd042ded-a15f-43f0-a635-0c2b599c0370"/>
+				<textFieldExpression><![CDATA["State :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="660" width="554" height="20" uuid="09f2ae24-fbb1-493b-acf4-2b692d4f4bb9"/>
+				<textFieldExpression><![CDATA["Comments :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-3" y="680" width="561" height="20" uuid="d9cd3beb-8a2c-4116-a6d5-8e11ac87244e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Identification :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-1" y="700" width="561" height="20" uuid="5fe2269f-23ed-4b36-b6c7-d8db7f605502"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["EMAILS :"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

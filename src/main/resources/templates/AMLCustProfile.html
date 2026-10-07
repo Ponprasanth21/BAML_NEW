@@ -1,0 +1,616 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLCustProfile
+CREATED BY	: RAMPRASATH
+CREATED ON	: 27-JAN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en" >
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<!-- <link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}"> -->
+
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<!-- <script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script> -->
+<!-- <script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script> -->
+
+
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="js/bootstrap411.js"></script>
+
+
+<script th:inline="javascript">
+	$(function() {
+
+	/* 	$("#custDOB").datepicker({
+			maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+
+			}
+		}); */
+		
+/* 		var wage = document.getElementById("custid");
+		//var wage = document.getElementById("custName");
+		wage.addEventListener("keydown", function (e) {
+		    if (e.keyCode === 13) {  //checks whether the pressed key is "Enter"
+		        validate(e);
+		    }
+		});
+
+		function validate(e) {
+		    var text = e.target.value;
+		    searchcustid(text);
+		    //validation of the input...
+		} */
+		
+		var custfirstname = document.getElementById("custid");
+		custfirstname.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+			//	$("#loadermodal").modal("toggle");
+				searchcustid();
+			}
+		});
+		var custName = document.getElementById("custName");
+		custName.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+			//	$("#loadermodal").modal("toggle");
+				searchcustName();
+			}
+		});
+		var custNATID = document.getElementById("custNATID");
+		custNATID.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				//$("#loadermodal").modal("toggle");
+				searchcustNatID();
+			}
+		});
+		var custDOB = document.getElementById("custDOB");
+		custDOB.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				//$("#loadermodal").modal("toggle");
+				searchcustDOB();
+			}
+		});
+		var custNumber = document.getElementById("custNumber");
+		custNumber.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				//$("#loadermodal").modal("toggle");
+				searchcustNUMBER();
+			}
+		});
+		/* $("#usertable").DataTable({
+			"paging" : false,
+		}); */
+	});
+
+	function getUserlist(mode, num, maxpage) {
+		$("#loadermodal").modal("toggle");
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+
+		/* 		alert(n+"  "+max);
+		 */var Callurl = 'CustomerInquiry?formmode=list';
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		/* 		alert(Callurl);
+		 */location.href = Callurl;
+	}
+
+	function home() {
+		$("#loadermodal").modal("toggle");
+		location.href = 'Dashboard'
+	}
+
+	function back() {
+		$("#loadermodal").modal("toggle");
+		var Callurl = 'CustomerInquiry?formmode=list';
+		location.href = Callurl;
+		//window.history.back();
+	}
+	$(document).ready(function() {
+		  $('#CustSearch').on('shown.bs.modal', function() {
+		    $('#custid').trigger('focus');
+		  });
+		});
+	function custidsearch() {
+		$("#CustSearch").modal("toggle");
+		$('#custid').focus();
+	}$(document).ready(function() {
+		  $('#CustSearch').on('shown.bs.modal', function() {
+			    $('#custid').trigger('focus');
+			  });
+			});
+		
+	function custnamesearch() {
+		$("#CustNameSearch").modal("toggle");
+	}$(document).ready(function() {
+		  $('#CustNameSearch').on('shown.bs.modal', function() {
+			    $('#custName').trigger('focus');
+			  });
+			});
+		
+	function custdobsearch() {
+		$("#CustDOBSearch").modal("toggle");
+	}$(document).ready(function() {
+		  $('#CustDOBSearch').on('shown.bs.modal', function() {
+			    $('#custDOB').trigger('focus');
+			  });
+			});
+		
+	function custnumbersearch() {
+		$("#CustNUMBERSearch").modal("toggle");
+	}$(document).ready(function() {
+		  $('#CustNUMBERSearch').on('shown.bs.modal', function() {
+			    $('#custNumber').trigger('focus');
+			  });
+			});
+		
+	function custemailsearch() {
+		$("#CustEmailSearch").modal("toggle");
+	}
+	function custnatIdsearch() {
+		$("#CustNATIDSearch").modal("toggle");
+	}$(document).ready(function() {
+		  $('#CustNATIDSearch').on('shown.bs.modal', function() {
+			    $('#custNATID').trigger('focus');
+			  });
+			});
+		
+	function custnresearch() {
+		$("#CustNRESearch").modal("toggle");
+	}
+
+	function searchcustid() {
+		$("#CustSearch").modal('hide');
+		
+		var custid2 = $("#custid").val();
+		if (custid2 != '') {
+			$("#loadermodal").modal("toggle");
+			location.href = 'getcustomerId?custid2=' + custid2;
+
+			$('#CustomerInq').empty();
+		}
+		}
+
+	function searchcustName() {
+		$("#CustNameSearch").modal('hide');
+		var custName2 = $("#custName").val();
+		if (custName2 != '') {
+			$("#loadermodal").modal("toggle");
+			location.href = 'getcustomerName?custName2=' + custName2;
+			$('#CustomerInq').empty();
+		}
+		/* $.ajax({
+			type : 'get',
+			url : "/AML/getcustomerName/" + custName2,
+
+			success : function(response) {
+				var trHTML = "", dateOfBirth, PhoneNumber, EMAIL, NatID;
+
+				$.each(response, function(key, value) {
+
+					if (value.date_of_birth === null) {
+						console.log("if");
+						dateOfBirth = '';
+					} else {
+						dateOfBirth = value.date_of_birth;
+					}
+					if (value.cust_perm_phone_num === null) {
+						console.log("if");
+						PhoneNumber = '';
+					} else {
+						PhoneNumber = value.cust_perm_phone_num;
+					}
+					if (value.email_id === null) {
+						console.log("if");
+						EMAIL = '';
+					} else {
+						EMAIL = value.email_id;
+					}
+					if (value.nat_id_card_num === null) {
+						console.log("if");
+						NatID = '';
+					} else {
+						NatID = value.nat_id_card_num;
+					}
+
+					trHTML += '<tr><td>' + value.cust_id + '</td><td>'
+							+ value.cust_name + '</td><td>' + dateOfBirth
+							+ '</td><td>' + PhoneNumber + '</td><td>' + EMAIL
+							+ '</td><td>' + NatID + '</td><td>'
+							+ value.cust_nre_flg + '</td></tr>';
+				});
+				if(trHTML == []){
+					var data = 'No Data Found'
+					$('#CustomerInq').append('<tr id="CustomerInq" ><td colspan="7" style="text-align:center;color:red">No Data Found</td></tr>');
+					$('#paginationCust').hide();
+				}else{
+				$('#CustomerInq').append(trHTML);
+				$('#paginationCust').hide();
+			}
+				}
+
+		}); */
+	}
+
+	function convertDate(dateString) {
+		var p = dateString.split(/\D/g)
+		return [ p[2], p[1], p[0] ].join("-")
+	}
+
+	function searchcustDOB() {
+		$("#CustDOBSearch").modal('hide');
+
+		var custName2 = $("#custDOB").val();
+		if (custName2 != '') {
+			$("#loadermodal").modal("toggle");
+			location.href = 'getcustomerRESIDINGCOUNTRY?custName2=' + custName2;
+			$('#CustomerInq').empty();
+		}
+	}
+	function searchcustNUMBER() {
+		$("#CustNUMBERSearch").modal('hide');
+		var custName2 = $("#custNumber").val();
+		if (custName2 != '') {
+			$("#loadermodal").modal("toggle");
+			location.href = 'getcustomerNUMBER?custName2=' + custName2;
+			$('#CustomerInq').empty();
+		}
+
+	}
+	function searchcustEmail() {
+		$("#CustEmailSearch").modal('hide');
+		var custName2 = $("#custEmail").val();
+		if (custName2 != '') {
+			$("#loadermodal").modal("toggle");
+			location.href = 'getcustomerEMAIL?custName2=' + custName2;
+			$('#CustomerInq').empty();
+		}
+	}
+	function searchcustNatID() {
+		$("#CustNATIDSearch").modal('hide');
+		var custName2 = $("#custNATID").val();
+		if (custName2 != '') {
+			$("#loadermodal").modal("toggle");
+			location.href = 'getcustomerNatID?custName2=' + custName2;
+			$('#CustomerInq').empty();
+		}
+	}
+
+	function fnClick(a) {
+		$("#loadermodal").modal("toggle");
+		var custId = a.getAttribute("data-custId")
+		location.href = 'AMLCustInquiry1?custId=' + custId;
+	}
+	/*]]>*/
+</script>
+<style>
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+</style>
+
+</head>
+<title>AML</title>
+
+<body>
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('CustomerInquiry')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+				<div class="content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle">
+								<b>Customer List</b>
+							</div>
+							<label></label>
+							<!-- 	<div class="row formline">
+							<div class="col-sm-1">
+													<label for="ref_code">Search</label>
+												</div>
+												<div class="col-sm-3">
+													<input type="text"
+														id="search" class="form-control form-control-sm"
+														name="search" autocomplete="off" placeholder="Enter Customer ID"  >
+												</div>
+
+												<div class="col-sm-1">
+													<a href="#"><i class="fas fa-search searchico"
+														 id="iconacc1"onclick="search()"></i></a>
+												</div></div> -->
+							<table class="table table-bordered  table-hover table-sm"
+								style="width: 100%" id="usertable">
+								<thead class="thead-light">
+
+									<tr>
+										<!-- <th></th> -->
+										<th style="width: 9%;">Customer ID<i
+											class="fas fa-search searchico" style="float: right;" for="custid"
+											aria-hidden="true" onclick="custidsearch()"></i></th>
+										<th style="width: 37%;">Customer Name<i
+											class="fas fa-search searchico" style="float: right;"
+											aria-hidden="true" onclick="custnamesearch()"></i></th>
+											<th style="width: 10%;">National ID<i
+											class="fas fa-search searchico" style="float: right;"
+											aria-hidden="true" onclick="custnatIdsearch()"></i></th>
+											
+										<th style="width: 9%;">Residing Country<i
+											class="fas fa-search searchico" style="float: right;"
+											aria-hidden="true" onclick="custdobsearch()"></i></th>
+										<!-- <th style="width: 20%;">Residing Country</th> -->
+										<th style="width: 11%;">Phone Number<i
+											class="fas fa-search searchico" style="float: right;"
+											aria-hidden="true" onclick="custnumbersearch()"></i></th>
+										
+										<!-- <i
+											class="fas fa-search searchico" style="float: right;"
+											aria-hidden="true" onclick="custemailsearch()"></i> -->
+
+									</tr>
+								</thead>
+								<tbody id="CustomerInq">
+									<tr th:if="${COUNT} == '0'">
+										<td colspan="9" style="text-align: center; color: red">No
+											Data Found</td>
+									</tr>
+									<tr th:each="userProfile : ${customerInquiry}"
+										th:attr="data-cust_id=${userProfile.cust_id}"
+										th:id="${userProfile.cust_id}" class="userlist">
+
+
+
+										<td class="underline" onclick="fnClick(this);"
+											th:attr="data-custId=${userProfile.cif_id}"
+											th:text="${userProfile.cif_id}"></td>
+
+										<td th:text="${userProfile.cust_name}"></td>
+										<td th:text="${userProfile.nat_id_card_num}"></td>
+										
+<!-- 										<td th:text="${#dates.format(userProfile.cust_dob, 'dd/MM/yyyy')}"></td>
+ -->											<td th:text="${userProfile.residing_country}"></td>
+										<td th:text="${userProfile.preferredphone}"></td>
+									
+
+									</tr>
+								</tbody>
+							</table>
+
+
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+							<div th:if="${formmode}=='list'">
+								<div class="float-right" id="paginationCust"
+									th:if="${customerInquiry.totalPages} gt 1">
+									<a href="#"><i class="fas fa-caret-left fa-2x"
+										th:onclick="|getUserlist('prevpage',${customerInquiry.number},${customerInquiry.totalPages});|"></i></a>
+									<input type="text" id="pageno" style="width: 30px"
+										th:value="${customerInquiry.number+1}"
+										th:onchange="|getUserlist('givenpage',${customerInquiry.number},${customerInquiry.totalPages});|"></input>
+									of <font th:text="${customerInquiry.totalPages}"></font> <a
+										href="#"><i class="fas fa-caret-right fa-2x"
+										th:onclick="|getUserlist('nextpage',${customerInquiry.number},${customerInquiry.totalPages});|"></i></a>
+								</div>
+							</div>
+
+
+						</div>
+						<div class="text-center"
+							style="background-color: #386276; padding: 5px; width: 100%;">
+
+							<div class="btn-group nav-buttons " style="align: center;">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+				<!------------------------Pop window - Domain  list Ends--------------------------------->
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+				<div class="modal fade" id="alert">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 50% !important">
+							<div class="modal-body" style="text-align: center">
+								<p id="alertmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Customer ID" id="custid" onblur="searchcustid()"><i
+									class="fas fa-search searchico" style="float: right;" 
+									aria-hidden="true" onclick="searchcustid()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustNameSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Customer Name"
+									onkeyup="this.value = this.value.toUpperCase();" id="custName" onblur="searchcustName()"><i
+									class="fas fa-search searchico" style="float: right;"
+									aria-hidden="true" onclick="searchcustName()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustDOBSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Residing Country" id="custDOB"
+									><i class="fas fa-search searchico"
+									style="float: right;" aria-hidden="true"
+									onclick="searchcustDOB()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustNUMBERSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Phone Number"
+									id="custNumber"><i class="fas fa-search searchico"
+									style="float: right;" aria-hidden="true"
+									onclick="searchcustNUMBER()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustEmailSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Email ID" id="custEmail"><i
+									class="fas fa-search searchico" style="float: right;"
+									aria-hidden="true" onclick="searchcustEmail()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustNATIDSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter National ID"
+									id="custNATID"><i class="fas fa-search searchico"
+									style="float: right;" aria-hidden="true"
+									onclick="searchcustNatID()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustNRESearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter NRE" id="custNRE"><i
+									class="fas fa-search searchico" style="float: right;"
+									aria-hidden="true" onclick="searchcustNRE()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="loadermodal" data-backdrop="static"
+					data-keyboard="false">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="background-color: #94b8dd00;">
+							<div class="modal-body" style="text-align: center">
+								<div class="loader">Loading...</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,937 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLMonitoringParameter
+CREATED BY	: MANIVANNAN
+CREATED ON	: 27-JAN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+
+<script src="js/bootstrap411.js"></script>
+
+<style type="text/css">
+.btn {
+	line-height: 0.5rem;
+}
+
+.dropdown-menu a:hover {
+	background-color: black;
+}
+
+.modal-content {
+	margin-left: 10px !important;
+	max-height: calc(111vh - 1rem) !important;
+	width: 139% !important;
+}
+
+th {
+	vertical-align: top;
+}
+</style>
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script th:inline="javascript">
+	/*<![CDATA[*/
+
+	$(function() {
+
+		$("#alert_date").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;
+		document.getElementById('alert_date').value = today;
+	});
+	$(function() {
+
+		$("#entry_time1,verify_time1,modify_time1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;
+		document.getElementById('entry_time1').value = today;
+		document.getElementById('verify_time1').value = today;
+		document.getElementById('modify_time1').value = today;
+	});
+	$(function() {
+		$("#start_date").datepicker({
+
+			dateFormat : "dd-mm-yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+				$("#end_date").datepicker("option", "minDate", dt);
+
+			}
+		});
+		$("#end_date").datepicker({
+			minDate : 0,
+			dateFormat : "dd-mm-yy",
+			onSelect : function(selected) {
+				var dt = new Date(selected);
+				dt.setDate(dt.getDate() - 1);
+				//$("#start_date").datepicker("option", "maxDate", dt);
+			}
+		});
+	});
+	var deleteval;
+	$("#executiontype").on("change", function() {
+
+		if ($("#executiontype").val() == "OnLine") {
+			$("#frequency").attr("readonly", true);
+		} else {
+			$("#frequency").val("");
+			$("#frequency").attr("readonly", false);
+		}
+	});
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+
+		var Callurl = 'MonitoringParameter?formmode=list';
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		location.href = Callurl;
+	}
+	function home() {
+		location.href = 'Dashboard'
+	}
+	function home1() {
+		$("#dataHome").modal("toggle");
+	}
+
+	function back() {
+
+		window.history.back();
+	}
+	function back1() {
+		$("#dataBack").modal("toggle");
+
+	}
+
+	function alert_add(a) {
+
+		var formmode = a.getAttribute("frmode");
+
+		location.href = "./MonitoringParameter?formmode=" + formmode;
+
+	}
+	function fnClick(a) {
+		var srlno = a.getAttribute("data-ref_no")
+		location.href = 'MonitoringParameter?formmode=verify&srlno=' + srlno;
+
+	}
+	function list() {
+		location.href = './MonitoringParameter?formmode=list';
+	}
+
+	function verifyform(a) {
+		if ($("#MONITORINGPARAMETER").valid()) {
+			var entry = $("#entry_user").val();
+			var modify = $("#modify_user").val();
+			var verify = $("#verify_user").val();
+
+			if (modify != null) {
+				if (modify != verify) {
+					var formmode = a.getAttribute("data-formmode");
+					var url = "./createMONITORINGPARAMETER?formmode="
+							+ formmode;
+
+					$("#MONITORINGPARAMETER").attr('action', url);
+
+					var options = {
+						success : showResponse
+					// post-submit callback 
+					};
+
+					$("#MONITORINGPARAMETER").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#alertmsg").text(responseText);
+
+						$('#alert').modal("toggle");
+
+					}
+					;
+				} else {
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+					$('#verifybox').modal("toggle");
+
+				}
+			} else if (modify == null) {
+				if (entry != verify) {
+					var formmode = a.getAttribute("data-formmode");
+					var url = "./createMONITORINGPARAMETER?formmode="
+							+ formmode;
+
+					$("#MONITORINGPARAMETER").attr('action', url);
+
+					var options = {
+						success : showResponse
+					// post-submit callback 
+					};
+
+					$("#MONITORINGPARAMETER").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#alertmsg").text(responseText);
+
+						$('#alert').modal("toggle");
+
+					}
+					;
+				} else {
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+					$('#verifybox').modal("toggle");
+
+				}
+
+			}
+
+		}
+	};
+
+	function submitform(a) {
+
+		if ($("#MONITORINGPARAMETER").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+			var user = $("#user_email_one").val();
+			var url = "./createMONITORINGPARAMETER?formmode=" + formmode
+					+ "&user=" + user;
+
+			$("#MONITORINGPARAMETER").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#MONITORINGPARAMETER").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+
+			}
+			;
+		}
+	};
+
+	function modify_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-ref_no");
+		location.href = 'MonitoringParameter?formmode=modify&srlno=' + srlno;
+	}
+
+	function alert_verify(a) {
+
+		var srlno = a.getAttribute("data-ref_no");
+		location.href = 'MonitoringParameter?formmode=verify&srlno=' + srlno;
+	}
+	function delete_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-ref_no");
+		location.href = 'MonitoringParameter?formmode=delete&srlno=' + srlno;
+		/* deleteval = srlno;
+		$("#datadelete").modal("toggle"); */
+
+	}
+	function submitformdelete(a) {
+
+		var srlno = a.getAttribute("data-ref_no");
+
+		location.href = 'MonitoringParameter?formmode=delete&srlno='
+				+ deleteval;
+
+	};
+	function view_btn_submit(a) {
+		var srlno = a.getAttribute("data-ref_no");
+
+		location.href = 'MonitoringParameter?formmode=view&srlno=' + srlno;
+
+	}
+
+	function finuser(a) {
+
+		/* alert("dbfvch"+a.id); */
+		$("#finusers").modal("hide");
+
+		$("#rule_code").val(a.id);
+		var rulecode = a.id;
+
+		$.ajax({
+			type : 'get',
+			url : "/AML/getRuleCode/" + rulecode,
+
+			success : function(response) {
+
+				$("#rule_code_desc").val(response);
+
+			}
+
+		});
+
+	}
+	/*]]>*/
+</script>
+
+</head>
+
+<body>
+		<div th:insert="AStartheader :: header" th:if="${formmode}=='list' OR ${formmode}=='view' "></div>
+	<div th:insert="TESTHEADER :: header"th:if="${formmode}=='modify' OR ${formmode}=='add' OR ${formmode}=='verify'OR ${formmode}=='delete' "></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+
+				<div th:if="${formmode}=='list'" class="container content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle" style="height: 50px;">
+								<b th:text="${menuname}"></b>
+
+								<div class="btn-group nav-buttons float-right">
+									<!-- <button type="button" class="btn btn-xs btn-primary "
+										onclick='alert_add(this)' th:attr="frmode=add">Add</button>
+ -->
+								</div>
+
+							</div>
+							 	<div class="table-responsive"
+								style="overflow-x: scroll; overflow-y: hidden;"> 
+								<table class="table table-bordered  table-hover table-sm"
+									style="overflow-x: scroll; overflow-y: hidden; width: 120%"
+									id="usertable">
+									<thead class="thead-light">
+
+
+										<tr>
+											<th rowspan="2" style="vertical-align: middle">REF No</th>
+											<th rowspan="2" style="vertical-align: middle">MENU</th>
+											<th rowspan="2" style="vertical-align: middle">VALUE</th>
+											<th rowspan="2" style="vertical-align: middle">TABLE</th>
+											<th rowspan="2" style="vertical-align: middle">FIELD</th>
+											<th colspan="4" style="text-align: center">ALERT USER 1</th>
+											<th colspan="4" style="text-align: center">ALERT USER 2</th>
+											<th rowspan="2" style="vertical-align: middle">START
+												DATE</th>
+											<th rowspan="2" style="vertical-align: middle">END DATE</th>
+											<th rowspan="2" style="vertical-align: middle">STATUS</th>
+											<th rowspan="2" style="vertical-align: middle">Select</th>
+
+										</tr>
+										<tr>
+
+
+											<th>USER ID</th>
+											<th>NAME</th>
+											<th>MOBILE</th>
+											<th>MAIL</th>
+											<th>USER ID</th>
+											<th>NAME</th>
+											<th>MOBILE</th>
+											<th>MAIL</th>
+
+										</tr>
+									</thead>
+
+
+									<tbody>
+										<tr th:each="alert: ${MonitoringParameterList.content}"
+											th:attr="data-ref_no=${alert.ref_no}" th:id="${alert.ref_no}"
+											class="userlist">
+
+											<td th:text="${alert.ref_no}"></td>
+											<td th:text="${alert.menu}"></td>
+											<td th:text="${alert.value1}"></td>
+											<td th:text="${alert.table1}"></td>
+											<td th:text="${alert.table_field}"></td>
+											<td th:text="${alert.user_id_one}"></td>
+											<td th:text="${alert.user_name_one}"></td>
+											<td th:text="${alert.user_mobile_one}"></td>
+											<td th:text="${alert.user_email_one}"></td>
+											<td th:text="${alert.user_id_two}"></td>
+											<td th:text="${alert.user_name_two}"></td>
+											<td th:text="${alert.user_mobile_two}"></td>
+											<td th:text="${alert.user_email_two}"></td>
+											<td th:text="${#dates.format(alert.start_date,'dd-MM-yyyy')}"></td>
+											<td th:text="${#dates.format(alert.end_date,'dd-MM-yyyy')}"></td>
+											<th:block th:switch="${alert.entity_flg}">
+												<td th:case="'Y'" style="color: green;">Verified</td>
+												<td th:case="'N'" style="color: red;">UnVerified</td>
+											</th:block>
+
+
+											<td>
+												<div class="dropdown">
+													<button class="btn btn-secondary dropdown-toggle"
+														type="button" id="dropdownMenuButton"
+														style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+														data-toggle="dropdown" aria-haspopup="true"
+														aria-expanded="false">Action</button>
+													<div class="dropdown-menu"
+														aria-labelledby="dropdownMenuButton"
+														style="background-color: #e3e3e4; color: #3a4550;">
+														<a
+															th:attr="data-ref_no=${alert.ref_no},data-value1=${alert.value1}"
+															class="dropdown-item" title="Inquiry"
+															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+															onclick="view_btn_submit(this)" id="view_btn">Inquiry
+														</a>
+														<div class="dropdown-divider" th:if="${alert.entity_flg}=='Y'"></div>
+														<a th:if="${alert.entity_flg}=='Y'"
+															th:attr="data-ref_no=${alert.ref_no},data-value1=${alert.value1}"
+															class="dropdown-item" title="Modify"
+															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+															id="modify_value" onclick="modify_btn_submit(this)">Modify</a>
+														<div class="dropdown-divider"
+															th:if="${alert.entity_flg}=='N' and ${AMLRoleMenu.work_class} == 'C'"></div>
+														<a th:if="${alert.entity_flg}=='N' and ${AMLRoleMenu.work_class} == 'C'" class="dropdown-item"
+															th:attr="data-ref_no=${alert.ref_no},data-value1=${alert.value1}"
+															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+															id="verify_value" onclick="alert_verify(this)">Verify</a>
+
+
+
+													</div>
+												</div>
+											</td>
+
+										</tr>
+									</tbody>
+								</table>
+
+							</div>
+
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+							<!-- <div class="float-right"
+								th:if="${MonitoringParameterList.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${MonitoringParameterList.number},${MonitoringParameterList.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${MonitoringParameterList.number+1}"
+									th:onchange="|getUserlist('givenpage',${MonitoringParameterList.number},${MonitoringParameterList.totalPages});|"></input>
+								of <font th:text="${MonitoringParameterList.totalPages}"></font>
+								<a href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${MonitoringParameterList.number},${MonitoringParameterList.totalPages});|"></i></a>
+							</div> -->
+
+
+						</div>
+						<div class="text-center"
+							style="background-color: #386276; padding: 5px; width: 100%;">
+
+							<div class="btn-group nav-buttons " style="align: center;">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<!------------------------Pop window - Domain  list Ends--------------------------------->
+
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<div
+					th:if="${formmode}=='modify' OR ${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='add'">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<form action="#" th:object="${MONITORINGPARAMETER}" method="post"
+								style="margin: 52px;" autocomplete="off"
+								id="MONITORINGPARAMETER" th:fragment="finuserapply">
+								<div class="modal-body"
+									style="margin-top: 8px; text-align: center; color: aliceblue;">
+									<input
+										th:if="${formmode}=='modify' OR ${formmode}=='view' OR ${formmode}=='verify'"
+										type="hidden" th:field="*{ref_no}" th:value="${ref_no}"
+										id="ref_no" name="ref_no">
+
+									<!-- <div class="row formline" th:if="${formmode}=='add'">
+										<div class="col-sm-3">
+											<label for="cust_id">REF NO:</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:field="*{ref_no}" th:value="${ref_no}"
+										id="ref_no" name="ref_no"class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+									</div> -->
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">MENU:*</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{menu}" th:value="${menu}" id="menus"
+												name="menus" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+										<div class="col-sm-2">
+											<label for="cust_id">VALUE:*</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{value1}" th:value="${value1}" id="value1"
+												name="value1" class="form-control form-control-sm"
+												autocomplete="off" style="display: block">
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">TABLE:*</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{table1}" th:value="${table1}" id="table1"
+												name="table1" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+										<div class="col-sm-2">
+											<label for="cust_id">FIELD:</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{table_field}" th:value="${table_field}"
+												id="table_field" name="table_field"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+									<label class="col-sm-12"
+										style="text-align: -webkit-left; font-weight: bold;">ALERT
+										USER ONE :</label>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">USER ID:</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{user_id_one}" th:value="${user_id_one}"
+												id="user_id_one" name="user_id_one"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+										<div class="col-sm-2">
+											<label for="cust_id">NAME:</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{user_name_one}" th:value="${user_name_one}"
+												id="user_name_one" name="user_name_one"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">MOBILE:</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{user_mobile_one}" th:value="${user_mobile_one}"
+												id="user_mobile_one" name="user_mobile_one"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+										<div class="col-sm-2">
+											<label for="cust_id">EMAIL:</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="email" th:readonly="${formmode}=='view'"
+												th:field="*{user_email_one}" th:value="${user_email_one}"
+												id="user_email_one" name="user_email_one"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+									<label class="col-sm-12"
+										style="text-align: -webkit-left; font-weight: bold;">ALERT
+										USER TWO :</label>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">USER ID:</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{user_id_two}" th:value="${user_id_two}"
+												id="user_id_two" name="user_id_two"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+										<div class="col-sm-2">
+											<label for="cust_id">NAME :</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{user_name_two}" th:value="${user_name_two}"
+												id="user_name_two" name="user_name_two"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">MOBILE:</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{user_mobile_two}" th:value="${user_mobile_two}"
+												id="user_mobile_two" name="user_mobile_two"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+										<div class="col-sm-2">
+											<label for="cust_id">EMAIL:</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="email" th:readonly="${formmode}=='view'"
+												th:field="*{user_email_two}" th:value="${user_email_two}"
+												id="user_email_two" name="user_email_two"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">START DATE:</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{start_date}"
+												th:value="${#dates.format(start_date,'dd-MM-yyyy')}"
+												id="start_date" name="start_date"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+										<div class="col-sm-2">
+											<label for="cust_id">END DATE:</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{end_date}"
+												th:value="${#dates.format(end_date,'dd-MM-yyyy')}"
+												id="end_date" name="end_date"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+
+								</div>
+								<div class="modal-footer text-center"
+									style="display: flow-root !important;">
+									<button type="button" class="btn btn-primary"
+										th:if="${formmode}=='modify' OR ${formmode}=='add'"
+										onclick="submitform(this);"
+										th:attr="data-formmode=${formmode}">Submit</button>
+									<button type="button" class="btn btn-primary"
+										th:if="${formmode}=='verify'" onclick="verifyform(this);"
+										th:attr="data-formmode=${formmode}">Submit</button>
+									<button type="button" class="btn btn-primary" onclick="list()">Cancel</button>
+								</div>
+
+								<div class="modal-body"
+									style="margin-top: 8px; text-align: center; color: aliceblue;">
+									<div class="row formline">
+
+										<label class="col-sm-2">Entry User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='modify' OR ${formmode}=='verify' OR ${formmode}=='view' "
+												th:value="${entry_user}" id="entry_user"
+												class="form-control form-control-sm"
+												th:field="*{entry_user}" autocomplete="off" readonly /> <input
+												type="text" th:if="${formmode}=='add'"
+												th:value="${session.USERID}" id="entry_user"
+												name="entry_user" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+
+										</div>
+										<label class="col-sm-2">Modify User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='view' "
+												th:value="${modify_user}" id="modify_user"
+												th:field="*{modify_user}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='modify' " th:value="${session.USERID}"
+												id="modify_user" name="modify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+										<label class="col-sm-2">Verify User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='modify' OR ${formmode}=='add' OR ${formmode}=='view' "
+												th:value="${verify_user}" id="verify_user"
+												th:field="*{verify_user}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='verify' " th:value="${session.USERID}"
+												id="verify_user" name="verify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+									</div>
+									<div class="row formline">
+										<label style="height: 2px;"></label>
+
+									</div>
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Entry Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='modify' OR ${formmode}=='verify' OR ${formmode}=='view' "
+												th:value="${#dates.format(entry_time,'dd-MM-yyyy')}"
+												id="entry_time" th:field="*{entry_time}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text" th:if="${formmode}=='add'"
+												th:value="${#dates.format(entry_time,'dd-MM-yyyy')}"
+												id="entry_time1" th:field="*{entry_time}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+
+										<label class="col-sm-2">Modify Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='view' "
+												th:value="${#dates.format(modify_time,'dd-MM-yyyy')}"
+												id="modify_time" th:field="*{modify_time}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='modify' "
+												th:value="${#dates.format(modify_time,'dd-MM-yyyy')}"
+												id="entry_time1" th:field="*{modify_time}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+
+
+
+										<label class="col-sm-2">Verify Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='modify' OR ${formmode}=='add' OR ${formmode}=='view' "
+												th:value="${#dates.format(verify_time,'dd-MM-yyyy')}"
+												id="verify_time" th:field="*{verify_time}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='verify'"
+												th:value="${#dates.format(verify_time,'dd-MM-yyyy')}"
+												id="entry_time1" th:field="*{verify_time}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="dataHome">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to Leave?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" onclick="home();">Yes</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">No</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="dataBack">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to Leave?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" onclick="back();">Yes</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">No</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+				<div class="modal fade" id="alert">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="alertmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal" onclick="list();">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="verifybox">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="verifyboxmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal" onclick="list()">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="finusers">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="border: 2px solid black;">
+
+							<!-- Modal Header -->
+							<div class="modal-header" style="background-color: #386276;">
+								<h4 class="modal-title">RULE CODE</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+
+							<!-- Modal body -->
+							<div class="modal-body" style="background-color: #e6eaed;">
+								<table class="table table-hover" id="finusertb">
+									<thead class="thead-light" style="background-color: #386276;">
+										<tr>
+											<th
+												style="color: #ffffff; width: 100px; background-color: #386276; border-color: #495561; font-size: 11px;">Rule
+												code</th>
+											<th
+												style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">Rule
+												Code Description</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="alert: ${RULECODELIST}"
+											th:id="${alert.rule_code}" th:onclick="finuser(this)"
+											class="userlist1">
+											<td style="color: black;" th:text="${alert.rule_code}"></td>
+											<td style="color: black;" th:text="${alert.rule_code_desc}"></td>
+
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+</body>
+</html>

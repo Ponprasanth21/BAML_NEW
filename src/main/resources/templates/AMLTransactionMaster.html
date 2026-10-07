@@ -1,0 +1,222 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLTransactionMaster
+CREATED BY	: RAMPRASATH
+CREATED ON	: 27-JAN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+ <html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+</head>
+<script type="text/javascript">
+	function home() {
+		location.href = 'Dashboard'
+	}
+
+	function back() {
+		window.history.back();
+	}
+
+	$(function() {
+		$("#start_date").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;
+
+		document.getElementById('start_date').value = today;
+		document.getElementById('end_date').value = today;
+
+	});
+	
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+
+		/* 		alert(n+"  "+max);
+		 */var Callurl = 'AMLTransactionMaster?formmode=list';
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		/* 		alert(Callurl);
+		 */location.href = Callurl;
+	}
+</script>
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+				<div th:if="${formmode}=='list'" class="content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle">
+								<b th:text="${menuname}"></b>
+							</div>
+							<div class="table-responsive"
+								style="overflow-x: scroll; overflow-y: hidden;">
+								<table class="table table-bordered  table-hover table-sm"
+									style="overflow-x: scroll; overflow-y: hidden; width: 180%"
+									id="usertable">
+									<thead class="thead-light">
+									<thead class="thead-light">
+										<tr>
+											<!-- <th></th> -->
+											<th>Tran Date</th>
+											<th>Value Date</th>
+											<th>Tran Type</th>
+											<th>Tran Sub Type</th>
+											<th>Tran Id</th>
+											<th>Part Tran Id</th>
+											<th>Part Tran Type</th>
+											<th>Tran Amount</th>
+											<th>Currency</th>
+											<th>Account Name</th>
+											<th>Tran Particular</th>
+											<th>Account Balance</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="transactionMaster : ${TransactionMaster}">
+											<td
+												th:text="${#dates.format(transactionMaster.tran_date,'dd-MM-yyyy')}"></td>
+											<td
+												th:text="${#dates.format(transactionMaster.value_date,'dd-MM-yyyy')}"></td>
+											<td th:text="${transactionMaster.tran_type}"></td>
+											<td th:text="${transactionMaster.tran_sub_type}"></td>
+											<td
+												th:text="${transactionMaster.transactionmasterembeddedid.tran_id}"></td>
+											<td th:text="${transactionMaster.part_tran_srl_num}"></td>
+											<td
+												th:text="${transactionMaster.transactionmasterembeddedid.part_tran_type}"></td>
+											<td th:text="${transactionMaster.tran_amt}" align="right"></td>
+											<td th:text="${transactionMaster.tran_crncy_code}"></td>
+											<td
+												th:text="${transactionMaster.accountsinquiryentity.acct_name}"></td>
+											<td th:text="${transactionMaster.tran_particular}"></td>
+											<td
+												th:text="${transactionMaster.accountsinquiryentity.clr_bal_amt}"
+												align="right"></td>
+
+
+
+
+
+										</tr>
+									</tbody>
+								</table>
+</div>
+
+							
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+							<div class="float-right"
+								th:if="${TransactionMaster.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${TransactionMaster.number+1}"
+									th:onchange="|getUserlist('givenpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></input>
+								of <font th:text="${TransactionMaster.totalPages}"></font> <a
+									href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></i></a>
+							</div>
+
+
+
+						
+
+						</div>
+							
+					</div>
+<div class="card-footer text-center">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();">Home</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button>
+							</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	</
+</body>
+</html>

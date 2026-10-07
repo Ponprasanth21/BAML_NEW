@@ -1,0 +1,713 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : BAMLSTRExternal
+CREATED BY	: Ramprasath
+CREATED ON	: 09-MAR-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+
+<script src="js/bootstrap411.js"></script>
+
+<style type="text/css">
+.btn {
+	line-height: 0.5rem;
+}
+
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+
+.dropdown-menu a:hover {
+	background-color: black;
+}
+</style>
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+
+		var Callurl = 'AMLUNSCList?formmode=listindividual';
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		location.href = Callurl;
+	}
+	function fnClick(a) {
+		var dataId = a.getAttribute("data-dataId")
+		location.href = 'AMLUNSCList?formmode=view&dataId=' + dataId;
+	}
+
+	function fnClick12(a) {
+		var dataId = a.getAttribute("data-dataId")
+		location.href = 'AMLUNSCList?formmode=viewentity&dataId=' + dataId;
+	}
+	function home() {
+		location.href = 'Dashboard'
+	}
+	function home1() {
+		$("#dataHome").modal("toggle");
+	}
+	function fnClickModify(a) {
+		var userid = a.getAttribute("data-userid")
+		location.href = 'AML_STR_REPORT?formmode=edit&report_id=' + userid
+	}
+	function fnClickVerify(a) {
+		var userid = a.getAttribute("data-userid")
+		location.href = 'AML_STR_REPORT?formmode=verify&report_id=' + userid
+	}
+
+	function fnClickview(a) {
+		var userid = a.getAttribute("data-userid")
+		location.href = 'AML_STR_REPORT?formmode=view&report_id=' + userid
+	}
+
+	function back() {
+
+		window.history.back();
+	}
+	function Individual() {
+
+		location.href = './AMLUNSCList?formmode=listindividual';
+
+	}
+	function Entity() {
+
+		location.href = './AMLUNSCList?formmode=listentity';
+	}
+
+	function list() {
+		location.href = './AMLUNSCList?formmode=listindividual';
+	}
+	function list1() {
+		location.href = './AMLUNSCList?formmode=listentity';
+	}
+	function openUploadModal() {
+		$("#fileupload").modal("toggle");
+	}
+	function openAppendModalEnt() {
+		$("#fileupload4").modal("toggle");
+	}
+	function openAppendModalInd() {
+		$("#fileupload3").modal("toggle");
+	}
+
+	function openUploadIndModal() {
+		$("#fileupload1").modal("toggle");
+	}
+	function Internal() {
+
+		location.href = './BAMLSTRInternal';
+	}
+	function External() {
+
+		location.href = './BAMLSTRExternal';
+	}
+	function fnClickDownload(a){
+		var userid = a.getAttribute("data-userid")
+		//location.href = 'AML_STR_REPORTDOWNLOAD?&report_id=' + userid + 'filetype = pdf';
+		location.href = 'AML_STR_REPORTDOWNLOAD?&report_id=' + userid;
+	}
+
+	/*]]>*/
+</script>
+
+</head>
+
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+
+		<div class="content">
+			<div class="container-fluid">
+
+				<div class="container content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle" style="height: 50px;">
+								<b th:text="${menuname}"></b>
+								<div class="btn-group nav-buttons float-right">
+									<!-- <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button> -->
+									<button type="button" class="btn btn-xs btn-primary btns"
+										id="btnInq" onclick="Internal()">Internal</button>
+									<button type="button" class="btn btn-xs btn-primary btns"
+										id="btnInq" style="background-color: #77c1da;" onclick="External()">External</button>
+								</div>
+
+							</div>
+
+							<div class="form-group">
+
+
+								<table class="table  table-bordered  table-hover table-sm"
+										style="margin-bottom: 0px" id="usertable">
+										<thead class="thead-light">
+											<tr>
+
+												<!-- <th></th> -->
+												<th>STR Ref No</th>
+												<th>Report Date</th>
+												<th>Tran Date</th>
+												<th>Reported By</th>
+												<th>Tran Id</th>
+												<th>Customer Name</th>
+												<th>Suspect Reasons</th>
+												<th></th>
+
+
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="str_rep : ${STR_REPORT}" class="userlist">
+												<!-- <td><a href="#" data-toggle="tooltip" class="editrec"
+										title="Click to Edit this Record"><i class="fas fa-edit"
+											th:attr="data-userid=${userProfile.userid}"
+											onclick="fnClick(this);"></i></a></td> -->
+												<td th:text="${str_rep.report_id}">456</td>
+												<td
+													th:text="${#dates.format(str_rep.submission_date, 'dd-MM-yyyy')}">TEST</td>
+												<td
+													th:text="${#dates.format(str_rep.tran_date, 'dd-MM-yyyy')}">TEST</td>
+												<td th:text="${str_rep.name_entity}">123</td>
+												<td th:text="${str_rep.tran_id}">123</td>
+												<td th:text="${str_rep.acct_name}">CHENNAI</td>
+												<td th:text="${str_rep.acct_name}">CHENNAI</td>
+
+
+												<td>
+													<!-- #ccc6d8a3 -->
+													<div class="dropdown" style="background-color: #e3e3e4;">
+													<button class="btn btn-secondary dropdown-toggle"
+															type="button" id="dropdownMenuButton" title="Action"
+															style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+															data-toggle="dropdown" aria-haspopup="true"
+															aria-expanded="false">Action</button>
+																<div class="dropdown-menu"
+															aria-labelledby="dropdownMenuButton" title="Modify"
+															style="line-height: 0.7; background-color: #e3e3e4;">
+															<a class="dropdown-item"
+																style="line-height: 0.7; cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																onclick="fnClickModify(this);"
+																th:attr="data-userid=${str_rep.report_id}"
+																th:id="${str_rep.report_id}">Modify</a>
+
+
+															<div class="dropdown-divider"
+																style="height: 2px; line-height: 0.7;"></div>
+
+															<a class="dropdown-item" title="View"
+																style="line-height: 0.7; cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																th:attr="data-userid=${str_rep.report_id}"
+																onclick="fnClickview(this);"
+																th:id="${str_rep.report_id}">View </a>
+															<div class="dropdown-divider"
+																style="height: 2px; line-height: 0.7;"></div>
+															<a class="dropdown-item" title="View"
+																style="line-height: 0.7; cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																th:attr="data-userid=${str_rep.report_id}"
+																onclick="fnClickDownload(this);"
+																th:id="${str_rep.report_id}">Download </a>
+														</div>
+															<!-- <div class="dropdown-menu"
+															aria-labelledby="dropdownMenuButton" title="Modify"
+															style="line-height: 0.7; background-color: #e3e3e4;">
+
+															<a class="dropdown-item" title="View"
+																style="line-height: 0.7; cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																th:attr="data-userid=${str_rep.report_id}"
+																onclick="fnClickDownload(this);"
+																th:id="${str_rep.report_id}">Download </a> -->
+														</div>
+													</div>
+												</td>
+
+
+											</tr>
+										</tbody>
+									</table>
+
+
+
+
+						</div>
+						<div class="text-center"
+							style="background-color: #386276; padding: 5px; width: 100%;">
+
+							<div class="btn-group nav-buttons " style="align: center;">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<div class="modal fade" id="datadelete">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to delete?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitformdelete(this);"
+									th:attr="data-formmode=delete">Submit</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="dataHome">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to Leave?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" onclick="home();">Yes</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">No</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="dataBack">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to Leave?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" onclick="back();">Yes</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">No</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+				<div class="modal fade" id="alert">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="alertmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal" onclick="list();">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="verifybox">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="verifyboxmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+
+
+
+	<!--------------------------------------------File Upload Modal Starts----------------------------------------------------------->
+	<div class="modal fade" id="fileupload">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<h1>Upload only xml file</h1>
+					<br /> <br />
+
+					<form action="#" th:object="${uploadform}" method="POST"
+						autocomplete="off" id="uploadform" enctype="multipart/form-data">
+
+						<input id="file" type="file" name="file"
+							style="background-color: white;" /><br /> <br />
+
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="fire_ajax_submit(this);"
+							form="uploadform" id="btn_Upload_Submit">Submit</button>
+
+
+						<!-- <form method="POST" action="upload" enctype="multipart/form-data">
+   									<input id="file" type="file" name="file" style="background-color: white;"/><br/><br/>
+    								<input  type="submit" value="Submit" /> -->
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="fileupload1">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<h1>Upload only xml file</h1>
+					<br /> <br />
+
+					<form action="#" th:object="${uploadform1}" method="POST"
+						autocomplete="off" id="uploadform1" enctype="multipart/form-data">
+
+						<input id="file" type="file" name="file"
+							style="background-color: white;" /><br /> <br />
+
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="fire_ajax_submit1(this);"
+							form="uploadform1" id="btn_Upload_Submit">Submit</button>
+
+
+						<!-- <form method="POST" action="upload" enctype="multipart/form-data">
+   									<input id="file" type="file" name="file" style="background-color: white;"/><br/><br/>
+    								<input  type="submit" value="Submit" /> -->
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="fileupload3">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<h1>Append only xml file</h1>
+					<br /> <br />
+
+					<form action="#" th:object="${uploadform3}" method="POST"
+						autocomplete="off" id="uploadform3" enctype="multipart/form-data">
+
+						<input id="file" type="file" name="file"
+							style="background-color: white;" /><br /> <br />
+
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="fire_ajax_submit3(this);"
+							form="uploadform3" id="btn_Upload_Submit">Submit</button>
+
+
+						<!-- <form method="POST" action="upload" enctype="multipart/form-data">
+   									<input id="file" type="file" name="file" style="background-color: white;"/><br/><br/>
+    								<input  type="submit" value="Submit" /> -->
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="fileupload4">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<h1>Upload only xml file</h1>
+					<br /> <br />
+
+					<form action="#" th:object="${uploadform4}" method="POST"
+						autocomplete="off" id="uploadform4" enctype="multipart/form-data">
+
+						<input id="file" type="file" name="file"
+							style="background-color: white;" /><br /> <br />
+
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="fire_ajax_submit4(this);"
+							form="uploadform4" id="btn_Upload_Submit">Submit</button>
+
+
+						<!-- <form method="POST" action="upload" enctype="multipart/form-data">
+   									<input id="file" type="file" name="file" style="background-color: white;"/><br/><br/>
+    								<input  type="submit" value="Submit" /> -->
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!--------------------------------------------File Upload Modal Ends----------------------------------------------------------->
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<script th:inline="javascript">
+		function fire_ajax_submit() {
+
+			// Get form
+			var form = $('#uploadform')[0];
+
+			var data = new FormData(form);
+
+			$.ajax({
+				type : "POST",
+				enctype : 'multipart/form-data',
+				url : "ws/marshallupload",
+				data : data,
+				processData : false, //prevent jQuery from automatically transforming the data into a query string
+				contentType : false,
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+
+					$('#fileupload').hide();
+
+					$("#alertmsg").text(data);
+
+					$("#alert").modal("toggle");
+
+				},
+				error : function(e) {
+
+					$('#fileupload').hide();
+
+					$("#alertmsg").text(e.responseText);
+					$("#alert").modal("toggle");
+
+					//location.href = './AMLUNSCList?formmode=list';
+
+				}
+			});
+		}
+	</script>
+
+	<script th:inline="javascript">
+		function fire_ajax_submit3() {
+
+			// Get form
+			var form = $('#uploadform3')[0];
+
+			var data = new FormData(form);
+
+			$.ajax({
+				type : "POST",
+				enctype : 'multipart/form-data',
+				url : "ws/marshallindappend",
+				data : data,
+				processData : false, //prevent jQuery from automatically transforming the data into a query string
+				contentType : false,
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+
+					$('#fileupload3').hide();
+
+					$("#alertmsg").text(data);
+
+					$("#alert").modal("toggle");
+
+				},
+				error : function(e) {
+
+					$('#fileupload3').hide();
+
+					$("#alertmsg").text(e.responseText);
+					$("#alert").modal("toggle");
+
+					//location.href = './AMLUNSCList?formmode=list';
+
+				}
+			});
+		}
+	</script>
+
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<script th:inline="javascript">
+		function fire_ajax_submit1() {
+
+			// Get form
+			var form = $('#uploadform1')[0];
+
+			var data = new FormData(form);
+
+			$.ajax({
+				type : "POST",
+				enctype : 'multipart/form-data',
+				url : "ws/marshallindupload",
+				data : data,
+				processData : false, //prevent jQuery from automatically transforming the data into a query string
+				contentType : false,
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+
+					$('#fileupload1').hide();
+
+					$("#alertmsg").text(data);
+
+					$("#alert").modal("toggle");
+
+				},
+				error : function(e) {
+
+					$('#fileupload1').hide();
+
+					$("#alertmsg").text(e.responseText);
+					$("#alert").modal("toggle");
+
+					//location.href = './AMLUNSCList?formmode=list';
+
+				}
+			});
+		}
+	</script>
+
+	<script th:inline="javascript">
+		function fire_ajax_submit4() {
+
+			// Get form
+			var form = $('#uploadform4')[0];
+
+			var data = new FormData(form);
+
+			$.ajax({
+				type : "POST",
+				enctype : 'multipart/form-data',
+				url : "ws/marshallindappend",
+				data : data,
+				processData : false, //prevent jQuery from automatically transforming the data into a query string
+				contentType : false,
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+
+					$('#fileupload4').hide();
+
+					$("#alertmsg").text(data);
+
+					$("#alert").modal("toggle");
+
+				},
+				error : function(e) {
+
+					$('#fileupload4').hide();
+
+					$("#alertmsg").text(e.responseText);
+					$("#alert").modal("toggle");
+
+					//location.href = './AMLUNSCList?formmode=list';
+
+				}
+			});
+		}
+	</script>
+	<!--------------------------------------------------------------- Modal for dialog messages-------------------------------->
+	<div class="modal fade" id="fileUpload_alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="fileupload_alertmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="openUploadModal();">Yes</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+
+
+
+</body>
+</html>

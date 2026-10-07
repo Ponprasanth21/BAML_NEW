@@ -1,0 +1,741 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!-- 
+MODIFIED BY	: RAMPRASATH P.
+MODIFIED ON	: 04-MARCH-2020
+PURPOSE		: Report TABLE 6
+ -->
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/multifreeze/multifreezer.css"
+	th:href="@{/multifreeze/multifreezer.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+		
+		
+		
+		var permission = /*[[${session.PERMISSIONS}]]*/null;
+	
+		var reportsummary = /*[[${reportsummary}]]*/null;
+		
+		var dtltype = /*[[${dtltype}]]*/null;
+		
+		//to make the summary button active on load
+		$(function(){
+			
+			console.log(reportsummary);
+			
+			$("#summarybtn").addClass("active");
+
+		});
+		function home(){
+			location.href = "/AML/rbsreports";
+
+	}
+
+
+
+	/*to show details page - 3 parameters
+		mode - valid values are : nextpage, prevpage, givenpage, firstpage
+		num - page number to show to the user
+		maxpage - maximum number of pages avaialble in the data
+	*/
+	function showdetails(mode,num,maxpage,instancecode) {
+		
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+		Callurl = Callurl+"&instancecode="+instancecode;
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+		
+		
+		$.ajax({
+			type : 'get',
+			url : Callurl,
+			success : function(data) {
+				
+				/*<![CDATA[*/
+				
+
+				$('.content').html(data);
+				$("#detailsbtn").addClass("active");
+				/*]]>*/
+
+			}
+		})
+	}
+	
+	
+	//to fetch summary from the database - called from the summary button
+	function showsummary(mode,num,maxpage) {
+		
+
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Summary'(fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+		
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+
+		
+	window.location.href=Callurl;
+	}
+	
+
+	//to check for report or arch
+	//if report --->>> precheck and then save report else throws error
+	function savereport(){
+		
+		if(dtltype=='report'){
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Precheck'(asondate=${asondate},fromdate=${fromdate},todate=${todate})}]]*/
+				$.ajax({
+					type : 'get',
+					url : Callurl,
+					success : function(data) {
+
+						if (data == 'success') {	
+							
+							
+							$("#loader").show();
+							
+							
+							var Callurl = /*[[@{'/Reports/'+${reportid}+'/save'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+								$.ajax({
+									type : 'get',
+									url : Callurl,
+									success : function(data) {
+
+										
+										if(data=='success'){
+											
+										 var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+											Callurl = Callurl+"&filetype=xbrl";
+											location.href=Callurl;
+											$("#loader").hide();
+										}
+										else{
+											$("#loader").hide();
+											 $("#alertmsg").text(data);
+											 $('#alert').modal("toggle");
+										}
+									}
+								})
+								
+							
+							
+						} else {
+							$("#alertmsg").text("Please verify the Pending Records Before Generating XBRL Instance");
+							$("#alert").modal("toggle");
+						}
+
+					}
+					});
+			
+		}
+		else{
+			
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+				 Callurl = Callurl+"&filetype=xbrl";
+				 location.href=Callurl;
+				 $("#loader").hide();
+		}
+		
+	}
+	/*]]>*/
+</script>
+<!----------------------------------------Scripts to edit report details-------------------------------------------->
+<script th:inline="javascript">
+/*<![CDATA[*/
+	 var currlist = /*[[${currlist}]]*/null;
+
+
+					
+				function editRecord(a){
+	
+					if(permission=='W' && dtltype=='report') {
+						
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800edit'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Assign selected values to the model box fields
+					
+					$("#trade_date").val(a.getAttribute("data-trade_date"));
+					$("#value_date").val(a.getAttribute("data-value_date"));
+					$("#isin").val(a.getAttribute("data-isin"));
+					$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+					$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+					$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+					$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+					$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+					$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+					$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+					$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+					$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+					$("#mat_date").val(a.getAttribute("data-mat_date"));
+					$("#resid_days").val(a.getAttribute("data-resid_days"));
+					$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+					$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+					$("#report_date").val(a.getAttribute("data-report_date"));
+					$("#del_flg").val(a.getAttribute("data-del_flg"));
+					$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+					$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+					$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+					$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+					$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+					$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+					$("#addedit").modal("toggle");
+					
+				
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",true);
+					$("#report_date").attr("readonly",true);
+					
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					}
+					
+				};
+				function addRecord(){
+					
+					if(permission=='W' && dtltype=='report') {
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Reset form if any data present
+					document.getElementById("dataedit").reset();
+					
+					//make readonly false to unique fields
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",false);
+					$("#report_date").attr("readonly",false);
+					
+					//Reset errors
+					var validator = $("#dataedit").validate();
+					validator.resetForm();
+					
+					$("#addedit").modal("toggle");
+                    
+					
+					 
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					
+					}
+				};
+				
+				function deleteRecord(a){
+					
+					if(permission=='W' && dtltype=='report') {
+					
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800delete'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url);
+					
+					
+					//Assign selected values to the model box fields
+					
+						$("#trade_date").val(a.getAttribute("data-trade_date"));
+						$("#value_date").val(a.getAttribute("data-value_date"));
+						$("#isin").val(a.getAttribute("data-isin"));
+						$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+						$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+						$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+						$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+						$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+						$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+						$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+						$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+						$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+						$("#mat_date").val(a.getAttribute("data-mat_date"));
+						$("#resid_days").val(a.getAttribute("data-resid_days"));
+						$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+						$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+						$("#report_date").val(a.getAttribute("data-report_date"));
+						$("#del_flg").val(a.getAttribute("data-del_flg"));
+						$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+						$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+						$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+						$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+						$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+						$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+
+					$("#datadelete").modal("toggle");
+					
+					} 
+					
+				};
+				
+				function submitdataform(){
+					
+					if($("#dataedit").valid()){
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#dataedit').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 
+							 $("#alertmsg").text(responseText);
+							 
+							 if($('#addedit').is(':visible')){
+								 $('#addedit').modal("hide");
+							 };
+							 if($('#datadelete').is(':visible')){
+								 $('#datadelete').modal("hide");
+							 };
+							 $('#alert').modal("toggle");
+				                
+						 }
+						
+						
+					}
+					
+					$("#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				}
+				
+          function searchRecord(){
+					
+					document.getElementById("searchdtl").reset();
+					
+					$("#search").modal("toggle");
+					
+					$("#report_dates").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				};
+				
+				function submitSearchRecord(){
+					
+					
+					
+					if($("#searchdtl").valid()){
+						
+						
+						
+						var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800Search'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+						$("#searchdtl").attr('action', url);
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#searchdtl').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 $(".modal").modal("hide");
+							 $('.content').html(responseText);
+							 $("#detailsbtn").addClass("active");
+							 $(".modal-backdrop").remove();
+							 
+						 }	
+					}
+					
+				};
+/*]]>*/
+</script>
+<style>
+.nav-buttons {
+	float: right;
+}
+
+.reptitle {
+	float: left;
+}
+
+.reptitle>p {
+	margin-top:;
+}
+
+.customcol {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.first_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 0;
+	width: 30px;
+}
+
+.second_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 30px;
+	width: 30px;
+}
+
+.third_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 60px;
+	width: 150px;
+}
+
+.inner {
+	overflow-x: scroll;
+	overflow-y: visible;
+}
+
+.btn-primary {
+	background-color: #E77400;
+	border-color: #0c0c0c;
+}
+
+.btn-primary:not (:disabled ):not (.disabled ).active, .btn-primary:not
+	 (:disabled ):not (.disabled ):active, .show>.btn-primary.dropdown-toggle
+	{
+	color: #fff;
+	background-color: #cc000000;
+	border-color: #161617;
+}
+
+.addedit {
+	color: #007bff;
+}
+
+.addedit:hover {
+	color: #0056b3;
+}
+</style>
+</head>
+<body>
+	<!----------------------------------------------------- Header Section starts ----------------------------------------------------->
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" aria-hidden="true"
+		onclick="docEmb('Report')" id="ques"></i>
+	<!----------------------------------------------------- Header Section Ends ------------------------------------------------------->
+	<div style="margin-left: 310px; margin-top: 76px;">
+		<div class="container content" th:fragment="reportcontent">
+
+
+
+			<!--------------------------------------------------------------- Report title starts -------------------------------------------->
+			<div class="row" style="width: 1100px; margin-left: 0px;">
+				<div class="col-sm-12 customcol"
+					style="background-color: #4d8cb9; padding-top: 10px; padding-bottom: 10px; padding-left: 5px;">
+					<!-- <select id="reporttype" style="background-color: #e9ecef;">
+						<option th:each="title : ${reportTitle}"
+							th:value="${title.reportName}" th:text="${title.reportName}"></option>
+
+					</select> -->
+					<div class="btn-group nav-buttons">
+
+						<button type="button" class="btn btn-primary"
+							onclick="showsummary();" id="summarybtn">Summary</button>
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary dropdown-toggle"
+								data-toggle="dropdown">
+								Download <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=pdf|">Pdf</a></li>
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=excel|">Excel</a></li>
+
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report title ends ------------------------------------------------->
+			<!--------------------------------------------------------------- Report buttons section starts ------------------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol" style="background-color: #adb5bd;">
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report buttons section ends ------------------------------------->
+			<!------------------------------ Report summary section starts it will shown only if summary button clicked------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol" th:fragment="detail"
+					th:if="${displaymode}=='summary' or ${displaymode}==null"
+					style="overflow-x: auto;">
+					<div class="card-header" id="modheadtitle" style="width: 1100px;">
+						<b>Table 6: Policy for frequency of KYC and CDD reviews of
+							existing customers</b>
+
+					</div>
+					<table class="table  table-bordered  table-hover table-sm" id=""
+						style="width: 1100px;">
+						<thead class="thead-light">
+
+
+							<tr>
+								<!-- <th></th> -->
+
+								<th style="width: 300px;">Frequency of reviews for
+									customers whose risk grade is (pick from appropriate drop down
+									options)</th>
+								<th>Low</th>
+								<th>Medium</th>
+								<th>High</th>
+
+
+							</tr>
+						</thead>
+						<tbody th:each="reportsummary : ${reportsummary}">
+							<tr>
+
+								<td>Individuals</td>
+								<!-- <td th:text="${reportsummary.a1_previous_individuals_low}">CHENNAI</td>
+								<td th:text="${reportsummary.b1_previous_individuals_medium}">CHENNAI</td>
+								<td th:text="${reportsummary.c1_previous_individuals_high}">CHENNAI</td> -->
+								<td th:text="${reportsummary.d1_current_individuals_low}">CHENNAI</td>
+								<td th:text="${reportsummary.e1_current_individuals_medium}">CHENNAI</td>
+								<td th:text="${reportsummary.f1_current_individuals_high}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td>Corporates</td>
+								<!-- <td th:text="${reportsummary.a2_previous_corporates_low}">CHENNAI</td>
+								<td th:text="${reportsummary.b2_previous_corporates_medium}">CHENNAI</td>
+								<td th:text="${reportsummary.c2_previous_corporates_high}">CHENNAI</td> -->
+								<td th:text="${reportsummary.d2_current_corporates_low}">CHENNAI</td>
+								<td th:text="${reportsummary.e2_current_corporates_medium}">CHENNAI</td>
+								<td th:text="${reportsummary.f2_current_corporates_high}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td>Non Profit Organisations</td>
+								<!-- <td
+									th:text="${reportsummary.a3_previous_non_profit_organizations_low}">CHENNAI</td>
+								<td
+									th:text="${reportsummary.b3_previous_non_profit_organizations_medium}">CHENNAI</td>
+								<td
+									th:text="${reportsummary.c3_previous_non_profit_organizations_high}">CHENNAI</td> -->
+								<td
+									th:text="${reportsummary.d3_current_non_profit_organizations_low}">CHENNAI</td>
+								<td
+									th:text="${reportsummary.e3_current_non_profit_organizations_medium}">CHENNAI</td>
+								<td
+									th:text="${reportsummary.f3_current_non_profit_organizations_high}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td>Trusts (Other than NPOs and TCSPs)</td>
+								<!-- <td
+									th:text="${reportsummary.a4_previous_trusts_other_than_npos_and_tcsps_low}">CHENNAI</td>
+								<td
+									th:text="${reportsummary.b4_previous_trusts_other_than_npos_and_tcsps_medium}">CHENNAI</td>
+								<td
+									th:text="${reportsummary.c4_previous_trusts_other_than_npos_and_tcsps_high}">CHENNAI</td> -->
+								<td
+									th:text="${reportsummary.d4_current_trusts_other_than_npos_and_tcsps_low}">CHENNAI</td>
+								<td
+									th:text="${reportsummary.e4_current_trusts_other_than_npos_and_tcsps_medium}">CHENNAI</td>
+								<td
+									th:text="${reportsummary.f4_current_trusts_other_than_npos_and_tcsps_high}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td>All others</td>
+								<!-- <td th:text="${reportsummary.a5_previous_all_others_low}">CHENNAI</td>
+								<td th:text="${reportsummary.b5_previous_all_others_medium}">CHENNAI</td>
+								<td th:text="${reportsummary.c5_previous_all_others_high}">CHENNAI</td> -->
+								<td th:text="${reportsummary.d5_current_all_others_low}">CHENNAI</td>
+								<td th:text="${reportsummary.e5_current_all_others_medium}">CHENNAI</td>
+								<td th:text="${reportsummary.f5_current_all_others_high}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td>PEPs-Domestic</td>
+								<!-- <td th:text="${reportsummary.a6_previous_peps_domestic_low}">CHENNAI</td>
+								<td th:text="${reportsummary.b6_previous_peps_domestic_medium}">CHENNAI</td>
+								<td th:text="${reportsummary.c6_previous_peps_domestic_high}">CHENNAI</td> -->
+								<td th:text="${reportsummary.d6_current_peps_domestic_low}">CHENNAI</td>
+								<td th:text="${reportsummary.e6_current_peps_domestic_medium}">CHENNAI</td>
+								<td th:text="${reportsummary.f6_current_peps_domestic_high}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td>PEPs-Foreign</td>
+								<!-- <td th:text="${reportsummary.a7_previous_peps_foreign_low}">CHENNAI</td>
+								<td th:text="${reportsummary.b7_previous_peps_foreign_medium}">CHENNAI</td>
+								<td th:text="${reportsummary.c7_previous_peps_foreign_high}">CHENNAI</td> -->
+								<td th:text="${reportsummary.d7_current_peps_foreign_low}">CHENNAI</td>
+								<td th:text="${reportsummary.e7_current_peps_foreign_medium}">CHENNAI</td>
+								<td th:text="${reportsummary.f7_current_peps_foreign_high}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td>Trust and company service providers (TCSPs)</td>
+								<!-- 	<td
+									th:text="${reportsummary.a8_previous_trust_and_company_service_providers_tcps_low}">CHENNAI</td>
+								<td
+									th:text="${reportsummary.b8_previous_trust_and_company_service_providers_tcps_medium}">CHENNAI</td>
+								<td
+									th:text="${reportsummary.c8_previous_trust_and_company_service_providers_tcps_high}">CHENNAI</td> -->
+								<td
+									th:text="${reportsummary.d8_current_trust_and_company_service_providers_tcps_low}">CHENNAI</td>
+								<td
+									th:text="${reportsummary.e8_current_trust_and_company_service_providers_tcps_medium}">CHENNAI</td>
+								<td
+									th:text="${reportsummary.f8_current_trust_and_company_service_providers_tcps_high}">CHENNAI</td>
+								<!-- 	<td colspan="5" th:text="${repdetail.d5a_note}">CHENNAI</td>
+ -->
+							</tr>
+							<tr>
+								<td colspan="4">(1) Please select any one of the
+									appropriate options from the drop down menu. "Select" is not an
+									option for data entry. "Not applicable" option should be chosen
+									only if the NBDTI does not have any customers of a particular
+									category and does not expect to have any customer of that
+									category going forward.<br> (2) In case there has been a
+									change during this quarter in the policy for frequency of
+									customer’s KYC/CDD reviews, please provide details of the
+									changes in a separate note along with a copy of the revised
+									KYC/CDD review policy.
+								</td>
+								<!-- 	<td colspan="5" th:text="${repdetail.d5a_note}">CHENNAI</td>
+ -->
+							</tr>
+
+
+
+						</tbody>
+					</table>
+
+
+<div class="card-footer text-center"
+				style="background-color: #386276";>
+				<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+					onclick="home();">Home</button>
+				<!-- <button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button> -->
+			</div>
+					<!-------------------------------------Search modal form----------------------------------------------------->
+					<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+					<div class="modal fade" id="datadelete">
+						<div
+							class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+							<div class="modal-content">
+								<div class="modal-body" style="text-align: center">
+									<button type="button" class="close" data-dismiss="modal">×</button>
+									Are you Sure want to delete?
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary"
+										onclick="submitdataform();">Submit</button>
+									<button type="button" class="btn btn-primary"
+										data-dismiss="modal">Cancel</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!------------------------------ Report Details section ends it will shown only if Details button clicked------------------------->
+			</div>
+		</div>
+
+		<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+		<div class="modal fade" id="alert">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-body" style="text-align: center">
+						<p id="alertmsg"></p>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	</div>
+
+</body>
+</html>
+
+

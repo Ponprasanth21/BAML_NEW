@@ -1,0 +1,3253 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<!--
+
+PROJECT NAME: AML
+FILE NAME   : AMLKYCParameter
+CREATED BY	: RAMPRASATH
+CREATED ON	: 24-APR-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+
+<html lang="en" >
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+
+
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+
+
+<script src="js/bootstrap411.js"></script>
+
+
+<style type="text/css">
+.btn {
+	line-height: 0.5rem;
+}
+
+.dropdown-menu a:hover {
+	background-color: black;
+}
+</style>
+
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+
+	$(function() {
+
+		$("#alert_date").datepicker({
+
+			changeMonth : true,
+
+			changeYear : true,
+
+			maxDate : new Date(),
+
+			dateFormat : "dd-mm-yy"
+
+		});
+
+		var today = new Date();
+
+		var dd = today.getDate();
+
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+
+		if (dd < 10) {
+
+			dd = '0' + dd;
+
+		}
+
+		if (mm < 10) {
+
+			mm = '0' + mm;
+
+		}
+
+		var today = dd + '-' + mm + '-' + yyyy;
+
+		document.getElementById('alert_date').value = today;
+
+	});
+
+	$(function() {
+
+		$("#entry_date,verify_date,modify_date").datepicker({
+
+			changeMonth : true,
+
+			changeYear : true,
+
+			maxDate : new Date(),
+
+			dateFormat : "dd-mm-yy"
+
+		});
+
+		var today = new Date();
+
+		var dd = today.getDate();
+
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+
+		if (dd < 10) {
+
+			dd = '0' + dd;
+
+		}
+
+		if (mm < 10) {
+
+			mm = '0' + mm;
+
+		}
+
+		var today = dd + '/' + mm + '/' + yyyy;
+
+		document.getElementById('entry_date').value = today;
+
+		document.getElementById('verify_date').value = today;
+
+		document.getElementById('modify_date').value = today;
+
+	});
+
+	$(document)
+
+			.ready(
+
+					function() {
+
+						var formode = $("#formmode1").val();
+
+						if (formode == "view") {
+
+							$('input').attr('readonly', true);
+
+							$('select').attr('readonly', true);
+
+							document.querySelector('#start_date').style.background = '#9a9fa5';
+
+							document.querySelector('#end_date').style.background = '#9a9fa5';
+
+							document.querySelector('#period_start_date').style.background = '#9a9fa5';
+
+							document.querySelector('#period_end_date').style.background = '#9a9fa5';
+
+							document.querySelector('#last_tried_date').style.background = '#9a9fa5';
+
+							document.querySelector('#next_exec_status').style.background = '#9a9fa5';
+
+							$(
+
+									"start_date,#end_date,period_start_date,period_end_date,last_tried_date,next_exec_status")
+
+							.attr('readonly', true);
+
+						} else if (formode == "verify") {
+
+							$('input').attr('readonly', true);
+
+							$('select').attr('readonly', true);
+
+							document.querySelector('#start_date').style.background = '#9a9fa5';
+
+							document.querySelector('#end_date').style.background = '#9a9fa5';
+
+							document.querySelector('#period_start_date').style.background = '#9a9fa5';
+
+							document.querySelector('#period_end_date').style.background = '#9a9fa5';
+
+							document.querySelector('#last_tried_date').style.background = '#9a9fa5';
+
+							document.querySelector('#next_exec_status').style.background = '#9a9fa5';
+
+							$(
+
+									"start_date,#end_date,period_start_date,period_end_date,last_tried_date,next_exec_status")
+
+							.attr('readonly', true);
+
+						} else if (formode == "delete") {
+
+							$('input').attr('readonly', true);
+
+							$('select').attr('readonly', true);
+
+							document.querySelector('#start_date').style.background = '#9a9fa5';
+
+							document.querySelector('#end_date').style.background = '#9a9fa5';
+
+							document.querySelector('#period_start_date').style.background = '#9a9fa5';
+
+							document.querySelector('#period_end_date').style.background = '#9a9fa5';
+
+							document.querySelector('#last_tried_date').style.background = '#9a9fa5';
+
+							document.querySelector('#next_exec_status').style.background = '#9a9fa5';
+
+							$(
+
+									"start_date,#end_date,period_start_date,period_end_date,last_tried_date,next_exec_status")
+
+							.attr('readonly', true);
+
+						}
+
+						$("#start_date").datepicker(
+
+						{
+
+							dateFormat : "dd-mm-yy",
+
+							onSelect : function(selected) {
+
+								var dt = $(this).datepicker('getDate');
+
+								dt.setDate(dt.getDate());
+
+								$("#end_date").datepicker("option",
+
+								"minDate", dt);
+
+							}
+
+						});
+
+						$("#end_date").datepicker({
+
+							minDate : 0,
+
+							dateFormat : "dd-mm-yy",
+
+							onSelect : function(selected) {
+
+								var dt = new Date(selected);
+
+								dt.setDate(dt.getDate() - 1);
+
+								//$("#start_date").datepicker("option", "maxDate", dt);
+
+							}
+
+						});
+
+						$("#suspend_date,#last_tried_date,#next_exec_status")
+
+						.datepicker({
+
+							changeMonth : true,
+
+							changeYear : true,
+
+							dateFormat : "dd-mm-yy"
+
+						});
+
+						$("#period_start_date").datepicker(
+
+						{
+
+							maxDate : 0,
+
+							dateFormat : "dd-mm-yy",
+
+							onSelect : function(selected) {
+
+								var dt = $(this).datepicker('getDate');
+
+								dt.setDate(dt.getDate());
+
+								$("#period_end_date").datepicker(
+
+								"option", "minDate", dt);
+
+							}
+
+						});
+
+						$("#period_end_date").datepicker({
+
+							minDate : 0,
+
+							dateFormat : "dd-mm-yy",
+
+							onSelect : function(selected) {
+
+								var dt = new Date(selected);
+
+								dt.setDate(dt.getDate() - 1);
+
+								//$("#period_start_date").datepicker("option", "maxDate", dt);
+
+							}
+
+						});
+
+						$("#rule_type")
+
+						.on(
+
+						'change',
+
+						function() {
+
+							$("#rule_type")
+
+							.on(
+
+							'click',
+
+							function() {
+
+								var Ruletype = $(
+
+								this)
+
+								.val();
+
+								$
+
+								.ajax({
+
+									type : 'get',
+
+									url : "./AML/getRuleTypeselect/"
+
+									+ Ruletype,
+
+									success : function(
+
+									data) {
+
+										$(
+
+										"#rule_sub_type")
+
+										.empty();
+
+										$(
+
+										"#rule_sub_type")
+
+										.append(
+
+										'<option value="">SELECT</option>');
+
+										for (var i = 0; i < data.length; i++) {
+
+											$(
+
+											"#rule_sub_type")
+
+											.append(
+
+											'<option value="'+data[i]+'"> '
+
+											+ data[i]
+
+											+ '</option>');
+
+										}
+
+									}
+
+								});
+
+							});
+
+						});
+
+						$("#rule_sub_type")
+
+						.on(
+
+						'change',
+
+						function() {
+
+							$("#rule_sub_type")
+
+							.on(
+
+							'click',
+
+							function() {
+
+								var rulesubtype = $(
+
+								this)
+
+								.val();
+
+								var Ruletype = $(
+
+								"#rule_type")
+
+								.val()
+
+								$
+
+								.ajax({
+
+									type : 'get',
+
+									url : "./AML/getRuleType/"
+
+									+ Ruletype
+
+									+ "/"
+
+									+ rulesubtype,
+
+									success : function(
+
+									response) {
+
+										$(
+
+										"#rule_type_desc")
+
+										.val(
+
+										response);
+
+									}
+
+								});
+
+							});
+
+						});
+
+						$("#rule_code").on('change', function() {
+
+							$("#rule_code").on('click', function() {
+
+								var rulecode = $(this).val();
+
+								$.ajax({
+
+									type : 'get',
+
+									url : "./AML/getRuleCode/" + rulecode,
+
+									success : function(response) {
+
+										$("#rule_code_desc").val(response);
+
+									}
+
+								});
+
+							});
+
+						});
+
+					});
+
+	var deleteval;
+
+	$("#executiontype").on("change", function() {
+
+		if ($("#executiontype").val() == "OnLine") {
+
+			$("#frequency").attr("readonly", true);
+
+		} else {
+
+			$("#frequency").val("");
+
+			$("#frequency").attr("readonly", false);
+
+		}
+
+	});
+
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+
+		var max = parseInt(maxpage);
+
+		var Callurl = 'kycparameter?formmode=list';
+
+		switch (mode) {
+
+		case "nextpage":
+
+			n = n + 1;
+
+			if (n > max) {
+
+				break;
+
+			}
+
+			Callurl = Callurl + "&page=" + n;
+
+			break;
+
+		case "prevpage":
+
+			n = n - 1;
+
+			if (n < 0) {
+
+				break;
+
+			}
+
+			Callurl = Callurl + "&page=" + n;
+
+			break;
+
+		case "givenpage":
+
+			n = parseInt($("#pageno").val()) - 1;
+
+			if (n > max || n < 0) {
+
+				break;
+
+			}
+
+			Callurl = Callurl + "&page=" + n;
+
+		}
+
+		location.href = Callurl;
+
+	}
+
+	function home() {
+
+		location.href = 'Dashboard'
+
+	}
+
+	function home1() {
+
+		$("#dataHome").modal("toggle");
+
+	}
+
+	function back() {
+
+		window.history.back();
+
+	}
+
+	function back1() {
+
+		$("#dataBack").modal("toggle");
+
+	}
+
+	function list() {
+
+		location.href = './kycparameter?formmode=list';
+
+	}
+
+	function Verify1(a) {
+		//var formmode = a.getAttribute("frmode");
+
+		//var reportcode= a.getAttribute("data-id");
+
+		var srlno = a.getAttribute("data-srl_no");
+
+		location.href = './kycparameter?formmode=verify&srlno=' + srlno;
+
+	}
+
+	function Editlist(a) {
+		//var formmode = a.getAttribute("frmode");
+
+		//var reportcode= a.getAttribute("data-id");
+
+		var srlno = a.getAttribute("data-srl_no");
+
+		location.href = './kycparameter?formmode=Editlist&srlno=' + srlno;
+
+	}
+	
+	function verifyform(a) {
+
+	
+
+		if ($("#KycParameter").valid()) {
+
+			var entry = $("#entry_user").val();
+
+			var modify = $("#modify_user").val();
+
+			var verify = $("#verify_user").val();
+
+			if (modify != null) {
+
+				if (modify != verify) {
+
+					var formmode = a.getAttribute("data-formmode");
+
+					var url = "./createKycParameter?formmode=" + formmode;
+
+					$("#KycParameter").attr('action', url);
+
+					var options = {
+
+						success : showResponse
+
+					// post-submit callback 
+
+					};
+
+					$("#KycParameter").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#alertmsg").text(responseText);
+
+						$('#alert').modal("toggle");
+
+					}
+
+					;
+
+				} else {
+
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+
+					$('#verifybox').modal("toggle");
+
+				}
+
+			} else if (modify == null) {
+
+				if (entry != verify) {
+
+					var formmode = a.getAttribute("data-formmode");
+
+					var url = "./createKycParameter?formmode=" + formmode;
+
+					$("#KycParameter").attr('action', url);
+
+					var options = {
+
+						success : showResponse
+
+					// post-submit callback 
+
+					};
+
+					$("#KycParameter").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#alertmsg").text(responseText);
+
+						$('#alert').modal("toggle");
+
+					}
+
+					;
+
+				} else {
+
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+
+					$('#verifybox').modal("toggle");
+
+				}
+
+			}
+
+		}
+
+	};
+
+	function submitform(a) {
+
+		
+
+		if ($("#KycParameter").valid()) {
+
+			var formmode = a.getAttribute("data-formmode");
+
+			//var type = a.getAttribute("data-type");
+
+			var url = "./createKycParameter?formmode=" + formmode;
+
+			$("#KycParameter").attr('action', url);
+
+			var options = {
+
+				success : showResponse
+
+			// post-submit callback 
+
+			};
+
+			$("#KycParameter").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+
+			}
+
+			;
+
+		}
+
+	};
+	function edi(a)  {
+		//alert("its time to edit");
+		$("#hideme").hide();
+		$("#showme").show();
+	}
+	function edi1(a)  {
+		//alert("its time to edit");
+		$("#hideme1").hide();
+		$("#showme1").show();
+	}
+	function edi2(a)  {
+		//alert("its time to edit");
+		$("#hideme2").hide();
+		$("#showme2").show();
+	}
+	function edi3(a)  {
+		//alert("its time to edit");
+		$("#hideme3").hide();
+		$("#showme3").show();
+	}
+	function edi4(a)  {
+		//alert("its time to edit");
+		$("#hideme4").hide();
+		$("#showme4").show();
+	}
+	function edi5(a)  {
+		//alert("its time to edit");
+		$("#hideme5").hide();
+		$("#showme5").show();
+	}
+	function edi6(a)  {
+		//alert("its time to edit");
+		$("#hideme6").hide();
+		$("#showme6").show();
+	}
+	
+	function edi7(a)  {
+		//alert("its time to edit");
+		$("#hideme7").hide();
+		$("#showme7").show();
+	}function edi8(a)  {
+		//alert("its time to edit");
+		$("#hideme8").hide();
+		$("#showme8").show();
+	}function edi9(a)  {
+		//alert("its time to edit");
+		$("#hideme9").hide();
+		$("#showme9").show();
+	}function edi10(a)  {
+		//alert("its time to edit");
+		$("#hideme10").hide();
+		$("#showme10").show();
+	}function edi11(a)  {
+		//alert("its time to edit");
+		$("#hideme11").hide();
+		$("#showme11").show();
+	}function edi12(a)  {
+		//alert("its time to edit");
+		$("#hideme12").hide();
+		$("#showme12").show();
+	}function edi13(a)  {
+		//alert("its time to edit");
+		$("#hideme13").hide();
+		$("#showme13").show();
+	}function edi14(a)  {
+		//alert("its time to edit");
+		$("#hideme14").hide();
+		$("#showme14").show();
+	}function edi15(a)  {
+		//alert("its time to edit");
+		$("#hideme15").hide();
+		$("#showme15").show();
+	}function edi16(a)  {
+		//alert("its time to edit");
+		$("#hideme16").hide();
+		$("#showme16").show();
+	}function edi17(a)  {
+		//alert("its time to edit");
+		$("#hideme17").hide();
+		$("#showme17").show();
+	}function edi18(a)  {
+		//alert("its time to edit");
+		$("#hideme18").hide();
+		$("#showme18").show();
+	}function edi19(a)  {
+		//alert("its time to edit");
+		$("#hideme19").hide();
+		$("#showme19").show();
+	}function edi20(a)  {
+		//alert("its time to edit");
+		$("#hideme20").hide();
+		$("#showme20").show();
+	}function edi21(a)  {
+		//alert("its time to edit");
+		$("#hideme21").hide();
+		$("#showme21").show();
+	}
+	function edi22(a)  {
+		//alert("its time to edit");
+		$("#hideme22").hide();
+		$("#showme22").show();
+	}function edi30(a)  {
+		//alert("its time to edit");
+		$("#hideme30").hide();
+		$("#showme30").show();
+	}
+	function edit_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-srl_no");
+
+		var type = a.getAttribute("data-id");
+
+
+		location.href = 'kycparameter?formmode=edit&srlno=' + srlno + '&type='
+
+		+ type;
+
+	}
+
+	function alert_verify(a) {
+
+		var srlno = a.getAttribute("data-srl_no");
+
+		location.href = 'kycparameter?formmode=verify&srlno=' + srlno;
+
+	}
+
+	function delete_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-srl_no");
+
+		location.href = 'kycparameter?formmode=delete&srlno=' + srlno;
+
+		/* deleteval = srlno;
+
+		$("#datadelete").modal("toggle"); */
+
+	}
+
+	function view_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-srl_no");
+
+		location.href = 'kycparameter?formmode=view&srlno=' + srlno;
+
+	}
+
+	function finuser(a) {
+
+		/* alert("dbfvch"+a.id); */
+
+		$("#finusers").modal("hide");
+
+		$("#rule_code").val(a.id);
+
+		var rulecode = a.id;
+
+		$.ajax({
+
+			type : 'get',
+
+			url : "./AML/getRuleCode/" + rulecode,
+
+			success : function(response) {
+
+				$("#rule_code_desc").val(response);
+
+			}
+
+		});
+
+	}
+
+	/*]]>*/
+</script>
+
+
+</head>
+
+
+<body>
+
+	<div th:insert="AStartheader :: header"></div>
+
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('kycparameter')" id="ques"></i>
+	<div class="content-page">
+
+		<div class="content">
+
+			<div class="container-fluid">
+
+
+				<div th:if="${formmode}=='list'" class="container content">
+
+					<div class="row">
+
+						<div class="col-sm-12">
+
+							<div class="card-header " id="modheadtitle" style="height: 50px;">
+
+								<b th:text="${menuname}"></b>
+
+
+
+								<div class="btn-group nav-buttons float-right">
+
+									<!-- <button type="button"
+
+												class="btn btn-xs btn-primary btns  active"
+
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+
+												Parameter</button> -->
+
+
+
+									<button th:each="alert : ${KYCParameterList}" type="button"
+										class="btn btn-xs btn-primary btns" id="btnInq"
+										th:attr="data-srl_no=${srlno}" onclick='Editlist(this)'>Edit</button>
+
+									<button type="button" class="btn btn-xs btn-primary btns"
+										id="btnInq" style="background-color: #1b6491;" onclick="list()">Inquiry</button>
+
+									<button th:each="alert : ${KYCParameterList}"
+										th:if="${alert?.entity_flg}=='N'" type="button"
+										class="btn btn-xs btn-primary btns" id="btnInq"
+										th:attr="data-srl_no=${srlno}" onclick='alert_verify(this)'>Verify</button>
+
+
+								</div>
+
+
+
+							</div>
+
+
+							<table class="table table-bordered  table-hover table-sm"
+								style="width: 100%" id="usertable">
+
+								<thead class="thead-light">
+
+
+
+									
+
+
+									<tr>
+
+										<!-- <th></th> -->
+
+
+									<th  style="width: 300px;">Frequency of
+
+											reviews for customers whose risk grade is (pick from
+
+											appropriate drop down options)</th>
+
+										<th>Low</th>
+
+										<th>Medium</th>
+
+										<th>High</th>
+
+
+
+
+									</tr>
+
+								</thead>
+
+
+								<tbody>
+
+									<tr th:each="alert : ${KYCParameterList}">
+
+
+										<td>Individuals</td>
+
+									<!-- 	<td style="width: 100px;"
+											th:text="${alert?.a1_previous_individuals_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert?.b1_previous_individuals_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert?.c1_previous_individuals_high}">CHENNAI</td> -->
+
+										<td style="width: 100px;"
+											th:text="${alert?.d1_current_individuals_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert?.e1_current_individuals_medium}">CHENNAI</td>
+
+										<td th:text="${alert?.f1_current_individuals_high}">CHENNAI</td>
+
+
+
+									</tr>
+
+									<tr th:each="alert : ${KYCParameterList}">
+
+
+										<td>Corporates</td>
+
+										<!-- <td style="width: 100px;"
+											th:text="${alert.a2_previous_corporates_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.b2_previous_corporates_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.c2_previous_corporates_high}">CHENNAI</td> -->
+
+										<td style="width: 100px;"
+											th:text="${alert.d2_current_corporates_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.e2_current_corporates_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.f2_current_corporates_high}">CHENNAI</td>
+
+
+									</tr>
+
+									<tr th:each="alert : ${KYCParameterList}">
+
+
+										<td>Non Profit Organisations</td>
+
+										<!-- <td style="width: 100px;"
+											th:text="${alert.a3_previous_non_profit_organizations_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.b3_previous_non_profit_organizations_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.c3_previous_non_profit_organizations_high}">CHENNAI</td>
+ -->
+										<td style="width: 100px;"
+											th:text="${alert.d3_current_non_profit_organizations_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.e3_current_non_profit_organizations_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.f3_current_non_profit_organizations_high}">CHENNAI</td>
+
+
+									</tr>
+
+									<tr th:each="alert : ${KYCParameterList}">
+
+
+										<td>Trusts (Other than NPOs and TCSPs)</td>
+
+										<!-- <td style="width: 100px;"
+											th:text="${alert.a4_previous_trusts_other_than_npos_and_tcsps_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.b4_previous_trusts_other_than_npos_and_tcsps_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.c4_previous_trusts_other_than_npos_and_tcsps_high}">CHENNAI</td> -->
+
+										<td style="width: 100px;"
+											th:text="${alert.d4_current_trusts_other_than_npos_and_tcsps_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.e4_current_trusts_other_than_npos_and_tcsps_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.f4_current_trusts_other_than_npos_and_tcsps_high}">CHENNAI</td>
+
+
+									</tr>
+
+									<tr th:each="alert : ${KYCParameterList}">
+
+
+										<td>All others</td>
+
+										<!-- <td style="width: 100px;"
+											th:text="${alert.a5_previous_all_others_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.b5_previous_all_others_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.c5_previous_all_others_high}">CHENNAI</td> -->
+
+										<td style="width: 100px;"
+											th:text="${alert.d5_current_all_others_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.e5_current_all_others_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.f5_current_all_others_high}">CHENNAI</td>
+
+
+
+									</tr>
+
+									<tr th:each="alert : ${KYCParameterList}">
+
+
+										<td>PEPs-Domestic</td>
+
+										<!-- <td style="width: 100px;"
+											th:text="${alert.a6_previous_peps_domestic_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.b6_previous_peps_domestic_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.c6_previous_peps_domestic_high}">CHENNAI</td>
+ -->
+										<td style="width: 100px;"
+											th:text="${alert.d6_current_peps_domestic_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.e6_current_peps_domestic_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.f6_current_peps_domestic_high}">CHENNAI</td>
+
+
+									</tr>
+
+									<tr th:each="alert : ${KYCParameterList}">
+
+
+										<td>PEPs-Foreign</td>
+
+									<!-- 	<td style="width: 100px;"
+											th:text="${alert.a7_previous_peps_foreign_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.b7_previous_peps_foreign_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.c7_previous_peps_foreign_high}">CHENNAI</td>
+ -->
+										<td style="width: 100px;"
+											th:text="${alert.d7_current_peps_foreign_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.e7_current_peps_foreign_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.f7_current_peps_foreign_high}">CHENNAI</td>
+
+
+
+									</tr>
+
+									<tr th:each="alert : ${KYCParameterList}">
+
+
+										<td>Trust and company service providers (TCSPs)</td>
+
+									<!-- 	<td style="width: 100px;"
+											th:text="${alert.a8_previous_trust_and_company_service_providers_tcps_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.b8_previous_trust_and_company_service_providers_tcps_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.c8_previous_trust_and_company_service_providers_tcps_high}">CHENNAI</td>
+ -->
+										<td style="width: 100px;"
+											th:text="${alert.d8_current_trust_and_company_service_providers_tcps_low}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.e8_current_trust_and_company_service_providers_tcps_medium}">CHENNAI</td>
+
+										<td style="width: 100px;"
+											th:text="${alert.f8_current_trust_and_company_service_providers_tcps_high}">CHENNAI</td>
+
+
+
+									</tr>
+
+
+
+								</tbody>
+
+							</table>
+
+
+
+
+
+
+
+						</div>
+
+						<div class="text-center"
+							style="background-color: #386276; padding: 5px; width: 100%;">
+
+
+							<div class="btn-group nav-buttons " style="align: center;">
+
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+
+
+				<!-- --------------------------------------------------EditList--------------------------------- -->
+
+				<div th:if="${formmode}=='Editlist'OR ${formmode}=='verify'"
+					class="container content">
+
+					<div class="row">
+
+
+
+						<div class="col-sm-12">
+							<div class="card">
+
+								<form action="#" th:object="${KycParameter}" method="POST"
+									autocomplete="off" id="KycParameter">
+
+									<div class="card-header " id="modheadtitle"
+										style="height: 50px;">
+
+										<b th:text="${menuname1}"></b>
+
+									</div>
+									<!-- <input autocomplete="false" th:value="${KYCParameterList?.report_code}" id="report_code"name="report_code" type="text"
+										style="display: none;"> -->
+
+									<table class="table table-bordered  table-hover table-sm"
+										style="width: 100%" id="usertable">
+
+										<thead class="thead-light">
+
+
+
+										<!-- 	<tr>
+
+												<th></th>
+
+
+
+												
+
+												<th colspan="3">Previous quarter</th>
+
+												<th colspan="3">Current quarter</th>
+
+
+
+
+
+											</tr> -->
+
+
+											<tr>
+
+												<!-- <th></th> -->
+
+
+												<th style="width: 300px;">Frequency of
+
+													reviews for customers whose risk grade is (pick from
+
+													appropriate drop down options)</th>
+
+												<th>Low</th>
+
+												<th>Medium</th>
+
+												<th>High</th>
+
+
+
+
+											</tr>
+
+										</thead>
+
+
+										<tbody>
+
+											<tr th:each="alert : ${KYCParameterList}">
+
+
+												<td>Individuals</td>
+
+												<!-- <td width="22px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.a1_previous_individuals_low}"
+													id="a1_previous_individuals_low"
+													class="form-control form-control-sm"
+													name="a1_previous_individuals_low" autocomplete="off"
+													readonly /></td>
+
+
+												<td width="22px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.b1_previous_individuals_medium}"
+													id="b1_previous_individuals_medium"
+													class="form-control form-control-sm"
+													name="b1_previous_individuals_medium" autocomplete="off"
+													readonly /></td>
+
+												<td width="22px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.c1_previous_individuals_high}"
+													id="c1_previous_individuals_high"
+													class="form-control form-control-sm"
+													name="c1_previous_individuals_high" autocomplete="off"
+													readonly></td>
+
+ -->
+
+
+
+												<td th:if="${formmode}=='Editlist' " width="122px;"><input
+													class="form-control form-control-sm" id="hideme"
+													onclick="edi(this);"
+													th:value="${alert?.d1_current_individuals_low}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm"
+													th:value="${alert?.d1_current_individuals_low}"
+													name="d1_current_individuals_low" id="showme"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option th:value="${alert?.d1_current_individuals_low}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:value="${monitoringparam}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style="background-color: #e3e3e4; color: black;"
+													th:value="${alert?.d1_current_individuals_low}"
+													id="d1_current_individuals_low"
+													class="form-control form-control-sm"
+													name="d1_current_individuals_low" autocomplete="off"
+													readonly></td>
+
+												<td th:if="${formmode}=='Editlist' " width="122px;"><input
+													class="form-control form-control-sm" id="hideme1"
+													onclick="edi1(this);"
+													th:value="${alert?.e1_current_individuals_medium}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme1"
+													name="e1_current_individuals_medium"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option th:value="${alert?.e1_current_individuals_medium}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:value="${monitoringparam}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style=" background-color: #e3e3e4; color: black;"
+													th:value="${alert?.e1_current_individuals_medium}"
+													id="e1_current_individuals_medium"
+													class="form-control form-control-sm"
+													name="e1_current_individuals_medium" autocomplete="off"
+													readonly></td>
+
+
+
+
+												<td th:if="${formmode}=='Editlist' " width="122px;"><input
+													class="form-control form-control-sm" id="hideme2"
+													onclick="edi2(this);"
+													th:value="${alert?.f1_current_individuals_high}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme2"
+													name="f1_current_individuals_high"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option th:value="${alert?.f1_current_individuals_high}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:value="${monitoringparam}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style=" background-color: #e3e3e4; color: black;"
+													th:value="${alert?.f1_current_individuals_high}"
+													id="f1_current_individuals_high"
+													class="form-control form-control-sm"
+													name="f1_current_individuals_high" autocomplete="off"
+													readonly></td>
+
+
+
+
+											</tr>
+
+											<tr th:each="alert : ${KYCParameterList}">
+
+
+												<td>Corporates</td>
+												<!-- <td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.a2_previous_corporates_low}"
+													id="a2_previous_corporates_low"
+													class="form-control form-control-sm"
+													name="a2_previous_corporates_low" autocomplete="off"
+													readonly /></td>
+
+												<td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.b2_previous_corporates_medium}"
+													id="b2_previous_corporates_medium"
+													class="form-control form-control-sm"
+													name="b2_previous_corporates_medium" autocomplete="off"
+													readonly /></td>
+
+
+												<td width="12px;"><input type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.c2_previous_corporates_high}"
+													id="c2_previous_corporates_high"
+													class="form-control form-control-sm"
+													name="c2_previous_corporates_high" autocomplete="off"
+													readonly /></td>
+ -->
+												<td th:if="${formmode}=='Editlist' " width="122px;"><input
+													class="form-control form-control-sm" id="hideme3"
+													onclick="edi3(this);"
+													th:value="${alert?.d2_current_corporates_low}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme3"
+													name="d2_current_corporates_low"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option th:value="${alert?.d2_current_corporates_low}">Select</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style="background-color: #e3e3e4; color: black;"
+													th:value="${alert?.d2_current_corporates_low}"
+													id="d2_current_corporates_low"
+													class="form-control form-control-sm"
+													name="d2_current_corporates_low" autocomplete="off"
+													readonly></td>
+
+
+
+												<td th:if="${formmode}=='Editlist' " width="122px;"><input
+													class="form-control form-control-sm" id="hideme4"
+													onclick="edi4(this);"
+													th:value="${alert?.e2_current_corporates_medium}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme4"
+													name="e2_current_corporates_medium"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option th:value="${alert?.e2_current_corporates_medium}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style=" background-color: #e3e3e4; color: black;"
+													th:value="${alert?.e2_current_corporates_medium}"
+													id="e2_current_corporates_medium"
+													class="form-control form-control-sm"
+													name="e2_current_corporates_medium" autocomplete="off"
+													readonly></td>
+
+
+
+
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme5"
+													onclick="edi5(this);"
+													th:value="${alert?.f2_current_corporates_high}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme5"
+													name="f2_current_corporates_high"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option th:value="${alert?.f2_current_corporates_high}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style=" background-color: #e3e3e4; color: black;"
+													th:value="${alert?.f2_current_corporates_high}"
+													id="f2_current_corporates_high"
+													class="form-control form-control-sm"
+													name="f2_current_corporates_high" autocomplete="off"
+													readonly></td>
+
+
+
+
+
+
+
+
+											</tr>
+
+											<tr th:each="alert : ${KYCParameterList}">
+
+
+												<td>Non Profit Organisations</td>
+
+												<!-- <td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.a3_previous_non_profit_organizations_low}"
+													id="a3_previous_non_profit_organizations_low"
+													class="form-control form-control-sm"
+													name="a3_previous_non_profit_organizations_low"
+													autocomplete="off" required /></td>
+
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.a3_previous_non_profit_organizations_low}"
+													id="a3_previous_non_profit_organizations_low"
+													class="form-control form-control-sm"
+													name="a3_previous_non_profit_organizations_low"
+													autocomplete="off" readonly /></td>
+
+
+												<td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.b3_previous_non_profit_organizations_medium}"
+													id="b3_previous_non_profit_organizations_medium"
+													class="form-control form-control-sm"
+													name="b3_previous_non_profit_organizations_medium"
+													autocomplete="off" required /></td>
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.b3_previous_non_profit_organizations_medium}"
+													id="b3_previous_non_profit_organizations_medium"
+													class="form-control form-control-sm"
+													name="b3_previous_non_profit_organizations_medium"
+													autocomplete="off" readonly /></td>
+
+
+												<td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.c3_previous_non_profit_organizations_high}"
+													id="c3_previous_non_profit_organizations_high"
+													class="form-control form-control-sm"
+													name="c3_previous_non_profit_organizations_high"
+													autocomplete="off" required /></td>
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.c3_previous_non_profit_organizations_high}"
+													id="c3_previous_non_profit_organizations_high"
+													class="form-control form-control-sm"
+													name="c3_previous_non_profit_organizations_high"
+													autocomplete="off" readonly /></td>
+ -->
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme6"
+													onclick="edi6(this);"
+													th:value="${alert?.d3_current_non_profit_organizations_low}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme6"
+													name="d3_current_non_profit_organizations_low"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option
+															th:value="${alert?.d3_current_non_profit_organizations_low}">
+															SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style=" background-color: #e3e3e4; color: black;"
+													th:value="${alert?.d3_current_non_profit_organizations_low}"
+													id="d3_current_non_profit_organizations_low"
+													class="form-control form-control-sm"
+													name="d3_current_non_profit_organizations_low"
+													autocomplete="off" readonly></td>
+
+
+
+
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme7"
+													onclick="edi7(this);"
+													th:value="${alert?.e3_current_non_profit_organizations_medium}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme7"
+													name="e3_current_non_profit_organizations_medium"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option
+															th:value="${alert?.e3_current_non_profit_organizations_medium}">
+															SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style=" background-color: #e3e3e4; color: black;"
+													th:value="${alert?.e3_current_non_profit_organizations_medium}"
+													id="e3_current_non_profit_organizations_medium"
+													class="form-control form-control-sm"
+													name="e3_current_non_profit_organizations_medium"
+													autocomplete="off" readonly></td>
+
+
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme8"
+													onclick="edi8(this);"
+													th:value="${alert?.f3_current_non_profit_organizations_high}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme8"
+													name="f3_current_non_profit_organizations_high"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option
+															th:value="${alert?.f3_current_non_profit_organizations_high}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style="background-color: #e3e3e4; color: black;"
+													th:value="${alert?.f3_current_non_profit_organizations_high}"
+													id="f3_current_non_profit_organizations_high"
+													class="form-control form-control-sm"
+													name="f3_current_non_profit_organizations_high"
+													autocomplete="off" readonly></td>
+
+
+
+											</tr>
+
+											<tr th:each="alert : ${KYCParameterList}">
+
+
+												<td>Trusts (Other than NPOs and TCSPs)</td>
+
+
+												<!-- <td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.a4_previous_trusts_other_than_npos_and_tcsps_low}"
+													id="a4_previous_trusts_other_than_npos_and_tcsps_low"
+													class="form-control form-control-sm"
+													name="a4_previous_trusts_other_than_npos_and_tcsps_low"
+													autocomplete="off" readonly /></td>
+
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.a4_previous_trusts_other_than_npos_and_tcsps_low}"
+													id="a4_previous_trusts_other_than_npos_and_tcsps_low"
+													class="form-control form-control-sm"
+													name="a4_previous_trusts_other_than_npos_and_tcsps_low"
+													autocomplete="off" readonly /></td>
+
+
+												<td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.b4_previous_trusts_other_than_npos_and_tcsps_medium}"
+													id="b4_previous_trusts_other_than_npos_and_tcsps_medium"
+													class="form-control form-control-sm"
+													name="b4_previous_trusts_other_than_npos_and_tcsps_medium"
+													autocomplete="off" readonly /></td>
+
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.b4_previous_trusts_other_than_npos_and_tcsps_medium}"
+													id="b4_previous_trusts_other_than_npos_and_tcsps_medium"
+													class="form-control form-control-sm"
+													name="b4_previous_trusts_other_than_npos_and_tcsps_medium"
+													autocomplete="off" readonly /></td>
+
+												<td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.c4_previous_trusts_other_than_npos_and_tcsps_high}"
+													id="c4_previous_trusts_other_than_npos_and_tcsps_high"
+													class="form-control form-control-sm"
+													name="c4_previous_trusts_other_than_npos_and_tcsps_high"
+													autocomplete="off" readonly /></td>
+
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.c4_previous_trusts_other_than_npos_and_tcsps_high}"
+													id="c4_previous_trusts_other_than_npos_and_tcsps_high"
+													class="form-control form-control-sm"
+													name="c4_previous_trusts_other_than_npos_and_tcsps_high"
+													autocomplete="off" readonly /></td>
+ -->
+
+
+
+
+
+
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme9"
+													onclick="edi9(this);"
+													th:value="${alert?.d4_current_trusts_other_than_npos_and_tcsps_low}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme9"
+													name="d4_current_trusts_other_than_npos_and_tcsps_low"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option
+															th:value="${alert?.d4_current_trusts_other_than_npos_and_tcsps_low}">
+															SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style=" background-color: #e3e3e4; color: black;"
+													th:value="${alert?.d4_current_trusts_other_than_npos_and_tcsps_low}"
+													id="d4_current_trusts_other_than_npos_and_tcsps_low"
+													class="form-control form-control-sm"
+													name="d4_current_trusts_other_than_npos_and_tcsps_low"
+													autocomplete="off" readonly></td>
+
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme10"
+													onclick="edi10(this);"
+													th:value="${alert?.e4_current_trusts_other_than_npos_and_tcsps_medium}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme10"
+													name="e4_current_trusts_other_than_npos_and_tcsps_medium"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option
+															th:value="${alert?.e4_current_trusts_other_than_npos_and_tcsps_medium}">
+															SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style="background-color: #e3e3e4; color: black;"
+													th:value="${alert?.e4_current_trusts_other_than_npos_and_tcsps_medium}"
+													id="e4_current_trusts_other_than_npos_and_tcsps_medium"
+													class="form-control form-control-sm"
+													name="e4_current_trusts_other_than_npos_and_tcsps_medium"
+													autocomplete="off" readonly></td>
+
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme11"
+													onclick="edi11(this);"
+													th:value="${alert?.f4_current_trusts_other_than_npos_and_tcsps_high}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme11"
+													name="f4_current_trusts_other_than_npos_and_tcsps_high"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option
+															th:value="${alert?.f4_current_trusts_other_than_npos_and_tcsps_high}">
+															SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style=" background-color: #e3e3e4; color: black;"
+													th:value="${alert?.f4_current_trusts_other_than_npos_and_tcsps_high}"
+													id="f4_current_trusts_other_than_npos_and_tcsps_high"
+													class="form-control form-control-sm"
+													name="f4_current_trusts_other_than_npos_and_tcsps_high"
+													autocomplete="off" readonly></td>
+
+
+											</tr>
+
+											<tr th:each="alert : ${KYCParameterList}">
+
+
+												<td>All others</td>
+
+
+											<!-- 	<td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.a5_previous_all_others_low}"
+													id="a5_previous_all_others_low"
+													class="form-control form-control-sm"
+													name="a5_previous_all_others_low" autocomplete="off"
+													required /></td>
+
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.a5_previous_all_others_low}"
+													id="a5_previous_all_others_low"
+													class="form-control form-control-sm"
+													name="a5_previous_all_others_low" autocomplete="off"
+													readonly /></td>
+
+												<td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.b5_previous_all_others_medium}"
+													id="b5_previous_all_others_medium"
+													class="form-control form-control-sm"
+													name="b5_previous_all_others_medium" autocomplete="off"
+													required /></td>
+
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.b5_previous_all_others_medium}"
+													id="b5_previous_all_others_medium"
+													class="form-control form-control-sm"
+													name="b5_previous_all_others_medium" autocomplete="off"
+													readonly /></td>
+
+												<td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.c5_previous_all_others_high}"
+													id="c5_previous_all_others_high"
+													class="form-control form-control-sm"
+													name="c5_previous_all_others_high" autocomplete="off"
+													required /></td>
+
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.c5_previous_all_others_high}"
+													id="c5_previous_all_others_high"
+													class="form-control form-control-sm"
+													name="c5_previous_all_others_high" autocomplete="off"
+													readonly /></td>
+ -->
+
+
+
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme12"
+													onclick="edi12(this);"
+													th:value="${alert?.d5_current_all_others_low}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme12"
+													name="d5_current_all_others_low"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option th:value="${alert?.d5_current_all_others_low}">
+															SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style=" background-color: #e3e3e4; color: black;"
+													th:value="${alert?.d5_current_all_others_low}"
+													id="d5_current_all_others_low"
+													class="form-control form-control-sm"
+													name="d5_current_all_others_low" autocomplete="off"
+													readonly></td>
+
+
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme13"
+													onclick="edi13(this);"
+													th:value="${alert?.e5_current_all_others_medium}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme13"
+													name="e5_current_all_others_medium"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option th:value="${alert?.e5_current_all_others_medium}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style="background-color: #e3e3e4; color: black;"
+													th:value="${alert?.e5_current_all_others_medium}"
+													id="e5_current_all_others_medium"
+													class="form-control form-control-sm"
+													name="e5_current_all_others_medium" autocomplete="off"
+													readonly></td>
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme14"
+													onclick="edi14(this);"
+													th:value="${alert?.f5_current_all_others_high}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme14"
+													name="f5_current_all_others_high"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option th:value="${alert?.f5_current_all_others_high}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style="background-color: #e3e3e4; color: black;"
+													th:value="${alert?.f5_current_all_others_high}"
+													id="f5_current_all_others_high"
+													class="form-control form-control-sm"
+													name="f5_current_all_others_high" autocomplete="off"
+													readonly></td>
+
+
+
+											</tr>
+
+											<tr th:each="alert : ${KYCParameterList}">
+
+
+												<td>PEPs-Domestic</td>
+
+
+												<!-- <td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.a6_previous_peps_domestic_low}"
+													id="a6_previous_peps_domestic_low"
+													class="form-control form-control-sm"
+													name="a6_previous_peps_domestic_low" autocomplete="off"
+													required /></td>
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.a6_previous_peps_domestic_low}"
+													id="a6_previous_peps_domestic_low"
+													class="form-control form-control-sm"
+													name="a6_previous_peps_domestic_low" autocomplete="off"
+													readonly /></td>
+
+												<td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.b6_previous_peps_domestic_medium}"
+													id="b6_previous_peps_domestic_medium"
+													class="form-control form-control-sm"
+													name="b6_previous_peps_domestic_medium" autocomplete="off"
+													required /></td>
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.b6_previous_peps_domestic_medium}"
+													id="b6_previous_peps_domestic_medium"
+													class="form-control form-control-sm"
+													name="b6_previous_peps_domestic_medium" autocomplete="off"
+													readonly /></td>
+
+
+
+
+												<td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.c6_previous_peps_domestic_high}"
+													id="c6_previous_peps_domestic_high"
+													class="form-control form-control-sm"
+													name="c6_previous_peps_domestic_high" autocomplete="off"
+													required /></td>
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.c6_previous_peps_domestic_high}"
+													id="c6_previous_peps_domestic_high"
+													class="form-control form-control-sm"
+													name="c6_previous_peps_domestic_high" autocomplete="off"
+													readonly /></td>
+
+ -->
+
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme15"
+													onclick="edi15(this);"
+													th:value="${alert?.d6_current_peps_domestic_low}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme15"
+													name="d6_current_peps_domestic_low"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option th:value="${alert?.d6_current_peps_domestic_low}">
+															SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style="background-color: #e3e3e4; color: black;"
+													th:value="${alert?.d6_current_peps_domestic_low}"
+													id="d6_current_peps_domestic_low"
+													class="form-control form-control-sm"
+													name="d6_current_peps_domestic_low" autocomplete="off"
+													readonly></td>
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme16"
+													onclick="edi16(this);"
+													th:value="${alert?.e6_current_peps_domestic_medium}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme16"
+													name="e6_current_peps_domestic_medium"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option
+															th:value="${alert?.e6_current_peps_domestic_medium}">
+															SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style="background-color: #e3e3e4; color: black;"
+													th:value="${alert?.e6_current_peps_domestic_medium}"
+													id="e6_current_peps_domestic_medium"
+													class="form-control form-control-sm"
+													name="e6_current_peps_domestic_medium" autocomplete="off"
+													readonly></td>
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme17"
+													onclick="edi17(this);"
+													th:value="${alert?.f6_current_peps_domestic_high}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme17"
+													name="f6_current_peps_domestic_high"
+													style="float: left; font-size: 13px; display: none"
+													required>
+														<option th:value="${alert?.f6_current_peps_domestic_high}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style="background-color: #e3e3e4; color: black;"
+													th:value="${alert?.f6_current_peps_domestic_high}"
+													id="f6_current_peps_domestic_high"
+													class="form-control form-control-sm"
+													name="f6_current_peps_domestic_high" autocomplete="off"
+													readonly></td>
+
+											</tr>
+
+											<tr th:each="alert : ${KYCParameterList}">
+
+
+												<td>PEPs-Foreign</td>
+
+												<!-- <td th:if="${formmode}=='Editlist'" width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.a7_previous_peps_foreign_low}"
+													id="a7_previous_peps_foreign_low"
+													class="form-control form-control-sm"
+													name="a7_previous_peps_foreign_low" autocomplete="off"
+													required /></td>
+
+												<td th:if="${formmode}=='verify'" width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.a7_previous_peps_foreign_low}"
+													id="a7_previous_peps_foreign_low"
+													class="form-control form-control-sm"
+													name="a7_previous_peps_foreign_low" autocomplete="off"
+													readonly /></td>
+												<td th:if="${formmode}=='Editlist'" width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.b7_previous_peps_foreign_medium}"
+													id="b7_previous_peps_foreign_medium"
+													class="form-control form-control-sm"
+													name="b7_previous_peps_foreign_medium" autocomplete="off"
+													required /></td>
+
+												<td th:if="${formmode}=='verify'" width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.b7_previous_peps_foreign_medium}"
+													id="b7_previous_peps_foreign_medium"
+													class="form-control form-control-sm"
+													name="b7_previous_peps_foreign_medium" autocomplete="off"
+													readonly /></td>
+												<td th:if="${formmode}=='Editlist'" width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.c7_previous_peps_foreign_high}"
+													id="c7_previous_peps_foreign_high"
+													class="form-control form-control-sm"
+													name="c7_previous_peps_foreign_high" autocomplete="off"
+													required /></td>
+
+												<td th:if="${formmode}=='verify'" width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.c7_previous_peps_foreign_high}"
+													id="c7_previous_peps_foreign_high"
+													class="form-control form-control-sm"
+													name="c7_previous_peps_foreign_high" autocomplete="off"
+													readonly /></td>
+ -->
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme30"
+													onclick="edi30(this);"
+													th:value="${alert?.d7_current_peps_foreign_low}"
+													style="float: left; font-size: 13px;"><select
+													class="form-control form-control-sm" id="showme30"
+													name="d7_current_peps_foreign_low"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option th:value="${alert?.d7_current_peps_foreign_low}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style="background-color: #e3e3e4; color: black;"
+													th:value="${alert?.d7_current_peps_foreign_low}"
+													id="d7_current_peps_foreign_low"
+													class="form-control form-control-sm"
+													name="d7_current_peps_foreign_low" autocomplete="off"
+													readonly></td>
+
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme18"
+													onclick="edi18(this);"
+													th:value="${alert?.e7_current_peps_foreign_medium}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme18"
+													name="e7_current_peps_foreign_medium"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option
+															th:value="${alert?.e7_current_peps_foreign_medium}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style="background-color: #e3e3e4; color: black;"
+													th:value="${alert?.e7_current_peps_foreign_medium}"
+													id="e7_current_peps_foreign_medium"
+													class="form-control form-control-sm"
+													name="e7_current_peps_foreign_medium" autocomplete="off"
+													readonly></td>
+
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme19"
+													onclick="edi19(this);"
+													th:value="${alert?.f7_current_peps_foreign_high}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme19"
+													name="f7_current_peps_foreign_high"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option th:value="${alert?.f7_current_peps_foreign_high}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style="background-color: #e3e3e4; color: black;"
+													th:value="${alert?.f7_current_peps_foreign_high}"
+													id="f7_current_peps_foreign_high"
+													class="form-control form-control-sm"
+													name="f7_current_peps_foreign_high" autocomplete="off"
+													readonly></td>
+
+
+
+
+											</tr>
+
+											<tr th:each="alert : ${KYCParameterList}">
+
+
+												<td>Trust and company service providers (TCSPs)</td>
+											<!-- 	<td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.a8_previous_trust_and_company_service_providers_tcps_low}"
+													id="a8_previous_trust_and_company_service_providers_tcps_low"
+													class="form-control form-control-sm"
+													name="a8_previous_trust_and_company_service_providers_tcps_low"
+													autocomplete="off" required /></td>
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.a8_previous_trust_and_company_service_providers_tcps_low}"
+													id="a8_previous_trust_and_company_service_providers_tcps_low"
+													class="form-control form-control-sm"
+													name="a8_previous_trust_and_company_service_providers_tcps_low"
+													autocomplete="off" readonly /></td>
+
+												<td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.b8_previous_trust_and_company_service_providers_tcps_medium}"
+													id="b8_previous_trust_and_company_service_providers_tcps_medium"
+													class="form-control form-control-sm"
+													name="b8_previous_trust_and_company_service_providers_tcps_medium"
+													autocomplete="off" required /></td>
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.b8_previous_trust_and_company_service_providers_tcps_medium}"
+													id="b8_previous_trust_and_company_service_providers_tcps_medium"
+													class="form-control form-control-sm"
+													name="b8_previous_trust_and_company_service_providers_tcps_medium"
+													autocomplete="off" readonly /></td>
+
+												<td th:if="${formmode}=='Editlist' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.c8_previous_trust_and_company_service_providers_tcps_high}"
+													id="c8_previous_trust_and_company_service_providers_tcps_high"
+													class="form-control form-control-sm"
+													name="c8_previous_trust_and_company_service_providers_tcps_high"
+													autocomplete="off" required /></td>
+												<td th:if="${formmode}=='verify' " width="12px;"><input
+													type="text"
+													style="width: 118px; background-color: #e3e3e4; color: black;"
+													th:value="${alert?.c8_previous_trust_and_company_service_providers_tcps_high}"
+													id="c8_previous_trust_and_company_service_providers_tcps_high"
+													class="form-control form-control-sm"
+													name="c8_previous_trust_and_company_service_providers_tcps_high"
+													autocomplete="off" readonly /></td>
+ -->
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme20"
+													onclick="edi20(this);"
+													th:value="${alert?.d8_current_trust_and_company_service_providers_tcps_low}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme20"
+													name="d8_current_trust_and_company_service_providers_tcps_low"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option
+															th:value="${alert?.d8_current_trust_and_company_service_providers_tcps_low}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style="background-color: #e3e3e4; color: black;"
+													th:value="${alert?.d8_current_trust_and_company_service_providers_tcps_low}"
+													id="d8_current_trust_and_company_service_providers_tcps_low"
+													class="form-control form-control-sm"
+													name="d8_current_trust_and_company_service_providers_tcps_low"
+													autocomplete="off" readonly></td>
+
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme21"
+													onclick="edi21(this);"
+													th:value="${alert?.e8_current_trust_and_company_service_providers_tcps_medium}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme21"
+													name="e8_current_trust_and_company_service_providers_tcps_medium"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option
+															th:value="${alert?.e8_current_trust_and_company_service_providers_tcps_medium}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style=" background-color: #e3e3e4; color: black;"
+													th:value="${alert?.e8_current_trust_and_company_service_providers_tcps_medium}"
+													id="e8_current_trust_and_company_service_providers_tcps_medium"
+													class="form-control form-control-sm"
+													name="e8_current_trust_and_company_service_providers_tcps_medium"
+													autocomplete="off" readonly></td>
+
+
+												<td th:if="${formmode}=='Editlist' " width="22px;"><input
+													class="form-control form-control-sm" id="hideme22"
+													onclick="edi22(this);"
+													th:value="${alert?.f8_current_trust_and_company_service_providers_tcps_high}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme22"
+													name="f8_current_trust_and_company_service_providers_tcps_high"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+														<option
+															th:value="${alert?.f8_current_trust_and_company_service_providers_tcps_high}">SELECT</option>
+														<option th:each="monitoringparam : ${kycParameter}"
+															th:text="${monitoringparam}"></option>
+												</select></td>
+												<td th:if="${formmode}=='verify' " width="122px;"><input
+													type="text"
+													style="background-color: #e3e3e4; color: black;"
+													th:value="${alert?.f8_current_trust_and_company_service_providers_tcps_high}"
+													id="f8_current_trust_and_company_service_providers_tcps_high"
+													class="form-control form-control-sm"
+													name="f8_current_trust_and_company_service_providers_tcps_high"
+													autocomplete="off" readonly></td>
+
+
+
+
+
+											</tr>
+
+
+
+										</tbody>
+
+									</table>
+
+
+
+									<div class="text-center"
+										style="background-color: #386276; padding: 14px; width: 100%;">
+
+
+										<div class="btn-group nav-buttons " style="align: center;">
+
+
+
+											<button th:if="${formmode}=='Editlist' " type="button"
+												style="margin-top: -12px;" class="btn btn-xs btn-primary"
+												onclick="submitform(this);" form="KycParameter"
+												id="btnSubmit" th:attr="data-formmode=${formmode}">Submit</button>
+
+											<button th:if="${formmode}=='verify'" type="button"
+												class="btn btn-xs btn-primary" style="margin-top: -12px;"
+												onclick="verifyform(this);" form="KycParameter"
+												id="btnVerify" th:attr="data-formmode=${formmode}">Verify</button>
+											<button type="button" class="btn btn-xs btn-primary"
+												id="btnHome" style="margin-top: -12px;" onclick="home1();">Home</button>
+
+
+											<button type="button" class="btn btn-xs btn-primary"
+												id="btnBack" style="margin-top: -12px;" onclick="back1();">Back</button>
+										</div>
+									</div>
+
+
+									<div class="container content"
+										th:each="alert : ${KYCParameterList}"
+										style="border: 1px solid #36404a; padding: 15px;">
+
+										<div class="row formline">
+
+
+											<label class="col-sm-2">Entry User</label>
+
+											<div class="col-sm-2">
+
+												<input type="text"
+													th:if="${formmode}=='Editlist' OR ${formmode}=='verify' OR ${formmode}=='view' "
+													th:value="${session.USERID}" id="entry_user"
+													name="entry_user" class="form-control form-control-sm"
+													autocomplete="off" readonly />
+
+											</div>
+
+											<label class="col-sm-2">Modify User</label>
+
+											<div class="col-sm-2">
+
+												<input type="text" th:if=" ${formmode}=='verify' "
+													th:value="${alert?.modify_user}" id="modify_user"
+													name="modify_user" class="form-control form-control-sm"
+													autocomplete="off" readonly /> <input type="text"
+													th:if="${formmode}=='Editlist' "
+													th:value="${session.USERID}" id="modify_user"
+													name="modify_user" class="form-control form-control-sm"
+													autocomplete="off" readonly />
+
+											</div>
+
+											<label class="col-sm-2">Verify User</label>
+
+											<div class="col-sm-2">
+
+												<input type="text"
+													th:if="${formmode}=='Editlist' OR ${formmode}=='view' "
+													th:value="${alert?.verify_user}" id="verify_user"
+													name="verify_user" class="form-control form-control-sm"
+													autocomplete="off" readonly /> <input type="text"
+													th:if="${formmode}=='verify' " th:value="${session.USERID}"
+													id="verify_user" name="verify_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+
+										</div>
+
+										<div class="row formline">
+
+											<label style="height: 2px;"></label>
+
+
+										</div>
+
+										<div class="row formline">
+
+
+											<label class="col-sm-2">Entry Time</label>
+
+											<div class="col-sm-2">
+
+												<input type="text"
+													th:if="${formmode}=='Editlist' OR ${formmode}=='verify' OR ${formmode}=='view' "
+													th:value="${#dates.format(alert?.entry_date,'dd/MM/yyyy')}"
+													id="entry_date" name="entry_date"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+
+
+											<label class="col-sm-2">Modify Time</label>
+
+											<div class="col-sm-2">
+
+												<input type="text"
+													th:if="${formmode}=='verify' OR ${formmode}=='view' "
+													th:value="${#dates.format(alert?.modify_date,'dd/MM/yyyy')}"
+													id="modify_date" name="modify_date"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly /> <input type="text"
+													th:if="${formmode}=='Editlist' "
+													th:value="${#dates.format(alert?.modify_date,'dd/MM/yyyy')}"
+													id="modify_date" name="modify_date"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+
+											</div>
+
+
+
+
+											<label class="col-sm-2">Verify Time</label>
+
+											<div class="col-sm-2">
+
+												<input type="text"
+													th:if=" ${formmode}=='Editlist' OR ${formmode}=='view' "
+													th:value="${#dates.format(alert?.verify_date,'dd/MM/yyyy')}"
+													id="verify_date" name="verify_date"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly /> <input type="text"
+													th:if="${formmode}=='verify'"
+													th:value="${#dates.format(alert?.verify_date,'dd/MM/yyyy')}"
+													id="verify_date" name="verify_date"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+
+											</div>
+
+
+											<label></label>
+
+										</div>
+
+
+
+
+
+									</div>
+
+								</form>
+							</div>
+
+						</div>
+
+
+
+					</div>
+
+
+
+				</div>
+
+
+				<!-- ------------------------------EditList ends----------------------------- -->
+
+
+
+				<!-- ----------------------Edit & Inquiry------------------------ -->
+				<!-- 
+				<div
+					th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'"
+					class="container content">
+
+					<div class="row">
+
+						<div class="col-sm-12 ">
+
+
+							<form action="#" th:object="${KycParameter}" method="POST"
+								autocomplete="off" id="KycParameter">
+
+								<div class="card">
+
+									<div class="card-header">
+
+										<div class="float-left">
+
+											<b th:text="${menuname1}"></b> <input type="hidden"
+												th:value="${formmode}" id="formmode1" style="display: none;">
+
+										</div>
+
+
+										<div class="btn-group nav-buttons float-right">
+
+											<button type="button"
+
+												class="btn btn-xs btn-primary btns  active"
+
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+
+												Parameter</button>
+
+											<button type="button" class="btn btn-xs btn-primary btns"
+												id="btnInq" onclick="list()">List</button>
+
+										</div>
+
+
+									</div>
+
+									<div class="card-body">
+
+										<div class="row formline">
+
+											<button type="button" class="btn btn-primary"
+												style="border: 2px solid black; background-color: #26729f; margin-left: 15px; width: 10%;"
+												id="btnHome" th:text="${name}"></button>
+
+
+
+
+
+										</div>
+
+										<label></label> <input autocomplete="false" name="hidden"
+											type="text" style="display: none;">
+
+										<div class="form-group">
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+
+													<label for="srl_no">srl No</label>
+
+												</div>
+
+
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'">
+
+													<input type="text" th:value="${KycParameter?.srl_no}"
+														id="srl_no" class="form-control form-control-sm"
+														name="srl_no" autocomplete="off" readonly />
+
+												</div>
+
+
+
+
+
+												<div class="col-sm-1"></div>
+
+												<label for="userName" class="col-sm-2">Frequency Of
+
+													Review Of Customer </label>
+
+
+
+												<div class="col-sm-3">
+
+													<input type="text" id="report_code" name="report_code"
+														class="form-control form-control-sm" autocomplete="false"
+														readonly />
+
+												</div>
+
+
+											</div>
+
+
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+
+													<label for="srl_no">previous Quarter Low</label>
+
+												</div>
+
+
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'">
+
+													<input type="text"
+														th:value="${KycParameter?.a1_previous_individuals_low}"
+														id="a1_previous_individuals_low"
+														class="form-control form-control-sm"
+														name="a1_previous_individuals_low" autocomplete="off"
+														readonly>
+
+												</div>
+
+
+
+
+
+												<div class="col-sm-1"></div>
+
+												<label for="userName" class="col-sm-2">previous
+
+													Quarter Medium</label>
+
+
+
+												<div class="col-sm-3">
+
+													<input type="text"
+														th:value="${KycParameter?.b1_previous_individuals_medium}"
+														id="b1_previous_individuals_medium"
+														name="b1_previous_individuals_medium"
+														class="form-control form-control-sm" autocomplete="false"
+														readonly />
+
+												</div>
+
+
+											</div>
+
+											<div class="row formline">
+
+												<label style="height: 2px;"></label>
+
+
+											</div>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">previous Quarter High</label>
+
+												<div class="col-sm-3">
+
+													<input
+														th:value="${KycParameter?.c1_previous_individuals_high}"
+														id="c1_previous_individuals_high"
+														name="c1_previous_individuals_high"
+														class="form-control form-control-sm" readonly />
+
+
+
+												</div>
+
+
+
+												<div class="col-sm-1"></div>
+
+
+
+												<label class="col-sm-2">Current Quarter Low</label>
+
+												<div class="col-sm-3">
+
+													<input
+														th:value="${KycParameter?.d1_current_individuals_low}"
+														id="d1_current_individuals_low"
+														name="d1_current_individuals_low"
+														class="form-control form-control-sm" required />
+
+
+
+												</div>
+
+
+
+
+												<div class="col-sm-1"></div>
+
+											</div>
+
+
+
+											<div class="row formline">
+
+												<label style="height: 2px;"></label>
+
+
+											</div>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Current Quarter Medium</label>
+
+												<div class="col-sm-3">
+
+													<input
+														th:value="${KycParameter?.e1_current_individuals_medium}"
+														id="e1_current_individuals_medium"
+														name="e1_current_individuals_medium"
+														class="form-control form-control-sm">
+
+												</div>
+
+												<div class="col-sm-1"></div>
+
+
+
+												<label class="col-sm-2">Current Quarter High</label>
+
+												<div class="col-sm-3">
+
+													<input
+														th:value="${KycParameter?.f1_current_individuals_high}"
+														id="f1_current_individuals_high"
+														name="f1_current_individuals_high"
+														class="form-control form-control-sm">
+
+												</div>
+
+												<div class="col-sm-1"></div>
+
+											</div>
+
+
+											<div class="row formline">
+
+												<label style="height: 2px;"></label>
+
+
+											</div>
+
+
+
+
+
+
+
+										</div>
+
+
+
+
+										<div class="card-footer text-center" style="height: 38px;">
+
+
+
+											<button th:if="${formmode}=='verify'" type="button"
+												class="btn btn-xs btn-primary" style="margin-top: -12px;"
+												onclick="verifyform(this);" form="KycParameter"
+												id="btnVerify" th:attr="data-formmode=${formmode}">Verify</button>
+
+
+											<button th:if="${formmode}=='edit' " type="button"
+												style="margin-top: -12px;" class="btn btn-xs btn-primary"
+												onclick="submitform(this);" form="KycParameter"
+												id="btnSubmit"
+												th:attr="data-formmode=${formmode},data-type=${name}">Submit</button>
+
+
+											<button type="button" class="btn btn-xs btn-primary"
+												id="btnHome" style="margin-top: -12px;" onclick="home1();">Home</button>
+
+
+											<button type="button" class="btn btn-xs btn-primary"
+												id="btnBack" style="margin-top: -12px;" onclick="back1();">Back</button>
+
+
+										</div>
+
+									</div>
+
+								</div>
+
+
+								<div class="container content"
+									style="border: 1px solid #36404a; padding: 15px;">
+
+									<div class="row formline">
+
+
+										<label class="col-sm-2">Entry User</label>
+
+										<div class="col-sm-2">
+
+											<input type="text"
+												th:if="${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='view' "
+												th:value="${session.USERID}" id="entry_user"
+												name="entry_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='add'" th:value="${session.USERID}"
+												id="entry_user" name="entry_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+
+										</div>
+
+										<label class="col-sm-2">Modify User</label>
+
+										<div class="col-sm-2">
+
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='view' "
+												th:value="${KycParameter?.modify_user}" id="modify_user"
+												name="modify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='edit' " th:value="${session.USERID}"
+												id="modify_user" name="modify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+
+										<label class="col-sm-2">Verify User</label>
+
+										<div class="col-sm-2">
+
+											<input type="text"
+												th:if="${formmode}=='edit' OR ${formmode}=='view' "
+												th:value="${KycParameter?.verify_user}" id="verify_user"
+												name="verify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly /> <input type="text"
+												th:if="${formmode}=='verify' " th:value="${session.USERID}"
+												id="verify_user" name="verify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+
+									</div>
+
+									<div class="row formline">
+
+										<label style="height: 2px;"></label>
+
+
+									</div>
+
+									<div class="row formline">
+
+
+										<label class="col-sm-2">Entry Time</label>
+
+										<div class="col-sm-2">
+
+											<input type="text"
+												th:if="${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='view' "
+												th:value="${#dates.format(KycParameter?.entry_date,'dd-MM-yyyy')}"
+												id="entry_date" name="entry_date"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+
+
+										<label class="col-sm-2">Modify Time</label>
+
+										<div class="col-sm-2">
+
+											<input type="text"
+												th:if="${formmode}=='verify' OR ${formmode}=='view' "
+												th:value="${#dates.format(KycParameter?.modify_date,'dd-MM-yyyy')}"
+												id="modify_date" name="modify_date"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text" th:if="${formmode}=='edit' "
+												th:value="${#dates.format(KycParameter?.modify_date,'dd-MM-yyyy')}"
+												id="modify_date" name="modify_date"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+
+										</div>
+
+
+
+
+										<label class="col-sm-2">Verify Time</label>
+
+										<div class="col-sm-2">
+
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='edit' OR ${formmode}=='view' "
+												th:value="${#dates.format(KycParameter?.verify_date,'dd-MM-yyyy')}"
+												id="verify_date" name="verify_date"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='verify'"
+												th:value="${#dates.format(KycParameter?.verify_date,'dd-MM-yyyy')}"
+												id="verify_date" name="verify_date"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+
+										</div>
+
+
+										<label></label>
+
+									</div>
+
+
+
+
+
+								</div>
+
+
+							</form>
+
+
+						</div> -->
+
+			</div>
+
+		</div>
+
+
+		<!------------------------Pop window - Domain  list Ends--------------------------------->
+
+
+		<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+
+		<div class="modal fade" id="datadelete">
+
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+				<div class="modal-content">
+
+					<div class="modal-body"
+						style="margin-top: 8px; text-align: center; color: aliceblue;">
+
+						<button type="button" class="close" data-dismiss="modal">×</button>
+
+						Are you Sure want to delete?
+
+					</div>
+
+					<div class="modal-footer">
+
+						<button type="button" class="btn btn-primary"
+							onclick="submitformdelete(this);" th:attr="data-formmode=delete">Submit</button>
+
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+		<div class="modal fade" id="dataHome">
+
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+				<div class="modal-content">
+
+					<div class="modal-body"
+						style="margin-top: 8px; text-align: center; color: aliceblue;">
+
+						<button type="button" class="close" data-dismiss="modal">×</button>
+
+						Are you Sure want to Leave?
+
+					</div>
+
+					<div class="modal-footer">
+
+						<button type="button" class="btn btn-primary" onclick="home();">Yes</button>
+
+						<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="modal fade" id="dataBack">
+
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+				<div class="modal-content">
+
+					<div class="modal-body"
+						style="margin-top: 8px; text-align: center; color: aliceblue;">
+
+						<button type="button" class="close" data-dismiss="modal">×</button>
+
+						Are you Sure want to Leave?
+
+					</div>
+
+					<div class="modal-footer">
+
+						<button type="button" class="btn btn-primary" onclick="back();">Yes</button>
+
+						<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+
+
+
+
+
+		<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+
+		<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+
+		<div class="modal fade" id="alert">
+
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+				<div class="modal-content">
+
+					<div class="modal-body" style="text-align: center">
+
+						<p id="alertmsg"></p>
+
+						<button type="button" class="btn btn-primary" data-dismiss="modal"
+							onclick="list();">Close</button>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="modal fade" id="verifybox">
+
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+				<div class="modal-content">
+
+					<div class="modal-body" style="text-align: center">
+
+						<p id="verifyboxmsg"></p>
+
+						<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+		<div class="modal fade" id="finusers">
+
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+				<div class="modal-content" style="border: 2px solid black;">
+
+
+					<!-- Modal Header -->
+
+					<div class="modal-header" style="background-color: #386276;">
+
+						<h4 class="modal-title">RULE CODE</h4>
+
+						<button type="button" class="close" data-dismiss="modal">×</button>
+
+					</div>
+
+
+					<!-- Modal body -->
+
+					<div class="modal-body" style="background-color: #e6eaed;">
+
+						<table class="table table-hover" id="finusertb">
+
+							<thead class="thead-light" style="background-color: #386276;">
+
+								<tr>
+
+									<th
+										style="color: #ffffff; width: 100px; background-color: #386276; border-color: #495561; font-size: 11px;">Rule
+
+										code</th>
+
+									<th
+										style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">Rule
+
+										Code Description</th>
+
+
+								</tr>
+
+							</thead>
+
+							<tbody>
+
+								<tr th:each="alert: ${RULECODELIST}" th:id="${alert.rule_code}"
+									th:onclick="finuser(this)" class="userlist1">
+
+									<td style="color: black;" th:text="${alert.rule_code}"></td>
+
+									<td style="color: black;" th:text="${alert.rule_code_desc}"></td>
+
+
+								</tr>
+
+							</tbody>
+
+						</table>
+
+					</div>
+
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+
+</body>
+
+</html>

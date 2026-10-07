@@ -1,0 +1,3245 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AML_SUSPICIOUS TRANSACTION REPORT
+CREATED BY	: MANIVANNAN
+CREATED ON	: 14-MAR-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+
+
+</head>
+
+
+
+
+<title>AML</title>
+<style>
+nav>.nav.nav-tabs {
+	border: none;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
+	border: none;
+	padding: 18px 25px;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link.active:after {
+	content: "";
+	position: relative;
+	bottom: -60px;
+	left: -10%;
+	border: 15px solid transparent;
+	border-top-color: #1b6491;
+}
+
+.tab-content {
+	background: #fdfdfd;
+	line-height: 25px;
+	width: 100%;
+	border: 1px solid #ddd;
+	border-top: 5px solid #594a43;
+	border-bottom: 5px solid #594a43;
+	padding: 30px 25px;
+}
+
+nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
+	border: none;
+	background: #002942;
+	color: #fff;
+	border-radius: 0;
+	transition: background 0.20s linear;
+}
+
+.col-sm-6, .col-sm-1, .col-sm-8, .col-sm-7, .col-sm-11, .col-sm-3,
+	.col-sm-12, .col-sm-2, .col-sm-4, .col-sm-10, .col-sm-9, .col-sm-5 {
+	padding-top: 5px;
+}
+
+/* table, th, td {
+	padding: 0 !IMPORTANT;
+	border: 1px solid black;
+	border-collapse: collapse;
+	cellpadding: 0;
+	cellspacing: 0;
+}
+
+td input {
+	padding: 0 !IMPORTANT;
+	width: 100%;
+	box-sizing: border-box;
+} */
+.NOTES>p {
+	color: black !important;
+	font-size: small;
+	margin-bottom: 0.5rem !important;
+}
+
+.form-control:disabled, .form-control[readonly] {
+	background-color: #ffffff;
+	opacity: 1;
+}
+
+.NOTES {
+	padding: 0.01em 16px;
+	border: 1px solid #ccc !important;
+	border-radius: 16px;
+	BACKGROUND: silver;
+}
+</style>
+
+<style>
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+</style>
+<script type="text/javascript">
+	function back() {
+		window.history.back();
+	}
+	function home() {
+		location.href = 'Dashboard'
+	}
+
+	function ACCOUNTDETAILS() {
+		var CUSTID = $("#cust_id").val();
+		var CustName = $("#cust_first_name").val();
+		location.href = 'CustAccount?CUSTID=' + CUSTID + '&CustName='
+				+ CustName;
+	}
+
+	function TRANSACTIONDETAILS() {
+		var CUSTID = $("#cust_id").val();
+		var CustName = $("#cust_first_name").val();
+		location.href = 'CustTransaction?CUSTID=' + CUSTID + '&CustName='
+				+ CustName;
+	}
+
+	function fnClick(a) {
+		var CUSTID = $("#cust_id").val();
+		var acctnum = a.getAttribute("data-custId")
+		location.href = 'AMLAccountInquiry1?acctnum=' + acctnum + '&CUSTID='
+				+ CUSTID;
+	}
+
+	function gettrandate() {
+
+		var custname = $("#tran_acct_name").val();
+		var customer = $("#cust_id1").val();
+		var fromdate = $("#fromdate").val();
+		var todate = $("#todate").val();
+		location.href = 'CustTransactiondate?fromdate=' + fromdate + '&todate='
+				+ todate + '&customer=' + customer + '&custname=' + custname;
+	}
+
+	$(function() {
+
+		$("#acct_opn_date").datepicker({
+
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+				$("#acct_closed_date").datepicker("option", "minDate", dt);
+
+			}
+		});
+		$("#acct_closed_date").datepicker({
+			minDate : 0,
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = new Date(selected);
+				dt.setDate(dt.getDate() - 1);
+				//$("#start_date").datepicker("option", "maxDate", dt);
+			}
+		});
+		$("#date_tran").datepicker({
+			dateFormat : "dd/mm/yy",
+			changeMonth : true,
+			changeYear : true,
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+			}
+		});
+		$(
+				"#date_of_birth_2,#date_of_birth_8,#date_detected,#date_of_incorporation,#date_of_suspension,#submission_date,#tran_date,#tran_date_1,#tran_date_7")
+				.datepicker({
+					dateFormat : "dd/mm/yy",
+					changeMonth : true,
+					onSelect : function(selected) {
+						var dt = $(this).datepicker('getDate');
+						dt.setDate(dt.getDate());
+					}
+				});
+		$("").datepicker({
+			minDate : 0,
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = new Date(selected);
+				dt.setDate(dt.getDate() + 1);
+			}
+		});
+	});
+
+	function list() {
+		location.href = 'AML_STR_REPORT?formmode=list';
+	}
+
+	function submitform(a) {
+
+		$('select option').prop('disabled', false);
+
+		//Creating Validating Rules
+		$('#aml_str_rep').validate({
+			messages : {
+				userid : "Please Provide User ID"
+			}
+		});
+
+		$.validator.addMethod("regex", function(value, element, regexp) {
+			var re = new RegExp(regexp);
+			return this.optional(element) || re.test(value);
+		}, "Date required format dd/mm/yy");
+
+		$("#aml_str_rep")
+				.validate(
+						{
+							rules : {
+								disableDate : {
+									required : true,
+									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+								},
+								disableTilDate : {
+									required : true,
+									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+								},
+								passExDate : {
+									required : true,
+									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+								},
+								expiryDate : {
+									required : true,
+									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+								},
+
+							},
+							messages : {
+
+							}
+
+						});
+
+		if ($("#aml_str_rep").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+
+			var formmode1 = /*[[${formmode}]]*/null;
+
+			var url = "./createSTR?formmode=" + formmode;
+
+			$("#aml_str_rep").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#aml_str_rep").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+
+			}
+			;
+
+		}
+
+	};
+	function submitform1(a) {
+
+		$('select option').prop('disabled', false);
+
+		//Creating Validating Rules
+		$('#aml_str_rep').validate({
+			messages : {
+				userid : "Please Provide User ID"
+			}
+		});
+
+		$.validator.addMethod("regex", function(value, element, regexp) {
+			var re = new RegExp(regexp);
+			return this.optional(element) || re.test(value);
+		}, "Date required format dd/mm/yy");
+
+		$("#aml_str_rep")
+				.validate(
+						{
+							rules : {
+								disableDate : {
+									required : true,
+									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+								},
+								disableTilDate : {
+									required : true,
+									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+								},
+								passExDate : {
+									required : true,
+									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+								},
+								expiryDate : {
+									required : true,
+									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+								},
+
+							},
+							messages : {
+
+							}
+
+						});
+
+		if ($("#aml_str_rep").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+			var reportid = $("#rep_id").val();
+
+			var formmode1 = /*[[${formmode}]]*/null;
+
+			var url = "./createSTR1?formmode=" + formmode + "&reportid="
+					+ reportid;
+
+			$("#aml_str_rep").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#aml_str_rep").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+
+			}
+			;
+
+		}
+
+	};
+	function client(a) {
+		var aud = a.id;
+	}
+
+	function fnClickModify(a) {
+		var userid = a.getAttribute("data-userid")
+		location.href = 'AML_STR_REPORT?formmode=edit&report_id=' + userid
+	}
+	function fnClickVerify(a) {
+		var userid = a.getAttribute("data-userid")
+		location.href = 'AML_STR_REPORT?formmode=verify&report_id=' + userid
+	}
+
+	function fnClickview(a) {
+		var userid = a.getAttribute("data-userid")
+		location.href = 'AML_STR_REPORT?formmode=view&report_id=' + userid
+	}
+	function adduser(a) {
+		location.href = 'AML_STR_REPORT?formmode=add';
+	}
+	function fnClickDownload(a) {
+		var userid = a.getAttribute("data-userid")
+		//location.href = 'AML_STR_REPORTDOWNLOAD?&report_id=' + userid + 'filetype = pdf';
+		location.href = 'AML_STR_REPORTDOWNLOAD?&report_id=' + userid;
+	}
+	function back1() {
+		$("#dataBack").modal("toggle");
+
+	}
+</script>
+
+<script>
+	function childwindow(tran_id, part_tran_srl_num, tran_type, part_tran_type,
+			tran_crncy_code, cust_id, tran_date, tran_amt, tran_particular,
+			fx_tran_amt, pstd_date, foracid, acct_name, acct_opn_date,
+			acct_cls_date, acct_tran_sub_type, cntry_code, cust_sector_code,
+			address1, address2, city_code, preferredphone, cust_sex,
+			cust_first_name, cust_last_name, nationality, cust_dob) {
+
+		document.getElementById('tran_id1').value = tran_id.trimLeft() + part_tran_srl_num;
+		document.getElementById('tran_id2').value = tran_id.trimLeft() + part_tran_srl_num;
+		document.getElementById('tran_id3').value = tran_id.trimLeft() + part_tran_srl_num;
+		document.getElementById('tran').value = tran_id.trimLeft() + part_tran_srl_num;
+		
+		document.getElementById('tran_crncy_code').value = tran_crncy_code;
+		document.getElementById('tran_date11').value = tran_date;
+		document.getElementById('tran_amt').value = tran_amt;
+		document.getElementById('tran_particular').value = tran_particular;
+		document.getElementById('fx_tran_amt').value = fx_tran_amt;
+		document.getElementById('pstd_date').value = pstd_date;
+		document.getElementById('foracid').value = foracid;
+		document.getElementById('acct_name').value = acct_name;
+		document.getElementById('opendate').value = acct_opn_date;
+		document.getElementById('closedate').value = acct_cls_date;
+		document.getElementById('cntry_code').value = cntry_code;
+		document.getElementById('cntry_code99').value = cntry_code;
+		document.getElementById('cntry_code1').value = cntry_code;
+		document.getElementById('cntry_code98').value = cntry_code;
+		//document.getElementById('cust_sector_code').value = cust_sector_code;
+		document.getElementById('address1').value = address1 + address2;
+		document.getElementById('address99').value = address1 + address2;
+		//document.getElementById('address2').value = address2;
+		document.getElementById('city_code').value = city_code;
+		document.getElementById('city_code99').value = city_code;
+		document.getElementById('Preferredphone').value = preferredphone;
+		document.getElementById('Preferredphone99').value = preferredphone;
+		document.getElementById('cust_sex').value = cust_sex;
+		document.getElementById('cust_first_name99').value = cust_first_name;
+		document.getElementById('cust_first_name98').value = cust_first_name;
+		document.getElementById('cust_last_name98').value = cust_last_name;
+		document.getElementById('cust_last_name99').value = cust_last_name;
+		document.getElementById('nationality').value = nationality;
+		document.getElementById('cust_dob').value = cust_dob;
+		document.getElementById('cust_dob99').value = cust_dob;
+		//document.getElementById('acct_tran_sub_type').value = acct_tran_sub_type;
+		//document.getElementById('entry_date').value = today;
+
+	}
+
+	//if ((part_tran_srl_num != '' ||)) {
+</script>
+
+
+<script>
+	function SearchGo(a) {
+		
+		if ($("#search").valid()) {
+		var tran_id = document.getElementById("id_tran").value;
+		var tran_date = document.getElementById("date_tran").value;
+		var part_tran_srl_num = document.getElementById("part_tran_srl_num").value;
+		$('#acctaudit').modal("hide");
+		var chidWin = window.open("STRReportSearch?tran_id=" + tran_id
+				+ '&tran_date=' + tran_date + '&part_tran_srl_num='
+				+ part_tran_srl_num);
+		}else{
+			//$("#warning").modal("toggle");
+		}
+		}
+
+	
+</script>
+<body>
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('AML_STR_REPORT_ADD')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+
+
+
+
+
+			<form action="#" th:object="${aml_str_rep}" method="post"
+				autocomplete="off" id="aml_str_rep" th:fragment="finuserapply">
+
+
+
+
+
+
+
+
+				<!--  ***************************************************CUSTOMER SUB TAB MENU*************************************************************  -->
+
+
+				<!--  ***************************************************CUSTOMER SUB TAB MENU STARTS************************************************************* -->
+
+
+
+				<div class="container-fluid">
+
+
+					<div th:if="${formmode}=='list'">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="card">
+									<div class="card-header" style="background-color: #386276;">
+										<div class="float-left">
+											<h6 style="margin-top: 4px;">STR DETAILS</h6>
+										</div>
+										<div class="btn-group nav-buttons float-right">
+											<button type="button" class="btn btn-xs btn-primary btns"
+												id="btnAdd" onclick="adduser();">Create REPORT</button>
+											<button type="button"
+												class="btn btn-xs btn-primary btns active" id="btnInq"
+												onclick="list()" style="border-color: #66dbe0;">List</button>
+											<!-- 	<button type="button" class="btn btn-xs btn-primary btns "
+												id="btnInq" onclick="">INTERNAL REGISTER</button>
+											<button type="button" class="btn btn-xs btn-primary btns "
+												id="btnInq" onclick="">EXTERNAL REGISTER</button> -->
+										</div>
+									</div>
+									<!-- <div class="card-body"> -->
+									<table class="table  table-bordered  table-hover table-sm"
+										style="margin-bottom: 0px" id="usertable">
+										<thead class="thead-light">
+											<tr>
+
+												<!-- <th></th> -->
+												<th>STR Ref No</th>
+												<th>Report Date</th>
+												<th>Tran Date</th>
+												<th>Reported By</th>
+												<th>Tran ID</th>
+												<th>Customer Name</th>
+												<th>Suspect Reasons</th>
+												<th></th>
+
+
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="str_rep : ${STR_REPORT}" class="userlist">
+												<!-- <td><a href="#" data-toggle="tooltip" class="editrec"
+										title="Click to Edit this Record"><i class="fas fa-edit"
+											th:attr="data-userid=${userProfile.userid}"
+											onclick="fnClick(this);"></i></a></td> -->
+												<td th:text="${str_rep.report_id}">456</td>
+												<td
+													th:text="${#dates.format(str_rep.submission_date,'dd-MM-yyyy')}">TEST</td>
+												<td
+													th:text="${#dates.format(str_rep.tran_date,'dd-MM-yyyy')}">TEST</td>
+												<td th:text="${str_rep.name_entity}">123</td>
+												<td th:text="${str_rep.tran_id}">123</td>
+												<td th:text="${str_rep.acct_name}">CHENNAI</td>
+												<td th:text="${str_rep.acct_name}">CHENNAI</td>
+
+
+												<td>
+													<!-- #ccc6d8a3 -->
+													<div class="dropdown" style="background-color: #e3e3e4;">
+														<button class="btn btn-secondary dropdown-toggle"
+															type="button" id="dropdownMenuButton" title="Action"
+															style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+															data-toggle="dropdown" aria-haspopup="true"
+															aria-expanded="false">Action</button>
+														<div class="dropdown-menu"
+															aria-labelledby="dropdownMenuButton" title="Modify"
+															style="line-height: 0.7; background-color: #e3e3e4;">
+															<a class="dropdown-item"
+																style="line-height: 0.7; cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																onclick="fnClickModify(this);"
+																th:attr="data-userid=${str_rep.report_id}"
+																th:id="${str_rep.report_id}">Modify</a>
+
+
+															<div class="dropdown-divider"
+																style="height: 2px; line-height: 0.7;"></div>
+
+															<a class="dropdown-item" title="View"
+																style="line-height: 0.7; cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																th:attr="data-userid=${str_rep.report_id}"
+																onclick="fnClickview(this);"
+																th:id="${str_rep.report_id}">View </a>
+															<div class="dropdown-divider"
+																style="height: 2px; line-height: 0.7;"></div>
+															<a class="dropdown-item" title="View"
+																style="line-height: 0.7; cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+																th:attr="data-userid=${str_rep.report_id}"
+																onclick="fnClickDownload(this);"
+																th:id="${str_rep.report_id}">Download </a>
+														</div>
+													</div>
+												</td>
+
+
+											</tr>
+										</tbody>
+									</table>
+									<div class="card-footer text-center">
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnHome" onclick="home();">Home</button>
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnBack" onclick="back();">Back</button>
+									</div>
+									<!-- </div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div
+						th:if="${formmode}=='add' OR ${formmode}=='edit' OR ${formmode}=='view'">
+						<div class="card">
+							<div class="card-header">
+								<div class="float-left">
+									<h4>PART I REPORT DETAILS</h4>
+								</div>
+
+							</div>
+							<div class="card-body">
+
+
+
+
+
+								<label></label>
+								<div class=" content">
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">REPORT TYPE:*</label>
+										</div>
+										<input type="hidden" th:value="${reportid}" id="rep_id"
+											th:if="${formmode}=='edit'">
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{report_type}" th:value="${report_type}"
+												id="report_type" name="report_type"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">ENTITY REFERENCE NO.</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												class="form-control form-control-sm"
+												th:field="*{entity_reference_no}"
+												th:value="${entity_reference_no}" id="entity_reference_no"
+												name="entity_reference_no" autocomplete="off">
+										</div>
+
+
+									</div>
+
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">FIU REFERENCE NO.</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												class="form-control form-control-sm"
+												th:field="*{fiu_reference_no}"
+												th:value="${fiu_reference_no}" id="fiu_reference_no"
+												name="fiu_reference_no" autocomplete="off">
+										</div>
+
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">SUBMISSION DATE:*</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												class="form-control form-control-sm"
+												th:field="*{submission_date}" th:value="${submission_date}"
+												id="submission_date" name="submission_date"
+												autocomplete="off" required>
+										</div>
+										<div class="col-sm-1"></div>
+										<label class="col-sm-2">SIGNATURE OF MLRO/RP:*</label>
+
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												class="form-control form-control-sm" autocomplete="false" />
+										</div>
+
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+
+
+
+						<div class="card">
+							<div class="card-header">
+								<div class="float-left">
+									<h4>PART II INFORMATION ON REPORTING ENTITY/PERSON</h4>
+								</div>
+								<a href="#"><i class="fas fa-search searchico"
+									style="margin-left: 19px; font-weight: bolder; font-size: 21px;"
+									data-toggle="modal" data-target="#acctaudit" id="iconacc"></i></a>
+							</div>
+							<div class="card-body">
+
+
+
+
+								<label></label>
+								<div class=" content">
+									<h3
+										style="font: initial; background: white; padding-top: 5px; padding-bottom: 5px; padding-left: 5px;">REPORTING
+										ENTITY DETAILS</h3>
+
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">BUSSINESS TYPE:*</label>
+										</div>
+
+										<div class="col-sm-3">
+
+											<select th:field="*{business_type}"
+												th:value="${business_type}" id="business_type"
+												name="business_type" class="form-control form-control-sm">
+												<option value="Select">Select</option>
+												<option value="ASSETS MANAGEMENT">ASSETS MANAGEMENT</option>
+												<option value="ATTORNEY">ATTORNEY</option>
+												<option value="BARRISTER">BARRISTER</option>
+												<option value="BOOKMAKER">BOOKMAKER</option>
+												<option value="BUILDING OR ESTATE AGENCY">BUILDING
+													OR ESTATE AGENCY</option>
+												<option value="CASINO">CASINO</option>
+												<option value="CIS MANAGERS">CIS MANAGERS</option>
+												<option value="CLEARING AND SETTLEMENT FACILITIES">
+													CLEARING AND SETTLEMENT FACILITIES</option>
+												<option value="CREDIT FINANCE">CREDIT FINANCE</option>
+												<option value="CUSTODIAN SERVICES">CUSTODIAN
+													SERVICES</option>
+												<option value="CUSTODIANS">CUSTODIANS</option>
+												<option value="DEALER UNDER THE JEWELLERY ACT">
+													DEALER UNDER THE JEWELLERY ACT</option>
+												<option value="DISTRIBUTION OF FINANCIAL PRODUCTS">
+													DISTRIBUTION OF FINANCIAL PRODUCTS</option>
+												<option value="FACTORING">FACTORING</option>
+												<option value="FOREIGN EXCHANGE DEALER">FOREIGN
+													EXCHANGE DEALER</option>
+												<option value="FOREIGN LAW FIRM">FOREIGN LAW FIRM</option>
+												<option value="FOREIGN LAWYER">FOREIGN LAWYER</option>
+												<option value="GAMING HOUSE">GAMING HOUSE</option>
+												<option value=" GBC CARRYING INSURANCE ACTIVITIES">
+													GBC CARRYING INSURANCE ACTIVITIES</option>
+												<option value="GLOBAL BUSINESS COMPANY">GLOBAL
+													BUSINESS COMPANY</option>
+												<option value="GLOBAL HEADQUARTERS ADMINISTRATION">
+													GLOBAL HEADQUARTERS ADMINISTRATION</option>
+												<option value="GLOBAL TREASURY ACTIVITIES 	">GLOBAL
+													TREASURY ACTIVITIES</option>
+												<option value="INSUARANCE BROKER">INSUARANCE BROKER</option>
+												<option value="INSURANCE COMPANY">INSURANCE COMPANY</option>
+												<option value="	INTERACTIVE GAMBLING 	">INTERACTIVE
+													GAMBLING</option>
+												<option
+													value="	  INVESTMENT ADVISER AND REPRESENTATIVE OF INVESTMENT ADVISERS C28	">
+													INVESTMENT ADVISER AND REPRESENTATIVE OF INVESTMENT
+													ADVISERS C28</option>
+												<option value="	  LAND PROMOTER 	">LAND PROMOTER</option>
+												<option value="	  LAW FIRM 	">LAW FIRM</option>
+												<option value="	  LEASING 	">LEASING</option>
+												<option value="	  LICENSED AUDITOR 	">LICENSED
+													AUDITOR</option>
+												<option value="	  MANAGEMENT COMPANY 	">MANAGEMENT
+													COMPANY</option>
+												<option
+													value="	  MEMBER FIRM UNDER THE FINANCIAL REPORTING  ACT C36	">
+													MEMBER FIRM UNDER THE FINANCIAL REPORTING ACT C36</option>
+												<option value="	  PENSION SCHEME ADMINISTRATOR 	">
+													PENSION SCHEME ADMINISTRATOR</option>
+												<option value="	  PENSION SCHEME 	">PENSION SCHEME</option>
+												<option value="	  PROFESSIONAL ACCOUNTANT 	">
+													PROFESSIONAL ACCOUNTANT</option>
+												<option value="	  PROPERTY DEVELOPER 	">PROPERTY
+													DEVELOPER</option>
+												<option value="	  PUBLIC ACCOUNTANT 	">PUBLIC
+													ACCOUNTANT</option>
+												<option value="	  REGISTRAR AND TRANSFER AGENT 	">
+													REGISTRAR AND TRANSFER AGENT</option>
+												<option value="	  SECURITIES DEALER ">SECURITIES
+													DEALER</option>
+												<option value="	  SECURITIES EXCHANGE 	">SECURITIES
+													EXCHANGE</option>
+												<option value="	  TOTALISATOR 	">TOTALISATOR</option>
+												<option value="	  TREASURY MANAGEMENT 	">TREASURY
+													MANAGEMENT</option>
+												<option value="	  OTHER 	">OTHER</option>
+
+
+											</select>
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">PLEASE PROVIDE DETAILS FOR
+												'OTHERS':</label>
+										</div>
+
+										<div class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{details_for_others_1}"
+												th:value="${details_for_others_1}" id="details_for_others_1"
+												name="details_for_others_1"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+
+
+									</div>
+
+
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">NAME OF REPORTING ENTITY:*</label>
+										</div>
+
+										<div class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{name_entity}" th:value="${name_entity}"
+												id="name_entity" name="name_entity"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">ACRONYM:*</label>
+										</div>
+
+										<div class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{acronym}" th:value="${acronym}" id="acronym"
+												name="acronym" class="form-control form-control-sm"
+												autocomplete="off" required>
+										</div>
+
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">SECTOR:*</label>
+										</div>
+										<div class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{sector}" th:value="${sector}" id="sector"
+												name="sector" class="form-control form-control-sm"
+												autocomplete="off" required>
+										</div>
+									</div>
+									<label></label>
+									<h3
+										style="font: initial; background: white; padding-top: 5px; padding-bottom: 5px; padding-left: 5px;">PARTICULARS
+										OF THE MONEY LAUNDERING REPORTING OFFICER/CONTACT PERSON</h3>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">FIRST NAME:*</label>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-6">
+											<input type="text" id="cust_first_name98" name="first_name_2"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{first_name_2}" th:value="${first_name_2}"
+												id="first_name_2" name="first_name_2"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">LAST NAME:*</label>
+										</div>
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{last_name_2}" th:value="${last_name_2}"
+												id="last_name_2" name="last_name_2"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='add' " class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												id="cust_last_name98" name="last_name_2"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">DATE OF BIRTH:*</label>
+										</div>
+										<div th:if="${formmode}=='add' " class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												id="cust_dob99" name="date_of_birth_2"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view' "
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{date_of_birth_2}" th:value="${date_of_birth_2}"
+												id="date_of_birth_2" name="date_of_birth_2"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label for="cust_id">NIC:*</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{nic}" th:value="${nic}" id="nic" name="nic"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">OCCUPATION:*</label>
+										</div>
+										<div class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{occupation_2}" th:value="${occupation_2}"
+												id="occupation_2" name="occupation_2"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+									</div>
+
+									<label></label>
+									<h3
+										style="font: initial; background: white; padding-top: 5px; padding-bottom: 5px; padding-left: 5px;">ADDRESS:*</h3>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">STREET ADDRESS:</label>
+										</div>
+										<div th:if="${formmode}=='view'OR ${formmode}=='edit'"
+											class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{street_address_2_2}"
+												th:value="${street_address_2_2}" id="street_address_2_2"
+												name="street_address_2_2"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+										<div th:if="${formmode}=='add' " class="col-sm-6">
+											<input type="text" id="address99" name="street_address_2_2"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">CITY:</label>
+										</div>
+										<div th:if="${formmode}=='view' OR${formmode}=='edit'"
+											class="col-sm-3">
+											<input type="text" th:field="*{city_2_2}"
+												th:value="${city_2_2}" id="city_2_2" name="city_2_2"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+										<div th:if="${formmode}=='add' " class="col-sm-3">
+											<input type="text" id="city_code99" name="city_2_2"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">COUNTRY:*</label>
+										</div>
+										<div th:if="${formmode}=='add' " class="col-sm-3">
+											<input type="text" id="cntry_code99" name="country_2"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='edit'OR${formmode}=='view' "
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{country_2}" th:value="${country_2}"
+												id="country_2" name="country_2"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+
+									</div>
+									<label></label>
+									<h3
+										style="font: initial; background: white; padding-top: 5px; padding-bottom: 5px; padding-left: 5px;">PHONE*</h3>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">TELEPHONE NO:</label>
+										</div>
+										<div th:if="${formmode}=='edit'OR${formmode}=='view' "
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{telephone_no_2}" th:value="${telephone_no_2}"
+												id="telephone_no_2" name="telephone_no_2"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="Preferredphone99"
+												name="telephone_no_2" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label for="cust_id">FAX NO:</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{fax_no_2}" th:value="${fax_no_2}" id="fax_no_2"
+												name="fax_no_2" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+									</div>
+
+									<label></label>
+									<h3
+										style="font: initial; background: white; padding-top: 5px; padding-bottom: 5px; padding-left: 5px;">SUPERVISION:*</h3>
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">SUPERVISED BY:</label>
+										</div>
+										<div class="col-sm-9">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{supervised_by}" th:value="${supervised_by}"
+												id="supervised_by" name="supervised_by"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+
+
+
+
+						<div class="card">
+							<div class="card-header">
+								<div class="float-left">
+									<h4>PART III INFORMATION ON SUSPICION</h4>
+								</div>
+
+							</div>
+							<div class="card-body">
+
+
+
+
+								<h3
+									style="font: initial; background: white; padding-top: 5px; padding-bottom: 5px; padding-left: 5px;">INDICATORS</h3>
+
+								<div class=" content">
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">IN/TYP/OFF 1:</label>
+										</div>
+
+										<div class="col-sm-10">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{in_off1}" th:value="${in_off1}" id="in_off1"
+												name="in_off1" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">IN/TYP/OFF 2:</label>
+										</div>
+
+										<div class="col-sm-10">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{in_off2}" th:value="${in_off2}" id="in_off2"
+												name="in_off2" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">IN/TYP/OFF 3:</label>
+										</div>
+
+										<div class="col-sm-10">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{in_off3}" th:value="${in_off3}" id="in_off3"
+												name="in_off3" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">IN/TYP/OFF 4:</label>
+										</div>
+
+										<div class="col-sm-10">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{in_off4}" th:value="${in_off4}" id="in_off4"
+												name="in_off4" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">IN/TYP/OFF 5:</label>
+										</div>
+
+										<div class="col-sm-10">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{in_off5}" th:value="${in_off5}" id="in_off5"
+												name="in_off5" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">IN/TYP/OFF 6:</label>
+										</div>
+
+										<div class="col-sm-10">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{in_off6}" th:value="${in_off6}" id="in_off6"
+												name="in_off6" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+
+
+									</div>
+									<div class="row formline">
+										<div class="col-sm-12">
+											<label for="cust_id">PLEASE PROVIDE DETAILS FOR
+												'OTHERS':</label>
+										</div>
+
+										<div class="col-sm-12">
+											<textarea rows="4" cols="100"
+												th:field="*{details_for_others_3}"
+												th:value="${details_for_others_3}" id="details_for_others_3"
+												name="details_for_others_3" form="aml_str_rep"
+												class="form-control form-control-sm"></textarea>
+										</div>
+									</div>
+									<label></label>
+									<h3
+										style="font: initial; background: white; padding-top: 5px; padding-bottom: 5px; padding-left: 5px;">DESCRIPTION
+										OF SUSPICIOUS ACTIVITY *</h3>
+
+
+									<div class="row formline">
+										<label class="col-sm-12" for="cust_id"
+											style="font-size: large;">THIS SECTION OF THIS REPORT
+											IS CRITICAL</label> <label class="col-sm-12" for="cust_id">DESCRIBE
+											CLEARLY AND COMPLETELY THE FACTS OR UNUSUAL CIRCUMSTANCES
+											THAT LED TO THE SUSPICION OF MONEY LAUNDERING OR TERRORIST
+											FINANCING. THE CARE WITH WHICH THIS SECTION IS WRITTEN MAY
+											MAKE THE DIFFERENCE IN WHETHER OR NOT THE DESCRIBED CONDUCT
+											AND ITS POSSIBLE CRIMINAL NATURE ARE CLEARLY UNDERSTOOD.</label>
+
+										<div class="col-sm-12">
+											<textarea rows="4" cols="100"
+												th:field="*{description_taken_3_2}"
+												th:value="${description_taken_3_2}"
+												id="description_taken_3_2" name="description_taken_3_2"
+												form="aml_str_rep" class="form-control form-control-sm"></textarea>
+
+										</div>
+									</div>
+									<label></label>
+									<h3
+										style="font: initial; background: white; padding-top: 5px; padding-bottom: 5px; padding-left: 5px;">MATERIAL
+										IMPACT*</h3>
+									<div class="row formline">
+										<label class="col-sm-12" for="cust_id">HAS THERE BEEN
+											A MATERIAL IMPACT ON THE FINANCIAL SOUNDNESS OF THE REPORTING
+											ENTITY?</label> <label class="col-sm-12" for="cust_id"
+											style="font-style: italic; color: dimgray;">IF YES,
+											EXPLAIN HOW. </label>
+										<div class="col-sm-12">
+											<textarea rows="4" cols="100"
+												th:field="*{material_impact_desc}"
+												th:value="${material_impact_desc}" id="material_impact_desc"
+												name="material_impact_desc" form="aml_str_rep"
+												class="form-control form-control-sm"></textarea>
+
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+
+
+						<div class="card">
+							<div class="card-header">
+								<div class="float-left">
+									<h4>PART IV DESCRIPTION OF ACTION TAKEN*</h4>
+								</div>
+							</div>
+							<div class="card-body">
+
+								<div class="content">
+									<div class="row formline">
+										<label class="col-sm-12" for="cust_id">WHAT ACTION WAS
+											OR WILL BE TAKEN BY YOU AS A RESULT OF THE SUSPICIOUS
+											TRANSACTION(S).</label> <label class="col-sm-12" for="cust_id">STATE
+											ALSO WHETHER THE SUSPECT MADE ANY VOLUNTARY STATEMENT AS TO
+											THE ORIGIN OR SOURCE OF THE PROCEEDS. KINDLY ENCLOSE COPY OF
+											THE STATEMENT, IF ANY.</label> <label class="col-sm-12" for="cust_id"
+											style="font-style: italic; color: dimgray;">IF THIS
+											FIELD DOES NOT PROVIDE SUFFICIENT SPACE, PLEASE REPORT ONLY A
+											SHORT SUMMARY , THEN INCLUDE THE ENTIRE TEXT (NOT A
+											CONTINUATION OF WHAT APPEARS IN THE “ACTION TAKEN” FIELD) IN
+											A DOCUMENT ATTACHED TO THE REPORT. </label>
+										<div class="col-sm-12">
+											<textarea rows="4" cols="100"
+												th:field="*{description_taken_3_3}"
+												th:value="${description_taken_3_3}"
+												id="description_taken_3_3" name="description_taken_3_3"
+												form="aml_str_rep" class="form-control form-control-sm"></textarea>
+
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="card">
+							<div class="card-header">
+								<div class="float-left">
+									<h4>PART V TRANSACTION DETAILS</h4>
+
+								</div>
+
+								<!-- <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button> -->
+
+
+							</div>
+							<div class="card-body">
+
+								<div class=" content">
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label>TRANSACTION NO:*</label>
+										</div>
+
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{tran_id}" th:value="${tran_id}" id="tran_id"
+												name="tran_id" class="form-control form-control-sm"
+												autocomplete="off" required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="tran_id1" name="tran_id"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label>TRANSACTION DATE:*</label>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="tran_date11" name="tran_date"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{tran_date}" th:value="${tran_date}"
+												id="tran_date" name="tran_date"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-5">
+											<label for="cust_id">DATE OF POSTING IF DIFFERENT
+												FROM DATE OF TRANSACTION:</label>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="pstd_date" name="tran_date_1"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{tran_date_1}" th:value="${tran_date_1}"
+												id="tran_date_1" name="tran_date_1"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">TRANSACTION MODE:*</label>
+										</div>
+
+										<div class="col-sm-3">
+											<select th:field="*{tran_type}" th:value="${tran_type}"
+												id="tran_type" name="tran_type"
+												class="form-control form-control-sm">
+												<option value="">SELECT</option>
+												<option value="ATM">ATM</option>
+												<option value="COURIER">COURIER</option>
+												<option value="CREDIT CARD PURCHASE">CREDIT CARD
+													PURCHASE</option>
+												<option value="CURRENCY EXCHANGE">CURRENCY EXCHANGE</option>
+												<option value="DENOMINATION EXCHANGE ">DENOMINATION
+													EXCHANGE</option>
+												<option value="DEPOSIT ">DEPOSIT</option>
+												<option value="DOMESTIC BANK TO BANK">DOMESTIC BANK
+													TO BANK</option>
+												<option value="ELECTRONIC TRANSACTION ">ELECTRONIC
+													TRANSACTION</option>
+												<option value="IN-BRANCH/OFFICE">IN-BRANCH/OFFICE</option>
+												<option value="	INQUIRY">INQUIRY</option>
+												<option value="	LOAN ">LOAN</option>
+												<option value="LOAN REPAYMENTS">LOAN REPAYMENTS</option>
+												<option value="MAIL DEPOSIT">MAIL DEPOSIT</option>
+												<option value="PROPOSED TRANSACTIONS">PROPOSED
+													TRANSACTIONS</option>
+												<option value="	  PURCHASE">PURCHASE</option>
+												<option value="	  PURCHASE OF NEGOTIABLE INSTRUMENT 	">
+													PURCHASE OF NEGOTIABLE INSTRUMENT</option>
+												<option value="	  SALE 	">SALE</option>
+												<option value="	  SALE OF NEGOTIABLE INSTRUMENT 	">
+													SALE OF NEGOTIABLE INSTRUMENT</option>
+												<option value="	  TRANSFER (TO SELF, OTHER ACCOUNT) 	">
+													TRANSFER (TO SELF, OTHER ACCOUNT)</option>
+												<option value="	  REFUND  	">REFUND</option>
+												<option value="	  TRANSFER (TO OTHER PARTY) 	">
+													TRANSFER (TO OTHER PARTY)</option>
+												<option value="	  TRANSPORT ACROSS BORDER (BCR) 	">
+													TRANSPORT ACROSS BORDER (BCR)</option>
+												<option value="	  VOID/CANCELLATION 	">
+													VOID/CANCELLATION</option>
+												<option value="	  WIRE TRANSFER 	">WIRE TRANSFER</option>
+												<option value="	  WITHDRAWAL 	">WITHDRAWAL</option>
+												<option value="	  OTHER  	">OTHER</option>
+												<option value="	  UNKNOWN 	">UNKNOWN</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">DATE TRANSACTION DETECTED:*</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{date_detected}" th:value="${date_detected}"
+												id="date_detected" name="date_detected"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">CURRENCY TYPE:</label>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="tran_crncy_code" name="crncy_code"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{crncy_code}" th:value="${crncy_code}"
+												id="crncy_code" name="crncy_code"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label for="cust_id">FOREIGN AMOUNT:</label>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="fx_tran_amt" name="fx_tran_amt"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{fx_tran_amt}" th:value="${fx_tran_amt}"
+												id="fx_tran_amt1" name="fx_tran_amt"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">EXCHANGE RATE:</label>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="rate_5_8" name="rate_5_8"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{rate_5_8}" th:value="${rate_5_8}" id="rate_5_8"
+												name="rate_5_8" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label for="cust_id">LOCAL AMOUNT:</label>
+										</div>
+
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="tran_amt" name="tran_amt"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{tran_amt}" th:value="${tran_amt}" id="tran_amt1"
+												name="tran_amt" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+									</div>
+
+									<div class="row formline" style="padding-bottom: 10px;">
+										<div class="col-sm-2">
+											<label for="cust_id">DESCRIPTION:*</label>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-9">
+
+											<textarea rows="4" cols="100"
+												th:value="${SEARCHFROMTRAN?.tran_particular}"
+												id="tran_particular" name="tran_particular"
+												form="aml_str_rep" class="form-control form-control-sm"> Enter text here...</textarea>
+										</div>
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-9">
+											<textarea rows="4" cols="100" th:field="*{tran_particular}"
+												th:value="${tran_particular}" id="tran_particular1"
+												name="tran_particular" form="aml_str_rep"
+												class="form-control form-control-sm"> Enter text here...</textarea>
+
+										</div>
+									</div>
+
+									<div class="NOTES">
+										<label class="col-sm-12"
+											STYLE="font-weight: bolder;; text-decoration: underline;">NOTE:</label>
+										<p>PLEASE COMPLETE SECTION 5.11, IF THE TRANSACTION
+											INVOLVES ITEMS OF ANY KIND E.G GOODS AND SERVICES.</p>
+										<p>IF THE FIELD FOR DESCRIPTION DOES NOT PROVIDE
+											SUFFICIENT SPACE, PLEASE REPORT ONLY A SHORT SUMMARY, THEN
+											INCLUDE THE ENTIRE TEXT (NOT A CONTINUATION OF WHAT APPEARS
+											IN THE "DESCRIPTION” FIELD) IN A DOCUMENT ATTACHED TO THE
+											REPORT.</p>
+									</div>
+									<label></label>
+									<h3
+										style="font: initial; background: white; padding-top: 5px; padding-bottom: 5px; padding-left: 5px;">GOODS
+										AND SERVICES</h3>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">ITEM TYPE:*</label>
+										</div>
+
+										<div class="col-sm-3">
+											<select th:field="*{item_type}" th:value="${item_type}"
+												id="item_type" name="item_type"
+												class="form-control form-control-sm">
+												<option value="SELECT">SELECT</option>
+												<option value="ART">ART</option>
+												<option value="UNKNOWN">UNKNOWN</option>
+												<option value="BONDS,STOCKS OR OTHER SECURITIES">
+													BONDS, STOCKS OR OTHER SECURITIES</option>
+												<option value="COLLECTIBLES">COLLECTIBLES</option>
+												<option value="CONSUMER GOODS (ELECTRONICS, FURNITURE, ETC)">
+													CONSUMER GOODS (ELECTRONICS, FURNITURE, ETC)</option>
+												<option value="EQUIPMENT">EQUIPMENT</option>
+												<option value="FURNITURE">FURNITURE</option>
+												<option value="INDUSTRIAL EQUIPMENT">INDUSTRIAL
+													EQUIPMENT</option>
+												<option value="INTELLECTUAL PROPERTY RIGHTS 	">
+													INTELLECTUAL PROPERTY RIGHTS</option>
+												<option value="JEWELLERY, PRECIOUS METALS, PRECIOUS STONES	">
+													JEWELLERY, PRECIOUS METALS, PRECIOUS STONES</option>
+												<option value="OTHER">OTHER</option>
+												<option value="PURCHASE INTO COMPANY">PURCHASE INTO
+													COMPANY</option>
+												<option value="WEAPON">WEAPON</option>
+												<option value="REAL ESTATE">REAL ESTATE</option>
+												<option value="SERVICES">SERVICES</option>
+												<option value="VEHICLE">VEHICLE</option>
+												<option value="PROPERTY">PROPERTY</option>
+
+											</select>
+										</div>
+									</div>
+
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">PREVIOUSLY REGISTERED TO:</label>
+										</div>
+
+										<div class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{previously_to}" th:value="${previously_to}"
+												id="previously_to" name="previously_to"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">PRESENTLY REGISTERED TO:</label>
+										</div>
+
+										<div class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{presently_to}" th:value="${presently_to}"
+												id="presently_to" name="presently_to"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">ESTIMATE VALUE:</label>
+										</div>
+
+										<div class="col-sm-6">
+											<input type="number" th:readonly="${formmode}=='view'"
+												th:field="*{estimate_value}" th:value="${estimate_value}"
+												id="estimate_value" name="estimate_value"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">STATUS CODE:</label>
+										</div>
+
+										<div class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{status_code}" th:value="${status_code}"
+												id="status_code" name="status_code"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">DISPOSED VALUE:</label>
+										</div>
+
+										<div class="col-sm-6">
+											<input type="number" th:readonly="${formmode}=='view'"
+												th:field="*{disposed_value}" th:value="${disposed_value}"
+												id="disposed_value" name="disposed_value"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">COMMENTS:</label>
+										</div>
+
+										<div class="col-sm-10">
+											<textarea rows="4" cols="100" form="aml_str_rep"
+												th:field="*{comments_services}"
+												th:value="${comments_services}" id="comments_services"
+												name="comments_services"
+												class="form-control form-control-sm"> Enter text here...</textarea>
+
+										</div>
+									</div>
+									<label></label>
+									<h3
+										style="font: initial; background: white; padding-top: 5px; padding-bottom: 5px; padding-left: 5px;">LOCATION
+										OF OFFICE CONDUCTING THE TRANSACTION</h3>
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">STREET ADDRESS:</label>
+										</div>
+
+										<div class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{street_address}" th:value="${street_address}"
+												id="street_address" name="street_address"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">CITY:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{city_5}" th:value="${city_5}" id="city_5"
+												name="city_5" class="form-control form-control-sm"
+												autocomplete="off" required>
+										</div>
+									</div>
+									<label></label>
+									<h3
+										style="font: initial; background: white; padding-top: 5px; padding-bottom: 5px; padding-left: 5px;">NAME
+										OF THE OFFICES DEALING WITH THE SUSPICIOUS TRANSACTION*</h3>
+
+									<div class="table-responsive">
+
+										<table class="table" style="background-color: #d4d7de;">
+
+											<tr>
+
+												<th><label>NAME OF PERSONS</label></th>
+												<th><label>REPORTING ENTITIES</label></th>
+												<th><label>CAPACITY IN WHICH DEALING WITH
+														TRANSACTION</label></th>
+											</tr>
+											<tr>
+
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{name_persons_1}" th:value="${name_persons_1}"
+													id="name_persons_1" name="name_persons_1"></td>
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{reporting_entity_1}"
+													th:value="${reporting_entity_1}" id="reporting_entity_1"
+													name="reporting_entity_1"></td>
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{capacity_transaction_1}"
+													th:value="${capacity_transaction_1}"
+													id="capacity_transaction_1" name="capacity_transaction_1"></td>
+											</tr>
+											<tr>
+
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{name_persons_2}" th:value="${name_persons_2}"
+													id="name_persons_2" name="name_persons_2"></td>
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{reporting_entity_2}"
+													th:value="${reporting_entity_2}" id="reporting_entity_2"
+													name="reporting_entity_2"></td>
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{capacity_transaction_2}"
+													th:value="${capacity_transaction_2}"
+													id="capacity_transaction_2" name="capacity_transaction_2"></td>
+											</tr>
+											<tr>
+
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{name_persons_3}" th:value="${name_persons_3}"
+													id="name_persons_3" name="name_persons_3"></td>
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{reporting_entity_3}"
+													th:value="${reporting_entity_3}" id="reporting_entity_3"
+													name="reporting_entity_3"></td>
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{capacity_transaction_3}"
+													th:value="${capacity_transaction_3}"
+													id="capacity_transaction_3" name="capacity_transaction_3"></td>
+											</tr>
+											<tr>
+
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{name_persons_4}" th:value="${name_persons_4}"
+													id="name_persons_4" name="name_persons_4"></td>
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{reporting_entity_4}"
+													th:value="${reporting_entity_4}" id="reporting_entity_4"
+													name="reporting_entity_4"></td>
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{capacity_transaction_4}"
+													th:value="${capacity_transaction_4}"
+													id="capacity_transaction_4" name="capacity_transaction_4"></td>
+											</tr>
+											<tr>
+
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{name_persons_5}" th:value="${name_persons_5}"
+													id="name_persons_5" name="name_persons_5"></td>
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{reporting_entity_5}"
+													th:value="${reporting_entity_5}" id="reporting_entity_5"
+													name="reporting_entity_5"></td>
+												<td Style="text-align: left;"><input type="text"
+													th:readonly="${formmode}=='view'"
+													th:field="*{capacity_transaction_5}"
+													th:value="${capacity_transaction_5}"
+													id="capacity_transaction_5" name="capacity_transaction_5"></td>
+											</tr>
+
+										</table>
+									</div>
+									<label></label>
+									<h3
+										style="font: initial; background: white; padding-top: 5px; padding-bottom: 5px; padding-left: 5px;">TRANSACTION
+										TYPE*</h3>
+									<p style="color: black;">IF TRANSACTION TYPE IS BI-PARTY,
+										THEN SELECT APPROPRIATE PARTY TYPE:</p>
+
+
+									<div class="row formline">
+										<label class="col-sm-2"
+											STYLE="font-weight: bolder; text-decoration: underline;">FROM
+											TYPE:</label> <label class="col-sm-2 radio-inline"> <input
+											type="radio" class="col-sm-3" value="client"
+											name="fromclient" onclick="tranadd()">MY CLIENT
+										</label> <label class="col-sm-2 radio-inline"> <input
+											type="radio" class="col-sm-3" value="nonclient"
+											name="fromclient" onclick="client(this)">NOT MY
+											CLIENT
+										</label>
+									</div>
+
+									<div class="row formline">
+										<label class="col-sm-2"></label> <label class="col-sm-2"
+											STYLE="font-weight: bolder;">PARTY TYPE:</label> <label
+											class="col-sm-2 radio-inline"> <input type="radio"
+											class="col-sm-3" value="" name="frompartytype">ACCOUNT
+										</label> <label class="col-sm-2 radio-inline"> <input
+											type="radio" class="col-sm-3" value="" name="frompartytype">ENTITY
+										</label> <label class="col-sm-2 radio-inline"> <input
+											type="radio" class="col-sm-3" value="" name="frompartytype">PERSON
+										</label>
+									</div>
+
+									<div class="row formline">
+										<label class="col-sm-2"
+											STYLE="font-weight: bolder; text-decoration: underline;">TO
+											TYPE:</label> <label class="col-sm-2 radio-inline"> <input
+											type="radio" class="col-sm-3" value="" name="toclient">MY
+											CLIENT
+										</label> <label class="col-sm-2 radio-inline"> <input
+											type="radio" class="col-sm-3" value="" name="toclient">NOT
+											MY CLIENT
+										</label>
+									</div>
+
+									<div class="row formline">
+										<label class="col-sm-2"></label> <label class="col-sm-2"
+											STYLE="font-weight: bolder;">PARTY TYPE:</label> <label
+											class="col-sm-2 radio-inline"> <input type="radio"
+											class="col-sm-3" value="" name="topartytype">ACCOUNT
+										</label> <label class="col-sm-2 radio-inline"> <input
+											type="radio" class="col-sm-3" value="" name="topartytype">ENTITY
+										</label> <label class="col-sm-2 radio-inline"> <input
+											type="radio" class="col-sm-3" value="" name="topartytype">PERSON
+										</label>
+									</div>
+									<p style="color: black;">IF TRANSACTION TYPE IS
+										MULTI-PARTY, THEN SELECT APPROPRIATE NUMBER OF INVOLVED
+										PARTIES:</p>
+
+
+								</div>
+
+							</div>
+						</div>
+
+
+
+
+						<div class="card">
+							<div class="card-header">
+								<div class="float-left">
+									<h4>PART VI ACCOUNT DETAILS</h4>
+								</div>
+							</div>
+							<div class="card-body">
+
+								<div class="content" id="card_Transaction">
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label>TRANSACTION NO:*</label>
+										</div>
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='ref_num'"
+												th:field="*{ref_num}" th:value="${ref_num}" id="ref_num"
+												name="ref_num" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="tran_id3" name="ref_num"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label>PARTY IS:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{party_code}" th:value="${party_code}"
+												id="party_code" name="party_code"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">ROLE:</label>
+										</div>
+
+										<div class="col-sm-3">
+
+
+											<select th:field="*{role_6}" th:value="${role_6}" id="role_6"
+												name="role_6" class="form-control form-control-sm">
+												<option value="">SELECT</option>
+												<option value="	 ACCOMPANIED/WAS PRESENT 	">
+													ACCOMPANIED/WAS PRESENT</option>
+												<option value="	  ASSOCIATED WITH 	">ASSOCIATED
+													WITH</option>
+												<option value="	  BENEFICIARY / RECEIVER 	">
+													BENEFICIARY / RECEIVER</option>
+												<option value="	  BENEFICIARY OR ON WHOSE BEHALF M5	">
+													BENEFICIARY OR ON WHOSE BEHALF M5</option>
+												<option value="	  BUYER 	">BUYER</option>
+												<option
+													value="	  CLOSED ACCOUNT OR EXITED RELATIONSHIP WITH REPORTING ENTITY M8	">
+													CLOSED ACCOUNT OR EXITED RELATIONSHIP WITH REPORTING ENTITY
+													M8</option>
+												<option value="	  CONDUCTOR 	">CONDUCTOR</option>
+												<option value="	  DEPOSITED (ITEM) 	">DEPOSITED
+													(ITEM)</option>
+												<option value="	  DEST ENTITY 	">DEST ENTITY</option>
+												<option value="	  DEST PRIMARY ACC	">DEST PRIMARY
+													ACC</option>
+												<option value="	  DESTINATION PARTY 	">DESTINATION
+													PARTY</option>
+												<option value="	  DESTROYED 	">DESTROYED</option>
+												<option value="	  DONATED 	">DONATED</option>
+												<option value="	  EXCHANGED 	">EXCHANGED</option>
+												<option value="	  HIRED ITEM 	">HIRED ITEM</option>
+												<option value="	  INQUIRED 	">INQUIRED</option>
+												<option value="	  INSTRUCTED 	">INSTRUCTED</option>
+												<option value="	  LEASED (FROM) 	">LEASED (FROM)</option>
+												<option value="	  LEASED (TO) 	">LEASED (TO)</option>
+												<option value="	  LOAN HOLDER 	">LOAN HOLDER</option>
+												<option value="	  OTHER 	">OTHER</option>
+												<option value="	  PAYEE / SENDER 	">PAYEE / SENDER</option>
+												<option value="	  PROPOSED 	">PROPOSED</option>
+												<option value="	  PROVIDED ITEM FOR HIRE 	">
+													PROVIDED ITEM FOR HIRE</option>
+												<option value="	  PROVIDED SERVICE 	">PROVIDED
+													SERVICE</option>
+												<option value="	  RECEIVED SERVICE 	">RECEIVED
+													SERVICE</option>
+												<option value="	  REGISTERED OWNER (CURRENT) 	">
+													REGISTERED OWNER (CURRENT)</option>
+												<option value="	  REGISTERED OWNER (PREVIOUS) 	">
+													REGISTERED OWNER (PREVIOUS)</option>
+												<option value="	  RENTEE 	">RENTEE</option>
+												<option value="	  RENTOR 	">RENTOR</option>
+												<option value="	  SELLER 	">SELLER</option>
+												<option value="	  SOLD ON BEHALF OF 	">SOLD ON
+													BEHALF OF</option>
+												<option value="	  SOURCE ENTITY 	">SOURCE ENTITY</option>
+												<option value="	  SOURCE PARTY 	">SOURCE PARTY</option>
+												<option value="	  SOURCE PRIMARY ACC	">SOURCE
+													PRIMARY ACC</option>
+												<option
+													value="	  SUSPECTED BENEFICIARY OR ON WHOSE BEHALF M41	">
+													SUSPECTED BENEFICIARY OR ON WHOSE BEHALF M41</option>
+
+											</select>
+										</div>
+
+									</div>
+
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label>FUNDS TYPE:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<select th:field="*{funds_type_6}" th:value="${funds_type_6}"
+												id="funds_type_6" name="funds_type_6"
+												class="form-control form-control-sm">
+												<option value="">SELECT</option>
+												<option value="	FROM ACCOUNT 	">FROM ACCOUNT</option>
+												<option value="	  HOTEL TRANSACTION 	">HOTEL
+													TRANSACTION</option>
+												<option value="	  LIFE INSURANCE POLICY 	">LIFE
+													INSURANCE POLICY</option>
+												<option value="	  MONEY ORDER 	">MONEY ORDER</option>
+												<option value="	  NGOs, CHARITY 	">NGOs, CHARITY</option>
+												<option value="	  OTHER NEGOTIABLE INSTRUMENT 	">
+													OTHER NEGOTIABLE INSTRUMENT</option>
+												<option value="	  PROMISSORY NOTE 	">PROMISSORY
+													NOTE</option>
+												<option value="	  REAL ESTATE 	">REAL ESTATE</option>
+												<option value="	  SECURITIES 	">SECURITIES</option>
+												<option value="	  TRAVELLER'S CHEQUES 	">
+													TRAVELLER'S CHEQUES</option>
+												<option value="	  OTHER  	">OTHER</option>
+												<option value="	  UNKNOWN	">UNKNOWN</option>
+												<option value="	  BILL OF EXCHANGE 	">BILL OF
+													EXCHANGE</option>
+												<option value="	  CREDIT CARD 	">CREDIT CARD</option>
+												<option value="	  CASH 	">CASH</option>
+												<option
+													value="	  CASH (DIFFERENT CURRENCY THAN THE FROM/TO SIDE)	">
+													CASH (DIFFERENT CURRENCY THAN THE FROM/TO SIDE)</option>
+												<option
+													value="	  CASH (DIFFERENT DENOMINATION THAN THE FROM/TO SIDE) 	">
+													CASH (DIFFERENT DENOMINATION THAN THE FROM/TO SIDE)</option>
+												<option value="	  CASINO CHIPS 	">CASINO CHIPS</option>
+												<option value="	  CREDIT 	">CREDIT</option>
+												<option value="	  CERTIFICATE OF DEPOSIT 	">
+													CERTIFICATE OF DEPOSIT</option>
+												<option value="	  CHEQUE 	">CHEQUE</option>
+												<option value="	  COUNTERFEIT 	">COUNTERFEIT</option>
+											</select>
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label>COUNTRY:</label>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="cntry_code98" name="country_6"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{country_6}" th:value="${country_6}"
+												id="country_6" name="country_6"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+
+									</div>
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">ACCOUNT NUMBER</label>
+										</div>
+
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{foracid}" th:value="${foracid}" id="foracid1"
+												name="foracid" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-6">
+											<input type="text" id="foracid" name="foracid"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">NAME OF ACCOUNT HOLDER:</label>
+										</div>
+
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{acct_name}" th:value="${acct_name}"
+												id="acct_name1" name="acct_name"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="acct_name" name="acct_name"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">INSTITUTE NAME:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{acct_name_1}" th:value="${acct_name_1}"
+												id="acct_name_1" name="acct_name_1"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">ACCOUNT TYPE:</label>
+										</div>
+										<div class="col-sm-3">
+											<select th:field="*{schm_type}" th:value="${schm_type}"
+												id="schm_type" name="schm_type"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+												<option value="">SELECT</option>
+												<option value="ARRANGEMENT">ARRANGEMENT</option>
+												<option value="BUSINESS">BUSINESS</option>
+												<option value="CREDIT ">CREDIT</option>
+												<option value="CURRENT ">CURRENT</option>
+												<option value="FOREIGN CURRENCY ACCOUNT">FOREIGN
+													CURRENCY ACCOUNT</option>
+												<option value="MORTGAGE ">MORTGAGE</option>
+												<option value=" OTHER ">OTHER</option>
+												<option value="PERSONAL ACCOUNT ">PERSONAL ACCOUNT</option>
+												<option value=" SAFE DEPOSIT BOX  ">SAFE DEPOSIT
+													BOX</option>
+												<option value="SAVINGS ">SAVINGS</option>
+												<option value="TERM DEPOSIT ">TERM DEPOSIT</option>
+												<option value="TRADING ACCOUNT ">TRADING ACCOUNT</option>
+												<option value="TRUST ACCOUNT ">TRUST ACCOUNT</option>
+												<option value="UNKNOWN">UNKNOWN</option>
+											</select>
+
+
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label for="cust_id">ACCOUNT CURRENCY:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{acct_crncy_code}" th:value="${acct_crncy_code}"
+												id="acct_crncy_code" name="acct_crncy_code"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">ACCOUNT STATUS:</label>
+										</div>
+										<div class="col-sm-3">
+											<select th:field="*{acct_status}" th:value="${acct_status}"
+												id="acct_status" name="acct_status"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+												<option value="">SELECT</option>
+												<option value="ACTIVE">ACTIVE</option>
+												<option value="CLOSED BY CUSTOMER">CLOSED BY
+													CUSTOMER</option>
+												<option value="CLOSED BY REPORTING ENTITY">CLOSED
+													BY REPORTING ENTITY</option>
+												<option value="CLOSED DUE TO INACTIVITY">CLOSED DUE
+													TO INACTIVITY</option>
+												<option value="DORMANT ">DORMANT</option>
+												<option value="INACTIVE ">INACTIVE</option>
+												<option value="INACTIVE (NO TRANSACTIONS WITHIN 1 YEAR)">INACTIVE
+													(NO TRANSACTIONS WITHIN 1 YEAR)</option>
+												<option
+													value=" NO ACCOUNT ASSOCIATED, OTHER RELATIONSHIP WITH CUSTOMER ">
+													NO ACCOUNT ASSOCIATED, OTHER RELATIONSHIP WITH CUSTOMER</option>
+												<option value="NEW ACCOUNT">NEW ACCOUNT</option>
+												<option value="UNKNOWN ">UNKNOWN</option>
+											</select>
+
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">OPENED ON:</label>
+										</div>
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{acct_opn_date}" th:value="${acct_opn_date}"
+												id="acct_opn_date1" name="acct_opn_date"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="opendate" name="acct_opn_date"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label for="cust_id">CLOSED ON:</label>
+										</div>
+
+
+
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{acct_closed_date}"
+												th:value="${acct_closed_date}" id="acct_closed_date1"
+												name="acct_closed_date" class="form-control form-control-sm"
+												autocomplete="off" required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="closedate" name="acct_closed_date"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-4">
+											<label for="cust_id">BALANCE IN ACCOUNT AT THE DATE
+												OF REPORTING:</label>
+										</div>
+
+										<div class="col-sm-2">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{clr_bal_amt}" th:value="${clr_bal_amt}"
+												id="clr_bal_amt" name="clr_bal_amt"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+
+										<div class="col-sm-2">
+											<label for="cust_id">DATE OF BALANCE:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{tran_date_7}" th:value="${tran_date_7}"
+												id="tran_date_7" name="tran_date_7"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+
+									<div class="row formline" style="padding-bottom: 10px;">
+										<div class="col-sm-2">
+											<label for="cust_id">COMMENTS:*</label>
+										</div>
+
+										<div class="col-sm-9">
+											<textarea rows="4" cols="100" form="aml_str_rep"
+												th:field="*{comments_details_6}"
+												th:value="${comments_details_6}" id="comments_details_6"
+												name="comments_details_6"
+												class="form-control form-control-sm"> Enter text here...</textarea>
+
+										</div>
+									</div>
+
+									<div class="NOTES">
+										<label class="col-sm-12"
+											STYLE="font-weight: bolder;; text-decoration: underline;">NOTE:</label>
+										<p>IN CASE THERE ARE SEVERAL ACCOUNTS INVOLVED IN THE
+											TRANSACTION, PLEASE REPEAT INFORMATION IN PART VI FOR EACH
+											ACCOUNT BEING REPORTED.</p>
+										<p>DETAILS ON ENTITY/INDIVIDUAL HOLDING THE ACCOUNT MUST
+											BE PROVIDED IN PART VII/PART VIII.</p>
+										<p>DETAILS ON SIGNATORIES TO THE ACCOUNT MUST BE PROVIDED
+											IN PART VIII IF THE ABOVE ACCOUNT IS 'MY CLIENT'</p>
+										<p>IF PARTY INVOLVED IS 'MY CLIENT' IN PART VI, THEN THE
+											FOLLOWING FIELDS ARE MANDATORY: 6.1, 6.2, 6.3, 6.4,6.5, 6.6,
+											6.7, 6.8, 6.9, 6.10, 6.11, 6.13</p>
+										<p>IF PARTY INVOLVED IS 'NOT MY CLIENT' IN PART VI, THEN
+											THE FOLLOWING FIELDS ARE MANDATORY: 6.1, 6.2, 6.3, 6.4, 6.5,
+											6.6</p>
+									</div>
+									<label></label>
+
+								</div>
+
+							</div>
+						</div>
+
+
+
+						<div class="card">
+							<div class="card-header">
+								<div class="float-left">
+									<h4>PART VII ENTITY DETAILS</h4>
+								</div>
+							</div>
+							<div class="card-body">
+
+								<div class=" content">
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label>TRANSACTION NO:*</label>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" th:field="*{tran_id_7}"
+												th:value="${tran_id_7}" id="tran" name="tran_id_7"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{tran_id_7}" th:value="${tran_id_7}"
+												id="tran_id_7" name="tran_id_7"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label>PARTY IS:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{party_code_7}" th:value="${party_code_7}"
+												id="party_code_7" name="party_code_7"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">ROLE:</label>
+										</div>
+
+										<div class="col-sm-3">
+
+											<select th:field="*{role_7}" th:value="${role_7}" id="role_7"
+												name="role_7" class="form-control form-control-sm">
+												<option value="">SELECT</option>
+												<option value="	 ACCOMPANIED/WAS PRESENT 	">
+													ACCOMPANIED/WAS PRESENT</option>
+												<option value="	  ASSOCIATED WITH 	">ASSOCIATED
+													WITH</option>
+												<option value="	  BENEFICIARY / RECEIVER 	">
+													BENEFICIARY / RECEIVER</option>
+												<option value="	  BENEFICIARY OR ON WHOSE BEHALF M5	">
+													BENEFICIARY OR ON WHOSE BEHALF M5</option>
+												<option value="BUYER">BUYER</option>
+												<option
+													value="	  CLOSED ACCOUNT OR EXITED RELATIONSHIP WITH REPORTING ENTITY M8	">
+													CLOSED ACCOUNT OR EXITED RELATIONSHIP WITH REPORTING ENTITY
+													M8</option>
+												<option value="	  CONDUCTOR 	">CONDUCTOR</option>
+												<option value="	  DEPOSITED (ITEM) 	">DEPOSITED
+													(ITEM)</option>
+												<option value="	  DEST ENTITY 	">DEST ENTITY</option>
+												<option value="	  DEST PRIMARY ACC	">DEST PRIMARY
+													ACC</option>
+												<option value="	  DESTINATION PARTY 	">DESTINATION
+													PARTY</option>
+												<option value="	  DESTROYED 	">DESTROYED</option>
+												<option value="	  DONATED 	">DONATED</option>
+												<option value="	  EXCHANGED 	">EXCHANGED</option>
+												<option value="	  HIRED ITEM 	">HIRED ITEM</option>
+												<option value="	  INQUIRED 	">INQUIRED</option>
+												<option value="	  INSTRUCTED 	">INSTRUCTED</option>
+												<option value="	  LEASED (FROM) 	">LEASED (FROM)</option>
+												<option value="	  LEASED (TO) 	">LEASED (TO)</option>
+												<option value="	  LOAN HOLDER 	">LOAN HOLDER</option>
+												<option value="	  OTHER 	">OTHER</option>
+												<option value="	  PAYEE / SENDER 	">PAYEE / SENDER</option>
+												<option value="	  PROPOSED 	">PROPOSED</option>
+												<option value="	  PROVIDED ITEM FOR HIRE 	">
+													PROVIDED ITEM FOR HIRE</option>
+												<option value="	  PROVIDED SERVICE 	">PROVIDED
+													SERVICE</option>
+												<option value="	  RECEIVED SERVICE 	">RECEIVED
+													SERVICE</option>
+												<option value="	  REGISTERED OWNER (CURRENT) 	">
+													REGISTERED OWNER (CURRENT)</option>
+												<option value="	  REGISTERED OWNER (PREVIOUS) 	">
+													REGISTERED OWNER (PREVIOUS)</option>
+												<option value="	  RENTEE 	">RENTEE</option>
+												<option value="	  RENTOR 	">RENTOR</option>
+												<option value="	  SELLER 	">SELLER</option>
+												<option value="	  SOLD ON BEHALF OF 	">SOLD ON
+													BEHALF OF</option>
+												<option value="	  SOURCE ENTITY 	">SOURCE ENTITY</option>
+												<option value="	  SOURCE PARTY 	">SOURCE PARTY</option>
+												<option value="	  SOURCE PRIMARY ACC	">SOURCE
+													PRIMARY ACC</option>
+												<option
+													value="	  SUSPECTED BENEFICIARY OR ON WHOSE BEHALF M41	">
+													SUSPECTED BENEFICIARY OR ON WHOSE BEHALF M41</option>
+
+											</select>
+										</div>
+									</div>
+
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label>FUNDS TYPE:</label>
+										</div>
+
+										<div class="col-sm-3">
+
+											<select th:field="*{funds_type_7}" th:value="${funds_type_7}"
+												id="funds_type_7" name="funds_type_7"
+												class="form-control form-control-sm">
+												<option value="">SELECT</option>
+												<option value="	FROM ACCOUNT 	">FROM ACCOUNT</option>
+												<option value="	  HOTEL TRANSACTION 	">HOTEL
+													TRANSACTION</option>
+												<option value="	  LIFE INSURANCE POLICY 	">LIFE
+													INSURANCE POLICY</option>
+												<option value="	  MONEY ORDER 	">MONEY ORDER</option>
+												<option value="	  NGOs, CHARITY 	">NGOs, CHARITY</option>
+												<option value="	  OTHER NEGOTIABLE INSTRUMENT 	">
+													OTHER NEGOTIABLE INSTRUMENT</option>
+												<option value="	  PROMISSORY NOTE 	">PROMISSORY
+													NOTE</option>
+												<option value="	  REAL ESTATE 	">REAL ESTATE</option>
+												<option value="	  SECURITIES 	">SECURITIES</option>
+												<option value="	  TRAVELLER'S CHEQUES 	">
+													TRAVELLER'S CHEQUES</option>
+												<option value="	  OTHER  	">OTHER</option>
+												<option value="	  UNKNOWN	">UNKNOWN</option>
+												<option value="	  BILL OF EXCHANGE 	">BILL OF
+													EXCHANGE</option>
+												<option value="	  CREDIT CARD 	">CREDIT CARD</option>
+												<option value="	  CASH 	">CASH</option>
+												<option
+													value="	  CASH (DIFFERENT CURRENCY THAN THE FROM/TO SIDE)	">
+													CASH (DIFFERENT CURRENCY THAN THE FROM/TO SIDE)</option>
+												<option
+													value="	  CASH (DIFFERENT DENOMINATION THAN THE FROM/TO SIDE) 	">
+													CASH (DIFFERENT DENOMINATION THAN THE FROM/TO SIDE)</option>
+												<option value="	  CASINO CHIPS 	">CASINO CHIPS</option>
+												<option value="	  CREDIT 	">CREDIT</option>
+												<option value="	  CERTIFICATE OF DEPOSIT 	">
+													CERTIFICATE OF DEPOSIT</option>
+												<option value="	  CHEQUE 	">CHEQUE</option>
+												<option value="	  COUNTERFEIT 	">COUNTERFEIT</option>
+											</select>
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label>COUNTRY:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{country_7_4}" th:value="${country_7_4}"
+												id="country_7_4" name="country_7_4"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+
+									</div>
+
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">NAME :</label>
+										</div>
+
+										<div class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{name_7}" th:value="${name_7}" id="name_7"
+												name="name_7" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-3">
+											<label for="cust_id">INCORPORATION LEGAL FORM:</label>
+										</div>
+
+										<div class="col-sm-8">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{incorporation_form_7}"
+												th:value="${incorporation_form_7}" id="incorporation_form_7"
+												name="incorporation_form_7"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">BUSSINESS SECTOR:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{sector_7}" th:value="${sector_7}" id="sector_7"
+												name="sector_7" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label for="cust_id">DATE OF INCORP:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{date_of_incorporation}"
+												th:value="${date_of_incorporation}"
+												id="date_of_incorporation" name="date_of_incorporation"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">INCORP.NUMBER:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{registration_number}"
+												th:value="${registration_number}" id="registration_number"
+												name="registration_number"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label for="cust_id">COUNTRY OF INCORP:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{countryofincorporation}"
+												th:value="${countryofincorporation}"
+												id="countryofincorporation" name="countryofincorporation"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">STREET ADDRESS:</label>
+										</div>
+
+										<div class="col-sm-9">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{addr_7}" th:value="${addr_7}" id="addr_7"
+												name="addr_7" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">CITY:</label>
+										</div>
+
+										<div class="col-sm-2">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{city_7}" th:value="${city_7}" id="city_7"
+												name="city_7" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+
+										<div class="col-sm-1">
+											<label for="cust_id">COUNTRY:</label>
+										</div>
+
+										<div class="col-sm-2">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{country_7_13}" th:value="${country_7_13}"
+												id="country_7_13" name="country_7_13"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-1">
+											<label for="cust_id">TELEPHONE:</label>
+										</div>
+
+										<div class="col-sm-2">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{phone_7}" th:value="${phone_7}" id="phone_7"
+												name="phone_7" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+									</div>
+
+
+
+									<div class="row formline" style="padding-bottom: 10px;">
+										<div class="col-sm-2">
+											<label for="cust_id">COMMENTS:*</label>
+										</div>
+
+										<div class="col-sm-9">
+											<textarea rows="4" cols="100" form="aml_str_rep"
+												th:field="*{comments_details_7}"
+												th:value="${comments_details_7}" id="comments_details_7"
+												name="comments_details_7"
+												class="form-control form-control-sm"> Enter text here...</textarea>
+
+										</div>
+									</div>
+
+									<div class="NOTES">
+										<label class="col-sm-12"
+											STYLE="font-weight: bolder;; text-decoration: underline;">NOTE:</label>
+										<p>IN CASE THERE ARE SEVERAL ENTITIES INVOLVED IN THE
+											TRANSACTION, PLEASE REPEAT INFORMATION IN PART VII FOR EACH
+											ENTITY BEING REPORTED.</p>
+										<p>DETAILS ON PERSONS LINKED TO THE ENTITY MUST BE
+											PROVIDED IN PART VIII IF ABOVE ENTITY IS 'MY CLIENT'.</p>
+										<p>IF PARTY INVOLVED IS 'MY CLIENT' IN PART VII, THEN THE
+											FOLLOWING FIELDS ARE MANDATORY: 7.1, 7.2,7.3, 7.4, 7.5, 7.6,
+											7.7, 7.8, 7.9, 7.10, 7.11, 7.12, 7.13</p>
+										<p>IF PARTY INVOLVED IS 'NOT MY CLIENT' IN PART VII, THEN
+											THE FOLLOWING FIELDS ARE MANDATORY: 7.1, 7.2, 7.3, 7.4, 7.5</p>
+									</div>
+									<label></label>
+
+								</div>
+
+							</div>
+						</div>
+
+
+						<div class="card">
+							<div class="card-header">
+								<div class="float-left">
+									<h4>PART VIII PERSON DETAILS</h4>
+								</div>
+							</div>
+							<div class="card-body">
+
+								<div class=" content">
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label>TRANSACTION NO:*</label>
+										</div>
+										<div th:if="${formmode}=='view' OR ${formmode}=='edit'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{tran_id_8}" th:value="${tran_id_8}"
+												id="tran_id_8" name="tran_id_8"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="tran_id2" name="tran_id_8"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label>PARTY IS:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{party_code_8}" th:value="${party_code_8}"
+												id="party_code_8" name="party_code_8"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">ROLE:</label>
+										</div>
+
+										<div class="col-sm-3">
+
+											<select th:field="*{role_8}" th:value="${role_8}" id="role_8"
+												name="role_8" class="form-control form-control-sm">
+												<option value="">SELECT</option>
+												<option value="	 ACCOMPANIED/WAS PRESENT 	">
+													ACCOMPANIED/WAS PRESENT</option>
+												<option value="	  ASSOCIATED WITH 	">ASSOCIATED
+													WITH</option>
+												<option value="	  BENEFICIARY / RECEIVER 	">
+													BENEFICIARY / RECEIVER</option>
+												<option value="	  BENEFICIARY OR ON WHOSE BEHALF M5	">
+													BENEFICIARY OR ON WHOSE BEHALF M5</option>
+												<option value="	  BUYER 	">BUYER</option>
+												<option
+													value="	  CLOSED ACCOUNT OR EXITED RELATIONSHIP WITH REPORTING ENTITY M8	">
+													CLOSED ACCOUNT OR EXITED RELATIONSHIP WITH REPORTING ENTITY
+													M8</option>
+												<option value="	  CONDUCTOR 	">CONDUCTOR</option>
+												<option value="	  DEPOSITED (ITEM) 	">DEPOSITED
+													(ITEM)</option>
+												<option value="	  DEST ENTITY 	">DEST ENTITY</option>
+												<option value="	  DEST PRIMARY ACC	">DEST PRIMARY
+													ACC</option>
+												<option value="	  DESTINATION PARTY 	">DESTINATION
+													PARTY</option>
+												<option value="	  DESTROYED 	">DESTROYED</option>
+												<option value="	  DONATED 	">DONATED</option>
+												<option value="	  EXCHANGED 	">EXCHANGED</option>
+												<option value="	  HIRED ITEM 	">HIRED ITEM</option>
+												<option value="	  INQUIRED 	">INQUIRED</option>
+												<option value="	  INSTRUCTED 	">INSTRUCTED</option>
+												<option value="	  LEASED (FROM) 	">LEASED (FROM)</option>
+												<option value="	  LEASED (TO) 	">LEASED (TO)</option>
+												<option value="	  LOAN HOLDER 	">LOAN HOLDER</option>
+												<option value="	  OTHER 	">OTHER</option>
+												<option value="	  PAYEE / SENDER 	">PAYEE / SENDER</option>
+												<option value="	  PROPOSED 	">PROPOSED</option>
+												<option value="	  PROVIDED ITEM FOR HIRE 	">
+													PROVIDED ITEM FOR HIRE</option>
+												<option value="	  PROVIDED SERVICE 	">PROVIDED
+													SERVICE</option>
+												<option value="	  RECEIVED SERVICE 	">RECEIVED
+													SERVICE</option>
+												<option value="	  REGISTERED OWNER (CURRENT) 	">
+													REGISTERED OWNER (CURRENT)</option>
+												<option value="	  REGISTERED OWNER (PREVIOUS) 	">
+													REGISTERED OWNER (PREVIOUS)</option>
+												<option value="	  RENTEE 	">RENTEE</option>
+												<option value="	  RENTOR 	">RENTOR</option>
+												<option value="	  SELLER 	">SELLER</option>
+												<option value="	  SOLD ON BEHALF OF 	">SOLD ON
+													BEHALF OF</option>
+												<option value="	  SOURCE ENTITY 	">SOURCE ENTITY</option>
+												<option value="	  SOURCE PARTY 	">SOURCE PARTY</option>
+												<option value="	  SOURCE PRIMARY ACC	">SOURCE
+													PRIMARY ACC</option>
+												<option
+													value="	  SUSPECTED BENEFICIARY OR ON WHOSE BEHALF M41	">
+													SUSPECTED BENEFICIARY OR ON WHOSE BEHALF M41</option>
+
+											</select>
+										</div>
+									</div>
+
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label>FUNDS TYPE:</label>
+										</div>
+
+										<div class="col-sm-3">
+
+											<select th:field="*{funds_type_8}" th:value="${funds_type_8}"
+												id="funds_type_8" name="funds_type_8"
+												class="form-control form-control-sm">
+												<option value="">SELECT</option>
+												<option value="	FROM ACCOUNT 	">FROM ACCOUNT</option>
+												<option value="	  HOTEL TRANSACTION 	">HOTEL
+													TRANSACTION</option>
+												<option value="	  LIFE INSURANCE POLICY 	">LIFE
+													INSURANCE POLICY</option>
+												<option value="	  MONEY ORDER 	">MONEY ORDER</option>
+												<option value="	  NGOs, CHARITY 	">NGOs, CHARITY</option>
+												<option value="	  OTHER NEGOTIABLE INSTRUMENT 	">
+													OTHER NEGOTIABLE INSTRUMENT</option>
+												<option value="	  PROMISSORY NOTE 	">PROMISSORY
+													NOTE</option>
+												<option value="	  REAL ESTATE 	">REAL ESTATE</option>
+												<option value="	  SECURITIES 	">SECURITIES</option>
+												<option value="	  TRAVELLER'S CHEQUES 	">
+													TRAVELLER'S CHEQUES</option>
+												<option value="	  OTHER  	">OTHER</option>
+												<option value="	  UNKNOWN	">UNKNOWN</option>
+												<option value="	  BILL OF EXCHANGE 	">BILL OF
+													EXCHANGE</option>
+												<option value="	  CREDIT CARD 	">CREDIT CARD</option>
+												<option value="	  CASH 	">CASH</option>
+												<option
+													value="	  CASH (DIFFERENT CURRENCY THAN THE FROM/TO SIDE)	">
+													CASH (DIFFERENT CURRENCY THAN THE FROM/TO SIDE)</option>
+												<option
+													value="	  CASH (DIFFERENT DENOMINATION THAN THE FROM/TO SIDE) 	">
+													CASH (DIFFERENT DENOMINATION THAN THE FROM/TO SIDE)</option>
+												<option value="	  CASINO CHIPS 	">CASINO CHIPS</option>
+												<option value="	  CREDIT 	">CREDIT</option>
+												<option value="	  CERTIFICATE OF DEPOSIT 	">
+													CERTIFICATE OF DEPOSIT</option>
+												<option value="	  CHEQUE 	">CHEQUE</option>
+												<option value="	  COUNTERFEIT 	">COUNTERFEIT</option>
+											</select>
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label>COUNTRY:</label>
+										</div>
+										<div th:if="${formmode}=='view' OR ${formmode}=='edit'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{country_8_4}" th:value="${country_8_4}"
+												id="country_8_4" name="country_8_4"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="cntry_code" name="country_8_4"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+
+
+									</div>
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">GENDER :</label>
+										</div>
+
+										<div th:if="${formmode}=='view' OR ${formmode}=='edit'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{gender_8}" th:value="${gender_8}" id="gender_8"
+												name="gender_8" class="form-control form-control-sm"
+												autocomplete="off" required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="cust_sex" name="gender_8"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">FIRST NAME :</label>
+										</div>
+										<div th:if="${formmode}=='view' OR ${formmode}=='edit'"
+											class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{cust_first_name}" th:value="${cust_first_name}"
+												id="cust_first_name1" name="cust_first_name"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-6">
+											<input type="text" id="cust_first_name99"
+												name="cust_first_name" class="form-control form-control-sm"
+												autocomplete="off" required>
+										</div>
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">LAST NAME :</label>
+										</div>
+
+										<div th:if="${formmode}=='view' OR ${formmode}=='edit'"
+											class="col-sm-6">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{cust_last_name}" th:value="${cust_last_name}"
+												id="cust_last_name" name="cust_last_name"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-6">
+											<input type="text" id="cust_last_name99"
+												name="cust_last_name" class="form-control form-control-sm"
+												autocomplete="off" required>
+										</div>
+									</div>
+
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">STREET ADDRESS:</label>
+										</div>
+
+										<div th:if="${formmode}=='view' OR ${formmode}=='edit'"
+											class="col-sm-8">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{addr_8}" th:value="${addr_8}" id="address_8"
+												name="addr_8" class="form-control form-control-sm"
+												autocomplete="off" required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-8">
+											<input type="text" id="address1" name="addr_8"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">CITY:</label>
+										</div>
+
+										<div th:if="${formmode}=='view' OR ${formmode}=='edit'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{city_8}" th:value="${city_8}" id="city_8"
+												name="city_8" class="form-control form-control-sm"
+												autocomplete="off" required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="city_code" name="city_8"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label for="cust_id">COUNTRY:</label>
+										</div>
+
+										<div th:if="${formmode}=='view' OR ${formmode}=='edit'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{country_8_10}" th:value="${country_8_10}"
+												id="country_8_10" name="country_8_10"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="cntry_code1" name="country_8_10"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">TELEPHONE NO:</label>
+										</div>
+
+										<div th:if="${formmode}=='view' OR ${formmode}=='edit'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{phone_8}" th:value="${phone_8}" id="phone_8"
+												name="phone_8" class="form-control form-control-sm"
+												autocomplete="off" required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="Preferredphone" name="phone_8"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label for="cust_id">DATE OF BIRTH:</label>
+										</div>
+
+										<div th:if="${formmode}=='view' OR ${formmode}=='edit'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{date_of_birth_8}" th:value="${date_of_birth_8}"
+												id="date_of_birth_8" name="date_of_birth_8"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="cust_dob" name="date_of_birth_8"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+
+									</div>
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">NATIONALITY:</label>
+										</div>
+
+										<div th:if="${formmode}=='view' OR ${formmode}=='edit'"
+											class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{nationality_8}" th:value="${nationality_8}"
+												id="nationality_8" name="nationality_8"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+										<div th:if="${formmode}=='add'" class="col-sm-3">
+											<input type="text" id="nationality" name="nationality_8"
+												class="form-control form-control-sm" autocomplete="off"
+												required>
+										</div>
+									</div>
+									<div class="col-sm-1"></div>
+									<div class="col-sm-2">
+										<label for="cust_id">RESIDENCE:</label>
+									</div>
+
+									<div class="col-sm-3">
+										<input type="text" th:readonly="${formmode}=='view'"
+											th:field="*{residence_country}"
+											th:value="${residence_country}" id="residence_country"
+											name="residence_country" class="form-control form-control-sm"
+											autocomplete="off">
+									</div>
+
+
+
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="cust_id">IDENTIFIER:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{identifier_8}" th:value="${identifier_8}"
+												id="identifier_8" name="identifier_8"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+										<div class="col-sm-1"></div>
+										<div class="col-sm-2">
+											<label for="cust_id">NUMBER:</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{phone_9}" th:value="${phone_9}" id="phone_9"
+												name="phone_9" class="form-control form-control-sm"
+												autocomplete="off">
+										</div>
+
+
+									</div>
+
+									<div class="row formline">
+										<div class="col-sm-4">
+											<label for="cust_id">IF INSIDER RELATIONSHIP,PLEASE
+												SPECIFY IF:</label>
+										</div>
+
+										<div class="col-sm-4">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{insider_relationship}"
+												th:value="${insider_relationship}" id="insider_relationship"
+												name="insider_relationship"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+									<div class="row formline">
+										<label class="col-sm-1"></label>
+										<div class="col-sm-4">
+											<label for="cust_id">DATE OF
+												SUSPENSION/TERMINATION/RESIGNATION:</label>
+										</div>
+										<div class="col-sm-3">
+											<input type="text" th:readonly="${formmode}=='view'"
+												th:field="*{date_of_suspension}"
+												th:value="${date_of_suspension}" id="date_of_suspension"
+												name="date_of_suspension"
+												class="form-control form-control-sm" autocomplete="off">
+										</div>
+									</div>
+									<div class="row formline">
+										<div class="col-sm-12">
+											<label for="cust_id">IF PERSON IS SIGNATORY TO
+												ACCOUNT IN PART VI, PLEASE COMPLETE THE FOLLOWING SECTION: </label>
+										</div>
+									</div>
+									<div class="row formline">
+										<label class="col-sm-1"></label> <label
+											class="col-sm-3 checkbox-inline" th:field="*{is_signatory}">
+											<input type="checkbox" value="">IS A PRIMARY
+											SIGNATORY
+										</label> <label class="col-sm-1">ROLE:</label> <input
+											th:field="*{primary_signatory_role}"
+											th:value="${primary_signatory_role}"
+											id="primary_signatory_role" name="primary_signatory_role"
+											class="col-sm-4 form-control form-control-sm">
+									</div>
+									<div class="row formline">
+										<div class="col-sm-12">
+											<label for="cust_id">IF PERSON IS LINKED TO ENTITY IN
+												PART VII, PLEASE COMPLETE THE FOLLOWING SECTION: </label>
+										</div>
+									</div>
+									<div class="row formline">
+										<label class="col-sm-1">ROLE:</label> <input
+											th:field="*{role_8_18}" th:value="${role_8_18}"
+											id="role_8_18" name="role_8_18"
+											class="col-sm-5 form-control form-control-sm">
+										<div class="NOTES col-sm-6">
+											<p>IF YOU SELECTED 'OTHER',PLEASE PROVIDE DETAILS IN THE
+												'COMMENT'BOX BELOW</p>
+										</div>
+									</div>
+									<div class="row formline" style="padding-bottom: 10px;">
+										<div class="col-sm-1">
+											<label for="cust_id">COMMENTS:*</label>
+										</div>
+
+										<div class="col-sm-10">
+
+											<textarea rows="4" cols="100" form="aml_str_rep"
+												th:field="*{comments_details_8}"
+												th:value="${comments_details_8}" id="comments_details_8"
+												name="comments_details_8"
+												class="form-control form-control-sm"> Enter text here...</textarea>
+										</div>
+									</div>
+
+									<div class="NOTES">
+										<label class="col-sm-12"
+											STYLE="font-weight: bolder;; text-decoration: underline;">NOTE:</label>
+										<p>IN CASE THERE ARE SEVERAL ENTITIES INVOLVED IN THE
+											TRANSACTION, PLEASE REPEAT INFORMATION IN PART VII FOR EACH
+											ENTITY BEING REPORTED.</p>
+										<p>DETAILS ON PERSONS LINKED TO THE ENTITY MUST BE
+											PROVIDED IN PART VIII IF ABOVE ENTITY IS 'MY CLIENT'.</p>
+										<p>IF PARTY INVOLVED IS 'MY CLIENT' IN PART VII, THEN THE
+											FOLLOWING FIELDS ARE MANDATORY: 7.1, 7.2,7.3, 7.4, 7.5, 7.6,
+											7.7, 7.8, 7.9, 7.10, 7.11, 7.12, 7.13</p>
+										<p>IF PARTY INVOLVED IS 'NOT MY CLIENT' IN PART VII, THEN
+											THE FOLLOWING FIELDS ARE MANDATORY: 7.1, 7.2, 7.3, 7.4, 7.5</p>
+									</div>
+									<label></label>
+								</div>
+							</div>
+
+						</div>
+
+
+						<div class="card-footer text-center" style="height: 38px;">
+
+							<!-- 	<button
+												th:if="${formmode}=='verify' AND ${userProfile.entity_flg}=='N'"
+												type="button" class="btn btn-xs btn-primary"
+												style="margin-top: -12px;"
+												th:attr="data-userid=${userProfile.userid},data-entry_user=${userProfile.entry_user},data-modify_user=${userProfile.modify_user}"
+												onclick="verify(this);" id="btnModify">Verify</button> -->
+							<!-- <button
+											th:if="${formmode}=='edit' AND ${userProfile.entity_flg}=='Y'"
+											type="button" class="btn btn-xs btn-primary" id="btnpassrst"
+											onclick="passwordReset();">PasswordReset</button> -->
+							<span>
+								<button type="button" class="btn btn-xs btn-primary"
+									style="margin-top: -12px;" form="userProfile" id="btnSubmit"
+									onclick="submitform(this);" th:if="${formmode}=='add'"
+									th:attr="data-formmode=${formmode},data-entity=${entity_flg}">Submit</button>
+							</span> <span>
+								<button type="button" class="btn btn-xs btn-primary"
+									style="margin-top: -12px;" form="userProfile" id="btnSubmit"
+									onclick="submitform1(this);" th:if="${formmode} =='edit'"
+									th:attr="data-formmode=${formmode},data-entity=${entity_flg}">Submit</button>
+							</span>
+
+							<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+								style="margin-top: -12px;" onclick="home();">Home</button>
+							<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+								style="margin-top: -12px;" onclick="back1();">Back</button>
+
+
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg" style="font-size: 16px;"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="list();">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="dataBack">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					Are you Sure want to Leave?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="back();">Yes</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="alert" th:if="${formmode}=='download'">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p style="font-size: 16px;" th:value="${output_path}"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="list();">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="warning">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p style="font-size: 16px;">Please fill all required fields</p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="acctaudit">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content"
+				style="background-color: #ced4da; width: 100%;">
+				<div class="modal-header">
+					<b>Transaction Details Search</b>
+				</div>
+				<form action="#" th:object="${search}" method="POST"
+					autocomplete="off" id="search">
+					<div class="modal-body" style="text-align: center">
+						<div class=" content">
+							<div class="row formline" style="text-align: -webkit-left;">
+
+								<label class="col-sm-4">Tran ID</label>
+								<div class="col-sm-5">
+									<input type="text" id="id_tran"
+										class="form-control form-control-sm" required />
+
+
+								</div>
+
+
+								<div class="col-sm-1"></div>
+
+							</div>
+							<div class="row formline" style="text-align: -webkit-left;">
+
+								<label class="col-sm-4">Tran Date</label>
+								<div class="col-sm-5">
+									<input type="text" id="date_tran"
+										class="form-control form-control-sm" required />
+
+
+								</div>
+
+
+								<div class="col-sm-1"></div>
+
+							</div>
+							<div class="row formline" style="text-align: -webkit-left;">
+
+								<label class="col-sm-4">Part Tran Srl Num</label>
+								<div class="col-sm-5">
+									<input type="text" id="part_tran_srl_num"
+										name="part_tran_srl_num" class="form-control form-control-sm"
+										required />
+
+
+								</div>
+
+								<div class="col-sm-1"></div>
+
+
+							</div>
+
+							<label></label> <label></label>
+
+							<div>
+								<button type="button" style="margin-top: -12px;"
+									class="btn btn-xs btn-primary" id="btnclose" form="search"
+									onclick="SearchGo(this);">Go</button>
+
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

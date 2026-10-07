@@ -1,0 +1,1627 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AML_Risk_Reports
+CREATED BY	: VIJAY CORDA
+CREATED ON	: 30-MAR-2020
+MODIFY ON   : 
+PURPOSE		: 
+ -->
+<html lang="en" th:fragment="casemain">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+
+
+</head>
+
+
+
+
+<title>AML</title>
+<style>
+nav>.nav.nav-tabs {
+	border: none;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
+	border: none;
+	padding: 18px 25px;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link.active:after {
+	content: "";
+	position: relative;
+	bottom: -60px;
+	left: -10%;
+	border: 15px solid transparent;
+	border-top-color: #1b6491;
+}
+
+.tab-content {
+	background: #fdfdfd;
+	line-height: 25px;
+	width: 100%;
+	border: 1px solid #ddd;
+	border-top: 5px solid #594a43;
+	border-bottom: 5px solid #594a43;
+	padding: 30px 25px;
+}
+
+nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
+	border: none;
+	background: #002942;
+	color: #fff;
+	border-radius: 0;
+	transition: background 0.20s linear;
+}
+</style>
+<script>
+$(function() {
+	
+
+	$("#end_dateloan")
+	.datepicker(
+			{
+				//minDate : 0,
+				changeMonth : true,
+				changeYear : true,
+				dateFormat : "dd/mm/yy",
+				onSelect : function(selected) {
+					var dt = new Date(selected);
+					dt.setDate(dt.getDate() - 1);
+					
+					//	$("#loadermodal").modal("toggle");
+
+						var fromdate = $("#start_dateloan").val();
+						var todate = $("#end_dateloan").val();
+						var category = $("#riskcategoryloan").val();
+						
+						if(category==null){
+							category = $("#riskcategorytxtid").val();
+						}
+						if(fromdate===""){
+							$("#alertmsgdate").text("Select start date and end date");
+
+							$('#alertdate').modal("toggle");
+						}else if(todate===""){
+							$("#alertmsgdate").text("Select start date and end date");
+
+							$('#alertdate').modal("toggle");
+						}else{
+						location.href = 'AML_Risk_Reports?formmode=Cust_list&fromdate='
+								+ fromdate + '&todate=' + todate + '&riskcategory='
+								+ category;
+						}
+					}
+
+			});
+	
+	$("#end_daterss")
+	.datepicker(
+			{
+				//minDate : 0,
+				changeMonth : true,
+				changeYear : true,
+				dateFormat : "dd/mm/yy",
+				onSelect : function(selected) {
+					var dt = new Date(selected);
+					dt.setDate(dt.getDate() - 1);
+					
+					//	$("#loadermodal").modal("toggle");
+
+					var fromdate = $("#start_daterss").val();
+					var todate = $("#end_daterss").val();
+					var category = $("#riskcategoryrss").val();
+					if(fromdate===""){
+						$("#alertmsgdate").text("Select start date and end date");
+
+						$('#alertdate').modal("toggle");
+					}else if(todate===""){
+						$("#alertmsgdate").text("Select start date and end date");
+
+						$('#alertdate').modal("toggle");
+					}else{
+					location.href = 'AML_Risk_Reports?formmode=Loan_list&fromdaterss='
+							+ fromdate + '&todaterss=' + todate + '&riskcategoryrss='
+							+ category;
+					}
+					
+					
+					}
+
+			});
+	
+	
+
+});
+
+</script>
+
+
+<script type="text/javascript">
+	function CustType() {
+		location.href = 'AML_Risk_Reports?formmode=Cust_list';
+	}
+
+	function SchemeType() {
+		location.href = 'AML_Risk_Reports?formmode=Loan_list';
+	}
+	function Operation() {
+		location.href = 'AML_Risk_Reports?formmode=Opr_list';
+	}
+</script>
+
+
+
+<script>
+	function getUserlistloan(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+
+		var fromdate = $("#start_daterss").val();
+		var todate = $("#end_daterss").val();
+		var category = $("#riskcategoryrss").val();
+
+		var Callurl  = 'AML_Risk_Reports?formmode=Loan_list&fromdaterss='
+				+ fromdate + '&todaterss=' + todate + '&riskcategoryrss='
+				+ category;
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+
+		}
+
+		location.href = Callurl;
+	}
+
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+		
+		var fromdate = $("#start_dateloan").val();
+		var todate = $("#end_dateloan").val();
+		var category = $("#riskcategoryloan").val();
+		
+		
+		var Callurl =  'AML_Risk_Reports?formmode=Cust_list&fromdate='
+			+ fromdate + '&todate=' + todate + '&riskcategory='
+			+ category;
+		
+	
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+
+		}
+
+		location.href = Callurl;
+	}
+</script>
+
+
+<script>
+
+function getpdfLoan() {
+	var userid=$("#sessionid").val();
+	var fromdate = $("#start_dateloan").val();
+	var todate = $("#end_dateloan").val();
+	var category = $("#riskcategoryloan").val();
+	
+	if(fromdate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else if(todate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else{
+		location.href = 'Reports/AMLReportDownloadFormattedDate?reportId=RISK_LOAN&formmode=list&filetype=pdf&fromdate='
+			+ fromdate + '&todate=' + todate+'&userid='+userid+'&category='+category;
+	
+	}
+		
+	
+}
+function getexcelLoan() {
+	var userid=$("#sessionid").val();
+	var fromdate = $("#start_dateloan").val();
+	var todate = $("#end_dateloan").val();
+	var category = $("#riskcategoryloan").val();
+	if(fromdate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else if(todate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else{
+	location.href = 'Reports/AMLReportDownloadXLSX?reportId=RISK_LOAN&formmode=list&filetype=xlsx&fromdate='
+			+ fromdate + '&todate=' + todate+'&userid='+userid+'&category='+category;
+	}
+}
+function getpdfRss() {
+	var userid=$("#sessionid").val();
+	var fromdate = $("#start_daterss").val();
+	var todate = $("#end_daterss").val();
+	var category = $("#riskcategoryrss").val();
+	if(fromdate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else if(todate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else{
+	location.href = 'Reports/AMLReportDownloadFormattedDate?reportId=RISK_RSS&formmode=list&filetype=pdf&fromdate='
+			+ fromdate + '&todate=' + todate+'&userid='+userid+'&category='+category;
+	}
+}
+function getexcelRss() {
+	var userid=$("#sessionid").val();
+	var fromdate = $("#start_daterss").val();
+	var todate = $("#end_daterss").val();
+	var category = $("#riskcategoryrss").val();
+	if(fromdate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else if(todate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else{
+	location.href = 'Reports/AMLReportDownloadXLSX?reportId=RISK_RSS&formmode=list&filetype=xlsx&fromdate='
+			+ fromdate + '&todate=' + todate+'&userid='+userid+'&category='+category;
+	}
+}
+function getpdfDep() {
+	var userid=$("#sessionid").val();
+	var fromdate = $("#start_datedep").val();
+	var todate = $("#end_datedep").val();
+	var category = $("#riskcategorydep").val();
+	if(fromdate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else if(todate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else{
+	location.href = 'Reports/AMLReportDownloadFormattedDate?reportId=RISK_DEP&formmode=list&filetype=pdf&fromdate='
+			+ fromdate + '&todate=' + todate+'&userid='+userid+'&category='+category;
+	}
+}
+function getexcelDep() {
+	var userid=$("#sessionid").val();
+	var fromdate = $("#start_datedep").val();
+	var todate = $("#end_datedep").val();
+	var category = $("#riskcategorydep").val();
+	if(fromdate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else if(todate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else{
+	location.href = 'Reports/AMLReportDownloadXLSX?reportId=RISK_DEP&formmode=list&filetype=xlsx&fromdate='
+			+ fromdate + '&todate=' + todate+'&userid='+userid+'&category='+category;
+	}
+}
+
+
+function home() {
+	location.href = 'Dashboard'
+}
+function getloan() {
+
+	var fromdate = $("#start_dateloan").val();
+	var todate = $("#end_dateloan").val();
+	var category = $("#riskcategoryloan").val();
+	
+	if(category==null){
+		category = $("#riskcategorytxtid").val();
+	}
+	if(fromdate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else if(todate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else{
+	location.href = 'AML_Risk_Reports?formmode=Cust_list&fromdate='
+			+ fromdate + '&todate=' + todate + '&riskcategory='
+			+ category;
+	}
+}
+function getrss() {
+	var fromdate = $("#start_daterss").val();
+	var todate = $("#end_daterss").val();
+	var category = $("#riskcategoryrss").val();
+	if(fromdate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else if(todate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else{
+	location.href = 'AML_Risk_Reports?formmode=Loan_list&fromdaterss='
+			+ fromdate + '&todaterss=' + todate + '&riskcategoryrss='
+			+ category;
+	}
+}
+function getdeposit() {
+	var fromdate = $("#start_datedep").val();
+	var todate = $("#end_datedep").val();
+	var category = $("#riskcategorydep").val();
+	if(fromdate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else if(todate===""){
+		$("#alertmsgdate").text("Select start date and end date");
+
+		$('#alertdate').modal("toggle");
+	}else{
+	location.href = 'AML_Risk_Reports?formmode=Opr_list&fromdatedep='
+			+ fromdate + '&todatedep=' + todate + '&riskcategorydep='
+			+ category;
+	}
+}
+	function getUserlistOpr(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+		var Fromdate = document.getElementById("Fromdate").value;
+		var Todate = document.getElementById("Todate").value;
+
+		var Callurl = 'AML_Risk_Reports?formmode=Opr_list&Fromdate=' + Fromdate
+				+ '&Todate=' + Todate;
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+
+		}
+
+		location.href = Callurl;
+	}
+
+	$(function() {
+		 $("#start_dateloan").datepicker({
+			maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+				$("#end_date").datepicker("option", "minDate", dt);
+
+			}
+		});
+		$("#end_dateloan").datepicker({
+			//maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = new Date(selected);
+				dt.setDate(dt.getDate() - 1);
+
+			}
+		});
+ 
+/*  $(document).ready(function() {
+		
+	    $('#start_dateloan').trigger('focus');
+	
+	});	 */
+
+		 $("#start_daterss").datepicker({
+			maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+				$("#start_daterss").datepicker("option", "minDate", dt);
+
+			}
+		});
+		$("#end_daterss").datepicker({
+			//maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = new Date(selected);
+				dt.setDate(dt.getDate() - 1);
+
+			}
+		});
+
+		
+
+		$("#start_datedep").datepicker({
+			maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+				$("#start_datedep").datepicker("option", "minDate", dt);
+
+			}
+		});
+		$("#end_datedep").datepicker({
+			//maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = new Date(selected);
+				dt.setDate(dt.getDate() - 1);
+
+			}
+		}); 
+
+		
+	});
+</script>
+
+<body>
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('AML_Risk_Reports')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+
+			<div class="container-fluid">
+
+				<div class="card">
+					<div class="card-header">
+						<div class="float-left">
+							<h4>AML Risk Reports</h4>
+						</div>
+
+					</div>
+
+
+					<div class="card-body">
+						<div class="form-group">
+
+							<div class="row formline">
+								<button
+									th:if="${formmode}=='Cust_list' OR ${formmode}=='Loan_list' OR ${formmode}=='Opr_list' "
+									type="button" class="btn btn-primary"
+									style="border: 2px solid black; width: 33%;" id="btnHome"
+									onclick="CustType();" th:disabled="${formmode}=='Cust_list'">LOAN</button>
+
+								<button
+									th:if="${formmode}=='Cust_list' OR ${formmode}=='Loan_list' OR ${formmode}=='Opr_list' "
+									type="button" class="btn btn-primary "
+									style="border: 2px solid black; width: 33%;" id="btnBack"
+									onclick="SchemeType();" th:disabled="${formmode}=='Loan_list'">RSS</button>
+
+								<button
+									th:if="${formmode}=='Cust_list' OR ${formmode}=='Loan_list' OR ${formmode}=='Opr_list' "
+									type="button" class="btn btn-primary "
+									style="border: 2px solid black; width: 33%;" id="btnBack1"
+									onclick="Operation();" th:disabled="${formmode}=='Opr_list'">DEPOSITS</button>
+							</div>
+
+							<label></label>
+
+							<!-- ***********************Individual Tab*************************************** -->
+							<div th:if="${formmode}=='Cust_list'" class="container content">
+								<div class="row" style="width: 100%;">
+									<div class="col-sm-12" style="width: 100%;">
+										<div class="card" style="width: 100%;">
+											<div class="card-header " id="modheadtitle"
+												style="height: 50px; width: 100%;">
+												<b th:text="${menuname}"></b>
+												
+												<input type="hidden" 
+												 th:value="${session.USERID}"
+												id="sessionid" name="aml_entry_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+								<div class="btn-group nav-buttons float-right">
+									<button class="btn btn-secondary dropdown-toggle" type="button"
+										id="dropdownMenuButton"
+										style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+										data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">Download</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+										style="background-color: #e3e3e4; color: #3a4550;">
+										<a class="dropdown-item" title="Inquiry"  
+											style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+											onclick="getpdfLoan()" id="view_btn">PDF </a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" title="Modify" 
+											style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+											id="edit_value" onclick="getexcelLoan()">EXCEL</a>
+										<div class="dropdown-divider"></div>
+
+
+									</div>
+								</div>
+
+
+											</div>
+
+											<div class="container content">
+												<div class="row">
+													<div class="col-sm-12" style="height: 100px;">
+														<form action="#" th:object="${TransMonitoring}"
+															method="POST" autocomplete="off" id="TransMonitoring">
+															<div class="card" style="height: 90px;">
+																<div class="card-body">
+																	<div class="row formline">
+																		<div class="col-sm-1"></div>
+																		<label class="col-sm-1.5">Risk Category</label>
+																		
+																		<div class="col-sm-2">
+																			<select id="riskcategoryloan"
+																					class="form-control form-control-sm"
+																					autocomplete="off">
+																					    <option th:each="size : ${riskcategory}"
+      																								   th:value="${size}"
+  																					    			   th:text="${size}"
+  																					    			      th:selected="${size} == ${riskcategory1} ? true : false">
+  																							   </option>
+																					
+																					
+																			
+																			</select>
+																		</div>
+																		<div class="col-sm-1.5">
+																			<label for="srl_no">Start Date </label>
+																		</div>
+																		<div class="col-sm-2">
+
+																			<input type="text" id="start_dateloan"
+																				dateformat="dd-MMM-yyyy" th:value="${fromdateloan}"
+																				class="form-control form-control-sm" />
+																		</div>
+																		<label class="col-sm-1.5">End Date</label>
+																		<div class="col-sm-2">
+																			<input type="text" dateformat="dd-MMM-yyyy"
+																				id="end_dateloan" name="end_date"
+																				th:value="${todateloan}"
+																				class="form-control form-control-sm"
+																				autocomplete="off" />
+																		</div>
+																		<i class="fa fa-arrow-circle-right"
+																			style="font-size: 38px; color: #080876; float: right;"
+																			onclick="getloan();"></i>
+																	</div>
+																	<label></label>
+
+																</div>
+																<label></label>
+
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+
+											<div th:if="${formmode_cust}=='tranlist'"
+												class="container content">
+												<div class="row">
+													<div class="col-sm-12">
+
+														<div class="table-responsive"
+															style="overflow-x: scroll; overflow-y: hidden;">
+
+
+															<table class="table table-bordered  table-hover table-sm"
+																style="overflow-x: scroll; overflow-y: hidden; width: 140%"
+																id="usertable">
+																<thead class="thead-light">
+																<thead class="thead-light">
+
+																	<tr>
+																		<th>Customer ID</th>
+																		<th>Name</th>
+																		<th>NID</th>
+																		<th>Risk Category</th>
+																		<th>A/C No</th>
+																		<th>POB</th>
+																		<th>Membership Date</th>
+																		<th>Department</th>
+																		<th>Type of Loan</th>
+																		<th>Application Date </th>
+																		<th>Amount Applied</th>
+																		<th>Amount Disbursed	</th>		
+																		<th>Status (N/R)</th>	
+
+																	</tr>
+																</thead>
+																<tbody id="CustomerInq">
+																	 <tr th:if="${TransactionMaster.totalPages} == '0'">
+																		<td colspan="14" style="text-align: left; color: red">No
+																			record available for the given period</td>
+																	 </tr>
+																	<tr th:each="userProfile : ${TransactionMaster}">
+
+																		<td th:text="${userProfile.CIF}"></td>
+
+																		<td th:text="${userProfile.NAME}"></td>
+
+																		<td th:text="${userProfile.NID}"></td>
+																		
+																		<td th:text="${userProfile.RISK_CATEGORY}"></td>
+																			
+																		<td th:text="${userProfile.FORACID}"></td>
+																	
+																		<td th:text="${userProfile.POB}"></td>			
+																		
+																		<td th:text="${#dates.format(userProfile.MEMBERSHIP_DATE, 'dd-MM-yyyy')}"></td>
+
+																		<td th:text="${userProfile.DEPARTMENT}"></td>
+																		
+																		<td th:text="${userProfile.TYPE_OF_LOAN}"></td>
+																		
+																		<td th:text="${#dates.format(userProfile.APPL_DATE, 'dd-MM-yyyy')}"></td>
+																		
+																		<td th:text="${#numbers.formatDecimal(userProfile.AMT_APPL 	,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td>
+
+																		<td th:text="${#numbers.formatDecimal(userProfile.AMT_DIS 	,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td>
+
+																		<td th:text="${userProfile.STATUS_NEW_REIN}!=null ? 'R-Renewal' : 'N-New'" />
+																		
+																	</tr>
+																</tbody>
+															</table>
+															<div class="float-right"
+																th:if="${TransactionMaster.totalPages} gt 1">
+																<a href="#"><i class="fas fa-caret-left fa-2x"
+																	th:onclick="|getUserlist('prevpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></i></a>
+																<input type="text" id="pageno" style="width: 30px"
+																	th:value="${TransactionMaster.number+1}"
+																	th:onchange="|getUserlist('givenpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></input>
+																of <font th:text="${TransactionMaster.totalPages}"></font>
+																<a href="#"><i class="fas fa-caret-right fa-2x"
+																	th:onclick="|getUserlist('nextpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></i></a>
+															</div>
+
+
+
+														</div>
+
+													</div>
+												</div>
+											</div>
+										</div>
+
+
+
+
+
+
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+
+
+
+						<!------------------------Pop window - Domain  list Ends--------------------------------->
+
+						<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+						<div class="modal fade" id="datadeleteIND">
+							<div
+								class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-body"
+										style="margin-top: 8px; text-align: center; color: aliceblue;">
+										<button type="button" class="close" data-dismiss="modal">×</button>
+										Are you Sure want to delete?
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary"
+											onclick="Ind_submitform(this);"
+											th:attr="data-formmode=Ind_delete">Submit</button>
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal">Cancel</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal fade" id="dataHome">
+							<div
+								class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-body"
+										style="margin-top: 8px; text-align: center; color: aliceblue;">
+										<button type="button" class="close" data-dismiss="modal">×</button>
+										Are you Sure want to Leave?
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary"
+											onclick="home();">Yes</button>
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal">No</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="dataBack">
+							<div
+								class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-body"
+										style="margin-top: 8px; text-align: center; color: aliceblue;">
+										<button type="button" class="close" data-dismiss="modal">×</button>
+										Are you Sure want to Leave?
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary"
+											onclick="back();">Yes</button>
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal">No</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+
+
+
+						<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+						<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+						<div class="modal fade" id="alertdate">
+							<div
+								class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-body" style="text-align: center">
+										<p id="alertmsgdate"></p>
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal" >Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="modal fade" id="alert">
+							<div
+								class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-body" style="text-align: center">
+										<p id="alertmsg"></p>
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal" onclick="list_Ind()">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="verifybox">
+							<div
+								class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-body" style="text-align: center">
+										<p id="verifyboxmsg"></p>
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal">OK</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+						<!-- ***********************Corporate Black list tab*************************************** -->
+						<!-- ***********************Corporate Black list tab*************************************** -->
+						<!-- ***********************Corporate Black list tab*************************************** -->
+						<!-- ***********************Corporate Black list tab*************************************** -->
+						<!-- ***********************Corporate Black list tab*************************************** -->
+
+						<div th:if="${formmode}=='Loan_list'" class="container content">
+							<div class="row" style="width: 100%;">
+								<div class="col-sm-12" style="width: 100%;">
+									<div class="card" style="width: 100%;">
+										<div class="card-header " id="modheadtitle"
+											style="height: 50px; width: 100%;">
+											<b th:text="${menuname}"></b>
+												
+												<input type="hidden" 
+												 th:value="${session.USERID}"
+												id="sessionid" name="aml_entry_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+								<div class="btn-group nav-buttons float-right">
+									<button class="btn btn-secondary dropdown-toggle" type="button"
+										id="dropdownMenuButton"
+										style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+										data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">Download</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+										style="background-color: #e3e3e4; color: #3a4550;">
+										<a class="dropdown-item" title="Inquiry"  
+											style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+											onclick="getpdfRss()" id="view_btn">PDF </a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" title="Modify" 
+											style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+											id="edit_value" onclick="getexcelRss()">EXCEL</a>
+										<div class="dropdown-divider"></div>
+
+
+									</div>
+								</div>
+
+										</div>
+
+										<div class="container content">
+											<div class="row">
+												<div class="col-sm-12 ">
+													<form action="#" th:object="${TransMonitoring}"
+														method="POST" autocomplete="off" id="TransMonitoring">
+
+
+														<div class="card" style="height: 90px;">
+															<div class="card-body">
+																<div class="row formline">
+																	<div class="col-sm-1"></div>
+																	<label class="col-sm-1.5">Risk Category</label>
+																	<div class="col-sm-2">
+																		<select id="riskcategoryrss"
+																			class="form-control form-control-sm"
+																			autocomplete="off">
+																			 <option th:each="size : ${riskcategory}"
+      																				 th:value="${size}"
+  																					 th:text="${size}"
+  																					 th:selected="${size} == ${riskcategory1} ? true : false">
+  																			 </option>
+																		</select>
+																	</div>
+																	<div class="col-sm-1.5">
+																		<label for="srl_no">Start Date </label>
+																	</div>
+																	<div class="col-sm-2">
+
+																		<input type="text" id="start_daterss"
+																			dateformat="dd-MMM-yyyy" th:value="${fromdaterss}"
+																			class="form-control form-control-sm" />
+																	</div>
+																	<label class="col-sm-1.5">End Date</label>
+																	<div class="col-sm-2">
+																		<input type="text" dateformat="dd-MMM-yyyy"
+																			id="end_daterss" name="end_date"
+																			th:value="${todaterss}"
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																	</div>
+																	<i class="fa fa-arrow-circle-right"
+																		style="font-size: 38px; color: #080876; float: right;"
+																		onclick="getrss();"></i>
+																</div>
+																<label></label>
+
+
+
+
+
+															</div>
+															<label></label>
+
+														</div>
+
+
+
+													</form>
+												</div>
+											</div>
+										</div>
+
+
+
+
+
+
+
+
+
+
+										<div th:if="${formmode_loan}=='tranlistloan'"
+											class="container content">
+											<div class="row">
+												<div class="col-sm-12">
+
+													<div class="table-responsive"
+														style="overflow-x: scroll; overflow-y: hidden;">
+
+
+														<table class="table table-bordered  table-hover table-sm"
+															style="overflow-x: scroll; overflow-y: hidden; width: 140%"
+															id="usertable">
+															<thead class="thead-light">
+															<thead class="thead-light">
+
+																<tr>
+																
+																		<th style=" width: 5%;">Customer ID</th>
+																		<th style=" width: 13%;">Name</th>
+																		<th style=" width: 7%;">NID</th>
+																		<th style=" width: 7%;">Risk Category</th>
+																		<th style=" width: 8%;">A/C No</th>
+																		<th style=" width: 7%;">POB</th>
+																		<th style=" width: 12%;">Beneficiary</th>
+																		<th style=" width: 7%;">Department</th>
+																		<th style=" width: 6%;">Application Date</th>
+																		<th style=" width: 6%;">Effective Date</th>
+																		<th style=" width: 7%;">Contribution Amount</th>
+
+																	</tr>
+																</thead>
+																<tbody id="CustomerInq">
+																	<tr th:if="${rsslist.totalPages} == '0'">
+																		<td colspan="11" style="text-align: left; color: red">No
+																			record available for the given period</td>
+																	</tr>
+																	<tr th:each="userProfile : ${rsslist}">
+
+																		<td th:text="${userProfile.CIF}"></td>
+
+																		<td th:text="${userProfile.NAME}"></td>
+
+																		<td th:text="${userProfile.NID}"></td>
+																		
+																			<td th:text="${userProfile.RISK_CATEGORY}"></td>
+																			
+																		<td th:text="${userProfile.FORACID}"></td>
+																	
+																			<td th:text="${userProfile.POB}"></td>			
+
+																		
+																		<td th:text="${userProfile.BENEFICIARY}"></td>
+
+																		<td th:text="${userProfile.DEPARTMENT}"></td>
+																		
+																			
+																		<td th:text="${#dates.format(userProfile.APPL_DATE, 'dd-MM-yyyy')}"></td>
+													
+																		<td th:text="${#dates.format(userProfile.EFF_DATE, 'dd-MM-yyyy')}"></td>
+																		
+																		 <td th:text="${#numbers.formatDecimal(userProfile.CONT_AMT 	,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td>
+
+
+
+																</tr>
+															</tbody>
+														</table>
+														<div class="float-right"
+															th:if="${rsslist.totalPages} gt 1">
+															<a href="#"><i class="fas fa-caret-left fa-2x"
+																th:onclick="|getUserlistloan('prevpage',${rsslist.number},${rsslist.totalPages});|"></i></a>
+															<input type="text" id="pageno" style="width: 30px"
+																th:value="${rsslist.number+1}"
+																th:onchange="|getUserlistloan('givenpage',${rsslist.number},${rsslist.totalPages});|"></input>
+															of <font th:text="${rsslist.totalPages}"></font>
+															<a href="#"><i class="fas fa-caret-right fa-2x"
+																th:onclick="|getUserlistloan('nextpage',${rsslist.number},${rsslist.totalPages});|"></i></a>
+														</div>
+
+
+
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+
+
+
+
+
+								</div>
+							</div>
+
+						</div>
+
+
+						<!-- 	---------------------------------------------monitoring operatioon------------------------------- -->
+						<!-- 	---------------------------------------------monitoring operatioon------------------------------- -->
+						<!-- 	---------------------------------------------monitoring operatioon------------------------------- -->
+						<!-- 	---------------------------------------------monitoring operatioon------------------------------- -->
+
+
+
+						<div th:if="${formmode}=='Opr_list'" class="container content">
+							<div class="row" style="width: 100%;">
+								<div class="col-sm-12" style="width: 100%;">
+									<div class="card" style="width: 100%;">
+										<div class="card-header " id="modheadtitle"
+											style="height: 50px; width: 100%;">
+											<b th:text="${menuname}"></b>
+
+							<input type="hidden" 
+												 th:value="${session.USERID}"
+												id="sessionid" name="aml_entry_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+								<div class="btn-group nav-buttons float-right">
+									<button class="btn btn-secondary dropdown-toggle" type="button"
+										id="dropdownMenuButton"
+										style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+										data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">Download</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+										style="background-color: #e3e3e4; color: #3a4550;">
+										<a class="dropdown-item" title="Inquiry"  
+											style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+											onclick="getpdfDep()" id="view_btn">PDF </a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" title="Modify" 
+											style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+											id="edit_value" onclick="getexcelDep()">EXCEL</a>
+										<div class="dropdown-divider"></div>
+
+
+									</div>
+								</div>
+								
+										</div>
+
+										<div class="container content">
+											<div class="row">
+												<div class="col-sm-12 ">
+													<form action="#" th:object="${TransMonitoring}"
+														method="POST" autocomplete="off" id="TransMonitoring">
+														<div class="card" style="height: 90px;">
+															<div class="card-body">
+																<div class="row formline">
+																		<div class="col-sm-1"></div>
+																		<label class="col-sm-1.5">Risk Category</label>
+																		
+																		<div class="col-sm-2">
+																			<select id="riskcategorydep"
+																					class="form-control form-control-sm"
+																					autocomplete="off">
+																					    <option th:each="size : ${riskcategory}"
+      																								   th:value="${size}"
+  																					    			   th:text="${size}"
+  																					    			      th:selected="${size} == ${riskcategory1} ? true : false">
+  																							   </option>
+																					
+																					
+																			
+																			</select>
+																		</div>
+																		<div class="col-sm-1.5">
+																			<label for="srl_no">Start Date </label>
+																		</div>
+																		<div class="col-sm-2">
+
+																			<input type="text" id="start_datedep"
+																			 th:value="${fromdatedep}"
+																			class="form-control form-control-sm" />
+																		</div>
+																		<label class="col-sm-1.5">End Date</label>
+																		<div class="col-sm-2">
+																			<input type="text" 
+																			id="end_datedep" name="end_date"
+																			th:value="${todatedep}"
+																			class="form-control form-control-sm"
+																			autocomplete="off" />
+																		</div>
+																		<i class="fa fa-arrow-circle-right"
+																			style="font-size: 38px; color: #080876; float: right;"
+																			onclick="getdeposit();"></i>
+																	</div>
+																<label></label>
+
+
+
+
+
+															</div>
+															<label></label>
+
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+
+
+
+
+
+
+
+
+
+
+										<div th:if="${formmode_opr}=='tranlistopr'"
+											class="container content">
+											<div class="row">
+												<div class="col-sm-12">
+
+													<div class="table-responsive"
+														style="overflow-x: scroll; overflow-y: hidden;">
+
+														<table class="table  table-bordered  table-hover table-sm"
+														style="overflow-x: scroll; overflow-y: hidden; width: 140%"
+															 id="usertable12">
+															<thead class="thead-light">
+																<tr>
+																	<th colspan="8" style="text-align: center">First Applicant</th>
+																	<th colspan="8" style="text-align: center">Second Applicant</th>
+																
+																	<th rowspan="2" style="vertical-align: middle ; width:8px;">Application Date</th>
+																	<th rowspan="2" style="vertical-align: middle">Deposited Amount</th>
+																	<th rowspan="2" style="vertical-align: middle;">New/Re-investment</th>	
+																</tr>
+																		<tr>
+																		<th style="width:8%;">Customer ID</th>
+																		<th  style="width:8%;">Name</th>
+																		<th  style="width:8%;">NID</th>
+																		<th style="width:8%;">Risk Category</th>
+																		<th  style="width:8%;">A/C No</th>
+																		<th>POB</th>
+																		<th>Occupation</th>
+																		<th style="width:8%;">Monthly Income</th>
+																		
+																		<th  style="width:8%;">Customer ID</th>
+																		<th style="width:8%;">Name</th>
+																		<th style="width:8%;">NID</th>
+																		<th style="width:8%;">Risk Category</th>
+																		<th style="width:8%;">A/C No</th>
+																		<th>POB</th>
+																		<th>Occupation</th>
+																		<th style="width:8%;">Monthly Income</th>
+																		
+																		
+																	</tr>
+
+																	
+																</thead>
+																<tbody id="CustomerInq">
+																	<tr th:if="${depositlist.totalPages} == '0'">
+																		<td colspan="19" style="text-align: left; color: red">No
+																			record available for the given period</td>
+																	</tr>
+																	<tr th:each="userProfile : ${depositlist}">
+
+																		<td th:text="${userProfile.CIF}"></td>
+
+																		<td th:text="${userProfile.NAME}"></td>
+
+																		<td th:text="${userProfile.NID}"></td>
+																		
+																			<td th:text="${userProfile.RISK_CATEGORY}"></td>
+																			
+																		<td th:text="${userProfile.FORACID}"></td>
+																	
+																			<td th:text="${userProfile.POB}"></td>		
+																			
+																		<td th:text="${userProfile.OCCUPATION}"></td>	
+																		
+																		 <td th:text="${#numbers.formatDecimal(userProfile.MLY_INCOME 	,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td>
+																		
+																		
+																			<td th:text="${userProfile.CIF_2}"></td>
+
+																		<td th:text="${userProfile.NAME_2}"></td>
+
+																		<td th:text="${userProfile.NID_2}"></td>
+																		
+																			<td th:text="${userProfile.RISK_CATEGORY_2}"></td>
+																			
+																		<td th:text="${userProfile.FORACID_2}"></td>
+																	
+																			<td th:text="${userProfile.POB_2}"></td>		
+																			
+																		<td th:text="${userProfile.OCCUPATION_2}"></td>	
+																		
+																 <td th:text="${#numbers.formatDecimal(userProfile.MLY_INCOME_2 	,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td>
+																		
+																			
+																		<td th:text="${#dates.format(userProfile.APPL_DATE, 'dd-MM-yyyy')}"></td>
+													
+																 <td th:text="${#numbers.formatDecimal(userProfile.DEP_AMT 	,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td>
+																		
+																<!--  <td th:text="${userProfile.STATUS_NEW_REIN}"></td>	 --> 
+																
+															<th:block th:switch="${userProfile.STATUS_NEW_REIN}">
+																<td th:case="'A'">Re-Investment</td>
+																<td th:case="'R'">Re-Investment</td>
+																<td th:case="' '">New</td>
+																<td th:case="''">New</td>
+																<td th:case="N">New</td>
+																<td th:case="null">New</td>
+															</th:block>
+
+
+																</tr>
+															</tbody>
+														</table>
+
+														<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+														<div>
+															<div class="float-right"
+																th:if="${depositlist.totalPages} gt 1">
+																<a href="#"><i class="fas fa-caret-left fa-2x"
+																	th:onclick="|getUserlistOpr('prevpage',${depositlist.number},${depositlist.totalPages});|"></i></a>
+																<input type="text" id="pageno" style="width: 30px"
+																	th:value="${depositlist.number+1}"
+																	th:onchange="|getUserlistOpr('givenpage',${depositlist.number},${depositlist.totalPages});|"></input>
+																of <font th:text="${depositlist.totalPages}"></font>
+																<a href="#"><i class="fas fa-caret-right fa-2x"
+																	th:onclick="|getUserlistOpr('nextpage',${depositlist.number},${depositlist.totalPages});|"></i></a>
+															</div>
+														</div>
+
+
+
+
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+
+
+
+
+
+								</div>
+							</div>
+
+						</div>
+
+
+
+
+
+
+
+
+
+
+						<!------------------------Pop window - Domain  list Ends--------------------------------->
+
+						<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+						<div class="modal fade" id="datadeleteCORP">
+							<div
+								class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-body"
+										style="margin-top: 8px; text-align: center; color: aliceblue;">
+										<button type="button" class="close" data-dismiss="modal">×</button>
+										Are you Sure want to delete?
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary"
+											onclick="Corp_submitform(this);"
+											th:attr="data-formmode_corp=Corp_delete">Submit</button>
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal">Cancel</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal fade" id="dataCorp_home">
+							<div
+								class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-body"
+										style="margin-top: 8px; text-align: center; color: aliceblue;">
+										<button type="button" class="close" data-dismiss="modal">×</button>
+										Are you Sure want to Leave?
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary"
+											onclick="Corp_home();">Yes</button>
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal">No</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="dataCorp_back">
+							<div
+								class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-body"
+										style="margin-top: 8px; text-align: center; color: aliceblue;">
+										<button type="button" class="close" data-dismiss="modal">×</button>
+										Are you Sure want to Leave?
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary"
+											onclick="Corp_back();">Yes</button>
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal">No</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+
+
+
+						<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+						<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+						<div class="modal fade" id="corpalert">
+							<div
+								class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-body" style="text-align: center">
+										<p id="corpalertmsg"></p>
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal" onclick="list_Corp()">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="corpverifybox">
+							<div
+								class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-body" style="text-align: center">
+										<p id="corpverifyboxmsg"></p>
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal">OK</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+
+
+
+						<!-- ***********************Corporate Black list tab END*************************************** -->
+
+
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="card-footer text-center" style="background-color: #386276";>
+			<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+				onclick="home();">Home</button>
+			<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+				onclick="back();">Back</button>
+		</div>
+	</div>
+	</div>
+
+	<div class="modal fade" id="finusers">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="border: 2px solid black;">
+
+				<!-- Modal Header -->
+				<div class="modal-header" style="background-color: #386276;">
+					<h4 class="modal-title">Rule Id</h4>
+					<button type="button" class="close" data-dismiss="modal">×</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body" style="background-color: #e6eaed;">
+					<table class="table table-hover" id="finusertb">
+						<thead class="thead-light" style="background-color: #386276;">
+							<tr>
+								<th
+									style="color: #ffffff; width: 100px; background-color: #386276; border-color: #495561; font-size: 11px;">Rule
+									Code</th>
+								<th
+									style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">Rule
+									Code Description</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="alert: ${transactionMonitoring}"
+								th:attr="data-rulecode=${alert.ref_no},data-loan_limit=${alert.loan_limit},data-cust_type = ${alert.cust_type},data-cust_sub_type =${alert.cust_sub_type},data-schm_code = ${alert.schm_code},data-gl_sub_head_code =${alert.gl_sub_head_code}"
+								th:id="${alert.ref_no}" th:onclick="finuser(this)"
+								class="userlist1">
+								<td style="color: black;" th:text="${alert.ref_no}"></td>
+								<td style="color: black;"
+									th:text="${alert.cust_type + '-' + alert.cust_sub_type + '-' + alert.loan_limit}"></td>
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="finusersLoan">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="border: 2px solid black;">
+
+				<!-- Modal Header -->
+				<div class="modal-header" style="background-color: #386276;">
+					<h4 class="modal-title">Rule Id</h4>
+					<button type="button" class="close" data-dismiss="modal">×</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body" style="background-color: #e6eaed;">
+					<table class="table table-hover" id="finusertb">
+						<thead class="thead-light" style="background-color: #386276;">
+							<tr>
+								<th
+									style="color: #ffffff; width: 100px; background-color: #386276; border-color: #495561; font-size: 11px;">Rule
+									Code</th>
+								<th
+									style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">Rule
+									Code Description</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="alert: ${transactionMonitoringschm}"
+								th:attr="data-rulecode=${alert.ref_no},data-loan_limit=${alert.loan_limit},data-loanscheme = ${alert.loan_scheme},data-condition =${alert.loan_conditions},data-schm_code = ${alert.schm_code},data-gl_sub_head_code =${alert.gl_sub_head_code}"
+								th:id="${alert.ref_no}" th:onclick="findLoanSchemes(this)"
+								class="userlist1">
+								<td style="color: black;" th:text="${alert.ref_no}"></td>
+								<td style="color: black;"
+									th:text="${alert.loan_scheme + '-' + alert.loan_conditions + '-' + alert.loan_limit}"></td>
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+</body>
+
+
+
+
+</html>

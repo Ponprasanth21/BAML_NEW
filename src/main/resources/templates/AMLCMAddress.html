@@ -1,0 +1,355 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLCMDocuments
+CREATED BY	: RAMPRASATH
+CREATED ON	: 27-JAN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+ <html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+
+
+</head>
+
+
+
+
+<title>AML</title>
+<style>
+nav>.nav.nav-tabs {
+	border: none;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
+	border: none;
+	padding: 18px 25px;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link.active:after {
+	content: "";
+	position: relative;
+	bottom: -60px;
+	left: -10%;
+	border: 15px solid transparent;
+	border-top-color: #1b6491;
+}
+
+.tab-content {
+	background: #fdfdfd;
+	line-height: 25px;
+	width: 100%;
+	border: 1px solid #ddd;
+	border-top: 5px solid #594a43;
+	border-bottom: 5px solid #594a43;
+	padding: 30px 25px;
+}
+
+nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
+	border: none;
+	background: #002942;
+	color: #fff;
+	border-radius: 0;
+	transition: background 0.20s linear;
+}
+</style>
+<script type="text/javascript">
+	function back() {
+		window.history.back();
+	}
+	function home() {
+		location.href = 'Dashboard'
+	}
+
+</script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+	/* $(function() {
+
+		
+		 alert("xczcxvddv");
+		 
+
+			$("#inquiry").addClass("waves-effect active submenu-indicator-minus");
+			$("#"+menu).css("background-color","rgb(126, 165, 199)");
+			/* $("#"+menu).parent().show();
+			$("#"+menu).parent().toggle();*/
+			/*  $("#inquiry").click(); */
+			/* $("#inquiry").css("background-color","white");
+	 */
+	 
+/* 
+	 $("#inquiry").trigger("click");
+	 alert("sd s");
+
+	}); */
+	 */
+
+	
+	
+	/*<![CDATA[*/
+</script>
+<script>
+	function Home(a) {
+
+		location.href = 'AMLCaseManagement';
+	}
+
+	function Customers(a) {
+
+		location.href = 'AMLCMCustomers';
+	}
+
+	function Documents(a) {
+
+		location.href = 'AMLCMDocuments';
+	}
+	function Address(a) {
+
+		location.href = 'AMLCMAddress';
+	}
+	function KYC(a) {
+
+		location.href = 'AMLCMKyc';
+	}
+	function Rating(a) {
+
+		location.href = 'AMLCMRating';
+	}
+	function History(a) {
+
+		location.href = 'AMLCMHistory';
+	}
+	function Source(a) {
+
+		location.href = 'AMLCMSourceIncome';
+	}
+	function Employment(a) {
+
+		location.href = 'AMLCMEmployment';
+	}
+	function Transactions(a) {
+
+		location.href = 'AMLCMTransactions';
+	}
+	function Accounts(a) {
+
+		location.href = 'AMLCMAccounts';
+	}
+</script>
+
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+                <div class="col-xs-12 ">
+                <div class="card-header " id="modheadtitle">
+									<b>AML Case Management</b>
+								</div>
+																<label></label>
+								
+                  <nav>
+                     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                      <a class="nav-item nav-link " id="nav-home-tab" data-toggle="tab" href="#" onclick="Home()" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+                      <a class="nav-item nav-link " id="nav-profile-tab" data-toggle="tab" style="background-color: #2e3e4e" onclick="Customers()" role="tab" aria-controls="nav-profile" aria-selected="false">Customers</a>
+                      <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#" onclick="Accounts()" role="tab" aria-controls="nav-contact" aria-selected="false">Accounts</a>
+                      <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#" onclick="Transactions()" role="tab" aria-controls="nav-about" aria-selected="false">Transactions</a>
+                    </div>
+                  </nav>
+
+                  <label></label>
+                  <label></label>
+                  		 <div class="row">
+                  
+			<div class="container-fluid" id="BILLANDPAY">
+                    <!------------------------------------------ ---Main tabs------------------------------------------------------ -->
+		<ul id="tabs" class="nav nav-tabs" role="tablist">
+
+								<li class="nav-item"><a id="tab-A" onclick="Customers()"
+									class="nav-link " style="color: #2e3e4e;"
+									data-toggle="tab" role="tab">Customers</a></li>
+								<li class="nav-item"><a id="tab-B" onclick="Documents()"
+									class="nav-link " style="color: #2e3e4e;" data-toggle="tab"
+									role="tab">Documents</a></li>
+								<li class="nav-item"><a id="tab-C" onclick="Address()"
+									class="nav-link active" style="color: #2e3e4e;" data-toggle="tab"
+									role="tab">Address</a></li>
+								<li class="nav-item"><a id="tab-D" onclick="KYC()"
+									class="nav-link" style="color: #2e3e4e;" data-toggle="tab"
+									role="tab">KYC</a></li>
+								<li class="nav-item"><a id="tab-D" onclick="Rating()"
+									class="nav-link" style="color: #2e3e4e;" data-toggle="tab"
+									role="tab">Rating</a></li>
+								<li class="nav-item"><a id="tab-D" onclick="History()"
+									class="nav-link" style="color: #2e3e4e;" data-toggle="tab"
+									role="tab">History</a></li>
+								<li class="nav-item"><a id="tab-D" onclick="Source()"
+									class="nav-link" style="color: #2e3e4e;" data-toggle="tab"
+									role="tab">Source Of Income</a></li>
+								<li class="nav-item"><a id="tab-D" onclick="Employment()"
+									class="nav-link" style="color: #2e3e4e;" data-toggle="tab"
+									role="tab">Employment</a></li>
+							</ul>
+							<label></label>
+
+				<div class="container-fluid">
+					<div th:if="${formmode}=='list'" class="content">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="card-header " id="modheadtitle">
+									<b>Customer Address Details</b>
+								</div>
+								<div>
+									<label></label>
+									<div class="form-group">
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="cust_id"> Customer Id </label>
+											</div>
+
+											<div class="col-sm-3">
+												<input type="text" th:value="${Custmaster?.cust_id}"
+													id="cust_id" class="form-control form-control-sm"
+													name="cust_id" autocomplete="off">
+											</div>
+											<div class="col-sm-1"></div>
+											<label class="col-sm-2">Customer Name</label>
+
+
+											<div class="col-sm-3">
+												<input type="text" th:value="${Custmaster?.primary_sol_id}"
+													id="primary_sol_id" name="sol_id"
+													class="form-control form-control-sm" autocomplete="false">
+											</div>
+
+										</div>
+
+										<label></label>
+									</div>
+									<div class="table-responsive"
+										style="overflow-x: scroll; overflow-y: hidden;">
+										<table class="table table-bordered  table-hover table-sm"
+											style="overflow-x: scroll; overflow-y: hidden; width: 180%"
+											id="usertable">
+											<thead class="thead-light">
+												<tr>
+													<th>Address Type</th>
+												<th>Address 1</th>
+												<th>Address 2</th>
+												<th>City Code </th>
+												<th>State Code</th>
+												<th>Country Code</th>
+												<th>ZIP/Postal Code</th>
+												
+												<th>Remarks</th>
+												<th>AML Impact</th>
+
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="TransactionMaster : ${transaction}">
+													<td
+														th:text="${#dates.format(TransactionMaster.tran_date,'dd-MM-yyyy')}"></td>
+													<td
+														th:text="${#dates.format(TransactionMaster.value_date,'dd-MM-yyyy')}"></td>
+													<td th:text="${TransactionMaster.tran_type}"></td>
+													<td th:text="${TransactionMaster.tran_sub_type}"></td>
+													<td
+														th:text="${TransactionMaster.transactionmasterembeddedid.tran_id}"></td>
+													<td th:text="${TransactionMaster.part_tran_srl_num}"></td>
+													<td
+														th:text="${TransactionMaster.transactionmasterembeddedid.part_tran_type}"></td>
+													<td th:text="${TransactionMaster.tran_amt}" align="right"></td>
+													<td th:text="${TransactionMaster.tran_crncy_code}"></td>
+													<td
+														th:text="${TransactionMaster.accountsinquiryentity.acct_name}"></td>
+													<td th:text="${TransactionMaster.tran_particular}"></td>
+													<td
+														th:text="${TransactionMaster.accountsinquiryentity.clr_bal_amt}"
+														align="right"></td>
+
+												</tr>
+
+											</tbody>
+										</table>
+
+										<!---------------------User List Ends--------------------------------------------------------->
+
+										<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+										<!-- <div class="float-right"
+								th:if="${CustomerProfiling.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${CustomerProfiling.number},${CustomerProfiling.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${CustomerProfiling.number+1}"
+									th:onchange="|getUserlist('givenpage',${CustomerProfiling.number},${CustomerProfiling.totalPages});|"></input>
+								of <font th:text="${CustomerProfiling.totalPages}"></font> <a
+									href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${CustomerProfiling.number},${CustomerProfiling.totalPages});|"></i></a>
+							</div> -->
+									</div>
+								</div>
+								<div class="card-footer text-center">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();">Home</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button>
+							</div>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
+</body>
+</html>

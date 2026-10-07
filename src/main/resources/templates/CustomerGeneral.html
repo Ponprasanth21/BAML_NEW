@@ -1,0 +1,1199 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : CustomerGeneral
+CREATED BY	: MANIVANNAN
+CREATED ON	: 11-MAR-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+
+
+</head>
+
+
+
+
+<title>AML</title>
+<style>
+nav>.nav.nav-tabs {
+	border: none;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
+	border: none;
+	padding: 18px 25px;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link.active:after {
+	content: "";
+	position: relative;
+	bottom: -60px;
+	left: -10%;
+	border: 15px solid transparent;
+	border-top-color: #1b6491;
+}
+
+.tab-content {
+	background: #fdfdfd;
+	line-height: 25px;
+	width: 100%;
+	border: 1px solid #ddd;
+	border-top: 5px solid #594a43;
+	border-bottom: 5px solid #594a43;
+	padding: 30px 25px;
+}
+
+nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
+	border: none;
+	background: #002942;
+	color: #fff;
+	border-radius: 0;
+	transition: background 0.20s linear;
+}
+
+.form-control:disabled, .form-control[readonly] {
+	background-color: #ffffff;
+	opacity: 1;
+}
+</style>
+
+<style>
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+</style>
+<script type="text/javascript">
+	$(function() {
+
+		$("#entry_time1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;
+		//document.getElementById('fromdate').value = today;
+		//document.getElementById('todate').value = today;
+		//document.getElementById('modify_time1').value = today;
+	});
+
+	var deleteval;
+	function getUserlist(mode, num, maxpage) {
+		$("#loadermodal").modal("toggle");
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+
+		var Callurl = 'CustTransaction?formmode=list';
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		location.href = Callurl;
+	}
+
+	function back() {
+		$("#loadermodal").modal("toggle");
+		window.history.back();
+	}
+	function home() {
+		$("#loadermodal").modal("toggle");
+		location.href = 'CustomerInquiry'
+	}
+
+	function ACCOUNTDETAILS() {
+		$("#loadermodal").modal("toggle");
+		var CUSTID = $("#cust_id").val();
+		var CustName = $("#cust_first_name").val();
+		location.href = 'CustAccount?CUSTID=' + CUSTID + '&CustName='
+				+ CustName;
+	}
+
+	function TRANSACTIONDETAILS() {
+		$("#loadermodal").modal("toggle");
+		var CUSTID = $("#cust_id").val();
+		var CustName = $("#cust_first_name").val();
+		location.href = 'CustTransaction?CUSTID=' + CUSTID + '&CustName='
+				+ CustName;
+	}
+	function AUDITDETAILS() {
+		$("#loadermodal").modal("toggle");
+		var acct_num = document.getElementById("cust_id").value;
+		var acct_len = acct_num.length;
+		if (acct_num != "") {
+			location.href = "BAMLAuditCustomerInquiry?cust_id=" + acct_num
+					+ '&acct_len=' + acct_len;
+		}
+	}
+	function AUDITDETAILSGeneral() {
+		$("#loadermodal").modal("toggle");
+		var acct_num = document.getElementById("cust_id").value;
+		var acct_len = acct_num.length;
+		if (acct_num != "") {
+			location.href = "BAMLAuditCustomerInquiry?cust_id=" + acct_num
+					+ '&acct_len=' + acct_len;
+		}
+	}
+
+	function TRANSACTIONDETAILSGeneral() {
+		$("#loadermodal").modal("toggle");
+		var CUSTID = $("#cust_id").val();
+		var CustName = $("#CustName").val();
+		location.href = 'CustTransaction?CUSTID=' + CUSTID + '&CustName='
+				+ CustName;
+
+	}
+
+	function fnClick(a) {
+		$("#loadermodal").modal("toggle");
+		var CUSTID = $("#cust_id").val();
+		var acctnum = a.getAttribute("data-custId")
+		var acid = a.getAttribute("data-acid")
+		location.href = 'AMLAccountInquiry1?acctnum=' + acctnum + '&CUSTID='
+				+ CUSTID + '&acid=' + acid;
+	}
+	function gettrandate() {
+		$("#loadermodal").modal("toggle");
+		var custname = $("#tran_acct_name").val();
+		var customer = $("#cust_id1").val();
+
+		var fromdate = $("#fromdate").val();
+		//String fromdate = new SimpleDateFormat("dd-MMM-yy").format(new SimpleDateFormat("dd-MM-yyyy").parse(f));
+		var todate = $("#todate").val();
+		//String todate = new SimpleDateFormat("dd-MMM-yy").format(new SimpleDateFormat("dd-MM-yyyy").parse(f));
+
+		location.href = 'CustTransactiondate?fromdate=' + fromdate + '&todate='
+				+ todate + '&customer=' + customer + '&custname=' + custname;
+	}
+
+	$(function() {
+
+		$("#fromdate")
+				.datepicker(
+						{
+
+							dateFormat : "dd/mm/yy",
+							onSelect : function(selected) {
+								var dt = $(this).datepicker('getDate');
+								var mt = $(this).datepicker('getMonth');
+								dt.setDate(dt.getDate());
+								mt.setMonth(mt.getMonth());
+								$("#todate")
+										.datepicker("option", "minDate", dt);
+								$("#todate").datepicker("option", "maxDate",
+										selected);
+								var custname = $("#tran_acct_name").val();
+								var customer = $("#cust_id1").val();
+								var fromdate = document
+										.getElementById("fromdate").value;
+								var todate = document.getElementById("todate").value;
+								if (todate == "") {
+									alert("Enter To date");
+								} else {
+									$("#loadermodal").modal("toggle");
+									location.href = 'CustTransactiondate?fromdate='
+											+ fromdate
+											+ '&todate='
+											+ todate
+											+ '&customer='
+											+ customer
+											+ '&custname=' + custname;
+								}
+
+							}
+						});
+
+		$("#todate")
+				.datepicker(
+						{
+							//minDate : 0,
+
+							dateFormat : "dd/mm/yy",
+							onSelect : function(selected) {
+								var dt = new Date(selected);
+								dt.setDate(dt.getDate() - 1);
+								var custname = $("#tran_acct_name").val();
+								var customer = $("#cust_id1").val();
+
+								var fromdate = document
+										.getElementById("fromdate").value;
+								var todate = document.getElementById("todate").value;
+								if (fromdate == "") {
+									alert("Enter From date");
+								} else {
+									$("#loadermodal").modal("toggle");
+									location.href = 'CustTransactiondate?fromdate='
+											+ fromdate
+											+ '&todate='
+											+ todate
+											+ '&customer='
+											+ customer
+											+ '&custname=' + custname;
+								}
+							}
+						});
+	});
+	function fnClickAcct(a) {
+		$("#loadermodal").modal("toggle");
+		var acctnum = a.getAttribute("data-Acctnum");
+		var CUSTID = $("#cust_id1").val();
+		var acid = a.getAttribute("data-acid");
+		location.href = 'AMLAccountInquiry1?acctnum=' + acctnum + '&CUSTID='
+				+ CUSTID + '&acid=' + acid;
+	}
+
+	function fnClickTran(a) {
+		$("#loadermodal").modal("toggle");
+		var tranid = a.getAttribute("data-tran_id");
+		var tranrefno = a.getAttribute("data-tran_ref_no");
+		/* var parttranid = a.getAttribute("data-part_tran_id"); */
+		var acid = a.getAttribute("data-foracid");
+		var parttranid = a.getAttribute("data-parttran");
+		var trandate = a.getAttribute("data-trandate");
+
+		location.href = 'AMLTranInquiry?tranid=' + tranid + '&tranrefno='
+				+ tranrefno + '&acid=' + acid + '&parttranid=' + parttranid
+				+ '&trandate=' + trandate;
+	}
+</script>
+
+<script>
+	
+</script>
+
+
+<script>
+	
+</script>
+<body>
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('AMLCustGen')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+
+
+
+
+
+
+
+
+
+
+			<!--  ***************************************************CUSTOMER SUB TAB MENU*************************************************************  -->
+
+
+			<!--  ***************************************************CUSTOMER SUB TAB MENU STARTS************************************************************* -->
+
+
+
+			<div class="container-fluid">
+
+				<div class="card">
+					<div class="card-header">
+						<div class="float-left">
+							<h4>CUSTOMER GENERAL DETAILS</h4>
+						</div>
+
+					</div>
+					<div class="card-body">
+
+
+						<div class="form-group">
+
+							<div class="row formline">
+								<button type="button" class="btn btn-primary"
+									style="border: 2px solid black; width: 10%;"
+									th:if="${formmode}=='general'" id="btnHome"
+									onclick="ACCOUNTDETAILS();"
+									th:disabled="${formmode}=='CustAccount' OR ${formmode}=='CustTransaction'">Account</button>
+								<button type="button" class="btn btn-primary "
+									th:if="${formmode}=='general'"
+									style="border: 2px solid black; width: 12%;" id="btnBack"
+									onclick="TRANSACTIONDETAILS();"
+									th:disabled="${formmode}=='CustTransaction'">Transaction</button>
+								<button type="button" class="btn btn-primary "
+									th:if="${formmode}=='CustAccount'"
+									style="border: 2px solid black; width: 12%;" id="btnBack"
+									onclick="TRANSACTIONDETAILSGeneral();"
+									th:disabled="${formmode}=='CustTransaction'">Transaction</button>
+								<button type="button" class="btn btn-primary "
+									th:if="${formmode}=='general'"
+									style="border: 2px solid black; width: 12%;" id="btnBack"
+									onclick="AUDITDETAILS();"
+									th:disabled="${formmode}=='CustTransaction'">Audit</button>
+								<button type="button" class="btn btn-primary "
+									th:if="${formmode}=='CustAccount'"
+									style="border: 2px solid black; width: 12%;" id="btnBack"
+									onclick="AUDITDETAILSGeneral();"
+									th:disabled="${formmode}=='CustTransaction'">Audit</button>
+
+							</div>
+							<label></label>
+							<div th:if="${formmode}=='general'" class=" content">
+								<div class="form-group">
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="srl_no"> Customer ID</label>
+										</div>
+										<input type="hidden" id="custAudit"
+											th:value="${Custmaster?.cust_id}">
+										<div class="col-sm-3">
+											<input type="text" th:value="${Custmaster?.cif_id}"
+												id="cust_id" class="form-control form-control-sm" readonly
+												name="cust_id" autocomplete="off" required>
+										</div>
+										<div class="col-sm-1"></div>
+										<label class="col-sm-2">Customer Status</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${CUSTOMERSTATUS}"
+												id="cust_stat_code" name="cust_stat_code" readonly
+												class="form-control form-control-sm txtalign"
+												autocomplete="false" required />
+										</div>
+
+									</div>
+
+									<div class="row formline">
+
+										<label class="col-sm-2">First Name </label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Custmaster?.cust_first_name}"
+												id="cust_first_name" name="cust_first_name" 
+												readonly class="form-control form-control-sm"
+												autocomplete="off" required />
+										</div>
+										<div class="col-sm-1"></div>
+
+
+										<label class="col-sm-2">Creation Date </label>
+										<div class="col-sm-3">
+											<input type="text"
+												th:value="${#dates.format(Custmaster?.cust_opn_date, 'dd/MM/yyyy')}"
+												id="cust_opn_date" name="cust_opn_date" readonly
+												class="form-control form-control-sm" autocomplete="off"
+												required />
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+									<div class="row formline">
+
+										<label class="col-sm-2">Last Name </label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Custmaster?.cust_last_name}"
+												id="cust_last_name" name="cust_last_name"  readonly
+												class="form-control form-control-sm" autocomplete="off"
+												required />
+										</div>
+										<div class="col-sm-1"></div>
+
+
+										<label class="col-sm-2">Segmentation Class</label>
+										<div class="col-sm-3">
+											<input type="text"
+												th:value="${Custmaster?.segmentation_class}"
+												id="cust_type_code" name="cust_type_code"  readonly
+												class="form-control form-control-sm txtalign"
+												autocomplete="false" required />
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+									<div class="row formline">
+
+
+										<label class="col-sm-2">Full Name </label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Custmaster?.cust_name}"
+												id="cust_name"  name="cust_name" readonly
+												class="form-control form-control-sm" autocomplete="off"
+												required />
+										</div>
+
+										<div class="col-sm-1"></div>
+
+										<label class="col-sm-2">Sub-segment</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Custmaster?.subsegment}"
+												th:if="${Custmaster?.subsegment} !='Z' AND ${Custmaster?.subsegment} !='Y'"
+												id="cust_const" name="cust_const" value="" readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required /> <input type="text"
+												th:if="${Custmaster?.subsegment}=='Z' OR ${Custmaster?.subsegment} =='Y'"
+												id="cust_const" name="cust_const" value="Others" readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+
+										<div class="col-sm-1"></div>
+									</div>
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Maiden Name</label>
+										<div class="col-sm-3">
+											<input type="number"
+												th:value="${Custmaster?.cust_middle_name}"
+												id="cust_middle_name" name="cust_middle_name" 
+												readonly class="form-control form-control-sm"
+												autocomplete="off" required />
+										</div>
+
+										<div class="col-sm-1"></div>
+										<label class="col-sm-2">Risk Category</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Custmaster?.riskrating}"
+												 id="riskrating"
+												 name="riskrating" readonly
+												class="form-control form-control-sm" autocomplete="off" />
+											<!-- <input type="text" th:if="${Custmaster?.localetext}==null"
+												id="riskrating" value="LOW" name="riskrating" readonly
+												class="form-control form-control-sm" autocomplete="off" /> -->
+										</div>
+
+										<div class="col-sm-1"></div>
+									</div>
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Gender</label>
+										<div class="col-sm-3">
+
+											<input type="text" id="cust_grp" name="cust_grp" value="MALE"
+												th:if="${Custmaster?.cust_sex} =='M'" readonly
+												class="form-control form-control-sm txtalign"
+												autocomplete="false" required /> <input type="text"
+												id="cust_grp" name="cust_grp"
+												th:if="${Custmaster?.cust_sex}=='F'" value="FEMALE" readonly
+												class="form-control form-control-sm txtalign"
+												autocomplete="false" required /> <input type="text"
+												id="cust_grp" name="cust_grp"
+												th:if="${Custmaster?.cust_sex}=='O'" value="OTHERS" readonly
+												class="form-control form-control-sm txtalign"
+												autocomplete="false" required /> <input type="text"
+												id="cust_grp" name="cust_grp"
+												th:if="${Custmaster?.cust_sex}== null" value="OTHERS"
+												readonly class="form-control form-control-sm txtalign"
+												autocomplete="false" required />
+
+
+										</div>
+
+										<div class="col-sm-1"></div>
+										<label class="col-sm-2">PEP/HNWI</label>
+										<div class="col-sm-3" style="display: inline-flex;">
+											<input type="text" th:value="${Custmaster?.free_code_7}"
+												id="free_code_7"  name="free_code_7" readonly
+												class="form-control form-control-sm col-sm-6"
+												autocomplete="off" /> <input type="text"
+												th:if="${Custmaster?.free_code_6}=='002'" id="free_code_6"
+												value="YES" name="free_code_6" readonly
+												class="form-control form-control-sm col-sm-6"
+												autocomplete="off" />
+												<input type="text"
+												th:if="${Custmaster?.free_code_6}!='002'" id="free_code_6"
+												value="NO" name="free_code_6" readonly
+												class="form-control form-control-sm col-sm-6"
+												autocomplete="off" />
+										</div>
+
+										<div class="col-sm-1"></div>
+									</div>
+
+									<div class="row formline">
+
+
+										<label class="col-sm-2">Date Of Birth</label>
+										<div class="col-sm-3">
+											<input type="email"
+												th:value="${#dates.format(Custmaster?.cust_dob, 'dd/MM/yyyy')}"
+												id="cust_opn_date"  name="cust_opn_date" readonly
+												class="form-control form-control-sm" autocomplete="off" />
+										</div>
+
+										<div class="col-sm-1"></div>
+
+										<label class="col-sm-2">Department</label>
+										<div class="col-sm-3" style="display: inline-flex;">
+											<input type="text" th:value="${Custmaster?.struserfield10}"
+												id="struserfield10"  name="struserfield10" readonly
+												class="form-control form-control-sm col-sm-3"
+												autocomplete="off" /> <input type="text"
+												th:value="${DEPARTMENT}" id="struserfield10" 
+												name="struserfield10" readonly
+												class="form-control form-control-sm col-sm-9"
+												autocomplete="off" />
+										</div>
+									</div>
+									<div class="row formline">
+										<label class="col-sm-2">City Of Birth</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Placeofbirth}"
+												 id="placeofbirth" 
+												name="placeofbirth" readonly
+												class="form-control form-control-sm" autocomplete="off" />
+											<!-- <input type="text" th:if="${Placeofbirth} == null"
+												id="placeofbirth" value="PORT LOUIS" name="placeofbirth"
+												readonly class="form-control form-control-sm"
+												autocomplete="off" /> -->
+										</div>
+
+										<div class="col-sm-1"></div>
+										<label class="col-sm-2">Paysite Code</label>
+										<div class="col-sm-3" style="display: inline-flex;">
+										<input type="text" th:value="${Custmaster?.struserfield11}"
+												id="address_type" name="address_type"  readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+											<!-- <input type="text" th:value="${Custmaster?.struserfield11}"
+												id="struserfield11" value="" name="struserfield11" readonly
+												class="form-control form-control-sm col-sm-3"
+												autocomplete="off" /> <input type="text"
+												th:value="${PAYSITE}" id="struserfield10" value=""
+												name="struserfield10" readonly
+												class="form-control form-control-sm col-sm-9"
+												autocomplete="off" /> -->
+										</div>
+
+									</div>
+									<div class="row formline">
+
+										<label class="col-sm-2">National ID</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Custmaster?.nat_id_card_num}"
+												id="address_type" name="address_type"  readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+
+										<div class="col-sm-1"></div>
+
+										<label class="col-sm-2">Occupation</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Occupation}" id="occupation"
+												value="DATA NEEDED" name="occupation" readonly
+												class="form-control form-control-sm" autocomplete="off" />
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+									<div class="row formline">
+
+										<label class="col-sm-2">Address Type</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Custmaster?.addr_id}"
+												id="address_type" name="address_type"  readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+
+										<div class="col-sm-1"></div>
+
+										<label class="col-sm-2">Date of Joining</label>
+										<div class="col-sm-3" style="display: inline-flex;">
+											<input type="text"
+												th:value="${#dates.format(Custmaster?.dtdate1,'dd/MM/yyyy')}"
+												id="dtdate1"  name="dtdate1" readonly
+												class="form-control form-control-sm" autocomplete="off" />
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Address 1 </label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Custmaster?.address1}"
+												id="address1" name="address1"  readonly
+												class="form-control form-control-sm txtalign"
+												autocomplete="false" required />
+										</div>
+
+										<div class="col-sm-1"></div>
+										<label class="col-sm-2">Years of Service </label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${YEAROFVALUE}" id="dtdate1"
+												 name="dtdate1" readonly
+												class="form-control form-control-sm " autocomplete="off" />
+										</div>
+
+
+										<div class="col-sm-1"></div>
+									</div>
+
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Address 2</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Custmaster?.address2}"
+												id="address2" name="address2"  readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+
+										<div class="col-sm-1"></div>
+<label class="col-sm-2">Gross Income</label>
+										<div class="col-sm-3">
+											<input type="text" style=""
+												th:value="${#numbers.formatDecimal(Custmaster?.annual_salary_income,1,'COMMA',2,'POINT')}"
+												id="annual_salary_income" 
+												name="annual_salary_income" readonly
+												class="form-control form-control-sm" autocomplete="off" />
+										</div>
+
+										
+										<div class="col-sm-1"></div>
+									</div>
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Address 3 </label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Custmaster?.address3}"
+												id="address3" name="address3"  readonly
+												class="form-control form-control-sm txtalign"
+												autocomplete="false" required />
+										</div>
+
+										<div class="col-sm-1"></div>
+
+										<div class="col-sm-2">
+											<label for="cust_id">Bank</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:value="${BANKNAME}" id="BANK"
+												class="form-control form-control-sm" readonly name="bank"
+												autocomplete="off" required>
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+
+
+									<div class="row formline">
+
+										<label class="col-sm-2">City / Postal Code</label>
+										<div class="col-sm-3" style="display: inline-flex;">
+											<input type="text" th:value="${City}" id="city_code"
+												name="city_code"  readonly
+												class="form-control form-control-sm col-sm-8"
+												autocomplete="false" required /> <input type="text"
+												th:value="${Custmaster?.pin_code}" id="cust_perm_pin_code"
+												name="cust_perm_pin_code"  readonly
+												class="form-control form-control-sm col-sm-4"
+												autocomplete="false" required />
+
+										</div>
+
+										<div class="col-sm-1"></div>
+
+										<label class="col-sm-2">Branch/Bank Code</label>
+										<div class="col-sm-3" style="display: inline-flex;">
+											<input type="text" th:value="${Custmaster?.struserfield13}"
+												id="struserfield13"  name="struserfield13" readonly
+												class="form-control form-control-sm col-sm-3"
+												autocomplete="off" /> <input type="text"
+												th:value="${BANKBRANCH}" id="struserfield13" 
+												name="struserfield13" readonly
+												class="form-control form-control-sm col-sm-9"
+												autocomplete="off" />
+										</div>
+
+										<div class="col-sm-1"></div>
+									</div>
+
+									<div class="row formline">
+
+										<label class="col-sm-2">State </label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${State}" id="state_code"
+												name="state_code"  readonly
+												class="form-control form-control-sm txtalign"
+												autocomplete="false" required />
+										</div>
+										<div class="col-sm-1"></div>
+
+										<label class="col-sm-2">Account Number</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Custmaster?.struserfield15}"
+												id="struserfield15"  name="struserfield15" readonly
+												class="form-control form-control-sm" autocomplete="off" />
+
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Country </label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Country}" id="cntry_code"
+												name="cntry_code"  readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+
+										<div class="col-sm-1"></div>
+<label class="col-sm-2">KYC Date</label>
+										<div class="col-sm-3">
+											<input type="text"
+												th:value="${#dates.format(Custmaster?.kyc_date, 'dd/MM/yyyy')}"
+												id="kyc_date"  name="kyc_date" readonly
+												class="form-control form-control-sm" autocomplete="off" />
+										</div>
+
+										<div class="col-sm-1"></div>
+									</div>
+
+									<div class="row formline">
+
+
+										<label class="col-sm-2">Country Of Residence</label>
+										<div class="col-sm-3">
+											<input type="text" th:if="${CountryResidence} != null"
+												th:value="${CountryResidence}" id="residence_country"
+											 name="residence_country" readonly
+												class="form-control form-control-sm" autocomplete="off" />
+											<input type="text" th:if="${CountryResidence}== null"
+												id="residence_country" value="Mauritius"
+												name="residence_country" readonly
+												class="form-control form-control-sm" autocomplete="off" />
+										</div>
+
+										<div class="col-sm-1"></div>
+<label class="col-sm-2">KYC Review Date</label>
+										<div class="col-sm-3">
+											<input type="text"
+												th:value="${#dates.format(Custmaster?.kyc_reviewdate, 'dd/MM/yyyy')}"
+												id="kyc_reviewdate"  name="kyc_reviewdate" readonly
+												class="form-control form-control-sm" autocomplete="off" />
+										</div>
+										
+									</div>
+									<div class="row formline">
+
+
+										<label class="col-sm-2">Cell Phone </label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Custmaster?.preferredphone}"
+												id="preferredphone"  name="preferredphone" readonly
+												class="form-control form-control-sm" autocomplete="off" />
+										</div>
+
+										<div class="col-sm-1"></div>
+										<label class="col-sm-2">Free Field</label>
+
+
+										<div class="col-sm-3">
+											<input type="text" id="primary_sol_id" name="sol_id" readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+
+									</div>
+									<div class="row formline">
+
+
+										<label class="col-sm-2">Home Phone</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${Custmaster?.phone_home}"
+												id="preferredphone"  name="phone_home" readonly
+												class="form-control form-control-sm" autocomplete="off" />
+										</div>
+										<div class="col-sm-1"></div>
+										<label class="col-sm-2">Free Field</label>
+
+
+										<div class="col-sm-3">
+											<input type="text" id="primary_sol_id" name="sol_id" readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+
+
+									</div>
+									<div class="row formline">
+
+										<label class="col-sm-2">Email ID</label>
+										<div class="col-sm-3">
+											<input type="email" th:value="${Custmaster?.preferredemail}"
+												id="preferredemail"  name="preferredemail" readonly
+												class="form-control form-control-sm" autocomplete="off" />
+										</div>
+
+										<div class="col-sm-1"></div>
+										<label class="col-sm-2">Free Field</label>
+
+
+										<div class="col-sm-3">
+											<input type="text" id="primary_sol_id" name="sol_id" readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+									</div>
+									<label></label>
+								</div>
+							</div>
+							<!-- ***********************CUSTOMER ACCOUNT*************************************** -->
+							<div th:if="${formmode}=='CustAccount'">
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="card">
+											<div class="card-header" style="background-color: #386276;">
+												<div class="float-left">
+													<h6 style="margin-top: 4px;">Customer Account List</h6>
+												</div>
+
+											</div>
+											<label></label>
+											<div class="row formline" style="padding-left: 20px;padding-right:20px">
+
+												<div class="col-sm-2">
+													<label for="userId">Customer ID</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" th:value="*{CustID}" id="cust_id"
+														class="form-control form-control-sm" name="cust_id"
+														autocomplete="off" readonly />
+												</div>
+												<div class="col-sm-2">
+													<label for="userName">Customer Name</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" th:value="${CustomerName}" id="CustName"
+														class="form-control form-control-sm" autocomplete="false"
+														readonly /> <input type="hidden" id="custAuditAcct"
+														th:value="${auditdata}">
+												</div>
+												<div class="col-sm-2">
+													<label for="userName">No Of Deposits</label>
+												</div>
+												<div class="col-sm-2">
+													<input type="text" th:value="${NumOfDeposit}" id="NumOfDeposit"
+														class="form-control form-control-sm" autocomplete="false"
+														readonly /> 
+												</div>
+											</div>
+											<label></label>
+
+											<!-- <div class="card-body"> -->
+											<table class="table  table-bordered  table-hover table-sm"
+												style="margin-bottom: 0px" id="usertable">
+												<thead class="thead-light">
+													<tr>
+														<!-- <th></th> -->
+														<th>GL Sub Head Code</th>
+														<th>Scheme Code</th>
+														<th>Account No</th>
+														<th>Account Name</th>
+														<th>Date Of Opening</th>
+														<th>Date of Close/Due Date</th>
+														<th>Account Balance</th>
+														<th>Balance Indicator</th>
+														<th>Remarks</th>
+
+
+
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:if="${Acctcount}=='0'">
+														<td colspan="9" style="text-align: center; color: red">No
+															Data Found</td>
+													</tr>
+
+													<tr th:if="${Acctcount}!='0'"
+														th:each="AcctMasterdetail : ${AcctMaster}"
+														class="userlist">
+														<td th:text="${AcctMasterdetail.gl_sub_head_code}">456</td>
+														<td th:text="${AcctMasterdetail.schm_code}">TEST</td>
+														<td class="underline" onclick="fnClick(this);"
+															th:attr="data-custId=${AcctMasterdetail.foracid},data-acid =${AcctMasterdetail.acid}"
+															th:text="${AcctMasterdetail.foracid}"></td>
+														<td th:text="${AcctMasterdetail.acct_name}">123</td>
+														<td
+															th:text="${#dates.format(AcctMasterdetail.acct_opn_date, 'dd/MM/yyyy')}">123</td>
+														<td
+															th:text="${#dates.format(AcctMasterdetail.acct_cls_date, 'dd/MM/yyyy')}">CHENNAI</td>
+														<td
+															th:text="${#numbers.formatDecimal(AcctMasterdetail.clr_bal_amt,1,'COMMA',2,'POINT')}"
+															align="right">CHENNAI</td>
+														<td th:if="${(AcctMasterdetail.clr_bal_amt )} >= 1">CREDIT</td>
+														<td th:if="${(AcctMasterdetail.clr_bal_amt )} <= 1">DEBIT</td>
+
+
+														<td th:text="NULL">CHENNAI</td>
+
+
+
+
+
+
+													</tr>
+												</tbody>
+											</table>
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- ***********************CUSTOMER TRANSACTION*************************************** -->
+
+
+							<div th:if="${formmode}=='CustTransaction'">
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="card">
+											<div class="card-header" style="background-color: #386276;">
+												<div class="float-left">
+													<h6 style="margin-top: 4px;">Customer Account
+														Transaction</h6>
+												</div>
+
+											</div>
+											<label></label>
+											<div class="row formline" style="padding-left: 40px;">
+
+												<div class="col-sm-2">
+													<label for="userId">Customer ID</label>
+												</div>
+												<div class="col-sm-3">
+													<input type="text" th:value="*{CustID}" id="cust_id1"
+														class="form-control form-control-sm" name="cust_id"
+														autocomplete="off" readonly />
+												</div>
+												<div class="col-sm-1"></div>
+												<div class="col-sm-2">
+													<label for="userName">Customer Name</label>
+												</div>
+												<div class="col-sm-3">
+													<input type="text" th:value="*{CustomerName}"
+														id="tran_acct_name" class="form-control form-control-sm"
+														autocomplete="false" readonly />
+												</div>
+											</div>
+											<label></label> <label></label>
+
+											<div class="row formline" style="padding-left: 40px;">
+
+												<div class="col-sm-2" style="padding-top: 8px;">
+													<label for="userId">Start Date</label>
+												</div>
+												<div class="col-sm-3" style="padding-top: 8px;">
+													<input type="text" id="fromdate" th:value="*{fromdate}"
+														class="form-control form-control-sm" name="cust_id"
+														autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+												<div class="col-sm-2" style="padding-top: 8px;">
+													<label for="userName">End Date</label>
+												</div>
+												<div class="col-sm-3" style="padding-top: 8px;">
+
+													<input type="text" id="todate" th:value="*{todate}"
+														class="form-control form-control-sm" autocomplete="false" />
+												</div>
+												<!-- <i class="fa fa-arrow-circle-right"
+													style="font-size: 48px; color: #080876; float: right;"
+													onclick="gettrandate();"></i> -->
+											</div>
+											<label></label>
+
+											<!-- <div class="card-body"> -->
+											<table class="table  table-bordered  table-hover table-sm"
+												style="margin-bottom: 0px" id="usertable">
+												<thead class="thead-light">
+													<tr>
+														<!-- <th></th> -->
+														<th>Tran Date</th>
+														<th>Account No</th>
+														<th>Account Name</th>
+														<th>Part Tran Type</th>
+														<th>Tran ID</th>
+														<th>Part Tran ID</th>
+														<th>Tran Currency</th>
+														<th>Tran Amount</th>
+														<th>Channel</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:if="${TranCount}=='0'">
+														<td colspan="10" style="text-align: center; color: red">No
+															Data Found</td>
+													</tr>
+													<tr th:each="AcctMasterdetail1 : ${AcctMastertran}"
+														class="userlist">
+														<td
+															th:text="${#dates.format(AcctMasterdetail1?.tran_date, 'dd/MM/yyyy')}">TEST</td>
+
+														<td class="underline" onclick="fnClickAcct(this);"
+															th:attr="data-Acctnum=${AcctMasterdetail1.aCCT_MASTER.foracid},data-acid =${AcctMasterdetail1.aCCT_MASTER.acid}"
+															th:text="${AcctMasterdetail1.aCCT_MASTER.foracid}">TEST</td>
+														<td th:text="${AcctMasterdetail1.aCCT_MASTER.acct_name}">123</td>
+
+														<th:block
+															th:switch="${AcctMasterdetail1.transactionmasterembeddedid.part_tran_type}">
+															<td th:case="'D'">Debit</td>
+															<td th:case="'C'">Credit</td>
+														</th:block>
+														<td class="underline" onclick="fnClickTran(this);"
+															th:attr="data-tran_id=${AcctMasterdetail1.transactionmasterembeddedid.tran_id},data-foracid=${AcctMasterdetail1.aCCT_MASTER.foracid},data-parttran=${AcctMasterdetail1.part_tran_srl_num},data-trandate = ${#dates.format(AcctMasterdetail1.tran_date, 'dd-MMM-yyyy')}"
+															th:text="${AcctMasterdetail1.transactionmasterembeddedid.tran_id}">123</td>
+														<td th:text="${AcctMasterdetail1?.part_tran_srl_num}"
+															align="right">123</td>
+														<td th:text="${AcctMasterdetail1?.tran_crncy_code}">123</td>
+														<td
+															th:text="${#numbers.formatDecimal(AcctMasterdetail1.tran_amt 	,1,'COMMA',2,'POINT')}"
+															align="right">CHENNAI</td>
+														<td th:text="${AcctMasterdetail1.aCCT_MASTER.acct_name}">123</td>
+
+
+
+
+
+
+													</tr>
+												</tbody>
+											</table>
+
+											<!-- <div class="float-right" 
+								th:if="${AcctMastertran.totalPages} gt 1 and ${TranCount}!='0'">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${AcctMastertran.number},${AcctMastertran.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${AcctMastertran.number+1}"
+									th:onchange="|getUserlist('givenpage',${AcctMastertran.number},${AcctMastertran.totalPages});|"></input>
+								of <font th:text="${AcctMastertran.totalPages}"></font> <a
+									href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${AcctMastertran.number},${AcctMastertran.totalPages});|"></i></a>
+							</div> -->
+
+											<!-- </div> -->
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="card-footer text-center"
+				style="background-color: #386276";>
+				<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+					onclick="home();">Home</button>
+				<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button>
+			</div>
+			<div class="modal fade" id="loadermodal" data-backdrop="static"
+					data-keyboard="false">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="background-color: #94b8dd00;">
+							<div class="modal-body" style="text-align: center">
+								<div class="loader">Loading...</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

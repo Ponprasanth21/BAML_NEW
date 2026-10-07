@@ -1,0 +1,153 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLRiskRating1
+CREATED BY	: RAMPRASATH
+CREATED ON	: 27-JAN-2020
+MODIFY ON   : 24-MAR-2020
+PURPOSE		: 
+ -->
+ <html lang="en"  >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+</head>
+
+
+
+</head>
+<script type="text/javascript">
+	function back() {
+		window.history.back();
+	}
+	function home() {
+		location.href = 'Dashboard'
+	}
+
+</script>
+<title>AML</title>
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+				<!---------------------User List Starts------------------------------------------------------->
+				<div th:if="${formmode}=='list'" class=" content">
+					<div class="row">
+						<div class="col-sm-12  customcol">
+							<!-- <div class="card"> -->
+							<div class="card-header" id="modheadtitle">
+								<b>Customer Details</b>
+
+							</div>
+
+							<table class="table  table-bordered  table-hover table-sm"
+								id="usertable" style="width: 100%">
+								<thead class="thead-light">
+									<tr>
+										<!-- <th></th> -->
+										<th>Document Code</th>
+										<th>Description</th>
+										<th>Date of Submission</th>
+										<th>Rating</th>
+										<th>Next Due Date</th>
+										<th>View</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="FinCMG : ${Riskrating}" th:style="${FinCMG.passportno == null ? 'display:none;' : ''}">
+										<td th:text="${FinCMG.passportno}"></td>
+										<!-- th:text="${FinCMG.passportno == null ? visibility:none; : ''}" -->
+										<td th:text="${FinCMG.passportno != null ? 'PASSPORT' : ''}">PASSPORT</td>
+										
+
+										<td  th:text="${#dates.format(FinCMG.psprt_issue_date, 'dd-MM-yyyy')}"></td>
+										<td th:text="${FinCMG.riskrating}"></td>
+										<td th:text="${#dates.format(FinCMG.psprt_exp_date, 'dd-MM-yyyy')}"></td>
+										<td></td>
+
+									</tr>
+									<tr th:each="FinCMG : ${Riskrating}" th:style="${FinCMG.nat_id_card_num == null ? 'display:none;' : ''}" >
+										<td th:text="${FinCMG.nat_id_card_num}"></td>
+										<td th:text="${FinCMG.nat_id_card_num != null ? 'NATIONAL ID ' : ''}">NATIONAL ID NUMBER</td>
+
+										<td ></td>
+										<td th:text="${FinCMG.riskrating}"></td>
+										<td ></td>
+										<td ></td>
+
+									</tr>
+									<!-- <tr th:each="FinCMG : ${Riskrating}" th:style="${FinCMG.pan_gir_num == null ? 'display:none;' : ''}">
+										<td th:text="${FinCMG.pan_gir_num}"></td>
+										<td th:text="${FinCMG.pan_gir_num != null ? 'PANCARD ' : ''}">PANCARD</td>
+
+										<td th:text="${#dates.format(FinCMG.tds_exmpt_submit_date, 'dd-MM-yyyy')}"></td>
+										<td th:text="${FinCMG.ps_freq_start_dd}"></td>
+										<td th:text="${#dates.format(FinCMG.cust_pref_till_date, 'dd-MM-yyyy')}"></td>
+										<td th:text="${FinCMG.cust_commu_code}"></td>
+
+									</tr> -->
+
+
+
+								</tbody>
+							</table>
+							<div class="text-center" style="background-color: #386276;padding:5px;width: 100%;">
+									
+									<div class="btn-group nav-buttons "style="align:center;">
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnHome" onclick="home();"style="margin-right: 10px;">Home</button>
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnBack" onclick="back();">Back</button>
+									</div>
+								</div>
+							<!---------------------User List Ends--------------------------------------------------------->
+
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

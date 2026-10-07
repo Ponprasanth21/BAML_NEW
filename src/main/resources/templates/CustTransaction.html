@@ -1,0 +1,177 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<!--
+PROJECT NAME: AML
+FILE NAME   : CustTransaction
+CREATED BY	: MANNIVANNAN
+CREATED ON	: 11-MAR-2020
+MODIFY ON   :
+PURPOSE		: 
+ --> 
+<html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+
+
+<script src="js/bootstrap411.js"></script>
+<script type="text/javascript">
+function home() {
+	location.href = 'Dashboard'
+}
+function back() {
+
+	window.history.back();
+}
+
+</script>
+</head>
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+
+	<!---------------------User List Starts------------------------------------------------------->
+
+	<div class="content-page" style="font-size: .7rem;">
+		<div class="content">
+
+			<!-- Start Content-->
+			<div class="container-fluid">
+
+
+				<div th:if="${formmode}=='list'">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card">
+								<div class="card-header" style="background-color: #386276;">
+									<div class="float-left">
+										<h6 style="margin-top: 4px;">Customer Account</h6>
+									</div>
+									
+								</div>
+								<label></label>
+									<div class="row formline"style="padding-left:40px;">
+									
+												<div class="col-sm-2">
+													<label for="userId">Customer Id</label>
+												</div>
+												<div class="col-sm-3">
+													<input type="text" th:field="*{AcctMaster.cust_id}"
+														th:value="*{AcctMaster.cust_id}" id="cust_id"
+														class="form-control form-control-sm" name="cust_id"
+														autocomplete="off" readonly  />
+												</div>
+												<div class="col-sm-1"> </div>
+												<div class="col-sm-2">
+													<label for="userName">Customer Name</label>
+												</div>
+												<div class="col-sm-3">
+													<input type="text" 
+														 th:field="*{AcctMaster.acct_name}"
+														th:value="*{AcctMaster.acct_name}" id="acct_name"
+														class="form-control form-control-sm" autocomplete="false"
+														readonly  />
+												</div>
+											</div>
+											<label></label>
+								
+								<!-- <div class="card-body"> -->
+								<table class="table  table-bordered  table-hover table-sm"
+									style="margin-bottom: 0px" id="usertable">
+									<thead class="thead-light">
+										<tr>
+											<!-- <th></th> -->
+											<th >Tran Date</th>
+											<th >Value Date</th>
+											<th >Account No</th>
+											<th >Account Name</th>
+											<th >Tran Type</th>
+											<th >Tran Id</th>
+											<th >Part Tran Type</th>
+											<th >Tran Currency</th>
+											<th >Tran Amount</th>
+											<th >Channel</th>
+										
+
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="AcctMasterdetail : ${AcctMaster}" class="userlist">
+											<td th:text="${AcctMasterdetail.gl_sub_head_code}">456</td>
+											<td th:text="${AcctMasterdetail.schm_code}">TEST</td>
+											<td th:text="${AcctMasterdetail.acct_num}">TEST</td>
+											<td th:text="${AcctMasterdetail.acct_name}">123</td>
+											<td th:text="${#dates.format(AcctMasterdetail.acct_opn_date, 'dd-MM-yyyy')}">123</td>
+											<td th:text="${#dates.format(AcctMasterdetail.acct_cls_date, 'dd-MM-yyyy')}">CHENNAI</td>
+											<td th:text="${#numbers.formatDecimal(AcctMasterdetail.clr_bal_amt + AcctMasterdetail.un_clr_bal_amt	,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td>
+											<td th:text="NIL">123</td>
+											<td th:text="NULL">CHENNAI</td>
+											<td th:text="NULL">CHENNAI</td>
+
+
+										
+
+											
+
+										</tr>
+									</tbody>
+								</table>
+								<div class="card-footer text-center">
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnHome" onclick="home();">Home</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnBack" onclick="back();">Back</button>
+								</div>
+								<!-- </div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+	
+			</div>
+		</div>
+	</div>
+</body>
+</html>

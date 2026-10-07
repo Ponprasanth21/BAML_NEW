@@ -1,0 +1,3521 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!-- 
+MODIFIED BY	: RAMPRASATH .
+MODIFIED ON	: 04-MARCH-2020
+PURPOSE		: Report TABLE 19
+ -->
+<html lang="en" >
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/multifreeze/multifreezer.css"
+	th:href="@{/multifreeze/multifreezer.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+		
+		
+		
+		var permission = /*[[${session.PERMISSIONS}]]*/null;
+	
+		var reportsummary = /*[[${reportsummary}]]*/null;
+		
+		var dtltype = /*[[${dtltype}]]*/null;
+		
+		//to make the summary button active on load
+		$(function(){
+			
+			console.log(reportsummary);
+			
+			$("#summarybtn").addClass("active");
+
+		});
+		function home(){
+			location.href = "/AML/rbsreports";
+
+	}
+	/*to show details page - 3 parameters
+		mode - valid values are : nextpage, prevpage, givenpage, firstpage
+		num - page number to show to the user
+		maxpage - maximum number of pages avaialble in the data
+	*/
+	
+
+	function showdetails(mode,num,maxpage,instancecode) {
+		
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+		Callurl = Callurl+"&instancecode="+instancecode;
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+		
+		
+		$.ajax({
+			type : 'get',
+			url : Callurl,
+			success : function(data) {
+				
+				/*<![CDATA[*/
+				
+
+				$('.content').html(data);
+				$("#detailsbtn").addClass("active");
+				/*]]>*/
+
+			}
+		})
+	}
+	
+	
+	//to fetch summary from the database - called from the summary button
+	function showsummary(mode,num,maxpage) {
+		
+
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Summary'(fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+		
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+
+		
+	window.location.href=Callurl;
+	}
+	
+
+	//to check for report or arch
+	//if report --->>> precheck and then save report else throws error
+	function savereport(){
+		
+		if(dtltype=='report'){
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/PrecheckFromrpt'(fromdate=${fromdate},todate=${todate})}]]*/
+				$.ajax({
+					type : 'get',
+					url : Callurl,
+					success : function(data) {
+
+						if (data == 'success') {	
+							
+							
+							$("#loader").show();
+							
+							
+							var Callurl = /*[[@{'/Reports/'+${reportid}+'/save'(fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+								$.ajax({
+									type : 'get',
+									url : Callurl,
+									success : function(data) {
+
+										
+										if(data=='success'){
+											
+										 var Callurl = /*[[@{'/Reports/'+${reportid}+'/DownloadFormRptScr'(fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+											Callurl = Callurl+"&filetype=xbrl";
+											location.href=Callurl;
+											$("#loader").hide();
+										}
+										else{
+											$("#loader").hide();
+											 $("#alertmsg").text(data);
+											 $('#alert').modal("toggle");
+										}
+									}
+								})
+								
+							
+							
+						} else {
+							$("#alertmsg").text("Please verify the Pending Records Before Generating XBRL Instance");
+							$("#alert").modal("toggle");
+						}
+
+					}
+					});
+			
+		}
+		else{
+			
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+				 Callurl = Callurl+"&filetype=xbrl";
+				 location.href=Callurl;
+				 $("#loader").hide();
+		}
+		
+	}
+	/*]]>*/
+</script>
+<!----------------------------------------Scripts to edit report details-------------------------------------------->
+<script th:inline="javascript">
+/*<![CDATA[*/
+	 var currlist = /*[[${currlist}]]*/null;
+
+					function editRecord(a){
+	
+					if(permission=='W' && dtltype=='report') {
+						
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800edit'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Assign selected values to the model box fields
+					
+					$("#trade_date").val(a.getAttribute("data-trade_date"));
+					$("#value_date").val(a.getAttribute("data-value_date"));
+					$("#isin").val(a.getAttribute("data-isin"));
+					$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+					$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+					$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+					$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+					$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+					$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+					$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+					$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+					$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+					$("#mat_date").val(a.getAttribute("data-mat_date"));
+					$("#resid_days").val(a.getAttribute("data-resid_days"));
+					$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+					$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+					$("#report_date").val(a.getAttribute("data-report_date"));
+					$("#del_flg").val(a.getAttribute("data-del_flg"));
+					$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+					$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+					$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+					$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+					$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+					$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+					$("#addedit").modal("toggle");
+					
+				
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",true);
+					$("#report_date").attr("readonly",true);
+					
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					}
+					
+				};
+				function addRecord(){
+					
+					if(permission=='W' && dtltype=='report') {
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Reset form if any data present
+					document.getElementById("dataedit").reset();
+					
+					//make readonly false to unique fields
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",false);
+					$("#report_date").attr("readonly",false);
+					
+					//Reset errors
+					var validator = $("#dataedit").validate();
+					validator.resetForm();
+					
+					$("#addedit").modal("toggle");
+                    
+					
+					 
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					
+					}
+				};
+				
+				function deleteRecord(a){
+					
+					if(permission=='W' && dtltype=='report') {
+					
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800delete'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url);
+					
+					
+					//Assign selected values to the model box fields
+					
+						$("#trade_date").val(a.getAttribute("data-trade_date"));
+						$("#value_date").val(a.getAttribute("data-value_date"));
+						$("#isin").val(a.getAttribute("data-isin"));
+						$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+						$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+						$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+						$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+						$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+						$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+						$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+						$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+						$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+						$("#mat_date").val(a.getAttribute("data-mat_date"));
+						$("#resid_days").val(a.getAttribute("data-resid_days"));
+						$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+						$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+						$("#report_date").val(a.getAttribute("data-report_date"));
+						$("#del_flg").val(a.getAttribute("data-del_flg"));
+						$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+						$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+						$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+						$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+						$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+						$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+
+					$("#datadelete").modal("toggle");
+					
+					} 
+					
+				};
+				
+				function edi(a)  {
+					//alert("its time to edit");
+					$("#hideme").hide();
+					$("#showme").show();
+				}
+				function edi1(a)  {
+					//alert("its time to edit");
+					$("#hideme1").hide();
+					$("#showme1").show();
+				}
+				function edi2(a)  {
+					//alert("its time to edit");
+					$("#hideme2").hide();
+					$("#showme2").show();
+				}
+				function edi3(a)  {
+					//alert("its time to edit");
+					$("#hideme3").hide();
+					$("#showme3").show();
+				}
+				function edi4(a)  {
+					//alert("its time to edit");
+					$("#hideme4").hide();
+					$("#showme4").show();
+				}
+				function edi5(a)  {
+					//alert("its time to edit");
+					$("#hideme5").hide();
+					$("#showme5").show();
+				}
+				function edi6(a)  {
+					//alert("its time to edit");
+					$("#hideme6").hide();
+					$("#showme6").show();
+				}
+				
+				function edi7(a)  {
+					//alert("its time to edit");
+					$("#hideme7").hide();
+					$("#showme7").show();
+				}function edi8(a)  {
+					//alert("its time to edit");
+					$("#hideme8").hide();
+					$("#showme8").show();
+				}function edi9(a)  {
+					//alert("its time to edit");
+					$("#hideme9").hide();
+					$("#showme9").show();
+				}function edi10(a)  {
+					//alert("its time to edit");
+					$("#hideme10").hide();
+					$("#showme10").show();
+				}function edi11(a)  {
+					//alert("its time to edit");
+					$("#hideme11").hide();
+					$("#showme11").show();
+				}
+				function submitdataform(){
+					
+					if($("#dataedit").valid()){
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#dataedit').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 
+							 $("#alertmsg").text(responseText);
+							 
+							 if($('#addedit').is(':visible')){
+								 $('#addedit').modal("hide");
+							 };
+							 if($('#datadelete').is(':visible')){
+								 $('#datadelete').modal("hide");
+							 };
+							 $('#alert').modal("toggle");
+				                
+						 }
+						
+						
+					}
+					
+					$("#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd/MM/yyyy"
+					});
+					
+				}
+				
+       
+				
+				
+				
+			
+			
+
+				
+				
+				
+	function editsubmitform() {
+				
+					// var reportdate = $("#report_date").val();
+					 //alert(reportdate);
+					 
+					if ($("#dataedit").valid()) {
+						
+						var url = "./T19Edit?";
+						
+
+						$("#dataedit").attr('action', url);
+
+						var options = {
+							success : showResponse
+						// post-submit callback 
+						};
+
+						$("#dataedit").ajaxSubmit(options);
+
+						function showResponse(responseText, statusText, xhr, $form) {
+
+							$("#alertmsg").text(responseText);
+
+							$('#alert').modal("toggle");
+
+						}
+						;
+					}
+				};
+				
+	function verifyscreen(a){
+					
+					
+					
+					
+					
+					if(permission=='W' && dtltype=='report') {
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Reset form if any data present
+					document.getElementById("dataedit").reset();
+					
+					/* //make readonly false to unique fields
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",false);
+					$("#report_date").attr("readonly",false); */
+					
+					//Reset errors
+					var validator = $("#dataedit").validate();
+					validator.resetForm();
+					
+
+				    
+					$("#verify").modal("toggle");
+					
+					
+					
+					}
+				};
+				
+				
+				
+				
+				
+				function editalert(a){
+					
+					alert("Please Verify the Pending Records");
+				}
+				function editsum(a){
+					
+					
+					
+				
+					
+					if(permission=='W' && dtltype=='report') {
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Reset form if any data present
+					document.getElementById("dataedit").reset();
+					
+					/* //make readonly false to unique fields
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",false);
+					$("#report_date").attr("readonly",false); */
+					
+					//Reset errors
+					var validator = $("#dataedit").validate();
+					validator.resetForm();
+					
+
+				    
+					$("#addedit").modal("toggle");
+					
+					
+					
+					}
+				};
+				function submitSearchRecord(){
+					
+					
+					
+					if($("#searchdtl").valid()){
+						
+						
+						
+						var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800Search'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+						$("#searchdtl").attr('action', url);
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#searchdtl').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 $(".modal").modal("hide");
+							 $('.content').html(responseText);
+							 $("#detailsbtn").addClass("active");
+							 $(".modal-backdrop").remove();
+							 
+						 }	
+					}
+					
+				};
+				
+				
+				
+				
+				function verifysubmitform(a) {
+					if ($("#dataverify").valid()) {
+						var entry=$("#entry_user").val();
+						var modify=$("#modify_user").val();
+						var verify=$("#verify_user").val();
+						
+						if(modify!= null){
+							if(modify != verify){
+								//var formmode = a.getAttribute("data-formmode");
+								var url = "./T19Verify?";
+
+								$("#dataverify").attr('action', url);
+
+								var options = {
+									success : showResponse
+								// post-submit callback 
+								};
+								
+
+								$("#dataverify").ajaxSubmit(options);
+
+								function showResponse(responseText, statusText, xhr, $form) {
+
+									$("#alertmsg").text(responseText);
+
+									$('#alert').modal("toggle");
+
+								};
+							}else{
+								$("#verifyboxmsg").text("Same User Cannot Verify!");
+								$('#verifybox').modal("toggle");
+							
+								
+							}
+						}else if( modify == null){
+							if(entry != verify){
+								//var formmode = a.getAttribute("data-formmode");
+								var url = "./T19Verify?";
+
+								$("#dataverify").attr('action', url);
+
+								var options = {
+									success : showResponse
+								// post-submit callback 
+								};
+
+								$("#dataverify").ajaxSubmit(options);
+
+								function showResponse(responseText, statusText, xhr, $form) {
+
+									$("#alertmsg").text(responseText);
+
+									$('#alert').modal("toggle");
+
+								};
+							}else{
+								$("#verifyboxmsg").text("Same User Cannot Verify!");
+								$('#verifybox').modal("toggle");
+							
+								
+							}
+							
+						}
+						
+					}
+				};
+				
+				
+			
+/*]]>*/
+</script>
+
+<script>
+
+
+$(function() {
+	
+	
+	
+	$("#entry_time1,verify_time1,modify_time1").datepicker({
+		changeMonth : true,
+		changeYear : true,
+		maxDate : new Date(),
+		dateFormat : "dd/mm/yyyy"
+	});
+
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1; //January is 0!
+
+	var yyyy = today.getFullYear();
+	if (dd < 10) {
+		dd = '0' + dd;
+	}
+	if (mm < 10) {
+		mm = '0' + mm;
+	}
+	var today = dd + '/' + mm + '/' + yyyy;  
+	document.getElementById('entry_time1').value = today;
+	document.getElementById('verify_time1').value = today; 
+	document.getElementById('modify_time1').value = today;
+});
+
+
+$(function() {
+	
+	
+	
+	$("#entry_time2,verify_time2,modify_time2").datepicker({
+		changeMonth : true,
+		changeYear : true,
+		maxDate : new Date(),
+		dateFormat : "dd/mm/yyyy"
+	});
+
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1; //January is 0!
+
+	var yyyy = today.getFullYear();
+	if (dd < 10) {
+		dd = '0' + dd;
+	}
+	if (mm < 10) {
+		mm = '0' + mm;
+	}
+	var today = dd + '/' + mm + '/' + yyyy;  
+	document.getElementById('entry_time2').value = today;
+	document.getElementById('verify_time2').value = today; 
+	document.getElementById('modify_time2').value = today;
+});
+
+
+</script>
+<style>
+.nav-buttons {
+	float: right;
+}
+
+.reptitle {
+	float: left;
+}
+
+.reptitle>p {
+	margin-top:;
+}
+
+.customcol {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.first_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 0;
+	width: 30px;
+}
+
+.second_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 30px;
+	width: 30px;
+}
+
+.third_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 60px;
+	width: 150px;
+}
+
+.inner {
+	overflow-x: scroll;
+	overflow-y: visible;
+}
+
+.btn-primary {
+	background-color: #E77400;
+	border-color: #0c0c0c;
+}
+
+.btn-primary:not (:disabled ):not (.disabled ).active, .btn-primary:not
+	 (:disabled ):not (.disabled ):active, .show>.btn-primary.dropdown-toggle
+	{
+	color: #fff;
+	background-color: #cc000000;
+	border-color: #161617;
+}
+
+.addedit {
+	color: #007bff;
+}
+
+.addedit:hover {
+	color: #0056b3;
+}
+</style>
+</head>
+<body>
+	<!----------------------------------------------------- Header Section starts ----------------------------------------------------->
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" aria-hidden="true"
+		onclick="docEmb('Report')" id="ques"></i>
+	<!----------------------------------------------------- Header Section Ends ------------------------------------------------------->
+	<div style="margin-left: 310px; margin-top: 76px;">
+		<div class="container content" th:fragment="reportcontent">
+
+
+
+			<!--------------------------------------------------------------- Report title starts -------------------------------------------->
+			<div class="row" style="width: 1100px; margin-left: 0px;">
+				<div class="col-sm-12 customcol"
+					style="background-color: #4d8cb9; padding-top: 10px; padding-bottom: 10px; padding-left: 5px;">
+					<!-- <select id="reporttype" style="background-color: #e9ecef;">
+						<option th:each="title : ${reportTitle}"
+							th:value="${title.reportName}" th:text="${title.reportName}"></option>
+
+					</select> -->
+					<div class="btn-group nav-buttons">
+						<!-- <button type="button" class="btn btn-primary"
+							onclick="showdetails('firstpage','1','0');" id="detailsbtn">Details</button> -->
+						<button type="button" class="btn btn-primary"
+							onclick="showsummary();" id="summarybtn">Summary</button>
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary dropdown-toggle"
+								data-toggle="dropdown">
+								Download <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=pdf|">Pdf</a></li>
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=excel|">Excel</a></li>
+								<!-- <li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									href="#" onclick="savereport();">XBRL</a></li> -->
+								<li th:if="${displaymode}=='detail'"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=detailexcel|">Excel</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report title ends ------------------------------------------------->
+			<!--------------------------------------------------------------- Report buttons section starts ------------------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol" style="background-color: #adb5bd;">
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report buttons section ends ------------------------------------->
+			<!------------------------------ Report summary section starts it will shown only if summary button clicked------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol"
+					th:if="${displaymode}=='summary' or ${displaymode}==null"
+					style="overflow-x: auto;">
+					<div class="card-header" id="modheadtitle" style="width: 1100px;">
+						<b>Table 19: Types of Hits (pre-transaction) and Alerts (post-transaction)</b>
+						<div class="btn-group nav-buttons" th:if="${type} !='ARCHIVAL'">
+							<button type="button" class="btn btn-primary"
+								onclick="editsum(this);"
+								style="margin-top: -10px; padding: 3px;"
+								title="Click to EDIT Records"
+								th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+								id="addRecord">Modify</button>
+						</div>
+
+						<div class="btn-group nav-buttons"th:if="${type} !='ARCHIVAL'">
+							<button type="button" class="btn btn-primary"
+								style="margin-right: 0px; margin-top: -10px; padding: 3px; background-color: #4d8cb9;"
+								title="view the records" id="addRecord">Inquiry</button>
+						</div>
+
+						<div th:each="report : ${reportsummary}"
+							th:if="${report?.entity_flg}=='N'  AND ${type} !='ARCHIVAL'" class="btn-group nav-buttons">
+							<button type="button" class="btn btn-primary"
+								onclick="verifyscreen(this);"
+								style="margin-top: -10px; padding: 3px;"
+								title="Click to EDIT Records"
+								th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+								id="addRecord">Verify</button>
+						</div>
+					</div>
+					<table class="table  table-bordered  table-hover table-sm" id=""
+						style="width: 1100px;">
+						<thead class="thead-light">
+
+							<tr>
+								<th></th>
+								<th>No. of hits</th>
+								<th>No. of positive hits (exclude false positives)</th>
+								<th>No. of positive hits closed (without raising internal
+									suspicion reports)</th>
+								<th>Total no. of internal suspicion reports filed following
+									hits</th>
+								<th>No. of Alerts raised</th>
+								<th>No. of Alerts closed (without raising internal
+									suspicion reports)</th>
+								<th style="width: 130px;">Average time for closing the
+									alerts (no. of days)</th>
+								<th>Total no. of internal suspicion reports filed following
+									alerts</th>
+							</tr>
+						</thead>
+						<tbody th:each="reportsummary : ${reportsummary}">
+
+							<!-- Row 1  -->
+							<tr>
+								<td th:text="${reportsummary.d1a_large_cash_trans}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c1j_large_cash_trans_nof_hits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c1k_large_cash_trans_nof_phits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c1l_large_cash_trans_nof_phitsc,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c1m_largm_cash_trans_nof_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c1n_large_cash_trans_nof_alerts,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c1o_large_cash_trans_nof_alerts_nostr,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${ reportsummary.c1p_large_cash_trans_avg_time }" >CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c1q_large_cash_trans_nof_alerts_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+							</tr>
+							<!-- Row 2  -->
+							<tr>
+								<td th:text="${reportsummary.d2a_cash_in_cash_out_trans}">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c2j_cash_in_cash_out_trans_nof_hits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c2k_cash_in_cash_out_trans_nof_phits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c2l_cash_in_cash_out_trans_nof_phitsc,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c2m_cash_in_cash_out_trans_nof_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c2n_cash_in_cash_out_trans_nof_alerts,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c2o_cash_in_cash_out_trans_nof_alerts_nostr,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${ reportsummary.c2p_casp_in_cash_out_trans_avg_time }" >CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c2q_cash_in_cash_out_trans_nof_alerts_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+
+							</tr>
+							<!--  ROW 3 -->
+							<tr>
+								<td th:text="${reportsummary.d3a_linked_cash_trans }" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c3j_linked_cash_trans_nof_hits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c3k_linked_cash_trans_nof_phits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c3l_linkel_cash_trans_nof_phitsc,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c3m_linked_cash_trans_nof_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c3n_linked_cash_trans_nof_alerts,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c3o_linked_cash_trans_nof_alerts_nostr,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${ reportsummary.c3p_linked_cash_trans_avg_time }" >CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c3q_linkeq_cash_trans_nof_alerts_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+
+							</tr>
+							<!-- ROW 4 -->
+							<tr>
+								<td th:text="${ reportsummary.d4a_funds_in_funds_out_trans }">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c4j_funds_in_funds_out_trans_nof_hits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c4k_funds_in_funds_out_trans_nof_phits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c4l_funds_in_funds_out_trans_nof_phitsc,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c4m_funds_in_funds_out_trans_nof_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c4n_funds_in_funds_out_trans_nof_alerts,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c4o_funds_in_funds_out_trans_nof_alerts_nostr,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${ reportsummary.c4p_funds_in_funds_out_trans_avg_time }" >CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c4q_funds_in_funds_out_trans_nof_alerts_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+
+							</tr>
+
+							<!-- Row 5 -->
+							<tr>
+								<td th:text="${ reportsummary.d5a_caution_list_santion_cust }" >CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c5j_caution_list_santion_custs_nof_hits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c5k_caution_list_santion_custs_nof_phits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c5l_caution_list_santion_custs_nof_phitsc,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c5m_caution_list_santion_custs_nof_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c5n_caution_list_santion_custs_nof_alerts,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c5o_caution_list_santion_custs_nof_alerts_nostr,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${ reportsummary.c5p_caution_list_santion_custs_avg_time }">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c5q_caution_list_santion_custs_nof_alerts_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+
+							</tr>
+
+							<!-- Row 6 -->
+							<tr>
+								<td th:text="${ reportsummary.d6a_sanction_jurisdiction }" >CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c6j_sanction_jurispiction_nof_hits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c6k_sanction_jurispiction_nof_phits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c6l_sanction_jurispiction_nof_phitsc,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c6m_sanction_jurispiction_nof_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c6n_sanction_jurispiction_nof_alerts,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c6o_sanction_jurispiction_nof_alerts_nostr,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${ reportsummary.c6p_sanction_jurispiction_avg_time }">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c6q_sanction_jurispiction_nof_alerts_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+
+
+							</tr>
+
+							<!-- Row 7 -->
+							<tr>
+								<td th:text="${ reportsummary.d7a_trans_non_equi_jurisdiction }" >CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c7j_trans_non_equi_jurisdiction_nof_hits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c7k_trans_non_equi_jurisdiction,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c7l_trans_non_equi_jurisdiction_nof_phitsc,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c7m_trans_non_equi_jurisdiction_nof_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c7n_trans_nof_equi_jurisdiction_nof_alerts,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c7o_trans_non_equi_jurisdiction_nof_alerts_nostr,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${ reportsummary.c7p_trans_non_equi_jurisdiction_avg_time }" >CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c7q_trans_non_equi_jurisdiction_nof_alerts_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+
+							</tr>
+
+							<!-- Row 8 -->
+							<tr>
+								<td th:text="${ reportsummary.d8a_trans_peps_high_risk_accts }" >CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c8j_trans_peps_high_risk_accts_nof_hits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c8k_trans_peps_high_risk_accts_nof_phits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c8l_trans_peps_high_risk_accts_nof_phitsc,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c8m_trans_peps_high_risk_accts_nof_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c8n_trans_peps_high_risk_accts_nof_alerts,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c8o_trans_peps_high_risk_accts_nof_alerts_nostr,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${ reportsummary.c8p_trans_peps_higp_risk_accts_avg_time }" >CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c8q_trans_peps_high_risk_accts_nof_alerts_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+
+							</tr>
+
+							<!-- Row 9 -->
+							<tr>
+								<td th:text="${ reportsummary.d9a_trans_new_reactivate_accts }" >CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c9j_trans_new_reactivate_accts_nof_hits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c9k_trans_new_reactivate_accts_nof_phits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c9l_trans_new_reactivate_accts_nof_phitsc,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c9m_trans_new_reactivate_accts_nof_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c9n_trans_new_reactivate_accts_nof_alerts,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c9o_trans_new_reactivate_accts_nof_alerts_nostr,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${ reportsummary.c9p_trans_new_reactivate_accts_avg_time }" >CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c9q_trans_new_reactivate_accts_nof_alerts_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+
+							</tr>
+
+							<!-- Row 10 -->
+							<tr>
+								<td th:text="${ reportsummary.d10a_trans_minor_accts }" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c10j_trans_minor_accts_nof_hits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c10k_trans_minor_accts_nof_phits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c10l_trans_minor_accts_nof_phitsc,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c10m_trans_minor_accts_nof_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c10n_trans_minor_accts_nof_alerts,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c10o_trans_minor_accts_nof_alerts_nostr,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${ reportsummary.c10p_trans_minor_accts_avg_time }" >CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c10q_trans_minor_accts_nof_alerts_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+
+							</tr>
+
+							<!-- Row 11 -->
+							<tr>
+								<td th:text="${ reportsummary.d11a_all_otr_type_trans }" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c11j_all_otr_type_trans_nof_hits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c11k_all_otr_type_trans_nof_phits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c11l_all_otr_type_trans_nof_phitsc,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c11m_all_otr_type_trans_nof_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c11n_all_otr_type_trans_nof_alerts,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c11o_all_otr_type_trans_nof_alerts_nostr,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${ reportsummary.c11p_all_otr_type_trans_avg_time }" >CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(reportsummary.c11q_all_otr_type_trans_nof_alerts_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+
+							</tr>
+
+							<!-- Row 12 -->
+							<!-- <tr>
+								<td th:text="${#numbers.formatDecimal(reportsummary.d12a_note,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								 <td th:text="${#numbers.formatDecimal(reportsummary.c12j_note_nof_hits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c12k_note_nof_phits,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c12l_note_nof_phitsc,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c12m_note_nof_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c12n_note_nof_alerts,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c12o_note_nof_alerts_nostr,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td
+									th:text="${#dates.format(reportsummary.c12p_note_avg_time,'dd/MM/yyyy'),0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c12q_note_nof_alerts_str,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+
+							</tr> -->
+						</tbody>
+					</table>
+					<label>Note: <br> (1) Please provide your NBDTI's
+						definition of large cash transactions. <br> (2) Series of
+						linked cash transactions as per your NBDTI's internal policies.
+					</label>
+					<!------------------------------ Report Summary pagination - shown if paginated --------------------------------------------------->
+					<!-- <div class="float-right" th:if="${reportsummary.totalPages} gt 1">
+					<a href="#"><i class="fas fa-caret-left fa-2x"
+						th:onclick="|showsummary('prevpage',${reportsummary.number},${reportsummary.totalPages});|"></i></a>
+					<input type="text" id="pageno" style="width: 30px"
+						th:value="${reportsummary.number+1}"
+						th:onchange="|showsummary('givenpage',${reportsummary.number},${reportsummary.totalPages});|"></input>
+					of <font th:text="${#numbers.formatDecimal(reportsummary.totalPages}"></font> <a href="#"><i
+						class="fas fa-caret-right fa-2x"
+						th:onclick="|showsummary('nextpage',${reportsummary.number},${reportsummary.totalPages});|"></i></a>
+				</div> -->
+					<!------------------------------ Report Summary pagination - shown if paginated ---------------------------------------------------->
+					<div class="card-footer text-center"
+						style="background-color: #386276";>
+						<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+							onclick="home();">Home</button>
+						<!-- <button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button> -->
+					</div>
+				</div>
+				<div class="modal fade" style="overflow-x: auto; display: none;"
+					id="addedit" th:fragment="dataedit">
+					<div class="modal-dialog modal-lg" style="margin-top: 65px;margin-left: 0 !important;">
+
+						<div class="modal-content" style="width: 1300px;">
+
+
+
+
+
+							<div class="modal-header" style="background-color: #eaecee;">
+								<b>Table 19: Types of Hits (pre-transaction) and Alerts (post-transaction) - Modify</b>
+
+
+								<!-- <div class="btn-group nav-buttons float-right">
+												<button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button>
+												<button type="button" class="btn btn-xs btn-primary btns"
+													id="btnInq" onclick="list()">List</button>
+											</div>
+ -->
+							</div>
+
+
+							<div class="modal-body"
+								style="background-color: #eaecee; text-align: center; width: 1300px !important;">
+
+								<form action="#" th:object="${dataedit}" method="POST"
+									autocomplete="off" id="dataedit">
+									<div class="table">
+										<table class="table  table-bordered  table-hover table-sm"
+											id="" style="width: 1200px;">
+											<thead class="thead-light">
+
+
+												<tr>
+													<th></th>
+													<th>No. of hits</th>
+													<th>No. of positive hits (exclude false positives)</th>
+													<th>No. of positive hits closed (without raising
+														internal suspicion reports)</th>
+													<th>Total no. of internal suspicion reports filed
+														following hits</th>
+													<th>No. of Alerts raised</th>
+													<th>No. of Alerts closed (without raising internal
+														suspicion reports)</th>
+													<th style="width: 130px;">Average time for closing the
+														alerts (no. of days)</th>
+													<th>Total no. of internal suspicion reports filed
+														following alerts</th>
+
+
+												</tr>
+
+
+											</thead>
+											<tbody th:each="report : ${reportsummary}">
+
+												<tr>
+
+													<td width="150px;" th:text="${report.d1a_large_cash_trans}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c1j_large_cash_trans_nof_hits}"
+														id="c1j_large_cash_trans_nof_hits"
+														class="form-control form-control-sm"
+														name="c1j_large_cash_trans_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c1k_large_cash_trans_nof_phits}"
+														id="c1k_large_cash_trans_nof_phits"
+														class="form-control form-control-sm"
+														name="c1k_large_cash_trans_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c1l_large_cash_trans_nof_phitsc}"
+														id="c1l_large_cash_trans_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c1l_large_cash_trans_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c1m_largm_cash_trans_nof_str}"
+														id="c1m_largm_cash_trans_nof_str"
+														class="form-control form-control-sm"
+														name="c1m_largm_cash_trans_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c1n_large_cash_trans_nof_alerts}"
+														id="c1n_large_cash_trans_nof_alerts"
+														class="form-control form-control-sm"
+														name="c1n_large_cash_trans_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c1o_large_cash_trans_nof_alerts_nostr}"
+														id="c1o_large_cash_trans_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c1o_large_cash_trans_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme1"
+														onclick="edi1(this);"
+														th:value="${report?.c1p_large_cash_trans_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme1"
+														name="c1p_large_cash_trans_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c1p_large_cash_trans_avg_time}">Select</option>
+															<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c1q_large_cash_trans_nof_alerts_str}"
+														id="c1q_large_cash_trans_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c1q_large_cash_trans_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+<tr>
+													<td width="150px;" th:text="${report.d2a_cash_in_cash_out_trans}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c2j_cash_in_cash_out_trans_nof_hits}"
+														id="c2j_cash_in_cash_out_trans_nof_hits"
+														class="form-control form-control-sm"
+														name="c2j_cash_in_cash_out_trans_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c2k_cash_in_cash_out_trans_nof_phits}"
+														id="c2k_cash_in_cash_out_trans_nof_phits"
+														class="form-control form-control-sm"
+														name="c2k_cash_in_cash_out_trans_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c2l_cash_in_cash_out_trans_nof_phitsc}"
+														id="c2l_cash_in_cash_out_trans_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c2l_cash_in_cash_out_trans_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c2m_cash_in_cash_out_trans_nof_str}"
+														id="c2m_cash_in_cash_out_trans_nof_str"
+														class="form-control form-control-sm"
+														name="c2m_cash_in_cash_out_trans_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c2n_cash_in_cash_out_trans_nof_alerts}"
+														id="c2n_cash_in_cash_out_trans_nof_alerts"
+														class="form-control form-control-sm"
+														name="c2n_cash_in_cash_out_trans_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c2o_cash_in_cash_out_trans_nof_alerts_nostr}"
+														id="c2o_cash_in_cash_out_trans_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c2o_cash_in_cash_out_trans_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme2"
+														onclick="edi2(this);"
+														th:value="${report?.c2p_casp_in_cash_out_trans_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme2"
+														name="c2p_casp_in_cash_out_trans_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c2p_casp_in_cash_out_trans_avg_time}">Select</option>
+														<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c2q_cash_in_cash_out_trans_nof_alerts_str}"
+														id="c2q_cash_in_cash_out_trans_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c2q_cash_in_cash_out_trans_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d3a_linked_cash_trans}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c3j_linked_cash_trans_nof_hits}"
+														id="c3j_linked_cash_trans_nof_hits"
+														class="form-control form-control-sm"
+														name="c3j_linked_cash_trans_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c3k_linked_cash_trans_nof_phits}"
+														id="c3k_linked_cash_trans_nof_phits"
+														class="form-control form-control-sm"
+														name="c3k_linked_cash_trans_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c3l_linkel_cash_trans_nof_phitsc}"
+														id="c3l_linkel_cash_trans_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c3l_linkel_cash_trans_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c3m_linked_cash_trans_nof_str}"
+														id="c3m_linked_cash_trans_nof_str"
+														class="form-control form-control-sm"
+														name="c3m_linked_cash_trans_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c3n_linked_cash_trans_nof_alerts}"
+														id="c3n_linked_cash_trans_nof_alerts"
+														class="form-control form-control-sm"
+														name="c3n_linked_cash_trans_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c3o_linked_cash_trans_nof_alerts_nostr}"
+														id="c3o_linked_cash_trans_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c3o_linked_cash_trans_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme3"
+														onclick="edi3(this);"
+														th:value="${report?.c3p_linked_cash_trans_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme3"
+														name="c3p_linked_cash_trans_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c3p_linked_cash_trans_avg_time}">Select</option>
+														<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c3q_linkeq_cash_trans_nof_alerts_str}"
+														id="c3q_linkeq_cash_trans_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c3q_linkeq_cash_trans_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												
+
+	
+<tr>
+													<td width="150px;" th:text="${report.d4a_funds_in_funds_out_trans}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c4j_funds_in_funds_out_trans_nof_hits}"
+														id="c4j_funds_in_funds_out_trans_nof_hits"
+														class="form-control form-control-sm"
+														name="c4j_funds_in_funds_out_trans_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c4k_funds_in_funds_out_trans_nof_phits}"
+														id="c4k_funds_in_funds_out_trans_nof_phits"
+														class="form-control form-control-sm"
+														name="c4k_funds_in_funds_out_trans_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c4l_funds_in_funds_out_trans_nof_phitsc}"
+														id="c4l_funds_in_funds_out_trans_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c4l_funds_in_funds_out_trans_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c4m_funds_in_funds_out_trans_nof_str}"
+														id="c4m_funds_in_funds_out_trans_nof_str"
+														class="form-control form-control-sm"
+														name="c4m_funds_in_funds_out_trans_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c4n_funds_in_funds_out_trans_nof_alerts}"
+														id="c4n_funds_in_funds_out_trans_nof_alerts"
+														class="form-control form-control-sm"
+														name="c4n_funds_in_funds_out_trans_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c4o_funds_in_funds_out_trans_nof_alerts_nostr}"
+														id="c4o_funds_in_funds_out_trans_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c4o_funds_in_funds_out_trans_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme4"
+														onclick="edi4(this);"
+														th:value="${report?.c4p_funds_in_funds_out_trans_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme4"
+														name="c4p_funds_in_funds_out_trans_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c4p_funds_in_funds_out_trans_avg_time}">Select</option>
+														<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c4q_funds_in_funds_out_trans_nof_alerts_str}"
+														id="c4q_funds_in_funds_out_trans_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c4q_funds_in_funds_out_trans_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d5a_caution_list_santion_cust}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c5j_caution_list_santion_custs_nof_hits}"
+														id="c5j_caution_list_santion_custs_nof_hits"
+														class="form-control form-control-sm"
+														name="c5j_caution_list_santion_custs_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c5k_caution_list_santion_custs_nof_phits}"
+														id="c5k_caution_list_santion_custs_nof_phits"
+														class="form-control form-control-sm"
+														name="c5k_caution_list_santion_custs_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c5l_caution_list_santion_custs_nof_phitsc}"
+														id="c5l_caution_list_santion_custs_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c5l_caution_list_santion_custs_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c5m_caution_list_santion_custs_nof_str}"
+														id="c5m_caution_list_santion_custs_nof_str"
+														class="form-control form-control-sm"
+														name="c5m_caution_list_santion_custs_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c5n_caution_list_santion_custs_nof_alerts}"
+														id="c5n_caution_list_santion_custs_nof_alerts"
+														class="form-control form-control-sm"
+														name="c5n_caution_list_santion_custs_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c5o_caution_list_santion_custs_nof_alerts_nostr}"
+														id="c5o_caution_list_santion_custs_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c5o_caution_list_santion_custs_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme5"
+														onclick="edi5(this);"
+														th:value="${report?.c5p_caution_list_santion_custs_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme5"
+														name="c5p_caution_list_santion_custs_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c5p_caution_list_santion_custs_avg_time}">Select</option>
+														<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c5q_caution_list_santion_custs_nof_alerts_str}"
+														id="c5q_caution_list_santion_custs_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c5q_caution_list_santion_custs_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d6a_sanction_jurisdiction}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c6j_sanction_jurispiction_nof_hits}"
+														id="c6j_sanction_jurispiction_nof_hits"
+														class="form-control form-control-sm"
+														name="c6j_sanction_jurispiction_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c6k_sanction_jurispiction_nof_phits}"
+														id="c6k_sanction_jurispiction_nof_phits"
+														class="form-control form-control-sm"
+														name="c6k_sanction_jurispiction_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c6l_sanction_jurispiction_nof_phitsc}"
+														id="c6l_sanction_jurispiction_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c6l_sanction_jurispiction_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c6m_sanction_jurispiction_nof_str}"
+														id="c6m_sanction_jurispiction_nof_str"
+														class="form-control form-control-sm"
+														name="c6m_sanction_jurispiction_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c6n_sanction_jurispiction_nof_alerts}"
+														id="c6n_sanction_jurispiction_nof_alerts"
+														class="form-control form-control-sm"
+														name="c6n_sanction_jurispiction_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c6o_sanction_jurispiction_nof_alerts_nostr}"
+														id="c6o_sanction_jurispiction_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c6o_sanction_jurispiction_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme6"
+														onclick="edi6(this);"
+														th:value="${report?.c6p_sanction_jurispiction_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme6"
+														name="c6p_sanction_jurispiction_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c6p_sanction_jurispiction_avg_time}">Select</option>
+														<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c6q_sanction_jurispiction_nof_alerts_str}"
+														id="c6q_sanction_jurispiction_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c6q_sanction_jurispiction_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d7a_trans_non_equi_jurisdiction}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c7j_trans_non_equi_jurisdiction_nof_hits}"
+														id="c7j_trans_non_equi_jurisdiction_nof_hits"
+														class="form-control form-control-sm"
+														name="c7j_trans_non_equi_jurisdiction_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c7k_trans_non_equi_jurisdiction}"
+														id="c7k_trans_non_equi_jurisdiction"
+														class="form-control form-control-sm"
+														name="c7k_trans_non_equi_jurisdiction" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c7l_trans_non_equi_jurisdiction_nof_phitsc}"
+														id="c7l_trans_non_equi_jurisdiction_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c7l_trans_non_equi_jurisdiction_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c7m_trans_non_equi_jurisdiction_nof_str}"
+														id="c7m_trans_non_equi_jurisdiction_nof_str"
+														class="form-control form-control-sm"
+														name="c7m_trans_non_equi_jurisdiction_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c7n_trans_nof_equi_jurisdiction_nof_alerts}"
+														id="c7n_trans_nof_equi_jurisdiction_nof_alerts"
+														class="form-control form-control-sm"
+														name="c7n_trans_nof_equi_jurisdiction_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c7o_trans_non_equi_jurisdiction_nof_alerts_nostr}"
+														id="c7o_trans_non_equi_jurisdiction_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c7o_trans_non_equi_jurisdiction_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme7"
+														onclick="edi7(this);"
+														th:value="${report?.c7p_trans_non_equi_jurisdiction_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme7"
+														name="c7p_trans_non_equi_jurisdiction_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c7p_trans_non_equi_jurisdiction_avg_time}">Select</option>
+															<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c7q_trans_non_equi_jurisdiction_nof_alerts_str}"
+														id="c7q_trans_non_equi_jurisdiction_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c7q_trans_non_equi_jurisdiction_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d8a_trans_peps_high_risk_accts}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c8j_trans_peps_high_risk_accts_nof_hits}"
+														id="c8j_trans_peps_high_risk_accts_nof_hits"
+														class="form-control form-control-sm"
+														name="c8j_trans_peps_high_risk_accts_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c8k_trans_peps_high_risk_accts_nof_phits}"
+														id="c8k_trans_peps_high_risk_accts_nof_phits"
+														class="form-control form-control-sm"
+														name="c8k_trans_peps_high_risk_accts_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c8l_trans_peps_high_risk_accts_nof_phitsc}"
+														id="c8l_trans_peps_high_risk_accts_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c8l_trans_peps_high_risk_accts_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c8m_trans_peps_high_risk_accts_nof_str}"
+														id="c8m_trans_peps_high_risk_accts_nof_str"
+														class="form-control form-control-sm"
+														name="c8m_trans_peps_high_risk_accts_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c8n_trans_peps_high_risk_accts_nof_alerts}"
+														id="c8n_trans_peps_high_risk_accts_nof_alerts"
+														class="form-control form-control-sm"
+														name="c8n_trans_peps_high_risk_accts_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c8o_trans_peps_high_risk_accts_nof_alerts_nostr}"
+														id="c8o_trans_peps_high_risk_accts_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c8o_trans_peps_high_risk_accts_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme8"
+														onclick="edi8(this);"
+														th:value="${report?.c8p_trans_peps_higp_risk_accts_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme8"
+														name="c8p_trans_peps_higp_risk_accts_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c8p_trans_peps_higp_risk_accts_avg_time}">Select</option>
+															<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c8q_trans_peps_high_risk_accts_nof_alerts_str}"
+														id="c8q_trans_peps_high_risk_accts_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c8q_trans_peps_high_risk_accts_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d9a_trans_new_reactivate_accts}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c9j_trans_new_reactivate_accts_nof_hits}"
+														id="c9j_trans_new_reactivate_accts_nof_hits"
+														class="form-control form-control-sm"
+														name="c9j_trans_new_reactivate_accts_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c9k_trans_new_reactivate_accts_nof_phits}"
+														id="c9k_trans_new_reactivate_accts_nof_phits"
+														class="form-control form-control-sm"
+														name="c9k_trans_new_reactivate_accts_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c9l_trans_new_reactivate_accts_nof_phitsc}"
+														id="c9l_trans_new_reactivate_accts_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c9l_trans_new_reactivate_accts_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c9m_trans_new_reactivate_accts_nof_str}"
+														id="c9m_trans_new_reactivate_accts_nof_str"
+														class="form-control form-control-sm"
+														name="c9m_trans_new_reactivate_accts_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c9n_trans_new_reactivate_accts_nof_alerts}"
+														id="c9n_trans_new_reactivate_accts_nof_alerts"
+														class="form-control form-control-sm"
+														name="c9n_trans_new_reactivate_accts_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c9o_trans_new_reactivate_accts_nof_alerts_nostr}"
+														id="c9o_trans_new_reactivate_accts_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c9o_trans_new_reactivate_accts_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme9"
+														onclick="edi9(this);"
+														th:value="${report?.c9p_trans_new_reactivate_accts_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme9"
+														name="c9p_trans_new_reactivate_accts_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c9p_trans_new_reactivate_accts_avg_time}">Select</option>
+															<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c9q_trans_new_reactivate_accts_nof_alerts_str}"
+														id="c9q_trans_new_reactivate_accts_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c9q_trans_new_reactivate_accts_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d10a_trans_minor_accts}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c10j_trans_minor_accts_nof_hits}"
+														id="c10j_trans_minor_accts_nof_hits"
+														class="form-control form-control-sm"
+														name="c10j_trans_minor_accts_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c10k_trans_minor_accts_nof_phits}"
+														id="c10k_trans_minor_accts_nof_phits"
+														class="form-control form-control-sm"
+														name="c10k_trans_minor_accts_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c10l_trans_minor_accts_nof_phitsc}"
+														id="c10l_trans_minor_accts_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c10l_trans_minor_accts_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c10m_trans_minor_accts_nof_str}"
+														id="c10m_trans_minor_accts_nof_str"
+														class="form-control form-control-sm"
+														name="c10m_trans_minor_accts_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c10n_trans_minor_accts_nof_alerts}"
+														id="c10n_trans_minor_accts_nof_alerts"
+														class="form-control form-control-sm"
+														name="c10n_trans_minor_accts_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c10o_trans_minor_accts_nof_alerts_nostr}"
+														id="c10o_trans_minor_accts_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c10o_trans_minor_accts_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme10"
+														onclick="edi10(this);"
+														th:value="${report?.c10p_trans_minor_accts_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme10"
+														name="c10p_trans_minor_accts_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c10p_trans_minor_accts_avg_time}">Select</option>
+															<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c10q_trans_minor_accts_nof_alerts_str}"
+														id="c10q_trans_minor_accts_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c10q_trans_minor_accts_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d11a_all_otr_type_trans}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c11j_all_otr_type_trans_nof_hits}"
+														id="c11j_all_otr_type_trans_nof_hits"
+														class="form-control form-control-sm"
+														name="c11j_all_otr_type_trans_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c11k_all_otr_type_trans_nof_phits}"
+														id="c11k_all_otr_type_trans_nof_phits"
+														class="form-control form-control-sm"
+														name="c11k_all_otr_type_trans_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c11l_all_otr_type_trans_nof_phitsc}"
+														id="c11l_all_otr_type_trans_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c11l_all_otr_type_trans_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c11m_all_otr_type_trans_nof_str}"
+														id="c11m_all_otr_type_trans_nof_str"
+														class="form-control form-control-sm"
+														name="c11m_all_otr_type_trans_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c11n_all_otr_type_trans_nof_alerts}"
+														id="c11n_all_otr_type_trans_nof_alerts"
+														class="form-control form-control-sm"
+														name="c11n_all_otr_type_trans_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c11o_all_otr_type_trans_nof_alerts_nostr}"
+														id="c11o_all_otr_type_trans_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c11o_all_otr_type_trans_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme11"
+														onclick="edi11(this);"
+														th:value="${report?.c11p_all_otr_type_trans_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme11"
+														name="c11p_all_otr_type_trans_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c11p_all_otr_type_trans_avg_time}">Select</option>
+															<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c11q_all_otr_type_trans_nof_alerts_str}"
+														id="c11q_all_otr_type_trans_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c11q_all_otr_type_trans_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td style="display: none;"><input type="text"
+														style="color: black; display: none;"
+														th:value="${#dates.format(report?.report_date ,'dd/MM/yyyy')}"
+														id="report_date" class="form-control form-control-sm"
+														name="report_date" autocomplete="off" /></td>
+													<td style="display: none;"><input type="hidden"
+														style="color: black; display: none;"
+														th:value="${#dates.format(report?.rep_period_from ,'dd/MM/yyyy')}"
+														id="rep_period_from" class="form-control form-control-sm"
+														name="rep_period_from" autocomplete="off" /></td>
+													<td style="display: none;"><input type="hidden"
+														style="color: black; display: none;"
+														th:value="${#dates.format(report?.rep_period_to ,'dd/MM/yyyy')}"
+														id="rep_period_to" class="form-control form-control-sm"
+														name="rep_period_to" autocomplete="off" />
+																												<input type="hidden"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d1a_large_cash_trans}"
+														id="d1a_large_cash_trans"
+														class="form-control form-control-sm"
+														name="d1a_large_cash_trans" autocomplete="off" />
+														<input type="hidden"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d2a_cash_in_cash_out_trans}"
+														id="d2a_cash_in_cash_out_trans"
+														class="form-control form-control-sm"
+														name="d2a_cash_in_cash_out_trans" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d3a_linked_cash_trans}"
+														id="d3a_linked_cash_trans"
+														class="form-control form-control-sm"
+														name="d3a_linked_cash_trans" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d4a_funds_in_funds_out_trans}"
+														id="d4a_funds_in_funds_out_trans"
+														class="form-control form-control-sm"
+														name="d4a_funds_in_funds_out_trans" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d5a_caution_list_santion_cust}"
+														id="d5a_caution_list_santion_cust"
+														class="form-control form-control-sm"
+														name="d5a_caution_list_santion_cust" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d6a_sanction_jurisdiction}"
+														id="d6a_sanction_jurisdiction"
+														class="form-control form-control-sm"
+														name="d6a_sanction_jurisdiction" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d7a_trans_non_equi_jurisdiction}"
+														id="d7a_trans_non_equi_jurisdiction"
+														class="form-control form-control-sm"
+														name="d7a_trans_non_equi_jurisdiction" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d8a_trans_peps_high_risk_accts}"
+														id="d8a_trans_peps_high_risk_accts"
+														class="form-control form-control-sm"
+														name="d8a_trans_peps_high_risk_accts" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d9a_trans_new_reactivate_accts}"
+														id="d9a_trans_new_reactivate_accts"
+														class="form-control form-control-sm"
+														name="d9a_trans_new_reactivate_accts" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d10a_trans_minor_accts}"
+														id="d10a_trans_minor_accts"
+														class="form-control form-control-sm"
+														name="d10a_trans_minor_accts" autocomplete="off" /><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d11a_all_otr_type_trans}"
+														id="d11a_all_otr_type_trans"
+														class="form-control form-control-sm"
+														name="d11a_all_otr_type_trans" autocomplete="off" /></td>
+												</tr>
+
+
+
+											</tbody>
+										</table>
+
+
+
+									</div>
+
+
+									<div class="card-footer text-center"
+										style="height: 38px; background-color: #eaecee;">
+										<button type="button" style="margin-top: -12px;"
+											class="btn btn-xs btn-primary"
+											onclick="editsubmitform(this);" form="dataedit"
+											id="btnSubmit">Submit</button>
+
+										<button type="button" style="margin-top: -12px;"
+											class="btn btn-xs btn-primary" id="btnclose"
+											data-dismiss="modal">Close</button>
+
+
+									</div>
+									<div class="container content"
+										style="border: 1px solid #36404a; background-color: #eaecee; padding: 15px;">
+										<div class="row formline">
+											<label class="col-sm-2">Entry User</label>
+											<div class="col-sm-2">
+												<input type="text" th:value="${session.USERID}"
+													id="entry_user" name="entry_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+											<label class="col-sm-2">Modify User</label>
+											<div class="col-sm-2">
+												<input type="text" th:value="${session.USERID}"
+													id="modify_user" name="modify_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+											<label class="col-sm-2">Verify User</label>
+											<div class="col-sm-2">
+												<input type="text" id="verify_user" name="verify_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+										</div>
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+											<label class="col-sm-2">Entry Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="entry_date" name="entry_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+
+											<label class="col-sm-2">Modify Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="verify_date" name="modify_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+
+
+
+											<label class="col-sm-2">Verify Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="verify_time" name="verify_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+
+											<label></label>
+										</div>
+
+
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" style="overflow-x: auto; display: none;"
+					id="verify" th:fragment="dataverify">
+
+					<div class="modal-dialog modal-lg" style="margin-top: 65px;margin-left: 0 !important;">
+
+						<div class="modal-content" style="width: 1300px;">
+
+
+
+
+
+							<div class="modal-header" style="background-color: #eaecee;">
+								<b>Table 19: Types of Hits (pre-transaction) and Alerts (post-transaction) - Verify</b>
+
+
+								<!-- <div class="btn-group nav-buttons float-right">
+												<button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button>
+												<button type="button" class="btn btn-xs btn-primary btns"
+													id="btnInq" onclick="list()">List</button>
+											</div>
+ -->
+							</div>
+
+
+							<div class="modal-body"
+								style="background-color: #eaecee; text-align: center; width: 1300px !important;">
+
+								<form action="#" th:object="${dataverify}" method="POST"
+							autocomplete="off" id="dataverify">
+							<div class="table  "
+								style="overflow-x: auto; width: 1200px;">
+					<table class="table  table-bordered  table-hover table-sm"
+											id="" style="width: 1200px;">
+											<thead class="thead-light">
+
+
+												<tr>
+													<th></th>
+													<th>No. of hits</th>
+													<th>No. of positive hits (exclude false positives)</th>
+													<th>No. of positive hits closed (without raising
+														internal suspicion reports)</th>
+													<th>Total no. of internal suspicion reports filed
+														following hits</th>
+													<th>No. of Alerts raised</th>
+													<th>No. of Alerts closed (without raising internal
+														suspicion reports)</th>
+													<th style="width: 130px;">Average time for closing the
+														alerts (no. of days)</th>
+													<th>Total no. of internal suspicion reports filed
+														following alerts</th>
+
+
+												</tr>
+
+
+											</thead>
+											<tbody th:each="report : ${reportsummary}">
+
+												<tr>
+
+													<td width="150px;" th:text="${report.d1a_large_cash_trans}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c1j_large_cash_trans_nof_hits}"
+														id="c1j_large_cash_trans_nof_hits"
+														class="form-control form-control-sm"
+														name="c1j_large_cash_trans_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c1k_large_cash_trans_nof_phits}"
+														id="c1k_large_cash_trans_nof_phits"
+														class="form-control form-control-sm"
+														name="c1k_large_cash_trans_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c1l_large_cash_trans_nof_phitsc}"
+														id="c1l_large_cash_trans_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c1l_large_cash_trans_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c1m_largm_cash_trans_nof_str}"
+														id="c1m_largm_cash_trans_nof_str"
+														class="form-control form-control-sm"
+														name="c1m_largm_cash_trans_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c1n_large_cash_trans_nof_alerts}"
+														id="c1n_large_cash_trans_nof_alerts"
+														class="form-control form-control-sm"
+														name="c1n_large_cash_trans_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c1o_large_cash_trans_nof_alerts_nostr}"
+														id="c1o_large_cash_trans_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c1o_large_cash_trans_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme1"
+														onclick="edi1(this);"
+														th:value="${report?.c1p_large_cash_trans_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme1"
+														name="c1p_large_cash_trans_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c1p_large_cash_trans_avg_time}">Select</option>
+															<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c1q_large_cash_trans_nof_alerts_str}"
+														id="c1q_large_cash_trans_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c1q_large_cash_trans_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+<tr>
+													<td width="150px;" th:text="${report.d2a_cash_in_cash_out_trans}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c2j_cash_in_cash_out_trans_nof_hits}"
+														id="c2j_cash_in_cash_out_trans_nof_hits"
+														class="form-control form-control-sm"
+														name="c2j_cash_in_cash_out_trans_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c2k_cash_in_cash_out_trans_nof_phits}"
+														id="c2k_cash_in_cash_out_trans_nof_phits"
+														class="form-control form-control-sm"
+														name="c2k_cash_in_cash_out_trans_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c2l_cash_in_cash_out_trans_nof_phitsc}"
+														id="c2l_cash_in_cash_out_trans_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c2l_cash_in_cash_out_trans_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c2m_cash_in_cash_out_trans_nof_str}"
+														id="c2m_cash_in_cash_out_trans_nof_str"
+														class="form-control form-control-sm"
+														name="c2m_cash_in_cash_out_trans_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c2n_cash_in_cash_out_trans_nof_alerts}"
+														id="c2n_cash_in_cash_out_trans_nof_alerts"
+														class="form-control form-control-sm"
+														name="c2n_cash_in_cash_out_trans_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c2o_cash_in_cash_out_trans_nof_alerts_nostr}"
+														id="c2o_cash_in_cash_out_trans_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c2o_cash_in_cash_out_trans_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme2"
+														onclick="edi2(this);"
+														th:value="${report?.c2p_casp_in_cash_out_trans_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme2"
+														name="c2p_casp_in_cash_out_trans_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c2p_casp_in_cash_out_trans_avg_time}">Select</option>
+														<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c2q_cash_in_cash_out_trans_nof_alerts_str}"
+														id="c2q_cash_in_cash_out_trans_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c2q_cash_in_cash_out_trans_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d3a_linked_cash_trans}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c3j_linked_cash_trans_nof_hits}"
+														id="c3j_linked_cash_trans_nof_hits"
+														class="form-control form-control-sm"
+														name="c3j_linked_cash_trans_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c3k_linked_cash_trans_nof_phits}"
+														id="c3k_linked_cash_trans_nof_phits"
+														class="form-control form-control-sm"
+														name="c3k_linked_cash_trans_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c3l_linkel_cash_trans_nof_phitsc}"
+														id="c3l_linkel_cash_trans_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c3l_linkel_cash_trans_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c3m_linked_cash_trans_nof_str}"
+														id="c3m_linked_cash_trans_nof_str"
+														class="form-control form-control-sm"
+														name="c3m_linked_cash_trans_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c3n_linked_cash_trans_nof_alerts}"
+														id="c3n_linked_cash_trans_nof_alerts"
+														class="form-control form-control-sm"
+														name="c3n_linked_cash_trans_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c3o_linked_cash_trans_nof_alerts_nostr}"
+														id="c3o_linked_cash_trans_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c3o_linked_cash_trans_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme3"
+														onclick="edi3(this);"
+														th:value="${report?.c3p_linked_cash_trans_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme3"
+														name="c3p_linked_cash_trans_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c3p_linked_cash_trans_avg_time}">Select</option>
+														<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c3q_linkeq_cash_trans_nof_alerts_str}"
+														id="c3q_linkeq_cash_trans_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c3q_linkeq_cash_trans_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												
+
+	
+<tr>
+													<td width="150px;" th:text="${report.d4a_funds_in_funds_out_trans}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c4j_funds_in_funds_out_trans_nof_hits}"
+														id="c4j_funds_in_funds_out_trans_nof_hits"
+														class="form-control form-control-sm"
+														name="c4j_funds_in_funds_out_trans_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c4k_funds_in_funds_out_trans_nof_phits}"
+														id="c4k_funds_in_funds_out_trans_nof_phits"
+														class="form-control form-control-sm"
+														name="c4k_funds_in_funds_out_trans_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c4l_funds_in_funds_out_trans_nof_phitsc}"
+														id="c4l_funds_in_funds_out_trans_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c4l_funds_in_funds_out_trans_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c4m_funds_in_funds_out_trans_nof_str}"
+														id="c4m_funds_in_funds_out_trans_nof_str"
+														class="form-control form-control-sm"
+														name="c4m_funds_in_funds_out_trans_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c4n_funds_in_funds_out_trans_nof_alerts}"
+														id="c4n_funds_in_funds_out_trans_nof_alerts"
+														class="form-control form-control-sm"
+														name="c4n_funds_in_funds_out_trans_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c4o_funds_in_funds_out_trans_nof_alerts_nostr}"
+														id="c4o_funds_in_funds_out_trans_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c4o_funds_in_funds_out_trans_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme4"
+														onclick="edi4(this);"
+														th:value="${report?.c4p_funds_in_funds_out_trans_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme4"
+														name="c4p_funds_in_funds_out_trans_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c4p_funds_in_funds_out_trans_avg_time}">Select</option>
+														<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c4q_funds_in_funds_out_trans_nof_alerts_str}"
+														id="c4q_funds_in_funds_out_trans_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c4q_funds_in_funds_out_trans_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d5a_caution_list_santion_cust}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c5j_caution_list_santion_custs_nof_hits}"
+														id="c5j_caution_list_santion_custs_nof_hits"
+														class="form-control form-control-sm"
+														name="c5j_caution_list_santion_custs_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c5k_caution_list_santion_custs_nof_phits}"
+														id="c5k_caution_list_santion_custs_nof_phits"
+														class="form-control form-control-sm"
+														name="c5k_caution_list_santion_custs_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c5l_caution_list_santion_custs_nof_phitsc}"
+														id="c5l_caution_list_santion_custs_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c5l_caution_list_santion_custs_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c5m_caution_list_santion_custs_nof_str}"
+														id="c5m_caution_list_santion_custs_nof_str"
+														class="form-control form-control-sm"
+														name="c5m_caution_list_santion_custs_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c5n_caution_list_santion_custs_nof_alerts}"
+														id="c5n_caution_list_santion_custs_nof_alerts"
+														class="form-control form-control-sm"
+														name="c5n_caution_list_santion_custs_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c5o_caution_list_santion_custs_nof_alerts_nostr}"
+														id="c5o_caution_list_santion_custs_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c5o_caution_list_santion_custs_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme5"
+														onclick="edi5(this);"
+														th:value="${report?.c5p_caution_list_santion_custs_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme5"
+														name="c5p_caution_list_santion_custs_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c5p_caution_list_santion_custs_avg_time}">Select</option>
+														<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c5q_caution_list_santion_custs_nof_alerts_str}"
+														id="c5q_caution_list_santion_custs_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c5q_caution_list_santion_custs_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d6a_sanction_jurisdiction}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c6j_sanction_jurispiction_nof_hits}"
+														id="c6j_sanction_jurispiction_nof_hits"
+														class="form-control form-control-sm"
+														name="c6j_sanction_jurispiction_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c6k_sanction_jurispiction_nof_phits}"
+														id="c6k_sanction_jurispiction_nof_phits"
+														class="form-control form-control-sm"
+														name="c6k_sanction_jurispiction_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c6l_sanction_jurispiction_nof_phitsc}"
+														id="c6l_sanction_jurispiction_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c6l_sanction_jurispiction_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c6m_sanction_jurispiction_nof_str}"
+														id="c6m_sanction_jurispiction_nof_str"
+														class="form-control form-control-sm"
+														name="c6m_sanction_jurispiction_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c6n_sanction_jurispiction_nof_alerts}"
+														id="c6n_sanction_jurispiction_nof_alerts"
+														class="form-control form-control-sm"
+														name="c6n_sanction_jurispiction_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c6o_sanction_jurispiction_nof_alerts_nostr}"
+														id="c6o_sanction_jurispiction_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c6o_sanction_jurispiction_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme6"
+														onclick="edi6(this);"
+														th:value="${report?.c6p_sanction_jurispiction_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme6"
+														name="c6p_sanction_jurispiction_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c6p_sanction_jurispiction_avg_time}">Select</option>
+														<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c6q_sanction_jurispiction_nof_alerts_str}"
+														id="c6q_sanction_jurispiction_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c6q_sanction_jurispiction_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d7a_trans_non_equi_jurisdiction}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c7j_trans_non_equi_jurisdiction_nof_hits}"
+														id="c7j_trans_non_equi_jurisdiction_nof_hits"
+														class="form-control form-control-sm"
+														name="c7j_trans_non_equi_jurisdiction_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c7k_trans_non_equi_jurisdiction}"
+														id="c7k_trans_non_equi_jurisdiction"
+														class="form-control form-control-sm"
+														name="c7k_trans_non_equi_jurisdiction" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c7l_trans_non_equi_jurisdiction_nof_phitsc}"
+														id="c7l_trans_non_equi_jurisdiction_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c7l_trans_non_equi_jurisdiction_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c7m_trans_non_equi_jurisdiction_nof_str}"
+														id="c7m_trans_non_equi_jurisdiction_nof_str"
+														class="form-control form-control-sm"
+														name="c7m_trans_non_equi_jurisdiction_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c7n_trans_nof_equi_jurisdiction_nof_alerts}"
+														id="c7n_trans_nof_equi_jurisdiction_nof_alerts"
+														class="form-control form-control-sm"
+														name="c7n_trans_nof_equi_jurisdiction_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c7o_trans_non_equi_jurisdiction_nof_alerts_nostr}"
+														id="c7o_trans_non_equi_jurisdiction_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c7o_trans_non_equi_jurisdiction_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme7"
+														onclick="edi7(this);"
+														th:value="${report?.c7p_trans_non_equi_jurisdiction_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme7"
+														name="c7p_trans_non_equi_jurisdiction_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c7p_trans_non_equi_jurisdiction_avg_time}">Select</option>
+															<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c7q_trans_non_equi_jurisdiction_nof_alerts_str}"
+														id="c7q_trans_non_equi_jurisdiction_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c7q_trans_non_equi_jurisdiction_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d8a_trans_peps_high_risk_accts}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c8j_trans_peps_high_risk_accts_nof_hits}"
+														id="c8j_trans_peps_high_risk_accts_nof_hits"
+														class="form-control form-control-sm"
+														name="c8j_trans_peps_high_risk_accts_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c8k_trans_peps_high_risk_accts_nof_phits}"
+														id="c8k_trans_peps_high_risk_accts_nof_phits"
+														class="form-control form-control-sm"
+														name="c8k_trans_peps_high_risk_accts_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c8l_trans_peps_high_risk_accts_nof_phitsc}"
+														id="c8l_trans_peps_high_risk_accts_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c8l_trans_peps_high_risk_accts_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c8m_trans_peps_high_risk_accts_nof_str}"
+														id="c8m_trans_peps_high_risk_accts_nof_str"
+														class="form-control form-control-sm"
+														name="c8m_trans_peps_high_risk_accts_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c8n_trans_peps_high_risk_accts_nof_alerts}"
+														id="c8n_trans_peps_high_risk_accts_nof_alerts"
+														class="form-control form-control-sm"
+														name="c8n_trans_peps_high_risk_accts_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c8o_trans_peps_high_risk_accts_nof_alerts_nostr}"
+														id="c8o_trans_peps_high_risk_accts_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c8o_trans_peps_high_risk_accts_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme8"
+														onclick="edi8(this);"
+														th:value="${report?.c8p_trans_peps_higp_risk_accts_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme8"
+														name="c8p_trans_peps_higp_risk_accts_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c8p_trans_peps_higp_risk_accts_avg_time}">Select</option>
+															<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c8q_trans_peps_high_risk_accts_nof_alerts_str}"
+														id="c8q_trans_peps_high_risk_accts_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c8q_trans_peps_high_risk_accts_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d9a_trans_new_reactivate_accts}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c9j_trans_new_reactivate_accts_nof_hits}"
+														id="c9j_trans_new_reactivate_accts_nof_hits"
+														class="form-control form-control-sm"
+														name="c9j_trans_new_reactivate_accts_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c9k_trans_new_reactivate_accts_nof_phits}"
+														id="c9k_trans_new_reactivate_accts_nof_phits"
+														class="form-control form-control-sm"
+														name="c9k_trans_new_reactivate_accts_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c9l_trans_new_reactivate_accts_nof_phitsc}"
+														id="c9l_trans_new_reactivate_accts_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c9l_trans_new_reactivate_accts_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c9m_trans_new_reactivate_accts_nof_str}"
+														id="c9m_trans_new_reactivate_accts_nof_str"
+														class="form-control form-control-sm"
+														name="c9m_trans_new_reactivate_accts_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c9n_trans_new_reactivate_accts_nof_alerts}"
+														id="c9n_trans_new_reactivate_accts_nof_alerts"
+														class="form-control form-control-sm"
+														name="c9n_trans_new_reactivate_accts_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c9o_trans_new_reactivate_accts_nof_alerts_nostr}"
+														id="c9o_trans_new_reactivate_accts_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c9o_trans_new_reactivate_accts_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme9"
+														onclick="edi9(this);"
+														th:value="${report?.c9p_trans_new_reactivate_accts_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme9"
+														name="c9p_trans_new_reactivate_accts_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c9p_trans_new_reactivate_accts_avg_time}">Select</option>
+															<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c9q_trans_new_reactivate_accts_nof_alerts_str}"
+														id="c9q_trans_new_reactivate_accts_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c9q_trans_new_reactivate_accts_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d10a_trans_minor_accts}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c10j_trans_minor_accts_nof_hits}"
+														id="c10j_trans_minor_accts_nof_hits"
+														class="form-control form-control-sm"
+														name="c10j_trans_minor_accts_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c10k_trans_minor_accts_nof_phits}"
+														id="c10k_trans_minor_accts_nof_phits"
+														class="form-control form-control-sm"
+														name="c10k_trans_minor_accts_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c10l_trans_minor_accts_nof_phitsc}"
+														id="c10l_trans_minor_accts_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c10l_trans_minor_accts_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c10m_trans_minor_accts_nof_str}"
+														id="c10m_trans_minor_accts_nof_str"
+														class="form-control form-control-sm"
+														name="c10m_trans_minor_accts_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c10n_trans_minor_accts_nof_alerts}"
+														id="c10n_trans_minor_accts_nof_alerts"
+														class="form-control form-control-sm"
+														name="c10n_trans_minor_accts_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c10o_trans_minor_accts_nof_alerts_nostr}"
+														id="c10o_trans_minor_accts_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c10o_trans_minor_accts_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme10"
+														onclick="edi10(this);"
+														th:value="${report?.c10p_trans_minor_accts_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme10"
+														name="c10p_trans_minor_accts_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c10p_trans_minor_accts_avg_time}">Select</option>
+															<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c10q_trans_minor_accts_nof_alerts_str}"
+														id="c10q_trans_minor_accts_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c10q_trans_minor_accts_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td width="150px;" th:text="${report.d11a_all_otr_type_trans}"></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c11j_all_otr_type_trans_nof_hits}"
+														id="c11j_all_otr_type_trans_nof_hits"
+														class="form-control form-control-sm"
+														name="c11j_all_otr_type_trans_nof_hits" autocomplete="off" /></td>
+
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c11k_all_otr_type_trans_nof_phits}"
+														id="c11k_all_otr_type_trans_nof_phits"
+														class="form-control form-control-sm"
+														name="c11k_all_otr_type_trans_nof_phits" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c11l_all_otr_type_trans_nof_phitsc}"
+														id="c11l_all_otr_type_trans_nof_phitsc"
+														class="form-control form-control-sm"
+														name="c11l_all_otr_type_trans_nof_phitsc" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c11m_all_otr_type_trans_nof_str}"
+														id="c11m_all_otr_type_trans_nof_str"
+														class="form-control form-control-sm"
+														name="c11m_all_otr_type_trans_nof_str" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c11n_all_otr_type_trans_nof_alerts}"
+														id="c11n_all_otr_type_trans_nof_alerts"
+														class="form-control form-control-sm"
+														name="c11n_all_otr_type_trans_nof_alerts" autocomplete="off" /></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c11o_all_otr_type_trans_nof_alerts_nostr}"
+														id="c11o_all_otr_type_trans_nof_alerts_nostr"
+														class="form-control form-control-sm"
+														name="c11o_all_otr_type_trans_nof_alerts_nostr"
+														autocomplete="off" /></td>
+													<td width="22px;"><input
+														class="form-control form-control-sm" id="hideme11"
+														onclick="edi11(this);"
+														th:value="${report?.c11p_all_otr_type_trans_avg_time}"
+														style="float: left; font-size: 13px;"> <select
+														class="form-control form-control-sm" id="showme11"
+														name="c11p_all_otr_type_trans_avg_time"
+														style="float: left; font-size: 13px; display: none; width: 102px;"
+														required>
+															<option
+																th:value="${report?.c11p_all_otr_type_trans_avg_time}">Select</option>
+															<option value="<1 day"> < 1 day</option>
+															<option value="2 to 7 days">2 to 7 days</option>
+															<option value="8 to 15 days">8 to 15 days</option>
+															<option value="16 to 30 days">16 to 30 days</option>
+															<option value=">30 days"> > 30 days</option>
+
+													</select></td>
+													<td width="22px;"><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.c11q_all_otr_type_trans_nof_alerts_str}"
+														id="c11q_all_otr_type_trans_nof_alerts_str"
+														class="form-control form-control-sm"
+														name="c11q_all_otr_type_trans_nof_alerts_str"
+														autocomplete="off" /></td>
+
+												</tr>
+												<tr>
+													<td style="display: none;"><input type="text"
+														style="color: black; display: none;"
+														th:value="${#dates.format(report?.report_date ,'dd/MM/yyyy')}"
+														id="report_date" class="form-control form-control-sm"
+														name="report_date" autocomplete="off" /></td>
+													<td style="display: none;"><input type="hidden"
+														style="color: black; display: none;"
+														th:value="${#dates.format(report?.rep_period_from ,'dd/MM/yyyy')}"
+														id="rep_period_from" class="form-control form-control-sm"
+														name="rep_period_from" autocomplete="off" /></td>
+													<td style="display: none;"><input type="hidden"
+														style="color: black; display: none;"
+														th:value="${#dates.format(report?.rep_period_to ,'dd/MM/yyyy')}"
+														id="rep_period_to" class="form-control form-control-sm"
+														name="rep_period_to" autocomplete="off" />
+																												<input type="hidden"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d1a_large_cash_trans}"
+														id="d1a_large_cash_trans"
+														class="form-control form-control-sm"
+														name="d1a_large_cash_trans" autocomplete="off" />
+														<input type="hidden"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d2a_cash_in_cash_out_trans}"
+														id="d2a_cash_in_cash_out_trans"
+														class="form-control form-control-sm"
+														name="d2a_cash_in_cash_out_trans" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d3a_linked_cash_trans}"
+														id="d3a_linked_cash_trans"
+														class="form-control form-control-sm"
+														name="d3a_linked_cash_trans" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d4a_funds_in_funds_out_trans}"
+														id="d4a_funds_in_funds_out_trans"
+														class="form-control form-control-sm"
+														name="d4a_funds_in_funds_out_trans" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d5a_caution_list_santion_cust}"
+														id="d5a_caution_list_santion_cust"
+														class="form-control form-control-sm"
+														name="d5a_caution_list_santion_cust" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d6a_sanction_jurisdiction}"
+														id="d6a_sanction_jurisdiction"
+														class="form-control form-control-sm"
+														name="d6a_sanction_jurisdiction" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d7a_trans_non_equi_jurisdiction}"
+														id="d7a_trans_non_equi_jurisdiction"
+														class="form-control form-control-sm"
+														name="d7a_trans_non_equi_jurisdiction" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d8a_trans_peps_high_risk_accts}"
+														id="d8a_trans_peps_high_risk_accts"
+														class="form-control form-control-sm"
+														name="d8a_trans_peps_high_risk_accts" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d9a_trans_new_reactivate_accts}"
+														id="d9a_trans_new_reactivate_accts"
+														class="form-control form-control-sm"
+														name="d9a_trans_new_reactivate_accts" autocomplete="off" />
+														<input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d10a_trans_minor_accts}"
+														id="d10a_trans_minor_accts"
+														class="form-control form-control-sm"
+														name="d10a_trans_minor_accts" autocomplete="off" /><input type="text"
+														style="width: 100px; background-color: #e3e3e4; color: black;"
+														th:value="${report?.d11a_all_otr_type_trans}"
+														id="d11a_all_otr_type_trans"
+														class="form-control form-control-sm"
+														name="d11a_all_otr_type_trans" autocomplete="off" /></td>
+												</tr>
+
+
+
+											</tbody>
+										</table>
+				
+
+							</div>
+
+
+							<div class="card-footer text-center"
+								style="height: 38px; background-color: #eaecee;">
+								<button type="button" style="margin-top: -12px;"
+									class="btn btn-xs btn-primary"
+									onclick="verifysubmitform(this);" form="dataverify"
+									id="btnSubmit">Verify</button>
+
+								<button type="button" style="margin-top: -12px;"
+									class="btn btn-xs btn-primary" id="btnclose"
+									data-dismiss="modal">Close</button>
+
+
+							</div>
+
+
+							<div class="container content"
+								th:each="report : ${reportsummary}"
+								style="border: 1px solid #36404a; background-color: #eaecee; padding: 15px;">
+								<div class="row formline">
+									<label class="col-sm-2">Entry User</label>
+									<div class="col-sm-2">
+										<input type="text" th:value="${session.USERID}"
+											id="entry_user" name="entry_user"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly />
+
+									</div>
+									<label class="col-sm-2">Modify User</label>
+									<div class="col-sm-2">
+										<input type="text" th:value="${report?.modify_user}"
+											id="modify_user" name="modify_user"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly />
+									</div>
+									<label class="col-sm-2">Verify User</label>
+									<div class="col-sm-2">
+										<input type="text" th:value="${session.USERID}"
+											id="verify_user" name="verify_user"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly />
+									</div>
+								</div>
+								<div class="row formline">
+									<label style="height: 2px;"></label>
+
+								</div>
+								<div class="row formline">
+
+									<label class="col-sm-2">Entry Time</label>
+									<div class="col-sm-2">
+										<input type="text" id="entry_time2" name="entry_time"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly />
+									</div>
+
+									<label class="col-sm-2">Modify Time</label>
+									<div class="col-sm-2">
+										<input type="text" id="modify_time2" name="modify_time"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly />
+									</div>
+
+
+
+									<label class="col-sm-2">Verify Time</label>
+									<div class="col-sm-2">
+										<input type="text" id="verify_time2" name="verify_time"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly />
+
+									</div>
+
+									<label></label>
+								</div>
+
+
+
+							</div>
+
+
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+				<!------------------------------ Report summary section ends it will shown only if summary button clicked------------------------->
+				<!------------------------------ Report Details section starts it will shown only if Details button clicked------------------------->
+				<div class="col-sm-12 customcol" th:if="${displaymode}=='detail'"
+					th:fragment="detail">
+					<div class="card-header" id="modheadtitle" style="width: 1100px;">
+						<b>Table 19: Types of Hits (pre-transaction) and Alerts
+							(post-transaction)</b>
+
+					</div>
+
+					<div
+						style="overflow-x: auto; border-right: 1px solid #dee2e6; width: 1100px;"
+						th:class="${searchmsg == null}?'inner'">
+						<table th:if="${searchmsg} == null"
+							class="table table-bordered table-sm" style="width: 1100px"
+							id="detailtb">
+							<thead class="thead-light">
+
+								<!-- <th rowspan="5" class="first_left"><a
+										data-toggle="tooltip" class="editrec"
+										title="Click to add new Records"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype}=='report' ? addedit "
+											class="fa fa-plus-circle" onclick="addRecord();"
+											aria-hidden="true"></i></a></th>
+									<th rowspan="5" class="second_left"><a href="#"
+										data-toggle="tooltip" title="Click to Search Record"><i
+											class="fa fa-search" onclick="searchRecord();"
+											aria-hidden="true"></i></a></th> -->
+								<tr>
+									<th>Customer Id</th>
+									<th>Customer Name</th>
+									<th>Account No</th>
+									<th>Account Name</th>
+									<th>Tran date</th>
+									<th>Tran Id</th>
+									<th>Part Tran Id</th>
+									<th>Part Tran Type</th>
+									<th>Tran Currency</th>
+									<th>Tran Amount</th>
+									<th>Tran Particulars</th>
+									<th>Number of Hits</th>
+									<th>Number of Postive Hits</th>
+									<th>Number of Positive Hits Closed</th>
+									<th>Number of STR</th>
+									<th>Number of Alerts</th>
+									<th>Number of Alerts without STR</th>
+									<th>Average Monitoring Time</th>
+									<th>Number of Alerts with STR</th>
+									<th>Quarter Flag</th>
+
+								</tr>
+
+							</thead>
+							<tbody>
+
+								<!-- <td class="first_left"><a data-toggle="tooltip"
+										class="editrec" title="Click to Edit this Record"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+											class="fas fa-edit" onclick="editRecord(this)"></i></a></td>
+									<td class="second_left"><a data-toggle="tooltip"
+										class="editrec" title="Click to delete this Record"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+											class="fas fa-minus-circle" onclick="deleteRecord(this)"></i></a></td> -->
+								<tr th:each="repdetail : ${reportdetails.content}">
+									<td th:text="${repdetail.cust_id	}">1</td>
+									<td th:text="${repdetail.cust_name	}">1</td>
+									<td th:text="${repdetail.acct_no	}">1</td>
+									<td th:text="${repdetail.acct_name	}">1</td>
+									<td
+										th:text="${#dates.format(repdetail.tran_date	,'dd/MM/yyyy')}">1</td>
+									<td th:text="${repdetail.tran_id	}">1</td>
+									<td th:text="${repdetail.part_tran_id	}">1</td>
+									<td th:text="${repdetail.part_tran_type	}">1</td>
+									<td th:text="${repdetail.tran_crncy	}">1</td>
+									<td
+										th:text="${#numbers.formatDecimal(repdetail.tran_amt	,1,'COMMA',2,'POINT')}"
+										align="right">CHENNAI</td>
+
+									<td th:text="${repdetail.tran_particulars				}">CHE1NNAI</td>
+									<td th:text="${repdetail.tran_nof_hits				}">1</td>
+									<td th:text="${repdetail.tran_nof_phits				}">1</td>
+									<td th:text="${repdetail.tran_nof_phitsc				}">CH1ENNAI</td>
+									<td th:text="${repdetail.tran_nof_str				}">1</td>
+									<td th:text="${repdetail.tran_nof_alerts				}">CHENN1AI</td>
+									<td th:text="${repdetail.tran_nof_alerts_nostr				}">CHEN1NAI</td>
+									<td
+										th:text="${#dates.format(repdetail.tran_avg_time,'dd/MM/yyyy')}">CHEN1NAI</td>
+									<td th:text="${repdetail.tran_nof_alerts_str				}">CHE1NNAI</td>
+									<td th:text="${repdetail.qtr_flg									}">CHE1NNAI</td>
+
+
+								</tr>
+							</tbody>
+						</table>
+						<table th:if="${searchmsg} != null"
+							class="table table-bordered table-sm" style="width: 1500px"
+							id="detailtb">
+							<thead class="thead-light">
+								<tr>
+									<!-- <th><a data-toggle="tooltip" class="editrec"
+										title="Click to add new Records"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype}=='report' ? addedit "
+											class="fa fa-plus-circle" onclick="addRecord();"
+											aria-hidden="true"></i></a></th>
+									<th><a data-toggle="tooltip"
+										title="Click to Search Record"><i class="fa fa-search"
+											onclick="searchRecord();" aria-hidden="true"></i></a></th> -->
+									<th>Customer Id</th>
+									<th>Customer Name</th>
+									<th>Customer Type</th>
+									<th>Customer Rating</th>
+									<th>Account No</th>
+									<th>Account Name</th>
+									<th>Tran Type</th>
+									<th>Tran Sub Type</th>
+									<th>Tran date</th>
+									<th>Tran Id</th>
+									<th>Part Tran Id</th>
+									<th>Part Tran Type</th>
+									<th>Tran Currency</th>
+									<th>Tran Amount</th>
+									<th>Tran Category</th>
+									<th>Quarter Flag</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="10">No Data Available</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- -----------------------------------Details edit modal form----------------------------------------------------->
+					<!-- <div class="modal fade" id="addedit" th:fragment="dataedit">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+
+							Modal Header
+							<div class="modal-header">
+								<h4 class="modal-title">Add/Edit Records</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+							<div class="modal-body" style="text-align: center">
+								<form th:object=${singledetail} id="dataedit" method="post">
+									<div class="form-group">
+
+										<div class="row">
+											<label class="col-sm-5" for="trade_date">Trade Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{trade_date}" id="trade_date" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="value_date">Value Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{value_date}" id="value_date" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="isin">ISIN of Security</label> <input
+												class="form-control col-sm-5" type="text" th:field="*{isin}"
+												onkeyup="this.value = this.value.toUpperCase();" id="isin"
+												required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="type_of_sec">Type of
+												Security</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{type_of_sec}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="type_of_sec" required />
+										</div>
+
+
+
+
+										<div class="row">
+											<label class="col-sm-5" for="acct_of_sec">Account
+												Number of Security</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{acct_of_sec}" id="acct_of_sec"
+												required />
+										</div>
+
+
+
+										<div class="row">
+											<label class="col-sm-5" for="type_of_tran">Type of
+												Transaction</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{type_of_tran}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="type_of_tran" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="name_of_party">Name of
+												counterparty</label> <input class="form-control col-sm-5"
+												type="text" th:field="*{name_of_party}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="name_of_party" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="cntprty_code">Counterparty
+												Code</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.cntprty_code}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="cntprty_code" required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="categ_of_cntprty">Category
+												of Counterparty</label> <input class="form-control col-sm-5"
+												type="text" th:field="*{categ_of_cntprty}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="categ_of_cntprty" required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="nom_of_sec">Nominal
+												Amount of security</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{nom_of_sec}" id="nom_of_sec"
+												required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="yield_of_sec">Yield to
+												Maturity of Security (%)</label> <input
+												class="form-control col-sm-5" type="number"
+												th:field="*{yield_of_sec}" id="yield_of_sec" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="clean_of_sec">Clean
+												Price of Security</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{clean_of_sec}" id="clean_of_sec"
+												required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="mat_date">Maturity Date
+												of security</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{mat_date}" id="mat_date" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="resid_days">Residual
+												Days to Maturity</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{resid_days}" id="resid_days"
+												required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="indicate_bid">Indicative
+												Bid Yield on Days to Maturity</label> <input
+												class="form-control col-sm-5" type="number"
+												th:field="*{indicate_bid}" id="indicate_bid" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="indicate_yield">Indicative
+												Ask Yield on Days to Maturity</label> <input
+												class="form-control col-sm-5" type="number"
+												th:field="*{indicate_yield}" id="indicate_yield" required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="isin">Report Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.report_date}" id="report_date"
+												required />
+										</div>
+
+
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitdataform();">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				 -->
+					<!-------------------------------------Details edit modal form----------------------------------------------------->
+					<!-- -----------------------------------Search modal form----------------------------------------------------->
+					<!-- <div class="modal fade" id="search" th:fragment="search">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+
+							Modal Header
+							<div class="modal-header">
+								<h4 class="modal-title">Search Records</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+							<div class="modal-body" style="text-align: center">
+								<form th:object=${singledetail} id="searchdtl" method="post">
+									<div class="form-group">
+										<div class="row">
+											<label class="col-sm-5" for="cntprty_code">Counterparty
+												Code</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.cntprty_code}" id="cntprty_code"
+												required />
+										</div>
+										<div class="row">
+											<label class="col-sm-5" for="isin">Report Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.report_date}" id="report_dates"
+												required />
+										</div>
+
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitSearchRecord();">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				 -->
+					<!-------------------------------------Search modal form----------------------------------------------------->
+					<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+					<div class="modal fade" id="datadelete">
+						<div
+							class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+							<div class="modal-content">
+								<div class="modal-body" style="text-align: center">
+									<button type="button" class="close" data-dismiss="modal">×</button>
+									Are you Sure want to delete?
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary"
+										onclick="submitdataform();">Submit</button>
+									<button type="button" class="btn btn-primary"
+										data-dismiss="modal">Cancel</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+					<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+					<div th:if="${displaymode}=='detail'">
+						<div class="float-right" th:if="${reportdetails.totalPages} gt 1">
+							<a href="#"><i class="fas fa-caret-left fa-2x"
+								th:onclick="|showdetails('prevpage',${reportdetails.number},${reportdetails.totalPages},${instancecode});|"></i></a>
+							<input type="text" id="pageno" style="width: 30px"
+								th:value="${reportdetails.number+1}"
+								th:onchange="|showdetails('givenpage',${reportdetails.number},${reportdetails.totalPages},${instancecode});|"></input>
+							of <font th:text="${reportdetails.totalPages}"></font> <a
+								href="#"><i class="fas fa-caret-right fa-2x"
+								th:onclick="|showdetails('nextpage',${reportdetails.number},${reportdetails.totalPages},${instancecode});|"></i></a>
+						</div>
+					</div>
+					<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+				</div>
+				<!------------------------------ Report Details section ends it will shown only if Details button clicked------------------------->
+			</div>
+		</div>
+
+		<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg"></p>
+					<button type="button" class="btn btn-primary" id="close">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	</div>
+	<div class="modal fade" id="verifybox">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="verifyboxmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+	$(document).ready(function(){
+        $("#close").click(function(){
+            location.reload(true);
+        });
+    });
+	function back(a) {
+
+		window.history.back(-1);
+
+	}
+	</script>
+</body>
+</html>
+
+

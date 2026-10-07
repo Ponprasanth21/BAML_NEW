@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rule_main" pageWidth="1000" pageHeight="3000" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2c214a78-f570-4e73-b100-41f766dc2595">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}" value="HVCDP/HVCWL/HVNCD/HVNCW/CVCDP/CVCWL/CVNCD/CVNCW/CVCDP1/CVCWL1/CVNCD1/CVNCW1/DTCDT/TSCTP/CTACP/STVET/CTBTL/NCTBT/RTBTL/RTBLP/CUTMA/TINCP/VINCP/ATBTL/MTOOR/OTOMR/FIFOE/"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<property name="net.sf.jasperreports.page.break.no.pagination" value="apply"/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="0"/>
+	<property name="empty" value="true"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="0"/>
+	<parameter name="RULE1" class="java.io.InputStream"/>
+	<parameter name="RULE2" class="java.io.InputStream"/>
+	<parameter name="RULE3" class="java.io.InputStream"/>
+	<parameter name="RULE4" class="java.io.InputStream"/>
+	<parameter name="RULE5" class="java.io.InputStream"/>
+	<parameter name="RULE6" class="java.io.InputStream"/>
+	<parameter name="RULE7" class="java.io.InputStream"/>
+	<parameter name="RULE8" class="java.io.InputStream"/>
+	<parameter name="RULE9" class="java.io.InputStream"/>
+	<parameter name="RULE10" class="java.io.InputStream"/>
+	<parameter name="RULE11" class="java.io.InputStream"/>
+	<parameter name="RULE12" class="java.io.InputStream"/>
+	<parameter name="RULE13" class="java.io.InputStream"/>
+	<parameter name="RULE14" class="java.io.InputStream"/>
+	<parameter name="RULE16" class="java.io.InputStream"/>
+	<parameter name="RULE18" class="java.io.InputStream"/>
+	<parameter name="RULE22" class="java.io.InputStream"/>
+	<parameter name="RULE23" class="java.io.InputStream"/>
+	<parameter name="RULE24" class="java.io.InputStream"/>
+	<parameter name="RULE25" class="java.io.InputStream"/>
+	<parameter name="RULE26" class="java.io.InputStream"/>
+	<parameter name="RULE27" class="java.io.InputStream"/>
+	<parameter name="RULE28" class="java.io.InputStream"/>
+	<parameter name="RULE29" class="java.io.InputStream"/>
+	<parameter name="RULE30" class="java.io.InputStream"/>
+	<parameter name="RULE31" class="java.io.InputStream"/>
+	<parameter name="RULE32" class="java.io.InputStream"/>
+	<parameter name="ALERT_DATE" class="java.lang.String"/>
+	<parameter name="RULE21" class="java.io.InputStream"/>
+	<queryString language="SQL">
+		<![CDATA[select * from "BAML_TRAN_ALERTS_MASTER" WHERE AERT_DATE=$P{ALERT_DATE}]]>
+	</queryString>
+	<field name="AML_TRAN_REF_NO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="AML_TRAN_REF_NO"/>
+	</field>
+	<field name="SOL_ID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SOL_ID"/>
+	</field>
+	<field name="TRAN_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_DATE"/>
+	</field>
+	<field name="VALUE_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="VALUE_DATE"/>
+	</field>
+	<field name="TRAN_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_TYPE"/>
+	</field>
+	<field name="TRAN_SUB_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_SUB_TYPE"/>
+	</field>
+	<field name="PART_TRAN_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PART_TRAN_TYPE"/>
+	</field>
+	<field name="TRAN_ID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_ID"/>
+	</field>
+	<field name="PART_TRAN_SRL_NUM" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PART_TRAN_SRL_NUM"/>
+	</field>
+	<field name="TRAN_CRNCY_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_CRNCY_CODE"/>
+	</field>
+	<field name="TRAN_AMT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_AMT"/>
+	</field>
+	<field name="TRAN_PARTICULARS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_PARTICULARS"/>
+	</field>
+	<field name="TRAN_REMARKS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_REMARKS"/>
+	</field>
+	<field name="TRAN_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_CODE"/>
+	</field>
+	<field name="TRAN_PARTICULAR_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_PARTICULAR_CODE"/>
+	</field>
+	<field name="ACID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ACID"/>
+	</field>
+	<field name="FORACID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FORACID"/>
+	</field>
+	<field name="ACCT_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ACCT_NAME"/>
+	</field>
+	<field name="CUST_ID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_ID"/>
+	</field>
+	<field name="SCHM_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SCHM_TYPE"/>
+	</field>
+	<field name="SCHM_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SCHM_CODE"/>
+	</field>
+	<field name="GL_SUB_HEAD_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="GL_SUB_HEAD_CODE"/>
+	</field>
+	<field name="ENTRY_USER_ID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ENTRY_USER_ID"/>
+	</field>
+	<field name="PSTD_USER_ID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PSTD_USER_ID"/>
+	</field>
+	<field name="VFD_USER_ID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="VFD_USER_ID"/>
+	</field>
+	<field name="ENTRY_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="ENTRY_DATE"/>
+	</field>
+	<field name="PSTD_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="PSTD_DATE"/>
+	</field>
+	<field name="VFD_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="VFD_DATE"/>
+	</field>
+	<field name="PSTD_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PSTD_FLG"/>
+	</field>
+	<field name="DEL_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DEL_FLG"/>
+	</field>
+	<field name="RULE_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="RULE_CODE"/>
+	</field>
+	<field name="AERT_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="AERT_DATE"/>
+	</field>
+	<field name="ALERT_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ALERT_CODE"/>
+	</field>
+	<field name="ALERT_REMARKS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ALERT_REMARKS"/>
+	</field>
+	<field name="USER_OBSERVATIONS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="USER_OBSERVATIONS"/>
+	</field>
+	<field name="STR_REF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="STR_REF"/>
+	</field>
+	<field name="CASE_REF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CASE_REF"/>
+	</field>
+	<field name="FREE_FIELD_1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FREE_FIELD_1"/>
+	</field>
+	<field name="FREE_FIELD_2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FREE_FIELD_2"/>
+	</field>
+	<field name="FREE_FIELD_3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FREE_FIELD_3"/>
+	</field>
+	<field name="ENTITY_FLAG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ENTITY_FLAG"/>
+	</field>
+	<field name="ALERT_DESC" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ALERT_DESC"/>
+	</field>
+	<summary>
+		<band height="2087" splitType="Stretch">
+			<subreport>
+				<reportElement positionType="Float" x="0" y="90" width="200" height="80" uuid="02396df8-f2e2-400d-b984-9666d2c18370"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE3}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="171" width="200" height="55" uuid="2127ed71-66a4-49da-90a6-20157d41d146"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE4}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="227" width="200" height="90" uuid="bb7476e3-b744-4398-83d4-196df766b5cd"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE5}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="319" width="200" height="90" uuid="3a99cfde-5372-4990-91a0-022f68ff9f88"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE6}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="-2" y="412" width="200" height="90" uuid="3a4d7387-f589-45fc-a522-02630d92c6b0"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE7}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="-2" y="503" width="200" height="90" uuid="71fa440b-ba09-4860-a93a-21151f396fce"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE8}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="-2" y="594" width="200" height="80" uuid="a1974a37-a820-4bf4-b9ff-400c8c21078b"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE9}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="-2" y="675" width="200" height="90" uuid="9cb53b6d-f07b-4461-9ab1-d5ca0e87af18"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE10}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="-2" y="766" width="200" height="120" uuid="c249b140-5d0a-43d9-b1b8-8b97f3209391"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE11}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="-2" y="887" width="200" height="90" uuid="dd5f3100-efff-47eb-b4c9-70b562341c2e"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE12}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="-2" y="978" width="200" height="90" uuid="96cb5a68-734d-4fd8-865b-598a1ef932a6"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE13}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="1069" width="200" height="80" uuid="2332ba02-813d-44b7-833e-117ff20479ec"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE14}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="1150" width="200" height="110" uuid="0516f9e2-ba76-4fda-932e-93d4cfa573d8"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE16}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="1" y="1261" width="200" height="80" uuid="2ffbe110-423a-40cb-b668-0b8fab070f87"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE18}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="1392" width="200" height="50" uuid="e9483047-b1af-4a09-8d11-a361cbb62d57"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE22}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="-2" y="1443" width="200" height="70" uuid="d7ca6854-699a-4531-979d-91c20a975aba"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE23}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="1514" width="200" height="80" uuid="429b9f33-7914-409d-be80-4eb8084a0005"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE24}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="-2" y="1595" width="200" height="80" uuid="d0b4a400-c7bb-4ae4-912d-e8ed6bc20411"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE25}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="1676" width="200" height="93" uuid="ddaa4f77-f2e9-4846-adcd-7deca66fbd82"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE26}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="-2" y="1770" width="200" height="70" uuid="f21d5305-df9b-45ef-b427-429f55d58509"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE27}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="1841" width="200" height="40" uuid="74ab869e-788e-40e5-b845-0e073724d963"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE28}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="1882" width="200" height="40" uuid="d07abdbf-1595-4fc0-a8aa-8a81a562b349"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE29}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="-2" y="1923" width="200" height="50" uuid="124f4c8f-1e38-4526-b9c3-9b7f7e68318d"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE30}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="1" y="1976" width="200" height="60" uuid="5491925f-d3e3-4b56-b717-40720774fec1"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE31}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="1" y="2037" width="200" height="50" uuid="47607889-ab96-4296-980e-841c2a81cd14"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE32}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="38" uuid="bb5dbefc-2350-4cb7-bc4c-edf0d8bcc66e"/>
+				<subreportParameter name="RULE1">
+					<subreportParameterExpression><![CDATA[$P{RULE1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE2">
+					<subreportParameterExpression><![CDATA[$P{RULE2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE3">
+					<subreportParameterExpression><![CDATA[$P{RULE3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE4">
+					<subreportParameterExpression><![CDATA[$P{RULE4}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE5">
+					<subreportParameterExpression><![CDATA[$P{RULE5}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE6">
+					<subreportParameterExpression><![CDATA[$P{RULE6}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE7">
+					<subreportParameterExpression><![CDATA[$P{RULE7}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE8">
+					<subreportParameterExpression><![CDATA[$P{RULE8}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE9">
+					<subreportParameterExpression><![CDATA[$P{RULE9}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE10">
+					<subreportParameterExpression><![CDATA[$P{RULE10}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE11">
+					<subreportParameterExpression><![CDATA[$P{RULE11}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE12">
+					<subreportParameterExpression><![CDATA[$P{RULE12}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE13">
+					<subreportParameterExpression><![CDATA[$P{RULE13}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE14">
+					<subreportParameterExpression><![CDATA[$P{RULE14}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE16">
+					<subreportParameterExpression><![CDATA[$P{RULE16}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE18">
+					<subreportParameterExpression><![CDATA[$P{RULE18}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE22">
+					<subreportParameterExpression><![CDATA[$P{RULE22}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE23">
+					<subreportParameterExpression><![CDATA[$P{RULE23}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE24">
+					<subreportParameterExpression><![CDATA[$P{RULE24}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE25">
+					<subreportParameterExpression><![CDATA[$P{RULE25}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE26">
+					<subreportParameterExpression><![CDATA[$P{RULE26}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE27">
+					<subreportParameterExpression><![CDATA[$P{RULE27}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE28">
+					<subreportParameterExpression><![CDATA[$P{RULE28}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE29">
+					<subreportParameterExpression><![CDATA[$P{RULE29}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE30">
+					<subreportParameterExpression><![CDATA[$P{RULE30}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE31">
+					<subreportParameterExpression><![CDATA[$P{RULE31}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE32">
+					<subreportParameterExpression><![CDATA[$P{RULE32}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE1}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="39" width="218" height="50" uuid="b0d4d439-5e82-4042-aabc-6728c9785554"/>
+				<subreportParameter name="RULE1">
+					<subreportParameterExpression><![CDATA[$P{RULE1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE2">
+					<subreportParameterExpression><![CDATA[$P{RULE2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE3">
+					<subreportParameterExpression><![CDATA[$P{RULE3}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE4">
+					<subreportParameterExpression><![CDATA[$P{RULE4}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE5">
+					<subreportParameterExpression><![CDATA[$P{RULE5}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE6">
+					<subreportParameterExpression><![CDATA[$P{RULE6}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE7">
+					<subreportParameterExpression><![CDATA[$P{RULE7}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE8">
+					<subreportParameterExpression><![CDATA[$P{RULE8}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE9">
+					<subreportParameterExpression><![CDATA[$P{RULE9}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE10">
+					<subreportParameterExpression><![CDATA[$P{RULE10}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE11">
+					<subreportParameterExpression><![CDATA[$P{RULE11}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE12">
+					<subreportParameterExpression><![CDATA[$P{RULE12}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE13">
+					<subreportParameterExpression><![CDATA[$P{RULE13}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE14">
+					<subreportParameterExpression><![CDATA[$P{RULE14}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE16">
+					<subreportParameterExpression><![CDATA[$P{RULE16}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE18">
+					<subreportParameterExpression><![CDATA[$P{RULE18}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE22">
+					<subreportParameterExpression><![CDATA[$P{RULE22}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE23">
+					<subreportParameterExpression><![CDATA[$P{RULE23}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE24">
+					<subreportParameterExpression><![CDATA[$P{RULE24}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE25">
+					<subreportParameterExpression><![CDATA[$P{RULE25}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE26">
+					<subreportParameterExpression><![CDATA[$P{RULE26}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE27">
+					<subreportParameterExpression><![CDATA[$P{RULE27}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE28">
+					<subreportParameterExpression><![CDATA[$P{RULE28}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE29">
+					<subreportParameterExpression><![CDATA[$P{RULE29}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE30">
+					<subreportParameterExpression><![CDATA[$P{RULE30}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE31">
+					<subreportParameterExpression><![CDATA[$P{RULE31}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RULE32">
+					<subreportParameterExpression><![CDATA[$P{RULE32}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE2}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="1342" width="149" height="49" uuid="3b7586c3-ee96-4869-a709-28ec5ee4fa0f"/>
+				<subreportParameter name="ALERT_DATE">
+					<subreportParameterExpression><![CDATA[$P{ALERT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RULE21}]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="38" width="100" height="1" uuid="a6988669-ce57-456f-9f91-6f8e53f4ae9e"/>
+			</break>
+			<break>
+				<reportElement x="0" y="89" width="100" height="1" uuid="bf643b5c-117a-4dcf-b15c-b8a5e1a8e8b2"/>
+			</break>
+			<break>
+				<reportElement x="0" y="170" width="100" height="1" uuid="aab34f50-c3bd-4278-8748-27aa7b7dfd79"/>
+			</break>
+			<break>
+				<reportElement x="0" y="226" width="100" height="1" uuid="5c8f6f3b-85da-4b49-b003-fedf8eac45a0"/>
+			</break>
+			<break>
+				<reportElement x="0" y="317" width="100" height="1" uuid="f8703f94-c0ea-4cb4-aca2-70b8422ccd10"/>
+			</break>
+			<break>
+				<reportElement x="0" y="411" width="99" height="1" uuid="aab86348-771f-46ce-90ac-98ed062d08fd"/>
+			</break>
+			<break>
+				<reportElement x="0" y="502" width="99" height="1" uuid="81b65587-1651-4a7d-9f6d-efca96343ae4"/>
+			</break>
+			<break>
+				<reportElement x="0" y="593" width="99" height="1" uuid="19483f82-0e53-4209-b50c-c19d9e4089d7"/>
+			</break>
+			<break>
+				<reportElement x="0" y="674" width="98" height="1" uuid="a583383f-91a7-46a2-9fef-aa6c3f446746"/>
+			</break>
+			<break>
+				<reportElement x="0" y="765" width="99" height="1" uuid="07e47c84-eef8-4d2d-9044-b698ed556d68"/>
+			</break>
+			<break>
+				<reportElement x="0" y="886" width="99" height="1" uuid="1e99cf46-a3eb-4d78-bc09-725d4c14964a"/>
+			</break>
+			<break>
+				<reportElement x="0" y="977" width="99" height="1" uuid="c3c32488-73e1-47ca-a92f-ace115d5f38a"/>
+			</break>
+			<break>
+				<reportElement x="0" y="1068" width="98" height="1" uuid="dd0c051e-65d0-436f-9088-5a32f790bf2a"/>
+			</break>
+			<break>
+				<reportElement x="0" y="1149" width="98" height="1" uuid="a01fe30b-84e9-46f9-9e10-1804a711ecbb"/>
+			</break>
+			<break>
+				<reportElement x="0" y="1260" width="97" height="1" uuid="ee77b179-ebfd-4db6-bd42-b6f653b594f9"/>
+			</break>
+			<break>
+				<reportElement x="0" y="1341" width="95" height="1" uuid="2adbad72-cf7b-409b-8b72-d44c4b37168a"/>
+			</break>
+			<break>
+				<reportElement x="0" y="1391" width="96" height="1" uuid="19dea950-bd4d-409d-8d65-fc748a41dce9"/>
+			</break>
+			<break>
+				<reportElement x="0" y="1442" width="96" height="1" uuid="0d70b145-604c-4836-b488-ef0ebbfac6ab"/>
+			</break>
+			<break>
+				<reportElement x="0" y="1513" width="96" height="1" uuid="34d88710-7b6c-4364-a24f-4e917c8121c0"/>
+			</break>
+			<break>
+				<reportElement x="0" y="1594" width="97" height="1" uuid="91e5c931-1f70-4a32-ae0a-e0a6b835794f"/>
+			</break>
+			<break>
+				<reportElement x="0" y="1675" width="99" height="1" uuid="17eb5228-6be4-4234-9b70-6fd301d7e35c"/>
+			</break>
+			<break>
+				<reportElement x="0" y="1769" width="99" height="1" uuid="227e1aec-86c3-4d1b-9c92-bfc76a02cdb7"/>
+			</break>
+			<break>
+				<reportElement x="0" y="1840" width="99" height="1" uuid="9bd6b995-98eb-42f9-a2b1-669d44a48d45"/>
+			</break>
+			<break>
+				<reportElement x="0" y="1881" width="99" height="1" uuid="5f09cc3a-53af-4432-a256-36ff766fb76b"/>
+			</break>
+			<break>
+				<reportElement x="0" y="1922" width="99" height="1" uuid="2da50074-6e5e-479f-b447-b95370114c11"/>
+			</break>
+			<break>
+				<reportElement x="0" y="1975" width="98" height="1" uuid="ddc40c35-787b-4326-9e47-d2365dbb1dc9"/>
+			</break>
+			<break>
+				<reportElement x="0" y="2036" width="97" height="1" uuid="1f989d31-e25d-4ea2-b236-221570f797d5"/>
+			</break>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,1087 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!-- 
+CREATED BY	: YESHWANT.S
+CREATED ON	: 04-JUL-2019
+PURPOSE		: T18REPORT
+ -->
+<html lang="en" >
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/multifreeze/multifreezer.css"
+	th:href="@{/multifreeze/multifreezer.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+		
+		
+		
+		var permission = /*[[${session.PERMISSIONS}]]*/null;
+	
+		var reportsummary = /*[[${reportsummary}]]*/null;
+		
+		var dtltype = /*[[${dtltype}]]*/null;
+		
+		//to make the summary button active on load
+		$(function(){
+			
+			console.log(reportsummary);
+			
+			$("#summarybtn").addClass("active");
+
+		});
+		function home(){
+			location.href = "/AML/rbsreports";
+
+	}
+	/*to show details page - 3 parameters
+		mode - valid values are : nextpage, prevpage, givenpage, firstpage
+		num - page number to show to the user
+		maxpage - maximum number of pages avaialble in the data
+	*/
+	function showdetails(mode,num,maxpage) {
+		
+		var filter =$("#filters").val();
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		if(filter!= null){
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+			//Callurl = Callurl+"&instancecode="+instancecode;
+			Callurl = Callurl+"&filter="+filter;
+		}else{
+			
+			var filter= null;
+
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+		//	Callurl = Callurl+"&instancecode="+instancecode;
+			Callurl = Callurl+"&filter="+filter;
+		}	switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+		
+		
+		$.ajax({
+			type : 'get',
+			url : Callurl,
+			success : function(data) {
+				
+				/*<![CDATA[*/
+				
+
+				$('.content').html(data);
+				$("#detailsbtn").addClass("active");
+				/*]]>*/
+
+			}
+		})
+	}
+	
+	
+	//to fetch summary from the database - called from the summary button
+	function showsummary(mode,num,maxpage) {
+		
+
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Summary'(fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+		
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+
+		
+	window.location.href=Callurl;
+	}
+	
+
+	//to check for report or arch
+	//if report --->>> precheck and then save report else throws error
+	function savereport(){
+		
+		if(dtltype=='report'){
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Precheck'(fromdate=${fromdate},todate=${todate})}]]*/
+				$.ajax({
+					type : 'get',
+					url : Callurl,
+					success : function(data) {
+
+						if (data == 'success') {	
+							
+							
+							$("#loader").show();
+							
+							
+							var Callurl = /*[[@{'/Reports/'+${reportid}+'/save'(fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+								$.ajax({
+									type : 'get',
+									url : Callurl,
+									success : function(data) {
+
+										
+										if(data=='success'){
+											
+										 var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+											Callurl = Callurl+"&filetype=xbrl";
+											location.href=Callurl;
+											$("#loader").hide();
+										}
+										else{
+											$("#loader").hide();
+											 $("#alertmsg").text(data);
+											 $('#alert').modal("toggle");
+										}
+									}
+								})
+								
+							
+							
+						} else {
+							$("#alertmsg").text("Please verify the Pending Records Before Generating XBRL Instance");
+							$("#alert").modal("toggle");
+						}
+
+					}
+					});
+			
+		}
+		else{
+			
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+				 Callurl = Callurl+"&filetype=xbrl";
+				 location.href=Callurl;
+				 $("#loader").hide();
+		}
+		
+	}
+	/*]]>*/
+</script>
+<!----------------------------------------Scripts to edit report details-------------------------------------------->
+<script th:inline="javascript">
+/*<![CDATA[*/
+	 var currlist = /*[[${currlist}]]*/null;
+
+
+					
+				function editRecord(a){
+	
+					if(permission=='W' && dtltype=='report') {
+						
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800edit'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Assign selected values to the model box fields
+					
+					$("#trade_date").val(a.getAttribute("data-trade_date"));
+					$("#value_date").val(a.getAttribute("data-value_date"));
+					$("#isin").val(a.getAttribute("data-isin"));
+					$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+					$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+					$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+					$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+					$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+					$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+					$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+					$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+					$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+					$("#mat_date").val(a.getAttribute("data-mat_date"));
+					$("#resid_days").val(a.getAttribute("data-resid_days"));
+					$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+					$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+					$("#report_date").val(a.getAttribute("data-report_date"));
+					$("#del_flg").val(a.getAttribute("data-del_flg"));
+					$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+					$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+					$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+					$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+					$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+					$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+					$("#addedit").modal("toggle");
+					
+				
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",true);
+					$("#report_date").attr("readonly",true);
+					
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					}
+					
+				};
+				function addRecord(){
+					
+					if(permission=='W' && dtltype=='report') {
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Reset form if any data present
+					document.getElementById("dataedit").reset();
+					
+					//make readonly false to unique fields
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",false);
+					$("#report_date").attr("readonly",false);
+					
+					//Reset errors
+					var validator = $("#dataedit").validate();
+					validator.resetForm();
+					
+					$("#addedit").modal("toggle");
+                    
+					
+					 
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					
+					}
+				};
+				
+				function deleteRecord(a){
+					
+					if(permission=='W' && dtltype=='report') {
+					
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800delete'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url);
+					
+					
+					//Assign selected values to the model box fields
+					
+						$("#trade_date").val(a.getAttribute("data-trade_date"));
+						$("#value_date").val(a.getAttribute("data-value_date"));
+						$("#isin").val(a.getAttribute("data-isin"));
+						$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+						$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+						$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+						$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+						$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+						$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+						$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+						$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+						$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+						$("#mat_date").val(a.getAttribute("data-mat_date"));
+						$("#resid_days").val(a.getAttribute("data-resid_days"));
+						$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+						$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+						$("#report_date").val(a.getAttribute("data-report_date"));
+						$("#del_flg").val(a.getAttribute("data-del_flg"));
+						$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+						$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+						$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+						$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+						$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+						$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+
+					$("#datadelete").modal("toggle");
+					
+					} 
+					
+				};
+				
+				function submitdataform(){
+					
+					if($("#dataedit").valid()){
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#dataedit').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 
+							 $("#alertmsg").text(responseText);
+							 
+							 if($('#addedit').is(':visible')){
+								 $('#addedit').modal("hide");
+							 };
+							 if($('#datadelete').is(':visible')){
+								 $('#datadelete').modal("hide");
+							 };
+							 $('#alert').modal("toggle");
+				                
+						 }
+						
+						
+					}
+					
+					$("#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				}
+				
+          function searchRecord(){
+					
+					document.getElementById("searchdtl").reset();
+					
+					$("#search").modal("toggle");
+					
+					$("#report_dates").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				};
+				
+				function submitSearchRecord(){
+					
+					
+					
+					if($("#searchdtl").valid()){
+						
+						
+						
+						var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800Search'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+						$("#searchdtl").attr('action', url);
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#searchdtl').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 $(".modal").modal("hide");
+							 $('.content').html(responseText);
+							 $("#detailsbtn").addClass("active");
+							 $(".modal-backdrop").remove();
+							 
+						 }	
+					}
+					
+				};
+				function showdetail(a){
+					var filter = a.id;
+					var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+					
+					Callurl = Callurl+"&filter="+filter;
+					$.ajax({
+						type : 'get',
+						url : Callurl,
+						success : function(data) {
+							
+							/*<![CDATA[*/
+							
+
+							$('.content').html(data);
+							$("#detailsbtn").addClass("active");
+							/*]]>*/
+
+						}
+					})
+					
+				}
+
+/*]]>*/
+</script>
+<style>
+.nav-buttons {
+	float: right;
+}
+
+.reptitle {
+	float: left;
+}
+
+.reptitle>p {
+	margin-top:;
+}
+
+.customcol {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.first_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 0;
+	width: 30px;
+}
+
+.second_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 30px;
+	width: 30px;
+}
+
+.third_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 60px;
+	width: 150px;
+}
+
+.inner {
+	overflow-x: scroll;
+	overflow-y: visible;
+}
+
+.btn-primary {
+	background-color: #E77400;
+	border-color: #0c0c0c;
+}
+
+.btn-primary:not (:disabled ):not (.disabled ).active, .btn-primary:not
+	 (:disabled ):not (.disabled ):active, .show>.btn-primary.dropdown-toggle
+	{
+	color: #fff;
+	background-color: #cc000000;
+	border-color: #161617;
+}
+
+.addedit {
+	color: #007bff;
+}
+
+.addedit:hover {
+	color: #0056b3;
+}
+</style>
+</head>
+<body>
+	<!----------------------------------------------------- Header Section starts ----------------------------------------------------->
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" aria-hidden="true"
+		onclick="docEmb('Report')" id="ques"></i>
+	<!----------------------------------------------------- Header Section Ends ------------------------------------------------------->
+	<div style="margin-left: 310px; margin-top: 76px;">
+		<div class="container content" th:fragment="reportcontent">
+
+
+
+			<!--------------------------------------------------------------- Report title starts -------------------------------------------->
+			<div class="row" style="width: 1100px; margin-left: 0px;">
+				<div class="col-sm-12 customcol"
+					style="background-color: #4d8cb9; padding-top: 10px; padding-bottom: 10px; padding-left: 5px;">
+					<!-- <select id="reporttype" style="background-color: #e9ecef;">
+						<option th:each="title : ${reportTitle}"
+							th:value="${title.reportName}" th:text="${title.reportName}"></option>
+
+					</select> -->
+					<div class="btn-group nav-buttons">
+						<button type="button" class="btn btn-primary"
+							onclick="showdetails('firstpage','1','0');" id="detailsbtn">Details</button>
+						<button type="button" class="btn btn-primary"
+							onclick="showsummary();" id="summarybtn">Summary</button>
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary dropdown-toggle"
+								data-toggle="dropdown">
+								Download <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=pdf|">Pdf</a></li>
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=excel|">Excel</a></li>
+								<li th:if="${displaymode}=='detail'"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=detailexcel|">Excel</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report title ends ------------------------------------------------->
+			<!--------------------------------------------------------------- Report buttons section starts ------------------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol" style="background-color: #adb5bd;">
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report buttons section ends ------------------------------------->
+			<!------------------------------ Report summary section starts it will shown only if summary button clicked------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol"
+					th:if="${displaymode}=='summary' or ${displaymode}==null"
+					style="overflow-x: auto;">
+					<div class="card-header" id="modheadtitle" style="width: 1100px;">
+						<b>Table 18: Distribution Channels</b>
+
+					</div>
+					<table class="table  table-bordered  table-hover table-sm" id=""
+						style="width: 1100px;">
+						<thead class="thead-light">
+							<!-- <tr>
+								<th></th>
+								<th colspan="3">Previous quarter</th>
+								<th colspan="3">Current quarter</th>
+							</tr>
+ -->
+							<tr>
+								<th></th>
+								<th>No. of customers</th>
+								<th>No. of transactions</th>
+								<th>Total value of transactions</th>
+							</tr>
+
+						</thead>
+						<tbody th:each="report : ${reportsummary}">
+
+							<tr>
+								<td th:text="${report.d1a_agents}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c1e_agents_nof_cust,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c1f_agents_nof_trans,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c1g_agents_val_trans,1,'COMMA',2,'POINT')}"align="right">CHENNAI</td>
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d2a_cash}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c2e_cash_nof_cust,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="A1"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c2f_cash_nof_trans,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="A1"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c2g_cash_val_trans,1,'COMMA',2,'POINT')}"onclick="showdetail(this)" id ="A1"align="right">CHENNAI</td>
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d3a_elecronic_transfer}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c3e_elecronic_transfer_nof_cust,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="A2"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c3f_elecronic_transfer_nof_trans,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="A2"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c3g_elecronic_transfer_val_trans,1,'COMMA',2,'POINT')}"onclick="showdetail(this)" id ="A2"align="right">CHENNAI</td>
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d4a_credit_cards}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c4e_credit_carcs_nof_cust,0,'COMMA',0,'POINT')}"align="right"onclick="showdetail(this)" id ="A3">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c4f_credit_cards_nof_trans,0,'COMMA',0,'POINT')}"align="right"onclick="showdetail(this)" id ="A3">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c4g_credit_cards_val_trans,1,'COMMA',2,'POINT')}"align="right"onclick="showdetail(this)" id ="A3">CHENNAI</td>
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d5a_all_other_channels}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c5e_all_other_channels_nof_cust,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c5f_all_other_channels_nof_trans,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c5g_all_other_channels_val_trans,1,'COMMA',2,'POINT')}"align="right">CHENNAI</td>
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d6a_atm}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c6e_atm_nof_cust,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c6f_atm_nof_trans,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c6g_atm_val_trans,1,'COMMA',2,'POINT')}"align="right">CHENNAI</td>
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d7a_counter_trans}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c7e_counter_trans_nof_cust,0,'COMMA',0,'POINT')}"align="right"onclick="showdetail(this)" id ="A4">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c7f_counter_trans_nof_trans,0,'COMMA',0,'POINT')}"align="right"onclick="showdetail(this)" id ="A4">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c7g_counter_trans_val_trans,1,'COMMA',2,'POINT')}"align="right"onclick="showdetail(this)" id ="A4">CHENNAI</td>
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d8a_clearing_trans}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c8e_clearing_trans_nof_cust,0,'COMMA',0,'POINT')}"align="right"onclick="showdetail(this)" id ="A5">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c8f_clearing_trans_nof_trans,0,'COMMA',0,'POINT')}"align="right"onclick="showdetail(this)" id ="A5">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c8g_clearing_trans_val_trans,1,'COMMA',2,'POINT')}"align="right"onclick="showdetail(this)" id ="A5">CHENNAI</td>
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d9a_00001_trans}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c9e_00001_trans_nof_cust,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c9f_00001_trans_nof_trans,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c9g_00001_trans_val_trans,1,'COMMA',2,'POINT')}"align="right">CHENNAI</td>
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d10a_0002_trans}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c10e_0002_trans_nof_cust,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c10f_0002_trans_nof_trans,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c10g_0002_trans_val_trans,1,'COMMA',2,'POINT')}"align="right">CHENNAI</td>
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d11a_total}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c11e_total_nof_cust,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c11f_total_nof_trans,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c11g_total_val_trans,1,'COMMA',2,'POINT')}"align="right">CHENNAI</td>
+
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${report.d12a_validation}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c12e_validation_nof_cust,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c12f_validation_nof_trans,0,'COMMA',0,'POINT')}"align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(report.c12g_validation_val_trans,1,'COMMA',2,'POINT')}"align="right">CHENNAI</td>
+
+
+
+							</tr>
+
+
+
+
+
+
+
+
+						</tbody>
+					</table>
+				<label>Note: *Please specify the number of agents ( )<br>
+Validation: Total amounts should reconcile with table 8.	</label>					
+					
+					<!------------------------------ Report Summary pagination - shown if paginated --------------------------------------------------->
+					<!-- <div class="float-right" th:if="${reportsummary.totalPages} gt 1">
+					<a href="#"><i class="fas fa-caret-left fa-2x"
+						th:onclick="|showsummary('prevpage',${reportsummary.number},${reportsummary.totalPages});|"></i></a>
+					<input type="text" id="pageno" style="width: 30px"
+						th:value="${reportsummary.number+1}"
+						th:onchange="|showsummary('givenpage',${reportsummary.number},${reportsummary.totalPages});|"></input>
+					of <font th:text="${reportsummary.totalPages}"></font> <a href="#"><i
+						class="fas fa-caret-right fa-2x"
+						th:onclick="|showsummary('nextpage',${reportsummary.number},${reportsummary.totalPages});|"></i></a>
+				</div> -->
+					<!------------------------------ Report Summary pagination - shown if paginated ---------------------------------------------------->
+<div class="card-footer text-center"
+				style="background-color: #386276";>
+				<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+					onclick="home();">Home</button>
+				<!-- <button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button> -->
+			</div>	</div>
+				<!------------------------------ Report summary section ends it will shown only if summary button clicked------------------------->
+				<!------------------------------ Report Details section starts it will shown only if Details button clicked------------------------->
+				<div class="col-sm-12 customcol" th:if="${displaymode}=='detail'"
+					th:fragment="detail" >
+					<div class="card-header" id="modheadtitle" style="width: 1100px;">
+						<b>Table 18: Distribution Channels</b>
+
+					</div>
+					
+
+
+
+						<table th:if="${searchmsg} == null"
+							class="table table-bordered table-sm" style="width: 1100px;"
+							id="detailtb">
+
+							<thead class="thead-light">
+								<tr>
+									<!-- <th rowspan="5" class="first_left"><a
+										data-toggle="tooltip" class="editrec"
+										title="Click to add new Records"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype}=='report' ? addedit "
+											class="fa fa-plus-circle" onclick="addRecord();"
+											aria-hidden="true"></i></a></th>
+									<th rowspan="5" class="second_left"><a href="#"
+										data-toggle="tooltip" title="Click to Search Record"><i
+											class="fa fa-search" onclick="searchRecord();"
+											aria-hidden="true"></i></a></th>
+ -->
+									<th>Customer ID</th>
+									<th>Customer Name</th>
+									<th>Account Number</th>
+									<th>Account Name</th>
+
+
+
+
+								</tr>
+
+							</thead>
+							<tbody>
+								<tr th:each="repdetail : ${reportdetails.content}">
+	<!-- 								<td class="first_left"><a data-toggle="tooltip"
+										class="editrec" title="Click to Edit this Record"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+											class="fas fa-edit" onclick="editRecord(this)"></i></a></td>
+									<td class="second_left"><a data-toggle="tooltip"
+										class="editrec" title="Click to delete this Record"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+											class="fas fa-minus-circle" onclick="deleteRecord(this)"></i></a></td>
+ -->
+
+									<td th:text="${repdetail.cust_id	}">CHENNAI</td>
+									<td th:text="${repdetail.cust_name	}">CHENNAI</td>
+									<td th:text="${repdetail.acct_no	}">CHENNAI</td>
+									<td th:text="${repdetail.acct_name	}">CHENNAI</td>
+									
+
+
+
+
+
+
+
+
+								</tr>
+							</tbody>
+						</table>
+						<table th:if="${searchmsg} != null"
+							class="table table-bordered table-sm" style="width: 1500px"
+							id="detailtb">
+							<thead class="thead-light">
+								<tr>
+<!-- 									<th><a data-toggle="tooltip" class="editrec"
+										title="Click to add new Records"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype}=='report' ? addedit "
+											class="fa fa-plus-circle" onclick="addRecord();"
+											aria-hidden="true"></i></a></th>
+									<th><a data-toggle="tooltip"
+										title="Click to Search Record"><i class="fa fa-search"
+											onclick="searchRecord();" aria-hidden="true"></i></a></th>
+ -->
+									<th>Customer name</th>
+									<th>Customer ownership</th>
+									<th>Customer rating internal</th>
+									<th>Customer rating date</th>
+									<th>Customer rating External</th>
+									<th>Branch Name</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="10">No Data Available</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- -----------------------------------Details edit modal form----------------------------------------------------->
+					<!-- <div class="modal fade" id="addedit" th:fragment="dataedit">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+
+							Modal Header
+							<div class="modal-header">
+								<h4 class="modal-title">Add/Edit Records</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+							<div class="modal-body" style="text-align: center">
+								<form th:object=${singledetail} id="dataedit" method="post">
+									<div class="form-group">
+
+										<div class="row">
+											<label class="col-sm-5" for="trade_date">Trade Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{trade_date}" id="trade_date" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="value_date">Value Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{value_date}" id="value_date" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="isin">ISIN of Security</label> <input
+												class="form-control col-sm-5" type="text" th:field="*{isin}"
+												onkeyup="this.value = this.value.toUpperCase();" id="isin"
+												required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="type_of_sec">Type of
+												Security</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{type_of_sec}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="type_of_sec" required />
+										</div>
+
+
+
+
+										<div class="row">
+											<label class="col-sm-5" for="acct_of_sec">Account
+												Number of Security</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{acct_of_sec}" id="acct_of_sec"
+												required />
+										</div>
+
+
+
+										<div class="row">
+											<label class="col-sm-5" for="type_of_tran">Type of
+												Transaction</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{type_of_tran}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="type_of_tran" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="name_of_party">Name of
+												counterparty</label> <input class="form-control col-sm-5"
+												type="text" th:field="*{name_of_party}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="name_of_party" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="cntprty_code">Counterparty
+												Code</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.cntprty_code}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="cntprty_code" required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="categ_of_cntprty">Category
+												of Counterparty</label> <input class="form-control col-sm-5"
+												type="text" th:field="*{categ_of_cntprty}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="categ_of_cntprty" required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="nom_of_sec">Nominal
+												Amount of security</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{nom_of_sec}" id="nom_of_sec"
+												required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="yield_of_sec">Yield to
+												Maturity of Security (%)</label> <input
+												class="form-control col-sm-5" type="number"
+												th:field="*{yield_of_sec}" id="yield_of_sec" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="clean_of_sec">Clean
+												Price of Security</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{clean_of_sec}" id="clean_of_sec"
+												required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="mat_date">Maturity Date
+												of security</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{mat_date}" id="mat_date" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="resid_days">Residual
+												Days to Maturity</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{resid_days}" id="resid_days"
+												required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="indicate_bid">Indicative
+												Bid Yield on Days to Maturity</label> <input
+												class="form-control col-sm-5" type="number"
+												th:field="*{indicate_bid}" id="indicate_bid" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="indicate_yield">Indicative
+												Ask Yield on Days to Maturity</label> <input
+												class="form-control col-sm-5" type="number"
+												th:field="*{indicate_yield}" id="indicate_yield" required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="isin">Report Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.report_date}" id="report_date"
+												required />
+										</div>
+
+
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitdataform();">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				 -->
+					<!-------------------------------------Details edit modal form----------------------------------------------------->
+					<!-- -----------------------------------Search modal form----------------------------------------------------->
+					<!-- <div class="modal fade" id="search" th:fragment="search">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+
+							Modal Header
+							<div class="modal-header">
+								<h4 class="modal-title">Search Records</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+							<div class="modal-body" style="text-align: center">
+								<form th:object=${singledetail} id="searchdtl" method="post">
+									<div class="form-group">
+										<div class="row">
+											<label class="col-sm-5" for="cntprty_code">Counterparty
+												Code</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.cntprty_code}" id="cntprty_code"
+												required />
+										</div>
+										<div class="row">
+											<label class="col-sm-5" for="isin">Report Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.report_date}" id="report_dates"
+												required />
+										</div>
+
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitSearchRecord();">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				 -->
+					<!-------------------------------------Search modal form----------------------------------------------------->
+					<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+					<div class="modal fade" id="datadelete">
+						<div
+							class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+							<div class="modal-content">
+								<div class="modal-body" style="text-align: center">
+									<button type="button" class="close" data-dismiss="modal">×</button>
+									Are you Sure want to delete?
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary"
+										onclick="submitdataform();">Submit</button>
+									<button type="button" class="btn btn-primary"
+										data-dismiss="modal">Cancel</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+					<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+					<div th:if="${displaymode}=='detail'">
+										<input type="hidden" th:value="${filter}" id="filters">
+					<div class="float-right" th:if="${reportdetails.totalPages} gt 1">
+						<a href="#"><i class="fas fa-caret-left fa-2x"
+							th:onclick="|showdetails('prevpage',${reportdetails.number},${reportdetails.totalPages});|"></i></a>
+						<input type="text" id="pageno" style="width: 30px"
+							th:value="${reportdetails.number+1}"
+							th:onchange="|showdetails('givenpage',${reportdetails.number},${reportdetails.totalPages});|"></input>
+						of <font th:text="${reportdetails.totalPages}"></font> <a href="#"><i
+							class="fas fa-caret-right fa-2x"
+							th:onclick="|showdetails('nextpage',${reportdetails.number},${reportdetails.totalPages});|"></i></a>
+					</div></div>
+					<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+				</div>
+				<!------------------------------ Report Details section ends it will shown only if Details button clicked------------------------->
+			</div>
+		</div>
+
+		<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+		<div class="modal fade" id="alert">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-body" style="text-align: center">
+						<p id="alertmsg"></p>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	
+
+</body>
+</html>
+
+

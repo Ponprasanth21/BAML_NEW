@@ -1,0 +1,300 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLACCOUNTMASTER1
+CREATED BY	: PRIYA A
+CREATED ON	: 09-JAN-2020
+MODIFY ON   :
+PURPOSE		: ACCOUNT MASTER
+ --> 
+<html lang="en"  >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+</head>
+<script type="text/javascript">
+
+function home() {
+	location.href = 'Dashboard'
+}
+
+function fnClick(a) {
+	 var acid = a.getAttribute("data-acid") 
+	
+	location.href = 'AMLAccountLedger1?acid=' +acid; 
+
+	
+}
+ 
+function back() {
+	window.history.back();
+}
+	
+	$(function() {
+		
+		document.getElementById("dataedit").reset();
+		$("#start_date").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;
+		
+		document.getElementById('start_date').value = today;
+		document.getElementById('end_date').value = today;
+
+});
+</script>
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-12 ">
+						<div th:if="${formmode}=='list'" class=" content">
+							<div class="card">
+								<div class="card-header">
+									<div class="float-left">
+										<h4>Account Master</h4>
+									</div>
+
+								</div>
+								<div class="card-body">
+
+									<input autocomplete="false" name="hidden" type="text"
+										style="display: none;">
+									<div class="form-group" id="dataedit">
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="srl_no"> Customer Id</label>
+											</div>
+
+											<div class="col-sm-3">
+												<input type="text" th:value="${Gam?.cust_id}" id="cust_id"
+													class="form-control form-control-sm" name="cust_id"
+													readonly autocomplete="off" required>
+											</div>
+											<div class="col-sm-1"></div>
+											<label class="col-sm-2">Sol Id</label>
+
+
+											<div class="col-sm-3">
+												<input type="text" th:value="${Gam?.sol_id}" id="sol_id"
+													readonly name="sol_id" class="form-control form-control-sm"
+													autocomplete="false" required />
+											</div>
+
+										</div>
+
+										<label></label>
+										<div class="row formline">
+
+											<label class="col-sm-2">Scheme Type </label>
+											<div class="col-sm-3">
+												<input type="text" th:value="${Gam?.schm_type}"
+													id="schm_type" name="schm_type" value="" readonly
+													class="form-control form-control-sm" autocomplete="false"
+													required />
+											</div>
+
+											<div class="col-sm-1"></div>
+
+
+											<label class="col-sm-2">Scheme Code </label>
+											<div class="col-sm-3">
+												<input type="text" th:value="${Gam?.schm_code}"
+													id="schm_code" name="schm_code" value="" readonly
+													class="form-control form-control-sm txtalign"
+													autocomplete="false" required />
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+
+
+										<label></label>
+										<div class="row formline">
+
+											<label class="col-sm-2">Account No </label>
+											<div class="col-sm-3">
+												<input type="text" th:value="${Gam?.acct_num}" id="acct_num"
+													name="acct_num" value="" readonly
+													class="form-control form-control-sm" autocomplete="off"
+													required />
+											</div>
+											<div class="col-sm-1"></div>
+
+
+											<label class="col-sm-2">Account Name</label>
+											<div class="col-sm-3">
+												<input type="text" th:value="${Gam?.acct_name}"
+													id="acct_name" name="acct_name" value="" readonly
+													class="form-control form-control-sm" autocomplete="off"
+													required />
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+										<label></label>
+										<div class="row formline">
+
+											<label class="col-sm-2">Date of Opening </label>
+											<div class="col-sm-3">
+												<input type="text"
+													th:value="${#dates.format(Gam?.acct_opn_date ,'dd-MM-yyyy')}"
+													id="acct_opn_date" name="acct_opn_date" value="" readonly
+													class="form-control form-control-sm" autocomplete="off"
+													required />
+											</div>
+											<div class="col-sm-1"></div>
+
+
+											<label class="col-sm-2">Date of Close</label>
+											<div class="col-sm-3">
+												<input type="text"
+													th:value="${#dates.format(Gam?.acct_cls_date ,'dd-MM-yyyy')}"
+													id="acct_cls_date" name="acct_cls_date" value="" readonly
+													class="form-control form-control-sm" autocomplete="off"
+													required />
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+
+										<label></label>
+
+										<div class="row formline">
+
+											<label class="col-sm-2">Account Balance </label>
+											<div class="col-sm-3">
+												<input type="text" th:value="${Gam?.clr_bal_amt}"
+													id="clr_bal_amt" name="clr_bal_amt" value="" readonly
+													class="form-control form-control-sm" autocomplete="off"
+													required />
+											</div>
+											<div class="col-sm-1"></div>
+
+
+											<label class="col-sm-2">Average Balance </label>
+											<div class="col-sm-3">
+												<input type="number" th:value="${Gam?.fx_clr_bal_amt}"
+													readonly id="" name="" value=""
+													class="form-control form-control-sm" autocomplete="off"
+													required />
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+										<label></label>
+
+										<div class="row formline">
+
+
+											<label class="col-sm-2">Minimum Transaction </label>
+											<div class="col-sm-3">
+												<input type="text" th:value="${Gam?.sweep_in_min_bal}" id=""
+													value="" name="" class="form-control form-control-sm"
+													autocomplete="off" required />
+											</div>
+
+											<div class="col-sm-1"></div>
+
+											<label class="col-sm-2">Maximum Transaction </label>
+											<div class="col-sm-3">
+												<input type="text" th:value="${Gam?.future_bal_amt}" id=""
+													value="" name="" class="form-control form-control-sm"
+													autocomplete="off" required />
+											</div>
+											<div class="col-sm-1"></div>
+										</div>
+										<label></label>
+
+										<div class="row formline">
+
+
+											<label class="col-sm-2">Start Date </label>
+											<div class="col-sm-3">
+												<input type="email"
+													th:value="${#dates.format(Gam?.last_frez_date ,'dd-MM-yyyy')}"
+													id="start_date" value="" name="start_date" readonly
+													class="form-control form-control-sm" autocomplete="off" />
+											</div>
+
+											<div class="col-sm-1"></div>
+
+											<label class="col-sm-2">End Date </label>
+											<div class="col-sm-3">
+												<input type="text"
+													th:value="${#dates.format(Gam?.last_unfrez_date ,'dd-MM-yyyy')}"
+													id="end_date" value="" name="end_date" readonly
+													class="form-control form-control-sm" autocomplete="off" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card-footer text-center">
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnHome" onclick="home();">Home</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnSubmit" th:attr="data-acid=${Gam.acid}"onclick="fnClick(this);">Account
+										Ledger</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnBack" onclick="back();">Back</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+</body>
+</html>

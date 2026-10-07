@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="T7Detail" pageWidth="1300" pageHeight="595" orientation="Landscape" columnWidth="1260" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bd31e8d0-ffa7-4e68-a30c-f2b7b50a50e5">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="aml@local"/>
+	<parameter name="REPORT_DATE" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select * from "T7CUST_KYC_CDD_REVIEW_MAST_TB"
+where report_date=$P{REPORT_DATE}]]>
+	</queryString>
+	<field name="CUST_ID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_ID"/>
+	</field>
+	<field name="CUST_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_NAME"/>
+	</field>
+	<field name="CUST_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_TYPE"/>
+	</field>
+	<field name="CUST_KYC_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_KYC_DATE"/>
+	</field>
+	<field name="CUST_KYC_REVIEW_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_KYC_REVIEW_DATE"/>
+	</field>
+	<field name="CUST_RATING" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_RATING"/>
+	</field>
+	<field name="CUST_RATING_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_RATING_DATE"/>
+	</field>
+	<field name="CUST_RATING_REVIEW_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_RATING_REVIEW_DATE"/>
+	</field>
+	<field name="ENTITY_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ENTITY_FLG"/>
+	</field>
+	<field name="DEL_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DEL_FLG"/>
+	</field>
+	<field name="MODIFY_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MODIFY_FLG"/>
+	</field>
+	<field name="ENTRY_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="ENTRY_DATE"/>
+	</field>
+	<field name="MODIFY_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="MODIFY_DATE"/>
+	</field>
+	<field name="VERIFY_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="VERIFY_DATE"/>
+	</field>
+	<field name="ENTRY_USER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ENTRY_USER"/>
+	</field>
+	<field name="MODIFY_USER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MODIFY_USER"/>
+	</field>
+	<field name="VERIFY_USER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="VERIFY_USER"/>
+	</field>
+	<field name="REPORT_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_CODE"/>
+	</field>
+	<field name="REPORT_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_NAME"/>
+	</field>
+	<field name="REPORT_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_DATE"/>
+	</field>
+	<field name="ARCH_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ARCH_FLG"/>
+	</field>
+	<field name="QTR_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="QTR_FLG"/>
+	</field>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="380" height="30" uuid="73f47b1a-f51b-4c17-b7a1-38e7e924d11c"/>
+				<text><![CDATA[Table 7:  No. of existing customers where KYC and CDD reviews are overdue]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="161" height="30" uuid="21d827cf-697f-4734-935f-2236e430758c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="616a81f1-9f1b-4793-81f2-d4067bbda3fb"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cust Id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="161" y="0" width="157" height="30" uuid="25de3455-9f30-4bc9-82c0-8b5fb0d1bbdd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3fa30e66-c771-405b-b555-80dbcd507b4d"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cust Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="318" y="0" width="157" height="30" uuid="880cf904-d35e-4b1b-8c35-83ef85443b02">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e9d30aa2-7083-496b-84d5-03ba41f97564"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cust Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="475" y="0" width="157" height="30" uuid="b0b2b108-3935-4bf0-80df-8efdc54f1948">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="36783dd8-32e5-48da-b6d4-0ef9911b2c22"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cust Kyc Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="632" y="0" width="157" height="30" uuid="439578b1-4259-41ef-b7e0-67a5f3ca6294">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="914da4e1-aaad-4e30-96c3-a215a5f4fb1d"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cust Kyc Review Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="789" y="0" width="157" height="30" uuid="d68b5f66-5299-40fe-979a-1baf4fbd81a5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54f0e59e-3bd3-406f-bec2-dd64b77fdf48"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cust Rating]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="946" y="0" width="157" height="30" uuid="5696a298-61ce-4189-ac31-91b30e6b1483">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44d72516-30dc-415f-80d4-ed1ae98acb45"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cust Rating Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1103" y="0" width="157" height="30" uuid="12f75c1a-a5d3-4e84-b894-d7b6766d926b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f5dbc37d-a561-4f22-ab02-91f671bb553b"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cust Review Date]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="161" height="30" uuid="23eadd73-b2c7-4c7a-af32-0e32fe4f4dd9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="616a81f1-9f1b-4793-81f2-d4067bbda3fb"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUST_ID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="161" y="0" width="157" height="30" uuid="c8b57bd9-a48e-4db0-b7ab-3731aaa124fe">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3fa30e66-c771-405b-b555-80dbcd507b4d"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUST_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="318" y="0" width="157" height="30" uuid="86b752c1-ff12-4463-a79d-9dfe68ba05a8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e9d30aa2-7083-496b-84d5-03ba41f97564"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUST_TYPE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="475" y="0" width="157" height="30" uuid="5b1f4c97-cad9-4f73-b4f4-97662498de77">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="36783dd8-32e5-48da-b6d4-0ef9911b2c22"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUST_KYC_DATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="632" y="0" width="157" height="30" uuid="0886e0bf-ec27-4058-a448-a99469422ba9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="914da4e1-aaad-4e30-96c3-a215a5f4fb1d"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUST_KYC_REVIEW_DATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="789" y="0" width="157" height="30" uuid="7b0a1ca5-0a90-4ff9-86f0-37acafe8692e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54f0e59e-3bd3-406f-bec2-dd64b77fdf48"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUST_RATING}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="946" y="0" width="157" height="30" uuid="d4ba7efd-450b-45b9-ac03-fbe429144ed7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44d72516-30dc-415f-80d4-ed1ae98acb45"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUST_RATING_DATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1103" y="0" width="157" height="30" uuid="0484a762-6b2c-4873-a403-f02d93ee96ad">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f5dbc37d-a561-4f22-ab02-91f671bb553b"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUST_RATING_REVIEW_DATE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

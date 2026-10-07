@@ -1,0 +1,1005 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLDaily_Report_Deposit_Daily
+CREATED BY	: VIJAY CORDA
+CREATED ON	: 07-Mar-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+ <html lang="en" >
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<!-- <link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}"> -->
+
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<!-- <script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script> -->
+<!-- <script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script> -->
+
+
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="js/bootstrap411.js"></script>
+
+<script th:inline="javascript">
+	$(function() {
+		
+		$("#custDOB").datepicker({
+			maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd-mm-yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+				
+
+			}
+		});
+
+		$("#end_date")
+		.datepicker(
+				{
+					//minDate : 0,
+					changeMonth : true,
+					changeYear : true,
+					dateFormat : "dd/mm/yy",
+					onSelect : function(selected) {
+						var dt = new Date(selected);
+						dt.setDate(dt.getDate() - 1);
+						var fromdate = document
+								.getElementById("start_date").value;
+						var todate = document.getElementById("end_date").value;
+						if (fromdate == "") {
+							alert("Enter From date");
+						} else {
+						//	$("#loadermodal").modal("toggle");
+							
+
+							location.href = 'AMLDaily_Report_Deposit_Daily?formmode=list&fromdate='
+								+ fromdate + '&todate=' + todate;
+						}
+
+						//$("#start_date").datepicker("option", "maxDate", dt);
+					}
+				});
+	
+	
+	
+	});
+	
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+		var fromdate = $("#start_date").val();
+		var todate = $("#end_date").val();
+		/* 		alert(n+"  "+max);
+		 */var Callurl = 'AMLDaily_Report_Deposit_Daily?formmode=list&fromdate='
+				+ fromdate + '&todate=' + todate;
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		/* 		alert(Callurl);
+		 */location.href = Callurl;
+	}
+
+	function home() {
+		location.href = 'Dashboard'
+	}
+
+	function back() {
+		window.history.back();
+	}
+	function custidsearch(){
+		$("#CustSearch").modal("toggle");
+	}
+	function custnamesearch(){
+		$("#CustNameSearch").modal("toggle");
+	}
+	function custdobsearch(){
+		$("#CustDOBSearch").modal("toggle");
+	}
+	function custnumbersearch(){
+		$("#CustNUMBERSearch").modal("toggle");
+	}
+	function custemailsearch(){
+		$("#CustEmailSearch").modal("toggle");
+	}
+	function custnatIdsearch(){
+		$("#CustNATIDSearch").modal("toggle");
+	}
+	function custnresearch(){
+		$("#CustNRESearch").modal("toggle");
+	}
+	
+	
+
+	function searchcustid() {
+		$("#CustSearch").modal('hide');
+		var custid2 = $("#custid").val();
+
+		$('#CustomerInq').empty();
+		$.ajax({
+			type : 'get',
+			url : "/AML/getcustomerId/" + custid2,
+
+			success : function(response) {
+				var trHTML = "", dateOfBirth, PhoneNumber, EMAIL, NatID;
+
+				$.each(response, function(key, value) {
+
+					if (value.date_of_birth === null) {
+						
+						dateOfBirth = '';
+					} else {
+						dateOfBirth = value.date_of_birth;
+					}
+					if (value.cust_perm_phone_num === null) {
+						
+						PhoneNumber = '';
+					} else {
+						PhoneNumber = value.cust_perm_phone_num;
+					}
+					if (value.email_id === null) {
+	
+						EMAIL = '';
+					} else {
+						EMAIL = value.email_id;
+					}
+					if (value.nat_id_card_num === null) {
+						NatID = '';
+					} else {
+						NatID = value.nat_id_card_num;
+					}
+
+					trHTML += '<tr><td>' + value.cust_id + '</td><td>'
+							+ value.cust_name + '</td><td>' + dateOfBirth
+							+ '</td><td>' + PhoneNumber + '</td><td>' + EMAIL
+							+ '</td><td>' + NatID + '</td><td>'
+							+ value.cust_nre_flg + '</td></tr>';
+				});
+				if(trHTML == []){
+					var data = 'No Data Found'
+					$('#CustomerInq').append('<tr id="CustomerInq" ><td colspan="7" style="text-align:center;color:red">No Data Found</td></tr>');
+					$('#paginationCust').hide();
+				}else{
+				$('#CustomerInq').append(trHTML);
+				$('#paginationCust').hide();
+			}
+			}
+
+		});
+	}
+
+	function searchcustName() {
+		$("#CustNameSearch").modal('hide');
+		var custName2 = $("#custName").val();
+
+		$('#CustomerInq').empty();
+		$.ajax({
+			type : 'get',
+			url : "/AML/getcustomerName/" + custName2,
+
+			success : function(response) {
+				var trHTML = "", dateOfBirth, PhoneNumber, EMAIL, NatID;
+
+				$.each(response, function(key, value) {
+
+					if (value.date_of_birth === null) {
+						console.log("if");
+						dateOfBirth = '';
+					} else {
+						dateOfBirth = value.date_of_birth;
+					}
+					if (value.cust_perm_phone_num === null) {
+						console.log("if");
+						PhoneNumber = '';
+					} else {
+						PhoneNumber = value.cust_perm_phone_num;
+					}
+					if (value.email_id === null) {
+						console.log("if");
+						EMAIL = '';
+					} else {
+						EMAIL = value.email_id;
+					}
+					if (value.nat_id_card_num === null) {
+						console.log("if");
+						NatID = '';
+					} else {
+						NatID = value.nat_id_card_num;
+					}
+
+					trHTML += '<tr><td>' + value.cust_id + '</td><td>'
+							+ value.cust_name + '</td><td>' + dateOfBirth
+							+ '</td><td>' + PhoneNumber + '</td><td>' + EMAIL
+							+ '</td><td>' + NatID + '</td><td>'
+							+ value.cust_nre_flg + '</td></tr>';
+				});
+				if(trHTML == []){
+					var data = 'No Data Found'
+					$('#CustomerInq').append('<tr id="CustomerInq" ><td colspan="7" style="text-align:center;color:red">No Data Found</td></tr>');
+					$('#paginationCust').hide();
+				}else{
+				$('#CustomerInq').append(trHTML);
+				$('#paginationCust').hide();
+			}
+				}
+
+		});
+	}
+	
+	function convertDate(dateString){
+		var p = dateString.split(/\D/g)
+		return [p[2],p[1],p[0] ].join("-")
+		}
+	
+	function searchcustDOB() {
+		$("#CustDOBSearch").modal('hide');
+		var custName2 = $("#custDOB").val();
+
+		$('#CustomerInq').empty();
+		$.ajax({
+			type : 'get',
+			url : "/AML/getcustomerDOB/" + custName2,
+
+			success : function(response) {
+				var trHTML = "", dateOfBirth, PhoneNumber, EMAIL, NatID;
+
+				$.each(response, function(key, value) {
+
+					if (value.date_of_birth === null) {
+						console.log("if");
+						dateOfBirth = '';
+					} else {
+						dateOfBirth = convertDate(value.date_of_birth);
+					}
+					if (value.cust_perm_phone_num === null) {
+						console.log("if");
+						PhoneNumber = '';
+					} else {
+						PhoneNumber = value.cust_perm_phone_num;
+					}
+					if (value.email_id === null) {
+						console.log("if");
+						EMAIL = '';
+					} else {
+						EMAIL = value.email_id;
+					}
+					if (value.nat_id_card_num === null) {
+						console.log("if");
+						NatID = '';
+					} else {
+						NatID = value.nat_id_card_num;
+					}
+
+					trHTML += '<tr><td>' + value.cust_id + '</td><td>'
+							+ value.cust_name + '</td><td>' + dateOfBirth
+							+ '</td><td>' + PhoneNumber + '</td><td>' + EMAIL
+							+ '</td><td>' + NatID + '</td><td>'
+							+ value.cust_nre_flg + '</td></tr>';
+				});
+				if(trHTML == []){
+					var data = 'No Data Found'
+					$('#CustomerInq').append('<tr id="CustomerInq" ><td colspan="7" style="text-align:center;color:red">No Data Found</td></tr>');
+					$('#paginationCust').hide();
+				}else{
+				$('#CustomerInq').append(trHTML);
+				$('#paginationCust').hide();
+			}
+			}
+
+		});
+	}
+	function searchcustNUMBER() {
+		$("#CustNUMBERSearch").modal('hide');
+		var custName2 = $("#custNumber").val();
+
+		$('#CustomerInq').empty();
+		$.ajax({
+			type : 'get',
+			url : "/AML/getcustomerNUMBER/" + custName2,
+
+			success : function(response) {
+				var trHTML = "", dateOfBirth, PhoneNumber, EMAIL, NatID;
+
+				$.each(response, function(key, value) {
+
+					if (value.date_of_birth === null) {
+						console.log("if");
+						dateOfBirth = '';
+					} else {
+						dateOfBirth = value.date_of_birth;
+					}
+					if (value.cust_perm_phone_num === null) {
+						console.log("if");
+						PhoneNumber = '';
+					} else {
+						PhoneNumber = value.cust_perm_phone_num;
+					}
+					if (value.email_id === null) {
+						console.log("if");
+						EMAIL = '';
+					} else {
+						EMAIL = value.email_id;
+					}
+					if (value.nat_id_card_num === null) {
+						console.log("if");
+						NatID = '';
+					} else {
+						NatID = value.nat_id_card_num;
+					}
+
+					trHTML += '<tr><td>' + value.cust_id + '</td><td>'
+							+ value.cust_name + '</td><td>' + dateOfBirth
+							+ '</td><td>' + PhoneNumber + '</td><td>' + EMAIL
+							+ '</td><td>' + NatID + '</td><td>'
+							+ value.cust_nre_flg + '</td></tr>';
+				});
+				if(trHTML == []){
+					var data = 'No Data Found'
+					$('#CustomerInq').append('<tr id="CustomerInq" ><td colspan="7" style="text-align:center;color:red">No Data Found</td></tr>');
+					$('#paginationCust').hide();
+				}else{
+				$('#CustomerInq').append(trHTML);
+				$('#paginationCust').hide();
+			}
+			}
+
+		});
+	}
+	function searchcustEmail() {
+		$("#CustEmailSearch").modal('hide');
+		var custName2 = $("#custEmail").val();
+
+		$('#CustomerInq').empty();
+		$.ajax({
+			type : 'get',
+			url : "/AML/getcustomerEMAIL/" + custName2,
+
+			success : function(response) {
+				var trHTML = "", dateOfBirth, PhoneNumber, EMAIL, NatID;
+
+				$.each(response, function(key, value) {
+
+					if (value.date_of_birth === null) {
+						console.log("if");
+						dateOfBirth = '';
+					} else {
+						dateOfBirth = value.date_of_birth;
+					}
+					if (value.cust_perm_phone_num === null) {
+						console.log("if");
+						PhoneNumber = '';
+					} else {
+						PhoneNumber = value.cust_perm_phone_num;
+					}
+					if (value.email_id === null) {
+						console.log("if");
+						EMAIL = '';
+					} else {
+						EMAIL = value.email_id;
+					}
+					if (value.nat_id_card_num === null) {
+						console.log("if");
+						NatID = '';
+					} else {
+						NatID = value.nat_id_card_num;
+					}
+
+					trHTML += '<tr><td>' + value.cust_id + '</td><td>'
+							+ value.cust_name + '</td><td>' + dateOfBirth
+							+ '</td><td>' + PhoneNumber + '</td><td>' + EMAIL
+							+ '</td><td>' + NatID + '</td><td>'
+							+ value.cust_nre_flg + '</td></tr>';
+				});
+				if(trHTML == []){
+					var data = 'No Data Found'
+					$('#CustomerInq').append('<tr id="CustomerInq" ><td colspan="7" style="text-align:center;color:red">No Data Found</td></tr>');
+					$('#paginationCust').hide();
+				}else{
+				$('#CustomerInq').append(trHTML);
+				$('#paginationCust').hide();
+			}
+			}
+
+		});
+	}
+	function searchcustNatID() {
+		$("#CustNATIDSearch").modal('hide');
+		var custName2 = $("#custNATID").val();
+
+		$('#CustomerInq').empty();
+		$.ajax({
+			type : 'get',
+			url : "/AML/getcustomerNatID/" + custName2,
+
+			success : function(response) {
+				var trHTML = "", dateOfBirth, PhoneNumber, EMAIL, NatID;
+
+				$.each(response, function(key, value) {
+
+					if (value.date_of_birth === null) {
+						console.log("if");
+						dateOfBirth = '';
+					} else {
+						dateOfBirth = value.date_of_birth;
+					}
+					if (value.cust_perm_phone_num === null) {
+						console.log("if");
+						PhoneNumber = '';
+					} else {
+						PhoneNumber = value.cust_perm_phone_num;
+					}
+					if (value.email_id === null) {
+						console.log("if");
+						EMAIL = '';
+					} else {
+						EMAIL = value.email_id;
+					}
+					if (value.nat_id_card_num === null) {
+						console.log("if");
+						NatID = '';
+					} else {
+						NatID = value.nat_id_card_num;
+					}
+
+					trHTML += '<tr><td>' + value.cust_id + '</td><td>'
+							+ value.cust_name + '</td><td>' + dateOfBirth
+							+ '</td><td>' + PhoneNumber + '</td><td>' + EMAIL
+							+ '</td><td>' + NatID + '</td><td>'
+							+ value.cust_nre_flg + '</td></tr>';
+				});
+				if(trHTML == []){
+					var data = 'No Data Found'
+					$('#CustomerInq').append('<tr id="CustomerInq" ><td colspan="7" style="text-align:center;color:red">No Data Found</td></tr>');
+					$('#paginationCust').hide();
+				}else{
+				$('#CustomerInq').append(trHTML);
+				$('#paginationCust').hide();
+			}
+			}
+
+		});
+	}
+	function searchcustNRE() {
+		$("#CustNRESearch").modal('hide');
+		var custName2 = $("#custNRE").val();
+
+		$('#CustomerInq').empty();
+		$.ajax({
+			type : 'get',
+			url : "/AML/getcustomerNRE/" + custName2,
+
+			success : function(response) {
+				var trHTML = "", dateOfBirth, PhoneNumber, EMAIL, NatID;
+
+				$.each(response, function(key, value) {
+
+					if (value.date_of_birth === null) {
+						console.log("if");
+						dateOfBirth = '';
+					} else {
+						dateOfBirth = value.date_of_birth;
+					}
+					if (value.cust_perm_phone_num === null) {
+						console.log("if");
+						PhoneNumber = '';
+					} else {
+						PhoneNumber = value.cust_perm_phone_num;
+					}
+					if (value.email_id === null) {
+						console.log("if");
+						EMAIL = '';
+					} else {
+						EMAIL = value.email_id;
+					}
+					if (value.nat_id_card_num === null) {
+						console.log("if");
+						NatID = '';
+					} else {
+						NatID = value.nat_id_card_num;
+					}
+
+					trHTML += '<tr><td>' + value.cust_id + '</td><td>'
+							+ value.cust_name + '</td><td>' + dateOfBirth
+							+ '</td><td>' + PhoneNumber + '</td><td>' + EMAIL
+							+ '</td><td>' + NatID + '</td><td>'
+							+ value.cust_nre_flg + '</td></tr>';
+				});
+				
+				if(trHTML == []){
+					var data = 'No Data Found'
+					$('#CustomerInq').append('<tr id="CustomerInq" ><td colspan="7" style="text-align:center;color:red">No Data Found</td></tr>');
+					$('#paginationCust').hide();
+				}else{
+				$('#CustomerInq').append(trHTML);
+				$('#paginationCust').hide();
+			}
+			}
+
+		});
+	}
+
+</script>
+<script th:inline="javascript">
+	$(function() {
+		
+		/* $(document).ready(function() {
+			
+		    $('#start_date').trigger('focus');
+		
+		}); */
+		 $("#start_date").datepicker({
+			maxDate : 0,
+			dateFormat : "dd/mm/yy",
+			changeMonth : true,
+			changeYear : true,
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+				$("#end_date").datepicker("option", "minDate", dt);
+
+			}
+		});
+		$("#end_date").datepicker({
+			//maxDate : 0,
+			dateFormat : "dd/mm/yy",
+			changeMonth : true,
+			changeYear : true,
+			onSelect : function(selected) {
+				var dt = new Date(selected);
+				dt.setDate(dt.getDate() - 1);
+
+			}
+		}); 
+		
+
+	});
+</script>
+</head>
+<title>AML</title>
+
+<body>
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('DAILYDEPOSIT')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+				<div th:if="${formmode}=='list'" class="content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle">
+								<b>Deposit Daily BlackList and Caution List/UNSC/PEP Monitoring Report</b>
+										<div class="btn-group nav-buttons float-right">
+					<a href="#" ><i class="fa fa-exclamation-circle" data-toggle="modal" data-target="#finusersLoan"
+																				id="iconacc"></i>
+												</a>												
+																				
+							<label style="width: 20px;"></label>
+					<button th:disabled="${customerBlackList.totalPages} == '0'" class="btn btn-secondary dropdown-toggle"
+														type="button" id="dropdownMenuButton"
+														style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+														data-toggle="dropdown" aria-haspopup="true"
+														aria-expanded="false">Download</button>
+													<div class="dropdown-menu"
+														aria-labelledby="dropdownMenuButton"
+														style="background-color: #e3e3e4; color: #3a4550;">
+														<a class="dropdown-item" title="Inquiry"
+															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+															onclick="getpdf()" id="view_btn">PDF </a>
+														<div class="dropdown-divider"></div>
+														<a class="dropdown-item" title="Modify"
+															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+															id="edit_value" onclick="getexcel()">EXCEL</a>
+														
+
+
+													</div>
+					
+					
+<!-- 													 <a class="btn btn-xs btn-primary " th:href="|@{'/Reports/AMLReportDownload'(reportId=Daily_Deposit)}&filetype=xlsx|">Download</a>
+ -->											
+											
+												</div>
+							</div>
+							<label></label>
+					<!-- ******************************filter criteria starts********************************** -->
+					<div class="container content">
+					<div class="row">
+						<div class="col-sm-12 ">
+						<form action="#" th:object="${TransMonitoring}" method="POST"
+							autocomplete="off" id="TransMonitoring">
+						 <div class="card">
+								
+								<div class="card-body" style="height: 70px;">
+									<div class="row formline">
+
+										<div class="col-sm-2">
+											<label for="srl_no">Start Date </label>
+										</div>
+											<div class="col-sm-3">
+															<input type="text" id="start_date" dateformat="dd-MMM-yyyy"
+																th:value="${fromdate}"
+																class="form-control form-control-sm"  />
+
+														</div>
+														<div class="col-sm-1"></div>
+
+														<label class="col-sm-2">End Date</label>
+														<div class="col-sm-3">
+															<input type="text" dateformat="dd-MMM-yyyy" id="end_date"
+																name="end_date" th:value="${todate}"
+																class="form-control form-control-sm" autocomplete="off" />
+														</div>
+														<i class="fa fa-arrow-circle-right"
+															style="font-size: 48px; color: #080876; float: right;"
+															onclick="getdate();"></i>
+														<div class="col-sm-1"></div>									</div>
+
+
+									<label></label>
+
+									
+								</div>
+								<label></label>
+
+							</div> 
+						</form>
+					</div>
+				</div>
+			</div>
+						
+										
+<!-- 	************************filter criteria ends************************************	 -->		
+			
+					
+							<table class="table table-bordered  table-hover table-sm"
+								style="width: 100%" id="usertable">
+								<thead class="thead-light">
+
+									<tr>
+									<!--  with searchor   -->
+									
+										<!-- <th style="width:9%;">Customer Id<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custidsearch()"></i></th>
+										<th style="width:37%;">Customer Name<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custnamesearch()"></i></th>
+										<th style="width:9%;">Date Of Birth<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custdobsearch()"></i></th>
+										<th style="width:11%;">Phone Number<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custnumbersearch()"></i></th>
+										<th style="width:20%;">Email<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custemailsearch()"></i></th>
+										<th style="width:10%;">National Id<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custnatIdsearch()"></i></th>
+										<th style="width:4%;">NRE</th> -->
+										
+										<th style="width:8%;">Customer ID</th>
+										<th style="width:14%;">Name</th>
+										<th style="width:14%;">NID</th>
+										<th style="width:6%;">Risk Category</th>
+										<!-- <th style="width:6%;">HWNI</th> -->
+										<th style="width:6%;">Occupation</th>
+										 <th style="width:6%;">HWNI</th>
+										<th style="width:7%;">BlackList/Name</th>
+										<th style="width:7%;">BlackList/NID</th>
+											
+										<th style="width:7%;">BlackList/Name</th>
+										<th style="width:7%;">BlackList/BRN</th>
+											
+										<th style="width:7%;">PEP/Name</th>
+										<th style="width:7%;">PEP/Occupation</th>
+											
+										<th style="width:10%;">UNSC/Name</th>
+													
+										<th style="width:10%;">UNSC/Country</th>
+
+
+									</tr>
+								</thead>
+								<tbody id="CustomerInq" >
+								<tr th:if="${customerBlackList.totalPages} == '0'">
+										<td colspan="16" style="text-align: left; color: red">No
+											record available for this peroid</td>
+									</tr>
+									<tr th:each="userProfile : ${customerBlackList}"
+										th:attr="data-cust_id=${userProfile.cust_id}"
+										th:id="${userProfile.cust_id}" class="userlist">
+										
+										<td th:text="${userProfile.cif}"></td>
+										<td th:text="${userProfile.name}"></td>
+										<td th:text="${userProfile.nid}"></td>
+										<td th:text="${userProfile.risk_category}"></td>
+										<!-- <td></td> -->
+										<td th:text="${userProfile.occupation}"></td>
+											<td th:text="${userProfile.hnwi_name}"></td>
+										<td th:text="${userProfile.black_list_ind_name}"></td>
+										<td th:text="${userProfile.black_list_ind_nid}"></td>
+
+										<td th:text="${userProfile.black_list_corp_name}"></td>
+										<td th:text="${userProfile.black_list_corp_nid}"></td>
+
+										<td th:text="${userProfile.pep_name}"></td>
+										<td th:text="${userProfile.pep_occupation}"></td>
+
+										<td th:text="${userProfile.unsc_name}"></td>
+											<td th:text="${userProfile.unsc_country}"></td>
+									</tr>
+								</tbody>
+							</table>
+
+
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+							 <div class="float-right" id="paginationCust"
+								th:if="${customerBlackList.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${customerBlackList.number},${customerBlackList.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${customerBlackList.number+1}"
+									th:onchange="|getUserlist('givenpage',${customerBlackList.number},${customerBlackList.totalPages});|"></input>
+								of <font th:text="${customerBlackList.totalPages}"></font> <a
+									href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${customerBlackList.number},${customerBlackList.totalPages});|"></i></a>
+							</div> 
+
+
+						</div>
+						<div class="text-center" style="background-color: #386276;padding:5px;width: 100%;">
+									
+									<div class="btn-group nav-buttons "style="align:center;">
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnHome" onclick="home();"style="margin-right: 10px;">Home</button>
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnBack" onclick="back();">Back</button>
+									</div>
+								</div>
+					</div>
+				</div>
+
+<div class="modal fade" id="finusersLoan">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="width">
+			<div class="modal-content" style="border: 2px solid black; width:141%;">
+
+				<!-- Modal Header -->
+				<div class="modal-header" style="background-color: #386276;">
+					<h4 class="modal-title">Deposit Daily BlackList and Caution List/UNSC/PEP Monitoring Report</h4>
+					<button type="button" class="close" data-dismiss="modal">×</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body" style="background-color: #e6eaed;">
+					<table class="table table-hover" id="finusertb">
+						<thead class="thead-light" style="background-color: #386276;">
+							<tr>
+								<th style="color: #ffffff; width: 100px; background-color: #386276; border-color: #495561; font-size: 11px;">Customer ID</th>
+								<th style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">Name</th>
+								<th style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">NID</th>
+								<th style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">HNWI</th>
+								<th style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">BLACKLIST/IND</th>
+								<th style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">BLACKLIST/CORP</th>
+								<th style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">PEP</th>
+								<th style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">UNSC</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="alert: ${customerBlackListAlert}"	th:onclick="findLoanSchemes()" class="userlist1">
+								
+								<td  th:if="${alert.black_list_ind_nid} != null OR ${alert.black_list_corp_nid} != null OR ${alert.hnwi_name} != null OR ${alert.black_list_ind_name} !=null OR ${alert.black_list_corp_name} != null OR ${alert.pep_name} != null OR ${alert.unsc_name} != null " style="color: black;border-bottom-style: inset;border-right-style: inset; border-left-style: inset;" th:text="${alert.cif}"></td>
+								<td th:if="${alert.black_list_ind_nid} != null OR ${alert.black_list_corp_nid} != null OR ${alert.hnwi_name} != null OR ${alert.black_list_ind_name} !=null OR ${alert.black_list_corp_name} != null OR ${alert.pep_name} != null OR ${alert.unsc_name} != null " style="color: black;border-bottom-style: inset;border-right-style: inset; border-left-style: inset;" th:text="${alert.name}"></td>
+								<td th:if="${alert.black_list_ind_nid} != null OR ${alert.black_list_corp_nid} != null OR ${alert.hnwi_name} != null OR ${alert.black_list_ind_name} !=null OR ${alert.black_list_corp_name} != null OR ${alert.pep_name} != null OR ${alert.unsc_name} != null " style="color: black;border-bottom-style: inset;border-right-style: inset; border-left-style: inset;" th:text="${alert.nid}"></td>
+
+										<td th:if="${alert.black_list_ind_nid} != null OR ${alert.black_list_corp_nid} != null OR ${alert.hnwi_name} != null OR ${alert.black_list_ind_name} !=null OR ${alert.black_list_corp_name} != null OR ${alert.pep_name} != null OR ${alert.unsc_name} != null " style="color: black;border-bottom-style: inset;border-right-style: inset; border-left-style: inset;" th:text="${alert.hnwi_name}"></td> 
+																												
+										<td style="color: black;border-bottom-style: inset;border-right-style: inset; border-left-style: inset;" th:if="${alert.black_list_ind_nid} != null OR ${alert.black_list_corp_nid} != null OR ${alert.hnwi_name} != null OR ${alert.black_list_ind_name} !=null OR ${alert.black_list_corp_name} != null OR ${alert.pep_name} != null OR ${alert.unsc_name} != null " th:text="${alert.black_list_ind_name}"></td> 
+
+										<td style="color: black;border-bottom-style: inset;border-right-style: inset; border-left-style: inset;" th:if="${alert.black_list_ind_nid} != null OR ${alert.black_list_corp_nid} != null OR ${alert.hnwi_name} != null OR ${alert.black_list_ind_name} !=null OR ${alert.black_list_corp_name} != null OR ${alert.pep_name} != null OR ${alert.unsc_name} != null " th:text="${alert.black_list_corp_name}"></td>
+
+										<td style="color: black;border-bottom-style: inset;border-right-style: inset; border-left-style: inset;"  th:if="${alert.black_list_ind_nid} != null OR ${alert.black_list_corp_nid} != null OR ${alert.hnwi_name} != null OR ${alert.black_list_ind_name} !=null OR ${alert.black_list_corp_name} != null OR ${alert.pep_name} != null OR ${alert.unsc_name} != null " th:text="${alert.pep_name}"></td>
+
+										<td style="color: black;border-bottom-style: inset;border-right-style: inset; border-left-style: inset;" th:if="${alert.black_list_ind_nid} != null OR ${alert.black_list_corp_nid} != null OR ${alert.hnwi_name} != null OR ${alert.black_list_ind_name} !=null OR ${alert.black_list_corp_name} != null OR ${alert.pep_name} != null OR ${alert.unsc_name} != null " th:text="${alert.unsc_name}"></td>
+
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+				<!------------------------Pop window - Domain  list Ends--------------------------------->
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+				<div class="modal fade" id="alert">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content"style="width:50% !important" >
+							<div class="modal-body" style="text-align: center">
+								<p id="alertmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width:60%;">
+							<div class="modal-body" style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Custumer Id" id="custid"><i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="searchcustid()"></i>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustNameSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width:60%;">
+							<div class="modal-body" style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Custumer Name" onkeyup="this.value = this.value.toUpperCase();"id="custName"><i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="searchcustName()"></i>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustDOBSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width:60%;">
+							<div class="modal-body" style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Custumer DOB" id="custDOB"><i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="searchcustDOB()"></i>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustNUMBERSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width:60%;">
+							<div class="modal-body" style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Phone Number" id="custNumber"><i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="searchcustNUMBER()"></i>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustEmailSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width:60%;">
+							<div class="modal-body" style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Email ID" id="custEmail"><i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="searchcustEmail()"></i>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustNATIDSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width:60%;">
+							<div class="modal-body" style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter National Id" id="custNATID"><i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="searchcustNatID()"></i>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="alertdate">
+							<div
+								class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+								<div class="modal-content">
+									<div class="modal-body" style="text-align: center">
+										<p id="alertmsgdate"></p>
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal" >Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+				<div class="modal fade" id="CustNRESearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width:60%;">
+							<div class="modal-body" style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter NRE" id="custNRE"><i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="searchcustNRE()"></i>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+			</div>
+		</div>
+	</div>
+	<script>
+	function getdate() {
+		var fromdate = $("#start_date").val();
+		var todate = $("#end_date").val();
+
+		location.href = 'AMLDaily_Report_Deposit_Daily?formmode=list&fromdate='
+				+ fromdate + '&todate=' + todate;
+	}
+function getpdf() {
+		
+		var fromdate = $("#start_date").val();
+		var todate = $("#end_date").val();
+		if (fromdate == "") {
+			$("#alertmsgdate").text("Select Start Date and End Date");
+
+			$('#alertdate').modal("toggle");
+		} else {
+		location.href = 'Reports/AMLReportDownload?reportId=Daily_Deposit&formmode=list&filetype=pdf&fromdate='
+				+ fromdate + '&todate=' + todate;
+		}
+	}
+function getexcel() {
+		
+		var fromdate = $("#start_date").val();
+		var todate = $("#end_date").val();
+		if (fromdate == "") {
+			$("#alertmsgdate").text("Select Start Date and End Date");
+
+			$('#alertdate').modal("toggle");
+		} else {
+		location.href = 'Reports/AMLReportDownloadXLSX?reportId=Daily_Deposit&formmode=list&filetype=xlsx&fromdate='
+				+ fromdate + '&todate=' + todate;
+		}
+	}
+	</script>
+</body>
+</html>

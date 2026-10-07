@@ -1,0 +1,1085 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLRuleEngine2
+CREATED BY	: SAIKRISHNA
+CREATED ON	: 27-JAN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<script src="js/bootstrap411.js"></script>
+<style type="text/css">
+.btn {
+	line-height: 0.5rem;
+}
+</style>
+<script th:inline="javascript">
+	$(document).ready(function() {
+
+		var formode = $("#formmode1").val();
+		if (formode == "view") {
+			$('input').attr('readonly', true);
+			$('select').attr('readonly', true);
+		}
+		var formode = $("#formmode1").val();
+		if (formmode != null) {
+			if (formmode == "view") {
+				$('#AlertParameter').datetimepicker({
+					Readonly : true
+				});
+			}
+		}
+	});
+
+	$(function() {
+
+		$("#usertable").DataTable({
+			"paging" : false,
+		});
+	});
+
+	$(function() {
+		var formode = $("#formmode1").val();
+		if (formmode != null) {
+			if (formmode == "view") {
+				$('#AlertParameter').datetimepicker({
+					Readonly : true
+				});
+			}
+		}
+
+		$("#start_date").datepicker({
+			maxDate : 0,
+			dateFormat : "dd-mm-yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+				$("#end_date").datepicker("option", "minDate", dt);
+
+			}
+		});
+		$("#end_date").datepicker({
+			minDate : 0,
+			dateFormat : "dd-mm-yy",
+			onSelect : function(selected) {
+				var dt = new Date(selected);
+				dt.setDate(dt.getDate() - 1);
+				//$("#start_date").datepicker("option", "maxDate", dt);
+			}
+		});
+
+		$("#suspended_date").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			minDate : 0,
+			maxDate : 0,
+			dateFormat : "mm-dd-yy"
+		});
+		$("#activated_date").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			minDate : 0,
+			dateFormat : "mm-dd-yy"
+		});
+
+	});
+
+	$(function() {
+		$("#rule_date").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;
+		document.getElementById('rule_date').value = today;
+
+	});
+
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+
+		var Callurl = 'AMLRuleEngine2?formmode=list';
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		location.href = Callurl;
+	}
+
+	function home() {
+		location.href = 'Dashboard'
+	}
+
+	function back() {
+		window.history.back();
+	}
+	function finuser(a) {
+
+		$
+				.ajax({
+					type : 'get',
+					url : '/XBRL/Finuserdata?userid=' + a.id,
+
+					success : function(data) {
+
+						/*<![CDATA[*/
+
+						$('.finuserapply').html(data);
+
+						$(
+								"#expiryDate,#disableDate,#disableTilDate,#passExDate,#effectiveTill")
+								.datepicker({
+									changeMonth : true,
+									changeYear : true,
+									dateFormat : "dd-mm-yy"
+								});
+
+						/*]]>*/
+
+						$("#finusers").modal("hide");
+					}
+
+				})
+
+	}
+
+	/*]]>*/
+</script>
+
+<script>
+	/*<![CDATA[*/
+
+	var deleteval;
+	function rule_add(a) {
+
+		var formmode = a.getAttribute("frmode");
+
+		location.href = "./AMLRuleEngine2?formmode=" + formmode;
+
+	}
+	function list() {
+		location.href = './AMLRuleEngine2?formmode=list';
+	}
+
+	function submitform(a) {
+
+		$.validator.addMethod("regex", function(value, element, regexp) {
+			var re = new RegExp(regexp);
+			return this.optional(element) || re.test(value);
+		}, "Date required format dd-mm-yyyy");
+
+		$("#RuleEngine")
+				.validate(
+						{
+							rules : {
+								start_date : {
+									required : true,
+									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+								},
+								end_date : {
+									required : true,
+									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+								},
+								activated_date : {
+									required : true,
+									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+								},
+								suspended_date : {
+									required : true,
+									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+								},
+
+							},
+							messages : {
+
+							}
+
+						});
+		if ($("#RuleEngine").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+			var url = "./createRule?formmode=" + formmode;
+
+			$("#RuleEngine").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#RuleEngine").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+
+			}
+			;
+		}
+
+	};
+
+	function edit_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-srl_no");
+
+		location.href = 'AMLRuleEngine2?formmode=edit&srlno=' + srlno;
+	}
+
+	function delete_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-srl_no");
+		deleteval = srlno;
+	//	alert("fh" + srlno);
+		$("#datadelete").modal("toggle");
+
+	}
+	function submitformdelete(a) {
+
+		var srlno = a.getAttribute("data-srl_no");
+
+		location.href = 'AMLRuleEngine2?formmode=delete&srlno=' + deleteval;
+
+	};
+	function view_btn_submit(a) {
+		var srlno = a.getAttribute("data-srl_no");
+
+		location.href = 'AMLRuleEngine2?formmode=view&srlno=' + srlno;
+
+	}
+	/*]]>*/
+</script>
+<script>
+	$(function() {
+
+		$('input[type=radio]').click(function() {
+			if ($(this).prop('id') == "emailno") {
+				$("#e_mail_1").prop("readonly", true);
+				$("#email_user_1").prop("readonly", true);
+				$("#e_mail_1").prop("required", false);
+				$("#email_user_1").prop("required", false);
+				$("#e_mail_1-error").hide();
+				$("#email_user_1-error").hide();
+				$("#e_mail_2").prop("readonly", true);
+				$("#email_user_2").prop("readonly", true);
+				$("#e_mail_3").prop("readonly", true);
+				$("#email_user_3").prop("readonly", true);
+
+			} else if ($(this).prop('id') == "emailyes") {
+				$("#e_mail_1").prop("readonly", false);
+				$("#email_user_1").prop("readonly", false);
+				$("#e_mail_1").prop("required", true);
+				$("#email_user_1").prop("required", true);
+				$("#e_mail_1-error").show();
+				$("#email_user_1-error").show();
+				$("#e_mail_2").prop("readonly", false);
+				$("#email_user_2").prop("readonly", false);
+				$("#e_mail_3").prop("readonly", false);
+				$("#email_user_3").prop("readonly", false);
+
+			} else if ($(this).prop('id') == "smsno") {
+				$("#mobile_1").prop("readonly", true);
+				$("#mobile_user_1").prop("readonly", true);
+				$("#mobile_1").prop("required", false);
+				$("#mobile_user_1").prop("required", false);
+				$("#mobile_1-error").hide();
+				$("#mobile_user_1-error").hide();
+				$("#mobile_2").prop("readonly", true);
+				$("#mobile_user_2").prop("readonly", true);
+				$("#mobile_3").prop("readonly", true);
+				$("#mobile_user_3").prop("readonly", true);
+			} else if ($(this).prop('id') == "smsyes") {
+				$("#mobile_1").prop("readonly", false);
+				$("#mobile_user_1").prop("readonly", false);
+				$("#mobile_1").prop("required", true);
+				$("#mobile_user_1").prop("required", true);
+				$("#mobile_1-error").show();
+				$("#mobile_user_1-error").show();
+				$("#mobile_2").prop("readonly", false);
+				$("#mobile_user_2").prop("readonly", false);
+				$("#mobile_3").prop("readonly", false);
+				$("#mobile_user_3").prop("readonly", false);
+			} else if ($(this).prop('id') == "alertno") {
+				$("#alert_userid_1").prop("readonly", true);
+				$("#alert_user_1").prop("readonly", true);
+				$("#alert_userid_1").prop("required", false);
+				$("#alert_user_1").prop("required", false);
+				$("#alert_user_1-error").hide();
+				$("#alert_userid_1-error").hide();
+				$("#alert_userid_2").prop("readonly", true);
+				$("#alert_user_2").prop("readonly", true);
+				$("#alert_userid_3").prop("readonly", true);
+				$("#alert_user_3").prop("readonly", true);
+			} else if ($(this).prop('id') == "alertyes") {
+				$("#alert_userid_1").prop("readonly", false);
+				$("#alert_user_1").prop("readonly", false);
+				$("#alert_userid_1").prop("required", true);
+				$("#alert_user_1").prop("required", true);
+				$("#alert_user_1-error").show();
+				$("#alert_userid_1-error").show();
+				$("#alert_userid_2").prop("readonly", false);
+				$("#alert_user_2").prop("readonly", false);
+				$("#alert_userid_3").prop("readonly", false);
+				$("#alert_user_3").prop("readonly", false);
+
+			}
+
+		});
+	});
+</script>
+</head>
+<title>AML</title>
+
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<!-- <div th:replace="AStartheader :: header"></div> -->
+
+
+	<div class="content-page">
+		<div class="content">
+
+			<!-- Start Content-->
+			<div class="container-fluid">
+				<div th:if="${formmode}=='list'">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header" id="modheadtitle" style="height: 57px;">
+								<b th:text="${menuname}"></b>
+
+
+
+								<div class="btn-group nav-buttons float-right">
+									<button type="button" class="btn btn-xs btn-primary btns"
+										onclick='rule_add(this)' >Add
+										Rule</button>
+									<button type="button"
+										class="btn btn-xs btn-primary btns active" id="btnInq"
+										onclick="list()" style="border-color: #66dbe0;">List</button>
+								</div>
+
+							</div>
+
+							<table class="table table-bordered  table-hover table-sm"
+								style="width: 100%" id="usertable">
+								<thead class="thead-light">
+
+									<tr>
+										<!-- <th></th> -->
+										<th>Srl No</th>
+										<th>Rule Type</th>
+										<th>Rule Code</th>
+										<th>Description</th>
+										<th>E-mail</th>
+										<th>Sms</th>
+										<th>Alert</th>
+										<th style="width: 10px;">Select</th>
+
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr th:each="ruleengine: ${RuleLists}">
+										<td th:text="${ruleengine.srl_no}"></td>
+										<td th:text="${ruleengine.rule_type}"></td>
+										<td th:text="${ruleengine.rule_code}"></td>
+										<td th:text="${ruleengine.rule_description}"></td>
+										<td th:text="${ruleengine.e_mail_required}"></td>
+										<td th:text="${ruleengine.sms_required}"></td>
+										<td th:text="${ruleengine.alert_required}"></td>
+										<td style="width: 10px;">
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle"
+													type="button" id="dropdownMenuButton"
+													 style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+
+													aria-haspopup="true" aria-expanded="false">Action</button>
+												<div class="dropdown-menu"
+													aria-labelledby="dropdownMenuButton">
+													<a th:attr="data-srl_no=${ruleengine.srl_no}"
+														class="dropdown-item" style="cursor: pointer;"
+														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
+													<div class="dropdown-divider"></div>
+													<a th:attr="data-srl_no=${ruleengine.srl_no}"
+														class="dropdown-item" style="cursor: pointer;"
+														onclick="delete_btn_submit(this)" id="delete_value">Delete</a>
+													<div class="dropdown-divider"></div>
+													<a th:attr="data-srl_no=${ruleengine.srl_no}"
+														class="dropdown-item" style="cursor: pointer;"
+														onclick="view_btn_submit(this)" id="view_btn">View </a>
+												</div>
+											</div>
+										</td>
+										<!-- <td th:text="${#numbers.formatDecimal(account.clr_bal_amt,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td> -->
+
+									</tr>
+								</tbody>
+							</table>
+
+							<div class="text-center"
+								style="background-color: #386276; padding: 5px;">
+
+								<div class="btn-group nav-buttons " style="align: center;">
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnHome" onclick="home();" style="margin-right: 5px;">Home</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnBack" onclick="back();">Back</button>
+								</div>
+							</div>
+
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+							<!-- 			<div class="float-right" th:if="${RuleList.totalPages} gt 1">
+					<a href="#"><i class="fas fa-caret-left fa-2x"
+						th:onclick="|getUserlist('prevpage',${RuleList.number},${RuleList.totalPages});|"></i></a>
+					<input type="text" id="pageno" style="width: 30px"
+						th:value="${RuleList.number+1}"
+						th:onchange="|getUserlist('givenpage',${RuleList.number},${RuleList.totalPages});|"></input>
+					of <font th:text="${RuleList.totalPages}"></font> <a href="#"><i
+						class="fas fa-caret-right fa-2x"
+						th:onclick="|getUserlist('nextpage',${RuleList.number},${RuleList.totalPages});|"></i></a>
+				</div> -->
+
+
+						</div>
+					</div>
+				</div>
+
+
+				<div
+					th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='view'"
+					class="container content">
+					<div class="row">
+						<div class="col-sm-12 ">
+							<form action="#" th:object="${RuleEngine}" method="POST"
+								autocomplete="off" id="RuleEngine">
+								<div class="card">
+									<div class="card-header">
+										<div class="float-left">
+											<h4>Rule Engine</h4>
+										</div>
+										<div class="btn-group nav-buttons float-right">
+											<button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='rule_add(this)' th:attr="frmode=add">Add
+												Alert</button>
+											<button type="button" class="btn btn-xs btn-primary btns"
+												id="btnInq" onclick="list()" style="border-color: #66dbe0;">List</button>
+										</div>
+
+
+									</div>
+									<div class="card-body">
+										<input type="hidden" th:value="${formmode}" id="formmode1"
+											style="display: none;"> <input autocomplete="false"
+											name="hidden" type="text" style="display: none;">
+										<div class="form-group"
+											style="font-size: 11px; line-height: 0px;">
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="srl_no"> Srl No</label>
+												</div>
+
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit'OR ${formmode}=='view'">
+													<input type="text" th:value="${RuleEngine?.srl_no}"
+														id="srl_no" class="form-control form-control-sm"
+														name="srl_no" autocomplete="off" readonly>
+												</div>
+												<div class="col-sm-3" th:if=" ${formmode}=='add'">
+													<input type="text" th:value="${RULESrlNo}" id="srl_no"
+														class="form-control form-control-sm" name="srl_no"
+														autocomplete="off" readonly>
+												</div>
+												<div class="col-sm-1"></div>
+												<label for="userName" class="col-sm-2">Date</label>
+
+
+												<div class="col-sm-3">
+													<input type="text"
+														th:value="${#dates.format(RuleEngine?.rule_date	,'dd-MM-yyyy')}"
+														id="rule_date" name="rule_date"
+														class="form-control form-control-sm" autocomplete="false"
+														required />
+												</div>
+
+											</div>
+
+											<label></label>
+											<div class="row formline">
+
+												<label class="col-sm-2"> Rule Type</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.rule_type}"
+														id="rule_type" name="rule_type" value=""
+														class="form-control form-control-sm" autocomplete="false"
+														required />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Rule Code</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.rule_code}"
+														id="rule_code" name="rule_code" value=""
+														class="form-control form-control-sm txtalign"
+														autocomplete="false" required />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+
+
+											<label></label>
+											<div class="row formline">
+
+												<label class="col-sm-2">Rule Description</label>
+												<div class="col-sm-3">
+													<input type="text"
+														th:value="${RuleEngine?.rule_description}"
+														id="rule_description" name="rule_description" value=""
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Rule Remarks</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.rule_remarks}"
+														id="rule_remarks" name="rule_remarks" value=""
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+											<div class="row formline">
+
+												<label class="col-sm-2">Value-1</label>
+												<div class="col-sm-3">
+													<input type="number" th:value="${RuleEngine?.value_1}"
+														id="value_1" name="value_1" value=""
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2">Value-2</label>
+												<div class="col-sm-3">
+													<input type="number" th:value="${RuleEngine?.value_2}"
+														id="value_2" name="value_2" value=""
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2"> Value-Min</label>
+												<div class="col-sm-3">
+													<input type="number" th:value="${RuleEngine?.value_min}"
+														id="value_min" value="" name="value_min"
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2"> Value-Max</label>
+												<div class="col-sm-3">
+													<input type="number" th:value="${RuleEngine?.value_max}"
+														id="value_max" value="" name="value_max"
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+
+
+
+											<div class="row formline">
+												<label style="padding: 12px;">Email Required</label><label
+													class="col-sm-1"></label>
+
+												<div class="form-check-inline  ">
+													<label class="form-check-label" for="radio1"> <input
+														type="radio" class="form-check-input " id="emailyes"
+														name="e_mail_required" value="Yes" checked>Yes
+													</label>
+												</div>
+												<div class="form-check-inline -3">
+													<label class="form-check-label " for="radio2"> <input
+														type="radio" class="form-check-input" id="emailno"
+														name="e_mail_required" value="No">No
+													</label>
+												</div>
+											</div>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Email-1</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.e_mail_1}"
+														id="e_mail_1" value="" name="e_mail_1"
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Email User-1</label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${RuleEngine?.email_user_1}"
+														id="email_user_1" value="" name="email_user_1"
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Email-2</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.e_mail_2}"
+														id="e_mail_2" value="" name="e_mail_2"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Email User-2</label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${RuleEngine?.email_user_2}"
+														id="email_user_2" value="" name="email_user_2"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Email-3</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.e_mail_3}"
+														id="e_mail_3" value="" name="e_mail_3"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Email User-3</label>
+												<div class="col-sm-3">
+													<input type="email" th:value="${RuleEngine?.email_user_3}"
+														id="email_user_3" value="" name="email_user_3"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<div class="row formline">
+												<label style="padding: 12px;">Sms Required</label><label
+													class="col-sm-1"></label>
+
+												<div class="form-check-inline  ">
+													<label class="form-check-label" for="radio1"> <input
+														type="radio" class="form-check-input " id="smsyes"
+														name="sms_required" value="Yes" checked>Yes
+													</label>
+												</div>
+												<div class="form-check-inline -3">
+													<label class="form-check-label " for="radio2"> <input
+														type="radio" class="form-check-input" id="smsno"
+														name="sms_required" value="No">No
+													</label>
+												</div>
+											</div>
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Mobile-1</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.mobile_1}"
+														id="mobile_1" value="" name="mobile_1"
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Mobile User-1</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.mobile_user_1}"
+														id="mobile_user_1" value="" name="mobile_user_1"
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Mobile-2</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.mobile_2}"
+														id="mobile_2" value="" name="mobile_2"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Mobile User-2</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.mobile_user_2}"
+														id="mobile_user_2" value="" name="mobile_user_2"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Mobile-3</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.mobile_3}"
+														id="mobile_3" value="" name="mobile_3"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Mobile User-3</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.mobile_user_3}"
+														id="mobile_user_3" value="" name="mobile_user_3"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<div class="row formline">
+												<label style="padding: 12px;">Alert Required</label><label
+													class="col-sm-1"></label>
+
+												<div class="form-check-inline  ">
+													<label class="form-check-label" for="radio1"> <input
+														type="radio" class="form-check-input " id="alertyes"
+														name="alert_required" value="Yes" checked>Yes
+													</label>
+												</div>
+												<div class="form-check-inline -3">
+													<label class="form-check-label " for="radio2"> <input
+														type="radio" class="form-check-input" id="alertno"
+														name="alert_required" value="No">No
+													</label>
+												</div>
+											</div>
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Alert-1</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.alert_userid_1}"
+														id="alert_userid_1" value="" name="alert_userid_1"
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Alert User-1</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.alert_user_1}"
+														id="alert_user_1" value="" name="alert_user_1"
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Alert-2</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.alert_userid_2}"
+														id="alert_userid_2" value="" name="alert_userid_2"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Alert User-2</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.alert_user_2}"
+														id="alert_user_2" value="" name="alert_user_2"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+											<div class="row formline">
+
+
+												<label class="col-sm-2">Alert-3</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.alert_userid_3}"
+														id="alert_userid_3" value="" name="alert_userid_3"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-1"></div>
+
+												<label class="col-sm-2">Alert User-3</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.alert_user_3}"
+														id="alert_user_3" value="" name="alert_user_3"
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+
+
+											<label></label>
+
+
+
+											<div class="row formline">
+
+												<label class="col-sm-2">Start Date</label>
+												<div class="col-sm-3">
+													<input type="text"
+														th:value="${#dates.format(RuleEngine?.start_date	,'dd-MM-yyyy')}"
+														id="start_date" value="dd-MMM-yyyy" name="start_date"
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">End Date</label>
+												<div class="col-sm-3">
+													<input type="text" dateformat="dd-MMM-yyyy"
+														th:value="${#dates.format(RuleEngine?.end_date	,'dd-MM-yyyy')}"
+														id="end_date" value="" name="end_date"
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+											</div>
+											<label></label>
+
+											<div class="row formline">
+
+
+												<!-- <label class="col-sm-2">Suspended</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.suspended}"
+														id="suspended" value="" name="suspended"
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div> -->
+												<label class="col-sm-2">Suspended</label>
+												<div class="col-sm-3">
+													<select id="suspend_flg" name="suspend_flg"
+														class="form-control form-control-sm" autocomplete="off"
+														required>
+														<option th:text="${RuleEngine?.suspended}">Select</option>
+														<option value="Y">Yes</option>
+														<option value="N">No</option>
+													</select>
+
+
+												</div>
+												<div class="col-sm-1"></div>
+
+
+												<label class="col-sm-2"> Remarks</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${RuleEngine?.remarks}"
+														id="remarks" value="" name="remarks"
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+											</div>
+											<label></label>
+											<div class="row formline">
+
+												<label class="col-sm-2">Suspended Date</label>
+												<div class="col-sm-3">
+													<input type="text" dateformat="dd-MMM-yyyy"
+														th:value="${#dates.format(RuleEngine?.suspended_date	,'dd-MM-yyyy')}"
+														id="suspended_date" value="" name="suspended_date"
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Activated Date</label>
+												<div class="col-sm-3">
+													<input type="text" dateformat="dd-MMM-yyyy"
+														th:value="${#dates.format(RuleEngine?.activated_date	,'dd-MM-yyyy')}"
+														id="activated_date" value="" name="activated_date"
+														class="form-control form-control-sm" autocomplete="off"
+														required />
+												</div>
+											</div>
+
+
+
+
+
+
+
+										</div>
+
+
+									</div>
+									<div class="card-footer text-center">
+
+
+										<button th:if="${formmode}=='edit' OR ${formmode}=='add'"
+											type="button" class="btn btn-xs btn-primary"
+											onclick="submitform(this);" form="RuleEngine" id="btnSubmit"
+											th:attr="data-formmode=${formmode}">Submit</button>
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnHome" onclick="home();">Home</button>
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnBack" onclick="back();">Back</button>
+
+									</div>
+								</div>
+							</form>
+
+						</div>
+					</div>
+
+
+
+
+				</div>
+				<!------------------------Pop window - Domain  list Ends--------------------------------->
+
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<div class="modal fade" id="datadelete">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to delete?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitformdelete(this);"
+									th:attr="data-formmode=delete">Submit</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+				<div class="modal fade" id="alert">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="alertmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal" onclick="back();">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+			</div>
+		</div>
+	</div>
+</body>
+</html>

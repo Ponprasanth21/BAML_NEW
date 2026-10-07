@@ -1,0 +1,1766 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLABAND_FUNDList
+CREATED BY	: vijay corda
+CREATED ON	: 16-Mar-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+<script src="js/bootstrap411.js"></script>
+<title>AML</title>
+</head>
+<style>
+.error {
+	color: #ad3333;
+}
+
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+</style>
+<!----------------------------------------Scripts to edit report details-------------------------------------------->
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(function() {
+
+		$("#abandoned_fund_transfer_date").datepicker({
+			maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd-mm-yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+
+			}
+		});
+
+		$("#date_of_tran_bom").datepicker({
+			maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd-mm-yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+
+			}
+		});
+
+		$("#date_of_claim").datepicker({
+			maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd-mm-yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+
+			}
+		});
+
+		$("#request_to_bom_date").datepicker({
+			maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd-mm-yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+
+			}
+		});
+
+		$("#received_from_bom_date").datepicker({
+			maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd-mm-yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+
+			}
+		});
+
+		$("#settlement_date").datepicker({
+			maxDate : 0,
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd-mm-yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+
+			}
+		});
+		$("#alert_date").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy",
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;
+		document.getElementById('alert_date').value = today;
+	});
+	$(function() {
+
+		$("#entry_time1,verify_time1,modify_time1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;
+		document.getElementById('entry_time1').value = today;
+		document.getElementById('verify_time1').value = today;
+		document.getElementById('modify_time1').value = today;
+	});
+
+	$(document)
+			.ready(
+					function() {
+
+						var formode = $("#formmode1").val();
+
+						if (formode == "view") {
+							$('input').attr('readonly', true);
+							$('select').attr('readonly', true);
+							document.querySelector('#maturity_date').style.background = '#9a9fa5';
+							document.querySelector('#acct_opn_date').style.background = '#9a9fa5';
+							document.querySelector('#last_tran_date').style.background = '#9a9fa5';
+
+							$("last_tran_date").attr('readonly', true);
+							$("maturity_date").attr('readonly', true);
+							$("acct_opn_date").attr('readonly', true);
+
+						} else if (formode == "verify") {
+							$('input').attr('readonly', true);
+							$('select').attr('readonly', true);
+							document.querySelector('#maturity_date').style.background = '#9a9fa5';
+							document.querySelector('#acct_opn_date').style.background = '#9a9fa5';
+							document.querySelector('#last_tran_date').style.background = '#9a9fa5';
+							$("last_tran_date").attr('readonly', true);
+							$("maturity_date").attr('readonly', true);
+							$("acct_opn_date").attr('readonly', true);
+
+						} else if (formode == "delete") {
+							$('input').attr('readonly', true);
+							$('select').attr('readonly', true);
+							document.querySelector('#maturity_date').style.background = '#9a9fa5';
+							document.querySelector('#acct_opn_date').style.background = '#9a9fa5';
+							document.querySelector('#last_tran_date').style.background = '#9a9fa5';
+							$("maturity_date").attr('readonly', true);
+							$("acct_opn_date").attr('readonly', true);
+							$("last_tran_date").attr('readonly', true);
+						}
+
+						$("#maturity_date").datepicker(
+								{
+
+									dateFormat : "dd-mm-yy",
+									onSelect : function(selected) {
+										var dt = $(this).datepicker('getDate');
+										dt.setDate(dt.getDate());
+										$("#disableTilDate").datepicker(
+												"option", "minDate", dt);
+
+									}
+								});
+
+						$("#last_tran_date").datepicker(
+								{
+
+									dateFormat : "dd-mm-yy",
+									onSelect : function(selected) {
+										var dt = $(this).datepicker('getDate');
+										dt.setDate(dt.getDate());
+										$("#disableTilDate").datepicker(
+												"option", "minDate", dt);
+
+									}
+								});
+						$("#acct_opn_date").datepicker(
+								{
+
+									dateFormat : "dd-mm-yy",
+									onSelect : function(selected) {
+										var dt = $(this).datepicker('getDate');
+										dt.setDate(dt.getDate());
+										$("#disableTilDate").datepicker(
+												"option", "minDate", dt);
+
+									}
+								});
+
+					});
+
+	var deleteval;
+
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+
+		var Callurl = 'AMLABAND_FUNDList?formmode=list';
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		location.href = Callurl;
+	}
+	function home() {
+		location.href = 'Dashboard'
+	}
+	function home1() {
+		$("#dataHome").modal("toggle");
+	}
+
+	function back() {
+
+		location.href = './AMLABAND_FUNDList?formmode=list';
+	}
+	function back1() {
+		$("#dataBack").modal("toggle");
+
+	}
+
+	function alert_Upload(a) {
+
+		var formmode = a.getAttribute("frmode");
+
+		location.href = "./AMLABAND_FUNDList?formmode=" + formmode;
+
+	}
+
+	//To open the File upload dialog if the user wants to upload
+
+	function openUploadModal() {
+		$("#fileupload").modal("toggle");
+	}
+
+	function fnClick(a) {
+		var srlno = a.getAttribute("data-uniqueidnumber")
+		location.href = 'AMLABAND_FUNDList?formmode=verify&srlno=' + srlno;
+
+	}
+	function list() {
+		location.href = './AMLABAND_FUNDList?formmode=list';
+	}
+
+	function verifyform(a) {
+		if ($("#AbondParameter").valid()) {
+			var entry = $("#aml_entry_user").val();
+			var modify = $("#aml_modify_user").val();
+			var verify = $("#aml_verify_user").val();
+
+			if (modify != null) {
+				if (modify != verify) {
+					var formmode = a.getAttribute("data-formmode");
+					var url = "./createAMLABAND_FUNDList?formmode=" + formmode;
+
+					$("#AbondParameter").attr('action', url);
+
+					var options = {
+						success : showResponse
+					// post-submit callback 
+					};
+
+					$("#AbondParameter").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#alertmsg").text(responseText);
+
+						$('#alert').modal("toggle");
+
+					}
+					;
+				} else {
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+					$('#verifybox').modal("toggle");
+
+				}
+			} else if (modify == null) {
+				if (entry != verify) {
+					var formmode = a.getAttribute("data-formmode");
+					var url = "./createAMLABAND_FUNDList?formmode=" + formmode;
+
+					$("#AbondParameter").attr('action', url);
+
+					var options = {
+						success : showResponse
+					// post-submit callback 
+					};
+
+					$("#AbondParameter").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#alertmsg").text(responseText);
+
+						$('#alert').modal("toggle");
+
+					}
+					;
+				} else {
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+					$('#verifybox').modal("toggle");
+
+				}
+
+			}
+
+		}
+	};
+
+	function submitform(a) {
+		if ($("#AbondParameter").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+			var url = "./createAMLABAND_FUNDList?formmode=" + formmode;
+
+			$("#AbondParameter").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#AbondParameter").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+
+			}
+			;
+		}
+	};
+
+	function edit_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-uniqueidnumber");
+		location.href = 'AMLABAND_FUNDList?formmode=edit&srlno=' + srlno;
+	}
+
+	function alert_verify(a) {
+
+		var srlno = a.getAttribute("data-uniqueidnumber");
+		location.href = 'AMLABAND_FUNDList?formmode=verify&srlno=' + srlno;
+	}
+	function delete_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-uniqueidnumber");
+		location.href = 'AMLABAND_FUNDList?formmode=delete&srlno=' + srlno;
+		/* deleteval = srlno;
+		$("#datadelete").modal("toggle"); */
+
+	}
+	function submitformdelete(a) {
+
+		var srlno = a.getAttribute("data-uniqueidnumber");
+
+		location.href = 'AMLABAND_FUNDList?formmode=delete&srlno=' + deleteval;
+
+	};
+	function view_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-uniqueidnumber");
+
+		location.href = 'AMLABAND_FUNDList?formmode=view&srlno=' + srlno;
+
+	}
+	$(document).ready(function() {
+		$('#CustSearch').on('shown.bs.modal', function() {
+			$('#custid').trigger('focus');
+		});
+	});
+	function custidsearch() {
+		$("#CustSearch").modal("toggle");
+	}
+	function searchcustid() {
+		$("#CustSearch").modal('hide');
+		var custid2 = $("#custid").val();
+
+		location.href = 'AMLABAND_FUNDList?formmode=list&cif=' + custid2;
+
+	}
+	$(document).ready(function() {
+		$('#CustLastNameSearch').on('shown.bs.modal', function() {
+			$('#custlastname').trigger('focus');
+		});
+	});
+	function custlastnamesearch() {
+		$("#CustLastNameSearch").modal("toggle");
+	}
+	function searchcustlastname() {
+		$("#CustLastNameSearch").modal('hide');
+		var custlastname1 = $("#custlastname").val();
+
+		location.href = 'AMLABAND_FUNDList?formmode=list&lastname='
+				+ custlastname1;
+
+	}
+	function custprodtypesearch() {
+		$("#CustprodtypeSearch").modal("toggle");
+	}
+	function searchcustprodtype() {
+		$("#CustprodtypeSearch").modal('hide');
+
+		var selectBox = document.getElementById("custprodtype");
+		var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+		location.href = 'AMLABAND_FUNDList?formmode=list&prodtype='
+				+ selectedValue;
+	}
+	function alert_add(a) {
+
+		var formmode = a.getAttribute("frmode");
+
+		location.href = "./AMLABAND_FUNDList?formmode=" + formmode;
+
+	}
+	/*]]>*/
+</script>
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('AbandList')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+
+				<div th:if="${formmode}=='list'" class="container content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle" style="height: 50px;">
+								<b th:text="${menuname}"></b>
+
+								<div class="btn-group nav-buttons float-right">
+									<button type="button" class="btn btn-xs btn-primary "
+										onclick='openUploadModal(this)' th:attr="frmode=add">Upload</button>
+									<button type="button" class="btn btn-xs btn-primary "
+										onclick='alert_add(this)' th:attr="frmode=add">Add</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnInq" onclick="list()" style="border-color: #66dbe0;">List</button>
+								</div>
+							</div>
+
+							<table class="table table-bordered  table-hover table-sm"
+								style="width: 100%" id="usertable">
+								<thead class="thead-light">
+									<tr>
+
+
+										<th>Customer ID <i class="fas fa-search searchico"
+											style="float: right;" aria-hidden="true"
+											onclick="custidsearch()"></i></th>
+										<th>Customer Name<i class="fas fa-search searchico"
+											style="float: right;" aria-hidden="true"
+											onclick="custlastnamesearch()"></i></th>
+										<th>Account No</th>
+										<th>Account Name</th>
+										<th>Account Open Date</th>
+										<th>Type of Account</th>
+										<th>Balance(Rs)</th>
+										<th>Interest Paid(Rs)</th>
+										<th>Date of Transfer to BOM</th>
+										<th>Status</th>
+										<th>Select</th>
+									</tr>
+								</thead>
+
+								<tbody class="databody det1" id="det1">
+									<tr th:if="${AbondList.totalPages} == '0'">
+										<td colspan="14" style="text-align: left; color: red">No
+											record available</td>
+									</tr>
+									<tr th:each="blacklist : ${AbondList}">
+
+										<td th:text="${blacklist.cif_id}" class="underline"
+											th:attr="data-uniqueidnumber=${blacklist.foracid}"
+											onclick="view_btn_submit(this);"></td>
+										<td th:text="${blacklist.cust_name}"></td>
+										<td th:text="${blacklist.foracid}"></td>
+										<td th:text="${blacklist.acct_name}"></td>
+										<td
+											th:text="${#dates.format(blacklist.acct_opn_date, 'dd-MM-yyyy')}"></td>
+										<td th:text="${blacklist.schm_type}"></td>
+										<td
+											th:text="${#numbers.formatDecimal(blacklist.acct_bal 	,1,'COMMA',2,'POINT')}"></td>
+										<td
+											th:text="${#numbers.formatDecimal(blacklist.interest_accrued 	,1,'COMMA',2,'POINT')}"></td>
+										<td
+											th:text="${#dates.format(blacklist.date_of_tran_bom, 'dd-MM-yyyy')}"></td>
+
+										<th:block th:switch="${blacklist.entity_flag}">
+											<td th:case="'Y'" style="color: green;">Verified</td>
+											<td th:case="'N'" style="color: red;">UnVerified</td>
+										</th:block>
+										<td>
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle"
+													type="button" id="dropdownMenuButton"
+													style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">Action</button>
+												<div class="dropdown-menu"
+													aria-labelledby="dropdownMenuButton"
+													style="background-color: #e3e3e4; color: #3a4550;">
+													<a th:attr="data-uniqueidnumber=${blacklist.foracid}"
+														class="dropdown-item" title="Inquiry"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														onclick="view_btn_submit(this)" id="view_btn">Inquiry
+													</a>
+													<div class="dropdown-divider"></div>
+													<a th:attr="data-uniqueidnumber=${blacklist.foracid}"
+														class="dropdown-item" title="Modify"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
+													<div class="dropdown-divider"></div>
+
+
+
+													<a th:attr="data-uniqueidnumber=${blacklist.foracid}"
+														class="dropdown-item" title="Delete"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														onclick="delete_btn_submit(this)" id="delete_value">Delete</a>
+													<div class="dropdown-divider"
+														th:if="${blacklist.entity_flag}=='N'"></div>
+													<a th:if="${blacklist.entity_flag}=='N'"
+														th:attr="data-uniqueidnumber=${blacklist.foracid}"
+														class="dropdown-item" title="Verify"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														id="verify_value" onclick="alert_verify(this)">verify</a>
+
+
+
+												</div>
+											</div>
+										</td>
+
+									</tr>
+								</tbody>
+							</table>
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+							<div class="float-right" th:if="${AbondList.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${AbondList.number},${AbondList.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${AbondList.number+1}"
+									th:onchange="|getUserlist('givenpage',${AbondList.number},${AbondList.totalPages});|"></input>
+								of <font th:text="${AbondList.totalPages}"></font> <a href="#"><i
+									class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${AbondList.number},${AbondList.totalPages});|"></i></a>
+							</div>
+
+
+						</div>
+						<div class="text-center"
+							style="background-color: #386276; padding: 5px; width: 100%;">
+
+							<div class="btn-group nav-buttons " style="align: center;">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div
+					th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'"
+					class="container content">
+					<div class="row">
+						<div class="col-sm-12 ">
+
+							<form action="#" th:object="${AbondParameter}" method="POST"
+								autocomplete="off" id="AbondParameter">
+								<div class="card">
+									<div class="card-header">
+										<div class="float-left">
+											<b th:text="${menuname1}"></b> <input type="hidden"
+												th:value="${formmode}" id="formmode1" style="display: none;">
+										</div>
+
+										<div class="btn-group nav-buttons float-right">
+
+											<button type="button" class="btn btn-xs btn-primary btns"
+												id="btnInq" onclick="list()">List</button>
+										</div>
+
+									</div>
+									<div class="card-body">
+
+										<input autocomplete="false" name="hidden" type="text"
+											style="display: none;">
+										<div class="form-group">
+
+											<div class="row formline">
+
+												<div class="col-sm-3">
+													<label>Primary Branch Code</label>
+												</div>
+
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete' OR ${formmode}=='edit'">
+													<input type="text"
+														th:value="${AbondParameter?.primary_branch_code}"
+														id="primary_branch_code"
+														class="form-control form-control-sm"
+														name="primary_branch_code" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${AbondParameter?.primary_branch_code}"
+														id="primary_branch_code"
+														class="form-control form-control-sm"
+														name="primary_branch_code" autocomplete="off">
+												</div>
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-3">Branch Name </label>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete' OR ${formmode}=='edit'">
+													<input type="text"
+														th:value="${AbondParameter?.branch_name}" id="branch_name"
+														class="form-control form-control-sm" name="branch_name"
+														autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${AbondParameter?.branch_name}" id="branch_name"
+														class="form-control form-control-sm" name="branch_name"
+														autocomplete="off">
+												</div>
+
+											</div>
+
+
+
+
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-3">
+													<label>Customer ID</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete' OR ${formmode}=='edit'">
+													<input type="text" th:value="${AbondParameter?.cif_id}"
+														id="cif_id" class="form-control form-control-sm"
+														name="cif_id" autocomplete="off" required readonly>
+												</div>
+
+												<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text" th:value="${AbondParameter?.cif_id}"
+														id="cif_id" class="form-control form-control-sm"
+														name="cif_id" autocomplete="off" required>
+												</div>
+
+
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-3">Customer Name </label>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete' OR ${formmode}=='edit'">
+													<input type="text" th:value="${AbondParameter?.cust_name}"
+														id="cust_name" class="form-control form-control-sm"
+														name="cust_name" autocomplete="off" required readonly>
+												</div>
+
+												<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text" th:value="${AbondParameter?.cust_name}"
+														id="cust_name" class="form-control form-control-sm"
+														name="cust_name" autocomplete="off" required>
+												</div>
+
+
+
+											</div>
+
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+
+											<div class="row formline">
+
+												<div class="col-sm-3">
+													<label>GL Sub Head Code</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete' OR ${formmode}=='edit'">
+													<input type="text"
+														th:value="${AbondParameter?.gl_sub_head_code}"
+														id="gl_sub_head_code" class="form-control form-control-sm"
+														name="gl_sub_head_code" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3" th:if=" ${formmode}=='add'  ">
+													<input type="text"
+														th:value="${AbondParameter?.gl_sub_head_code}"
+														id="gl_sub_head_code" class="form-control form-control-sm"
+														name="gl_sub_head_code" autocomplete="off">
+												</div>
+
+
+
+
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-3">Schme Type </label>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete' OR ${formmode}=='edit'">
+													<input type="text" th:value="${AbondParameter?.schm_type}"
+														id="schm_type" class="form-control form-control-sm"
+														name="schm_type" autocomplete="off" required readonly>
+												</div>
+
+												<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text" th:value="${AbondParameter?.schm_type}"
+														id="schm_type" class="form-control form-control-sm"
+														name="schm_type" autocomplete="off" required>
+												</div>
+
+
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+
+
+											<div class="row formline">
+
+												<div class="col-sm-3">
+													<label>Scheme Code</label>
+												</div>
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete' OR ${formmode}=='edit'">
+													<input type="text" th:value="${AbondParameter?.schm_code}"
+														id="schm_code" class="form-control form-control-sm"
+														name="schm_code" autocomplete="off" required readonly>
+												</div>
+
+												<div class="col-sm-3" th:if=" ${formmode}=='add'">
+													<input type="text" th:value="${AbondParameter?.schm_code}"
+														id="schm_code" class="form-control form-control-sm"
+														name="schm_code" autocomplete="off" required>
+												</div>
+
+
+
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-3">Currency Code </label>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete' OR ${formmode}=='edit'">
+													<input type="text"
+														th:value="${AbondParameter?.currency_code}"
+														id="currency_code" class="form-control form-control-sm"
+														name="currency_code" autocomplete="off" required readonly>
+												</div>
+
+												<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${AbondParameter?.currency_code}"
+														id="currency_code" class="form-control form-control-sm"
+														name="currency_code" autocomplete="off" required>
+												</div>
+
+
+
+											</div>
+
+
+
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-3">
+													<label>Account No</label>
+												</div>
+
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete' OR ${formmode}=='edit'">
+													<input type="text" th:value="${AbondParameter?.foracid}"
+														id="foracid" class="form-control form-control-sm"
+														name="foracid" autocomplete="off" required readonly>
+												</div>
+
+												<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text" th:value="${AbondParameter?.foracid}"
+														id="foracid" class="form-control form-control-sm"
+														name="foracid" autocomplete="off" required>
+												</div>
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-3">Account Name</label>
+
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete' OR ${formmode}=='edit'">
+													<input type="text" th:value="${AbondParameter?.acct_name}"
+														id="acct_name" class="form-control form-control-sm"
+														name="acct_name" autocomplete="off" required readonly>
+												</div>
+
+												<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text" th:value="${AbondParameter?.acct_name}"
+														id="acct_name" class="form-control form-control-sm"
+														name="acct_name" autocomplete="off" required>
+												</div>
+
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-3">
+													<label>Account Open Date</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'  OR ${formmode}=='edit'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.acct_opn_date,'dd-MM-yyyy')}"
+														id="" class="form-control form-control-sm"
+														name="acct_opn_date" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3" th:if=" ${formmode}=='add'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.acct_opn_date,'dd-MM-yyyy')}"
+														id="acct_opn_date" class="form-control form-control-sm"
+														name="acct_opn_date" autocomplete="off">
+												</div>
+
+
+
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-3">Account Status</label>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete' OR ${formmode}=='edit'">
+													<input type="text"
+														th:value="${AbondParameter?.acct_status}" id="acct_status"
+														class="form-control form-control-sm" name="acct_status"
+														autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${AbondParameter?.acct_status}" id="acct_status"
+														class="form-control form-control-sm" name="acct_status"
+														autocomplete="off">
+												</div>
+
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-3">
+													<label>Last Transaction Date</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.last_tran_date,'dd-MM-yyyy')}"
+														id="" class="form-control form-control-sm"
+														name="last_tran_date" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.last_tran_date,'dd-MM-yyyy')}"
+														id="last_tran_date" class="form-control form-control-sm"
+														name="last_tran_date" autocomplete="off">
+												</div>
+
+
+
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-3">Account Balance</label>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="number" th:value="${AbondParameter?.acct_bal}"
+														class="form-control form-control-sm" id="acct_bal"
+														name="acct_bal" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="number" th:value="${AbondParameter?.acct_bal}"
+														id="acct_bal" class="form-control form-control-sm"
+														name="acct_bal" autocomplete="off">
+												</div>
+
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-3">
+													<label>Interest Accrued</label>
+												</div>
+
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="number"
+														th:value="${AbondParameter?.interest_accrued}"
+														id="interest_accrued" class="form-control form-control-sm"
+														name="interest_accrued" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="number"
+														th:value="${AbondParameter?.interest_accrued}"
+														id="interest_accrued" class="form-control form-control-sm"
+														name="interest_accrued" autocomplete="off">
+												</div>
+
+
+
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-3">Interest Paid</label>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="number"
+														th:value="${AbondParameter?.interest_paid}"
+														id="interest_paid" class="form-control form-control-sm"
+														name="interest_paid" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="number"
+														th:value="${AbondParameter?.interest_paid}"
+														id="interest_paid" class="form-control form-control-sm"
+														name="interest_paid" autocomplete="off">
+												</div>
+
+
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-3">
+													<label>Abandoned Fund Transfer Date</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.abandoned_fund_transfer_date,'dd-MM-yyyy')}"
+														id="" class="form-control form-control-sm"
+														name="abandoned_fund_transfer_date" autocomplete="off"
+														readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.abandoned_fund_transfer_date,'dd-MM-yyyy')}"
+														id="abandoned_fund_transfer_date"
+														class="form-control form-control-sm"
+														name="abandoned_fund_transfer_date" autocomplete="off">
+												</div>
+
+
+
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-3">Last Known Address of
+													Customer</label>
+
+
+
+												<div class="col-sm-3">
+													<input type="text" th:value="${AbondParameter?.address}"
+														id="address" name="address" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+											</div>
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-3">
+													<label>Date of Transfer to BOM</label>
+												</div>
+
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.date_of_tran_bom,'dd-MM-yyyy')}"
+														id="" class="form-control form-control-sm"
+														name="date_of_tran_bom" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.date_of_tran_bom,'dd-MM-yyyy')}"
+														id="date_of_tran_bom" class="form-control form-control-sm"
+														name="date_of_tran_bom" autocomplete="off">
+												</div>
+
+
+
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-3">Amount Transferred</label>
+
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="number"
+														th:value="${AbondParameter?.amount_transferred}"
+														id="amount_transferred"
+														class="form-control form-control-sm"
+														name="amount_transferred" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="number"
+														th:value="${AbondParameter?.amount_transferred}"
+														id="amount_transferred"
+														class="form-control form-control-sm"
+														name="amount_transferred" autocomplete="off">
+												</div>
+
+
+											</div>
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-3">
+													<label>Date of Claim by Customer</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.date_of_claim,'dd-MM-yyyy')}"
+														id="" class="form-control form-control-sm"
+														name="date_of_claim" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.date_of_claim,'dd-MM-yyyy')}"
+														id="date_of_claim" class="form-control form-control-sm"
+														name="date_of_claim" autocomplete="off">
+												</div>
+
+
+
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-3">Remarks1</label>
+
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="text" th:value="${AbondParameter?.remarks1}"
+														id="remarks1" class="form-control form-control-sm"
+														name="remarks1" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="text" th:value="${AbondParameter?.remarks1}"
+														id="remarks1" class="form-control form-control-sm"
+														name="remarks1" autocomplete="off">
+												</div>
+
+
+											</div>
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-3">
+													<label>Request to BOM Date</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.request_to_bom_date,'dd-MM-yyyy')}"
+														id="" class="form-control form-control-sm"
+														name="request_to_bom_date" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.request_to_bom_date,'dd-MM-yyyy')}"
+														id="request_to_bom_date"
+														class="form-control form-control-sm"
+														name="request_to_bom_date" autocomplete="off">
+												</div>
+
+
+
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-3">Remarks 2</label>
+
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="text" th:value="${AbondParameter?.remarks2}"
+														id="remarks2" class="form-control form-control-sm"
+														name="remarks2" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="text" th:value="${AbondParameter?.remarks2}"
+														id="remarks2" class="form-control form-control-sm"
+														name="remarks2" autocomplete="off">
+												</div>
+
+
+											</div>
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-3">
+													<label>Date of Funds received from BOM</label>
+												</div>
+
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.received_from_bom_date,'dd-MM-yyyy')}"
+														id="" class="form-control form-control-sm"
+														name="received_from_bom_date" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.received_from_bom_date,'dd-MM-yyyy')}"
+														id="received_from_bom_date"
+														class="form-control form-control-sm"
+														name="received_from_bom_date" autocomplete="off">
+												</div>
+
+
+
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-3">Amount Received</label>
+
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="number"
+														th:value="${AbondParameter?.amount_received}"
+														id="amount_received" class="form-control form-control-sm"
+														name="amount_received" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="number"
+														th:value="${AbondParameter?.amount_received}"
+														id="amount_received" class="form-control form-control-sm"
+														name="amount_received" autocomplete="off">
+												</div>
+
+
+											</div>
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-3">
+													<label>Settlement Date </label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.settlement_date,'dd-MM-yyyy')}"
+														id="" class="form-control form-control-sm"
+														name="settlement_date" autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="text"
+														th:value="${#dates.format(AbondParameter?.settlement_date,'dd-MM-yyyy')}"
+														id="settlement_date" class="form-control form-control-sm"
+														name="settlement_date" autocomplete="off">
+												</div>
+
+
+
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-3">Amount Paid</label>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input type="number"
+														th:value="${AbondParameter?.amount_paid}" id="amount_paid"
+														class="form-control form-control-sm" name="amount_paid"
+														autocomplete="off" readonly>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='add' OR ${formmode}=='edit'">
+													<input type="number"
+														th:value="${AbondParameter?.amount_paid}" id="amount_paid"
+														class="form-control form-control-sm" name="amount_paid"
+														autocomplete="off">
+												</div>
+
+											</div>
+
+
+
+
+
+										</div>
+
+
+
+										<div class="card-footer text-center" style="height: 38px;">
+											<button th:if="${formmode}=='delete'" type="button"
+												class="btn btn-xs btn-primary" style="margin-top: -12px;"
+												onclick="submitform(this);" form="AbondParameter"
+												id="btnDelete" th:attr="data-formmode=${formmode}">Delete</button>
+
+											<button th:if="${formmode}=='verify'" type="button"
+												class="btn btn-xs btn-primary" style="margin-top: -12px;"
+												onclick="verifyform(this);" form="AbondParameter"
+												id="btnVerify" th:attr="data-formmode=${formmode}">Verify</button>
+
+											<button th:if="${formmode}=='edit' OR ${formmode}=='add'"
+												type="button" style="margin-top: -12px;"
+												class="btn btn-xs btn-primary" onclick="submitform(this);"
+												form="AbondParameter" id="btnSubmit"
+												th:attr="data-formmode=${formmode}">Submit</button>
+
+											<button type="button" class="btn btn-xs btn-primary"
+												id="btnHome" style="margin-top: -12px;" onclick="home1();">Home</button>
+
+											<button type="button" class="btn btn-xs btn-primary"
+												id="btnBack" style="margin-top: -12px;" onclick="back1();">Back</button>
+
+										</div>
+									</div>
+								</div>
+
+								<div class="container content"
+									style="border: 1px solid #36404a; padding: 15px;">
+									<div class="row formline">
+
+										<label class="col-sm-2">Entry User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${AbondParameter?.aml_entry_user}"
+												id="aml_entry_user" name="aml_entry_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text" th:if="${formmode}=='add'"
+												th:value="${session.USERID}" id="aml_entry_user"
+												name="aml_entry_user" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+
+										</div>
+										<label class="col-sm-2">Modify User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${AbondParameter?.aml_modify_user}"
+												id="aml_modify_user" name="aml_modify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text" th:if="${formmode}=='edit' "
+												th:value="${session.USERID}" id="aml_modify_user"
+												name="aml_modify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+										</div>
+										<label class="col-sm-2">Verify User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${AbondParameter?.aml_verify_user}"
+												id="aml_verify_user" name="aml_verify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='verify' " th:value="${session.USERID}"
+												id="aml_verify_user" name="aml_verify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+									</div>
+									<div class="row formline">
+										<label style="height: 2px;"></label>
+
+									</div>
+									<div class="row formline">
+
+										<label class="col-sm-2">Entry Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${#dates.format(AbondParameter?.aml_entry_time,'dd-MM-yyyy')}"
+												id="aml_entry_time" name="aml_entry_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text" th:if="${formmode}=='add'"
+												th:value="${#dates.format(AbondParameter?.aml_entry_time,'dd-MM-yyyy')}"
+												id="entry_time1" name="aml_entry_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+
+										<label class="col-sm-2">Modify Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${#dates.format(AbondParameter?.aml_modify_time,'dd-MM-yyyy')}"
+												id="aml_modify_time" name="aml_modify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text" th:if="${formmode}=='edit' "
+												th:value="${#dates.format(AbondParameter?.aml_modify_time,'dd-MM-yyyy')}"
+												id="entry_time1" name="aml_modify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+
+
+										<label class="col-sm-2">Verify Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='delete'"
+												th:value="${#dates.format(AbondParameter?.aml_verify_time,'dd-MM-yyyy')}"
+												id="aml_verify_time" name="aml_verify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='verify'"
+												th:value="${#dates.format(AbondParameter?.aml_verify_time,'dd-MM-yyyy')}"
+												id="entry_time1" name="aml_verify_time"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+
+										<label></label>
+									</div>
+
+
+
+
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+
+				<!------------------------Pop window - Domain  list Ends--------------------------------->
+
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<div class="modal fade" id="datadelete">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to delete?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitformdelete(this);"
+									th:attr="data-formmode=delete">Submit</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="dataHome">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to Leave?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" onclick="home();">Yes</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">No</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="dataBack">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to Leave?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" onclick="back();">Yes</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">No</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="CustSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Customer ID" id="custid"><i
+									class="fas fa-search searchico" style="float: right;"
+									aria-hidden="true" onclick="searchcustid()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="CustLastNameSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Customer Last Name"
+									id="custlastname"><i class="fas fa-search searchico"
+									style="float: right;" aria-hidden="true"
+									onclick="searchcustlastname()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustprodtypeSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<h1>Select Active Product Type</h1>
+								<br />
+								<br /> <select id="custprodtype"
+									class="form-control form-control-sm" autocomplete="off"
+									onchange="searchcustprodtype()">
+									<option>SELECT</option>
+									<option value="Loan_PLN">Loan_PLN</option>
+									<option value="Loan_MQL">Loan_MQL</option>
+									<option value="RSS">RSS</option>
+									<option value="Fixed_Deposite_1">Fixed_Deposite_1</option>
+									<option value="Fixed_Deposite_2">Fixed_Deposite_2</option>
+									<option value="Fixed_Deposite">Fixed_Deposite</option>
+								</select>
+								<!-- 								<input type="text" placeholder="Enter NID" id="custrisk"><i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="searchcustriskcategory()"></i>
+ -->
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--------------------------------------------File Upload Modal Starts----------------------------------------------------------->
+				<div class="modal fade" id="fileupload">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<h1>Upload only xlsx, xls or csv files</h1>
+								<br />
+								<br />
+
+
+								<form action="#" th:object="${fileUploadForm}" method="POST"
+									autocomplete="off" id="fileUploadForm"
+									enctype="multipart/form-data">
+
+									<input id="file" type="file" name="file"
+										accept=".xls,.xlsx,.csv" style="background-color: white;" /><br />
+									<br /> <input type="hidden" id="screenid" name="screenid"
+										value="Aband_Fund_List">
+									<button type="button" style="margin-top: -12px;"
+										class="btn btn-xs btn-primary" onclick="fire_ajax_submit();"
+										form="uploadform" id="btn_Upload_Submit">Submit</button>
+									<button type="button" style="margin-top: -12px;"
+										class="btn btn-xs btn-primary" onclick="closeuplaod();"
+										form="uploadform" id="btn_Upload_Submit">Cancel</button>
+								</form>
+
+
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+				<!--------------------------------------------File Upload Modal Ends----------------------------------------------------------->
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+				<div class="modal fade" id="alert">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="alertmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal" onclick="list();">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="verifybox">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="verifyboxmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+
+
+
+	<script th:inline="javascript">
+		function closeuplaod() {
+			$('#fileupload').hide();
+			location.href = './AMLABAND_FUNDList?formmode=list';
+		}
+
+		function fire_ajax_submit() {
+
+			// Get form
+			var form = $('#fileUploadForm')[0];
+
+			var data = new FormData(form);
+
+			$.ajax({
+				type : "POST",
+				enctype : 'multipart/form-data',
+				url : "ws/fileUpload",
+				data : data,
+				processData : false, //prevent jQuery from automatically transforming the data into a query string
+				contentType : false,
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+
+					$('#fileupload').hide();
+
+					$("#alertmsg").text(data);
+
+					$("#alert").modal("toggle");
+
+					console.log("SUCCESS : ", data);
+
+				},
+				error : function(e) {
+
+					$('#fileupload').hide();
+
+					$("#alertmsg").text(e.responseText);
+					$("#alert").modal("toggle");
+					console.log("ERROR : ", e);
+					location.href = './AMLABAND_FUNDList?formmode=list';
+
+				}
+			});
+		}
+	</script>
+
+	<script>
+		var custid = document.getElementById("custid");
+		custid.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				searchcustid();
+			}
+		});
+
+		var custlastname = document.getElementById("custlastname");
+		custlastname.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				searchcustlastname();
+			}
+		});
+	</script>
+
+
+
+
+</body>
+</html>

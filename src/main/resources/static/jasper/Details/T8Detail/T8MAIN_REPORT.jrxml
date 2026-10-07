@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="T8MAIN_REPORT" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="70bfeb53-e561-46ae-8804-1f12cfb0f84d">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}" value="CASH DEPOSIT/LBT INWARD/LBT OUTWARD/CHQ INWARD/CHQ OUTWARD/POS/CASH WITHDRAWAL"/>
+	<property name="net.sf.jasperreports.page.break.no.pagination" value="apply"/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="T8CASH" class="java.io.InputStream"/>
+	<parameter name="T8LOCALOUT" class="java.io.InputStream"/>
+	<parameter name="T8LOCALIN" class="java.io.InputStream"/>
+	<parameter name="T8CHEQUEIN" class="java.io.InputStream"/>
+	<parameter name="T8CHEQUEOUT" class="java.io.InputStream"/>
+	<parameter name="T8POS" class="java.io.InputStream"/>
+	<parameter name="REPORT_DATE" class="java.lang.String"/>
+	<parameter name="T8WITHDRAW" class="java.io.InputStream"/>
+	<queryString>
+		<![CDATA[select * from baml_dashboard]]>
+	</queryString>
+	<field name="CUSTOMER_COUNT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="CUSTOMER_COUNT"/>
+	</field>
+	<field name="ACCOUNT_COUNT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="ACCOUNT_COUNT"/>
+	</field>
+	<field name="TRANSACTION_COUNT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="TRANSACTION_COUNT"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="600" splitType="Stretch">
+			<break>
+				<reportElement x="0" y="85" width="100" height="1" uuid="a1f2068e-a253-4abb-9c74-b8ae9eaf664d"/>
+			</break>
+			<break>
+				<reportElement x="0" y="172" width="100" height="1" uuid="29d599d4-616b-47bb-aee2-d25d0440aaae"/>
+			</break>
+			<break>
+				<reportElement x="0" y="237" width="100" height="1" uuid="2c8b868c-a1d6-48f8-aef1-0f2b459d79d0"/>
+			</break>
+			<break>
+				<reportElement x="0" y="308" width="100" height="1" uuid="e675ee8f-3e55-450a-8685-68425ca8c301"/>
+			</break>
+			<break>
+				<reportElement x="0" y="414" width="100" height="1" uuid="6c4c3be0-5f4b-4aab-b6ea-87a1ed1f9b4b"/>
+			</break>
+			<break>
+				<reportElement x="0" y="502" width="100" height="1" uuid="77e779c4-e5e4-4ff0-bd32-96aacda23c8b"/>
+			</break>
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="70" uuid="f1c56912-cae1-4032-ba83-c984bfd2ebd2"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CASH">
+					<subreportParameterExpression><![CDATA[$P{T8CASH}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8LOCALOUT">
+					<subreportParameterExpression><![CDATA[$P{T8LOCALOUT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8LOCALIN">
+					<subreportParameterExpression><![CDATA[$P{T8LOCALIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CHEQUEIN">
+					<subreportParameterExpression><![CDATA[$P{T8CHEQUEIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CHEQUEOUT">
+					<subreportParameterExpression><![CDATA[$P{T8CHEQUEOUT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8POS">
+					<subreportParameterExpression><![CDATA[$P{T8POS}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8WITHDRAW">
+					<subreportParameterExpression><![CDATA[$P{T8WITHDRAW}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T8CASH}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="177" width="200" height="53" uuid="aa7f0144-f173-4f0b-8bc8-51e2c04130ef"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CASH">
+					<subreportParameterExpression><![CDATA[$P{T8CASH}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8LOCALOUT">
+					<subreportParameterExpression><![CDATA[$P{T8LOCALOUT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8LOCALIN">
+					<subreportParameterExpression><![CDATA[$P{T8LOCALIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CHEQUEIN">
+					<subreportParameterExpression><![CDATA[$P{T8CHEQUEIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CHEQUEOUT">
+					<subreportParameterExpression><![CDATA[$P{T8CHEQUEOUT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8POS">
+					<subreportParameterExpression><![CDATA[$P{T8POS}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8WITHDRAW">
+					<subreportParameterExpression><![CDATA[$P{T8WITHDRAW}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T8LOCALOUT}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="90" width="200" height="50" uuid="435153d5-7390-4c21-a3cd-b0827359c800"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CASH">
+					<subreportParameterExpression><![CDATA[$P{T8CASH}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8LOCALOUT">
+					<subreportParameterExpression><![CDATA[$P{T8LOCALOUT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8LOCALIN">
+					<subreportParameterExpression><![CDATA[$P{T8LOCALIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CHEQUEIN">
+					<subreportParameterExpression><![CDATA[$P{T8CHEQUEIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CHEQUEOUT">
+					<subreportParameterExpression><![CDATA[$P{T8CHEQUEOUT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8POS">
+					<subreportParameterExpression><![CDATA[$P{T8POS}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8WITHDRAW">
+					<subreportParameterExpression><![CDATA[$P{T8WITHDRAW}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T8LOCALIN}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="250" width="200" height="40" uuid="c9c72ec1-6ad2-478e-ad9b-b44aee207ce2"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CASH">
+					<subreportParameterExpression><![CDATA[$P{T8CASH}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8LOCALOUT">
+					<subreportParameterExpression><![CDATA[$P{T8LOCALOUT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8LOCALIN">
+					<subreportParameterExpression><![CDATA[$P{T8LOCALIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CHEQUEIN">
+					<subreportParameterExpression><![CDATA[$P{T8CHEQUEIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CHEQUEOUT">
+					<subreportParameterExpression><![CDATA[$P{T8CHEQUEOUT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8POS">
+					<subreportParameterExpression><![CDATA[$P{T8POS}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8WITHDRAW">
+					<subreportParameterExpression><![CDATA[$P{T8WITHDRAW}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T8CHEQUEIN}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="330" width="200" height="50" uuid="75e432b5-0f93-48d1-b61e-ac731a9adb0f"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CASH">
+					<subreportParameterExpression><![CDATA[$P{T8CASH}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8LOCALOUT">
+					<subreportParameterExpression><![CDATA[$P{T8LOCALOUT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8LOCALIN">
+					<subreportParameterExpression><![CDATA[$P{T8LOCALIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CHEQUEIN">
+					<subreportParameterExpression><![CDATA[$P{T8CHEQUEIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CHEQUEOUT">
+					<subreportParameterExpression><![CDATA[$P{T8CHEQUEOUT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8POS">
+					<subreportParameterExpression><![CDATA[$P{T8POS}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8WITHDRAW">
+					<subreportParameterExpression><![CDATA[$P{T8WITHDRAW}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T8CHEQUEOUT}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="430" width="200" height="50" uuid="b40c316d-8c03-423f-a3ea-2c86b536dbde"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CASH">
+					<subreportParameterExpression><![CDATA[$P{T8CASH}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8LOCALOUT">
+					<subreportParameterExpression><![CDATA[$P{T8LOCALOUT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8LOCALIN">
+					<subreportParameterExpression><![CDATA[$P{T8LOCALIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CHEQUEIN">
+					<subreportParameterExpression><![CDATA[$P{T8CHEQUEIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CHEQUEOUT">
+					<subreportParameterExpression><![CDATA[$P{T8CHEQUEOUT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8POS">
+					<subreportParameterExpression><![CDATA[$P{T8POS}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8WITHDRAW">
+					<subreportParameterExpression><![CDATA[$P{T8WITHDRAW}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T8POS}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="511" width="200" height="89" uuid="aa4da38e-e729-402a-b44a-69423ca4cbd8"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CASH">
+					<subreportParameterExpression><![CDATA[$P{T8CASH}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8LOCALOUT">
+					<subreportParameterExpression><![CDATA[$P{T8LOCALOUT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8LOCALIN">
+					<subreportParameterExpression><![CDATA[$P{T8LOCALIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CHEQUEIN">
+					<subreportParameterExpression><![CDATA[$P{T8CHEQUEIN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8CHEQUEOUT">
+					<subreportParameterExpression><![CDATA[$P{T8CHEQUEOUT}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8POS">
+					<subreportParameterExpression><![CDATA[$P{T8POS}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8WITHDRAW">
+					<subreportParameterExpression><![CDATA[$P{T8WITHDRAW}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T8WITHDRAW}]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,1016 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RBSINST" pageWidth="900" pageHeight="1000" columnWidth="860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6701e516-b604-4057-934c-56b16623fc74">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.show.gridlines" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="REPORT_DATE" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from "T1_CUR_PROD_SERVICES"
+where REPORT_DATE=$P{REPORT_DATE}]]>
+	</queryString>
+	<field name="D1A_DEP_TKG_SERVICES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D1A_DEP_TKG_SERVICES"/>
+	</field>
+	<field name="D2A_LEND_FUND_BASED" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D2A_LEND_FUND_BASED"/>
+	</field>
+	<field name="D3A_FB_FINANCE_LEASE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D3A_FB_FINANCE_LEASE"/>
+	</field>
+	<field name="D4A_FB_OPER_LEASE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D4A_FB_OPER_LEASE"/>
+	</field>
+	<field name="D5A_FB_LOANS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D5A_FB_LOANS"/>
+	</field>
+	<field name="D6A_FB_FACTORING" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D6A_FB_FACTORING"/>
+	</field>
+	<field name="D7A_FB_OTHERS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D7A_FB_OTHERS"/>
+	</field>
+	<field name="D8A_LENDING_NON_FUND_BASED" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D8A_LENDING_NON_FUND_BASED"/>
+	</field>
+	<field name="D9A_CREDIT_CARDS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D9A_CREDIT_CARDS"/>
+	</field>
+	<field name="D10A_MERCHANG_POS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D10A_MERCHANG_POS"/>
+	</field>
+	<field name="D11A_OTHER_PROD_SERVICES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D11A_OTHER_PROD_SERVICES"/>
+	</field>
+	<field name="D12A_RETIREMENT_SAVING_SCHEMES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D12A_RETIREMENT_SAVING_SCHEMES"/>
+	</field>
+	<field name="D1B_DEP_TKG_SERVICES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D1B_DEP_TKG_SERVICES"/>
+	</field>
+	<field name="D2B_LEND_FUND_BASED" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D2B_LEND_FUND_BASED"/>
+	</field>
+	<field name="D3B_FB_FINANCE_LEASE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D3B_FB_FINANCE_LEASE"/>
+	</field>
+	<field name="D4B_FB_OPER_LEASE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D4B_FB_OPER_LEASE"/>
+	</field>
+	<field name="D5B_FB_LOANS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D5B_FB_LOANS"/>
+	</field>
+	<field name="D6B_FB_FACTORING" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D6B_FB_FACTORING"/>
+	</field>
+	<field name="D7B_FB_OTHERS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D7B_FB_OTHERS"/>
+	</field>
+	<field name="D8B_LENDING_NON_FUND_BASED" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D8B_LENDING_NON_FUND_BASED"/>
+	</field>
+	<field name="D9B_CREDIT_CARDS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D9B_CREDIT_CARDS"/>
+	</field>
+	<field name="D10B_MERCHANG_POS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D10B_MERCHANG_POS"/>
+	</field>
+	<field name="D11B_OTHER_PROD_SERVICES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D11B_OTHER_PROD_SERVICES"/>
+	</field>
+	<field name="D12B_RETIREMENT_SAVING_SCHEMES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D12B_RETIREMENT_SAVING_SCHEMES"/>
+	</field>
+	<field name="C1C_DEP_TKG_SERVICES_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C1C_DEP_TKG_SERVICES_NBTDI"/>
+	</field>
+	<field name="C2C_LEND_FUND_BASED_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C2C_LEND_FUND_BASED_NBTDI"/>
+	</field>
+	<field name="C3C_FB_FINANCE_LEASE_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C3C_FB_FINANCE_LEASE_NBTDI"/>
+	</field>
+	<field name="C4C_FB_OPER_LEASE_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C4C_FB_OPER_LEASE_NBTDI"/>
+	</field>
+	<field name="C5C_FB_LOANS_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C5C_FB_LOANS_NBTDI"/>
+	</field>
+	<field name="C6C_FB_FACTORING_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C6C_FB_FACTORING_NBTDI"/>
+	</field>
+	<field name="C7C_FB_OTHERS_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C7C_FB_OTHERS_NBTDI"/>
+	</field>
+	<field name="C8C_LENDING_NON_FUND_BASED_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C8C_LENDING_NON_FUND_BASED_NBTDI"/>
+	</field>
+	<field name="C9C_CREDIT_CARDS_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C9C_CREDIT_CARDS_NBTDI"/>
+	</field>
+	<field name="C10C_MERCHANG_POS_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C10C_MERCHANG_POS_NBTDI"/>
+	</field>
+	<field name="C11C_OTHER_PROD_SERVICES_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C11C_OTHER_PROD_SERVICES_NBTDI"/>
+	</field>
+	<field name="C12C_RETIREMENT_SAVING_SCHEMES_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C12C_RETIREMENT_SAVING_SCHEMES_NBTDI"/>
+	</field>
+	<field name="C1D_DEP_TKG_SERVICES_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C1D_DEP_TKG_SERVICES_OFFER_FTF"/>
+	</field>
+	<field name="C2D_LEND_FUND_BASED_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C2D_LEND_FUND_BASED_OFFER_FTF"/>
+	</field>
+	<field name="C3D_FB_FINANCE_LEASE_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C3D_FB_FINANCE_LEASE_OFFER_FTF"/>
+	</field>
+	<field name="C4D_FB_OPER_LEASE_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C4D_FB_OPER_LEASE_OFFER_FTF"/>
+	</field>
+	<field name="C5D_FB_LOANS_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C5D_FB_LOANS_OFFER_FTF"/>
+	</field>
+	<field name="C6D_FB_FACTORING_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C6D_FB_FACTORING_OFFER_FTF"/>
+	</field>
+	<field name="C7D_FB_OTHERS_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C7D_FB_OTHERS_OFFER_FTF"/>
+	</field>
+	<field name="C8D_LENDING_NON_FUND_BASED_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C8D_LENDING_NON_FUND_BASED_OFFER_FTF"/>
+	</field>
+	<field name="C9D_CREDIT_CARDS_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C9D_CREDIT_CARDS_OFFER_FTF"/>
+	</field>
+	<field name="C10D_MERCHANG_POS_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C10D_MERCHANG_POS_OFFER_FTF"/>
+	</field>
+	<field name="C11D_OTHER_PROD_SERVICES_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C11D_OTHER_PROD_SERVICES_OFFER_FTF"/>
+	</field>
+	<field name="C12D_RETIREMENT_SAVING_SCHEMES_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C12D_RETIREMENT_SAVING_SCHEMES_OFFER_FTF"/>
+	</field>
+	<field name="C1E_DEP_TKG_SERVICES_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C1E_DEP_TKG_SERVICES_OFFER_NFTF"/>
+	</field>
+	<field name="C2E_LEND_FUND_BASED_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C2E_LEND_FUND_BASED_OFFER_NFTF"/>
+	</field>
+	<field name="C3E_FB_FINANCE_LEASE_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C3E_FB_FINANCE_LEASE_OFFER_NFTF"/>
+	</field>
+	<field name="C4E_FB_OPER_LEASE_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C4E_FB_OPER_LEASE_OFFER_NFTF"/>
+	</field>
+	<field name="C5E_FB_LOANS_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C5E_FB_LOANS_OFFER_NFTF"/>
+	</field>
+	<field name="C6E_FB_FACTORING_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C6E_FB_FACTORING_OFFER_NFTF"/>
+	</field>
+	<field name="C7E_FB_OTHERS_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C7E_FB_OTHERS_OFFER_NFTF"/>
+	</field>
+	<field name="C8E_LENDING_NON_FUND_BASED_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C8E_LENDING_NON_FUND_BASED_OFFER_NFTF"/>
+	</field>
+	<field name="C9E_CREDIT_CARDS_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C9E_CREDIT_CARDS_OFFER_NFTF"/>
+	</field>
+	<field name="C10E_MERCHANG_POS_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C10E_MERCHANG_POS_OFFER_NFTF"/>
+	</field>
+	<field name="C11E_OTHER_PROD_SERVICES_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C11E_OTHER_PROD_SERVICES_OFFER_NFTF"/>
+	</field>
+	<field name="C12E_RETIREMENT_SAVING_SCHEMES_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C12E_RETIREMENT_SAVING_SCHEMES_OFFER_NFTF"/>
+	</field>
+	<field name="C1F_DEP_TKG_SERVICES_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C1F_DEP_TKG_SERVICES_OFFER_TP"/>
+	</field>
+	<field name="C2F_LEND_FUND_BASED_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C2F_LEND_FUND_BASED_OFFER_TP"/>
+	</field>
+	<field name="C3F_FB_FINANCE_LEASE_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C3F_FB_FINANCE_LEASE_OFFER_TP"/>
+	</field>
+	<field name="C4F_FB_OPER_LEASE_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C4F_FB_OPER_LEASE_OFFER_TP"/>
+	</field>
+	<field name="C5F_FB_LOANS_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C5F_FB_LOANS_OFFER_TP"/>
+	</field>
+	<field name="C6F_FB_FACTORING_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C6F_FB_FACTORING_OFFER_TP"/>
+	</field>
+	<field name="C7F_FB_OTHERS_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C7F_FB_OTHERS_OFFER_TP"/>
+	</field>
+	<field name="C8F_LENDING_NON_FUND_BASED_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C8F_LENDING_NON_FUND_BASED_OFFER_TP"/>
+	</field>
+	<field name="C9F_CREDIT_CARDS_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C9F_CREDIT_CARDS_OFFER_TP"/>
+	</field>
+	<field name="C10F_MERCHANG_POS_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C10F_MERCHANG_POS_OFFER_TP"/>
+	</field>
+	<field name="C11F_OTHER_PROD_SERVICES_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C11F_OTHER_PROD_SERVICES_OFFER_TP"/>
+	</field>
+	<field name="C12F_RETIREMENT_SAVING_SCHEMES_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C12F_RETIREMENT_SAVING_SCHEMES_OFFER_TP"/>
+	</field>
+	<field name="C1G_DEP_TKG_SERVICES_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1G_DEP_TKG_SERVICES_HIG_NOD"/>
+	</field>
+	<field name="C2G_LEND_FUND_BASED_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2G_LEND_FUND_BASED_HIG_NOD"/>
+	</field>
+	<field name="C3G_FB_FINANCE_LEASE_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3G_FB_FINANCE_LEASE_HIG_NOD"/>
+	</field>
+	<field name="C4G_FB_OPER_LEASE_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4G_FB_OPER_LEASE_HIG_NOD"/>
+	</field>
+	<field name="C5G_FB_LOANS_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5G_FB_LOANS_HIG_NOD"/>
+	</field>
+	<field name="C6G_FB_FACTORING_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6G_FB_FACTORING_HIG_NOD"/>
+	</field>
+	<field name="C7G_FB_OTHERS_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7G_FB_OTHERS_HIG_NOD"/>
+	</field>
+	<field name="C8G_LENDING_NON_FUND_BASED_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8G_LENDING_NON_FUND_BASED_HIG_NOD"/>
+	</field>
+	<field name="C9G_CREDIT_CARDS_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9G_CREDIT_CARDS_HIG_NOD"/>
+	</field>
+	<field name="C10G_MERCHANG_POS_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10G_MERCHANG_POS_HIG_NOD"/>
+	</field>
+	<field name="C11G_OTHER_PROD_SERVICES_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11G_OTHER_PROD_SERVICES_HIG_NOD"/>
+	</field>
+	<field name="C12G_RETIREMENT_SAVING_SCHEMES_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12G_RETIREMENT_SAVING_SCHEMES_HIG_NOD"/>
+	</field>
+	<field name="C1H_DEP_TKG_SERVICES_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1H_DEP_TKG_SERVICES_HIG_VOD"/>
+	</field>
+	<field name="C2H_LEND_FUND_BASED_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2H_LEND_FUND_BASED_HIG_VOD"/>
+	</field>
+	<field name="C3H_FB_FINANCE_LEASE_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3H_FB_FINANCE_LEASE_HIG_VOD"/>
+	</field>
+	<field name="C4H_FB_OPER_LEASE_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4H_FB_OPER_LEASE_HIG_VOD"/>
+	</field>
+	<field name="C5H_FB_LOANS_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5H_FB_LOANS_HIG_VOD"/>
+	</field>
+	<field name="C6H_FB_FACTORING_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6H_FB_FACTORING_HIG_VOD"/>
+	</field>
+	<field name="C7H_FB_OTHERS_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7H_FB_OTHERS_HIG_VOD"/>
+	</field>
+	<field name="C8H_LENDING_NON_FUND_BASED_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8H_LENDING_NON_FUND_BASED_HIG_VOD"/>
+	</field>
+	<field name="C9H_CREDIT_CARDS_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9H_CREDIT_CARDS_HIG_VOD"/>
+	</field>
+	<field name="C10H_MERCHANG_POS_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10H_MERCHANG_POS_HIG_VOD"/>
+	</field>
+	<field name="C11H_OTHER_PROD_SERVICES_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11H_OTHER_PROD_SERVICES_HIG_VOD"/>
+	</field>
+	<field name="C12H_RETIREMENT_SAVING_SCHEMES_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12H_RETIREMENT_SAVING_SCHEMES_HIG_VOD"/>
+	</field>
+	<field name="C1I_DEP_TKG_SERVICES_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1I_DEP_TKG_SERVICES_HIG_NOC"/>
+	</field>
+	<field name="C2I_LEND_FUND_BASED_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2I_LEND_FUND_BASED_HIG_NOC"/>
+	</field>
+	<field name="C3I_FB_FINANCE_LEASE_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3I_FB_FINANCE_LEASE_HIG_NOC"/>
+	</field>
+	<field name="C4I_FB_OPER_LEASE_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4I_FB_OPER_LEASE_HIG_NOC"/>
+	</field>
+	<field name="C5I_FB_LOANS_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5I_FB_LOANS_HIG_NOC"/>
+	</field>
+	<field name="C6I_FB_FACTORING_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6I_FB_FACTORING_HIG_NOC"/>
+	</field>
+	<field name="C7I_FB_OTHERS_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7I_FB_OTHERS_HIG_NOC"/>
+	</field>
+	<field name="C8I_LENDING_NON_FUND_BASED_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8I_LENDING_NON_FUND_BASED_HIG_NOC"/>
+	</field>
+	<field name="C9I_CREDIT_CARDS_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9I_CREDIT_CARDS_HIG_NOC"/>
+	</field>
+	<field name="C10I_MERCHANG_POS_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10I_MERCHANG_POS_HIG_NOC"/>
+	</field>
+	<field name="C11I_OTHER_PROD_SERVICES_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11I_OTHER_PROD_SERVICES_HIG_NOC"/>
+	</field>
+	<field name="C12I_RETIREMENT_SAVING_SCHEMES_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12I_RETIREMENT_SAVING_SCHEMES_HIG_NOC"/>
+	</field>
+	<field name="C1J_DEP_TKG_SERVICES_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1J_DEP_TKG_SERVICES_HIG_VOC"/>
+	</field>
+	<field name="C2J_LEND_FUND_BASED_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2J_LEND_FUND_BASED_HIG_VOC"/>
+	</field>
+	<field name="C3J_FB_FINANCE_LEASE_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3J_FB_FINANCE_LEASE_HIG_VOC"/>
+	</field>
+	<field name="C4J_FB_OPER_LEASE_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4J_FB_OPER_LEASE_HIG_VOC"/>
+	</field>
+	<field name="C5J_FB_LOANS_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5J_FB_LOANS_HIG_VOC"/>
+	</field>
+	<field name="C6J_FB_FACTORING_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6J_FB_FACTORING_HIG_VOC"/>
+	</field>
+	<field name="C7J_FB_OTHERS_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7J_FB_OTHERS_HIG_VOC"/>
+	</field>
+	<field name="C8J_LENDING_NON_FUND_BASED_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8J_LENDING_NON_FUND_BASED_HIG_VOC"/>
+	</field>
+	<field name="C9J_CREDIT_CARDS_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9J_CREDIT_CARDS_HIG_VOC"/>
+	</field>
+	<field name="C10J_MERCHANG_POS_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10J_MERCHANG_POS_HIG_VOC"/>
+	</field>
+	<field name="C11J_OTHER_PROD_SERVICES_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11J_OTHER_PROD_SERVICES_HIG_VOC"/>
+	</field>
+	<field name="C12J_RETIREMENT_SAVING_SCHEMES_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12J_RETIREMENT_SAVING_SCHEMES_HIG_VOC"/>
+	</field>
+	<field name="C1K_DEP_TKG_SERVICES_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1K_DEP_TKG_SERVICES_MED_NOD"/>
+	</field>
+	<field name="C2K_LEND_FUND_BASED_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2K_LEND_FUND_BASED_MED_NOD"/>
+	</field>
+	<field name="C3K_FB_FINANCE_LEASE_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3K_FB_FINANCE_LEASE_MED_NOD"/>
+	</field>
+	<field name="C4K_FB_OPER_LEASE_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4K_FB_OPER_LEASE_MED_NOD"/>
+	</field>
+	<field name="C5K_FB_LOANS_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5K_FB_LOANS_MED_NOD"/>
+	</field>
+	<field name="C6K_FB_FACTORING_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6K_FB_FACTORING_MED_NOD"/>
+	</field>
+	<field name="C7K_FB_OTHERS_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7K_FB_OTHERS_MED_NOD"/>
+	</field>
+	<field name="C8K_LENDING_NON_FUND_BASED_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8K_LENDING_NON_FUND_BASED_MED_NOD"/>
+	</field>
+	<field name="C9K_CREDIT_CARDS_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9K_CREDIT_CARDS_MED_NOD"/>
+	</field>
+	<field name="C10K_MERCHANG_POS_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10K_MERCHANG_POS_MED_NOD"/>
+	</field>
+	<field name="C11K_OTHER_PROD_SERVICES_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11K_OTHER_PROD_SERVICES_MED_NOD"/>
+	</field>
+	<field name="C12K_RETIREMENT_SAVING_SCHEMES_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12K_RETIREMENT_SAVING_SCHEMES_MED_NOD"/>
+	</field>
+	<field name="C1L_DEP_TKG_SERVICES_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1L_DEP_TKG_SERVICES_MED_VOD"/>
+	</field>
+	<field name="C2L_LEND_FUND_BASED_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2L_LEND_FUND_BASED_MED_VOD"/>
+	</field>
+	<field name="C3L_FB_FINANCE_LEASE_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3L_FB_FINANCE_LEASE_MED_VOD"/>
+	</field>
+	<field name="C4L_FB_OPER_LEASE_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4L_FB_OPER_LEASE_MED_VOD"/>
+	</field>
+	<field name="C5L_FB_LOANS_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5L_FB_LOANS_MED_VOD"/>
+	</field>
+	<field name="C6L_FB_FACTORING_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6L_FB_FACTORING_MED_VOD"/>
+	</field>
+	<field name="C7L_FB_OTHERS_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7L_FB_OTHERS_MED_VOD"/>
+	</field>
+	<field name="C8L_LENDING_NON_FUND_BASED_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8L_LENDING_NON_FUND_BASED_MED_VOD"/>
+	</field>
+	<field name="C9L_CREDIT_CARDS_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9L_CREDIT_CARDS_MED_VOD"/>
+	</field>
+	<field name="C10L_MERCHANG_POS_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10L_MERCHANG_POS_MED_VOD"/>
+	</field>
+	<field name="C11L_OTHER_PROD_SERVICES_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11L_OTHER_PROD_SERVICES_MED_VOD"/>
+	</field>
+	<field name="C12L_RETIREMENT_SAVING_SCHEMES_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12L_RETIREMENT_SAVING_SCHEMES_MED_VOD"/>
+	</field>
+	<field name="C1M_DEP_TKG_SERVICES_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1M_DEP_TKG_SERVICES_MED_NOC"/>
+	</field>
+	<field name="C2M_LEND_FUND_BASED_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2M_LEND_FUND_BASED_MED_NOC"/>
+	</field>
+	<field name="C3M_FB_FINANCE_LEASE_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3M_FB_FINANCE_LEASE_MED_NOC"/>
+	</field>
+	<field name="C4M_FB_OPER_LEASE_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4M_FB_OPER_LEASE_MED_NOC"/>
+	</field>
+	<field name="C5M_FB_LOANS_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5M_FB_LOANS_MED_NOC"/>
+	</field>
+	<field name="C6M_FB_FACTORING_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6M_FB_FACTORING_MED_NOC"/>
+	</field>
+	<field name="C7M_FB_OTHERS_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7M_FB_OTHERS_MED_NOC"/>
+	</field>
+	<field name="C8M_LENDING_NON_FUND_BASED_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8M_LENDING_NON_FUND_BASED_MED_NOC"/>
+	</field>
+	<field name="C9M_CREDIT_CARDS_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9M_CREDIT_CARDS_MED_NOC"/>
+	</field>
+	<field name="C10M_MERCHANG_POS_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10M_MERCHANG_POS_MED_NOC"/>
+	</field>
+	<field name="C11M_OTHER_PROD_SERVICES_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11M_OTHER_PROD_SERVICES_MED_NOC"/>
+	</field>
+	<field name="C12M_RETIREMENT_SAVING_SCHEMES_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12M_RETIREMENT_SAVING_SCHEMES_MED_NOC"/>
+	</field>
+	<field name="C1N_DEP_TKG_SERVICES_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1N_DEP_TKG_SERVICES_MED_VOC"/>
+	</field>
+	<field name="C2N_LEND_FUND_BASED_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2N_LEND_FUND_BASED_MED_VOC"/>
+	</field>
+	<field name="C3N_FB_FINANCE_LEASE_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3N_FB_FINANCE_LEASE_MED_VOC"/>
+	</field>
+	<field name="C4N_FB_OPER_LEASE_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4N_FB_OPER_LEASE_MED_VOC"/>
+	</field>
+	<field name="C5N_FB_LOANS_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5N_FB_LOANS_MED_VOC"/>
+	</field>
+	<field name="C6N_FB_FACTORING_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6N_FB_FACTORING_MED_VOC"/>
+	</field>
+	<field name="C7N_FB_OTHERS_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7N_FB_OTHERS_MED_VOC"/>
+	</field>
+	<field name="C8N_LENDING_NON_FUND_BASED_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8N_LENDING_NON_FUND_BASED_MED_VOC"/>
+	</field>
+	<field name="C9N_CREDIT_CARDS_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9N_CREDIT_CARDS_MED_VOC"/>
+	</field>
+	<field name="C10N_MERCHANG_POS_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10N_MERCHANG_POS_MED_VOC"/>
+	</field>
+	<field name="C11N_OTHER_PROD_SERVICES_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11N_OTHER_PROD_SERVICES_MED_VOC"/>
+	</field>
+	<field name="C12N_RETIREMENT_SAVING_SCHEMES_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12N_RETIREMENT_SAVING_SCHEMES_MED_VOC"/>
+	</field>
+	<field name="C1O_DEP_TKG_SERVICES_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1O_DEP_TKG_SERVICES_LOW_NOD"/>
+	</field>
+	<field name="C2O_LEND_FUND_BASED_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2O_LEND_FUND_BASED_LOW_NOD"/>
+	</field>
+	<field name="C3O_FB_FINANCE_LEASE_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3O_FB_FINANCE_LEASE_LOW_NOD"/>
+	</field>
+	<field name="C4O_FB_OPER_LEASE_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4O_FB_OPER_LEASE_LOW_NOD"/>
+	</field>
+	<field name="C5O_FB_LOANS_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5O_FB_LOANS_LOW_NOD"/>
+	</field>
+	<field name="C6O_FB_FACTORING_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6O_FB_FACTORING_LOW_NOD"/>
+	</field>
+	<field name="C7O_FB_OTHERS_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7O_FB_OTHERS_LOW_NOD"/>
+	</field>
+	<field name="C8O_LENDING_NON_FUND_BASED_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8O_LENDING_NON_FUND_BASED_LOW_NOD"/>
+	</field>
+	<field name="C9O_CREDIT_CARDS_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9O_CREDIT_CARDS_LOW_NOD"/>
+	</field>
+	<field name="C10O_MERCHANG_POS_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10O_MERCHANG_POS_LOW_NOD"/>
+	</field>
+	<field name="C11O_OTHER_PROD_SERVICES_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11O_OTHER_PROD_SERVICES_LOW_NOD"/>
+	</field>
+	<field name="C12O_RETIREMENT_SAVING_SCHEMES_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12O_RETIREMENT_SAVING_SCHEMES_LOW_NOD"/>
+	</field>
+	<field name="C1P_DEP_TKG_SERVICES_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1P_DEP_TKG_SERVICES_LOW_VOD"/>
+	</field>
+	<field name="C2P_LEND_FUND_BASED_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2P_LEND_FUND_BASED_LOW_VOD"/>
+	</field>
+	<field name="C3P_FB_FINANCE_LEASE_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3P_FB_FINANCE_LEASE_LOW_VOD"/>
+	</field>
+	<field name="C4P_FB_OPER_LEASE_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4P_FB_OPER_LEASE_LOW_VOD"/>
+	</field>
+	<field name="C5P_FB_LOANS_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5P_FB_LOANS_LOW_VOD"/>
+	</field>
+	<field name="C6P_FB_FACTORING_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6P_FB_FACTORING_LOW_VOD"/>
+	</field>
+	<field name="C7P_FB_OTHERS_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7P_FB_OTHERS_LOW_VOD"/>
+	</field>
+	<field name="C8P_LENDING_NON_FUND_BASED_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8P_LENDING_NON_FUND_BASED_LOW_VOD"/>
+	</field>
+	<field name="C9P_CREDIT_CARDS_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9P_CREDIT_CARDS_LOW_VOD"/>
+	</field>
+	<field name="C10P_MERCHANG_POS_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10P_MERCHANG_POS_LOW_VOD"/>
+	</field>
+	<field name="C11P_OTHER_PROD_SERVICES_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11P_OTHER_PROD_SERVICES_LOW_VOD"/>
+	</field>
+	<field name="C12P_RETIREMENT_SAVING_SCHEMES_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12P_RETIREMENT_SAVING_SCHEMES_LOW_VOD"/>
+	</field>
+	<field name="C1Q_DEP_TKG_SERVICES_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1Q_DEP_TKG_SERVICES_LOW_NOC"/>
+	</field>
+	<field name="C2Q_LEND_FUND_BASED_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2Q_LEND_FUND_BASED_LOW_NOC"/>
+	</field>
+	<field name="C3Q_FB_FINANCE_LEASE_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3Q_FB_FINANCE_LEASE_LOW_NOC"/>
+	</field>
+	<field name="C4Q_FB_OPER_LEASE_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4Q_FB_OPER_LEASE_LOW_NOC"/>
+	</field>
+	<field name="C5Q_FB_LOANS_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5Q_FB_LOANS_LOW_NOC"/>
+	</field>
+	<field name="C6Q_FB_FACTORING_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6Q_FB_FACTORING_LOW_NOC"/>
+	</field>
+	<field name="C7Q_FB_OTHERS_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7Q_FB_OTHERS_LOW_NOC"/>
+	</field>
+	<field name="C8Q_LENDING_NON_FUND_BASED_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8Q_LENDING_NON_FUND_BASED_LOW_NOC"/>
+	</field>
+	<field name="C9Q_CREDIT_CARDS_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9Q_CREDIT_CARDS_LOW_NOC"/>
+	</field>
+	<field name="C10Q_MERCHANG_POS_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10Q_MERCHANG_POS_LOW_NOC"/>
+	</field>
+	<field name="C11Q_OTHER_PROD_SERVICES_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11Q_OTHER_PROD_SERVICES_LOW_NOC"/>
+	</field>
+	<field name="C12Q_RETIREMENT_SAVING_SCHEMES_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12Q_RETIREMENT_SAVING_SCHEMES_LOW_NOC"/>
+	</field>
+	<field name="C1R_DEP_TKG_SERVICES_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1R_DEP_TKG_SERVICES_LOW_VOC"/>
+	</field>
+	<field name="C2R_LEND_FUND_BASED_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2R_LEND_FUND_BASED_LOW_VOC"/>
+	</field>
+	<field name="C3R_FB_FINANCE_LEASE_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3R_FB_FINANCE_LEASE_LOW_VOC"/>
+	</field>
+	<field name="C4R_FB_OPER_LEASE_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4R_FB_OPER_LEASE_LOW_VOC"/>
+	</field>
+	<field name="C5R_FB_LOANS_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5R_FB_LOANS_LOW_VOC"/>
+	</field>
+	<field name="C6R_FB_FACTORING_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6R_FB_FACTORING_LOW_VOC"/>
+	</field>
+	<field name="C7R_FB_OTHERS_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7R_FB_OTHERS_LOW_VOC"/>
+	</field>
+	<field name="C8R_LENDING_NON_FUND_BASED_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8R_LENDING_NON_FUND_BASED_LOW_VOC"/>
+	</field>
+	<field name="C9R_CREDIT_CARDS_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9R_CREDIT_CARDS_LOW_VOC"/>
+	</field>
+	<field name="C10R_MERCHANG_POS_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10R_MERCHANG_POS_LOW_VOC"/>
+	</field>
+	<field name="C11R_OTHER_PROD_SERVICES_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11R_OTHER_PROD_SERVICES_LOW_VOC"/>
+	</field>
+	<field name="C12R_RETIREMENT_SAVING_SCHEMES_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12R_RETIREMENT_SAVING_SCHEMES_LOW_VOC"/>
+	</field>
+	<field name="C1S_DEP_TKG_SERVICES_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1S_DEP_TKG_SERVICES_WIC_NOD"/>
+	</field>
+	<field name="C2S_LEND_FUND_BASED_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2S_LEND_FUND_BASED_WIC_NOD"/>
+	</field>
+	<field name="C3S_FB_FINANCE_LEASE_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3S_FB_FINANCE_LEASE_WIC_NOD"/>
+	</field>
+	<field name="C4S_FB_OPER_LEASE_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4S_FB_OPER_LEASE_WIC_NOD"/>
+	</field>
+	<field name="C5S_FB_LOANS_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5S_FB_LOANS_WIC_NOD"/>
+	</field>
+	<field name="C6S_FB_FACTORING_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6S_FB_FACTORING_WIC_NOD"/>
+	</field>
+	<field name="C7S_FB_OTHERS_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7S_FB_OTHERS_WIC_NOD"/>
+	</field>
+	<field name="C8S_LENDING_NON_FUND_BASED_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8S_LENDING_NON_FUND_BASED_WIC_NOD"/>
+	</field>
+	<field name="C9S_CREDIT_CARDS_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9S_CREDIT_CARDS_WIC_NOD"/>
+	</field>
+	<field name="C10S_MERCHANG_POS_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10S_MERCHANG_POS_WIC_NOD"/>
+	</field>
+	<field name="C11S_OTHER_PROD_SERVICES_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11S_OTHER_PROD_SERVICES_WIC_NOD"/>
+	</field>
+	<field name="C12S_RETIREMENT_SAVING_SCHEMES_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12S_RETIREMENT_SAVING_SCHEMES_WIC_NOD"/>
+	</field>
+	<field name="C1T_DEP_TKG_SERVICES_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1T_DEP_TKG_SERVICES_WIC_VOD"/>
+	</field>
+	<field name="C2T_LEND_FUND_BASED_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2T_LEND_FUND_BASED_WIC_VOD"/>
+	</field>
+	<field name="C3T_FB_FINANCE_LEASE_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3T_FB_FINANCE_LEASE_WIC_VOD"/>
+	</field>
+	<field name="C4T_FB_OPER_LEASE_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4T_FB_OPER_LEASE_WIC_VOD"/>
+	</field>
+	<field name="C5T_FB_LOANS_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5T_FB_LOANS_WIC_VOD"/>
+	</field>
+	<field name="C6T_FB_FACTORING_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6T_FB_FACTORING_WIC_VOD"/>
+	</field>
+	<field name="C7T_FB_OTHERS_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7T_FB_OTHERS_WIC_VOD"/>
+	</field>
+	<field name="C8T_LENDING_NON_FUND_BASED_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8T_LENDING_NON_FUND_BASED_WIC_VOD"/>
+	</field>
+	<field name="C9T_CREDIT_CARDS_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9T_CREDIT_CARDS_WIC_VOD"/>
+	</field>
+	<field name="C10T_MERCHANG_POS_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10T_MERCHANG_POS_WIC_VOD"/>
+	</field>
+	<field name="C11T_OTHER_PROD_SERVICES_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11T_OTHER_PROD_SERVICES_WIC_VOD"/>
+	</field>
+	<field name="C12T_RETIREMENT_SAVING_SCHEMES_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12T_RETIREMENT_SAVING_SCHEMES_WIC_VOD"/>
+	</field>
+	<field name="C1U_DEP_TKG_SERVICES_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1U_DEP_TKG_SERVICES_WIC_NOC"/>
+	</field>
+	<field name="C2U_LEND_FUND_BASED_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2U_LEND_FUND_BASED_WIC_NOC"/>
+	</field>
+	<field name="C3U_FB_FINANCE_LEASE_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3U_FB_FINANCE_LEASE_WIC_NOC"/>
+	</field>
+	<field name="C4U_FB_OPER_LEASE_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4U_FB_OPER_LEASE_WIC_NOC"/>
+	</field>
+	<field name="C5U_FB_LOANS_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5U_FB_LOANS_WIC_NOC"/>
+	</field>
+	<field name="C6U_FB_FACTORING_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6U_FB_FACTORING_WIC_NOC"/>
+	</field>
+	<field name="C7U_FB_OTHERS_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7U_FB_OTHERS_WIC_NOC"/>
+	</field>
+	<field name="C8U_LENDING_NON_FUND_BASED_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8U_LENDING_NON_FUND_BASED_WIC_NOC"/>
+	</field>
+	<field name="C9U_CREDIT_CARDS_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9U_CREDIT_CARDS_WIC_NOC"/>
+	</field>
+	<field name="C10U_MERCHANG_POS_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10U_MERCHANG_POS_WIC_NOC"/>
+	</field>
+	<field name="C11U_OTHER_PROD_SERVICES_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11U_OTHER_PROD_SERVICES_WIC_NOC"/>
+	</field>
+	<field name="C12U_RETIREMENT_SAVING_SCHEMES_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12U_RETIREMENT_SAVING_SCHEMES_WIC_NOC"/>
+	</field>
+	<field name="C1V_DEP_TKG_SERVICES_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1V_DEP_TKG_SERVICES_WIC_VOC"/>
+	</field>
+	<field name="C2V_LEND_FUND_BASED_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2V_LEND_FUND_BASED_WIC_VOC"/>
+	</field>
+	<field name="C3V_FB_FINANCE_LEASE_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3V_FB_FINANCE_LEASE_WIC_VOC"/>
+	</field>
+	<field name="C4V_FB_OPER_LEASE_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4V_FB_OPER_LEASE_WIC_VOC"/>
+	</field>
+	<field name="C5V_FB_LOANS_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5V_FB_LOANS_WIC_VOC"/>
+	</field>
+	<field name="C6V_FB_FACTORING_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6V_FB_FACTORING_WIC_VOC"/>
+	</field>
+	<field name="C7V_FB_OTHERS_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7V_FB_OTHERS_WIC_VOC"/>
+	</field>
+	<field name="C8V_LENDING_NON_FUND_BASED_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8V_LENDING_NON_FUND_BASED_WIC_VOC"/>
+	</field>
+	<field name="C9V_CREDIT_CARDS_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9V_CREDIT_CARDS_WIC_VOC"/>
+	</field>
+	<field name="C10V_MERCHANG_POS_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10V_MERCHANG_POS_WIC_VOC"/>
+	</field>
+	<field name="C11V_OTHER_PROD_SERVICES_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11V_OTHER_PROD_SERVICES_WIC_VOC"/>
+	</field>
+	<field name="C12V_RETIREMENT_SAVING_SCHEMES_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12V_RETIREMENT_SAVING_SCHEMES_WIC_VOC"/>
+	</field>
+	<field name="REPORT_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_CODE"/>
+	</field>
+	<field name="REPORT_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_NAME"/>
+	</field>
+	<field name="REPORT_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_DATE"/>
+	</field>
+	<field name="REPORT_DUE_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_DUE_DATE"/>
+	</field>
+	<field name="REP_SUBMIT_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REP_SUBMIT_DATE"/>
+	</field>
+	<field name="REP_PERIOD_FROM" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REP_PERIOD_FROM"/>
+	</field>
+	<field name="REP_PERIOD_TO" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REP_PERIOD_TO"/>
+	</field>
+	<field name="REP_FREQ" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REP_FREQ"/>
+	</field>
+	<field name="NIL_REPORT_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NIL_REPORT_FLG"/>
+	</field>
+	<field name="ARCH_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ARCH_FLG"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="420">
+			<staticText>
+				<reportElement x="0" y="-20" width="850" height="30" forecolor="#3106BF" uuid="cc060211-d3a7-4521-bf99-a03ac9c9ca6d"/>
+				<box>
+					<pen lineWidth="1.25" lineColor="#0A051A"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Templates for compiling and submission of data on NBDTIs' exposures to ML/TF risk ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="372" width="850" height="48" uuid="cfa53f72-e09a-4676-ac72-d258aab555f6">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[10. NBDTIs should be guided by the reporting rules provided under the relevant Tables, which also include definitions of certain terms, examples and explanations. In spite of the above, if in case NBDTIs' officials compiling the returns have to seek any clarifications these may be addressed by email at rbs@bom.mu.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="342" width="850" height="30" uuid="9fee3c12-c5c9-43d8-9d15-cd631dd1aa68">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.25"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font size="11"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[9.  The templates should be submitted to the Bank by email at <style isUnderline="true">rbs@bom.mu</style>]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="312" width="850" height="30" uuid="f1d001f3-4572-49a5-8b20-c3bc388711fc">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.25"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font size="11"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[8. Going forward, NBDTIs should compile these templates on an ongoing basis with reference to the position as on the last day of each calendar quarter, and arrange to submit these to the Bank within <style isBold='true'>25 working days</style> from the reference date.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="282" width="850" height="30" uuid="6ef89d71-ec9a-41bf-8432-b15bc72a03e1">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[7. NBDTIs should compile these templates as from the quarter ending December 2019.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="252" width="850" height="30" uuid="9069a790-a03d-47c2-9417-df6757a49931">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[6. In case a table is not relevant for an institution, it should indicate 'Nil return' above that table. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="180" width="850" height="42" uuid="4a794bed-cf7b-473e-8b28-876698612635">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[DISCLAIMER: Whilst every effort has been made to provide complete, accurate and credible data to the Bank of Mauritius, the Head of Compliance and the Chief Risk Officer makes no warranties, express or implied, or representations as to the completeness, accuracy and credibility of the data provided on these RBS TEMPLATES FOR NBDTIs.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="150" width="850" height="30" uuid="0d3487ad-201b-4311-bf2c-beefbe0f8fc5">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true" isItalic="true"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[4. The completed templates should be carefully reviewed by the Head of Compliance and the Chief Risk Officer, before submission to Bank, to ensure accuracy and credibility of the data furnished to Bank.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="120" width="850" height="30" uuid="9fb9e763-7f48-44ff-8fee-acd824854642">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[3. The completed templates should be carefully verified and checked by a person other than the one who has compiled the templates.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="850" height="30" uuid="48e5bbef-4f50-4719-b18b-1d7f2232994a">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[2. The officials compiling the templates should ensure that the validation errors or messages flagged in the templates are addressed and avoid submitting templates with errors.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="850" height="50" uuid="c7f2c682-3b8b-4541-a398-9a7a1108ad6f">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[1. The NBDTI should identify a team of officials who will compile the templates, and who will be able to provide all required follow-up clarifications and updates to the Bank. Their names and contact details should be advised to the Bank while submitting the completed templates.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="10" width="850" height="30" forecolor="#3106BF" uuid="dc3e0891-fceb-4401-af5c-cef2d8ff645c"/>
+				<box>
+					<pen lineWidth="1.25" lineColor="#0A051A"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Instructions]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="222" width="850" height="30" uuid="abcd454d-916e-40a0-9107-079ecb1762d8">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<text><![CDATA[5. As the templates have inbuilt validations and aggregations, the NBDTIs are advised to use the same template to submit their data compilations to the Bank.]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

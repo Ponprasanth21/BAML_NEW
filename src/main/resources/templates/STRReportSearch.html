@@ -1,0 +1,293 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AML_SUSPICIOUS TRANSACTION REPORT SEARCH
+CREATED BY	: RAMPRASATH
+CREATED ON	: 08-JUN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+
+
+</head>
+
+
+
+
+<title>AML</title>
+<style>
+nav>.nav.nav-tabs {
+	border: none;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
+	border: none;
+	padding: 18px 25px;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link.active:after {
+	content: "";
+	position: relative;
+	bottom: -60px;
+	left: -10%;
+	border: 15px solid transparent;
+	border-top-color: #1b6491;
+}
+
+.tab-content {
+	background: #fdfdfd;
+	line-height: 25px;
+	width: 100%;
+	border: 1px solid #ddd;
+	border-top: 5px solid #594a43;
+	border-bottom: 5px solid #594a43;
+	padding: 30px 25px;
+}
+
+nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
+	border: none;
+	background: #002942;
+	color: #fff;
+	border-radius: 0;
+	transition: background 0.20s linear;
+}
+
+.col-sm-6, .col-sm-1, .col-sm-8, .col-sm-7, .col-sm-11, .col-sm-3,
+	.col-sm-12, .col-sm-2, .col-sm-4, .col-sm-10, .col-sm-9, .col-sm-5 {
+	padding-top: 5px;
+}
+
+/* table, th, td {
+	padding: 0 !IMPORTANT;
+	border: 1px solid black;
+	border-collapse: collapse;
+	cellpadding: 0;
+	cellspacing: 0;
+}
+
+td input {
+	padding: 0 !IMPORTANT;
+	width: 100%;
+	box-sizing: border-box;
+} */
+.NOTES>p {
+	color: black !important;
+	font-size: small;
+	margin-bottom: 0.5rem !important;
+}
+
+.form-control:disabled, .form-control[readonly] {
+	background-color: #ffffff;
+	opacity: 1;
+}
+
+.NOTES {
+	padding: 0.01em 16px;
+	border: 1px solid #ccc !important;
+	border-radius: 16px;
+	BACKGROUND: silver;
+}
+</style>
+
+<style>
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+</style>
+<script type="text/javascript">
+	function back() {
+		window.history.back();
+	}
+	function home() {
+		location.href = 'Dashboard'
+	}
+
+	
+
+	
+</script>
+
+<script>
+function tranClick(a) {	
+	var tran_id=a.getAttribute("data-tran_id");
+	var part_tran_srl_num=a.getAttribute("data-part_tran_srl_num");
+	var tran_type=a.getAttribute("data-tran_type");
+	var part_tran_type=a.getAttribute("data-part_tran_type");
+	var tran_crncy_code=a.getAttribute("data-tran_crncy_code");
+	var cust_id=a.getAttribute("data-cust_id");
+	var tran_date=a.getAttribute("data-tran_date");
+	var tran_amt=a.getAttribute("data-tran_amt");
+	var tran_particular=a.getAttribute("data-tran_particular");
+	var fx_tran_amt=a.getAttribute("data-fx_tran_amt");
+	var pstd_date=a.getAttribute("data-pstd_date");
+	var foracid=a.getAttribute("data-foracid");
+	var acct_name=a.getAttribute("data-acct_name");
+	var acct_opn_date=a.getAttribute("data-acct_opn_date");
+	var acct_cls_date=a.getAttribute("data-acct_cls_date");
+	var acct_tran_sub_type=a.getAttribute("data-tran_sub_type");
+	var cntry_code=a.getAttribute("data-cntry_code");
+	var cust_sector_code=a.getAttribute("data-cust_sector_code");
+	var address1=a.getAttribute("data-address1");
+	var address2=a.getAttribute("data-address2");
+	var city_code=a.getAttribute("data-city_code");
+	var preferredphone=a.getAttribute("data-preferredphone");
+	var cust_sex=a.getAttribute("data-cust_sex");
+	var cust_first_name=a.getAttribute("data-cust_first_name");
+	var cust_last_name=a.getAttribute("data-cust_last_name");
+	var nationality=a.getAttribute("data-nationality");
+	var cust_dob=a.getAttribute("data-cust_dob");
+	
+	
+	
+	
+	window.close();
+	
+	window.opener.childwindow(tran_id,part_tran_srl_num,tran_type,part_tran_type,tran_crncy_code,
+			cust_id,tran_date,tran_amt,tran_particular,fx_tran_amt,pstd_date,foracid,acct_name,
+			acct_opn_date,acct_cls_date,acct_tran_sub_type,cntry_code,cust_sector_code,address1,address2,
+			city_code,preferredphone,cust_sex,cust_first_name,cust_last_name,nationality,cust_dob);
+
+}
+
+</script>
+<body>
+
+	<i class="fa fa-question-circle" style="float: right; margin-top: 5%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+
+
+			<div class="container-fluid">
+				<div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header" id="modheadtitle" style="height: 57px;">
+								<b th:text="${menuname}"></b>
+
+							</div>
+
+							<table class="table table-bordered  table-hover table-sm"
+								style="width: 100%" id="usertable">
+								<thead class="thead-light">
+
+									<tr>
+										<!-- <th></th> -->
+										<th>Tran ID</th>
+										<th>Part Tran ID</th>
+										<th>Tran Date</th>
+										<th>Tran Particular</th>
+										<th>Tran Type</th>
+										<th>Part Tran type</th>
+										<th>Tran Amount</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr th:each="SelectTran : ${SelectTran}" th:if="${SelectTran?.tran_id}==''" class="userlist">
+										<td>No match found</td>
+									</tr>
+									<tr th:each="SelectTran : ${SelectTran}" th:if="${SelectTran?.tran_id}!=null" class="userlist">
+										<td class="underline" onclick="tranClick(this);"
+											th:attr="data-tran_id=${SelectTran?.tran_id},
+										data-part_tran_srl_num=${SelectTran?.part_tran_srl_num},
+										data-tran_type=${SelectTran?.tran_type},
+										data-part_tran_type=${SelectTran?.part_tran_type},
+										data-cust_id=${SelectTran?.cust_id},
+										data-tran_date=${SelectTran?.tran_date},
+										data-tran_amt=${SelectTran?.tran_amt},
+										data-tran_particular=${SelectTran?.tran_particular},
+										data-fx_tran_amt=${SelectTran?.fx_tran_amt},
+										data-pstd_date=${SelectTran?.pstd_date},
+										data-foracid=${SelectTran?.foracid},
+										data-acct_name=${SelectTran?.acct_name},
+										data-acct_opn_date=${SelectTran?.acct_opn_date},
+										data-acct_cls_date=${SelectTran?.acct_cls_date},
+										data-tran_sub_type=${SelectTran?.tran_sub_type},
+										data-tran_crncy_code=${SelectTran?.tran_crncy_code},
+								        data-cntry_code=${SelectTran?.cntry_code},
+								        data-cust_sector_code=${SelectTran?.cust_sector_code},
+								        data-address1=${SelectTran?.address1},
+								        data-address2=${SelectTran?.address2},
+										data-city_code=${SelectTran?.city_code},
+									    data-Preferredphone=${SelectTran?.preferredphone},
+										data-cust_sex=${SelectTran?.cust_sex},
+										data-cust_first_name=${SelectTran?.cust_first_name},
+										data-cust_last_name=${SelectTran?.cust_last_name},
+										data-nationality=${SelectTran?.nationality},
+										data-cust_dob=${SelectTran?.cust_dob} "
+											th:text="${SelectTran.tran_id}"></td>
+										<td th:text="${SelectTran.part_tran_srl_num}"></td>
+										<td
+											th:text="${#dates.format(SelectTran.tran_date, 'dd/MM/yyyy')}"></td>
+										<td th:text="${SelectTran.tran_particular}"></td>
+										<td th:text="${SelectTran.tran_type}"></td>
+										<td th:text="${SelectTran.part_tran_type}"></td>
+										<td style="text-align: right;"
+											th:text="${SelectTran.tran_amt}"></td>
+									</tr>
+								</tbody>
+							</table>
+
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+</body>
+</html>

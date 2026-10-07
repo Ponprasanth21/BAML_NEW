@@ -1,0 +1,189 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLTran1
+CREATED BY	: RAMPRASATH
+CREATED ON	: 27-JAN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+ <html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+
+
+</head>
+
+
+	
+
+<title>AML</title>
+<script type="text/javascript">
+	function back() {
+		window.history.back();
+	}
+	function home() {
+		location.href = 'Dashboard'
+	}
+
+</script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+	/* $(function() {
+
+		
+		 alert("xczcxvddv");
+		 
+
+			$("#inquiry").addClass("waves-effect active submenu-indicator-minus");
+			$("#"+menu).css("background-color","rgb(126, 165, 199)");
+			/* $("#"+menu).parent().show();
+			$("#"+menu).parent().toggle();*/
+			/*  $("#inquiry").click(); */
+			/* $("#inquiry").css("background-color","white");
+	 */
+	 
+/* 
+	 $("#inquiry").trigger("click");
+	 alert("sd s");
+
+	}); */
+	 */
+
+	
+	
+	
+	/*<![CDATA[*/
+</script>
+
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+				<div th:if="${formmode}=='list'" class="content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle">
+								<b>Transaction Master</b>
+							</div>
+							<div class="table-responsive"
+								style="overflow-x: scroll; overflow-y: hidden;">
+								<table class="table table-bordered  table-hover table-sm"
+									style="overflow-x: scroll; overflow-y: hidden; width: 180%"
+									id="usertable">
+									<thead class="thead-light">
+									<tr>
+										<!-- <th></th> -->
+										<th>Tran Date</th>
+											<th>Value Date</th>
+											<th>Tran Type</th>
+											<th>Tran Sub Type</th>
+											<th>Tran Id</th>
+											<th>Part Tran Id</th>
+											<th>Part Tran Type</th>
+											<th>Tran Amount</th>
+											<th>Currency</th>
+											<th>Account Name</th>
+											<th>Tran Particular</th>
+											<th>Account Balance</th>
+																			
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="TransactionMaster : ${transaction}">
+										<td
+												th:text="${#dates.format(TransactionMaster.tran_date,'dd-MM-yyyy')}"></td>
+											<td
+												th:text="${#dates.format(TransactionMaster.value_date,'dd-MM-yyyy')}"></td>
+											<td th:text="${TransactionMaster.tran_type}"></td>
+											<td th:text="${TransactionMaster.tran_sub_type}"></td>
+											<td
+												th:text="${TransactionMaster.transactionmasterembeddedid.tran_id}"  ></td>
+											<td th:text="${TransactionMaster.part_tran_srl_num}"></td>
+											<td
+												th:text="${TransactionMaster.transactionmasterembeddedid.part_tran_type}"></td>
+											<td th:text="${TransactionMaster.tran_amt}" align="right"></td>
+											<td th:text="${TransactionMaster.tran_crncy_code}"></td>
+											<td
+												th:text="${TransactionMaster.accountsinquiryentity.acct_name}"></td>
+											<td th:text="${TransactionMaster.tran_particular}"></td>
+											<td
+												th:text="${TransactionMaster.accountsinquiryentity.clr_bal_amt}"
+												align="right"></td>
+
+									</tr>
+
+								</tbody>
+							</table>
+							
+							<!---------------------User List Ends--------------------------------------------------------->
+
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+							<!-- <div class="float-right"
+								th:if="${CustomerProfiling.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${CustomerProfiling.number},${CustomerProfiling.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${CustomerProfiling.number+1}"
+									th:onchange="|getUserlist('givenpage',${CustomerProfiling.number},${CustomerProfiling.totalPages});|"></input>
+								of <font th:text="${CustomerProfiling.totalPages}"></font> <a
+									href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${CustomerProfiling.number},${CustomerProfiling.totalPages});|"></i></a>
+							</div> -->
+						</div>
+				
+					<div class="card-footer text-center">
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnHome" onclick="home();">Home</button>
+                                    <button type="button" class="btn btn-xs btn-primary"
+										id="btnBack" onclick="back();">Back</button>
+								</div>
+									</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

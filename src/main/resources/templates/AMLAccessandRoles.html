@@ -1,0 +1,935 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+
+</head>
+<style>
+.h3, h3 {
+	color: black !important;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		"Helvetica Neue", Arial, sans-serif !important;
+	font-weight: 100 !important;
+	margin-bottom: 0rem !important;
+}
+</style>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+
+	var amlaccessrole = /*[[${amlaccessrole}]]*/null;
+
+	console.log("amlaccessrole  " + amlaccessrole);
+
+	/*]]>*/
+
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = 'AMLAccessandRoles?formmode=list';
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		location.href = Callurl;
+	}
+
+	function home() {
+		location.href = 'Dashboard'
+	}
+
+	function back() {
+		window.history.back();
+	}
+
+	function fnClick(a) {
+		var userid = a.getAttribute("data-userid")
+		location.href = 'AMLAccessandRoles?formmode=edit&userid=' + userid
+	}
+
+	function adduser(a) {
+		location.href = 'AMLAccessandRoles?formmode=add';
+	}
+
+	function list() {
+		location.href = 'AMLAccessandRoles?formmode=list';
+	}
+
+	function edit_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-role_id");
+		location.href = 'AMLAccessandRoles?formmode=edit&userid=' + srlno;
+	}
+
+	function view_btn_submit(a) {
+		var srlno = a.getAttribute("data-role_id");
+
+		location.href = 'AMLAccessandRoles?formmode=view&userid=' + srlno;
+
+	}
+	function verify_btn_submit(a) {
+		var srlno = a.getAttribute("data-role_id");
+
+		location.href = 'AMLAccessandRoles?formmode=verify&userid=' + srlno;
+
+	}
+
+	function delete_btn_submit(a) {
+		var userid = a.getAttribute("data-role_id");
+
+		deleteval = userid;
+
+		$("#datadelete").modal("toggle");
+
+	}
+	function submitformdelete(a) {
+		$("#datadelete").modal('hide');
+
+		$.ajax({
+			type : 'post',
+			url : "./AML/deleteRuleType/" + deleteval,
+
+			success : function(response) {
+				$("#alertmsg").text(response);
+
+				$('#alert').modal("toggle");
+
+			}
+
+		});
+
+		/* 	$("#alertmsg").text(msg);
+			
+			$('#alert').modal("toggle"); */
+
+	};
+	function verify(a) {
+
+		var entryuser = a.getAttribute("data-entry_user");
+		var modifyuser = a.getAttribute("data-modify_user");
+
+		var loginuser = /*[[${session.USERID}]]*/null;
+
+		if ((modifyuser != null && modifyuser == loginuser)
+				|| (modifyuser == null && entryuser == loginuser)) {
+
+			$("#alertmsg").text("Same user cannot verify");
+
+			$('#alert').modal("toggle");
+
+		} else {
+
+			if ($("#userProfile").valid()) {
+
+				var userid = a.getAttribute("data-userid");
+				var url = './verifyUser';
+				$("#userProfile").attr('action', url);
+
+				var options = {
+					success : showResponse
+				// post-submit callback 
+				};
+
+				$('#userProfile').ajaxSubmit(options);
+
+				function showResponse(responseText, statusText, xhr, $form) {
+
+					$("#alertmsg").text(responseText);
+
+					$('#alert').modal("toggle");
+
+				}
+				;
+
+			}
+
+		}
+
+	};
+
+	function roledesc() {
+
+		var roleid = $("#roleId").find(':selected').val();
+
+		if (roleid == 'ADM') {
+			$("#roleDesc").val("Admin");
+		} else if (roleid == 'ADT') {
+			$("#roleDesc").val("Audit");
+		} else if (roleid == 'GEN') {
+			$("#roleDesc").val("General User");
+		}
+		$(this).find(':selected').text();
+
+	}
+
+	function submitform(a) {
+
+		//checkbox variable declaration
+		var checkBoxAdminValue, adminValue, cbInquiry, inquiryValue, cbArchival, archivalValue, CBamlReport, amlReportValue, CBmonitoring, monitoringValue, cblist, listValue, CBinterface, interfaceValue, cbScreening, screenValue, cbrisk, riskValue, cbCase, caseValue, cbTransaction, transactionValue, cbGeneral, generalValue, cbReport, reportValue, cbstrreport, strreportValue, cbauditlog, AuditlogValue;
+
+		var finalVar = [];
+
+		//gettting values from checkbox 
+		//if NULL then 'N' is stored
+		checkBoxAdminValue = document.querySelector("#Admin:checked");
+		adminValue = (checkBoxAdminValue) ? 'Y' : 'N';
+
+		if (adminValue === "Y") {
+			finalVar.push("Admin");
+		}
+
+		cbArchival = document.querySelector("#Archival:checked");
+		archivalValue = (cbArchival) ? 'Y' : 'N';
+		if (archivalValue === "Y") {
+			finalVar.push("Archival");
+		}
+		CBamlReport = document.querySelector("#AMLReport:checked");
+		amlReportValue = (CBamlReport) ? 'Y' : 'N';
+		if (amlReportValue === "Y") {
+			finalVar.push("AMLReport");
+		}
+		cbInquiry = document.querySelector("#Inquiry:checked");
+		inquiryValue = (cbInquiry) ? 'Y' : 'N';
+		if (inquiryValue === "Y") {
+			finalVar.push("Inquiry");
+		}
+
+		CBmonitoring = document.querySelector("#Monitoring:checked");
+		monitoringValue = (CBmonitoring) ? 'Y' : 'N';
+		if (monitoringValue === "Y") {
+			finalVar.push("Monitoring");
+		}
+
+		cblist = document.querySelector("#ListManagement:checked");
+		listValue = (cblist) ? 'Y' : 'N';
+		if (listValue === "Y") {
+			finalVar.push("List Management");
+		}
+
+		CBinterface = document.querySelector("#Interfaces:checked");
+		interfaceValue = (CBinterface) ? 'Y' : 'N';
+		if (interfaceValue === "Y") {
+			finalVar.push("Interfaces");
+		}
+
+		cbCase = document.querySelector("#CaseManagement:checked");
+		caseValue = (cbCase) ? 'Y' : 'N';
+		if (caseValue === "Y") {
+			finalVar.push("CaseManagement");
+		}
+
+		cbthirdparty = document.querySelector("#thirdpartyTransaction:checked");
+		thirdpartyValue = (cbthirdparty) ? 'Y' : 'N';
+		if (thirdpartyValue === "Y") {
+			finalVar.push("thirdpartyTransaction");
+		} 
+		
+		cbScreening = document.querySelector("#Screening:checked");
+		screenValue = (cbScreening) ? 'Y' : 'N';
+		if (screenValue === "Y") {
+			finalVar.push("Screening");
+		}
+
+		cbrisk = document.querySelector("#RiskManagement:checked");
+		riskValue = (cbrisk) ? 'Y' : 'N';
+		if (riskValue === "Y") {
+			finalVar.push("Risk Management");
+		}
+
+		cbstrreport = document.querySelector("#StrReport:checked");
+		strreportValue = (cbstrreport) ? 'Y' : 'N';
+		if (strreportValue === "Y") {
+			finalVar.push("StrReport");
+		}
+
+		cbauditlog = document.querySelector("#AuditLog:checked");
+		AuditlogValue = (cbauditlog) ? 'Y' : 'N';
+		if (AuditlogValue === "Y") {
+			finalVar.push("AuditLog");
+		}
+
+		cbReport = document.querySelector("#Report:checked");
+		reportValue = (cbReport) ? 'Y' : 'N';
+		if (reportValue === "Y") {
+			finalVar.push("Report");
+		}
+
+		var formmode = a.getAttribute("data-formmode");
+
+		//comma separated
+		var finalString = finalVar.join(',');
+		/* if(formmode=="add"){ */
+		var url = "./createAccessRole?formmode=" + formmode + "&adminValue="
+				+ adminValue + "&inquiryValue=" + inquiryValue
+				+ "&monitoringValue=" + monitoringValue + "&listValue="
+				+ listValue + "&interfaceValue=" + interfaceValue
+				+ "&screenValue=" + screenValue + "&riskValue=" + riskValue
+				+ "&archivalValue=" + archivalValue + "&reportValue="
+				+ reportValue + "&caseValue=" + caseValue + "&thirdpartyValue=" + thirdpartyValue+ "&amlReportValue="
+				+ amlReportValue + "&strreportValue=" + strreportValue
+				+ "&AuditlogValue=" + AuditlogValue + "&finalString="
+				+ finalString;
+		$("#AMLAccessRole").attr('action', url);
+		/* }else if(formmode=="delete"){
+		,,,		
+		
+		 alert(deleteval);
+		 var url = "./deleteAccessRole?userid=" + deleteval;
+		 alert(url);
+		 $("#AMLAccessRole").attr('action', url);
+		 } */
+
+		var options = {
+			success : showResponse
+		// post-submit callback 
+		};
+
+		$("#AMLAccessRole").ajaxSubmit(options);
+
+		function showResponse(responseText, statusText, xhr, $form) {
+
+			$("#alertmsg").text(responseText);
+
+			$('#alert').modal("toggle");
+
+		}
+		;
+
+	};
+
+	/*]]>*/
+</script>
+
+
+<style>
+.dropdown-toggle {
+	line-height: 1rem;
+}
+</style>
+
+<script>
+	function getvalue() {
+		/* $('#log').empty(); */
+
+		$('#finusers :checkbox:checked').each(function() {
+
+			var status = (this.checked ? $(this).val() : "");
+			var id = $(this).attr("id");
+			$('#log').show();
+			$('#menucontent').hide();
+			$('#log').append("<h3>" + id + "</h3>");
+		});
+
+		/*  $('#log').append("<h3>" + id + " : " + status + "</h3>"); */
+	}
+</script>
+
+
+</head>
+<title>AML</title>
+<body>
+	<div th:insert="AStartheader :: header"
+		th:if="${formmode}=='list' OR ${formmode}=='view' "></div>
+	<div th:insert="TESTHEADER :: header"
+		th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='verify'"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('AccessAndRoles')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+				<!---------------------User List Starts------------------------------------------------------->
+				<div th:if="${formmode}=='list' OR ${formmode}=='delete' "
+					class=" content">
+					<div class="row">
+						<div class="col-sm-12  customcol">
+							<!-- <div class="card"> -->
+							<div class="card-header" id="modheadtitle">
+								<b th:text="${menuname}"></b>
+								<div class="btn-group nav-buttons float-right">
+									<button type="button" class="btn btn-xs btn-secondary btns"
+										id="btnAdd" onclick="adduser();" title="Add Role"
+										style="background-color: #0e2840;">Add Role</button>
+								</div>
+							</div>
+
+							<table class="table  table-bordered  table-hover table-sm"
+								id="usertable" style="width: 100%">
+								<thead class="thead-light">
+									<tr>
+										<!-- <th></th> -->
+										<th style="width: 15%">Role ID</th>
+										<th style="width: 15%">Role Description</th>
+										<th style="width: 15%">Work Class</th>
+										<th style="width: 40%">Menu List</th>
+										<th style="width: 40%">Status</th>
+										<th style="width: 15%">Select</th>
+
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="AMLAccessRole : ${AccessandRoles}"
+										th:attr="data-userid=${AMLAccessRole.role_id}"
+										th:id="${AMLAccessRole.role_id}" class="userlist">
+										<td style="width: 125px" th:text="${AMLAccessRole.role_id}"></td>
+										<td style="width: 250px" th:text="${AMLAccessRole.role_desc}"></td>
+										<!-- 	<td th:text="${AMLAccessRole.work_class}">123</td> -->
+										<th:block th:switch="${AMLAccessRole.work_class}">
+											<td th:case="'M'">Maker</td>
+											<td th:case="'C'">Checker</td>
+										</th:block>
+										<td style="width: 250px" th:text="${AMLAccessRole.menulist}"></td>
+										<th:block th:switch="${AMLAccessRole.entity_flg}">
+											<td th:case="'Y'" style="color: green;">Verified</td>
+											<td th:case="'N'" style="color: red;">UnVerified</td>
+										</th:block>
+										<td>
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle"
+													type="button" id="dropdownMenuButton" title="Action"
+													style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">Action</button>
+
+												<div class="dropdown-menu"
+													aria-labelledby="dropdownMenuButton"
+													style="background-color: #e3e3e4; color: #3a4550;">
+													<a th:attr="data-role_id=${AMLAccessRole.role_id}"
+														th:if="${AMLAccessRole.entity_flg} == 'Y'"
+														class="dropdown-item" title="Modify"
+														style="cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
+													<div class="dropdown-divider"
+														th:if="${AMLAccessRole.entity_flg} == 'Y'"></div>
+													<a th:attr="data-role_id=${AMLAccessRole.role_id}"
+														class="dropdown-item" title="Inquiry"
+														style="cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														onclick="view_btn_submit(this)" id="view_btn">Inquiry
+													</a>
+													<div class="dropdown-divider" th:if=" ${AMLRoleMenu.work_class} == 'C'"></div>
+													<a th:attr="data-role_id=${AMLAccessRole.role_id}"
+														class="dropdown-item" title="Delete" th:if=" ${AMLRoleMenu.work_class} == 'C'"
+														style="cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														onclick="delete_btn_submit(this)" id="MFundtransfer1">Delete
+													</a>
+													<div class="dropdown-divider"
+														th:if="${AMLAccessRole.entity_flg} == 'N' and ${AMLRoleMenu.work_class} == 'C'"></div>
+													<a th:attr="data-role_id=${AMLAccessRole.role_id}"
+														th:if="${AMLAccessRole.entity_flg} == 'N' and ${AMLRoleMenu.work_class} == 'C'"
+														class="dropdown-item" title="Verify"
+														style="cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														onclick="verify_btn_submit(this)" id="MFundtransfer1">Verify
+													</a>
+												</div>
+											</div>
+
+										</td>
+								</tbody>
+							</table>
+							<div class="float-right"
+								th:if="${AccessandRoles.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${AccessandRoles.number},${AccessandRoles.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${AccessandRoles.number+1}"
+									th:onchange="|getUserlist('givenpage',${AccessandRoles.number},${AccessandRoles.totalPages});|"></input>
+								of <font th:text="${AccessandRoles.totalPages}"></font> <a
+									href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${AccessandRoles.number},${AccessandRoles.totalPages});|"></i></a>
+							</div>
+
+							<div class="text-center"
+								style="background-color: #386276; padding: 5px; width: 100%;">
+
+								<div class="btn-group nav-buttons " style="align: center;">
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnBack" onclick="back();">Back</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!---------------------User List Ends--------------------------------------------------------->
+			<!---------------------User Edit form Starts-------------------------------------------------->
+			<div
+				th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='view' OR ${formmode}=='verify'"
+				class="container content">
+				<div class="row">
+					<div class="col-sm-12 finuserapply">
+						<div class="card">
+							<div class="card-header">
+								<div class="float-left">
+									<b th:text="${menuname}"></b>
+								</div>
+							</div>
+							<div class="card-body" style="margin-top: -48px;">
+								<form action="#" th:object="${AMLAccessRole}" method="post"
+									style="margin: 52px;" autocomplete="off" id="AMLAccessRole"
+									th:fragment="finuserapply">
+
+									<div class="row formline">
+										<label class="col-sm-2">Role ID</label>
+										<div class="col-sm-3" th:if="${formmode}=='add'">
+											<input type="text" id="role_id" th:value="*{role_id}"
+												th:field="*{role_id}" class="form-control form-control-sm" />
+										</div>
+										<div class="col-sm-3"
+											th:if="${formmode}=='edit' OR ${formmode}=='view'OR ${formmode}=='verify'">
+											<input type="text" id="role_id" th:value="*{role_id}"
+												th:field="*{role_id}" class="form-control form-control-sm"
+												readonly />
+										</div>
+
+										<div class="col-sm-1"></div>
+										<label class="col-sm-2">Role Description</label>
+										<div class="col-sm-3">
+											<input type="text" id="role_desc" th:value="*{role_desc}"
+												th:field="*{role_desc}" class="form-control form-control-sm"
+												th:readonly="${formmode}=='view' OR ${formmode}=='verify'" />
+
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+									<div class="row formline">
+										<label style="height: 2px;"></label>
+
+									</div>
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Permissions</label>
+										<div class="col-sm-3"
+											th:if="${formmode}=='edit'OR ${formmode}=='add'OR ${formmode}=='verify'">
+											<select id="permissions" class="form-control form-control-sm"
+												th:value="*{permissions}" th:field="*{permissions}"
+												th:readonly="${formmode}=='verify'" autocomplete="off"
+												required>
+												<option value="O">Select</option>
+												<option value="R">Read</option>
+												<option value="W">Write</option>
+											</select>
+
+										</div>
+										<div class="col-sm-3" th:if="${formmode}=='view' ">
+											<!-- <input type="text" id="permissions" th:value="*{permissions}"
+												th:field="*{permissions}" class="form-control form-control-sm"    readonly/> -->
+											<input type="text" id="permissions"
+												class="form-control form-control-sm"
+												th:value="${AMLAccessRole.permissions=='W'} ? 'Write' : 'Read'"
+												readonly>
+										</div>
+										<div class="col-sm-1"></div>
+
+										<label class="col-sm-2">Remarks</label>
+										<div class="col-sm-3"
+											th:if="${formmode}=='edit'OR ${formmode}=='add'">
+											<input th:value="${domain_id}" id="domain_id"
+												th:field="*{domain_id}" class="form-control form-control-sm"
+												required />
+
+										</div>
+										<div class="col-sm-3"
+											th:if="${formmode}=='view'OR ${formmode}=='verify'">
+											<input th:value="${domain_id}" id="domain_id"
+												th:field="*{domain_id}" class="form-control form-control-sm"
+												readonly />
+
+										</div>
+										<!-- 	<div class="col-sm-1" th:if="${formmode}=='edit'">
+											<a href="#"><i class="fas fa-search searchico"
+												id="domainidsearch" title="Domain Id Details"
+												data-toggle="modal" data-target="#getDomain"></i></a>
+										</div> -->
+									</div>
+									<div class="row formline">
+										<label style="height: 2px;"></label>
+
+									</div>
+									<div class="row formline">
+										<label class="col-sm-2">Work Class</label>
+										<div class="col-sm-3"
+											th:if="${formmode}=='edit'OR ${formmode}=='add' OR ${formmode}=='verify' ">
+											<select id="work_class" class="form-control form-control-sm"
+												th:value="*{work_class}" th:field="*{work_class}"
+												onchange="roledesc();" autocomplete="off" required
+												th:readonly="${formmode}=='verify'">
+												<option value="">Select</option>
+												<option value="M">Maker</option>
+												<option value="C">Checker</option>
+											</select>
+										</div>
+										<div class="col-sm-3" th:if="${formmode}=='view'">
+											<input type="text" id="work_class"
+												class="form-control form-control-sm"
+												th:value="${AMLAccessRole.work_class=='M'} ? 'Maker' : 'Checker'"
+												readonly />
+										</div>
+										<div class="col-sm-1"></div>
+
+										<label class="col-sm-2">Menu List</label>
+										<div class="col-sm-3">
+											<div id="log"
+												style="background-color: #dbdfe2; display: none;"></div>
+											<div
+												th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'"
+												id="menucontent">
+												<h3 th:if="*{admin}=='Y'" style="color: black">Admin</h3>
+												<h3 th:if="*{inquiry}=='Y'" style="color: black">Inquiry</h3>
+												<h3 th:if="*{monitoring}=='Y'" style="color: black">Monitoring</h3>
+												<h3 th:if="*{list_management}=='Y'" style="color: black">List
+													Management</h3>
+												<h3 th:if="*{interfaces}=='Y'" style="color: black">Interfaces</h3>
+												<h3 th:if="*{screening}=='Y'" style="color: black">Screening</h3>
+												<h3 th:if="*{risk_management}=='Y'" style="color: black">Risk
+													Management</h3>
+												<h3 th:if="*{case_management}=='Y'" style="color: black">case
+													Management</h3>
+												<h3 th:if="*{thirdparty_transaction}=='Y'"
+													style="color: black">Third Party Transactions</h3>
+												<h3 th:if="*{report}=='Y'" style="color: black">RBS
+													Report</h3>
+												<h3 th:if="*{amlarchival}=='Y'" style="color: black">RBS
+													Archival</h3>
+												<h3 th:if="*{amlreport}=='Y'" style="color: black">AML
+													Report</h3>
+												<h3 th:if="*{strreport}=='Y'" style="color: black">STR
+													Report</h3>
+												<h3 th:if="*{auditlog}=='Y'" style="color: black">AuditLog</h3>
+											</div>
+										</div>
+
+										<div class="col-sm-1">
+											<a th:if="${formmode}=='add' OR ${formmode}=='edit'" href="#"><i
+												class="fas fa-search searchico" data-toggle="modal"
+												data-target="#finusers" id="iconacc"></i></a>
+										</div>
+
+									</div>
+
+									<div class="modal fade" id="finusers">
+										<div
+											class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+											<div class="modal-content" style="border: 2px solid black;">
+
+												<!-- Modal Header -->
+												<div class="modal-header" style="background-color: #386276;">
+													<h4 class="modal-title">Menu List</h4>
+													<button type="button" class="close" data-dismiss="modal">×</button>
+												</div>
+												<!-- Modal body -->
+												<div class="modal-body" style="background-color: #e6eaed;">
+
+													<input type="checkbox" id="Admin" value="Y" name="*{admin}"
+														th:checked="*{admin} == Y" /> Admin
+
+													<ul>
+
+														<li>User Profile Maintenance
+
+															<ul>
+																<li>User Profile</li>
+															</ul>
+															<ul>
+																<li>Access and Roles</li>
+															</ul>
+														</li>
+														<li>Reference Code Master</li>
+														<li>Bank and Branch Details</li>
+														<li>Parameter
+															<ul>
+																<li>Screening Parameter</li>
+															</ul>
+															<ul>
+																<li>Monitoring Parameter</li>
+															</ul>
+															<ul>
+																<li>Alert Parameter</li>
+															</ul>
+															<ul>
+																<li>Rule Engine</li>
+															</ul>
+														</li>
+														<li>Batch Jobs</li>
+													</ul>
+
+													<input type="checkbox" id="Inquiry" value='Y'
+														th:name="*{inquiry}" th:checked="*{inquiry} == Y" />Inquiry
+
+													<ul>
+														<li>Customer Inquiry</li>
+														<li>Account Inquiry</li>
+														<li>Transaction Inquiry</li>
+													</ul>
+
+
+
+													<input type="checkbox" id="ListManagement" value='Y'
+														th:name="*{list_management}"
+														th:checked="*{list_management} == Y" /> List Management
+
+													<ul>
+														<li>Customized Lists
+															<ul>
+																<li>Black Listing</li>
+																<li>Negative Listing</li>
+																<li>White Listing</li>
+																<li>HNWI Listing</li>
+																<li>Abandoned Fund Listing</li>
+															</ul>
+														</li>
+														<li>Regulatory Lists
+															<ul>
+
+																<li>UNSC</li>
+																<li>PEP</li>
+															</ul>
+														</li>
+													</ul>
+
+													<input type="checkbox" id="CaseManagement" value='Y'
+														th:name="*{case_management}"
+														th:checked="*{case_management} == Y" /> Case Management<br>
+													<input type="checkbox" id="thirdpartyTransaction" value='Y'
+														th:name="*{thirdparty_transaction}"
+														th:checked="*{thirdparty_transaction} == Y" /> Third Party Transactions<br>
+													<input type="checkbox" id="RiskManagement" value='Y'
+														th:name="*{risk_management}"
+														th:checked="*{risk_management} == Y" /> Risk Management
+
+													<ul>
+														<li>KYC Parameter</li>
+														<li>Customer KYC</li>
+													</ul>
+													<input type="checkbox" id="Interfaces" value='Y'
+														th:name="*{interfaces}" th:checked="*{interfaces} == Y" />
+													Interfaces
+
+													<ul>
+														<li>goAML
+
+															<ul>
+																<li>Suspicious Transaction Report</li>
+															</ul>
+														</li>
+													</ul>
+
+													<input type="checkbox" id="Screening" value='Y'
+														th:name="*{screening}" th:checked="*{screening} == Y" />
+													Screening
+
+													<ul>
+														<li>Screening Operations</li>
+														<li>AML Alert Operations</li>
+														<li>Screening Report Download</li>
+														<li>Screening Values</li>
+
+
+
+													</ul>
+
+
+
+													<input type="checkbox" id="Monitoring" value='Y'
+														th:name="*{monitoring}" th:checked="*{monitoring} == Y" />
+													Monitoring
+
+													<ul>
+														<li>Transaction Monitoring</li>
+														<li>AML Alert Transaction</li>
+														<li>Monitoring Report Download</li>
+
+													</ul>
+
+
+													<!-- <input type="checkbox" id="General" value='Y'
+														th:name="*{general}" th:checked="*{general} == Y" /> general
+
+													<ul>
+														<li>general monitoring</li>
+													</ul> -->
+
+													<input type="checkbox" id="Report" value='Y'
+														th:name="*{report}" th:checked="*{report} == Y" /> RBS
+													Report <br>
+													<ul>
+														<li>RBS Reports</li>
+														<li>RBS Input Screen Report</li>
+														<li>RBS Report Generation</li>
+													</ul>
+													<input type="checkbox" id="Archival" value='Y'
+														th:name="*{amlarchival}" th:checked="*{amlarchival} == Y" />
+													RBS Archival<br> <input type="checkbox" id="AMLReport"
+														value='Y' th:name="*{amlreport}"
+														th:checked="*{amlreport} == Y" /> AML Report<br>
+													<ul>
+														<li>Daily Reports</li>
+														<li>Monitoring Reports</li>
+
+													</ul>
+
+													<input type="checkbox" id="StrReport" value='Y'
+														th:name="*{strreport}" th:checked="*{strreport} == Y" />STR
+													Reports<br> <input type="checkbox" id="AuditLog"
+														value='Y' th:name="*{auditlog}"
+														th:checked="*{auditlog} == Y" />Audit Log<br>
+
+													<div style="float: right;">
+														<button type="button" class="btn btn-primary"
+															data-dismiss="modal" onclick="getvalue();">SUBMIT</button>
+													</div>
+												</div>
+
+											</div>
+										</div>
+									</div>
+
+
+
+								</form>
+
+							</div>
+							<div class="card-footer text-center"
+								style="height: 38px; margin-top: -59px;">
+								<button th:if="${formmode}=='edit' OR ${formmode}=='add'"
+									type="button" class="btn btn-xs btn-primary"
+									form="AMLAccessRole" th:attr="data-formmode=${formmode}"
+									id="btnSubmit" style="margin-top: -12px;"
+									onclick="submitform(this);">Submit</button>
+								<button th:if="${formmode}=='verify'" type="button"
+									class="btn btn-xs btn-primary" form="AMLAccessRole"
+									th:attr="data-formmode=${formmode}" id="btnSubmit"
+									style="margin-top: -12px;" onclick="submitform(this);">Submit</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnpassrst" style="margin-top: -12px;" onclick="back();">Back</button>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="list();">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="datadelete">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					Are you Sure want to delete?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						onclick="submitformdelete(this);" th:attr="data-formmode=delete">Submit</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="formmsg">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					<a th:value="${msg}"></a>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						onclick="submitformdelete(this);" th:attr="data-formmode=delete">Submit</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

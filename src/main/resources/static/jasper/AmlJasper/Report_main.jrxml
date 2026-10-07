@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_main" pageWidth="842" pageHeight="3000" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="08f3fa7e-063e-424c-bd11-7b0caf187b8a">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}" value="T1/T2/T3-T26/T27C/T27P"/>
+	<parameter name="REPORT_DATE" class="java.lang.String"/>
+	<parameter name="T2C" class="java.io.InputStream"/>
+	<parameter name="T5" class="java.io.InputStream"/>
+	<parameter name="T6" class="java.io.InputStream"/>
+	<parameter name="T7" class="java.io.InputStream"/>
+	<parameter name="T8" class="java.io.InputStream"/>
+	<parameter name="T10" class="java.io.InputStream"/>
+	<parameter name="T11" class="java.io.InputStream"/>
+	<parameter name="T12" class="java.io.InputStream"/>
+	<parameter name="T13" class="java.io.InputStream"/>
+	<parameter name="T14" class="java.io.InputStream"/>
+	<parameter name="T15" class="java.io.InputStream"/>
+	<parameter name="T17" class="java.io.InputStream"/>
+	<parameter name="T18" class="java.io.InputStream"/>
+	<parameter name="T19" class="java.io.InputStream"/>
+	<parameter name="T20" class="java.io.InputStream"/>
+	<parameter name="T21" class="java.io.InputStream"/>
+	<parameter name="T24" class="java.io.InputStream"/>
+	<parameter name="T25" class="java.io.InputStream"/>
+	<parameter name="T27C" class="java.io.InputStream"/>
+	<parameter name="T1C" class="java.io.InputStream"/>
+	<parameter name="T3A" class="java.io.InputStream"/>
+	<parameter name="T4" class="java.io.InputStream"/>
+	<parameter name="T9" class="java.io.InputStream"/>
+	<parameter name="T22" class="java.io.InputStream"/>
+	<parameter name="T27P" class="java.io.InputStream"/>
+	<queryString language="SQL">
+		<![CDATA[select * from baml_user_profile_table]]>
+	</queryString>
+	<summary>
+		<band height="2800" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="64" width="200" height="30" uuid="cf72db23-7415-4ceb-b5de-d4cb22890ba6"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T2C}]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="102" width="100" height="1" uuid="5849d012-823e-4e39-8433-9c057f4bb756"/>
+			</break>
+			<subreport>
+				<reportElement positionType="Float" x="1" y="220" width="200" height="40" uuid="43dab12a-2053-4c4f-8211-815f8271faae"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T5}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="290" width="200" height="80" uuid="57ba9a2e-7a0f-4d68-9107-6b9f15cb89d3"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T6}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="420" width="200" height="70" uuid="9f6672da-24a8-4c78-a37f-e4b3c11bbdc9"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T7}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="560" width="200" height="80" uuid="66ebd8b1-0dd6-490b-803e-c85a1cec9ba7"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T8}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="767" width="200" height="33" uuid="b402d5db-c939-4420-847c-fc0887fd5e82"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T10}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="840" width="200" height="70" uuid="50b1b38e-ad2c-4d92-84d8-2fdad818e974"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T11}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="3" y="970" width="200" height="70" uuid="c00302e1-3f04-401e-b560-158ee19241e6"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T12}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="1" y="1097" width="200" height="83" uuid="40a3efa0-2d9f-4663-b768-ff77c84fcab6"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T13}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="3" y="1250" width="200" height="70" uuid="199b7976-4d39-4374-b366-cae031d84503"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T14}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="3" y="1379" width="200" height="61" uuid="c115b661-7ee2-4c3d-8455-83c799f73cdf"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T15}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="1490" width="200" height="100" uuid="1610fc61-572b-4e21-b877-8b4ed7a9e450"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T17}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="2" y="1644" width="200" height="86" uuid="7c07fdcf-d516-44d3-a4ea-fe3e9e6bcbc3"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T18}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="1770" width="200" height="90" uuid="b7957944-f1d4-4931-83b8-5ec68d051e09"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T19}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="1910" width="200" height="40" uuid="a3760132-4575-458a-aea5-d0b5a7574867"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T20}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="3" y="2000" width="200" height="100" uuid="d3766ac8-aca4-4007-b25d-c07af3a18b06"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T21}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="2" y="2240" width="200" height="30" uuid="9c6caf2d-ea7e-4b67-b4fe-86d0d182aba8"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T24}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="2" y="2290" width="200" height="100" uuid="f8834783-4610-4d85-8568-13c8259edff1"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T25}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="2450" width="200" height="110" uuid="714f0d6f-3974-4174-830c-13ecc2989eb4"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T27C}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="1" y="0" width="200" height="40" uuid="c91975da-2068-46eb-a4f9-3ba73d4ad747"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T2C">
+					<subreportParameterExpression><![CDATA[$P{T2C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T5">
+					<subreportParameterExpression><![CDATA[$P{T5}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T6">
+					<subreportParameterExpression><![CDATA[$P{T6}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T7">
+					<subreportParameterExpression><![CDATA[$P{T7}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8">
+					<subreportParameterExpression><![CDATA[$P{T8}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T10">
+					<subreportParameterExpression><![CDATA[$P{T10}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T11">
+					<subreportParameterExpression><![CDATA[$P{T11}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T12">
+					<subreportParameterExpression><![CDATA[$P{T12}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T13">
+					<subreportParameterExpression><![CDATA[$P{T13}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T14">
+					<subreportParameterExpression><![CDATA[$P{T14}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T15">
+					<subreportParameterExpression><![CDATA[$P{T15}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T17">
+					<subreportParameterExpression><![CDATA[$P{T17}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T18">
+					<subreportParameterExpression><![CDATA[$P{T18}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T19">
+					<subreportParameterExpression><![CDATA[$P{T19}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T20">
+					<subreportParameterExpression><![CDATA[$P{T20}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T21">
+					<subreportParameterExpression><![CDATA[$P{T21}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T24">
+					<subreportParameterExpression><![CDATA[$P{T24}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T25">
+					<subreportParameterExpression><![CDATA[$P{T25}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T27C">
+					<subreportParameterExpression><![CDATA[$P{T27C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T1C">
+					<subreportParameterExpression><![CDATA[$P{T1C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T1C}]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="54" width="100" height="1" uuid="9be8750f-a5ae-4c93-b6c3-035608c83b19"/>
+			</break>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="120" width="200" height="27" uuid="cda9f2fa-ee7a-4386-8b4d-b744a1df5187"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T2C">
+					<subreportParameterExpression><![CDATA[$P{T2C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T5">
+					<subreportParameterExpression><![CDATA[$P{T5}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T6">
+					<subreportParameterExpression><![CDATA[$P{T6}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T7">
+					<subreportParameterExpression><![CDATA[$P{T7}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8">
+					<subreportParameterExpression><![CDATA[$P{T8}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T10">
+					<subreportParameterExpression><![CDATA[$P{T10}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T11">
+					<subreportParameterExpression><![CDATA[$P{T11}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T12">
+					<subreportParameterExpression><![CDATA[$P{T12}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T13">
+					<subreportParameterExpression><![CDATA[$P{T13}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T14">
+					<subreportParameterExpression><![CDATA[$P{T14}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T15">
+					<subreportParameterExpression><![CDATA[$P{T15}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T17">
+					<subreportParameterExpression><![CDATA[$P{T17}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T18">
+					<subreportParameterExpression><![CDATA[$P{T18}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T19">
+					<subreportParameterExpression><![CDATA[$P{T19}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T20">
+					<subreportParameterExpression><![CDATA[$P{T20}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T21">
+					<subreportParameterExpression><![CDATA[$P{T21}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T24">
+					<subreportParameterExpression><![CDATA[$P{T24}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T25">
+					<subreportParameterExpression><![CDATA[$P{T25}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T27C">
+					<subreportParameterExpression><![CDATA[$P{T27C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T1C">
+					<subreportParameterExpression><![CDATA[$P{T1C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T3A">
+					<subreportParameterExpression><![CDATA[$P{T3A}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T3A}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="170" width="200" height="16" uuid="71c631d0-4506-4ce8-8e4d-61d1e0a98d5e"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T2C">
+					<subreportParameterExpression><![CDATA[$P{T2C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T5">
+					<subreportParameterExpression><![CDATA[$P{T5}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T6">
+					<subreportParameterExpression><![CDATA[$P{T6}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T7">
+					<subreportParameterExpression><![CDATA[$P{T7}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8">
+					<subreportParameterExpression><![CDATA[$P{T8}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T10">
+					<subreportParameterExpression><![CDATA[$P{T10}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T11">
+					<subreportParameterExpression><![CDATA[$P{T11}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T12">
+					<subreportParameterExpression><![CDATA[$P{T12}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T13">
+					<subreportParameterExpression><![CDATA[$P{T13}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T14">
+					<subreportParameterExpression><![CDATA[$P{T14}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T15">
+					<subreportParameterExpression><![CDATA[$P{T15}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T17">
+					<subreportParameterExpression><![CDATA[$P{T17}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T18">
+					<subreportParameterExpression><![CDATA[$P{T18}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T19">
+					<subreportParameterExpression><![CDATA[$P{T19}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T20">
+					<subreportParameterExpression><![CDATA[$P{T20}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T21">
+					<subreportParameterExpression><![CDATA[$P{T21}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T24">
+					<subreportParameterExpression><![CDATA[$P{T24}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T25">
+					<subreportParameterExpression><![CDATA[$P{T25}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T27C">
+					<subreportParameterExpression><![CDATA[$P{T27C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T1C">
+					<subreportParameterExpression><![CDATA[$P{T1C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T3A">
+					<subreportParameterExpression><![CDATA[$P{T3A}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T4}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="680" width="200" height="22" uuid="e90a481a-8bfc-4690-ba4a-e077a9dfeb39"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T2C">
+					<subreportParameterExpression><![CDATA[$P{T2C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T5">
+					<subreportParameterExpression><![CDATA[$P{T5}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T6">
+					<subreportParameterExpression><![CDATA[$P{T6}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T7">
+					<subreportParameterExpression><![CDATA[$P{T7}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8">
+					<subreportParameterExpression><![CDATA[$P{T8}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T10">
+					<subreportParameterExpression><![CDATA[$P{T10}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T11">
+					<subreportParameterExpression><![CDATA[$P{T11}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T12">
+					<subreportParameterExpression><![CDATA[$P{T12}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T13">
+					<subreportParameterExpression><![CDATA[$P{T13}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T14">
+					<subreportParameterExpression><![CDATA[$P{T14}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T15">
+					<subreportParameterExpression><![CDATA[$P{T15}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T17">
+					<subreportParameterExpression><![CDATA[$P{T17}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T18">
+					<subreportParameterExpression><![CDATA[$P{T18}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T19">
+					<subreportParameterExpression><![CDATA[$P{T19}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T20">
+					<subreportParameterExpression><![CDATA[$P{T20}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T21">
+					<subreportParameterExpression><![CDATA[$P{T21}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T24">
+					<subreportParameterExpression><![CDATA[$P{T24}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T25">
+					<subreportParameterExpression><![CDATA[$P{T25}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T27C">
+					<subreportParameterExpression><![CDATA[$P{T27C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T1C">
+					<subreportParameterExpression><![CDATA[$P{T1C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T3A">
+					<subreportParameterExpression><![CDATA[$P{T3A}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T4">
+					<subreportParameterExpression><![CDATA[$P{T4}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T9}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="2150" width="201" height="32" uuid="2ca8a1d4-42b3-4b7f-aaf5-f97f6fd3c4dc"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T2C">
+					<subreportParameterExpression><![CDATA[$P{T2C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T5">
+					<subreportParameterExpression><![CDATA[$P{T5}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T6">
+					<subreportParameterExpression><![CDATA[$P{T6}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T7">
+					<subreportParameterExpression><![CDATA[$P{T7}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8">
+					<subreportParameterExpression><![CDATA[$P{T8}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T10">
+					<subreportParameterExpression><![CDATA[$P{T10}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T11">
+					<subreportParameterExpression><![CDATA[$P{T11}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T12">
+					<subreportParameterExpression><![CDATA[$P{T12}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T13">
+					<subreportParameterExpression><![CDATA[$P{T13}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T14">
+					<subreportParameterExpression><![CDATA[$P{T14}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T15">
+					<subreportParameterExpression><![CDATA[$P{T15}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T17">
+					<subreportParameterExpression><![CDATA[$P{T17}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T18">
+					<subreportParameterExpression><![CDATA[$P{T18}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T19">
+					<subreportParameterExpression><![CDATA[$P{T19}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T20">
+					<subreportParameterExpression><![CDATA[$P{T20}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T21">
+					<subreportParameterExpression><![CDATA[$P{T21}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T24">
+					<subreportParameterExpression><![CDATA[$P{T24}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T25">
+					<subreportParameterExpression><![CDATA[$P{T25}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T27C">
+					<subreportParameterExpression><![CDATA[$P{T27C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T1C">
+					<subreportParameterExpression><![CDATA[$P{T1C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T3A">
+					<subreportParameterExpression><![CDATA[$P{T3A}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T4">
+					<subreportParameterExpression><![CDATA[$P{T4}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T9">
+					<subreportParameterExpression><![CDATA[$P{T9}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T22}]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="2580" width="100" height="1" uuid="e896432e-ee9f-40fd-b25c-4968d071f39c"/>
+			</break>
+			<subreport>
+				<reportElement x="0" y="2600" width="200" height="200" uuid="58ee477f-fd6e-4015-a12d-dd866c6b1723"/>
+				<subreportParameter name="REPORT_DATE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T2C">
+					<subreportParameterExpression><![CDATA[$P{T2C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T5">
+					<subreportParameterExpression><![CDATA[$P{T5}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T6">
+					<subreportParameterExpression><![CDATA[$P{T6}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T7">
+					<subreportParameterExpression><![CDATA[$P{T7}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T8">
+					<subreportParameterExpression><![CDATA[$P{T8}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T10">
+					<subreportParameterExpression><![CDATA[$P{T10}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T11">
+					<subreportParameterExpression><![CDATA[$P{T11}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T12">
+					<subreportParameterExpression><![CDATA[$P{T12}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T13">
+					<subreportParameterExpression><![CDATA[$P{T13}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T14">
+					<subreportParameterExpression><![CDATA[$P{T14}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T15">
+					<subreportParameterExpression><![CDATA[$P{T15}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T17">
+					<subreportParameterExpression><![CDATA[$P{T17}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T18">
+					<subreportParameterExpression><![CDATA[$P{T18}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T19">
+					<subreportParameterExpression><![CDATA[$P{T19}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T20">
+					<subreportParameterExpression><![CDATA[$P{T20}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T21">
+					<subreportParameterExpression><![CDATA[$P{T21}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T24">
+					<subreportParameterExpression><![CDATA[$P{T24}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T25">
+					<subreportParameterExpression><![CDATA[$P{T25}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T27C">
+					<subreportParameterExpression><![CDATA[$P{T27C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T1C">
+					<subreportParameterExpression><![CDATA[$P{T1C}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T3A">
+					<subreportParameterExpression><![CDATA[$P{T3A}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T4">
+					<subreportParameterExpression><![CDATA[$P{T4}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T9">
+					<subreportParameterExpression><![CDATA[$P{T9}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="T22">
+					<subreportParameterExpression><![CDATA[$P{T22}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{T27P}]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="2410" width="100" height="1" uuid="3513a828-f615-4f00-ada1-8bbdd0c110ce"/>
+			</break>
+		</band>
+	</summary>
+</jasperReport>

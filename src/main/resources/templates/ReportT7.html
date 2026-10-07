@@ -1,0 +1,2760 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!-- 
+MODIFIED BY	: MANIVANNAN B.
+MODIFIED ON	: 04-MARCH-2020
+PURPOSE		: Report TABLE 7
+ -->
+<html lang="en" >
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/multifreeze/multifreezer.css"
+	th:href="@{/multifreeze/multifreezer.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+		
+		
+		
+		var permission = /*[[${session.PERMISSIONS}]]*/null;
+	
+		var reportsummary = /*[[${reportsummary}]]*/null;
+		
+		var dtltype = /*[[${dtltype}]]*/null;
+		
+		//to make the summary button active on load
+		$(function(){
+			
+			console.log(reportsummary);
+			
+			$("#summarybtn").addClass("active");
+
+		});
+		function home(){
+			location.href = "/AML/rbsreports";
+
+	}
+
+	/*to show details page - 3 parameters
+		mode - valid values are : nextpage, prevpage, givenpage, firstpage
+		num - page number to show to the user
+		maxpage - maximum number of pages avaialble in the data
+	*/
+	function showdetails(mode,num,maxpage) {
+		
+		var filter =$("#filters").val();
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		if(filter!= null){
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+			//Callurl = Callurl+"&instancecode="+instancecode;
+			Callurl = Callurl+"&filter="+filter;
+		}else{
+			
+			var filter= null;
+
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+		//	Callurl = Callurl+"&instancecode="+instancecode;
+			Callurl = Callurl+"&filter="+filter;
+		}switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+		
+		
+		$.ajax({
+			type : 'get',
+			url : Callurl,
+			success : function(data) {
+				
+				/*<![CDATA[*/
+				
+
+				$('.content').html(data);
+				$("#detailsbtn").addClass("active");
+				/*]]>*/
+
+			}
+		})
+	}
+	
+	function showdetail(a){
+		var filter = a.id;
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+		
+		Callurl = Callurl+"&filter="+filter;
+		$.ajax({
+			type : 'get',
+			url : Callurl,
+			success : function(data) {
+				
+				/*<![CDATA[*/
+				
+
+				$('.content').html(data);
+				$("#detailsbtn").addClass("active");
+				/*]]>*/
+
+			}
+		})
+		
+	}
+	//to fetch summary from the database - called from the summary button
+	function showsummary(mode,num,maxpage) {
+		
+
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Summary'(fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+		
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+
+		
+	window.location.href=Callurl;
+	}
+	
+
+	//to check for report or arch
+	//if report --->>> precheck and then save report else throws error
+	function savereport(){
+		
+		if(dtltype=='report'){
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Precheck'(asondate=${asondate},fromdate=${fromdate},todate=${todate})}]]*/
+				$.ajax({
+					type : 'get',
+					url : Callurl,
+					success : function(data) {
+
+						if (data == 'success') {	
+							
+							
+							$("#loader").show();
+							
+							
+							var Callurl = /*[[@{'/Reports/'+${reportid}+'/save'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+								$.ajax({
+									type : 'get',
+									url : Callurl,
+									success : function(data) {
+
+										
+										if(data=='success'){
+											
+										 var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+											Callurl = Callurl+"&filetype=xbrl";
+											location.href=Callurl;
+											$("#loader").hide();
+										}
+										else{
+											$("#loader").hide();
+											 $("#alertmsg").text(data);
+											 $('#alert').modal("toggle");
+										}
+									}
+								})
+								
+							
+							
+						} else {
+							$("#alertmsg").text("Please verify the Pending Records Before Generating XBRL Instance");
+							$("#alert").modal("toggle");
+						}
+
+					}
+					});
+			
+		}
+		else{
+			
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+				 Callurl = Callurl+"&filetype=xbrl";
+				 location.href=Callurl;
+				 $("#loader").hide();
+		}
+		
+	}
+	/*]]>*/
+</script>
+<!----------------------------------------Scripts to edit report details-------------------------------------------->
+<script th:inline="javascript">
+/*<![CDATA[*/
+	 var currlist = /*[[${currlist}]]*/null;
+
+
+					
+				function editRecord(a){
+	
+					if(permission=='W' && dtltype=='report') {
+						
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800edit'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Assign selected values to the model box fields
+					
+					$("#trade_date").val(a.getAttribute("data-trade_date"));
+					$("#value_date").val(a.getAttribute("data-value_date"));
+					$("#isin").val(a.getAttribute("data-isin"));
+					$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+					$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+					$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+					$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+					$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+					$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+					$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+					$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+					$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+					$("#mat_date").val(a.getAttribute("data-mat_date"));
+					$("#resid_days").val(a.getAttribute("data-resid_days"));
+					$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+					$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+					$("#report_date").val(a.getAttribute("data-report_date"));
+					$("#del_flg").val(a.getAttribute("data-del_flg"));
+					$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+					$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+					$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+					$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+					$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+					$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+					$("#addedit").modal("toggle");
+					
+				
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",true);
+					$("#report_date").attr("readonly",true);
+					
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					}
+					
+				};
+				function addRecord(){
+					
+					if(permission=='W' && dtltype=='report') {
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Reset form if any data present
+					document.getElementById("dataedit").reset();
+					
+					//make readonly false to unique fields
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",false);
+					$("#report_date").attr("readonly",false);
+					
+					//Reset errors
+					var validator = $("#dataedit").validate();
+					validator.resetForm();
+					
+					$("#addedit").modal("toggle");
+                    
+					
+					 
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					
+					}
+				};
+				
+				function deleteRecord(a){
+					
+					if(permission=='W' && dtltype=='report') {
+					
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800delete'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url);
+					
+					
+					//Assign selected values to the model box fields
+					
+						$("#trade_date").val(a.getAttribute("data-trade_date"));
+						$("#value_date").val(a.getAttribute("data-value_date"));
+						$("#isin").val(a.getAttribute("data-isin"));
+						$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+						$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+						$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+						$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+						$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+						$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+						$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+						$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+						$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+						$("#mat_date").val(a.getAttribute("data-mat_date"));
+						$("#resid_days").val(a.getAttribute("data-resid_days"));
+						$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+						$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+						$("#report_date").val(a.getAttribute("data-report_date"));
+						$("#del_flg").val(a.getAttribute("data-del_flg"));
+						$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+						$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+						$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+						$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+						$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+						$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+
+					$("#datadelete").modal("toggle");
+					
+					} 
+					
+				};
+				
+				function submitdataform(){
+					
+					if($("#dataedit").valid()){
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#dataedit').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 
+							 $("#alertmsg").text(responseText);
+							 
+							 if($('#addedit').is(':visible')){
+								 $('#addedit').modal("hide");
+							 };
+							 if($('#datadelete').is(':visible')){
+								 $('#datadelete').modal("hide");
+							 };
+							 $('#alert').modal("toggle");
+				                
+						 }
+						
+						
+					}
+					
+					$("#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				}
+				
+          function searchRecord(){
+					
+					document.getElementById("searchdtl").reset();
+					
+					$("#search").modal("toggle");
+					
+					$("#report_dates").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				};
+
+				
+				
+				
+				function editsubmitform() {
+							
+								var reportdate = $("#report_date").val();
+							//	alert(reportdate);
+								 
+								if ($("#dataedit").valid()) {
+									
+									var url = "./T7Edit?";
+									
+
+									$("#dataedit").attr('action', url);
+
+									var options = {
+										success : showResponse
+									// post-submit callback 
+									};
+
+									$("#dataedit").ajaxSubmit(options);
+
+									function showResponse(responseText, statusText, xhr, $form) {
+
+										$("#alertmsg").text(responseText);
+
+										$('#alert').modal("toggle");
+
+									}
+									;
+								}
+							};
+							
+				function verifyscreen(a){
+								
+								
+								if(permission=='W' && dtltype=='report') {
+								//Assign action url for the edit/add form
+								var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+								$("#dataedit").attr('action', url); 
+								//Reset form if any data present
+								document.getElementById("dataedit").reset();
+								
+								/* //make readonly false to unique fields
+								//Make readonly fields
+								$("#cntprty_code").attr("readonly",false);
+								$("#report_date").attr("readonly",false); */
+								
+								//Reset errors
+								var validator = $("#dataedit").validate();
+								validator.resetForm();
+								
+
+							    
+								$("#verify").modal("toggle");
+								
+								
+								
+								}
+							};
+							
+							
+							
+							
+							
+							function editalert(a){
+								
+								alert("Please Verify the Pending Records");
+							}
+							function editsum(a){
+								
+								
+								
+							
+								
+								if(permission=='W' && dtltype=='report') {
+								//Assign action url for the edit/add form
+								var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+								$("#dataedit").attr('action', url); 
+								//Reset form if any data present
+								document.getElementById("dataedit").reset();
+								
+								/* //make readonly false to unique fields
+								//Make readonly fields
+								$("#cntprty_code").attr("readonly",false);
+								$("#report_date").attr("readonly",false); */
+								
+								//Reset errors
+								var validator = $("#dataedit").validate();
+								validator.resetForm();
+								
+
+							    
+								$("#addedit").modal("toggle");
+								
+								
+								
+								}
+							};
+							function verifysubmitform(a) {
+								if ($("#dataverify").valid()) {
+									var entry=$("#entry_user").val();
+									var modify=$("#modify_user").val();
+									var verify=$("#verify_user").val();
+									
+									if(modify!= null){
+										if(modify != verify){
+											//var formmode = a.getAttribute("data-formmode");
+											var url = "./T7Verify?";
+
+											$("#dataverify").attr('action', url);
+
+											var options = {
+												success : showResponse
+											// post-submit callback 
+											};
+											
+
+											$("#dataverify").ajaxSubmit(options);
+
+											function showResponse(responseText, statusText, xhr, $form) {
+
+												$("#alertmsg").text(responseText);
+
+												$('#alert').modal("toggle");
+
+											};
+										}else{
+											$("#verifyboxmsg").text("Same User Cannot Verify!");
+											$('#verifybox').modal("toggle");
+										
+											
+										}
+									}else if( modify == null){
+										if(entry != verify){
+											//var formmode = a.getAttribute("data-formmode");
+											var url = "./T7Verify?";
+
+											$("#dataverify").attr('action', url);
+
+											var options = {
+												success : showResponse
+											// post-submit callback 
+											};
+
+											$("#dataverify").ajaxSubmit(options);
+
+											function showResponse(responseText, statusText, xhr, $form) {
+
+												$("#alertmsg").text(responseText);
+
+												$('#alert').modal("toggle");
+
+											};
+										}else{
+											$("#verifyboxmsg").text("Same User Cannot Verify!");
+											$('#verifybox').modal("toggle");
+										
+											
+										}
+										
+									}
+									
+								}
+							};
+							
+
+				/*]]>*/
+</script>
+<style>
+.nav-buttons {
+	float: right;
+}
+
+.reptitle {
+	float: left;
+}
+
+.reptitle>p {
+	margin-top:;
+}
+
+.customcol {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.first_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 0;
+	width: 30px;
+}
+
+.second_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 30px;
+	width: 30px;
+}
+
+.third_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 60px;
+	width: 150px;
+}
+
+.inner {
+	overflow-x: scroll;
+	overflow-y: visible;
+	margin-left: 48px;
+}
+
+.btn-primary {
+	background-color: #E77400;
+	border-color: #0c0c0c;
+}
+
+.btn-primary:not (:disabled ):not (.disabled ).active, .btn-primary:not
+	 (:disabled ):not (.disabled ):active, .show>.btn-primary.dropdown-toggle
+	{
+	color: #fff;
+	background-color: #cc000000;
+	border-color: #161617;
+}
+
+.addedit {
+	color: #007bff;
+}
+
+.addedit:hover {
+	color: #0056b3;
+}
+
+</style>
+</head>
+<body>
+	<!----------------------------------------------------- Header Section starts ----------------------------------------------------->
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" aria-hidden="true"
+		onclick="docEmb('Report')" id="ques"></i>
+	<!----------------------------------------------------- Header Section Ends ------------------------------------------------------->
+	<div style="margin-left: 310px; margin-top: 76px;">
+		<div class="container content" th:fragment="reportcontent">
+
+
+
+			<!--------------------------------------------------------------- Report title starts -------------------------------------------->
+			<div class="row" style="width: 1100px; margin-left: 0px;">
+				<div class="col-sm-12 customcol"
+					style="background-color: #4d8cb9; padding-top: 10px; padding-bottom: 10px; padding-left: 5px;">
+					<!-- <select id="reporttype" style="background-color: #e9ecef;">
+						<option th:each="title : ${reportTitle}"
+							th:value="${title.reportName}" th:text="${title.reportName}"></option>
+
+					</select> -->
+					<div class="btn-group nav-buttons">
+						 <button type="button" class="btn btn-primary"
+							onclick="showdetails('firstpage','1','0');" id="detailsbtn">Details</button>
+						<button type="button" class="btn btn-primary"
+							onclick="showsummary();" id="summarybtn">Summary</button>
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary dropdown-toggle"
+								data-toggle="dropdown">
+								Download <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu"  style="min-width: 7rem;">
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=pdf|">Pdf</a></li>
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=excel|">Excel</a></li>
+							
+								<li th:if="${displaymode}=='detail'"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=detailexcel|">Excel</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report title ends ------------------------------------------------->
+			<!--------------------------------------------------------------- Report buttons section starts ------------------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol" style="background-color: #adb5bd;">
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report buttons section ends ------------------------------------->
+			<!------------------------------ Report summary section starts it will shown only if summary button clicked------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol"
+					th:if="${displaymode}=='summary' or ${displaymode}==null "
+					style="overflow-x: auto;">
+					<div class="card-header" id="modheadtitle" style="width: 1100px;">
+						<b>Table 7: No. of existing customers where KYC and CDD reviews are
+							overdue</b>
+<div class="btn-group nav-buttons" th:if="${type} !='ARCHIVAL'">
+							<button type="button" class="btn btn-primary"
+								onclick="editsum(this);"
+								style="margin-top: -10px; padding: 3px;"
+								title="Click to EDIT Records"
+								th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+								id="addRecord">Modify</button>
+						</div>
+
+						<div class="btn-group nav-buttons"th:if="${type} !='ARCHIVAL'">
+							<button type="button" class="btn btn-primary"
+								style="margin-right: 0px; margin-top: -10px; padding: 3px; background-color: #4d8cb9;"
+								title="view the records" id="addRecord">Inquiry</button>
+						</div>
+
+						<div th:each="report : ${reportsummary1}"
+							th:if="${report?.entity_flg}=='N' AND  ${type} !='ARCHIVAL'" class="btn-group nav-buttons">
+							<button type="button" class="btn btn-primary"
+								onclick="verifyscreen(this);"
+								style="margin-top: -10px; padding: 3px;"
+								title="Click to EDIT Records"
+								th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+								id="addRecord">Verify</button>
+						</div>
+					</div>
+					<table class="table  table-bordered  table-hover table-sm" id="" th:if="${displaymode}=='summary' "
+						style="width: 1100px;">
+						<thead class="thead-light">
+							<tr>
+								<!-- <th></th> -->
+								<th rowspan="1"></th>
+							
+								<th>< 30 days</th>
+								<th>30 to <60 days</th>
+								<th>60 to < 90 days</th>
+								<th>> 90 days</th>
+
+							</tr>
+						</thead>
+						<tbody th:each="reportsummary : ${reportsummary1}">
+							<tr>
+								<td th:text="${reportsummary.d1a_ind_low}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c1f_ind_low_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="A1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c1g_ind_low_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="A2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c1h_ind_low_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="A3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c1i_ind_low_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="A4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d2a_ind_med	}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c2f_ind_med_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="B1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c2g_ind_med_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="B2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c2h_ind_med_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="B3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c2i_ind_med_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="B4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d3a_ind_hig	}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c3f_ind_hig_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="C1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c3g_ind_hig_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="C2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c3h_ind_hig_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="C3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c3i_ind_hig_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="C4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d4a_cor_low	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c4f_cor_low_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="D1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c4g_cor_low_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="D2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c4h_cor_low_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="D3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c4i_cor_low_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="D4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d5a_cor_med	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c5f_cor_med_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="E1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c5g_cor_med_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="E2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c5h_cor_med_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="E3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c5i_cor_med_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="E4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d6a_cor_hig	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c6f_cor_hig_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="F1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c6g_cor_hig_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="F2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c6h_cor_hig_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="F3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c6i_cor_hig_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="F4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d7a_npr_org_low	}">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c7f_npr_org_low_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="G1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c7g_npr_org_low_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="G2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c7h_npr_org_low_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="G3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c7i_npr_org_low_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="G4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d8a_npr_org_med	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c8f_npr_org_med_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="H1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c8g_npr_org_med_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="H2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c8h_npr_org_med_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="H3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c8i_npr_org_med_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="H4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d9a_npr_org_hig	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c9f_npr_org_hig_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="I1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c9g_npr_org_hig_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="I2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c9h_npr_org_hig_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="I3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c9i_npr_org_hig_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="I4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d10a_trust_low	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c10f_trust_low_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="J1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c10g_trust_low_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="J2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c10h_trust_low_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="J3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c10i_trust_low_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="J4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d11a_trust_med	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c11f_trust_med_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="K1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c11g_trust_med_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="K2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c11h_trust_med_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="K3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c11i_trust_med_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="K4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d12a_trust_hig	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c12f_trust_hig_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="L1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c12g_trust_hig_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="L2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c12h_trust_hig_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="L3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c12i_trust_hig_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="L4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d13a_all_otr_low	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c13f_all_otr_low_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="M1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c13g_all_otr_low_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="M2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c13h_all_otr_low_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="M3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c13i_all_otr_low_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="M4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d14a_all_otr_med	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c14f_all_otr_med_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="N1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c14g_all_otr_med_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="N2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c14h_all_otr_med_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="N3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c14i_all_otr_med_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="N4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d15a_all_otr_hig	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c15f_all_otr_hig_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="O1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c15g_all_otr_hig_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="O2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c15h_all_otr_hig_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="O3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c15i_all_otr_hig_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="O4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d16a_peps_dom_low	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c16f_peps_dom_low_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="P1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c16g_peps_dom_low_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="P2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c16h_peps_dom_low_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="P3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c16i_peps_dom_low_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="P4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d17a_peps_dom_med	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c17f_peps_dom_med_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="Q1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c17g_peps_dom_med_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="Q2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c17h_peps_dom_med_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="Q3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c17i_peps_dom_med_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="Q4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d18a_peps_dom_hig	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c18f_peps_dom_hig_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="R1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c18g_peps_dom_hig_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="R2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c18h_peps_dom_hig_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="R3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c18i_peps_dom_hig_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="R4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d19a_peps_frn_low	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c19f_peps_frn_low_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="S1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c19g_peps_frn_low_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="S2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c19h_peps_frn_low_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="S3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c19i_peps_frn_low_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="S4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d20a_peps_frn_med	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c20f_peps_frn_med_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="T1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c20g_peps_frn_med_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="T2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c20h_peps_frn_med_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="T3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c20i_peps_frn_med_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="T4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d21a_peps_frn_hig	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c21f_peps_frn_hig_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="U1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c21g_peps_frn_hig_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="U2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c21h_peps_frn_hig_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="U3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c21i_peps_frn_hig_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="U4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d22a_tcps_low	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c22f_tcps_low_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="V1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c22g_tcps_low_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="V2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c22h_tcps_low_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="V3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c22i_tcps_low_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="V4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d23a_tcps_med	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c23f_tcps_med_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="W1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c23g_tcps_med_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="W2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c23h_tcps_med_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="W3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c23i_tcps_med_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="W4" align="right">CHENNAI</td>
+
+
+							</tr>
+							<tr>
+								<td th:text="${reportsummary.d24a_tcps_hig	}" >CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c24f_tcps_hig_b30,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="X1" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c24g_tcps_hig_30_60,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="X2" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c24h_tcps_hig_60_90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="X3" align="right">CHENNAI</td>
+								<td th:text="${#numbers.formatDecimal(reportsummary.c24i_tcps_hig_a90,0,'COMMA',0,'POINT')}"onclick="showdetail(this)" id ="X4" align="right">CHENNAI</td>
+
+
+							</tr>
+
+					
+
+
+						</tbody>
+					</table>
+					<div class="card-footer text-center"
+				style="background-color: #386276;">
+				<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+					onclick="home();">Home</button>
+				<!-- <button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button> -->
+			</div>
+</div>
+<div class="modal fade" style="overflow-x: auto; display: none;"
+					id="addedit" th:fragment="dataedit">
+
+					<div class="modal-dialog modal-lg" style="margin-top: 135px;">
+
+						<div class="modal-content" style="width: 820px;">
+
+
+
+
+
+							<div class="modal-header" style="background-color: #eaecee;">
+								<b>Table 7: No. of existing customers where KYC and CDD reviews are overdue : Modify</b>
+
+							</div>
+
+
+							<div class="modal-body"
+								style="background-color: #eaecee; text-align: center">
+
+								<form action="#" th:object="${dataedit}" method="POST"
+									autocomplete="off" id="dataedit">
+
+									<table class="table  table-bordered  table-hover table-sm"
+										id="">
+										<thead class="thead-light">
+											<tr>
+												<th rowspan="1"></th>
+							
+								<th>< 30 days</th>
+								<th>30 to <60 days</th>
+								<th>60 to < 90 days</th>
+								<th>> 90 days</th>
+
+
+											</tr>
+
+										</thead>
+										<tbody th:each="report : ${reportsummary1}">
+<tr>
+
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D1a_ind_low}"
+													id="D1a_ind_low" class="form-control form-control-sm"
+													name="D1a_ind_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.c1f_ind_low_b30}"
+													id="c1f_ind_low_b30" class="form-control form-control-sm"
+													name="c1f_ind_low_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.c1g_ind_low_30_60}"
+													id="c1g_ind_low_30_60" class="form-control form-control-sm"
+													name="c1g_ind_low_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.c1h_ind_low_60_90}"
+													id="c1h_ind_low_60_90" class="form-control form-control-sm"
+													name="c1h_ind_low_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.c1i_ind_low_a90}"
+													id="c1i_ind_low_a90" class="form-control form-control-sm"
+													name="c1i_ind_low_a90" autocomplete="off"  /></td>
+											</tr>
+											
+											<tr>
+
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D2a_ind_med}"
+													id="D2a_ind_med" class="form-control form-control-sm"
+													name="D2a_ind_med" autocomplete="off"  readonly/></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C2f_ind_med_b30}"
+													id="C2f_ind_med_b30" class="form-control form-control-sm"
+													name="C2f_ind_med_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C2g_ind_med_30_60}"
+													id="C2g_ind_med_30_60" class="form-control form-control-sm"
+													name="C2g_ind_med_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C2h_ind_med_60_90}"
+													id="C2h_ind_med_60_90" class="form-control form-control-sm"
+													name="C2h_ind_med_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C2i_ind_med_a90}"
+													id="C2i_ind_med_a90" class="form-control form-control-sm"
+													name="C2i_ind_med_a90" autocomplete="off"  /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D3a_ind_hig}"
+													id="D3a_ind_hig" class="form-control form-control-sm"
+													name="D3a_ind_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C3f_ind_hig_b30}"
+													id="C3f_ind_hig_b30" class="form-control form-control-sm"
+													name="C3f_ind_hig_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C3g_ind_hig_30_60}"
+													id="C3g_ind_hig_30_60" class="form-control form-control-sm"
+													name="C3g_ind_hig_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C3h_ind_hig_60_90}"
+													id="C3h_ind_hig_60_90" class="form-control form-control-sm"
+													name="C3h_ind_hig_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C3i_ind_hig_a90}"
+													id="C3i_ind_hig_a90" class="form-control form-control-sm"
+													name="C3i_ind_hig_a90" autocomplete="off"  /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D4a_cor_low}"
+													id="D4a_cor_low" class="form-control form-control-sm"
+													name="D4a_cor_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C4f_cor_low_b30}"
+													id="C4f_cor_low_b30" class="form-control form-control-sm"
+													name="C4f_cor_low_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C4g_cor_low_30_60}"
+													id="C4g_cor_low_30_60" class="form-control form-control-sm"
+													name="C4g_cor_low_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C4h_cor_low_60_90}"
+													id="C4h_cor_low_60_90" class="form-control form-control-sm"
+													name="C4h_cor_low_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C4i_cor_low_a90}"
+													id="C4i_cor_low_a90" class="form-control form-control-sm"
+													name="C4i_cor_low_a90" autocomplete="off"  /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D5a_cor_med}"
+													id="D5a_cor_med" class="form-control form-control-sm"
+													name="D5a_cor_med" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C5f_cor_med_b30}"
+													id="C5f_cor_med_b30" class="form-control form-control-sm"
+													name="C5f_cor_med_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C5g_cor_med_30_60}"
+													id="C5g_cor_med_30_60" class="form-control form-control-sm"
+													name="C5g_cor_med_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C5h_cor_med_60_90}"
+													id="C5h_cor_med_60_90" class="form-control form-control-sm"
+													name="C5h_cor_med_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C5i_cor_med_a90}"
+													id="C5i_cor_med_a90" class="form-control form-control-sm"
+													name="C5i_cor_med_a90" autocomplete="off"  /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D6a_cor_hig}"
+													id="D6a_cor_hig" class="form-control form-control-sm"
+													name="D6a_cor_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C6f_cor_hig_b30}"
+													id="C6f_cor_hig_b30" class="form-control form-control-sm"
+													name="C6f_cor_hig_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C6g_cor_hig_30_60}"
+													id="C6g_cor_hig_30_60" class="form-control form-control-sm"
+													name="C6g_cor_hig_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C6h_cor_hig_60_90}"
+													id="C6h_cor_hig_60_90" class="form-control form-control-sm"
+													name="C6h_cor_hig_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C6i_cor_hig_a90}"
+													id="C6i_cor_hig_a90" class="form-control form-control-sm"
+													name="C6i_cor_hig_a90" autocomplete="off"  /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D7a_npr_org_low}"
+													id="D7a_npr_org_low" class="form-control form-control-sm"
+													name="D7a_npr_org_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C7f_npr_org_low_b30}"
+													id="C7f_npr_org_low_b30" class="form-control form-control-sm"
+													name="C7f_npr_org_low_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C7g_npr_org_low_30_60}"
+													id="C7g_npr_org_low_30_60" class="form-control form-control-sm"
+													name="C7g_npr_org_low_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C7h_npr_org_low_60_90}"
+													id="C7h_npr_org_low_60_90" class="form-control form-control-sm"
+													name="C7h_npr_org_low_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C7i_npr_org_low_a90}"
+													id="C7i_npr_org_low_a90" class="form-control form-control-sm"
+													name="C7i_npr_org_low_a90" autocomplete="off"  /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D8a_npr_org_med}"
+													id="D8a_npr_org_med" class="form-control form-control-sm"
+													name="D8a_npr_org_med" autocomplete="off" readonly  /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C8f_npr_org_med_b30}"
+													id="C8f_npr_org_med_b30" class="form-control form-control-sm"
+													name="C8f_npr_org_med_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C8g_npr_org_med_30_60}"
+													id="C8g_npr_org_med_30_60" class="form-control form-control-sm"
+													name="C8g_npr_org_med_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C8h_npr_org_med_60_90}"
+													id="C8h_npr_org_med_60_90" class="form-control form-control-sm"
+													name="C8h_npr_org_med_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C8i_npr_org_med_a90}"
+													id="C8i_npr_org_med_a90" class="form-control form-control-sm"
+													name="C8i_npr_org_med_a90" autocomplete="off"  /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D9a_npr_org_hig}"
+													id="D9a_npr_org_hig" class="form-control form-control-sm"
+													name="D9a_npr_org_hig" autocomplete="off"  readonly/></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C9f_npr_org_hig_b30}"
+													id="C9f_npr_org_hig_b30" class="form-control form-control-sm"
+													name="C9f_npr_org_hig_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C9g_npr_org_hig_30_60}"
+													id="C9g_npr_org_hig_30_60" class="form-control form-control-sm"
+													name="C9g_npr_org_hig_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C9h_npr_org_hig_60_90}"
+													id="C9h_npr_org_hig_60_90" class="form-control form-control-sm"
+													name="C9h_npr_org_hig_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C9i_npr_org_hig_a90}"
+													id="C9i_npr_org_hig_a90" class="form-control form-control-sm"
+													name="C9i_npr_org_hig_a90" autocomplete="off"  /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D10a_trust_low}"
+													id="D10a_trust_low" class="form-control form-control-sm"
+													name="D10a_trust_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C10f_trust_low_b30}"
+													id="C10f_trust_low_b30" class="form-control form-control-sm"
+													name="C10f_trust_low_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C10g_trust_low_30_60}"
+													id="C10g_trust_low_30_60" class="form-control form-control-sm"
+													name="C10g_trust_low_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C10h_trust_low_60_90}"
+													id="C10h_trust_low_60_90" class="form-control form-control-sm"
+													name="C10h_trust_low_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C10i_trust_low_a90}"
+													id="C10i_trust_low_a90" class="form-control form-control-sm"
+													name="C10i_trust_low_a90" autocomplete="off"  /></td>
+											</tr>	
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D11a_trust_med}"
+													id="D11a_trust_med" class="form-control form-control-sm"
+													name="D11a_trust_med" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C11f_trust_med_b30}"
+													id="C11f_trust_med_b30" class="form-control form-control-sm"
+													name="C11f_trust_med_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C11g_trust_med_30_60}"
+													id="C11g_trust_med_30_60" class="form-control form-control-sm"
+													name="C11g_trust_med_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C11h_trust_med_60_90}"
+													id="C11h_trust_med_60_90" class="form-control form-control-sm"
+													name="C11h_trust_med_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C11i_trust_med_a90}"
+													id="C11i_trust_med_a90" class="form-control form-control-sm"
+													name="C11i_trust_med_a90" autocomplete="off"  /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D12a_trust_hig}"
+													id="D12a_trust_hig" class="form-control form-control-sm"
+													name="D12a_trust_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C12f_trust_hig_b30}"
+													id="C12f_trust_hig_b30" class="form-control form-control-sm"
+													name="C12f_trust_hig_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C12g_trust_hig_30_60}"
+													id="C12g_trust_hig_30_60" class="form-control form-control-sm"
+													name="C12g_trust_hig_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C12h_trust_hig_60_90}"
+													id="C12h_trust_hig_60_90" class="form-control form-control-sm"
+													name="C12h_trust_hig_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C12i_trust_hig_a90}"
+													id="C12i_trust_hig_a90" class="form-control form-control-sm"
+													name="C12i_trust_hig_a90" autocomplete="off"  /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D13a_all_otr_low}"
+													id="D13a_all_otr_low" class="form-control form-control-sm"
+													name="D13a_all_otr_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C13f_all_otr_low_b30}"
+													id="C13f_all_otr_low_b30" class="form-control form-control-sm"
+													name="C13f_all_otr_low_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C13g_all_otr_low_30_60}"
+													id="C13g_all_otr_low_30_60" class="form-control form-control-sm"
+													name="C13g_all_otr_low_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C13h_all_otr_low_60_90}"
+													id="C13h_all_otr_low_60_90" class="form-control form-control-sm"
+													name="C13h_all_otr_low_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C13i_all_otr_low_a90}"
+													id="C13i_all_otr_low_a90" class="form-control form-control-sm"
+													name="C13i_all_otr_low_a90" autocomplete="off"  /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D14a_all_otr_med}"
+													id="D14a_all_otr_med" class="form-control form-control-sm"
+													name="D14a_all_otr_med" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C14f_all_otr_med_b30}"
+													id="C14f_all_otr_med_b30" class="form-control form-control-sm"
+													name="C14f_all_otr_med_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C14g_all_otr_med_30_60}"
+													id="C14g_all_otr_med_30_60" class="form-control form-control-sm"
+													name="C14g_all_otr_med_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C14h_all_otr_med_60_90}"
+													id="C14h_all_otr_med_60_90" class="form-control form-control-sm"
+													name="C14h_all_otr_med_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C14i_all_otr_med_a90}"
+													id="C14i_all_otr_med_a90" class="form-control form-control-sm"
+													name="C14i_all_otr_med_a90" autocomplete="off"  /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D15a_all_otr_hig}"
+													id="D15a_all_otr_hig" class="form-control form-control-sm"
+													name="D15a_all_otr_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C15f_all_otr_hig_b30}"
+													id="C15f_all_otr_hig_b30" class="form-control form-control-sm"
+													name="C15f_all_otr_hig_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C15g_all_otr_hig_30_60}"
+													id="C15g_all_otr_hig_30_60" class="form-control form-control-sm"
+													name="C15g_all_otr_hig_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C15h_all_otr_hig_60_90}"
+													id="C15h_all_otr_hig_60_90" class="form-control form-control-sm"
+													name="C15h_all_otr_hig_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C15i_all_otr_hig_a90}"
+													id="C15i_all_otr_hig_a90" class="form-control form-control-sm"
+													name="C15i_all_otr_hig_a90" autocomplete="off"  /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D16a_peps_dom_low}"
+													id="D16a_peps_dom_low" class="form-control form-control-sm"
+													name="D16a_peps_dom_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C16f_peps_dom_low_b30}"
+													id="C16f_peps_dom_low_b30" class="form-control form-control-sm"
+													name="C16f_peps_dom_low_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C16g_peps_dom_low_30_60}"
+													id="C16g_peps_dom_low_30_60" class="form-control form-control-sm"
+													name="C16g_peps_dom_low_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C16h_peps_dom_low_60_90}"
+													id="C16h_peps_dom_low_60_90" class="form-control form-control-sm"
+													name="C16h_peps_dom_low_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C16i_peps_dom_low_a90}"
+													id="C16i_peps_dom_low_a90" class="form-control form-control-sm"
+													name="C16i_peps_dom_low_a90" autocomplete="off"  /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D17a_peps_dom_med}"
+													id="D17a_peps_dom_med" class="form-control form-control-sm"
+													name="D17a_peps_dom_med" autocomplete="off" readonly  /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C17f_peps_dom_med_b30}"
+													id="C17f_peps_dom_med_b30" class="form-control form-control-sm"
+													name="C17f_peps_dom_med_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C17g_peps_dom_med_30_60}"
+													id="C17g_peps_dom_med_30_60" class="form-control form-control-sm"
+													name="C17g_peps_dom_med_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C17h_peps_dom_med_60_90}"
+													id="C17h_peps_dom_med_60_90" class="form-control form-control-sm"
+													name="C17h_peps_dom_med_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C17i_peps_dom_med_a90}"
+													id="C17i_peps_dom_med_a90" class="form-control form-control-sm"
+													name="C17i_peps_dom_med_a90" autocomplete="off"  /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D18a_peps_dom_hig}"
+													id="D18a_peps_dom_hig" class="form-control form-control-sm"
+													name="D18a_peps_dom_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C18f_peps_dom_hig_b30}"
+													id="C18f_peps_dom_hig_b30" class="form-control form-control-sm"
+													name="C18f_peps_dom_hig_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C18g_peps_dom_hig_30_60}"
+													id="C18g_peps_dom_hig_30_60" class="form-control form-control-sm"
+													name="C18g_peps_dom_hig_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C18h_peps_dom_hig_60_90}"
+													id="C18h_peps_dom_hig_60_90" class="form-control form-control-sm"
+													name="C18h_peps_dom_hig_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C18i_peps_dom_hig_a90}"
+													id="C18i_peps_dom_hig_a90" class="form-control form-control-sm"
+													name="C18i_peps_dom_hig_a90" autocomplete="off"  /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D19a_peps_frn_low}"
+													id="D19a_peps_frn_low" class="form-control form-control-sm"
+													name="D19a_peps_frn_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C19f_peps_frn_low_b30}"
+													id="C19f_peps_frn_low_b30" class="form-control form-control-sm"
+													name="C19f_peps_frn_low_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C19g_peps_frn_low_30_60}"
+													id="C19g_peps_frn_low_30_60" class="form-control form-control-sm"
+													name="C19g_peps_frn_low_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C19h_peps_frn_low_60_90}"
+													id="C19h_peps_frn_low_60_90" class="form-control form-control-sm"
+													name="C19h_peps_frn_low_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C19i_peps_frn_low_a90}"
+													id="C19i_peps_frn_low_a90" class="form-control form-control-sm"
+													name="C19i_peps_frn_low_a90" autocomplete="off"  /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D20a_peps_frn_med}"
+													id="D20a_peps_frn_med" class="form-control form-control-sm"
+													name="D20a_peps_frn_med" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C20f_peps_frn_med_b30}"
+													id="C20f_peps_frn_med_b30" class="form-control form-control-sm"
+													name="C20f_peps_frn_med_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C20g_peps_frn_med_30_60}"
+													id="C20g_peps_frn_med_30_60" class="form-control form-control-sm"
+													name="C20g_peps_frn_med_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C20h_peps_frn_med_60_90}"
+													id="C20h_peps_frn_med_60_90" class="form-control form-control-sm"
+													name="C20h_peps_frn_med_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C20i_peps_frn_med_a90}"
+													id="C20i_peps_frn_med_a90" class="form-control form-control-sm"
+													name="C20i_peps_frn_med_a90" autocomplete="off"  /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D21a_peps_frn_hig}"
+													id="D21a_peps_frn_hig" class="form-control form-control-sm"
+													name="D21a_peps_frn_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C21f_peps_frn_hig_b30}"
+													id="C21f_peps_frn_hig_b30" class="form-control form-control-sm"
+													name="C21f_peps_frn_hig_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C21g_peps_frn_hig_30_60}"
+													id="C21g_peps_frn_hig_30_60" class="form-control form-control-sm"
+													name="C21g_peps_frn_hig_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C21h_peps_frn_hig_60_90}"
+													id="C21h_peps_frn_hig_60_90" class="form-control form-control-sm"
+													name="C21h_peps_frn_hig_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C21i_peps_frn_hig_a90}"
+													id="C21i_peps_frn_hig_a90" class="form-control form-control-sm"
+													name="C21i_peps_frn_hig_a90" autocomplete="off"  /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D22a_tcps_low}"
+													id="D22a_tcps_low" class="form-control form-control-sm"
+													name="D22a_tcps_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C22f_tcps_low_b30}"
+													id="C22f_tcps_low_b30" class="form-control form-control-sm"
+													name="C22f_tcps_low_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C22g_tcps_low_30_60}"
+													id="C22g_tcps_low_30_60" class="form-control form-control-sm"
+													name="C22g_tcps_low_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C22h_tcps_low_60_90}"
+													id="C22h_tcps_low_60_90" class="form-control form-control-sm"
+													name="C22h_tcps_low_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C22i_tcps_low_a90}"
+													id="C22i_tcps_low_a90" class="form-control form-control-sm"
+													name="C22i_tcps_low_a90" autocomplete="off"  /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D23a_tcps_med}"
+													id="D23a_tcps_med" class="form-control form-control-sm"
+													name="D23a_tcps_med" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C23f_tcps_med_b30}"
+													id="C23f_tcps_med_b30" class="form-control form-control-sm"
+													name="C23f_tcps_med_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C23g_tcps_med_30_60}"
+													id="C23g_tcps_med_30_60" class="form-control form-control-sm"
+													name="C23g_tcps_med_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C23h_tcps_med_60_90}"
+													id="C23h_tcps_med_60_90" class="form-control form-control-sm"
+													name="C23h_tcps_med_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C23i_tcps_med_a90}"
+													id="C23i_tcps_med_a90" class="form-control form-control-sm"
+													name="C23i_tcps_med_a90" autocomplete="off"  /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D24a_tcps_hig}"
+													id="D24a_tcps_hig" class="form-control form-control-sm"
+													name="D24a_tcps_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C24f_tcps_hig_b30}"
+													id="C24f_tcps_hig_b30" class="form-control form-control-sm"
+													name="C24f_tcps_hig_b30" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C24g_tcps_hig_30_60}"
+													id="C24g_tcps_hig_30_60" class="form-control form-control-sm"
+													name="C24g_tcps_hig_30_60" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C24h_tcps_hig_60_90}"
+													id="C24h_tcps_hig_60_90" class="form-control form-control-sm"
+													name="C24h_tcps_hig_60_90" autocomplete="off"  /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C24i_tcps_hig_a90}"
+													id="C24i_tcps_hig_a90" class="form-control form-control-sm"
+													name="C24i_tcps_hig_a90" autocomplete="off"  />
+													
+													
+													</td>
+											</tr>
+											<tr>
+										<td style="display: none;"><input type="text"
+											style="color: black; display: none;"
+											th:value="${#dates.format(report?.report_date ,'dd-MM-yyyy')}"
+											id="report_date" class="form-control form-control-sm"
+											name="report_date" autocomplete="off" /></td>
+										<td style="display: none;"><input type="text"
+											style="color: black; display: none;"
+											th:value="${#dates.format(report?.rep_period_from ,'dd-MM-yyyy')}"
+											id="rep_period_from" class="form-control form-control-sm"
+											name="rep_period_from" autocomplete="off" /></td>
+										<td style="display: none;"><input type="text"
+											style="color: black; display: none;"
+											th:value="${#dates.format(report?.rep_period_to ,'dd-MM-yyyy')}"
+											id="rep_period_to" class="form-control form-control-sm"
+											name="rep_period_to" autocomplete="off" /></td>
+									</tr>
+										</tbody>
+									</table>
+
+
+
+
+
+
+									<div class="card-footer text-center"
+										style="height: 38px; background-color: #eaecee;">
+										<button type="button" style="margin-top: -12px;"
+											class="btn btn-xs btn-primary"data-dismiss="modal"
+											onclick="editsubmitform(this);" form="dataedit"
+											id="btnSubmit">Submit</button>
+
+										<button type="button" style="margin-top: -12px;"
+											class="btn btn-xs btn-primary" id="btnclose"
+											data-dismiss="modal">Close</button>
+
+
+									</div>
+									<div class="container content"
+										style="border: 1px solid #36404a; background-color: #eaecee; padding: 15px;">
+										<div class="row formline">
+
+											<label class="col-sm-2">Entry User</label>
+											<div class="col-sm-2">
+												<input type="text" th:value="${session.USERID}"
+													id="entry_user" name="entry_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+											<label class="col-sm-2">Modify User</label>
+											<div class="col-sm-2">
+												<input type="text" th:value="${session.USERID}"
+													id="modify_user" name="modify_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+											<label class="col-sm-2">Verify User</label>
+											<div class="col-sm-2">
+												<input type="text" id="verify_user" name="verify_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+										</div>
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+											<label class="col-sm-2">Entry Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="entry_date" name="entry_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+
+											<label class="col-sm-2">Modify Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="verify_date" name="modify_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+
+
+
+											<label class="col-sm-2">Verify Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="verify_time" name="verify_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+
+											<label></label>
+										</div>
+
+
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" style="overflow-x: auto;" id="verify"
+			th:fragment="dataverify">
+
+					<div class="modal-dialog modal-lg" style="margin-top: 135px;">
+
+						<div class="modal-content" style="width: 820px;">
+
+
+
+
+
+							<div class="modal-header" style="background-color: #eaecee;">
+								<b>Table 7: No. of existing customers where KYC and CDD reviews are overdue : Verify</b>
+
+							</div>
+
+
+							<div class="modal-body"
+								style="background-color: #eaecee; text-align: center">
+
+								<form action="#" th:object="${dataverify}" method="POST"
+									autocomplete="off" id="dataverify">
+
+									<table class="table  table-bordered  table-hover table-sm"
+										id="">
+										<thead class="thead-light">
+											<tr>
+												<th rowspan="1"></th>
+							
+								<th>< 30 days</th>
+								<th>30 to <60 days</th>
+								<th>60 to < 90 days</th>
+								<th>> 90 days</th>
+
+
+											</tr>
+
+										</thead>
+										<tbody th:each="report : ${reportsummary1}">
+<tr>
+
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D1a_ind_low}"
+													id="D1a_ind_low" class="form-control form-control-sm"
+													name="D1a_ind_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.c1f_ind_low_b30}"
+													id="c1f_ind_low_b30" class="form-control form-control-sm"
+													name="c1f_ind_low_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.c1g_ind_low_30_60}"
+													id="c1g_ind_low_30_60" class="form-control form-control-sm"
+													name="c1g_ind_low_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.c1h_ind_low_60_90}"
+													id="c1h_ind_low_60_90" class="form-control form-control-sm"
+													name="c1h_ind_low_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.c1i_ind_low_a90}"
+													id="c1i_ind_low_a90" class="form-control form-control-sm"
+													name="c1i_ind_low_a90" autocomplete="off" readonly /></td>
+											</tr>
+											
+											<tr>
+
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D2a_ind_med}"
+													id="D2a_ind_med" class="form-control form-control-sm"
+													name="D2a_ind_med" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C2f_ind_med_b30}"
+													id="C2f_ind_med_b30" class="form-control form-control-sm"
+													name="C2f_ind_med_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C2g_ind_med_30_60}"
+													id="C2g_ind_med_30_60" class="form-control form-control-sm"
+													name="C2g_ind_med_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C2h_ind_med_60_90}"
+													id="C2h_ind_med_60_90" class="form-control form-control-sm"
+													name="C2h_ind_med_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C2i_ind_med_a90}"
+													id="C2i_ind_med_a90" class="form-control form-control-sm"
+													name="C2i_ind_med_a90" autocomplete="off" readonly /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D3a_ind_hig}"
+													id="D3a_ind_hig" class="form-control form-control-sm"
+													name="D3a_ind_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C3f_ind_hig_b30}"
+													id="C3f_ind_hig_b30" class="form-control form-control-sm"
+													name="C3f_ind_hig_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C3g_ind_hig_30_60}"
+													id="C3g_ind_hig_30_60" class="form-control form-control-sm"
+													name="C3g_ind_hig_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C3h_ind_hig_60_90}"
+													id="C3h_ind_hig_60_90" class="form-control form-control-sm"
+													name="C3h_ind_hig_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C3i_ind_hig_a90}"
+													id="C3i_ind_hig_a90" class="form-control form-control-sm"
+													name="C3i_ind_hig_a90" autocomplete="off" readonly /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D4a_cor_low}"
+													id="D4a_cor_low" class="form-control form-control-sm"
+													name="D4a_cor_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C4f_cor_low_b30}"
+													id="C4f_cor_low_b30" class="form-control form-control-sm"
+													name="C4f_cor_low_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C4g_cor_low_30_60}"
+													id="C4g_cor_low_30_60" class="form-control form-control-sm"
+													name="C4g_cor_low_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C4h_cor_low_60_90}"
+													id="C4h_cor_low_60_90" class="form-control form-control-sm"
+													name="C4h_cor_low_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C4i_cor_low_a90}"
+													id="C4i_cor_low_a90" class="form-control form-control-sm"
+													name="C4i_cor_low_a90" autocomplete="off" readonly /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D5a_cor_med}"
+													id="D5a_cor_med" class="form-control form-control-sm"
+													name="D5a_cor_med" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C5f_cor_med_b30}"
+													id="C5f_cor_med_b30" class="form-control form-control-sm"
+													name="C5f_cor_med_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C5g_cor_med_30_60}"
+													id="C5g_cor_med_30_60" class="form-control form-control-sm"
+													name="C5g_cor_med_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C5h_cor_med_60_90}"
+													id="C5h_cor_med_60_90" class="form-control form-control-sm"
+													name="C5h_cor_med_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C5i_cor_med_a90}"
+													id="C5i_cor_med_a90" class="form-control form-control-sm"
+													name="C5i_cor_med_a90" autocomplete="off" readonly /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D6a_cor_hig}"
+													id="D6a_cor_hig" class="form-control form-control-sm"
+													name="D6a_cor_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C6f_cor_hig_b30}"
+													id="C6f_cor_hig_b30" class="form-control form-control-sm"
+													name="C6f_cor_hig_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C6g_cor_hig_30_60}"
+													id="C6g_cor_hig_30_60" class="form-control form-control-sm"
+													name="C6g_cor_hig_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C6h_cor_hig_60_90}"
+													id="C6h_cor_hig_60_90" class="form-control form-control-sm"
+													name="C6h_cor_hig_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C6i_cor_hig_a90}"
+													id="C6i_cor_hig_a90" class="form-control form-control-sm"
+													name="C6i_cor_hig_a90" autocomplete="off" readonly /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D7a_npr_org_low}"
+													id="D7a_npr_org_low" class="form-control form-control-sm"
+													name="D7a_npr_org_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C7f_npr_org_low_b30}"
+													id="C7f_npr_org_low_b30" class="form-control form-control-sm"
+													name="C7f_npr_org_low_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C7g_npr_org_low_30_60}"
+													id="C7g_npr_org_low_30_60" class="form-control form-control-sm"
+													name="C7g_npr_org_low_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C7h_npr_org_low_60_90}"
+													id="C7h_npr_org_low_60_90" class="form-control form-control-sm"
+													name="C7h_npr_org_low_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C7i_npr_org_low_a90}"
+													id="C7i_npr_org_low_a90" class="form-control form-control-sm"
+													name="C7i_npr_org_low_a90" autocomplete="off" readonly /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D8a_npr_org_med}"
+													id="D8a_npr_org_med" class="form-control form-control-sm"
+													name="D8a_npr_org_med" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C8f_npr_org_med_b30}"
+													id="C8f_npr_org_med_b30" class="form-control form-control-sm"
+													name="C8f_npr_org_med_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C8g_npr_org_med_30_60}"
+													id="C8g_npr_org_med_30_60" class="form-control form-control-sm"
+													name="C8g_npr_org_med_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C8h_npr_org_med_60_90}"
+													id="C8h_npr_org_med_60_90" class="form-control form-control-sm"
+													name="C8h_npr_org_med_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C8i_npr_org_med_a90}"
+													id="C8i_npr_org_med_a90" class="form-control form-control-sm"
+													name="C8i_npr_org_med_a90" autocomplete="off" readonly /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D9a_npr_org_hig}"
+													id="D9a_npr_org_hig" class="form-control form-control-sm"
+													name="D9a_npr_org_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C9f_npr_org_hig_b30}"
+													id="C9f_npr_org_hig_b30" class="form-control form-control-sm"
+													name="C9f_npr_org_hig_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C9g_npr_org_hig_30_60}"
+													id="C9g_npr_org_hig_30_60" class="form-control form-control-sm"
+													name="C9g_npr_org_hig_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C9h_npr_org_hig_60_90}"
+													id="C9h_npr_org_hig_60_90" class="form-control form-control-sm"
+													name="C9h_npr_org_hig_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C9i_npr_org_hig_a90}"
+													id="C9i_npr_org_hig_a90" class="form-control form-control-sm"
+													name="C9i_npr_org_hig_a90" autocomplete="off" readonly /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D10a_trust_low}"
+													id="D10a_trust_low" class="form-control form-control-sm"
+													name="D10a_trust_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C10f_trust_low_b30}"
+													id="C10f_trust_low_b30" class="form-control form-control-sm"
+													name="C10f_trust_low_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C10g_trust_low_30_60}"
+													id="C10g_trust_low_30_60" class="form-control form-control-sm"
+													name="C10g_trust_low_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C10h_trust_low_60_90}"
+													id="C10h_trust_low_60_90" class="form-control form-control-sm"
+													name="C10h_trust_low_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C10i_trust_low_a90}"
+													id="C10i_trust_low_a90" class="form-control form-control-sm"
+													name="C10i_trust_low_a90" autocomplete="off" readonly /></td>
+											</tr>	
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D11a_trust_med}"
+													id="D11a_trust_med" class="form-control form-control-sm"
+													name="D11a_trust_med" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C11f_trust_med_b30}"
+													id="C11f_trust_med_b30" class="form-control form-control-sm"
+													name="C11f_trust_med_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C11g_trust_med_30_60}"
+													id="C11g_trust_med_30_60" class="form-control form-control-sm"
+													name="C11g_trust_med_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C11h_trust_med_60_90}"
+													id="C11h_trust_med_60_90" class="form-control form-control-sm"
+													name="C11h_trust_med_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C11i_trust_med_a90}"
+													id="C11i_trust_med_a90" class="form-control form-control-sm"
+													name="C11i_trust_med_a90" autocomplete="off" readonly /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D12a_trust_hig}"
+													id="D12a_trust_hig" class="form-control form-control-sm"
+													name="D12a_trust_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C12f_trust_hig_b30}"
+													id="C12f_trust_hig_b30" class="form-control form-control-sm"
+													name="C12f_trust_hig_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C12g_trust_hig_30_60}"
+													id="C12g_trust_hig_30_60" class="form-control form-control-sm"
+													name="C12g_trust_hig_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C12h_trust_hig_60_90}"
+													id="C12h_trust_hig_60_90" class="form-control form-control-sm"
+													name="C12h_trust_hig_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C12i_trust_hig_a90}"
+													id="C12i_trust_hig_a90" class="form-control form-control-sm"
+													name="C12i_trust_hig_a90" autocomplete="off" readonly /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D13a_all_otr_low}"
+													id="D13a_all_otr_low" class="form-control form-control-sm"
+													name="D13a_all_otr_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C13f_all_otr_low_b30}"
+													id="C13f_all_otr_low_b30" class="form-control form-control-sm"
+													name="C13f_all_otr_low_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C13g_all_otr_low_30_60}"
+													id="C13g_all_otr_low_30_60" class="form-control form-control-sm"
+													name="C13g_all_otr_low_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C13h_all_otr_low_60_90}"
+													id="C13h_all_otr_low_60_90" class="form-control form-control-sm"
+													name="C13h_all_otr_low_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C13i_all_otr_low_a90}"
+													id="C13i_all_otr_low_a90" class="form-control form-control-sm"
+													name="C13i_all_otr_low_a90" autocomplete="off" readonly /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D14a_all_otr_med}"
+													id="D14a_all_otr_med" class="form-control form-control-sm"
+													name="D14a_all_otr_med" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C14f_all_otr_med_b30}"
+													id="C14f_all_otr_med_b30" class="form-control form-control-sm"
+													name="C14f_all_otr_med_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C14g_all_otr_med_30_60}"
+													id="C14g_all_otr_med_30_60" class="form-control form-control-sm"
+													name="C14g_all_otr_med_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C14h_all_otr_med_60_90}"
+													id="C14h_all_otr_med_60_90" class="form-control form-control-sm"
+													name="C14h_all_otr_med_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C14i_all_otr_med_a90}"
+													id="C14i_all_otr_med_a90" class="form-control form-control-sm"
+													name="C14i_all_otr_med_a90" autocomplete="off" readonly /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D15a_all_otr_hig}"
+													id="D15a_all_otr_hig" class="form-control form-control-sm"
+													name="D15a_all_otr_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C15f_all_otr_hig_b30}"
+													id="C15f_all_otr_hig_b30" class="form-control form-control-sm"
+													name="C15f_all_otr_hig_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C15g_all_otr_hig_30_60}"
+													id="C15g_all_otr_hig_30_60" class="form-control form-control-sm"
+													name="C15g_all_otr_hig_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C15h_all_otr_hig_60_90}"
+													id="C15h_all_otr_hig_60_90" class="form-control form-control-sm"
+													name="C15h_all_otr_hig_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C15i_all_otr_hig_a90}"
+													id="C15i_all_otr_hig_a90" class="form-control form-control-sm"
+													name="C15i_all_otr_hig_a90" autocomplete="off" readonly /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D16a_peps_dom_low}"
+													id="D16a_peps_dom_low" class="form-control form-control-sm"
+													name="D16a_peps_dom_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C16f_peps_dom_low_b30}"
+													id="C16f_peps_dom_low_b30" class="form-control form-control-sm"
+													name="C16f_peps_dom_low_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C16g_peps_dom_low_30_60}"
+													id="C16g_peps_dom_low_30_60" class="form-control form-control-sm"
+													name="C16g_peps_dom_low_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C16h_peps_dom_low_60_90}"
+													id="C16h_peps_dom_low_60_90" class="form-control form-control-sm"
+													name="C16h_peps_dom_low_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C16i_peps_dom_low_a90}"
+													id="C16i_peps_dom_low_a90" class="form-control form-control-sm"
+													name="C16i_peps_dom_low_a90" autocomplete="off" readonly /></td>
+											</tr>
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D17a_peps_dom_med}"
+													id="D17a_peps_dom_med" class="form-control form-control-sm"
+													name="D17a_peps_dom_med" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C17f_peps_dom_med_b30}"
+													id="C17f_peps_dom_med_b30" class="form-control form-control-sm"
+													name="C17f_peps_dom_med_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C17g_peps_dom_med_30_60}"
+													id="C17g_peps_dom_med_30_60" class="form-control form-control-sm"
+													name="C17g_peps_dom_med_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C17h_peps_dom_med_60_90}"
+													id="C17h_peps_dom_med_60_90" class="form-control form-control-sm"
+													name="C17h_peps_dom_med_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C17i_peps_dom_med_a90}"
+													id="C17i_peps_dom_med_a90" class="form-control form-control-sm"
+													name="C17i_peps_dom_med_a90" autocomplete="off" readonly /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D18a_peps_dom_hig}"
+													id="D18a_peps_dom_hig" class="form-control form-control-sm"
+													name="D18a_peps_dom_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C18f_peps_dom_hig_b30}"
+													id="C18f_peps_dom_hig_b30" class="form-control form-control-sm"
+													name="C18f_peps_dom_hig_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C18g_peps_dom_hig_30_60}"
+													id="C18g_peps_dom_hig_30_60" class="form-control form-control-sm"
+													name="C18g_peps_dom_hig_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C18h_peps_dom_hig_60_90}"
+													id="C18h_peps_dom_hig_60_90" class="form-control form-control-sm"
+													name="C18h_peps_dom_hig_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C18i_peps_dom_hig_a90}"
+													id="C18i_peps_dom_hig_a90" class="form-control form-control-sm"
+													name="C18i_peps_dom_hig_a90" autocomplete="off" readonly /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D19a_peps_frn_low}"
+													id="D19a_peps_frn_low" class="form-control form-control-sm"
+													name="D19a_peps_frn_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C19f_peps_frn_low_b30}"
+													id="C19f_peps_frn_low_b30" class="form-control form-control-sm"
+													name="C19f_peps_frn_low_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C19g_peps_frn_low_30_60}"
+													id="C19g_peps_frn_low_30_60" class="form-control form-control-sm"
+													name="C19g_peps_frn_low_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C19h_peps_frn_low_60_90}"
+													id="C19h_peps_frn_low_60_90" class="form-control form-control-sm"
+													name="C19h_peps_frn_low_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C19i_peps_frn_low_a90}"
+													id="C19i_peps_frn_low_a90" class="form-control form-control-sm"
+													name="C19i_peps_frn_low_a90" autocomplete="off" readonly /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D20a_peps_frn_med}"
+													id="D20a_peps_frn_med" class="form-control form-control-sm"
+													name="D20a_peps_frn_med" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C20f_peps_frn_med_b30}"
+													id="C20f_peps_frn_med_b30" class="form-control form-control-sm"
+													name="C20f_peps_frn_med_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C20g_peps_frn_med_30_60}"
+													id="C20g_peps_frn_med_30_60" class="form-control form-control-sm"
+													name="C20g_peps_frn_med_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C20h_peps_frn_med_60_90}"
+													id="C20h_peps_frn_med_60_90" class="form-control form-control-sm"
+													name="C20h_peps_frn_med_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C20i_peps_frn_med_a90}"
+													id="C20i_peps_frn_med_a90" class="form-control form-control-sm"
+													name="C20i_peps_frn_med_a90" autocomplete="off" readonly /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D21a_peps_frn_hig}"
+													id="D21a_peps_frn_hig" class="form-control form-control-sm"
+													name="D21a_peps_frn_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C21f_peps_frn_hig_b30}"
+													id="C21f_peps_frn_hig_b30" class="form-control form-control-sm"
+													name="C21f_peps_frn_hig_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C21g_peps_frn_hig_30_60}"
+													id="C21g_peps_frn_hig_30_60" class="form-control form-control-sm"
+													name="C21g_peps_frn_hig_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C21h_peps_frn_hig_60_90}"
+													id="C21h_peps_frn_hig_60_90" class="form-control form-control-sm"
+													name="C21h_peps_frn_hig_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C21i_peps_frn_hig_a90}"
+													id="C21i_peps_frn_hig_a90" class="form-control form-control-sm"
+													name="C21i_peps_frn_hig_a90" autocomplete="off" readonly /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D22a_tcps_low}"
+													id="D22a_tcps_low" class="form-control form-control-sm"
+													name="D22a_tcps_low" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C22f_tcps_low_b30}"
+													id="C22f_tcps_low_b30" class="form-control form-control-sm"
+													name="C22f_tcps_low_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C22g_tcps_low_30_60}"
+													id="C22g_tcps_low_30_60" class="form-control form-control-sm"
+													name="C22g_tcps_low_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C22h_tcps_low_60_90}"
+													id="C22h_tcps_low_60_90" class="form-control form-control-sm"
+													name="C22h_tcps_low_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C22i_tcps_low_a90}"
+													id="C22i_tcps_low_a90" class="form-control form-control-sm"
+													name="C22i_tcps_low_a90" autocomplete="off" readonly /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D23a_tcps_med}"
+													id="D23a_tcps_med" class="form-control form-control-sm"
+													name="D23a_tcps_med" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C23f_tcps_med_b30}"
+													id="C23f_tcps_med_b30" class="form-control form-control-sm"
+													name="C23f_tcps_med_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C23g_tcps_med_30_60}"
+													id="C23g_tcps_med_30_60" class="form-control form-control-sm"
+													name="C23g_tcps_med_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C23h_tcps_med_60_90}"
+													id="C23h_tcps_med_60_90" class="form-control form-control-sm"
+													name="C23h_tcps_med_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C23i_tcps_med_a90}"
+													id="C23i_tcps_med_a90" class="form-control form-control-sm"
+													name="C23i_tcps_med_a90" autocomplete="off" readonly /></td>
+											</tr>
+											
+											<tr>
+												<td width="22px;"><input type="text"
+													style="width: 300px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.D24a_tcps_hig}"
+													id="D24a_tcps_hig" class="form-control form-control-sm"
+													name="D24a_tcps_hig" autocomplete="off" readonly /></td>
+												<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C24f_tcps_hig_b30}"
+													id="C24f_tcps_hig_b30" class="form-control form-control-sm"
+													name="C24f_tcps_hig_b30" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C24g_tcps_hig_30_60}"
+													id="C24g_tcps_hig_30_60" class="form-control form-control-sm"
+													name="C24g_tcps_hig_30_60" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C24h_tcps_hig_60_90}"
+													id="C24h_tcps_hig_60_90" class="form-control form-control-sm"
+													name="C24h_tcps_hig_60_90" autocomplete="off" readonly /></td>
+													<td width="22px;"><input type="text"
+													style="width: 100px; background-color: #e3e3e4; color: black;"
+													th:value="${report?.C24i_tcps_hig_a90}"
+													id="C24i_tcps_hig_a90" class="form-control form-control-sm"
+													name="C24i_tcps_hig_a90" autocomplete="off" readonly />
+													
+													
+													</td>
+											</tr>
+											<tr>
+										<td style="display: none;"><input type="text"
+											style="color: black; display: none;"
+											th:value="${#dates.format(report?.report_date ,'dd-MM-yyyy')}"
+											id="report_date" class="form-control form-control-sm"
+											name="report_date" autocomplete="off" /></td>
+										<td style="display: none;"><input type="text"
+											style="color: black; display: none;"
+											th:value="${#dates.format(report?.rep_period_from ,'dd-MM-yyyy')}"
+											id="rep_period_from" class="form-control form-control-sm"
+											name="rep_period_from" autocomplete="off" /></td>
+										<td style="display: none;"><input type="text"
+											style="color: black; display: none;"
+											th:value="${#dates.format(report?.rep_period_to ,'dd-MM-yyyy')}"
+											id="rep_period_to" class="form-control form-control-sm"
+											name="rep_period_to" autocomplete="off" /></td>
+									</tr>
+										</tbody>
+									</table>
+
+
+
+
+
+
+								<div class="card-footer text-center"
+								style="height: 38px; background-color: #eaecee;">
+								<button type="button" style="margin-top: -12px;"
+									class="btn btn-xs btn-primary"data-dismiss="modal"
+									onclick="verifysubmitform(this);" form="dataverify"
+									id="btnSubmit">Verify</button>
+
+								<button type="button" style="margin-top: -12px;"
+									class="btn btn-xs btn-primary" id="btnclose"
+									data-dismiss="modal">Close</button>
+
+
+							</div>
+									<div class="container content"
+										style="border: 1px solid #36404a; background-color: #eaecee; padding: 15px;">
+										<div class="row formline">
+
+											<label class="col-sm-2">Entry User</label>
+											<div class="col-sm-2">
+												<input type="text" th:value="${session.USERID}"
+													id="entry_user" name="entry_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+											<label class="col-sm-2">Modify User</label>
+											<div class="col-sm-2">
+												<input type="text" th:value="${session.USERID}"
+													id="modify_user" name="modify_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+											<label class="col-sm-2">Verify User</label>
+											<div class="col-sm-2">
+												<input type="text" id="verify_user" name="verify_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+										</div>
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+											<label class="col-sm-2">Entry Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="entry_date" name="entry_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+
+											<label class="col-sm-2">Modify Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="verify_date" name="modify_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+
+
+
+											<label class="col-sm-2">Verify Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="verify_time" name="verify_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+
+											<label></label>
+										</div>
+
+
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!------------------------------ Report summary section ends it will shown only if summary button clicked------------------------->
+				<!------------------------------ Report Details section starts it will shown only if Details button clicked------------------------->
+				<div class="col-sm-12 customcol" th:if="${displaymode}=='detail'"
+					th:fragment="detail" >
+					<div class="card-header" id="modheadtitle" style="width: 1100px;">
+						<b>Table 7: No. of existing customers where KYC and CDD reviews are
+							overdue</b>
+
+					</div>
+						<table th:if="${searchmsg} == null"
+							class="table table-bordered table-sm" style="width: 1100px"
+							id="detailtb">
+							<thead class="thead-light">
+								<tr>
+									<!-- <th rowspan="5" class="first_left"><a
+										data-toggle="tooltip" class="editrec"
+										title="Click to add new Records"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype}=='report' ? addedit "
+											class="fa fa-plus-circle" onclick="addRecord();"
+											aria-hidden="true"></i></a></th>
+									<th rowspan="5" class="second_left"><a href="#"
+										data-toggle="tooltip" title="Click to Search Record"><i
+											class="fa fa-search" onclick="searchRecord();"
+											aria-hidden="true"></i></a></th>
+								 -->	<th>Customer ID</th>
+									<th>Customer Name</th>
+									<th>Customer Type</th>
+									<th>Customer KYC Date</th>
+									<th>Customer KYC Review Date</th>
+									<th>Customer Rating</th>
+									<th>Customer Rating Date</th>
+									<th>Customer Rating Review Date</th>
+
+								</tr>
+
+							</thead>
+							<tbody>
+								 <tr th:each="repdetail : ${reportdetails.content}">
+								<!--	<td class="first_left"><a data-toggle="tooltip"
+										class="editrec" title="Click to Edit this Record"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+											class="fas fa-edit" onclick="editRecord(this)"></i></a></td>
+									<td class="second_left"><a data-toggle="tooltip"
+										class="editrec" title="Click to delete this Record"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+											class="fas fa-minus-circle" onclick="deleteRecord(this)"></i></a></td>
+ -->
+									<td th:text="${repdetail.t7detailid.cust_id	}">CHENNAI</td>
+									<td th:text="${repdetail.cust_name	}">CHENNAI</td>
+									<td th:text="${repdetail.cust_type	}">CHENNAI</td>
+									<td
+										th:text="${#dates.format(repdetail.cust_kyc_date	,'dd-MM-yyyy')}">CHENNAI</td>
+									<td
+										th:text="${#dates.format(repdetail.cust_kyc_review_date	,'dd-MM-yyyy')}">CHENNAI</td>
+									<td th:text="${repdetail.cust_rating	}">CHENNAI</td>
+									<td
+										th:text="${#dates.format(repdetail.cust_rating_date	,'dd-MM-yyyy')}">CHENNAI</td>
+									<td
+										th:text="${#dates.format(repdetail.cust_rating_review_date	,'dd-MM-yyyy')}">CHENNAI</td>
+
+
+
+								</tr>
+							</tbody>
+						</table>
+						<table th:if="${searchmsg} != null"
+							class="table table-bordered table-sm" style="width: 1500px"
+							id="detailtb">
+							<thead class="thead-light">
+								<tr>
+									
+									<th>Customer Id</th>
+									<th>Customer Name</th>
+									<th>Customer Type</th>
+									<th>Customer KYC Date</th>
+									<th>Customer KYC Review Date</th>
+									<th>Customer Rating</th>
+									<th>Customer Rating Date</th>
+									<th>Customer Rating Review Date</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="8">No Data Available</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<!-------------------------------------Search modal form----------------------------------------------------->
+					<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+					<div class="modal fade" id="datadelete">
+						<div
+							class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+							<div class="modal-content">
+								<div class="modal-body" style="text-align: center">
+									<button type="button" class="close" data-dismiss="modal">×</button>
+									Are you Sure want to delete?
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary"
+										onclick="submitdataform();">Submit</button>
+									<button type="button" class="btn btn-primary"
+										data-dismiss="modal">Cancel</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+					<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+				<div th:if="${displaymode}=='detail'">
+									<input type="hidden" th:value="${filter}" id="filters">
+				
+					<div class="float-right" th:if="${reportdetails.totalPages} gt 1">
+						<a href="#"><i class="fas fa-caret-left fa-2x"
+							th:onclick="|showdetails('prevpage',${reportdetails.number},${reportdetails.totalPages});|"></i></a>
+						<input type="text" id="pageno" style="width: 30px"
+							th:value="${reportdetails.number+1}"
+							th:onchange="|showdetails('givenpage',${reportdetails.number},${reportdetails.totalPages});|"></input>
+						of <font th:text="${reportdetails.totalPages}"></font> <a href="#"><i
+							class="fas fa-caret-right fa-2x"
+							th:onclick="|showdetails('nextpage',${reportdetails.number},${reportdetails.totalPages});|"></i></a>
+					</div></div>
+					<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+				</div>
+				<!------------------------------ Report Details section ends it will shown only if Details button clicked------------------------->
+			</div>
+		</div>
+
+		<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+		<div class="modal fade" id="alert">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-body" style="text-align: center">
+						<p id="alertmsg"></p>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	
+
+</body>
+</html>
+
+

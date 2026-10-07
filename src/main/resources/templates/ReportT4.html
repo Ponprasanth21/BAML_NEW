@@ -1,0 +1,2333 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!-- 
+MODIFIED BY	: MANIVANNAN B.
+MODIFIED ON	: 04-MARCH-2020
+PURPOSE		: Report TABLE 4
+ -->
+<html lang="en" >
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/multifreeze/multifreezer.css"
+	th:href="@{/multifreeze/multifreezer.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+		
+		
+		
+		var permission = /*[[${session.PERMISSIONS}]]*/null;
+	
+		var reportsummary = /*[[${reportsummary}]]*/null;
+		
+		var type = /*[[${type}]]*/null;
+		console.log("type" +type);
+		var dtltype = /*[[${dtltype}]]*/null;
+		
+		//to make the summary button active on load
+		$(function(){
+			
+			console.log(reportsummary);
+			
+			$("#summarybtn").addClass("active");
+
+		});
+
+	/*to show details page - 3 parameters
+		mode - valid values are : nextpage, prevpage, givenpage, firstpage
+		num - page number to show to the user
+		maxpage - maximum number of pages avaialble in the data
+	*/
+	function showdetails(mode,num,maxpage,instancecode) {
+		
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+		Callurl = Callurl+"&instancecode="+instancecode;
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+		
+		
+		$.ajax({
+			type : 'get',
+			url : Callurl,
+			success : function(data) {
+				
+				/*<![CDATA[*/
+				
+
+				$('.content').html(data);
+				$("#detailsbtn").addClass("active");
+				/*]]>*/
+
+			}
+		})
+	}
+	
+	
+	//to fetch summary from the database - called from the summary button
+	function showsummary(mode,num,maxpage) {
+		
+
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Summary'(fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+		
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+
+		
+	window.location.href=Callurl;
+	}
+	
+
+	//to check for report or arch
+	//if report --->>> precheck and then save report else throws error
+	function savereport(){
+		
+		if(dtltype=='report'){
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Precheck'(fromdate=${fromdate},todate=${todate})}]]*/
+				$.ajax({
+					type : 'get',
+					url : Callurl,
+					success : function(data) {
+
+						if (data == 'success') {	
+							
+							
+							$("#loader").show();
+							
+							
+							var Callurl = /*[[@{'/Reports/'+${reportid}+'/save'(fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+								$.ajax({
+									type : 'get',
+									url : Callurl,
+									success : function(data) {
+
+										
+										if(data=='success'){
+											
+										 var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+											Callurl = Callurl+"&filetype=xbrl";
+											location.href=Callurl;
+											$("#loader").hide();
+										}
+										else{
+											$("#loader").hide();
+											 $("#alertmsg").text(data);
+											 $('#alert').modal("toggle");
+										}
+									}
+								})
+								
+							
+							
+						} else {
+							$("#alertmsg").text("Please verify the Pending Records Before Generating XBRL Instance");
+							$("#alert").modal("toggle");
+						}
+
+					}
+					});
+			
+		}
+		else{
+			
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+				 Callurl = Callurl+"&filetype=xbrl";
+				 location.href=Callurl;
+				 $("#loader").hide();
+		}
+		
+	}
+	/*]]>*/
+</script>
+<!----------------------------------------Scripts to edit report details-------------------------------------------->
+<script th:inline="javascript">
+/*<![CDATA[*/
+	 var currlist = /*[[${currlist}]]*/null;
+
+
+					
+				function editRecord(a){
+	
+					if(permission=='W' && dtltype=='report') {
+						
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800edit'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Assign selected values to the model box fields
+					
+					$("#trade_date").val(a.getAttribute("data-trade_date"));
+					$("#value_date").val(a.getAttribute("data-value_date"));
+					$("#isin").val(a.getAttribute("data-isin"));
+					$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+					$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+					$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+					$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+					$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+					$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+					$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+					$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+					$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+					$("#mat_date").val(a.getAttribute("data-mat_date"));
+					$("#resid_days").val(a.getAttribute("data-resid_days"));
+					$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+					$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+					$("#report_date").val(a.getAttribute("data-report_date"));
+					$("#del_flg").val(a.getAttribute("data-del_flg"));
+					$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+					$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+					$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+					$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+					$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+					$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+					$("#addedit").modal("toggle");
+					
+				
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",true);
+					$("#report_date").attr("readonly",true);
+					
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					}
+					
+				};
+				function addRecord(){
+					
+					if(permission=='W' && dtltype=='report') {
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Reset form if any data present
+					document.getElementById("dataedit").reset();
+					
+					//make readonly false to unique fields
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",false);
+					$("#report_date").attr("readonly",false);
+					
+					//Reset errors
+					var validator = $("#dataedit").validate();
+					validator.resetForm();
+					
+					$("#addedit").modal("toggle");
+                    
+					
+					 
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					
+					}
+				};
+				
+				function deleteRecord(a){
+					
+					if(permission=='W' && dtltype=='report') {
+					
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800delete'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url);
+					
+					
+					//Assign selected values to the model box fields
+					
+						$("#trade_date").val(a.getAttribute("data-trade_date"));
+						$("#value_date").val(a.getAttribute("data-value_date"));
+						$("#isin").val(a.getAttribute("data-isin"));
+						$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+						$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+						$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+						$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+						$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+						$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+						$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+						$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+						$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+						$("#mat_date").val(a.getAttribute("data-mat_date"));
+						$("#resid_days").val(a.getAttribute("data-resid_days"));
+						$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+						$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+						$("#report_date").val(a.getAttribute("data-report_date"));
+						$("#del_flg").val(a.getAttribute("data-del_flg"));
+						$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+						$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+						$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+						$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+						$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+						$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+
+					$("#datadelete").modal("toggle");
+					
+					} 
+					
+				};
+				
+				function submitdataform(){
+					
+					if($("#dataedit").valid()){
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#dataedit').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 
+							 $("#alertmsg").text(responseText);
+							 
+							 if($('#addedit').is(':visible')){
+								 $('#addedit').modal("hide");
+							 };
+							 if($('#datadelete').is(':visible')){
+								 $('#datadelete').modal("hide");
+							 };
+							 $('#alert').modal("toggle");
+				                
+						 }
+						
+						
+					}
+					
+					$("#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				}
+				
+          function searchRecord(){
+					
+					document.getElementById("searchdtl").reset();
+					
+					$("#search").modal("toggle");
+					
+					$("#report_dates").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				};
+				
+				function submitSearchRecord(){
+					
+					
+					
+					if($("#searchdtl").valid()){
+						
+						
+						
+						var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800Search'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+						$("#searchdtl").attr('action', url);
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#searchdtl').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 $(".modal").modal("hide");
+							 $('.content').html(responseText);
+							 $("#detailsbtn").addClass("active");
+							 $(".modal-backdrop").remove();
+							 
+						 }	
+					}
+					
+				};
+/*]]>*/
+</script>
+<style>
+.nav-buttons {
+	float: right;
+}
+
+.reptitle {
+	float: left;
+}
+
+.reptitle>p {
+	margin-top:;
+}
+
+.customcol {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.first_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 0;
+	width: 30px;
+}
+
+.second_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 30px;
+	width: 30px;
+}
+
+.third_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 60px;
+	width: 150px;
+}
+
+.inner {
+	overflow-x: scroll;
+	overflow-y: visible;
+}
+
+.btn-primary {
+	background-color: #E77400;
+	border-color: #0c0c0c;
+}
+
+.btn-primary:not (:disabled ):not (.disabled ).active, .btn-primary:not
+	 (:disabled ):not (.disabled ):active, .show>.btn-primary.dropdown-toggle
+	{
+	color: #fff;
+	background-color: #cc000000;
+	border-color: #161617;
+}
+
+.addedit {
+	color: #007bff;
+}
+
+.addedit:hover {
+	color: #0056b3;
+}
+</style>
+</head>
+<body>
+	<!----------------------------------------------------- Header Section starts ----------------------------------------------------->
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" aria-hidden="true"
+		onclick="docEmb('Report')" id="ques"></i>
+	<!----------------------------------------------------- Header Section Ends ------------------------------------------------------->
+	<div style="margin-left: 310px; margin-top: 76px;">
+		<div class="container content" th:fragment="reportcontent">
+
+
+
+			<!--------------------------------------------------------------- Report title starts -------------------------------------------->
+			<div class="row" style="width: 1100px; margin-left: 0px;">
+				<div class="col-sm-12 customcol"
+					style="background-color: #4d8cb9; padding-top: 10px; padding-bottom: 10px; padding-left: 5px;">
+					<!-- <select id="reporttype" style="background-color: #e9ecef;">
+						<option th:each="title : ${reportTitle}"
+							th:value="${title.reportName}" th:text="${title.reportName}"></option>
+
+					</select> -->
+					<div class="btn-group nav-buttons" >
+						<button type="button" class="btn btn-primary" th:if="${type} !='ARCHIVAL'"
+							onclick="showdetails('firstpage','1','0','0');" id="detailsbtn">Details</button>
+						<button type="button" class="btn btn-primary"
+							onclick="showsummary();" id="summarybtn">Summary</button>
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary dropdown-toggle"
+								data-toggle="dropdown">
+								Download <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu" style="min-width: 7rem;">
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=pdf|">Pdf</a></li>
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=excel|">Excel</a></li>
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									href="#" onclick="savereport();">CSv</a></li>
+								<li th:if="${displaymode}=='detail'"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=detailexcel|">Excel</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report title ends ------------------------------------------------->
+			<!--------------------------------------------------------------- Report buttons section starts ------------------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol" style="background-color: #adb5bd;">
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report buttons section ends ------------------------------------->
+			<!------------------------------ Report summary section starts it will shown only if summary button clicked------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol"
+					th:if="${displaymode}=='summary' or ${displaymode}==null"
+					style="overflow-x: auto;">
+					<div class="card-header" id="modheadtitle" style="width: 1100px;">
+						<b>Table 4: Profile of NEW customers onboarded and applications rejected</b>
+
+					</div>
+					<table class="table  table-bordered  table-hover table-sm" id=""
+						style="width: 1100px;">
+						<thead class="thead-light">
+							<tr>
+								<th></th>
+								<th colspan="2" style="text-align: center">Customer: Low
+									risk</th>
+								<th colspan="2" style="text-align: center">Customer: Medium
+									risk</th>
+								<th colspan="2" style="text-align: center">Customer: High
+									risk</th>
+									<th colspan="2" style="text-align: center">No. of new customer applications rejected due to AML/CFT considerations</th>
+							</tr>
+
+							<tr>
+								<th>
+								<th>No of Face-to-face customers</th>
+								<th>No of Non Face-to-face customers</th>
+								<th>No of Face-to-face customers</th>
+								<th>No of Non Face-to-face customers</th>
+								<th>No of Face-to-face customers</th>
+								<th>No of Non Face-to-face customers</th>
+								<th>No of Face-to-face customers</th>
+								<th>No of Non Face-to-face customers</th>
+								
+							</tr>
+
+
+
+
+						</thead>
+						<tbody th:each="repdetail : ${reportsummary}">
+
+							<tr>
+								<td th:text="${repdetail.previous_quarter	}">CHENNAI</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+
+							</tr>
+
+							<tr>
+
+								<td th:text="${repdetail.pindividuals_residents	}">CHENNAI</td>
+
+
+								<td
+									th:text="${repdetail.1a_previous_individuals_residents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.1b_previous_individuals_residents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.1c_previous_individuals_residents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.1d_previous_individuals_residents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.1e_previous_individuals_residents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.1f_previous_individuals_residents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.1g_previous_individuals_residents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.1h_previous_individuals_residents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td th:text="${repdetail.pindividuals_non_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.2a_previous_individuals_nonresidents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.2b_previous_individuals_nonresidents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.2c_previous_individuals_nonresidents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.2d_previous_individuals_nonresidents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.2e_previous_individuals_nonresidents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.2f_previous_individuals_nonresidents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.2g_previous_individuals_nonresidents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.2h_previous_individuals_nonresidents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td
+									th:text="${repdetail.pcorporates_financial_institutions_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.3a_previous_corp_financial_institutions_residents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.3b_previous_corp_financial_institutions_residents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.3c_previous_corp_financial_institutions_residents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.3d_previous_corp_financial_institutions_residents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.3e_previous_corp_financial_institutions_residents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.3f_previous_corp_financial_institutions_residents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.3g_previous_corp_financial_institutions_residents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.3h_previous_corp_financial_institutions_residents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td
+									th:text="${repdetail.pcorporates_financial_institutions_non_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.4a_previous_corp_financial_institutions_nonresidents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.4b_previous_corp_financial_institutions_nonresidents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.4c_previous_corp_financial_institutions_nonresidents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.4d_previous_corp_financial_institutions_nonresidents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.4e_previous_corp_financial_institutions_nonresidents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.4f_previous_corp_financial_institutions_nonresidents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.4g_previous_corp_financial_institutions_nonresidents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.4h_previous_corp_financial_institutions_nonresidents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td
+									th:text="${repdetail.pcorporates_non_financial_institutions_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.5a_previous_corp_nonfinancial_institutions_residents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.5b_previous_corp_nonfinancial_institutions_residents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.5c_previous_corp_nonfinancial_institutions_residents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.5d_previous_corp_nonfinancial_institutions_residents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.5e_previous_corp_nonfinancial_institutions_residents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.5f_previous_corp_nonfinancial_institutions_residents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.5g_previous_corp_nonfinancial_institutions_residents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.5h_previous_corp_nonfinancial_institutions_residents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td
+									th:text="${repdetail.pcorporates_non_financial_institutions_non_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.6a_previous_corp_nonfinancial_institutions_nonresidents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.6b_previous_corp_nonfinancial_institutions_nonresidents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.6c_previous_corp_nonfinancial_institutions_nonresidents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.6d_previous_corp_nonfinancial_institutions_nonresidents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.6e_previous_corp_nonfinancial_institutions_nonresidents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.6f_previous_corp_nonfinancial_institutions_nonresidents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.6g_previous_corp_nonfinancial_institutions_nonresidents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.6h_previous_corp_nonfinancial_institutions_nonresidents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td th:text="${repdetail. pnon_profit_organisations_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.7a_previous_npo_residents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.7b_previous_npo_residents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.7c_previous_npo_residents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.7d_previous_npo_residents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.7e_previous_npo_residents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.7f_previous_npo_residents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.7g_previous_npo_residents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.7h_previous_npo_residents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td
+									th:text="${repdetail. pnon_profit_organisations_non_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.8a_previous_npo_nonresidents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.8b_previous_npo_nonresidents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.8c_previous_npo_nonresidents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.8d_previous_npo_nonresidents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.8e_previous_npo_nonresidents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.8f_previous_npo_nonresidents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.8g_previous_npo_nonresidents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.8h_previous_npo_nonresidents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td
+									th:text="${repdetail.ptrusts_otherthannposandtcsps_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.9a_previous_trust_residents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.9b_previous_trust_residents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.9c_previous_trust_residents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.9d_previous_trust_residents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.9e_previous_trust_residents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.9f_previous_trust_residents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.9g_previous_trust_residents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.9h_previous_trust_residents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td
+									th:text="${repdetail.ptrusts_otherthannposandtcspsnon_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.10a_previous_trust_nonresidents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.10b_previous_trust_nonresidents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.10c_previous_trust_nonresidents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.10d_previous_trust_nonresidents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.10e_previous_trust_nonresidents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.10f_previous_trust_nonresidents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.10g_previous_trust_nonresidents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.10h_previous_trust_nonresidents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.pall_others_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.11a_previous_all_others_residents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.11b_previous_all_others_residents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.11c_previous_all_others_residents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.11d_previous_all_others_residents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.11e_previous_all_others_residents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.11f_previous_all_others_residents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.11g_previous_all_others_residents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.11h_previous_all_others_residents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.pall_others_non_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.12a_previous_all_others_nonresidents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.12b_previous_all_others_nonresidents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.12c_previous_all_others_nonresidents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.12d_previous_all_others_nonresidents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.12e_previous_all_others_nonresidents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.12f_previous_all_others_nonresidents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.12g_previous_all_others_nonresidents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.12h_previous_all_others_nonresidents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td th:text="${repdetail.ppeps_domestic	}">CHENNAI</td>
+
+
+								<td
+									th:text="${repdetail.13a_previous_peps_domestic_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.13b_previous_peps_domestic_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.13c_previous_peps_domestic_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.13d_previous_peps_domestic_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.13e_previous_peps_domestic_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.13f_previous_peps_domestic_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.13g_previous_peps_domestic_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.13h_previous_peps_domestic_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.ppeps_foreign	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.14a_previous_peps_foreign_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.14b_previous_peps_foreign_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.14c_previous_peps_foreign_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.14d_previous_peps_foreign_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.14e_previous_peps_foreign_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.14f_previous_peps_foreign_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.14g_previous_peps_foreign_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.14h_previous_peps_foreign_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.pcar_luxury_goods_dealers	}">CHENNAI</td>
+
+
+								<td
+									th:text="${repdetail.15a_previous_peps_foreign_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.15b_previous_peps_foreign_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.15c_previous_peps_foreign_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.15d_previous_peps_foreign_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.15e_previous_peps_foreign_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.15f_previous_peps_foreign_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.15g_previous_peps_foreign_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.15h_previous_peps_foreign_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.pcar_luxury_goods_dealers	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.16a_previous_car_luxury_dealer_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.16b_previous_car_luxury_dealer_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.16c_previous_car_luxury_dealer_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.16d_previous_car_luxury_dealer_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.16e_previous_car_luxury_dealer_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.16f_previous_car_luxury_dealer_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.16g_previous_car_luxury_dealer_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.16h_previous_car_luxury_dealer_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td
+									th:text="${repdetail. psnon_profit_organisations_residents 	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.17a_previous_npo_residents_charities_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.17b_previous_npo_residents_charities_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.17c_previous_npo_residents_charities_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.17d_previous_npo_residents_charities_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.17e_previous_npo_residents_charities_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.17f_previous_npo_residents_charities_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.17g_previous_npo_residents_charities_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.17h_previous_npo_residents_charities_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td th:text="${repdetail.prcharities	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.18a_previous_npo_residents_trust_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.18b_previous_npo_residents_trust_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.18c_previous_npo_residents_trust_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.18d_previous_npo_residents_trust_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.18e_previous_npo_residents_trust_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.18f_previous_npo_residents_trust_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.18g_previous_npo_residents_trust_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.18h_previous_npo_residents_trust_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td th:text="${repdetail.prtrust	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.19a_previous_npo_residents_religious_org_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.19b_previous_npo_residents_religious_org_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.19c_previous_npo_residents_religious_org_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.19d_previous_npo_residents_religious_org_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.19e_previous_npo_residents_religious_org_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.19f_previous_npo_residents_religious_org_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.19g_previous_npo_residents_religious_org_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.19h_previous_npo_residents_religious_org_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td th:text="${repdetail.prreligious_organisations	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.20a_previous_npo_residents_non_gov_org_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.20b_previous_npo_residents_non_gov_org_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.20c_previous_npo_residents_non_gov_org_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.20d_previous_npo_residents_non_gov_org_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.20e_previous_npo_residents_non_gov_org_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.20f_previous_npo_residents_non_gov_org_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.20g_previous_npo_residents_non_gov_org_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.20h_previous_npo_residents_non_gov_org_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td th:text="${repdetail.prnon_governmental_organisations	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.21a_previous_npo_residents_other_npos_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.21b_previous_npo_residents_other_npos_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.21c_previous_npo_residents_other_npos_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.21d_previous_npo_residents_other_npos_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.21e_previous_npo_residents_other_npos_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.21f_previous_npo_residents_other_npos_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.21g_previous_npo_residents_other_npos_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.21h_previous_npo_residents_other_npos_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td th:text="${repdetail.prother_npos	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.22a_previous_npo_nonresidents_charities_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.22b_previous_npo_nonresidents_charities_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.22c_previous_npo_nonresidents_charities_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.22d_previous_npo_nonresidents_charities_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.22e_previous_npo_nonresidents_charities_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.22f_previous_npo_nonresidents_charities_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.22g_previous_npo_nonresidents_charities_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.22h_previous_npo_nonresidents_charities_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td
+									th:text="${repdetail. psnon_profit_organisations_non_residents 	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.23a_previous_npo_nonresidents_trust_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.23b_previous_npo_nonresidents_trust_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.23c_previous_npo_nonresidents_trust_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.23d_previous_npo_nonresidents_trust_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.23e_previous_npo_nonresidents_trust_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.23f_previous_npo_nonresidents_trust_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.23g_previous_npo_nonresidents_trust_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.23h_previous_npo_nonresidents_trust_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td th:text="${repdetail.pnrcharities	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.24a_previous_npo_nonresidents_religious_org_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.24b_previous_npo_nonresidents_religious_org_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.24c_previous_npo_nonresidents_religious_org_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.24d_previous_npo_nonresidents_religious_org_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.24e_previous_npo_nonresidents_religious_org_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.24f_previous_npo_nonresidents_religious_org_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.24g_previous_npo_nonresidents_religious_org_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.24h_previous_npo_nonresidents_religious_org_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td th:text="${repdetail.pnrtrust	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.25a_previous_npo_nonresidents_non_gov_org_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.25b_previous_npo_nonresidents_non_gov_org_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.25c_previous_npo_nonresidents_non_gov_org_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.25d_previous_npo_nonresidents_non_gov_org_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.25e_previous_npo_nonresidents_non_gov_org_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.25f_previous_npo_nonresidents_non_gov_org_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.25g_previous_npo_nonresidents_non_gov_org_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.25h_previous_npo_nonresidents_non_gov_org_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.pnrreligious_organisations	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.26a_previous_npo_nonresidents_other_npos_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.26b_previous_npo_nonresidents_other_npos_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.26c_previous_npo_nonresidents_other_npos_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.26d_previous_npo_nonresidents_other_npos_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.26e_previous_npo_nonresidents_other_npos_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.26f_previous_npo_nonresidents_other_npos_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.26g_previous_npo_nonresidents_other_npos_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.26h_previous_npo_nonresidents_other_npos_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td
+									th:text="${repdetail.ptrustandcompany_service_providers_tcsps	}">CHENNAI</td>
+
+
+								<td
+									th:text="${repdetail.27a_previous_lawyers_notaries_legalprof_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.27b_previous_lawyers_notaries_legalprof_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.27c_previous_lawyers_notaries_legalprof_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.27d_previous_lawyers_notaries_legalprof_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.27e_previous_lawyers_notaries_legalprof_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.27f_previous_lawyers_notaries_legalprof_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.27g_previous_lawyers_notaries_legalprof_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.27h_previous_lawyers_notaries_legalprof_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td
+									th:text="${repdetail.pdealers_in_precious_metalsandstones_includingjewellers	}">CHENNAI</td>
+
+
+								<td
+									th:text="${repdetail.28a_previous_dealers_precious_incl_jewel_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.28b_previous_dealers_precious_incl_jewel_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.28c_previous_dealers_precious_incl_jewel_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.28d_previous_dealers_precious_incl_jewel_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.28e_previous_dealers_precious_incl_jewel_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.28f_previous_dealers_precious_incl_jewel_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.28g_previous_dealers_precious_incl_jewel_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.28h_previous_dealers_precious_incl_jewel_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.preal_estate_agents	}">CHENNAI</td>
+
+
+								<td
+									th:text="${repdetail.29a_previous_realestateagents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.29b_previous_realestateagents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.29c_previous_realestateagents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.29d_previous_realestateagents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.29e_previous_realestateagents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.29f_previous_realestateagents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.29g_previous_realestateagents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.29h_previous_realestateagents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td
+									th:text="${repdetail.pcasinos_including_internetandship_based_casinos	}">CHENNAI</td>
+
+
+								<td th:text="${repdetail.30a_previous_casinos_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.30b_previous_casinos_nonfacetoface_low	}">CHENNAI</td>
+								<td th:text="${repdetail.30c_previous_casinos_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.30d_previous_casinos_nonfacetoface_med	}">CHENNAI</td>
+								<td th:text="${repdetail.30e_previous_casinos_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.30f_previous_casinos_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.30g_previous_casinos_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.30h_previous_casinos_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td
+									th:text="${repdetail.pbookmakerhorse_betting_footballbettingandother	}">CHENNAI</td>
+
+
+								<td
+									th:text="${repdetail.31a_previous_bookmaker_lic_by_gambling_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.31b_previous_bookmaker_lic_by_gambling_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.31c_previous_bookmaker_lic_by_gambling_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.31d_previous_bookmaker_lic_by_gambling_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.31e_previous_bookmaker_lic_by_gambling_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.31f_previous_bookmaker_lic_by_gambling_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.31g_previous_bookmaker_lic_by_gambling_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.31h_previous_bookmaker_lic_by_gambling_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.pother_dnfbps	}">CHENNAI</td>
+
+
+								<td
+									th:text="${repdetail.32a_previous_other_dnfbps_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.32b_previous_other_dnfbps_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.32c_previous_other_dnfbps_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.32d_previous_other_dnfbps_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.32e_previous_other_dnfbps_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.32f_previous_other_dnfbps_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.32g_previous_other_dnfbps_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.32h_previous_other_dnfbps_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+
+							<tr>
+								<td th:text="${repdetail.current_quarter	}">CHENNAI</td>
+
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+
+							</tr>
+
+							<tr>
+
+								<td th:text="${repdetail.cindividuals_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.1a_current_individuals_residents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.1b_current_individuals_residents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.1c_current_individuals_residents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.1d_current_individuals_residents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.1e_current_individuals_residents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.1f_current_individuals_residents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.1g_current_individuals_residents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.1h_current_individuals_residents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.cindividuals_non_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.2a_current_individuals_nonresidents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.2b_current_individuals_nonresidents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.2c_current_individuals_nonresidents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.2d_current_individuals_nonresidents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.2e_current_individuals_nonresidents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.2f_current_individuals_nonresidents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.2g_current_individuals_nonresidents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.2h_current_individuals_nonresidents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td
+									th:text="${repdetail.ccorporates_financial_institutions_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.3a_current_corp_financial_institutions_residents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.3b_current_corp_financial_institutions_residents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.3c_current_corp_financial_institutions_residents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.3d_current_corp_financial_institutions_residents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.3e_current_corp_financial_institutions_residents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.3f_current_corp_financial_institutions_residents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.3g_current_corp_financial_institutions_residents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.3h_current_corp_financial_institutions_residents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td
+									th:text="${repdetail.ccorporates_financial_institutions_non_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.4a_current_corp_financial_institutions_nonresidents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.4b_current_corp_financial_institutions_nonresidents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.4c_current_corp_financial_institutions_nonresidents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.4d_current_corp_financial_institutions_nonresidents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.4e_current_corp_financial_institutions_nonresidents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.4f_current_corp_financial_institutions_nonresidents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.4g_current_corp_financial_institutions_nonresidents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.4h_current_corp_financial_institutions_nonresidents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td
+									th:text="${repdetail.ccorporates_non_financial_institutions_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.5a_current_corp_nonfinancial_institutions_residents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.5b_current_corp_nonfinancial_institutions_residents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.5c_current_corp_nonfinancial_institutions_residents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.5d_current_corp_nonfinancial_institutions_residents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.5e_current_corp_nonfinancial_institutions_residents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.5f_current_corp_nonfinancial_institutions_residents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.5g_current_corp_nonfinancial_institutions_residents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.5h_current_corp_nonfinancial_institutions_residents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td
+									th:text="${repdetail.ccorporates_non_financial_institutions_non_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.6a_current_corp_nonfinancial_institutions_nonresidents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.6b_current_corp_nonfinancial_institutions_nonresidents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.6c_current_corp_nonfinancial_institutions_nonresidents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.6d_current_corp_nonfinancial_institutions_nonresidents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.6e_current_corp_nonfinancial_institutions_nonresidents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.6f_current_corp_nonfinancial_institutions_nonresidents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.6g_current_corp_nonfinancial_institutions_nonresidents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.6h_current_corp_nonfinancial_institutions_nonresidents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.cnon_profit_organisations_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.7a_current_npo_residents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.7b_current_npo_residents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.7c_current_npo_residents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.7d_current_npo_residents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.7e_current_npo_residents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.7f_current_npo_residents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.7g_current_npo_residents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.7h_current_npo_residents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td
+									th:text="${repdetail.cnon_profit_organisations_non_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.8a_current_npo_nonresidents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.8b_current_npo_nonresidents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.8c_current_npo_nonresidents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.8d_current_npo_nonresidents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.8e_current_npo_nonresidents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.8f_current_npo_nonresidents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.8g_current_npo_nonresidents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.8h_current_npo_nonresidents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td
+									th:text="${repdetail.ctrusts_otherthannposandtcsps_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.9a_current_trust_residents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.9b_current_trust_residents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.9c_current_trust_residents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.9d_current_trust_residents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.9e_current_trust_residents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.9f_current_trust_residents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.9g_current_trust_residents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.9h_current_trust_residents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td
+									th:text="${repdetail.ctrusts_otherthannposandtcspsnon_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.10a_current_trust_nonresidents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.10b_current_trust_nonresidents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.10c_current_trust_nonresidents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.10d_current_trust_nonresidents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.10e_current_trust_nonresidents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.10f_current_trust_nonresidents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.10g_current_trust_nonresidents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.10h_current_trust_nonresidents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td th:text="${repdetail.call_others_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.11a_current_all_others_residents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.11b_current_all_others_residents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.11c_current_all_others_residents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.11d_current_all_others_residents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.11e_current_all_others_residents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.11f_current_all_others_residents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.11g_current_all_others_residents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.11h_current_all_others_residents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.call_others_non_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.12a_current_all_others_nonresidents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.12b_current_all_others_nonresidents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.12c_current_all_others_nonresidents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.12d_current_all_others_nonresidents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.12e_current_all_others_nonresidents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.12f_current_all_others_nonresidents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.12g_current_all_others_nonresidents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.12h_current_all_others_nonresidents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.ctotal_new_customers	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.13a_current_peps_domestic_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.13b_current_peps_domestic_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.13c_current_peps_domestic_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.13d_current_peps_domestic_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.13e_current_peps_domestic_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.13f_current_peps_domestic_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.13g_current_peps_domestic_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.13h_current_peps_domestic_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.cpeps_domestic	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.14a_current_peps_foreign_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.14b_current_peps_foreign_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.14c_current_peps_foreign_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.14d_current_peps_foreign_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.14e_current_peps_foreign_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.14f_current_peps_foreign_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.14g_current_peps_foreign_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.14h_current_peps_foreign_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.cpeps_foreign	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.15a_current_peps_foreign_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.15b_current_peps_foreign_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.15c_current_peps_foreign_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.15d_current_peps_foreign_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.15e_current_peps_foreign_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.15f_current_peps_foreign_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.15g_current_peps_foreign_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.15h_current_peps_foreign_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.ccar_luxury_goods_dealers	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.16a_current_car_luxury_dealer_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.16b_current_car_luxury_dealer_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.16c_current_car_luxury_dealer_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.16d_current_car_luxury_dealer_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.16e_current_car_luxury_dealer_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.16f_current_car_luxury_dealer_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.16g_current_car_luxury_dealer_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.16h_current_car_luxury_dealer_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.csnon_profit_organisations_residents	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.17a_current_npo_residents_charities_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.17b_current_npo_residents_charities_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.17c_current_npo_residents_charities_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.17d_current_npo_residents_charities_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.17e_current_npo_residents_charities_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.17f_current_npo_residents_charities_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.17g_current_npo_residents_charities_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.17h_current_npo_residents_charities_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.crcharities	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.18a_current_npo_residents_trust_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.18b_current_npo_residents_trust_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.18c_current_npo_residents_trust_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.18d_current_npo_residents_trust_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.18e_current_npo_residents_trust_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.18f_current_npo_residents_trust_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.18g_current_npo_residents_trust_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.18h_current_npo_residents_trust_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.crtrust	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.19a_current_npo_residents_religious_org_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.19b_current_npo_residents_religious_org_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.19c_current_npo_residents_religious_org_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.19d_current_npo_residents_religious_org_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.19e_current_npo_residents_religious_org_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.19f_current_npo_residents_religious_org_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.19g_current_npo_residents_religious_org_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.19h_current_npo_residents_religious_org_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.crreligious_organisations	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.20a_current_npo_residents_non_gov_org_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.20b_current_npo_residents_non_gov_org_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.20c_current_npo_residents_non_gov_org_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.20d_current_npo_residents_non_gov_org_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.20e_current_npo_residents_non_gov_org_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.20f_current_npo_residents_non_gov_org_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.20g_current_npo_residents_non_gov_org_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.20h_current_npo_residents_non_gov_org_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.cnrcharities	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.21a_current_npo_residents_other_npos_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.21b_current_npo_residents_other_npos_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.21c_current_npo_residents_other_npos_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.21d_current_npo_residents_other_npos_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.21e_current_npo_residents_other_npos_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.21f_current_npo_residents_other_npos_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.21g_current_npo_residents_other_npos_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.21h_current_npo_residents_other_npos_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td th:text="${repdetail.crnon_governmental_organisations	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.22a_current_npo_nonresidents_charities_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.22b_current_npo_nonresidents_charities_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.22c_current_npo_nonresidents_charities_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.22d_current_npo_nonresidents_charities_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.22e_current_npo_nonresidents_charities_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.22f_current_npo_nonresidents_charities_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.22g_current_npo_nonresidents_charities_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.22h_current_npo_nonresidents_charities_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.cnrtrust	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.23a_current_npo_nonresidents_trust_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.23b_current_npo_nonresidents_trust_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.23c_current_npo_nonresidents_trust_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.23d_current_npo_nonresidents_trust_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.23e_current_npo_nonresidents_trust_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.23f_current_npo_nonresidents_trust_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.23g_current_npo_nonresidents_trust_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.23h_current_npo_nonresidents_trust_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.cnrreligious_organisations	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.24a_current_npo_nonresidents_religious_org_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.24b_current_npo_nonresidents_religious_org_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.24c_current_npo_nonresidents_religious_org_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.24d_current_npo_nonresidents_religious_org_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.24e_current_npo_nonresidents_religious_org_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.24f_current_npo_nonresidents_religious_org_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.24g_current_npo_nonresidents_religious_org_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.24h_current_npo_nonresidents_religious_org_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td th:text="${repdetail.cnrnon_governmental_organisations	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.25a_current_npo_nonresidents_non_gov_org_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.25b_current_npo_nonresidents_non_gov_org_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.25c_current_npo_nonresidents_non_gov_org_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.25d_current_npo_nonresidents_non_gov_org_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.25e_current_npo_nonresidents_non_gov_org_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.25f_current_npo_nonresidents_non_gov_org_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.25g_current_npo_nonresidents_non_gov_org_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.25h_current_npo_nonresidents_non_gov_org_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td th:text="${repdetail.cnrother_npos	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.26a_current_npo_nonresidents_other_npos_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.26b_current_npo_nonresidents_other_npos_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.26c_current_npo_nonresidents_other_npos_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.26d_current_npo_nonresidents_other_npos_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.26e_current_npo_nonresidents_other_npos_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.26f_current_npo_nonresidents_other_npos_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.26g_current_npo_nonresidents_other_npos_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.26h_current_npo_nonresidents_other_npos_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+								<td
+									th:text="${repdetail.clawyers_notaries_other_independent_legal_profesionalsandaccountants	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.27a_current_lawyers_notaries_legalprof_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.27b_current_lawyers_notaries_legalprof_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.27c_current_lawyers_notaries_legalprof_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.27d_current_lawyers_notaries_legalprof_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.27e_current_lawyers_notaries_legalprof_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.27f_current_lawyers_notaries_legalprof_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.27g_current_lawyers_notaries_legalprof_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.27h_current_lawyers_notaries_legalprof_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td
+									th:text="${repdetail.cdealers_in_precious_metalsandstones_includingjewellers	}">CHENNAI</td>
+
+
+								<td
+									th:text="${repdetail.28a_current_dealers_precious_incl_jewel_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.28b_current_dealers_precious_incl_jewel_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.28c_current_dealers_precious_incl_jewel_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.28d_current_dealers_precious_incl_jewel_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.28e_current_dealers_precious_incl_jewel_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.28f_current_dealers_precious_incl_jewel_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.28g_current_dealers_precious_incl_jewel_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.28h_current_dealers_precious_incl_jewel_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.creal_estate_agents	}">CHENNAI</td>
+
+
+								<td
+									th:text="${repdetail.29a_current_realestateagents_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.29b_current_realestateagents_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.29c_current_realestateagents_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.29d_current_realestateagents_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.29e_current_realestateagents_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.29f_current_realestateagents_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.29g_current_realestateagents_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.29h_current_realestateagents_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td
+									th:text="${repdetail.ccasinos_including_internetandship_based_casinos	}">CHENNAI</td>
+
+								<td th:text="${repdetail.30a_current_casinos_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.30b_current_casinos_nonfacetoface_low	}">CHENNAI</td>
+								<td th:text="${repdetail.30c_current_casinos_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.30d_current_casinos_nonfacetoface_med	}">CHENNAI</td>
+								<td th:text="${repdetail.30e_current_casinos_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.30f_current_casinos_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.30g_current_casinos_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.30h_current_casinos_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td
+									th:text="${repdetail.cbookmakerhorse_betting_footballbettingandother	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.31a_current_bookmaker_lic_by_gambling_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.31b_current_bookmaker_lic_by_gambling_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.31c_current_bookmaker_lic_by_gambling_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.31d_current_bookmaker_lic_by_gambling_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.31e_current_bookmaker_lic_by_gambling_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.31f_current_bookmaker_lic_by_gambling_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.31g_current_bookmaker_lic_by_gambling_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.31h_current_bookmaker_lic_by_gambling_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+							<tr>
+
+								<td th:text="${repdetail.cother_dnfbps	}">CHENNAI</td>
+
+								<td
+									th:text="${repdetail.32a_current_other_dnfbps_facetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.32b_current_other_dnfbps_nonfacetoface_low	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.32c_current_other_dnfbps_facetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.32d_current_other_dnfbps_nonfacetoface_med	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.32e_current_other_dnfbps_facetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.32f_current_other_dnfbps_nonfacetoface_high	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.32g_current_other_dnfbps_facetoface_rej_amlcft	}">CHENNAI</td>
+								<td
+									th:text="${repdetail.32h_current_other_dnfbps_nonfacetoface_rej_amlcft	}">CHENNAI</td>
+							</tr>
+
+
+
+
+
+						</tbody>
+					</table>
+					<!------------------------------ Report Summary pagination - shown if paginated --------------------------------------------------->
+					<!-- <div class="float-right" th:if="${reportsummary.totalPages} gt 1">
+					<a href="#"><i class="fas fa-caret-left fa-2x"
+						th:onclick="|showsummary('prevpage',${reportsummary.number},${reportsummary.totalPages});|"></i></a>
+					<input type="text" id="pageno" style="width: 30px"
+						th:value="${reportsummary.number+1}"
+						th:onchange="|showsummary('givenpage',${reportsummary.number},${reportsummary.totalPages});|"></input>
+					of <font th:text="${reportsummary.totalPages}"></font> <a href="#"><i
+						class="fas fa-caret-right fa-2x"
+						th:onclick="|showsummary('nextpage',${reportsummary.number},${reportsummary.totalPages});|"></i></a>
+				</div> -->
+					<!------------------------------ Report Summary pagination - shown if paginated ---------------------------------------------------->
+				</div>
+				<!------------------------------ Report summary section ends it will shown only if summary button clicked------------------------->
+				<!------------------------------ Report Details section starts it will shown only if Details button clicked------------------------->
+				<div class="col-sm-12 customcol" th:if="${displaymode}=='detail'"
+					th:fragment="detail" style="">
+					<div class="card-header" id="modheadtitle" style="width: 1100px;">
+						<b>Table 10: DOMESTIC INWARD REMITTANCES BY CUSTOMER RISK
+							CATEGORIES</b>
+
+					</div>
+
+					<table th:if="${searchmsg} == null"
+						class="table table-bordered table-sm" style="width: 1100px"
+						id="detailtb">
+						<thead class="thead-light">
+							<tr>
+								<!-- <th rowspan="5" class="first_left"><a
+										data-toggle="tooltip" class="editrec"
+										title="Click to add new Records"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype}=='report' ? addedit "
+											class="fa fa-plus-circle" onclick="addRecord();"
+											aria-hidden="true"></i></a></th>
+									<th rowspan="5" class="second_left"><a href="#"
+										data-toggle="tooltip" title="Click to Search Record"><i
+											class="fa fa-search" onclick="searchRecord();"
+											aria-hidden="true"></i></a></th>
+ -->
+								<th>Customer ID</th>
+								<th>Customer Name</th>
+								<th>Branch ID</th>
+								<th>Branch name</th>
+								<th>Bank ID</th>
+								<th>Ownership Type</th>
+								<th>Customer Rating</th>
+								<th>Customer Rating Date</th>
+								<th>Customer Rating Due Date</th>
+								<th>Customer Type</th>
+
+
+							</tr>
+
+						</thead>
+						<tbody>
+							<tr th:each="repdetail : ${reportdetails.content}">
+								<!-- <td class="first_left"><a data-toggle="tooltip"
+										class="editrec" title="Click to Edit this Record"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+											class="fas fa-edit" onclick="editRecord(this)"></i></a></td>
+									<td class="second_left"><a data-toggle="tooltip"
+										class="editrec" title="Click to delete this Record"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+											class="fas fa-minus-circle" onclick="deleteRecord(this)"></i></a></td>
+ -->
+
+								<td th:text="${repdetail.cust_id	}">CHENNAI</td>
+								<td th:text="${repdetail.customer_name	}">CHENNAI</td>
+								<td th:text="${repdetail.branch_id	}">CHENNAI</td>
+								<td th:text="${repdetail.branch_name	}">CHENNAI</td>
+								<td th:text="${repdetail.bank_id	}">CHENNAI</td>
+								<td th:text="${repdetail.ownership_type	}">CHENNAI</td>
+								<td th:text="${repdetail.cust_rating	}">CHENNAI</td>
+								<td
+									th:text="${#dates.format(repdetail.customer_rating_date	,'dd-MM-yyyy')}">CHENNAI</td>
+								<td
+									th:text="${#dates.format(repdetail.customer_due_rating_date	,'dd-MM-yyyy')}">CHENNAI</td>
+								<td th:text="${repdetail.customer_type	}">CHENNAI</td>
+
+
+
+
+
+
+
+							</tr>
+						</tbody>
+					</table>
+					<table th:if="${searchmsg} != null"
+						class="table table-bordered table-sm" style="width: 1500px"
+						id="detailtb">
+						<thead class="thead-light">
+							<tr>
+								<!-- <th><a data-toggle="tooltip" class="editrec"
+										title="Click to add new Records"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype}=='report' ? addedit "
+											class="fa fa-plus-circle" onclick="addRecord();"
+											aria-hidden="true"></i></a></th>
+									<th><a data-toggle="tooltip"
+										title="Click to Search Record"><i class="fa fa-search"
+											onclick="searchRecord();" aria-hidden="true"></i></a></th>
+ -->
+								<th>Customer Name</th>
+								<th>Customer Ownership</th>
+								<th>Customer Rating Internal</th>
+								<th>Customer Rating Date</th>
+								<th>Customer Rating External</th>
+								<th>Branch Name</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td colspan="10">No Data Available</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- -----------------------------------Details edit modal form----------------------------------------------------->
+				<!-- <div class="modal fade" id="addedit" th:fragment="dataedit">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+
+							Modal Header
+							<div class="modal-header">
+								<h4 class="modal-title">Add/Edit Records</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+							<div class="modal-body" style="text-align: center">
+								<form th:object=${singledetail} id="dataedit" method="post">
+									<div class="form-group">
+
+										<div class="row">
+											<label class="col-sm-5" for="trade_date">Trade Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{trade_date}" id="trade_date" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="value_date">Value Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{value_date}" id="value_date" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="isin">ISIN of Security</label> <input
+												class="form-control col-sm-5" type="text" th:field="*{isin}"
+												onkeyup="this.value = this.value.toUpperCase();" id="isin"
+												required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="type_of_sec">Type of
+												Security</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{type_of_sec}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="type_of_sec" required />
+										</div>
+
+
+
+
+										<div class="row">
+											<label class="col-sm-5" for="acct_of_sec">Account
+												Number of Security</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{acct_of_sec}" id="acct_of_sec"
+												required />
+										</div>
+
+
+
+										<div class="row">
+											<label class="col-sm-5" for="type_of_tran">Type of
+												Transaction</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{type_of_tran}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="type_of_tran" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="name_of_party">Name of
+												counterparty</label> <input class="form-control col-sm-5"
+												type="text" th:field="*{name_of_party}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="name_of_party" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="cntprty_code">Counterparty
+												Code</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.cntprty_code}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="cntprty_code" required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="categ_of_cntprty">Category
+												of Counterparty</label> <input class="form-control col-sm-5"
+												type="text" th:field="*{categ_of_cntprty}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="categ_of_cntprty" required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="nom_of_sec">Nominal
+												Amount of security</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{nom_of_sec}" id="nom_of_sec"
+												required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="yield_of_sec">Yield to
+												Maturity of Security (%)</label> <input
+												class="form-control col-sm-5" type="number"
+												th:field="*{yield_of_sec}" id="yield_of_sec" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="clean_of_sec">Clean
+												Price of Security</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{clean_of_sec}" id="clean_of_sec"
+												required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="mat_date">Maturity Date
+												of security</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{mat_date}" id="mat_date" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="resid_days">Residual
+												Days to Maturity</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{resid_days}" id="resid_days"
+												required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="indicate_bid">Indicative
+												Bid Yield on Days to Maturity</label> <input
+												class="form-control col-sm-5" type="number"
+												th:field="*{indicate_bid}" id="indicate_bid" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="indicate_yield">Indicative
+												Ask Yield on Days to Maturity</label> <input
+												class="form-control col-sm-5" type="number"
+												th:field="*{indicate_yield}" id="indicate_yield" required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="isin">Report Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.report_date}" id="report_date"
+												required />
+										</div>
+
+
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitdataform();">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				 -->
+				<!-------------------------------------Details edit modal form----------------------------------------------------->
+				<!-- -----------------------------------Search modal form----------------------------------------------------->
+				<!-- <div class="modal fade" id="search" th:fragment="search">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+
+							Modal Header
+							<div class="modal-header">
+								<h4 class="modal-title">Search Records</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+							<div class="modal-body" style="text-align: center">
+								<form th:object=${singledetail} id="searchdtl" method="post">
+									<div class="form-group">
+										<div class="row">
+											<label class="col-sm-5" for="cntprty_code">Counterparty
+												Code</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.cntprty_code}" id="cntprty_code"
+												required />
+										</div>
+										<div class="row">
+											<label class="col-sm-5" for="isin">Report Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.report_date}" id="report_dates"
+												required />
+										</div>
+
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitSearchRecord();">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				 -->
+				<!-------------------------------------Search modal form----------------------------------------------------->
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<div class="modal fade" id="datadelete">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to delete?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitdataform();">Submit</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+				<div th:if="${displaymode}=='detail'" class="float-right">
+					<div class="float-right" th:if="${reportdetails.totalPages} gt 1">
+						<a href="#"><i class="fas fa-caret-left fa-2x"
+							th:onclick="|showdetails('prevpage',${reportdetails.number},${reportdetails.totalPages},${instancecode});|"></i></a>
+						<input type="text" id="pageno" style="width: 30px"
+							th:value="${reportdetails.number+1}"
+							th:onchange="|showdetails('givenpage',${reportdetails.number},${reportdetails.totalPages},${instancecode});|"></input>
+						of <font th:text="${reportdetails.totalPages}"></font> <a href="#"><i
+							class="fas fa-caret-right fa-2x"
+							th:onclick="|showdetails('nextpage',${reportdetails.number},${reportdetails.totalPages},${instancecode});|"></i></a>
+					</div>
+				</div>
+				<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+			</div>
+			<!------------------------------ Report Details section ends it will shown only if Details button clicked------------------------->
+		</div>
+	</div>
+
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+
+
+</body>
+</html>
+
+

@@ -1,0 +1,523 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.noofdays.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.noofdays.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="js/bootstrap411.js"></script>
+
+
+<style>
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+
+.select {
+	/* margin-top: -93px;
+	margin-left: 645px; */
+	float: right;
+	background-color: #e3e3e4;
+	color: #5d3739;
+	/* width: 17%;
+	padding: 5px; */
+}
+</style>
+<script type="text/javascript">
+$(function() {
+    $("#start_date,#end_date,#suspended_date,#activated_date").datepicker({
+        changeMonth : true,
+        changeYear : true,
+         maxDate: new Date(),
+        dateFormat : "dd-M-yy"
+    });
+});
+
+function home() {
+	location.href = 'Dashboard'
+}
+Date.prototype.toShortFormat = function() {
+
+    var month_names =["Jan","Feb","Mar",
+                      "Apr","May","Jun",
+                      "Jul","Aug","Sep",
+                      "Oct","Nov","Dec"];
+    
+    var day = this.getDate();
+    var month_index = this.getMonth();
+    var year = this.getFullYear();
+    
+    return "" + day + "-" + month_names[month_index] + "-" + year;
+}
+function back() {
+	window.history.back();
+}
+
+
+
+
+
+
+
+function finuser(a) {
+	$("#finusers").modal("hide"); 
+	var rulecode = a.getAttribute("data-rulecode");
+	
+	
+	 var loan_limit = a.getAttribute("data-loan_limit");
+	var cust_type = a.getAttribute("data-cust_type");
+	var cust_subType = a.getAttribute("data-cust_sub_type ");
+	var schme_code =  a.getAttribute("data-schm_code");
+	var  gl_sub_head_code= a.getAttribute("data-gl_sub_head_code"); 
+	
+
+	$("#rule_code").val(a.id);
+	var rulecode=a.id;
+	
+	
+	location.href = 'AML_SCR_OPERATION?rulecode=' +rulecode+'&loan_limit='+loan_limit
+					+'&cust_type='+cust_type+'&cust_subType='+schme_code+'&schme_code='+schme_code
+					+'&gl_sub_head_code='+gl_sub_head_code;	
+		
+}
+
+function getUserlist(mode, num, maxpage) {
+
+	var n = parseInt(num);
+	var max = parseInt(maxpage);
+		var rulecode = $("#rule_code_id").val();
+		 
+	/* 	 var today = $("#suspended_date").val();
+	        var lowvalue = $("#lowvalue1").val();
+	    	var highvalue = $("#highvalue1").val();
+	    	var rolecodedesc = $("#rule_code_desc").val();
+	    	var noofdays = $("#noofdays").val();
+	    	 var threshold = $("#threshold").val(); */
+	       
+				location.href = 'AML_SCR_OPERATION?rulecode=' +rulecode;	
+			
+
+
+	switch (mode) {
+	case "nextpage":
+		n = n + 1;
+		if (n > max) {
+			break;
+		}
+		Callurl = Callurl + "&page=" + n;
+		
+		
+		break;
+	case "prevpage":
+		n = n - 1;
+		if (n < 0) {
+			break;
+		}
+		Callurl = Callurl + "&page=" + n;
+		
+		break;
+	case "givenpage":
+		n = parseInt($("#pageno").val()) - 1;
+		if (n > max || n < 0) {
+			break;
+		}
+		Callurl = Callurl + "&page=" + n;
+		
+	}
+
+		
+ location.href = Callurl;
+} 
+
+
+	
+
+	
+</script>
+
+
+
+<script th:inline="javascript">
+	 $(function() {
+
+			$("#usertable").DataTable({
+			"paging" : false,
+		});
+	});
+
+  
+ 
+	
+	
+	
+	
+
+
+	 $(function() {
+        $("#start_date,#end_date,#suspended_date,#activated_date").datepicker({
+            changeMonth : true,
+            changeYear : true,
+             maxDate: new Date(),
+            dateFormat : "dd-mm-yy"
+        });
+    });
+</script>
+</head>
+<title>AML</title>
+
+<body>
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 5%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card-header" id="modheadtitle">
+							<b>Screening Monitoring</b>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<label></label>
+
+			<!---------------------rule input form Starts-------------------------------------------------->
+			<div class="container content">
+				<div class="row">
+					<div class="col-sm-12 ">
+						<form action="#" th:object="${TransMonitoring}" method="POST"
+							autocomplete="off" id="TransMonitoring">
+							<div class="card">
+								<!-- <div class="card-body" style="height: 1px;">
+
+								<select class="select btn btn-secondary btn-sm" id="value"
+									name="value" style="float: left; font-size: 13px;">
+									<option value="default">Rule Id</option>
+									<option id="option"
+										th:each="transmonitoring : ${transactionMonitoring}"
+										th:value="${transmonitoring.rule_code}"
+										th:text="${transmonitoring.rule_code}"></option>
+								</select>
+
+							</div> -->
+								<div class="card-body">
+									<div class="row formline">
+
+
+
+
+										<div class="col-sm-2" th:if="${formmode}=='list'">
+											<label for="srl_no">Select Rule Code</label>
+										</div>
+										<div class="col-sm-3" th:if="${formmode}=='list'">
+											<input type="text" th:value="${TransMonitoring?.ref_no}"
+												style="background-color: #d2dae0;" id="ref_no"
+												placeholder="Select Rule Code"
+												class="form-control form-control-sm" name="ref_no"
+												autocomplete="off" readonly>
+										</div>
+										<div class="col-sm-1" th:if="${formmode}=='list'">
+											<a href="#"><i class="fas fa-search searchico"
+												data-toggle="modal" data-target="#finusers" id="iconacc"></i></a>
+										</div>
+
+										<label class="col-sm-2" th:if="${formmode}=='tranlist'">Rule
+											Code</label>
+										<div class="col-sm-3" th:if="${formmode}=='tranlist'">
+											<input type="text" th:value="${rulecode}" id="rule_code_id"
+												name="rule_code_desc" value=""
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+										<div class="col-sm-1" th:if="${formmode}=='tranlist'">
+											<a href="#"><i class="fas fa-search searchico"
+												data-toggle="modal" data-target="#finusers" id="iconacc"></i></a>
+										</div>
+
+										<!-- <div>
+											<input type="hidden" id="valuemax"> <input
+												type="hidden" id="valuemin">
+
+										</div>
+ -->
+										<label class="col-sm-2">Code Description</label>
+										<div class="col-sm-3">
+											<input type="hidden" id="activated_date"> 
+											
+											
+											<input type="text" th:value="${schme_code}"
+												id="rule_code_desc" name="rule_code_desc" value=""
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+										<label></label>
+										<div class="col-sm-1"></div>
+										
+										
+										
+										
+									</div>
+
+									<label></label>
+									
+									<div class="row formline">
+									<label class="col-sm-2">Customer type</label>
+											<div class="col-sm-3">
+											<input type="text" th:value="${cust_type}"
+												id="cust_type" name="cust_type" value=""
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+											</div>
+												<div class="col-sm-1"></div>
+										<label class="col-sm-2">Customer Sub Type</label>
+											<div class="col-sm-3">
+												<input type="text" th:value="${cust_subType}"
+													id="cust_sub_type" name="cust_sub_type" value=""
+													class="form-control form-control-sm" autocomplete="off"
+												readonly />
+											</div>
+									
+									
+									</div>
+	<label></label>
+									<div class="row formline">
+
+									
+										<label class="col-sm-2">Ceiling</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${loanlimit}"
+													id="loan_limit" name="loan_limit" value=""
+													class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+										
+									</div>
+								</div>
+								<label></label>
+
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+			<div th:if="${formmode}=='tranlist'" class="container content">
+				<div class="row">
+					<div class="col-sm-12">
+
+						<div class="table-responsive"
+							style="overflow-x: scroll; overflow-y: hidden;">
+
+
+							<table class="table table-bordered  table-hover table-sm"
+								style="overflow-x: scroll; overflow-y: hidden; width: 180%"
+								id="usertable">
+								<thead class="thead-light">
+								<thead class="thead-light">
+
+									<tr>
+										<th>Report Date</th>
+										<th>Operation</th>
+										<th>Customer Id</th>
+										<th>Account No</th>
+										<th>Account Name</th>
+										<th>Date of Loan</th>
+										<th>Loan Amount</th>
+										<th>Ceiling</th>
+										<th>Remarks</th>
+									
+
+
+
+									</tr>
+								</thead>
+								<tbody id="CustomerInq" >
+								<tr th:if="${TransactionMaster.totalPages} == '0'">
+										<td colspan="14" style="text-align: left; color: red">No
+											record available for the rule</td>
+									</tr>
+									<tr th:each="userProfile : ${TransactionMaster}">
+										
+										 <td th:text="${userProfile.SCR_DATE}"> </td>
+										 
+										<td th:text="${userProfile.FLOW_CODE}"> </td>
+										 
+										<td th:text="${userProfile.CUST_ID}"></td>
+										<td th:text="${userProfile.FORACID}"></td>
+										<td th:text="${userProfile.ACCT_NAME}"></td>
+										
+										
+										<td th:text="${userProfile.DATE_DIS}"></td>
+										 
+										 <td th:text="${userProfile.TRAN_AMT}"></td>
+										 
+										 <td th:text="${userProfile.CEILING}"></td>
+									
+										 <td th:text="${userProfile.REMARKS}"></td>
+										
+									</tr>
+								</tbody>
+							</table>
+							<div class="float-right"
+								th:if="${TransactionMaster.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${TransactionMaster.number+1}"
+									th:onchange="|getUserlist('givenpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></input>
+								of <font th:text="${TransactionMaster.totalPages}"></font> <a
+									href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></i></a>
+							</div>
+
+
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="card-footer text-center"
+				style="background-color: #386276;">
+
+				<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+					onclick="home();">Home</button>
+				<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+					onclick="back();">Back</button>
+
+			</div>
+
+
+			
+			<!-- 
+			<div class="card-footer text-center">
+
+				<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+					onclick="home();">Home</button>
+				<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+					onclick="back();">Back</button>
+
+			</div>
+ -->
+			<!------------------------Pop window - Domain  list Ends--------------------------------->
+			<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+			<div class="modal fade" id="finusers">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div class="modal-content" style="border: 2px solid black;">
+
+						<!-- Modal Header -->
+						<div class="modal-header" style="background-color: #386276;">
+							<h4 class="modal-title">Rule Id</h4>
+							<button type="button" class="close" data-dismiss="modal">×</button>
+						</div>
+
+						<!-- Modal body -->
+						<div class="modal-body" style="background-color: #e6eaed;">
+							<table class="table table-hover" id="finusertb">
+								<thead class="thead-light" style="background-color: #386276;">
+									<tr>
+										<th
+											style="color: #ffffff; width: 100px; background-color: #386276; border-color: #495561; font-size: 11px;">Rule
+											Code</th>
+										<th
+											style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">Rule
+											Code Description</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="alert: ${transactionMonitoring}"
+										th:attr="data-rulecode=${alert.ref_no},data-loan_limit=${alert.loan_limit},data-cust_type = ${alert.cust_type},data-cust_sub_type =${alert.cust_sub_type},data-schm_code = ${alert.schm_code},data-gl_sub_head_code =${alert.gl_sub_head_code}"
+										th:id="${alert.ref_no}" th:onclick="finuser(this)"
+										class="userlist1">
+										<td style="color: black;" th:text="${alert.ref_no}"></td>
+										<td style="color: black;" th:text="${alert.cust_type + '-' + alert.cust_sub_type + '-' + alert.loan_limit}"></td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+			<div class="modal fade" id="alert">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div class="modal-content">
+						<div class="modal-body" style="text-align: center">
+							<p id="alertmsg"></p>
+							<button type="button" class="btn btn-primary"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!------------------------------------ Modal for alert messages -------------------------------->
+</body>
+</html>

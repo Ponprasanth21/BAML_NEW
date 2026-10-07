@@ -1,0 +1,1351 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: BAML
+FILE NAME   : BAMLBatchJob
+CREATED BY	: RAMPRASATH
+CREATED ON	: 08-JUN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+
+
+</head>
+
+
+
+
+<title>AML</title>
+<style>
+nav>.nav.nav-tabs {
+	border: none;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
+	border: none;
+	padding: 18px 25px;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link.active:after {
+	content: "";
+	position: relative;
+	bottom: -60px;
+	left: -10%;
+	border: 15px solid transparent;
+	border-top-color: #1b6491;
+}
+
+.tab-content {
+	background: #fdfdfd;
+	line-height: 25px;
+	width: 100%;
+	border: 1px solid #ddd;
+	border-top: 5px solid #594a43;
+	border-bottom: 5px solid #594a43;
+	padding: 30px 25px;
+}
+
+nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
+	border: none;
+	background: #002942;
+	color: #fff;
+	border-radius: 0;
+	transition: background 0.20s linear;
+}
+
+.col-sm-6, .col-sm-1, .col-sm-8, .col-sm-7, .col-sm-11, .col-sm-3,
+	.col-sm-12, .col-sm-2, .col-sm-4, .col-sm-10, .col-sm-9, .col-sm-5 {
+	padding-top: 5px;
+}
+
+/* table, th, td {
+	padding: 0 !IMPORTANT;
+	border: 1px solid black;
+	border-collapse: collapse;
+	cellpadding: 0;
+	cellspacing: 0;
+}
+
+td input {
+	padding: 0 !IMPORTANT;
+	width: 100%;
+	box-sizing: border-box;
+} */
+.NOTES>p {
+	color: black !important;
+	font-size: small;
+	margin-bottom: 0.5rem !important;
+}
+
+.form-control:disabled, .form-control[readonly] {
+	background-color: #ffffff;
+	opacity: 1;
+}
+
+.NOTES {
+	padding: 0.01em 16px;
+	border: 1px solid #ccc !important;
+	border-radius: 16px;
+	BACKGROUND: silver;
+}
+</style>
+
+<style>
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+</style>
+<script type="text/javascript">
+	function back1(a) {
+		$('#dataBack').modal("toggle");
+	}
+	function home1(a) {
+		$('#dataHome').modal("toggle");
+	}
+	function back(a) {
+		window.history.back();
+	}
+
+	function home(a) {
+		location.href = 'Dashboard'
+	}
+	$(function() {
+		$("#rule_date").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd/mm/yy"
+		});
+		$("#suspended").datepicker({
+			changeMonth : true,
+			changeYear : true,
+
+			dateFormat : "dd/mm/yy"
+		});
+		$("#activated_date").datepicker({
+			changeMonth : true,
+			changeYear : true,
+
+			dateFormat : "dd/mm/yy"
+		});
+		$("#try_date").datepicker({
+			changeMonth : true,
+			changeYear : true,
+
+			dateFormat : "dd/mm/yy"
+		});
+		$("#due_date").datepicker({
+			changeMonth : true,
+			changeYear : true,
+
+			dateFormat : "dd/mm/yy"
+		});
+
+	});
+	function getUserlist(mode, num, maxpage) {
+		$("#loadermodal").modal("toggle");
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+
+	
+		
+		var Callurl = 'BatchJobSchedular?formmode=list';
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		location.href = Callurl;
+	}
+
+</script>
+
+<script>
+	function alert_add(a) {
+
+		location.href = 'BatchJobSchedular?formmode=add';
+	}
+
+	function submitJob(a) {
+		if ($("#BatchJob").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+			var url = "./CreateBatchJobSchedular?formmode=" + formmode;
+
+			$("#BatchJob").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#BatchJob").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+
+			}
+			;
+		}
+	};
+
+	function edit_btn_submit(a) {
+
+		var jobId = a.getAttribute("data-job_id");
+
+		location.href = 'BatchJobSchedular?formmode=edit&jobId=' + jobId;
+	}
+	function list(a) {
+		location.href = './BatchJobSchedular?formmode=list';
+	}
+	function verify_btn_submit(a) {
+
+		var jobId = a.getAttribute("data-job_id");
+
+		location.href = 'BatchJobSchedular?formmode=verify&jobId=' + jobId;
+	}
+
+	function view_btn_submit(a) {
+		var jobId = a.getAttribute("data-job_id");
+
+		location.href = 'BatchJobSchedular?formmode=view&jobId=' + jobId;
+
+	}
+	function delete_btn_submit(a) {
+		var jobId = a.getAttribute("data-job_id");
+
+		location.href = 'BatchJobSchedular?formmode=delete&jobId=' + jobId;
+
+	}
+
+	function verifyform(a) {
+
+		if ($("#BatchJob").valid()) {
+
+			var entry = $("#entry_user").val();
+
+			var modify = $("#modify_user").val();
+
+			var verify = $("#verify_user").val();
+
+			if (modify != null) {
+
+				if (modify != verify) {
+
+					var formmode = a.getAttribute("data-formmode");
+
+					var url = "./CreateBatchJobSchedular?formmode=" + formmode;
+
+					$("#BatchJob").attr('action', url);
+
+					var options = {
+
+						success : showResponse
+
+					// post-submit callback 
+
+					};
+
+					$("#BatchJob").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#alertmsg").text(responseText);
+
+						$('#alert').modal("toggle");
+
+					}
+
+					;
+
+				} else {
+
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+
+					$('#verifybox').modal("toggle");
+
+				}
+
+			} else if (modify == null) {
+
+				if (entry != verify) {
+
+					var formmode = a.getAttribute("data-formmode");
+
+					var url = "./CreateBatchJobSchedular?formmode=" + formmode;
+
+					$("#BatchJob").attr('action', url);
+
+					var options = {
+
+						success : showResponse
+
+					// post-submit callback 
+
+					};
+
+					$("#BatchJob").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#alertmsg").text(responseText);
+
+						$('#alert').modal("toggle");
+
+					}
+
+					;
+
+				} else {
+
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+
+					$('#verifybox').modal("toggle");
+
+				}
+
+			}
+
+		}
+
+	};
+
+	$(function() {
+
+		$("#alert_date").datepicker({
+
+			changeMonth : true,
+
+			changeYear : true,
+
+			maxDate : new Date(),
+
+			dateFormat : "dd-mm-yy"
+
+		});
+
+		var today = new Date();
+
+		var dd = today.getDate();
+
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+
+		if (dd < 10) {
+
+			dd = '0' + dd;
+
+		}
+
+		if (mm < 10) {
+
+			mm = '0' + mm;
+
+		}
+
+		var today = dd + '-' + mm + '-' + yyyy;
+
+		document.getElementById('alert_date').value = today;
+
+	});
+
+	$(function() {
+
+		$("#entry_date,verify_date,modify_date").datepicker({
+
+			changeMonth : true,
+
+			changeYear : true,
+
+			maxDate : new Date(),
+
+			dateFormat : "dd-mm-yy"
+
+		});
+
+		var today = new Date();
+
+		var dd = today.getDate();
+
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+
+		if (dd < 10) {
+
+			dd = '0' + dd;
+
+		}
+
+		if (mm < 10) {
+
+			mm = '0' + mm;
+
+		}
+
+		var today = dd + '/' + mm + '/' + yyyy;
+
+		document.getElementById('entry_date').value = today;
+
+		document.getElementById('verify_date').value = today;
+
+		document.getElementById('modify_date').value = today;
+
+	});
+	
+	function edit1(a)  {
+		//alert("its time to edit");
+		$("#hideme1").hide();
+		$("#showme1").show();
+	}
+	function edit2(a)  {
+		//alert("its time to edit");
+		$("#hideme2").hide();
+		$("#showme2").show();
+	}
+	function edit3(a)  {
+		//alert("its time to edit");
+		$("#hideme3").hide();
+		$("#showme3").show();
+	}
+	function edit4(a)  {
+		//alert("its time to edit");
+		$("#hideme4").hide();
+		$("#showme4").show();
+	}
+	
+</script>
+<body>
+
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 5%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+
+
+			<div class="container-fluid" th:if="${formmode}=='list'">
+				<div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header" id="modheadtitle" style="height: 57px;">
+								<b th:text="${menuname}"></b>
+								<div class="btn-group nav-buttons float-right">
+									<button type="button" class="btn btn-xs btn-primary "
+										onclick='alert_add(this)'>Add</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnInq" onclick="list()" style="border-color: #66dbe0;">List</button>
+								</div>
+							</div>
+							<table class="table table-bordered  table-hover table-sm"
+								style="width: 100%" id="usertable">
+								<thead class="thead-light">
+
+
+									<tr>
+										<!-- <th></th> -->
+										<th>Job ID</th>
+										<th>Job Description</th>
+										<th>Frequency</th>
+										<th>Start Day</th>
+										<th>Start Date</th>
+										<th>End Date</th>
+										<th>Last Tried Date</th>
+										<th>Next Due Date</th>
+										<th>Status</th>
+										<th>Select</th>
+
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr th:each="SelectTran : ${BatchJobSchedular}"
+										class="userlist">
+										<td th:text="${SelectTran.job_id}"></td>
+										<td th:text="${SelectTran.job_desc}"></td>
+										<td th:text="${SelectTran.exec_freq}"></td>
+										<td th:text="${SelectTran.start_day}"></td>
+										<td
+											th:text="${#dates.format(SelectTran.start_date, 'dd/MM/yyyy')}"></td>
+										<td
+											th:text="${#dates.format(SelectTran.end_date, 'dd/MM/yyyy')}"></td>
+										<td
+											th:text="${#dates.format(SelectTran.last_tried_date, 'dd/MM/yyyy')}"></td>
+										<td
+											th:text="${#dates.format(SelectTran.next_due_date, 'dd/MM/yyyy')}"></td>
+										<th:block th:switch="${SelectTran?.del_flg}">
+											<td th:case="'Y'" style="color: red;">Inactive</td>
+											<td th:case="'N'" style="color: green;">Active</td>
+										</th:block>
+										<td style="width: 10px;">
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle"
+													type="button" id="dropdownMenuButton"
+													style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">Action</button>
+												<div class="dropdown-menu"
+													aria-labelledby="dropdownMenuButton"
+													style="background-color: #e3e3e4; color: #3a4550;">
+													<a th:attr="data-job_id=${SelectTran?.job_id}"
+														class="dropdown-item" title="Inquiry"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														onclick="view_btn_submit(this)" id="view_btn">Inquiry
+													</a>
+													<div th:if="${SelectTran?.del_flg}=='N'"
+														class="dropdown-divider"></div>
+													<a th:if="${SelectTran?.del_flg}=='N'"
+														th:attr="data-job_id=${SelectTran?.job_id}"
+														class="dropdown-item" title="Modify"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
+													<div th:if="${SelectTran?.del_flg}=='N'"
+														class="dropdown-divider"></div>
+													<a th:if="${SelectTran?.del_flg}=='N'"
+														th:attr="data-job_id=${SelectTran?.job_id}"
+														class="dropdown-item" title="Delete"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														id="edit_value" onclick="delete_btn_submit(this)">Delete</a>
+
+													<div class="dropdown-divider"
+														th:if="${SelectTran?.entity_flg}=='N'"></div>
+													<a th:if="${SelectTran?.entity_flg}=='N'"
+														th:attr="data-job_id=${SelectTran?.job_id}"
+														class="dropdown-item" title="Verify"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														id="verify_value" onclick="verify_btn_submit(this)">Verify</a>
+
+													<!-- <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button> -->
+
+												</div>
+											</div>
+
+										</td>
+
+									</tr>
+								</tbody>
+							</table>
+
+
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+							<div class="float-right"
+								th:if="${BatchJobSchedular.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${BatchJobSchedular.number},${BatchJobSchedular.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${BatchJobSchedular.number+1}"
+									th:onchange="|getUserlist('givenpage',${BatchJobSchedular.number},${BatchJobSchedular.totalPages});|"></input>
+								of <font th:text="${BatchJobSchedular.totalPages}"></font> <a
+									href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${BatchJobSchedular.number},${BatchJobSchedular.totalPages});|"></i></a>
+							</div>
+
+
+						</div>
+
+
+
+					</div>
+					<div class="card-footer text-center" style="height: 45px;">
+						<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+							style="margin-top: -13px;" onclick="home1(this);">Home</button>
+						<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+							style="margin-top: -13px;" onclick="back1(this);">Back</button>
+					</div>
+				</div>
+			</div>
+
+
+			<div
+				th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'"
+				class="container content">
+				<div class="row">
+					<div class="col-sm-12 ">
+
+						<form action="#" th:object="${BatchJob}" method="POST"
+							autocomplete="off" id="BatchJob">
+							<div class="card">
+								<div class="card-header">
+									<div class="float-left">
+										<b th:text="${menuname1}"></b> <input type="hidden"
+											th:value="${formmode}" id="formmode1" style="display: none;">
+									</div>
+									<div class="btn-group nav-buttons float-right">
+										<!--  <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button>-->
+										<button type="button" class="btn btn-xs btn-primary btns"
+											id="btnInq" onclick="list()" style="">List</button>
+									</div>
+
+								</div>
+
+								<div class="card-body">
+									<div class="form-group">
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="srl_no">Set Id</label>
+											</div>
+											<div class="col-sm-3">
+												<input type="text" id="set_id" name="set_id"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly>
+											</div>
+
+											<div class="col-sm-1"></div>
+
+											<label for="userName" class="col-sm-2">Sol Id </label>
+											<div class="col-sm-3">
+												<input type="text" id="sol_id" name="sol_id"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly>
+											</div>
+										</div>
+
+
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="ref_code">Job ID</label>
+											</div>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text" th:value="${batchJob?.job_id}"
+													name="job_id" id="job_id"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly>
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="text" th:value="${BATCHJOB}" name="job_id"
+													id="job_id" class="form-control form-control-sm"
+													autocomplete="off" readonly>
+											</div>
+
+											<div class="col-sm-1"></div>
+											<label for="userName" class="col-sm-2">Job
+												Description</label>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text" th:value="${batchJob?.job_desc}"
+													name="job_desc" id="job_desc"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view'">
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="text" name="job_desc" id="job_desc"
+													class="form-control form-control-sm" autocomplete="off"
+													required>
+											</div>
+										</div>
+
+
+
+
+
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="srl_no">Script Type</label>
+											</div>
+											<div th:if="${formmode}=='edit'" class="col-sm-3">
+												<input type="text" id="hideme2" onclick="edit2(this);"
+													th:value="${batchJob?.script_type}"
+													class="form-control form-control-sm" autocomplete="off">
+												<select class="form-control form-control-sm" id="showme2"
+													name="script_type"
+													style="float: left; font-size: 13px; display: none;"
+													>
+													<option th:value="${batchJob?.script_type}">SELECT</option>
+													<option value="SQL">SQL</option>
+													<option value="PLSQL">PLSQL</option>
+													<option value="JAVA">JAVA</option>
+													<option value="JASPER">JASPER</option>
+
+												</select>
+											</div>
+											<div class="col-sm-3" th:if="${formmode}=='add'">
+												<select name="script_type" id="script_type"
+													class="form-control form-control-sm" autocomplete="off">
+													<option value="">SELECT</option>
+													<option value="SQL">SQL</option>
+													<option value="PLSQL">PLSQL</option>
+													<option value="JAVA">JAVA</option>
+													<option value="JASPER">JASPER</option>
+												</select>
+											</div>
+											<div class="col-sm-3"
+												th:if=" ${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+												<input th:value="${batchJob?.script_type}"
+													name="script_type" id="script_type"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly>
+											</div>
+
+											<div class="col-sm-1"></div>
+											<label for="userName" class="col-sm-2">Script Name </label>
+
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text" th:value="${batchJob?.script_name}"
+													name="script_name" id="script_name"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view'  OR ${formmode}=='edit'">
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="text" name="script_name" id="script_name"
+													class="form-control form-control-sm" autocomplete="off"
+													required>
+											</div>
+										</div>
+
+
+
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="srl_no">Parameters </label>
+											</div>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text" th:value="${batchJob?.parmeters}"
+													name="parmeters" id="parmeters"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="text" name="parmeters" id="parmeters"
+													class="form-control form-control-sm" autocomplete="off"
+													required>
+											</div>
+
+											<div class="col-sm-1"></div>
+											<label for="userName" class="col-sm-2">Conditions </label>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text" th:value="${batchJob?.conditions}"
+													name="conditions" id="conditions"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="text" name="conditions" id="conditions"
+													class="form-control form-control-sm" autocomplete="off">
+											</div>
+										</div>
+
+
+
+
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="srl_no">Start Date </label>
+											</div>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text"
+													th:value="${#dates.format(batchJob?.start_date,'dd/MM/yyyy')}"
+													name="start_date" id="start_date"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="text" name="start_date" id="rule_date"
+													class="form-control form-control-sm" autocomplete="off">
+											</div>
+
+											<div class="col-sm-1"></div>
+											<label for="userName" class="col-sm-2">End Date </label>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text"
+													th:value="${#dates.format(batchJob?.end_date,'dd/MM/yyyy')}"
+													id="end_date" name="end_date"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="text" name="end_date" id="suspended"
+													class="form-control form-control-sm" autocomplete="off"
+													required>
+											</div>
+										</div>
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="srl_no">Suspended Flag</label>
+											</div>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text" id="suspend_flg" name="suspend_flg"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+											<div th:if="${formmode}=='edit'" class="col-sm-3">
+												<input type="text" id="hideme1" onclick="edit1(this);"
+													th:value="${batchJob?.suspend_flg}"
+													class="form-control form-control-sm" autocomplete="off">
+												<select class="form-control form-control-sm" id="showme1"
+													name="suspend_flg"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+													<option th:value="${batchJob?.suspend_flg}">SELECT</option>
+													<option value="Y">Yes</option>
+													<option value="N">No</option>
+
+												</select>
+											</div>
+											<div class="col-sm-3" th:if="${formmode}=='add'">
+												<select name="suspend_flg" id="suspend_flg"
+													class="form-control form-control-sm" autocomplete="off">
+													<option value="">SELECT</option>
+													<option value="Y">Yes</option>
+													<option value="N">No</option>
+
+												</select>
+											</div>
+
+											<div class="col-sm-1"></div>
+											<label for="userName" class="col-sm-2">Date of
+												Suspension</label>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text"
+													th:value="${#dates.format(batchJob?.suspend_date,'dd/MM/yyyy')}"
+													name="suspend_date" id="suspend_date"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="text" name="suspend_date" id="activated_date"
+													class="form-control form-control-sm" autocomplete="off"
+													required>
+											</div>
+										</div>
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="srl_no">Execution Process</label>
+											</div>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text" th:value="${batchJob?.exec_process}"
+													name="exec_process" id="exec_process"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="text" name="exec_process" id="exec_process"
+													class="form-control form-control-sm" autocomplete="off"
+													required>
+											</div>
+
+											<div class="col-sm-1"></div>
+											<label for="userName" class="col-sm-2">Frequency</label>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text" th:value="${batchJob?.exec_freq}"
+													name="exec_freq" id="exec_freq"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+
+											<div th:if="${formmode}=='edit'" class="col-sm-3">
+												<input type="text" id="hideme3" onclick="edit3(this);"
+													th:value="${batchJob?.exec_freq}"
+													class="form-control form-control-sm" autocomplete="off">
+												<select class="form-control form-control-sm" id="showme3"
+													name="exec_freq"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+													<option th:value="${batchJob?.exec_freq}">SELECT</option>
+													<option value="Daily">Daily</option>
+													<option value="Weekly">Weekly</option>
+													<option value="Fortnightly">Fortnightly</option>
+													<option value="Monthly">Monthly</option>
+													<option value="Quarterly">Quarterly</option>
+													<option value="HalfYearly">HalfYearly</option>
+													<option value="Yearly">Yearly</option>
+
+												</select>
+											</div>
+											<div th:if="${formmode}=='add' " class="col-sm-3">
+												<select name="exec_freq" id="exec_freq"
+													class="form-control form-control-sm" autocomplete="off">
+													<option value="">SELECT</option>
+													<option value="Daily">Daily</option>
+													<option value="Weekly">Weekly</option>
+													<option value="Fortnightly">Fortnightly</option>
+													<option value="Monthly">Monthly</option>
+													<option value="Quarterly">Quarterly</option>
+													<option value="HalfYearly">HalfYearly</option>
+													<option value="Yearly">Yearly</option>
+
+
+												</select>
+											</div>
+										</div>
+
+
+
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="srl_no">Last Tried Date </label>
+											</div>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text"
+													th:value="${#dates.format(batchJob?.last_tried_date,'dd/MM/yyyy')}"
+													name="last_tried_date" id="last_tried_date"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="text" name="last_tried_date" id="try_date"
+													class="form-control form-control-sm" autocomplete="off"
+													required>
+											</div>
+
+											<div class="col-sm-1"></div>
+											<label for="userName" class="col-sm-2">Execution
+												Status </label>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete' OR ${formmode}=='add'"
+												class="col-sm-3">
+												<input type="text" th:value="${batchJob?.exec_status}"
+													name="exec_status" id="exec_status"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+
+										</div>
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="userName">Next Due Date </label>
+											</div>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text"
+													th:value="${#dates.format(batchJob?.next_due_date,'dd/MM/yyyy')}"
+													name="next_due_date" id="next_due_date"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="text" name="next_due_date" id="due_date"
+													class="form-control form-control-sm" autocomplete="off"
+													required>
+											</div>
+											<div class="col-sm-1"></div>
+											<label for="userName" class="col-sm-2"> Status </label>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text" th:if="${batchJob?.del_flg}=='Y'"
+													value="Inactive" name="del_flg" id="del_flg"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify'
+													OR ${formmode}=='view' ">
+												<input type="text" th:if="${batchJob?.del_flg}=='N'"
+													value="Active" name="del_flg" id="del_flg"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify'
+													OR ${formmode}=='view' ">
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="text" name="next_due_date" id="due_date"
+													class="form-control form-control-sm" autocomplete="off"
+													required>
+											</div>
+										</div>
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="srl_no">Alert Flag </label>
+											</div>
+											<div
+												th:if="${formmode}=='view' OR  ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text" th:value="${batchJob?.alert_flg}"
+													name="alert_flg" id="alert_flg"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+											<div th:if="${formmode}=='edit'" class="col-sm-3">
+												<input type="text" id="hideme4" onclick="edit4(this);"
+													th:value="${batchJob?.alert_flg}"
+													class="form-control form-control-sm" autocomplete="off">
+												<select class="form-control form-control-sm" id="showme4"
+													name="alert_flg"
+													style="float: left; font-size: 13px; display: none;"
+													required>
+													<option th:value="${batchJob?.alert_flg}">SELECT</option>
+													<option value="Y">Yes</option>
+													<option value="N">No</option>
+
+												</select>
+											</div>
+											<div class="col-sm-3"
+												th:if=" ${formmode}=='add'">
+												<select name="alert_flg" id="alert_flg"
+													class="form-control form-control-sm" autocomplete="off">
+													<option value="">SELECT</option>
+													<option value="Y">Yes</option>
+													<option value="N">No</option>
+
+												</select>
+											</div>
+
+
+											<div class="col-sm-1"></div>
+											<label for="userName" class="col-sm-2">Alert User </label>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="text" th:value="${batchJob?.aler_user}"
+													name="alert_user" id="aler_user"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="text" name="aler_user" id="aler_user"
+													class="form-control form-control-sm" autocomplete="off"
+													required>
+											</div>
+										</div>
+										<div class="row formline">
+											<div class="col-sm-2">
+												<label for="srl_no">Alert Email Id </label>
+											</div>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="email" th:value="${batchJob?.alert_email_id}"
+													name="alert_email_id" id="alert_email_id"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="email" name="alert_email_id"
+													id="alert_email_id" class="form-control form-control-sm"
+													autocomplete="off" required>
+											</div>
+
+											<div class="col-sm-1"></div>
+											<label for="userName" class="col-sm-2">Alert Mobile
+												No</label>
+											<div
+												th:if="${formmode}=='view' OR ${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+												class="col-sm-3">
+												<input type="number" th:value="${batchJob?.alert_mobile}"
+													name="alert_mobile" id="alert_mobile"
+													class="form-control form-control-sm" autocomplete="off"
+													th:readonly="${formmode}=='delete' OR ${formmode}=='verify' OR ${formmode}=='view' ">
+											</div>
+											<div th:if="${formmode}=='add'" class="col-sm-3">
+												<input type="number" name="alert_mobile" id="alert_mobile"
+													class="form-control form-control-sm" autocomplete="off">
+											</div>
+										</div>
+
+
+
+									</div>
+
+								</div>
+
+								<div class="card-footer text-center" style="height: 38px;">
+
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnHome" style="margin-top: -12px;" onclick="home1(this);">Home</button>
+									<button th:if="${formmode}=='delete'" type="button"
+										class="btn btn-xs btn-primary" onclick="submitJob(this);"
+										form="BatchJob" id="btnDelete" style="margin-top: -12px;"
+										th:attr="data-formmode=${formmode}">Delete</button>
+									<button th:if="${formmode}=='verify'" type="button"
+										class="btn btn-xs btn-primary" onclick="verifyform(this);"
+										form="BatchJob" id="btnVerify" style="margin-top: -12px;"
+										th:attr="data-formmode=${formmode}">Verify</button>
+									<button th:if="${formmode}=='add'" type="button"
+										class="btn btn-xs btn-primary"
+										th:attr="data-formmode=${formmode}" onclick="submitJob(this);"
+										form="BatchJob" id="btnSubmit" style="margin-top: -12px;">Submit</button>
+									<button th:if="${formmode}=='edit'" type="button"
+										class="btn btn-xs btn-primary"
+										th:attr="data-formmode=${formmode}" onclick="submitJob(this);"
+										form="BatchJob" id="btnSubmit" style="margin-top: -12px;">Submit</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnBack" style="margin-top: -12px;" onclick="back1(this);">Back</button>
+								</div>
+							</div>
+
+
+							<div
+								th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='delete'"
+								class="container content"
+								style="border: 1px solid #36404a; padding: 15px;">
+
+								<div class="row formline">
+
+									<label class="col-sm-2">Entry User</label>
+									<div class="col-sm-2">
+										<input type="text" th:if="${formmode}=='verify' "
+											th:value="${batchJob?.entry_user}" id="entry_user"
+											name="entry_user" class="form-control form-control-sm"
+											autocomplete="off" readonly /> <input type="text"
+											th:if="${formmode}=='delete' OR ${formmode}=='edit' OR  ${formmode}=='add'"
+											th:value="${session.USERID}" id="entry_user"
+											name="entry_user" class="form-control form-control-sm"
+											autocomplete="off" readonly />
+
+									</div>
+									<label class="col-sm-2">Modify User</label>
+									<div class="col-sm-2">
+										<input type="text" th:if="${formmode}=='verify' "
+											th:value="${batchJob?.modify_user}" name="modify_user"
+											id="modify_user" class="form-control form-control-sm"
+											autocomplete="off" readonly /> <input type="text"
+											th:if="${formmode}=='add' OR  ${formmode}=='edit' OR ${formmode}=='delete' "
+											th:value="${session.USERID}" id="modify_user"
+											name="modify_user" class="form-control form-control-sm"
+											autocomplete="off" readonly />
+									</div>
+									<label class="col-sm-2">Verify User</label>
+									<div class="col-sm-2">
+										<input type="text"
+											th:if="${formmode}=='add' OR ${formmode}=='edit' OR ${formmode}=='delete'  "
+											id="verify_user" name="verify_user"
+											th:value="${batchJob?.verify_user}"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly /> <input type="text"
+											th:if="${formmode}=='verify' " th:value="${session.USERID}"
+											id="verify_user" name="verify_user"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly />
+									</div>
+								</div>
+
+								<div class="row formline">
+
+									<label class="col-sm-2">Entry Time</label>
+									<div class="col-sm-2">
+										<input type="text" th:if=" ${formmode}=='verify' "
+											th:value="${#dates.format(batchJob?.entry_time,'dd/MM/yyyy')}"
+											id="entry_time" name="entry_time"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly /> <input type="text"
+											th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='delete'"
+											id="entry_date" name="entry_time"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly />
+									</div>
+
+									<label class="col-sm-2">Modify Time</label>
+									<div class="col-sm-2">
+										<input type="text" th:if="${formmode}=='verify' "
+											th:value="${#dates.format(batchJob?.modify_time,'dd/MM/yyyy')}"
+											id="modify_time" name="modify_time"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly /> <input type="text"
+											th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='delete'"
+											id="verify_date" name="entry_time"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly />
+
+									</div>
+
+
+
+									<label class="col-sm-2">Verify Time</label>
+									<div class="col-sm-2">
+										<input type="text"
+											th:if="${formmode}=='add' OR ${formmode}=='edit' OR ${formmode}=='delete' "
+											th:value="${#dates.format(batchJob?.verify_time,'dd/MM/yyyy')}"
+											id="verify_time" name="verify_time"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly /> <input type="text" th:if="${formmode}=='verify'"
+											id="modify_date" name="entry_time"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly />
+
+									</div>
+
+									<div class="row formline">
+										<label style="height: 2px;"></label>
+
+									</div>
+
+								</div>
+							</div>
+						</form>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</div>
+
+
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg" style="font-size: 16px;"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="list();">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="verifybox">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="verifyboxmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="dataBack">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					Are you Sure want to Leave?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="back();">Yes</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="loadermodal" data-backdrop="static"
+					data-keyboard="false">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="background-color: #94b8dd00;">
+							<div class="modal-body" style="text-align: center">
+								<div class="loader">Loading...</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	<div class="modal fade" id="dataHome">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					Are you Sure want to Leave?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="back();">Yes</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

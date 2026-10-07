@@ -1,0 +1,2130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RBSINDEX" pageWidth="1000" pageHeight="1000" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bf59d71-22cf-440b-82e5-503c9f0b93b5">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.show.gridlines" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="0"/>
+	<parameter name="REPORT_DATE" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select * from "T1_CUR_PROD_SERVICES"
+where REPORT_DATE=$P{REPORT_DATE}]]>
+	</queryString>
+	<field name="D1A_DEP_TKG_SERVICES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D1A_DEP_TKG_SERVICES"/>
+	</field>
+	<field name="D2A_LEND_FUND_BASED" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D2A_LEND_FUND_BASED"/>
+	</field>
+	<field name="D3A_FB_FINANCE_LEASE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D3A_FB_FINANCE_LEASE"/>
+	</field>
+	<field name="D4A_FB_OPER_LEASE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D4A_FB_OPER_LEASE"/>
+	</field>
+	<field name="D5A_FB_LOANS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D5A_FB_LOANS"/>
+	</field>
+	<field name="D6A_FB_FACTORING" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D6A_FB_FACTORING"/>
+	</field>
+	<field name="D7A_FB_OTHERS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D7A_FB_OTHERS"/>
+	</field>
+	<field name="D8A_LENDING_NON_FUND_BASED" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D8A_LENDING_NON_FUND_BASED"/>
+	</field>
+	<field name="D9A_CREDIT_CARDS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D9A_CREDIT_CARDS"/>
+	</field>
+	<field name="D10A_MERCHANG_POS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D10A_MERCHANG_POS"/>
+	</field>
+	<field name="D11A_OTHER_PROD_SERVICES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D11A_OTHER_PROD_SERVICES"/>
+	</field>
+	<field name="D12A_RETIREMENT_SAVING_SCHEMES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D12A_RETIREMENT_SAVING_SCHEMES"/>
+	</field>
+	<field name="D1B_DEP_TKG_SERVICES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D1B_DEP_TKG_SERVICES"/>
+	</field>
+	<field name="D2B_LEND_FUND_BASED" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D2B_LEND_FUND_BASED"/>
+	</field>
+	<field name="D3B_FB_FINANCE_LEASE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D3B_FB_FINANCE_LEASE"/>
+	</field>
+	<field name="D4B_FB_OPER_LEASE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D4B_FB_OPER_LEASE"/>
+	</field>
+	<field name="D5B_FB_LOANS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D5B_FB_LOANS"/>
+	</field>
+	<field name="D6B_FB_FACTORING" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D6B_FB_FACTORING"/>
+	</field>
+	<field name="D7B_FB_OTHERS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D7B_FB_OTHERS"/>
+	</field>
+	<field name="D8B_LENDING_NON_FUND_BASED" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D8B_LENDING_NON_FUND_BASED"/>
+	</field>
+	<field name="D9B_CREDIT_CARDS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D9B_CREDIT_CARDS"/>
+	</field>
+	<field name="D10B_MERCHANG_POS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D10B_MERCHANG_POS"/>
+	</field>
+	<field name="D11B_OTHER_PROD_SERVICES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D11B_OTHER_PROD_SERVICES"/>
+	</field>
+	<field name="D12B_RETIREMENT_SAVING_SCHEMES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="D12B_RETIREMENT_SAVING_SCHEMES"/>
+	</field>
+	<field name="C1C_DEP_TKG_SERVICES_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C1C_DEP_TKG_SERVICES_NBTDI"/>
+	</field>
+	<field name="C2C_LEND_FUND_BASED_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C2C_LEND_FUND_BASED_NBTDI"/>
+	</field>
+	<field name="C3C_FB_FINANCE_LEASE_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C3C_FB_FINANCE_LEASE_NBTDI"/>
+	</field>
+	<field name="C4C_FB_OPER_LEASE_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C4C_FB_OPER_LEASE_NBTDI"/>
+	</field>
+	<field name="C5C_FB_LOANS_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C5C_FB_LOANS_NBTDI"/>
+	</field>
+	<field name="C6C_FB_FACTORING_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C6C_FB_FACTORING_NBTDI"/>
+	</field>
+	<field name="C7C_FB_OTHERS_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C7C_FB_OTHERS_NBTDI"/>
+	</field>
+	<field name="C8C_LENDING_NON_FUND_BASED_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C8C_LENDING_NON_FUND_BASED_NBTDI"/>
+	</field>
+	<field name="C9C_CREDIT_CARDS_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C9C_CREDIT_CARDS_NBTDI"/>
+	</field>
+	<field name="C10C_MERCHANG_POS_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C10C_MERCHANG_POS_NBTDI"/>
+	</field>
+	<field name="C11C_OTHER_PROD_SERVICES_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C11C_OTHER_PROD_SERVICES_NBTDI"/>
+	</field>
+	<field name="C12C_RETIREMENT_SAVING_SCHEMES_NBTDI" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C12C_RETIREMENT_SAVING_SCHEMES_NBTDI"/>
+	</field>
+	<field name="C1D_DEP_TKG_SERVICES_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C1D_DEP_TKG_SERVICES_OFFER_FTF"/>
+	</field>
+	<field name="C2D_LEND_FUND_BASED_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C2D_LEND_FUND_BASED_OFFER_FTF"/>
+	</field>
+	<field name="C3D_FB_FINANCE_LEASE_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C3D_FB_FINANCE_LEASE_OFFER_FTF"/>
+	</field>
+	<field name="C4D_FB_OPER_LEASE_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C4D_FB_OPER_LEASE_OFFER_FTF"/>
+	</field>
+	<field name="C5D_FB_LOANS_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C5D_FB_LOANS_OFFER_FTF"/>
+	</field>
+	<field name="C6D_FB_FACTORING_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C6D_FB_FACTORING_OFFER_FTF"/>
+	</field>
+	<field name="C7D_FB_OTHERS_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C7D_FB_OTHERS_OFFER_FTF"/>
+	</field>
+	<field name="C8D_LENDING_NON_FUND_BASED_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C8D_LENDING_NON_FUND_BASED_OFFER_FTF"/>
+	</field>
+	<field name="C9D_CREDIT_CARDS_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C9D_CREDIT_CARDS_OFFER_FTF"/>
+	</field>
+	<field name="C10D_MERCHANG_POS_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C10D_MERCHANG_POS_OFFER_FTF"/>
+	</field>
+	<field name="C11D_OTHER_PROD_SERVICES_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C11D_OTHER_PROD_SERVICES_OFFER_FTF"/>
+	</field>
+	<field name="C12D_RETIREMENT_SAVING_SCHEMES_OFFER_FTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C12D_RETIREMENT_SAVING_SCHEMES_OFFER_FTF"/>
+	</field>
+	<field name="C1E_DEP_TKG_SERVICES_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C1E_DEP_TKG_SERVICES_OFFER_NFTF"/>
+	</field>
+	<field name="C2E_LEND_FUND_BASED_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C2E_LEND_FUND_BASED_OFFER_NFTF"/>
+	</field>
+	<field name="C3E_FB_FINANCE_LEASE_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C3E_FB_FINANCE_LEASE_OFFER_NFTF"/>
+	</field>
+	<field name="C4E_FB_OPER_LEASE_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C4E_FB_OPER_LEASE_OFFER_NFTF"/>
+	</field>
+	<field name="C5E_FB_LOANS_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C5E_FB_LOANS_OFFER_NFTF"/>
+	</field>
+	<field name="C6E_FB_FACTORING_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C6E_FB_FACTORING_OFFER_NFTF"/>
+	</field>
+	<field name="C7E_FB_OTHERS_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C7E_FB_OTHERS_OFFER_NFTF"/>
+	</field>
+	<field name="C8E_LENDING_NON_FUND_BASED_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C8E_LENDING_NON_FUND_BASED_OFFER_NFTF"/>
+	</field>
+	<field name="C9E_CREDIT_CARDS_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C9E_CREDIT_CARDS_OFFER_NFTF"/>
+	</field>
+	<field name="C10E_MERCHANG_POS_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C10E_MERCHANG_POS_OFFER_NFTF"/>
+	</field>
+	<field name="C11E_OTHER_PROD_SERVICES_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C11E_OTHER_PROD_SERVICES_OFFER_NFTF"/>
+	</field>
+	<field name="C12E_RETIREMENT_SAVING_SCHEMES_OFFER_NFTF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C12E_RETIREMENT_SAVING_SCHEMES_OFFER_NFTF"/>
+	</field>
+	<field name="C1F_DEP_TKG_SERVICES_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C1F_DEP_TKG_SERVICES_OFFER_TP"/>
+	</field>
+	<field name="C2F_LEND_FUND_BASED_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C2F_LEND_FUND_BASED_OFFER_TP"/>
+	</field>
+	<field name="C3F_FB_FINANCE_LEASE_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C3F_FB_FINANCE_LEASE_OFFER_TP"/>
+	</field>
+	<field name="C4F_FB_OPER_LEASE_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C4F_FB_OPER_LEASE_OFFER_TP"/>
+	</field>
+	<field name="C5F_FB_LOANS_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C5F_FB_LOANS_OFFER_TP"/>
+	</field>
+	<field name="C6F_FB_FACTORING_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C6F_FB_FACTORING_OFFER_TP"/>
+	</field>
+	<field name="C7F_FB_OTHERS_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C7F_FB_OTHERS_OFFER_TP"/>
+	</field>
+	<field name="C8F_LENDING_NON_FUND_BASED_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C8F_LENDING_NON_FUND_BASED_OFFER_TP"/>
+	</field>
+	<field name="C9F_CREDIT_CARDS_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C9F_CREDIT_CARDS_OFFER_TP"/>
+	</field>
+	<field name="C10F_MERCHANG_POS_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C10F_MERCHANG_POS_OFFER_TP"/>
+	</field>
+	<field name="C11F_OTHER_PROD_SERVICES_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C11F_OTHER_PROD_SERVICES_OFFER_TP"/>
+	</field>
+	<field name="C12F_RETIREMENT_SAVING_SCHEMES_OFFER_TP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="C12F_RETIREMENT_SAVING_SCHEMES_OFFER_TP"/>
+	</field>
+	<field name="C1G_DEP_TKG_SERVICES_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1G_DEP_TKG_SERVICES_HIG_NOD"/>
+	</field>
+	<field name="C2G_LEND_FUND_BASED_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2G_LEND_FUND_BASED_HIG_NOD"/>
+	</field>
+	<field name="C3G_FB_FINANCE_LEASE_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3G_FB_FINANCE_LEASE_HIG_NOD"/>
+	</field>
+	<field name="C4G_FB_OPER_LEASE_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4G_FB_OPER_LEASE_HIG_NOD"/>
+	</field>
+	<field name="C5G_FB_LOANS_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5G_FB_LOANS_HIG_NOD"/>
+	</field>
+	<field name="C6G_FB_FACTORING_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6G_FB_FACTORING_HIG_NOD"/>
+	</field>
+	<field name="C7G_FB_OTHERS_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7G_FB_OTHERS_HIG_NOD"/>
+	</field>
+	<field name="C8G_LENDING_NON_FUND_BASED_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8G_LENDING_NON_FUND_BASED_HIG_NOD"/>
+	</field>
+	<field name="C9G_CREDIT_CARDS_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9G_CREDIT_CARDS_HIG_NOD"/>
+	</field>
+	<field name="C10G_MERCHANG_POS_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10G_MERCHANG_POS_HIG_NOD"/>
+	</field>
+	<field name="C11G_OTHER_PROD_SERVICES_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11G_OTHER_PROD_SERVICES_HIG_NOD"/>
+	</field>
+	<field name="C12G_RETIREMENT_SAVING_SCHEMES_HIG_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12G_RETIREMENT_SAVING_SCHEMES_HIG_NOD"/>
+	</field>
+	<field name="C1H_DEP_TKG_SERVICES_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1H_DEP_TKG_SERVICES_HIG_VOD"/>
+	</field>
+	<field name="C2H_LEND_FUND_BASED_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2H_LEND_FUND_BASED_HIG_VOD"/>
+	</field>
+	<field name="C3H_FB_FINANCE_LEASE_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3H_FB_FINANCE_LEASE_HIG_VOD"/>
+	</field>
+	<field name="C4H_FB_OPER_LEASE_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4H_FB_OPER_LEASE_HIG_VOD"/>
+	</field>
+	<field name="C5H_FB_LOANS_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5H_FB_LOANS_HIG_VOD"/>
+	</field>
+	<field name="C6H_FB_FACTORING_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6H_FB_FACTORING_HIG_VOD"/>
+	</field>
+	<field name="C7H_FB_OTHERS_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7H_FB_OTHERS_HIG_VOD"/>
+	</field>
+	<field name="C8H_LENDING_NON_FUND_BASED_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8H_LENDING_NON_FUND_BASED_HIG_VOD"/>
+	</field>
+	<field name="C9H_CREDIT_CARDS_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9H_CREDIT_CARDS_HIG_VOD"/>
+	</field>
+	<field name="C10H_MERCHANG_POS_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10H_MERCHANG_POS_HIG_VOD"/>
+	</field>
+	<field name="C11H_OTHER_PROD_SERVICES_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11H_OTHER_PROD_SERVICES_HIG_VOD"/>
+	</field>
+	<field name="C12H_RETIREMENT_SAVING_SCHEMES_HIG_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12H_RETIREMENT_SAVING_SCHEMES_HIG_VOD"/>
+	</field>
+	<field name="C1I_DEP_TKG_SERVICES_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1I_DEP_TKG_SERVICES_HIG_NOC"/>
+	</field>
+	<field name="C2I_LEND_FUND_BASED_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2I_LEND_FUND_BASED_HIG_NOC"/>
+	</field>
+	<field name="C3I_FB_FINANCE_LEASE_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3I_FB_FINANCE_LEASE_HIG_NOC"/>
+	</field>
+	<field name="C4I_FB_OPER_LEASE_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4I_FB_OPER_LEASE_HIG_NOC"/>
+	</field>
+	<field name="C5I_FB_LOANS_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5I_FB_LOANS_HIG_NOC"/>
+	</field>
+	<field name="C6I_FB_FACTORING_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6I_FB_FACTORING_HIG_NOC"/>
+	</field>
+	<field name="C7I_FB_OTHERS_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7I_FB_OTHERS_HIG_NOC"/>
+	</field>
+	<field name="C8I_LENDING_NON_FUND_BASED_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8I_LENDING_NON_FUND_BASED_HIG_NOC"/>
+	</field>
+	<field name="C9I_CREDIT_CARDS_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9I_CREDIT_CARDS_HIG_NOC"/>
+	</field>
+	<field name="C10I_MERCHANG_POS_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10I_MERCHANG_POS_HIG_NOC"/>
+	</field>
+	<field name="C11I_OTHER_PROD_SERVICES_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11I_OTHER_PROD_SERVICES_HIG_NOC"/>
+	</field>
+	<field name="C12I_RETIREMENT_SAVING_SCHEMES_HIG_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12I_RETIREMENT_SAVING_SCHEMES_HIG_NOC"/>
+	</field>
+	<field name="C1J_DEP_TKG_SERVICES_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1J_DEP_TKG_SERVICES_HIG_VOC"/>
+	</field>
+	<field name="C2J_LEND_FUND_BASED_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2J_LEND_FUND_BASED_HIG_VOC"/>
+	</field>
+	<field name="C3J_FB_FINANCE_LEASE_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3J_FB_FINANCE_LEASE_HIG_VOC"/>
+	</field>
+	<field name="C4J_FB_OPER_LEASE_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4J_FB_OPER_LEASE_HIG_VOC"/>
+	</field>
+	<field name="C5J_FB_LOANS_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5J_FB_LOANS_HIG_VOC"/>
+	</field>
+	<field name="C6J_FB_FACTORING_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6J_FB_FACTORING_HIG_VOC"/>
+	</field>
+	<field name="C7J_FB_OTHERS_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7J_FB_OTHERS_HIG_VOC"/>
+	</field>
+	<field name="C8J_LENDING_NON_FUND_BASED_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8J_LENDING_NON_FUND_BASED_HIG_VOC"/>
+	</field>
+	<field name="C9J_CREDIT_CARDS_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9J_CREDIT_CARDS_HIG_VOC"/>
+	</field>
+	<field name="C10J_MERCHANG_POS_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10J_MERCHANG_POS_HIG_VOC"/>
+	</field>
+	<field name="C11J_OTHER_PROD_SERVICES_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11J_OTHER_PROD_SERVICES_HIG_VOC"/>
+	</field>
+	<field name="C12J_RETIREMENT_SAVING_SCHEMES_HIG_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12J_RETIREMENT_SAVING_SCHEMES_HIG_VOC"/>
+	</field>
+	<field name="C1K_DEP_TKG_SERVICES_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1K_DEP_TKG_SERVICES_MED_NOD"/>
+	</field>
+	<field name="C2K_LEND_FUND_BASED_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2K_LEND_FUND_BASED_MED_NOD"/>
+	</field>
+	<field name="C3K_FB_FINANCE_LEASE_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3K_FB_FINANCE_LEASE_MED_NOD"/>
+	</field>
+	<field name="C4K_FB_OPER_LEASE_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4K_FB_OPER_LEASE_MED_NOD"/>
+	</field>
+	<field name="C5K_FB_LOANS_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5K_FB_LOANS_MED_NOD"/>
+	</field>
+	<field name="C6K_FB_FACTORING_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6K_FB_FACTORING_MED_NOD"/>
+	</field>
+	<field name="C7K_FB_OTHERS_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7K_FB_OTHERS_MED_NOD"/>
+	</field>
+	<field name="C8K_LENDING_NON_FUND_BASED_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8K_LENDING_NON_FUND_BASED_MED_NOD"/>
+	</field>
+	<field name="C9K_CREDIT_CARDS_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9K_CREDIT_CARDS_MED_NOD"/>
+	</field>
+	<field name="C10K_MERCHANG_POS_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10K_MERCHANG_POS_MED_NOD"/>
+	</field>
+	<field name="C11K_OTHER_PROD_SERVICES_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11K_OTHER_PROD_SERVICES_MED_NOD"/>
+	</field>
+	<field name="C12K_RETIREMENT_SAVING_SCHEMES_MED_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12K_RETIREMENT_SAVING_SCHEMES_MED_NOD"/>
+	</field>
+	<field name="C1L_DEP_TKG_SERVICES_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1L_DEP_TKG_SERVICES_MED_VOD"/>
+	</field>
+	<field name="C2L_LEND_FUND_BASED_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2L_LEND_FUND_BASED_MED_VOD"/>
+	</field>
+	<field name="C3L_FB_FINANCE_LEASE_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3L_FB_FINANCE_LEASE_MED_VOD"/>
+	</field>
+	<field name="C4L_FB_OPER_LEASE_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4L_FB_OPER_LEASE_MED_VOD"/>
+	</field>
+	<field name="C5L_FB_LOANS_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5L_FB_LOANS_MED_VOD"/>
+	</field>
+	<field name="C6L_FB_FACTORING_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6L_FB_FACTORING_MED_VOD"/>
+	</field>
+	<field name="C7L_FB_OTHERS_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7L_FB_OTHERS_MED_VOD"/>
+	</field>
+	<field name="C8L_LENDING_NON_FUND_BASED_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8L_LENDING_NON_FUND_BASED_MED_VOD"/>
+	</field>
+	<field name="C9L_CREDIT_CARDS_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9L_CREDIT_CARDS_MED_VOD"/>
+	</field>
+	<field name="C10L_MERCHANG_POS_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10L_MERCHANG_POS_MED_VOD"/>
+	</field>
+	<field name="C11L_OTHER_PROD_SERVICES_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11L_OTHER_PROD_SERVICES_MED_VOD"/>
+	</field>
+	<field name="C12L_RETIREMENT_SAVING_SCHEMES_MED_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12L_RETIREMENT_SAVING_SCHEMES_MED_VOD"/>
+	</field>
+	<field name="C1M_DEP_TKG_SERVICES_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1M_DEP_TKG_SERVICES_MED_NOC"/>
+	</field>
+	<field name="C2M_LEND_FUND_BASED_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2M_LEND_FUND_BASED_MED_NOC"/>
+	</field>
+	<field name="C3M_FB_FINANCE_LEASE_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3M_FB_FINANCE_LEASE_MED_NOC"/>
+	</field>
+	<field name="C4M_FB_OPER_LEASE_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4M_FB_OPER_LEASE_MED_NOC"/>
+	</field>
+	<field name="C5M_FB_LOANS_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5M_FB_LOANS_MED_NOC"/>
+	</field>
+	<field name="C6M_FB_FACTORING_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6M_FB_FACTORING_MED_NOC"/>
+	</field>
+	<field name="C7M_FB_OTHERS_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7M_FB_OTHERS_MED_NOC"/>
+	</field>
+	<field name="C8M_LENDING_NON_FUND_BASED_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8M_LENDING_NON_FUND_BASED_MED_NOC"/>
+	</field>
+	<field name="C9M_CREDIT_CARDS_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9M_CREDIT_CARDS_MED_NOC"/>
+	</field>
+	<field name="C10M_MERCHANG_POS_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10M_MERCHANG_POS_MED_NOC"/>
+	</field>
+	<field name="C11M_OTHER_PROD_SERVICES_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11M_OTHER_PROD_SERVICES_MED_NOC"/>
+	</field>
+	<field name="C12M_RETIREMENT_SAVING_SCHEMES_MED_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12M_RETIREMENT_SAVING_SCHEMES_MED_NOC"/>
+	</field>
+	<field name="C1N_DEP_TKG_SERVICES_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1N_DEP_TKG_SERVICES_MED_VOC"/>
+	</field>
+	<field name="C2N_LEND_FUND_BASED_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2N_LEND_FUND_BASED_MED_VOC"/>
+	</field>
+	<field name="C3N_FB_FINANCE_LEASE_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3N_FB_FINANCE_LEASE_MED_VOC"/>
+	</field>
+	<field name="C4N_FB_OPER_LEASE_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4N_FB_OPER_LEASE_MED_VOC"/>
+	</field>
+	<field name="C5N_FB_LOANS_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5N_FB_LOANS_MED_VOC"/>
+	</field>
+	<field name="C6N_FB_FACTORING_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6N_FB_FACTORING_MED_VOC"/>
+	</field>
+	<field name="C7N_FB_OTHERS_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7N_FB_OTHERS_MED_VOC"/>
+	</field>
+	<field name="C8N_LENDING_NON_FUND_BASED_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8N_LENDING_NON_FUND_BASED_MED_VOC"/>
+	</field>
+	<field name="C9N_CREDIT_CARDS_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9N_CREDIT_CARDS_MED_VOC"/>
+	</field>
+	<field name="C10N_MERCHANG_POS_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10N_MERCHANG_POS_MED_VOC"/>
+	</field>
+	<field name="C11N_OTHER_PROD_SERVICES_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11N_OTHER_PROD_SERVICES_MED_VOC"/>
+	</field>
+	<field name="C12N_RETIREMENT_SAVING_SCHEMES_MED_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12N_RETIREMENT_SAVING_SCHEMES_MED_VOC"/>
+	</field>
+	<field name="C1O_DEP_TKG_SERVICES_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1O_DEP_TKG_SERVICES_LOW_NOD"/>
+	</field>
+	<field name="C2O_LEND_FUND_BASED_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2O_LEND_FUND_BASED_LOW_NOD"/>
+	</field>
+	<field name="C3O_FB_FINANCE_LEASE_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3O_FB_FINANCE_LEASE_LOW_NOD"/>
+	</field>
+	<field name="C4O_FB_OPER_LEASE_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4O_FB_OPER_LEASE_LOW_NOD"/>
+	</field>
+	<field name="C5O_FB_LOANS_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5O_FB_LOANS_LOW_NOD"/>
+	</field>
+	<field name="C6O_FB_FACTORING_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6O_FB_FACTORING_LOW_NOD"/>
+	</field>
+	<field name="C7O_FB_OTHERS_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7O_FB_OTHERS_LOW_NOD"/>
+	</field>
+	<field name="C8O_LENDING_NON_FUND_BASED_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8O_LENDING_NON_FUND_BASED_LOW_NOD"/>
+	</field>
+	<field name="C9O_CREDIT_CARDS_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9O_CREDIT_CARDS_LOW_NOD"/>
+	</field>
+	<field name="C10O_MERCHANG_POS_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10O_MERCHANG_POS_LOW_NOD"/>
+	</field>
+	<field name="C11O_OTHER_PROD_SERVICES_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11O_OTHER_PROD_SERVICES_LOW_NOD"/>
+	</field>
+	<field name="C12O_RETIREMENT_SAVING_SCHEMES_LOW_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12O_RETIREMENT_SAVING_SCHEMES_LOW_NOD"/>
+	</field>
+	<field name="C1P_DEP_TKG_SERVICES_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1P_DEP_TKG_SERVICES_LOW_VOD"/>
+	</field>
+	<field name="C2P_LEND_FUND_BASED_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2P_LEND_FUND_BASED_LOW_VOD"/>
+	</field>
+	<field name="C3P_FB_FINANCE_LEASE_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3P_FB_FINANCE_LEASE_LOW_VOD"/>
+	</field>
+	<field name="C4P_FB_OPER_LEASE_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4P_FB_OPER_LEASE_LOW_VOD"/>
+	</field>
+	<field name="C5P_FB_LOANS_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5P_FB_LOANS_LOW_VOD"/>
+	</field>
+	<field name="C6P_FB_FACTORING_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6P_FB_FACTORING_LOW_VOD"/>
+	</field>
+	<field name="C7P_FB_OTHERS_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7P_FB_OTHERS_LOW_VOD"/>
+	</field>
+	<field name="C8P_LENDING_NON_FUND_BASED_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8P_LENDING_NON_FUND_BASED_LOW_VOD"/>
+	</field>
+	<field name="C9P_CREDIT_CARDS_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9P_CREDIT_CARDS_LOW_VOD"/>
+	</field>
+	<field name="C10P_MERCHANG_POS_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10P_MERCHANG_POS_LOW_VOD"/>
+	</field>
+	<field name="C11P_OTHER_PROD_SERVICES_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11P_OTHER_PROD_SERVICES_LOW_VOD"/>
+	</field>
+	<field name="C12P_RETIREMENT_SAVING_SCHEMES_LOW_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12P_RETIREMENT_SAVING_SCHEMES_LOW_VOD"/>
+	</field>
+	<field name="C1Q_DEP_TKG_SERVICES_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1Q_DEP_TKG_SERVICES_LOW_NOC"/>
+	</field>
+	<field name="C2Q_LEND_FUND_BASED_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2Q_LEND_FUND_BASED_LOW_NOC"/>
+	</field>
+	<field name="C3Q_FB_FINANCE_LEASE_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3Q_FB_FINANCE_LEASE_LOW_NOC"/>
+	</field>
+	<field name="C4Q_FB_OPER_LEASE_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4Q_FB_OPER_LEASE_LOW_NOC"/>
+	</field>
+	<field name="C5Q_FB_LOANS_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5Q_FB_LOANS_LOW_NOC"/>
+	</field>
+	<field name="C6Q_FB_FACTORING_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6Q_FB_FACTORING_LOW_NOC"/>
+	</field>
+	<field name="C7Q_FB_OTHERS_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7Q_FB_OTHERS_LOW_NOC"/>
+	</field>
+	<field name="C8Q_LENDING_NON_FUND_BASED_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8Q_LENDING_NON_FUND_BASED_LOW_NOC"/>
+	</field>
+	<field name="C9Q_CREDIT_CARDS_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9Q_CREDIT_CARDS_LOW_NOC"/>
+	</field>
+	<field name="C10Q_MERCHANG_POS_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10Q_MERCHANG_POS_LOW_NOC"/>
+	</field>
+	<field name="C11Q_OTHER_PROD_SERVICES_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11Q_OTHER_PROD_SERVICES_LOW_NOC"/>
+	</field>
+	<field name="C12Q_RETIREMENT_SAVING_SCHEMES_LOW_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12Q_RETIREMENT_SAVING_SCHEMES_LOW_NOC"/>
+	</field>
+	<field name="C1R_DEP_TKG_SERVICES_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1R_DEP_TKG_SERVICES_LOW_VOC"/>
+	</field>
+	<field name="C2R_LEND_FUND_BASED_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2R_LEND_FUND_BASED_LOW_VOC"/>
+	</field>
+	<field name="C3R_FB_FINANCE_LEASE_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3R_FB_FINANCE_LEASE_LOW_VOC"/>
+	</field>
+	<field name="C4R_FB_OPER_LEASE_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4R_FB_OPER_LEASE_LOW_VOC"/>
+	</field>
+	<field name="C5R_FB_LOANS_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5R_FB_LOANS_LOW_VOC"/>
+	</field>
+	<field name="C6R_FB_FACTORING_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6R_FB_FACTORING_LOW_VOC"/>
+	</field>
+	<field name="C7R_FB_OTHERS_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7R_FB_OTHERS_LOW_VOC"/>
+	</field>
+	<field name="C8R_LENDING_NON_FUND_BASED_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8R_LENDING_NON_FUND_BASED_LOW_VOC"/>
+	</field>
+	<field name="C9R_CREDIT_CARDS_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9R_CREDIT_CARDS_LOW_VOC"/>
+	</field>
+	<field name="C10R_MERCHANG_POS_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10R_MERCHANG_POS_LOW_VOC"/>
+	</field>
+	<field name="C11R_OTHER_PROD_SERVICES_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11R_OTHER_PROD_SERVICES_LOW_VOC"/>
+	</field>
+	<field name="C12R_RETIREMENT_SAVING_SCHEMES_LOW_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12R_RETIREMENT_SAVING_SCHEMES_LOW_VOC"/>
+	</field>
+	<field name="C1S_DEP_TKG_SERVICES_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1S_DEP_TKG_SERVICES_WIC_NOD"/>
+	</field>
+	<field name="C2S_LEND_FUND_BASED_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2S_LEND_FUND_BASED_WIC_NOD"/>
+	</field>
+	<field name="C3S_FB_FINANCE_LEASE_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3S_FB_FINANCE_LEASE_WIC_NOD"/>
+	</field>
+	<field name="C4S_FB_OPER_LEASE_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4S_FB_OPER_LEASE_WIC_NOD"/>
+	</field>
+	<field name="C5S_FB_LOANS_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5S_FB_LOANS_WIC_NOD"/>
+	</field>
+	<field name="C6S_FB_FACTORING_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6S_FB_FACTORING_WIC_NOD"/>
+	</field>
+	<field name="C7S_FB_OTHERS_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7S_FB_OTHERS_WIC_NOD"/>
+	</field>
+	<field name="C8S_LENDING_NON_FUND_BASED_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8S_LENDING_NON_FUND_BASED_WIC_NOD"/>
+	</field>
+	<field name="C9S_CREDIT_CARDS_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9S_CREDIT_CARDS_WIC_NOD"/>
+	</field>
+	<field name="C10S_MERCHANG_POS_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10S_MERCHANG_POS_WIC_NOD"/>
+	</field>
+	<field name="C11S_OTHER_PROD_SERVICES_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11S_OTHER_PROD_SERVICES_WIC_NOD"/>
+	</field>
+	<field name="C12S_RETIREMENT_SAVING_SCHEMES_WIC_NOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12S_RETIREMENT_SAVING_SCHEMES_WIC_NOD"/>
+	</field>
+	<field name="C1T_DEP_TKG_SERVICES_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1T_DEP_TKG_SERVICES_WIC_VOD"/>
+	</field>
+	<field name="C2T_LEND_FUND_BASED_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2T_LEND_FUND_BASED_WIC_VOD"/>
+	</field>
+	<field name="C3T_FB_FINANCE_LEASE_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3T_FB_FINANCE_LEASE_WIC_VOD"/>
+	</field>
+	<field name="C4T_FB_OPER_LEASE_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4T_FB_OPER_LEASE_WIC_VOD"/>
+	</field>
+	<field name="C5T_FB_LOANS_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5T_FB_LOANS_WIC_VOD"/>
+	</field>
+	<field name="C6T_FB_FACTORING_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6T_FB_FACTORING_WIC_VOD"/>
+	</field>
+	<field name="C7T_FB_OTHERS_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7T_FB_OTHERS_WIC_VOD"/>
+	</field>
+	<field name="C8T_LENDING_NON_FUND_BASED_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8T_LENDING_NON_FUND_BASED_WIC_VOD"/>
+	</field>
+	<field name="C9T_CREDIT_CARDS_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9T_CREDIT_CARDS_WIC_VOD"/>
+	</field>
+	<field name="C10T_MERCHANG_POS_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10T_MERCHANG_POS_WIC_VOD"/>
+	</field>
+	<field name="C11T_OTHER_PROD_SERVICES_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11T_OTHER_PROD_SERVICES_WIC_VOD"/>
+	</field>
+	<field name="C12T_RETIREMENT_SAVING_SCHEMES_WIC_VOD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12T_RETIREMENT_SAVING_SCHEMES_WIC_VOD"/>
+	</field>
+	<field name="C1U_DEP_TKG_SERVICES_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1U_DEP_TKG_SERVICES_WIC_NOC"/>
+	</field>
+	<field name="C2U_LEND_FUND_BASED_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2U_LEND_FUND_BASED_WIC_NOC"/>
+	</field>
+	<field name="C3U_FB_FINANCE_LEASE_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3U_FB_FINANCE_LEASE_WIC_NOC"/>
+	</field>
+	<field name="C4U_FB_OPER_LEASE_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4U_FB_OPER_LEASE_WIC_NOC"/>
+	</field>
+	<field name="C5U_FB_LOANS_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5U_FB_LOANS_WIC_NOC"/>
+	</field>
+	<field name="C6U_FB_FACTORING_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6U_FB_FACTORING_WIC_NOC"/>
+	</field>
+	<field name="C7U_FB_OTHERS_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7U_FB_OTHERS_WIC_NOC"/>
+	</field>
+	<field name="C8U_LENDING_NON_FUND_BASED_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8U_LENDING_NON_FUND_BASED_WIC_NOC"/>
+	</field>
+	<field name="C9U_CREDIT_CARDS_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9U_CREDIT_CARDS_WIC_NOC"/>
+	</field>
+	<field name="C10U_MERCHANG_POS_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10U_MERCHANG_POS_WIC_NOC"/>
+	</field>
+	<field name="C11U_OTHER_PROD_SERVICES_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11U_OTHER_PROD_SERVICES_WIC_NOC"/>
+	</field>
+	<field name="C12U_RETIREMENT_SAVING_SCHEMES_WIC_NOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12U_RETIREMENT_SAVING_SCHEMES_WIC_NOC"/>
+	</field>
+	<field name="C1V_DEP_TKG_SERVICES_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C1V_DEP_TKG_SERVICES_WIC_VOC"/>
+	</field>
+	<field name="C2V_LEND_FUND_BASED_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C2V_LEND_FUND_BASED_WIC_VOC"/>
+	</field>
+	<field name="C3V_FB_FINANCE_LEASE_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C3V_FB_FINANCE_LEASE_WIC_VOC"/>
+	</field>
+	<field name="C4V_FB_OPER_LEASE_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C4V_FB_OPER_LEASE_WIC_VOC"/>
+	</field>
+	<field name="C5V_FB_LOANS_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C5V_FB_LOANS_WIC_VOC"/>
+	</field>
+	<field name="C6V_FB_FACTORING_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C6V_FB_FACTORING_WIC_VOC"/>
+	</field>
+	<field name="C7V_FB_OTHERS_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C7V_FB_OTHERS_WIC_VOC"/>
+	</field>
+	<field name="C8V_LENDING_NON_FUND_BASED_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C8V_LENDING_NON_FUND_BASED_WIC_VOC"/>
+	</field>
+	<field name="C9V_CREDIT_CARDS_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C9V_CREDIT_CARDS_WIC_VOC"/>
+	</field>
+	<field name="C10V_MERCHANG_POS_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C10V_MERCHANG_POS_WIC_VOC"/>
+	</field>
+	<field name="C11V_OTHER_PROD_SERVICES_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C11V_OTHER_PROD_SERVICES_WIC_VOC"/>
+	</field>
+	<field name="C12V_RETIREMENT_SAVING_SCHEMES_WIC_VOC" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="C12V_RETIREMENT_SAVING_SCHEMES_WIC_VOC"/>
+	</field>
+	<field name="REPORT_CODE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_CODE"/>
+	</field>
+	<field name="REPORT_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_NAME"/>
+	</field>
+	<field name="REPORT_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_DATE"/>
+	</field>
+	<field name="REPORT_DUE_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_DUE_DATE"/>
+	</field>
+	<field name="REP_SUBMIT_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REP_SUBMIT_DATE"/>
+	</field>
+	<field name="REP_PERIOD_FROM" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REP_PERIOD_FROM"/>
+	</field>
+	<field name="REP_PERIOD_TO" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REP_PERIOD_TO"/>
+	</field>
+	<field name="REP_FREQ" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REP_FREQ"/>
+	</field>
+	<field name="NIL_REPORT_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NIL_REPORT_FLG"/>
+	</field>
+	<field name="ARCH_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ARCH_FLG"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<textField pattern="MMM/yyyy" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="748" y="0" width="150" height="20" backcolor="#FFFF99" uuid="54f819c0-c76f-4656-a573-e6a0e013e5d0">
+					<property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#FFFFFF"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+					<paragraph spacingAfter="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REPORT_DATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="420" y="0" width="150" height="20" backcolor="#FFFF99" uuid="395ee1a1-b3cf-4ded-8553-4e5d6f98bce2">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#FFFFFF"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5" spacingAfter="5"/>
+				</textElement>
+				<text><![CDATA[MUR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="570" y="0" width="178" height="20" uuid="c7bd9e33-fcc3-4daf-902a-b2e141454ef0">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#FFFFFF"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5" spacingAfter="5"/>
+				</textElement>
+				<text><![CDATA[Previous Quarter:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="320" height="20" uuid="6e01d520-3ef2-4a88-969c-cac871ed472c">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#FFFFFF"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+					<paragraph leftIndent="5" spacingAfter="5"/>
+				</textElement>
+				<text><![CDATA[Reporting Currency (MUR/USD as applicable):]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="810" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="20" backcolor="#FFFF99" uuid="e31922cf-38dc-4c85-82d4-1f89131d0af9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Table of]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="0" width="320" height="20" backcolor="#FFFF99" uuid="c258cd4f-bc25-42e9-b77c-de631051b695">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="420" y="0" width="150" height="20" backcolor="#FFFF99" uuid="50fe649c-7703-4530-8b37-b091af239289">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="20" width="320" height="20" backcolor="#FFFF99" uuid="21c34dc8-5b4e-494d-92ee-78e5bf37a22a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Table]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="20" width="100" height="20" backcolor="#FFFF99" uuid="529ed71b-0702-4df7-b1c5-fd4a1b2da761">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Sr. No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="420" y="20" width="150" height="20" backcolor="#FFFF99" uuid="102a23c0-b8d7-45a9-93ef-ca6e03ee7d5b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Opaque" x="420" y="60" width="150" height="50" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="06e8da8f-8a46-4e37-8d1d-7d0dc510add1"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("2")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table2"]]></hyperlinkAnchorExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="60" width="320" height="50" backcolor="#FFFF99" uuid="7d6f37f7-98bb-4c4c-9eb7-154881d48820">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Mapping of NBDTI's internal AML/CFT customer rating scale to corresponding prudential classification (High/Medium/Low) as per RBS return]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="40" width="320" height="20" backcolor="#FFFF99" uuid="0e1cac7d-ec62-4e61-a73a-f1830d3e7acc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Products, Services & Delivery Channels]]></text>
+			</staticText>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="40" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="bf8154ae-6c2b-4dde-8bec-b472a046c81f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("1")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table1"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="60" width="100" height="50" backcolor="#FFFF99" uuid="f9a531bf-2e5c-45d7-a9f9-3cfab66daa6e"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("2")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="40" width="100" height="20" backcolor="#FFFF99" uuid="da96c35b-ceee-468f-9ce9-d35640ac89c1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("1")]]></textFieldExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Opaque" x="420" y="130" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="1eaf32f8-a009-40ae-a8cb-6b0b557f9b0f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["3.B"]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table3.B"]]></hyperlinkAnchorExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="130" width="320" height="20" backcolor="#FFFF99" uuid="8f7f743b-df81-41d8-aa60-52e89743ed85">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Profile of non-face-to-face customers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="110" width="320" height="20" backcolor="#FFFF99" uuid="91ae8278-130d-46f8-be77-0a78111475d5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Profile of face-to-face customers]]></text>
+			</staticText>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Opaque" x="420" y="185" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="68ed609f-35eb-43a0-b68c-a46942da79c9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("5")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table5"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="110" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="53f75436-7b60-491b-9274-f15e73f79697">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["3.A"]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table3.A"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="150" width="150" height="35" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="2c4c5e55-3707-4c15-a043-457e1e520b2b"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("4")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table4"]]></hyperlinkAnchorExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="185" width="320" height="20" backcolor="#FFFF99" uuid="ea68765d-e3e3-414a-b1d1-db6aaa7f262f">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Customer risk migration]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="130" width="100" height="20" backcolor="#FFFF99" uuid="4727b17b-20ca-454f-bc2e-fdb8be402d3f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("4")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="150" width="320" height="35" backcolor="#FFFF99" uuid="0ba72491-4fe6-4379-94aa-f86ae4efdd6f">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Profile of NEW customers onboarded and applications rejected]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="185" width="100" height="20" backcolor="#FFFF99" uuid="27f3a918-deb2-4b73-95d3-586fbf100921">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("6")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="150" width="100" height="35" backcolor="#FFFF99" uuid="6566bd08-2399-4ba3-a244-cf1c8943ff3d"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("5")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="110" width="100" height="20" backcolor="#FFFF99" uuid="8920f242-7150-4368-bee3-4d45768846b6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("3")]]></textFieldExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Opaque" x="420" y="240" width="150" height="35" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="aa1cc4f7-3f60-4647-a0c1-ad2bdd78ac81">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("7")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table7"]]></hyperlinkAnchorExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="240" width="320" height="35" backcolor="#FFFF99" uuid="9481177e-cd34-444c-8e10-4f9afe21a0d3">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[No. of existing customers where KYC and CDD reviews are overdue]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="205" width="320" height="35" backcolor="#FFFF99" uuid="3989c799-460d-4e61-a362-f99d8a078afd">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Policy for frequency of KYC and CDD reviews of existing customers]]></text>
+			</staticText>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Opaque" x="420" y="295" width="150" height="30" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="0dfe8b1d-3663-4b50-8d75-50d9af495696"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("9")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table9"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="205" width="150" height="35" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="0c01d72c-bd9a-4637-8ad2-5c6cf20a7516">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("6")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table6"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="275" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="429ea11d-3bf9-4691-9901-26de9c0f61c8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("8")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table8"]]></hyperlinkAnchorExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="295" width="320" height="30" backcolor="#FFFF99" uuid="8298f5e4-d8d4-452c-931b-047cf94054d9">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Domestic outward remittances by customer risk categories]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="240" width="100" height="35" backcolor="#FFFF99" uuid="17043cbb-6be1-4407-81f6-74df9c3584f6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("8")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="275" width="320" height="20" backcolor="#FFFF99" uuid="1be6a7c9-234b-44ac-a149-36d0ae6b49c2">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Transaction details by customer type ]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="295" width="100" height="30" backcolor="#FFFF99" uuid="15253d5e-4100-4b49-b282-adf045c232ab"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("10")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="275" width="100" height="20" backcolor="#FFFF99" uuid="8cec4c5b-f484-40e0-b96f-f6ecb6a55cdc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("9")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="205" width="100" height="35" backcolor="#FFFF99" uuid="6f19d61f-1405-4d13-8fa7-e3f3fc6735a2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("7")]]></textFieldExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Opaque" x="420" y="345" width="150" height="35" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="4453f4bb-c4de-432c-a75d-4376336f52ab">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("11")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table11"]]></hyperlinkAnchorExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="345" width="320" height="35" backcolor="#FFFF99" uuid="6e4cb6c2-c70e-4653-b96e-b1a79d700c10">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Transactions terminated or not processed due to concerns about CDD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="325" width="320" height="20" backcolor="#FFFF99" uuid="685710b7-fea0-446f-9fd4-e5fae59bd9a3">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Domestic inward remittances by customer risk categories]]></text>
+			</staticText>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Opaque" x="420" y="415" width="150" height="35" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="81e14f37-5a10-4672-9434-692a5e5268a2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("13")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table13"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="325" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="8d428938-fcb4-4f42-80d5-be2407aa4f84">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("10")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table10"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="380" width="150" height="35" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="28ccc272-5ee7-42d9-bf49-860750f03cac">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("12")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table12"]]></hyperlinkAnchorExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="415" width="320" height="35" backcolor="#FFFF99" uuid="d19bfe24-0164-4cea-833c-d923076d7dd7">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Individual cash withdrawal transactions during the quarter -Total]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="345" width="100" height="35" backcolor="#FFFF99" uuid="c9da9426-d23d-43fc-a90a-25759f821cd4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("12")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="380" width="320" height="35" backcolor="#FFFF99" uuid="6374673d-6877-49c0-ad05-cc485143934d">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Individual cash deposit transactions during the quarter -Total]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="415" width="100" height="35" backcolor="#FFFF99" uuid="8bfbb60a-0fb4-4b91-889b-b551953f5232">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("14")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="380" width="100" height="35" backcolor="#FFFF99" uuid="96779c8a-37f3-4576-8f1b-6ff609f3bfd8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("13")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="325" width="100" height="20" backcolor="#FFFF99" uuid="f607a2af-5538-4a69-b06d-40c119b0fe07">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("11")]]></textFieldExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="490" width="150" height="35" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="5069eaaf-8c38-4b3e-9f89-281cce721067">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("16")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table16"]]></hyperlinkAnchorExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="470" width="320" height="20" backcolor="#FFFF99" uuid="820133ab-85a3-4f7f-bf6b-8df0c2322bb1">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Cheque outward transactions during the quarter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="450" width="320" height="20" backcolor="#FFFF99" uuid="22d15cd3-f8ff-4a2a-8781-17c1ada309fd">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Cheque inward transactions during the quarter]]></text>
+			</staticText>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="545" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="3df3784c-c755-49c3-ade2-c203daae278c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("18")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table18"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Opaque" x="420" y="470" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="fe60bc21-6b8b-4c5e-b971-7b6952fcc949">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("15")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table15"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Opaque" x="420" y="525" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="821e81bc-d663-44fe-bf5b-f69b24335e55">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("17")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table17"]]></hyperlinkAnchorExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="525" width="320" height="20" backcolor="#FFFF99" uuid="48fbc392-c8ff-43a3-9389-5ea4d4cc7702">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Transaction Monitoring Systems ]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="470" width="100" height="20" backcolor="#FFFF99" uuid="20306d17-c967-4194-84c7-f2a554f1c6dd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("16")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="490" width="320" height="35" backcolor="#FFFF99" uuid="819eb425-0d8d-46c7-b37a-109688418bd2">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Details of cash transactions by customers during the quarter]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="525" width="100" height="20" backcolor="#FFFF99" uuid="942fd19d-0c19-4932-8243-e79ec6855b0d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("18")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="490" width="100" height="35" backcolor="#FFFF99" uuid="a4a37b9a-5004-45ef-b4c6-02df432c5a56">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("17")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="450" width="100" height="20" backcolor="#FFFF99" uuid="2f052890-043a-4348-a37c-0655bfd0f831">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("15")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="565" width="320" height="35" backcolor="#FFFF99" uuid="a62ea910-6bf7-4f05-be1d-b5527d01ad87">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Types of Hits (pre-transaction) and Alerts (post-transaction)]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="545" width="100" height="20" backcolor="#FFFF99" uuid="c09dd27e-3fdb-41be-9fd8-28beabff17be">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("19")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="600" width="320" height="20" backcolor="#FFFF99" uuid="2fc6e82c-2f03-4c49-9824-04720bef6262">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Suspicion Reports]]></text>
+			</staticText>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="600" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="58593a67-0805-4cb0-925c-7016434b79e2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("20")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table20"]]></hyperlinkAnchorExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="620" width="320" height="20" backcolor="#FFFF99" uuid="bdc1d7e1-67ae-4b47-8773-85403cfad9cc">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Inactive and dormant accounts]]></text>
+			</staticText>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Opaque" x="420" y="620" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="aae47a5a-deb3-4287-9b88-89e8e3035839">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("21")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table21"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Opaque" x="420" y="565" width="150" height="35" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="7f1c6276-7025-4e57-be17-66c3113f8694">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("19")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table19"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="620" width="100" height="20" backcolor="#FFFF99" uuid="53b850d8-3b71-44fa-914b-1bbf62bd3e3c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("22")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="545" width="320" height="20" backcolor="#FFFF99" uuid="668f2398-5ca8-4dc4-98c4-85ff3a69ccde">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Distribution channels]]></text>
+			</staticText>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="640" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="d13ec89b-8bbb-45a5-9f42-6713c272d1ce">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("22")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table22"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="565" width="100" height="35" backcolor="#FFFF99" uuid="07586a55-16d0-4080-a038-03ddc3275360">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("20")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="600" width="100" height="20" backcolor="#FFFF99" uuid="7d625632-b785-4bff-bc34-f462ae960498">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("21")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="660" width="320" height="20" backcolor="#FFFF99" uuid="22f3ca17-bd87-48e6-86ef-97e00dd76923">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Compliance AML-CFT reviews/ checks]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="640" width="100" height="20" backcolor="#FFFF99" uuid="14f46ee0-00f2-4686-a055-336c34a847c4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("23")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="680" width="320" height="20" backcolor="#FFFF99" uuid="924f915c-fdcc-4a3e-998b-98f8a3dfb30e">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Internal audit AML-CFT reviews/ checks]]></text>
+			</staticText>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="680" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="c770a95c-67dc-445e-8dba-4e1240043761">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("24")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table24"]]></hyperlinkAnchorExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="700" width="320" height="35" backcolor="#FFFF99" uuid="600d4868-31e3-42af-bd32-6088594ff4c1">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Application of NBDTI's AML-CFT risk management framework to (choose from drop down menu - blue cells)]]></text>
+			</staticText>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Opaque" x="420" y="700" width="150" height="35" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="346bafc6-a258-4767-be3e-337f45b7f1a8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("25")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table25"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Opaque" x="420" y="660" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="ade395fc-1fcf-4966-a7ae-9e400c56eeb6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("23")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table23"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="700" width="100" height="35" backcolor="#FFFF99" uuid="7dd8d353-8041-4862-95c0-bbab2d89d4cd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("26")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="640" width="320" height="20" backcolor="#FFFF99" uuid="9904f785-dd4d-42a2-ab01-69b7cdf4ad32">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Abandoned fund accounts]]></text>
+			</staticText>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="735" width="150" height="35" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="1560a3bf-483b-4ffa-9c82-2b502798a375">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("26")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table26"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="660" width="100" height="20" backcolor="#FFFF99" uuid="88c92d89-3413-47e2-a8ab-627bca64b852">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("24")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="680" width="100" height="20" backcolor="#FFFF99" uuid="582301c9-c98e-495f-b3eb-a54b7ae0be3f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("25")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="735" width="320" height="35" backcolor="#FFFF99" uuid="74c8b55b-00c5-4093-919f-773047892760">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Warnings, Show-cause, Penalties Sanctions etc. for AML-CFT related matters]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="770" width="100" height="20" backcolor="#FFFF99" uuid="adce939e-8c12-498c-9607-3418509879f3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("28")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="735" width="100" height="35" backcolor="#FFFF99" uuid="892fad31-70ba-4513-b0a2-1a8f0a42a853">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("27")]]></textFieldExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="790" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="f16edd90-b636-45e2-9dda-34623ce978c7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("28")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table28"]]></hyperlinkAnchorExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Opaque" x="420" y="770" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="56dd955d-e6ca-44e6-90a9-9a5ac410f44d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("27")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table27"]]></hyperlinkAnchorExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="770" width="320" height="20" backcolor="#FFFF99" uuid="f21c8f23-4ffe-47cf-9638-837bfc03b563">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Transactions from Non-Resident Customers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="790" width="320" height="20" backcolor="#FFFF99" uuid="f524cdf8-28ec-442a-97d1-4409e508ba7d">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Transactions from Non-Resident Customers]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="790" width="100" height="20" backcolor="#FFFF99" uuid="d7fc41a0-d09c-4147-b3ae-dd665b9b6a58">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("29")]]></textFieldExpression>
+			</textField>
+			<textField hyperlinkType="LocalAnchor">
+				<reportElement mode="Transparent" x="420" y="450" width="150" height="20" forecolor="#0A1FFF" backcolor="#FFFF99" uuid="c9645e30-2788-465c-8441-79628f015ace">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#010214"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Integer.parseInt("14")]]></textFieldExpression>
+				<hyperlinkAnchorExpression><![CDATA["Table14"]]></hyperlinkAnchorExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

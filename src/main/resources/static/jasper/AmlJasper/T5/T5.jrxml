@@ -1,0 +1,1007 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="T5" pageWidth="1000" pageHeight="595" orientation="Landscape" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="228cd26d-c78a-49a9-8583-4b3420e915bf">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.show.gridlines" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<style name="Title" mode="Opaque" backcolor="#D6DCE4"/>
+	<style name="Header" mode="Opaque" backcolor="#B3C6E7"/>
+	<style name="Note" mode="Opaque" backcolor="#0070C0"/>
+	<style name="Validation" mode="Opaque" backcolor="#70AD47"/>
+	<style name="Orange" mode="Opaque" backcolor="#FFE799"/>
+	<parameter name="REPORT_DATE" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM "T5_RISK_RATING_MIG_SUMARY_TABLE" where T5_REPORT_TO_DATE=$P{REPORT_DATE}]]>
+	</queryString>
+	<field name="T5_1_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_1_NAME"/>
+	</field>
+	<field name="T5_1A_TOTAL_CUST_UPGRADE_PRE_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_1A_TOTAL_CUST_UPGRADE_PRE_FACETOFACE"/>
+	</field>
+	<field name="T5_1B_TOTAL_CUST_UPGRADE_PRE_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_1B_TOTAL_CUST_UPGRADE_PRE_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_1C_TOTAL_CUST_UPGRADE_CUR_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_1C_TOTAL_CUST_UPGRADE_CUR_FACETOFACE"/>
+	</field>
+	<field name="T5_1D_TOTAL_CUST_UPGRADE_CUR_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_1D_TOTAL_CUST_UPGRADE_CUR_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_2_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_2_NAME"/>
+	</field>
+	<field name="T5_2A_HIGH_TO_MED_PRE_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_2A_HIGH_TO_MED_PRE_FACETOFACE"/>
+	</field>
+	<field name="T5_2B_HIGH_TO_MED_PRE_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_2B_HIGH_TO_MED_PRE_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_2C_HIGH_TO_MED_CUR_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_2C_HIGH_TO_MED_CUR_FACETOFACE"/>
+	</field>
+	<field name="T5_2D_HIGH_TO_MED_CUR_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_2D_HIGH_TO_MED_CUR_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_3_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_3_NAME"/>
+	</field>
+	<field name="T5_3A_HIGH_TO_LOW_PRE_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_3A_HIGH_TO_LOW_PRE_FACETOFACE"/>
+	</field>
+	<field name="T5_3B_HIGH_TO_LOW_PRE_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_3B_HIGH_TO_LOW_PRE_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_3C_HIGH_TO_LOW_CUR_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_3C_HIGH_TO_LOW_CUR_FACETOFACE"/>
+	</field>
+	<field name="T5_3D_HIGH_TO_LOW_CUR_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_3D_HIGH_TO_LOW_CUR_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_4_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_4_NAME"/>
+	</field>
+	<field name="T5_4A_MED_TO_LOW_PRE_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_4A_MED_TO_LOW_PRE_FACETOFACE"/>
+	</field>
+	<field name="T5_4B_MED_TO_LOW_PRE_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_4B_MED_TO_LOW_PRE_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_4C_MED_TO_LOW_CUR_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_4C_MED_TO_LOW_CUR_FACETOFACE"/>
+	</field>
+	<field name="T5_4D_MED_TO_LOW_CUR_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_4D_MED_TO_LOW_CUR_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_5_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_5_NAME"/>
+	</field>
+	<field name="T5_5A_TOTAL_CUST_DOWNGRADE_PRE_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_5A_TOTAL_CUST_DOWNGRADE_PRE_FACETOFACE"/>
+	</field>
+	<field name="T5_5B_TOTAL_CUST_DOWNGRADE_PRE_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_5B_TOTAL_CUST_DOWNGRADE_PRE_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_5C_TOTAL_CUST_DOWNGRADE_CUR_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_5C_TOTAL_CUST_DOWNGRADE_CUR_FACETOFACE"/>
+	</field>
+	<field name="T5_5D_TOTAL_CUST_DOWNGRADE_CUR_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_5D_TOTAL_CUST_DOWNGRADE_CUR_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_6_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_6_NAME"/>
+	</field>
+	<field name="T5_6A_LOW_TO_MED_PRE_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_6A_LOW_TO_MED_PRE_FACETOFACE"/>
+	</field>
+	<field name="T5_6B_LOW_TO_MED_PRE_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_6B_LOW_TO_MED_PRE_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_6C_LOW_TO_MED_CUR_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_6C_LOW_TO_MED_CUR_FACETOFACE"/>
+	</field>
+	<field name="T5_6D_LOW_TO_MED_CUR_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_6D_LOW_TO_MED_CUR_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_7_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_7_NAME"/>
+	</field>
+	<field name="T5_7A_LOW_TO_HIGH_PRE_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_7A_LOW_TO_HIGH_PRE_FACETOFACE"/>
+	</field>
+	<field name="T5_7B_LOW_TO_HIGH_PRE_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_7B_LOW_TO_HIGH_PRE_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_7C_LOW_TO_HIGH_CUR_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_7C_LOW_TO_HIGH_CUR_FACETOFACE"/>
+	</field>
+	<field name="T5_7D_LOW_TO_HIGH_CUR_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_7D_LOW_TO_HIGH_CUR_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_8_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_8_NAME"/>
+	</field>
+	<field name="T5_8A_MED_TO_HIGH_PRE_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_8A_MED_TO_HIGH_PRE_FACETOFACE"/>
+	</field>
+	<field name="T5_8B_MED_TO_HIGH_PRE_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_8B_MED_TO_HIGH_PRE_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_8C_MED_TO_HIGH_CUR_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_8C_MED_TO_HIGH_CUR_FACETOFACE"/>
+	</field>
+	<field name="T5_8D_MED_TO_HIGH_CUR_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_8D_MED_TO_HIGH_CUR_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_9_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_9_NAME"/>
+	</field>
+	<field name="T5_9A_TOTAL_CUST_UNCHANGE_PRE_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_9A_TOTAL_CUST_UNCHANGE_PRE_FACETOFACE"/>
+	</field>
+	<field name="T5_9B_TOTAL_CUST_UNCHANGE_PRE_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_9B_TOTAL_CUST_UNCHANGE_PRE_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_9C_TOTAL_CUST_UNCHANGE_CUR_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_9C_TOTAL_CUST_UNCHANGE_CUR_FACETOFACE"/>
+	</field>
+	<field name="T5_9D_TOTAL_CUST_UNCHANGE_CUR_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_9D_TOTAL_CUST_UNCHANGE_CUR_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_10_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_10_NAME"/>
+	</field>
+	<field name="T5_10A_TOTAL_PRE_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_10A_TOTAL_PRE_FACETOFACE"/>
+	</field>
+	<field name="T5_10B_TOTAL_PRE_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_10B_TOTAL_PRE_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_10C_TOTAL_CUR_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_10C_TOTAL_CUR_FACETOFACE"/>
+	</field>
+	<field name="T5_10D_TOTAL_CUR_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_10D_TOTAL_CUR_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_11_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_11_NAME"/>
+	</field>
+	<field name="T5_11A_VALIDATION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_11A_VALIDATION"/>
+	</field>
+	<field name="T5_11B_VALIDATION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_11B_VALIDATION"/>
+	</field>
+	<field name="T5_11C_VALIDATION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_11C_VALIDATION"/>
+	</field>
+	<field name="T5_11D_VALIDATION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_11D_VALIDATION"/>
+	</field>
+	<field name="T5_12_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_12_NAME"/>
+	</field>
+	<field name="T5_12A_CUSTOMER_TERMINATED_CDD_PRE_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_12A_CUSTOMER_TERMINATED_CDD_PRE_FACETOFACE"/>
+	</field>
+	<field name="T5_12B_CUSTOMER_TERMINATED_CDD_PRE_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_12B_CUSTOMER_TERMINATED_CDD_PRE_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_12C_CUSTOMER_TERMINATED_CDD_CUR_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_12C_CUSTOMER_TERMINATED_CDD_CUR_FACETOFACE"/>
+	</field>
+	<field name="T5_12D_CUSTOMER_TERMINATED_CDD_CUR_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_12D_CUSTOMER_TERMINATED_CDD_CUR_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_13_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_13_NAME"/>
+	</field>
+	<field name="T5_13A_CUSTOMER_CEASED_PRE_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_13A_CUSTOMER_CEASED_PRE_FACETOFACE"/>
+	</field>
+	<field name="T5_13B_CUSTOMER_CEASED_PRE_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_13B_CUSTOMER_CEASED_PRE_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_13C_CUSTOMER_CEASED_CUR_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_13C_CUSTOMER_CEASED_CUR_FACETOFACE"/>
+	</field>
+	<field name="T5_13D_CUSTOMER_CEASED_CUR_NON_FACETOFACE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="T5_13D_CUSTOMER_CEASED_CUR_NON_FACETOFACE"/>
+	</field>
+	<field name="T5_REPORT_SUBMIT_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="T5_REPORT_SUBMIT_DATE"/>
+	</field>
+	<field name="T5_REPORT_GENERATE_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="T5_REPORT_GENERATE_DATE"/>
+	</field>
+	<field name="T5_REPORT_DUE_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="T5_REPORT_DUE_DATE"/>
+	</field>
+	<field name="T5_NIL_REPORT_FLG" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_NIL_REPORT_FLG"/>
+	</field>
+	<field name="T5_REPORT_FROM_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="T5_REPORT_FROM_DATE"/>
+	</field>
+	<field name="T5_REPORT_TO_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="T5_REPORT_TO_DATE"/>
+	</field>
+	<field name="T5_FREQUENCY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="T5_FREQUENCY"/>
+	</field>
+	<title>
+		<band height="114">
+			<staticText>
+				<reportElement style="Title" x="0" y="84" width="660" height="30" uuid="35e7babb-2127-4b97-935b-1a6373ac60dd">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Table 5:  Customer risk migration]]></text>
+			</staticText>
+			<textField pattern="MMM/yyyy" isBlankWhenNull="true">
+				<reportElement x="660" y="0" width="150" height="30" uuid="d1019c68-eae7-41e3-95f0-976d006fee81"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_REPORT_TO_DATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="360" y="1" width="150" height="30" uuid="4e276780-6f01-42fc-b10a-9eeee11456e3">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[MUR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="1" width="360" height="30" uuid="3e03ab8d-e65d-447e-90cf-73fad968a69f">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Reporting Currency:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="510" y="0" width="150" height="30" uuid="46cf0237-6d61-4f61-bcc2-b584f31c0e48">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Current Quarter:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="30">
+			<staticText>
+				<reportElement style="Header" x="0" y="0" width="360" height="30" uuid="d2e5df9b-80a8-4fe6-804e-db10cb723eb0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="360" y="0" width="150" height="30" uuid="a84d9f5f-cefa-4259-93ea-4cbd0833a19f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Face-to-face]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="510" y="0" width="150" height="30" uuid="4e213b66-9f86-444c-8a1e-d992c512fd22">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Non-face-to-face (Not Applicable)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<summary>
+		<band height="410" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="360" height="30" uuid="51531011-ef39-4041-b396-d4d1e3684461">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_1_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="360" y="0" width="150" height="30" uuid="67d447a7-8566-4db9-a89c-8305be0b0608">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="510" y="0" width="150" height="30" uuid="6f53e49d-7743-4320-addb-d078ecff5c9c">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="30" width="360" height="30" uuid="458bba4e-3958-4eab-9a39-46e421fa3f16">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_2_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="360" y="30" width="150" height="30" uuid="2b409d44-169f-48d1-959f-43044c3d3d97">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_2C_HIGH_TO_MED_CUR_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="510" y="30" width="150" height="30" uuid="3f708078-e8dc-42af-a1e1-9c082dcaccc2">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_2D_HIGH_TO_MED_CUR_NON_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="60" width="360" height="30" uuid="7fad034b-d6ba-4ccf-8c09-c2cca174e284">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_3_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="360" y="60" width="150" height="30" uuid="da6b25c4-c71d-4f26-a2e0-eb5d7ea9336d">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_3C_HIGH_TO_LOW_CUR_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="510" y="60" width="150" height="30" uuid="6cd3e307-a6e8-4837-8443-03c33f94c962">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_3D_HIGH_TO_LOW_CUR_NON_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="90" width="360" height="30" uuid="a6a82a63-e3b8-47cf-986e-99a07f4da241">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_4_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="360" y="90" width="150" height="30" uuid="82c58183-d56f-421e-929e-62f3b7094d0b">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_4C_MED_TO_LOW_CUR_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="510" y="90" width="150" height="30" uuid="235e9408-6dcc-433c-bbdf-b883551c2ca7">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_4D_MED_TO_LOW_CUR_NON_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="120" width="360" height="30" uuid="3ca18677-5f67-4e61-bc20-53438217d8da">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_5_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="360" y="120" width="150" height="30" uuid="a8c6c638-1871-4408-b95d-2e578079fb0e">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="510" y="120" width="150" height="30" uuid="288fa8bc-3ec6-49b4-a7d7-b270d2d98c78">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="150" width="360" height="30" uuid="6690f161-38f3-490c-83cf-1296fe1da115">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_6_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="360" y="150" width="150" height="30" uuid="aac3d673-f9c2-4d5e-824a-d688dc26b5ba">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_6C_LOW_TO_MED_CUR_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="510" y="150" width="150" height="30" uuid="d579643f-318f-4c20-9e14-1cb4e3b9a1bf">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_6D_LOW_TO_MED_CUR_NON_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="180" width="360" height="30" uuid="c43737fd-d1a3-44b2-b2af-6eb9821ece0c">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_7_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="360" y="180" width="150" height="30" uuid="3ee58db4-b982-4e67-b9b2-b0c8e5e636c0">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_7C_LOW_TO_HIGH_CUR_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="510" y="180" width="150" height="30" uuid="7d687f02-1e93-4707-b23f-edcd5ddc1774">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_7D_LOW_TO_HIGH_CUR_NON_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="210" width="360" height="30" uuid="1f33ee53-a5a3-4aac-acc7-7609269f088d">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_8_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="360" y="210" width="150" height="30" uuid="d69f508a-2342-4f94-918a-5dfcef2df0bc">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_8C_MED_TO_HIGH_CUR_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="510" y="210" width="150" height="30" uuid="76bd36ea-57b5-4210-ae16-4e4c7e1ff870">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_8D_MED_TO_HIGH_CUR_NON_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="240" width="360" height="30" uuid="83d35020-ae5f-4539-9a1a-1bb250c49765">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_9_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="360" y="240" width="150" height="30" uuid="1fe5b6fc-af69-40df-9f03-bb8e69ba48c9">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_9C_TOTAL_CUST_UNCHANGE_CUR_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="510" y="240" width="150" height="30" uuid="4f09e538-cd04-4aea-82d0-42e914d58846">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_9D_TOTAL_CUST_UNCHANGE_CUR_NON_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="270" width="360" height="30" uuid="5e773b0f-a0d7-420f-b38d-d163635506af">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_10_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement style="Orange" x="360" y="270" width="150" height="30" uuid="7cce2ef5-2971-403c-b153-88696c9b2aff">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_10C_TOTAL_CUR_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement style="Orange" x="510" y="270" width="150" height="30" uuid="de89b75f-88d7-411d-bc60-c40623d454ed">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_10D_TOTAL_CUR_NON_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Validation" x="0" y="300" width="360" height="30" uuid="e4802e29-ea7d-4537-9eba-dbffac006dbd">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_11_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Validation" x="360" y="300" width="150" height="30" uuid="80a548e5-4ae3-4445-8aae-ae7e79ccaf10">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_11C_VALIDATION}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Validation" x="510" y="300" width="150" height="30" uuid="e75780da-9689-434b-a846-5ed69ba2c67f">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_11D_VALIDATION}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="330" width="360" height="50" uuid="8a70306a-2835-417f-95f3-a940262586f8">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_12_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="360" y="330" width="150" height="50" uuid="44fccf19-2f89-40b8-9fc5-59a3135fd3ad">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_12C_CUSTOMER_TERMINATED_CDD_CUR_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="510" y="330" width="150" height="50" uuid="591f2770-f958-48eb-9f1d-26193d02b06e">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_12D_CUSTOMER_TERMINATED_CDD_CUR_NON_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="380" width="360" height="30" uuid="7506aabe-4a8f-4a2c-b7f4-e78525002a52">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_13_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="360" y="380" width="150" height="30" uuid="6cb352a3-f313-44b1-ab67-dc182acae418">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_13C_CUSTOMER_CEASED_CUR_FACETOFACE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="510" y="380" width="150" height="30" uuid="6631bfde-7133-4706-b675-84d69bb4014a">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph leftIndent="0" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T5_13D_CUSTOMER_CEASED_CUR_NON_FACETOFACE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

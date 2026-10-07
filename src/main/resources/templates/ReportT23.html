@@ -1,0 +1,2832 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!-- 
+MODIFIED BY	: RAMPRASATH.
+MODIFIED ON	: 04-MARCH-2020
+PURPOSE		: Report TABLE 23
+ -->
+<html lang="en" >
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/multifreeze/multifreezer.css"
+	th:href="@{/multifreeze/multifreezer.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+		
+		
+		
+		var permission = /*[[${session.PERMISSIONS}]]*/null;
+	
+		var reportsummary = /*[[${reportsummary}]]*/null;
+		
+		var dtltype = /*[[${dtltype}]]*/null;
+		
+		//to make the summary button active on load
+		$(function(){
+			
+			console.log(reportsummary);
+			
+			$("#summarybtn").addClass("active");
+
+		});
+		function home(){
+			location.href = "/AML/rbsreports";
+
+	}	/*to show details page - 3 parameters
+		mode - valid values are : nextpage, prevpage, givenpage, firstpage
+		num - page number to show to the user
+		maxpage - maximum number of pages avaialble in the data
+	*/
+	function showdetails(mode,num,maxpage,instancecode) {
+		
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+		Callurl = Callurl+"&instancecode="+instancecode;
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+		
+		
+		$.ajax({
+			type : 'get',
+			url : Callurl,
+			success : function(data) {
+				
+				/*<![CDATA[*/
+				
+
+				$('.content').html(data);
+				$("#detailsbtn").addClass("active");
+				/*]]>*/
+
+			}
+		})
+	}
+	
+	
+	//to fetch summary from the database - called from the summary button
+	function showsummary(mode,num,maxpage) {
+		
+
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Summary'(fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+		
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+
+		
+	window.location.href=Callurl;
+	}
+	
+
+	//to check for report or arch
+	//if report --->>> precheck and then save report else throws error
+	function savereport(){
+		
+		if(dtltype=='report'){
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Precheck'(asondate=${asondate},fromdate=${fromdate},todate=${todate})}]]*/
+				$.ajax({
+					type : 'get',
+					url : Callurl,
+					success : function(data) {
+
+						if (data == 'success') {	
+							
+							
+							$("#loader").show();
+							
+							
+							var Callurl = /*[[@{'/Reports/'+${reportid}+'/save'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+								$.ajax({
+									type : 'get',
+									url : Callurl,
+									success : function(data) {
+
+										
+										if(data=='success'){
+											
+										 var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+											Callurl = Callurl+"&filetype=xbrl";
+											location.href=Callurl;
+											$("#loader").hide();
+										}
+										else{
+											$("#loader").hide();
+											 $("#alertmsg").text(data);
+											 $('#alert').modal("toggle");
+										}
+									}
+								})
+								
+							
+							
+						} else {
+							$("#alertmsg").text("Please verify the Pending Records Before Generating XBRL Instance");
+							$("#alert").modal("toggle");
+						}
+
+					}
+					});
+			
+		}
+		else{
+			
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+				 Callurl = Callurl+"&filetype=xbrl";
+				 location.href=Callurl;
+				 $("#loader").hide();
+		}
+		
+	}
+	/*]]>*/
+</script>
+<!----------------------------------------Scripts to edit report details-------------------------------------------->
+<script th:inline="javascript">
+/*<![CDATA[*/
+	 var currlist = /*[[${currlist}]]*/null;
+
+
+					
+				function editRecord(a){
+	
+					if(permission=='W' && dtltype=='report') {
+						
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800edit'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Assign selected values to the model box fields
+					
+					$("#trade_date").val(a.getAttribute("data-trade_date"));
+					$("#value_date").val(a.getAttribute("data-value_date"));
+					$("#isin").val(a.getAttribute("data-isin"));
+					$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+					$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+					$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+					$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+					$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+					$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+					$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+					$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+					$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+					$("#mat_date").val(a.getAttribute("data-mat_date"));
+					$("#resid_days").val(a.getAttribute("data-resid_days"));
+					$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+					$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+					$("#report_date").val(a.getAttribute("data-report_date"));
+					$("#del_flg").val(a.getAttribute("data-del_flg"));
+					$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+					$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+					$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+					$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+					$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+					$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+					$("#addedit").modal("toggle");
+					
+				
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",true);
+					$("#report_date").attr("readonly",true);
+					
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					}
+					
+				};
+				function addRecord(){
+					
+					if(permission=='W' && dtltype=='report') {
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Reset form if any data present
+					document.getElementById("dataedit").reset();
+					
+					//make readonly false to unique fields
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",false);
+					$("#report_date").attr("readonly",false);
+					
+					//Reset errors
+					var validator = $("#dataedit").validate();
+					validator.resetForm();
+					
+					$("#addedit").modal("toggle");
+                    
+					
+					 
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					
+					}
+				};
+				
+				function deleteRecord(a){
+					
+					if(permission=='W' && dtltype=='report') {
+					
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800delete'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url);
+					
+					
+					//Assign selected values to the model box fields
+					
+						$("#trade_date").val(a.getAttribute("data-trade_date"));
+						$("#value_date").val(a.getAttribute("data-value_date"));
+						$("#isin").val(a.getAttribute("data-isin"));
+						$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+						$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+						$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+						$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+						$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+						$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+						$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+						$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+						$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+						$("#mat_date").val(a.getAttribute("data-mat_date"));
+						$("#resid_days").val(a.getAttribute("data-resid_days"));
+						$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+						$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+						$("#report_date").val(a.getAttribute("data-report_date"));
+						$("#del_flg").val(a.getAttribute("data-del_flg"));
+						$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+						$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+						$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+						$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+						$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+						$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+
+					$("#datadelete").modal("toggle");
+					
+					} 
+					
+				};
+				
+				function submitdataform(){
+					
+					if($("#dataedit").valid()){
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#dataedit').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 
+							 $("#alertmsg").text(responseText);
+							 
+							 if($('#addedit').is(':visible')){
+								 $('#addedit').modal("hide");
+							 };
+							 if($('#datadelete').is(':visible')){
+								 $('#datadelete').modal("hide");
+							 };
+							 $('#alert').modal("toggle");
+				                
+						 }
+						
+						
+					}
+					
+					$("#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				}
+				
+          function searchRecord(){
+					
+					document.getElementById("searchdtl").reset();
+					
+					$("#search").modal("toggle");
+					
+					$("#report_dates").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				};
+				
+				function submitSearchRecord(){
+					
+					
+					
+					if($("#searchdtl").valid()){
+						
+						
+						
+						var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800Search'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+						$("#searchdtl").attr('action', url);
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#searchdtl').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 $(".modal").modal("hide");
+							 $('.content').html(responseText);
+							 $("#detailsbtn").addClass("active");
+							 $(".modal-backdrop").remove();
+							 
+						 }	
+					}
+					
+				};
+				
+				
+function verifyscreen(a){
+					
+					
+					
+					
+					
+					if(permission=='W' && dtltype=='report') {
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Reset form if any data present
+					document.getElementById("dataedit").reset();
+					
+					/* //make readonly false to unique fields
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",false);
+					$("#report_date").attr("readonly",false); */
+					
+					//Reset errors
+					var validator = $("#dataedit").validate();
+					validator.resetForm();
+					
+
+				    
+					$("#verify").modal("toggle");
+					
+					
+					
+					}
+				};
+				
+function editsum(a){
+					
+					
+					
+				
+					
+					if(permission=='W' && dtltype=='report') {
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Reset form if any data present
+					document.getElementById("dataedit").reset();
+					
+					/* //make readonly false to unique fields
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",false);
+					$("#report_date").attr("readonly",false); */
+					
+					//Reset errors
+					var validator = $("#dataedit").validate();
+					validator.resetForm();
+					
+
+				    
+					$("#addedit").modal("toggle");
+					
+					
+					
+					}
+				};
+				
+				
+				
+				function editsubmitform(a) {
+							
+								// var reportdate = $("#report_date").val();
+								 //alert(reportdate);
+								 
+								if ($("#dataedit").valid()) {
+									
+									var url = "./T23Edit?";
+									
+
+									$("#dataedit").attr('action', url);
+
+									var options = {
+										success : showResponse
+									// post-submit callback 
+									};
+
+									$("#dataedit").ajaxSubmit(options);
+
+									function showResponse(responseText, statusText, xhr, $form) {
+
+										$("#alertmsg").text(responseText);
+
+										$('#alert').modal("toggle");
+
+									}
+									;
+								}
+							};
+				
+							function verifysubmitform(a) {
+								
+								// var reportdate = $("#report_date").val();
+								 //alert(reportdate);
+								 
+								if ($("#dataverify").valid()) {
+									
+									var url = "./T23Verify?";
+									
+
+									$("#dataverify").attr('action', url);
+
+									var options = {
+										success : showResponse
+									// post-submit callback 
+									};
+
+									$("#dataverify").ajaxSubmit(options);
+
+									function showResponse(responseText, statusText, xhr, $form) {
+
+										$("#alertmsg").text(responseText);
+
+										$('#alert').modal("toggle");
+
+									}
+									;
+								}
+							};
+				
+							
+							
+						
+							
+/*]]>*/
+</script>
+<script>
+	$(document).ready(function(){
+        $("#close").click(function(){
+            location.reload(true);
+        });
+    });
+	function back(a) {
+
+		window.history.back(-1);
+
+	}
+	</script>
+<style>
+.nav-buttons {
+	float: right;
+}
+
+.reptitle {
+	float: left;
+}
+
+.reptitle>p {
+	margin-top:;
+}
+
+.customcol {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.first_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 0;
+	width: 30px;
+}
+
+.second_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 30px;
+	width: 30px;
+}
+
+.third_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 60px;
+	width: 150px;
+}
+
+.inner {
+	overflow-x: scroll;
+	overflow-y: visible;
+}
+
+.btn-primary {
+	background-color: #E77400;
+	border-color: #0c0c0c;
+}
+
+.btn-primary:not (:disabled ):not (.disabled ).active, .btn-primary:not
+	 (:disabled ):not (.disabled ):active, .show>.btn-primary.dropdown-toggle
+	{
+	color: #fff;
+	background-color: #cc000000;
+	border-color: #161617;
+}
+
+.addedit {
+	color: #007bff;
+}
+
+.addedit:hover {
+	color: #0056b3;
+}
+</style>
+</head>
+<body>
+	<!----------------------------------------------------- Header Section starts ----------------------------------------------------->
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" aria-hidden="true"
+		onclick="docEmb('Report')" id="ques"></i>
+	<!----------------------------------------------------- Header Section Ends ------------------------------------------------------->
+	<div style="margin-left: 310px; margin-top: 76px;">
+		<div class="container content" th:fragment="reportcontent">
+
+
+
+			<!--------------------------------------------------------------- Report title starts -------------------------------------------->
+			<div class="row" style="width: 1100px; margin-left: 0px;">
+				<div class="col-sm-12 customcol"
+					style="background-color: #4d8cb9; padding-top: 10px; padding-bottom: 10px; padding-left: 5px;">
+					<!-- <select id="reporttype" style="background-color: #e9ecef;">
+						<option th:each="title : ${reportTitle}"
+							th:value="${title.reportName}" th:text="${title.reportName}"></option>
+
+					</select> -->
+					<div class="btn-group nav-buttons">
+
+						<button type="button" class="btn btn-primary"
+							onclick="showsummary();" id="summarybtn">Summary</button>
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary dropdown-toggle"
+								data-toggle="dropdown">
+								Download <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=pdf|">Pdf</a></li>
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=excel|">Excel</a></li>
+								<!-- <li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									href="#" onclick="savereport();">XBRL</a></li> -->
+								<li th:if="${displaymode}=='detail'"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=detailexcel|">Excel</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report title ends ------------------------------------------------->
+			<!--------------------------------------------------------------- Report buttons section starts ------------------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol" style="background-color: #adb5bd;">
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report buttons section ends ------------------------------------->
+			<!------------------------------ Report summary section starts it will shown only if summary button clicked------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol"
+					th:if="${displaymode}=='summary' or ${displaymode}==null"
+					style="overflow-x: auto;">
+					<div class="card-header" id="modheadtitle" style="width: 1100px;">
+						<b>Table 23: Compliance AML-CFT reviews/ checks</b>
+
+
+
+						<div class="btn-group nav-buttons">
+							<button type="button" class="btn btn-primary"
+								onclick="editsum(this);"
+								style="margin-top: -10px; padding: 3px;"
+								title="Click to EDIT Records"
+								th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+								id="addRecord">Modify</button>
+						</div>
+
+						<div class="btn-group nav-buttons">
+							<button type="button" class="btn btn-primary"
+								style="margin-right: 0px; margin-top: -10px; padding: 3px; background-color: #4d8cb9;"
+								title="view the records" id="addRecord">Inquiry</button>
+						</div>
+
+						<div class="btn-group nav-buttons">
+							<button type="button" class="btn btn-primary"
+								onclick="verifyscreen(this);"
+								style="margin-top: -10px; padding: 3px;"
+								title="Click to EDIT Records"
+								th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+								id="addRecord">Verify</button>
+						</div>
+					</div>
+					<table class="table  table-bordered  table-hover table-sm" id=""
+						style="width: 1100px;">
+						<thead class="thead-light">
+							<!-- <tr>
+								<th></th>
+								<th rowspan="2" style="width: 300px;"></th>
+								<th colspan="2">Previous quarter</th>
+								<th colspan="2">Current quarter</th>
+
+							</tr> -->
+
+							<tr>
+								 <th></th>
+								<!-- <th style="width: 50px;">No.</th>
+								<th style="width: 100px;">No. graded less than "fully compliant"</th> -->
+								<th style="width: 100px;">No.</th>
+								<th style="width: 200px;">No. graded less than "fully compliant"</th>
+
+
+							</tr>
+						</thead>
+						<tbody th:each="repdetail : ${reportsummary}">
+
+
+							<tr>
+								<td th:text="${repdetail?.d1a_acct_opn_appl	}">CHENNAI</td>
+								<!-- <td style="text-align: right;" th:text="${repdetail?.p1b_pre_acct_opn_appl}">CHENNAI</td>
+								
+								<td style="text-align: right;" th:text="${repdetail?.p1c_pre_gr_acct_opn_appl}">CHENNAI</td> -->
+								<td  style="text-align: right;"th:text="${repdetail?.c1d_cur_acct_opn_appl}">CHENNAI</td>
+								<td style="text-align: right;" th:text="${repdetail?.c1e_cur_gr_acct_opn_appl}">CHENNAI</td>
+
+
+							</tr>
+
+
+							<tr>
+								<td th:text="${repdetail?.d2a_cust_rate	}">CHENNAI</td>
+								<!-- <td style="text-align: right;"th:text="${repdetail?.p2b_pre_cust_rate}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.p2c_pre_gr_cust_rate}">CHENNAI</td> -->
+								<td style="text-align: right;"th:text="${repdetail?.c2d_cur_cust_rate}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.c2e_cur_gr_cust_rate}">CHENNAI</td>
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${repdetail?.d3a_large_cash_tran}">CHENNAI</td>
+								<!-- <td style="text-align: right;"th:text="${repdetail?.p3b_pre_large_cash_tran}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.p3c_pre_gr_large_cash_tran}">CHENNAI</td> -->
+								<td style="text-align: right;"th:text="${repdetail?.c3d_cur_large_cash_tran}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.c3e_cur_gr_large_cash_tran}">CHENNAI</td>
+
+
+							</tr>
+
+
+							<tr>
+								<td th:text="${repdetail?.d4a_high_risk_client_tran}">CHENNAI</td>
+								<!-- <td style="text-align: right;"th:text="${repdetail?.p4b_pre_high_risk_client_tran}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.p4c_pre_gr_high_risk_client_tran}">CHENNAI</td> -->
+								<td style="text-align: right;"th:text="${repdetail?.c4d_cur_high_risk_client_tran}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.c4e_cur_gr_high_risk_client_tran}">CHENNAI</td>
+
+
+
+							</tr>
+
+
+							<tr>
+								<td th:text="${repdetail?.d5a_high_risk_client_files}">CHENNAI</td>
+								<!-- <td style="text-align: right;"th:text="${repdetail?.p5b_pre_high_risk_client_files}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.p5c_pre_gr_high_risk_client_files}">CHENNAI</td> -->
+								<td style="text-align: right;"th:text="${repdetail?.c5d_cur_high_risk_client_files}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.c5e_cur_gr_high_risk_client_files}">CHENNAI</td>
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${repdetail?.d6a_med_risk_client_tran}">CHENNAI</td>
+								<!-- <td style="text-align: right;"th:text="${repdetail?.p6b_pre_med_risk_client_tran}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.p6c_pre_gr_med_risk_client_tran}">CHENNAI</td> -->
+								<td style="text-align: right;"th:text="${repdetail?.c6d_cur_med_risk_client_tran}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.c6e_cur_gr_med_risk_client_tran}">CHENNAI</td>
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${repdetail?.d7a_med_risk_client_files	}">CHENNAI</td>
+								<!-- <td style="text-align: right;"th:text="${repdetail?.p7b_pre_med_risk_client_files}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.p7c_pre_gr_med_risk_client_files}">CHENNAI</td> -->
+								<td style="text-align: right;"th:text="${repdetail?.c7d_cur_med_risk_client_files}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.c7e_cur_gr_med_risk_client_files}">CHENNAI</td>
+
+
+							</tr>
+
+
+							<tr>
+								<td th:text="${repdetail?.d8a_hits}">CHENNAI</td>
+								<!-- <td style="text-align: right;"th:text="${repdetail?.p8b_pre_hits}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.p8c_pre_gr_hits}">CHENNAI</td> -->
+								<td style="text-align: right;"th:text="${repdetail?.c8d_cur_hits}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.c8e_cur_gr_hits}">CHENNAI</td>
+
+
+							</tr>
+
+
+							<tr>
+								<td th:text="${repdetail?.d9a_alerts_raised}">CHENNAI</td>
+							<!-- 	<td style="text-align: right;"th:text="${repdetail?.p9b_pre_alerts_raised}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.p9c_pre_gr_alerts_raised}">CHENNAI</td> -->
+								<td style="text-align: right;"th:text="${repdetail?.c9d_cur_alerts_raised}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.c9e_cur_gr_alerts_raised}">CHENNAI</td>
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${repdetail?.d10a_alerts_closed}">CHENNAI</td>
+								<!-- <td style="text-align: right;"th:text="${repdetail?.p10b_pre_alerts_closed}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.p10c_pre_gr_alerts_closed}">CHENNAI</td> -->
+								<td style="text-align: right;"th:text="${repdetail?.c10d_cur_alerts_closed}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.c10e_cur_gr_alerts_closed}">CHENNAI</td>
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${repdetail?.d11a_int_susp_rpts}">CHENNAI</td>
+								<!-- <td style="text-align: right;"th:text="${repdetail?.p11b_pre_int_susp_rpts}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.p11c_pre_gr_int_susp_rpts}">CHENNAI</td> -->
+								<td style="text-align: right;"th:text="${repdetail?.c11d_cur_int_susp_rpts}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.c11e_cur_gr_int_susp_rpts}">CHENNAI</td>
+
+
+							</tr>
+
+							<tr>
+								<td th:text="${repdetail?.d12a_int_sups_rpts_closed	}">CHENNAI</td>
+								<!-- <td style="text-align: right;"th:text="${repdetail?.p12b_pre_int_sups_rpts_closed}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.p12c_pre_gr_int_sups_rpts_closed}">CHENNAI</td> -->
+								<td style="text-align: right;"th:text="${repdetail?.c12d_cur_int_sucp_rpts_closed}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.c12e_cur_gr_int_susp_rpts_closed}">CHENNAI</td>
+
+
+
+							</tr>
+
+
+							<tr>
+								<td th:text="${repdetail?.d13a_accts_closed}">CHENNAI</td>
+								<!-- <td style="text-align: right;"th:text="${repdetail?.p13b_pre_accts_closed}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.p13c_pre_gr_accts_closed}">CHENNAI</td> -->
+								<td style="text-align: right;"th:text="${repdetail?.c13d_cur_accts_closed}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.c13e_cur_gr_accts_closed}">CHENNAI</td>
+
+
+							</tr>
+
+
+							<tr>
+								<td th:text="${repdetail?.d14a_inact_accts_react}">CHENNAI</td>
+								<!-- <td style="text-align: right;"th:text="${repdetail?.p14b_pre_inact_accts_react}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.p14c_pre_gr_inact_accts_react}">CHENNAI</td> -->
+								<td style="text-align: right;"th:text="${repdetail?.c14d_cur_inact_accts_react}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.c14e_cur_gr_inact_accts_react}">CHENNAI</td>
+
+
+							</tr>
+
+
+							<tr>
+								<td th:text="${repdetail?.d15a_nof_aband_accts}">CHENNAI</td>
+								<!-- <td style="text-align: right;"th:text="${repdetail?.p15b_pre_nof_aband_accts}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.p15c_pre_gr_nof_aband_accts}">CHENNAI</td> -->
+								<td style="text-align: right;"th:text="${repdetail?.c15d_cur_nof_aband_accts}">CHENNAI</td>
+								<td style="text-align: right;"th:text="${repdetail?.c15e_cur_gr_nof_aband_accts}">CHENNAI</td>
+
+
+							</tr>
+<tr>
+								<td colspan="5">Note 1: All cash transactions were
+						reviewed but there were no large cash transactions. <br>Note 2: There were no hit to review.</td>
+								<!-- 	<td colspan="5" th:text="${repdetail.d5a_note}">CHENNAI</td>
+ -->
+							</tr>
+
+						</tbody>
+					</table>
+				
+
+
+
+					<!------------------------------ Report Summary pagination - shown if paginated --------------------------------------------------->
+					<!-- <div class="float-right" th:if="${reportsummary.totalPages} gt 1">
+					<a href="#"><i class="fas fa-caret-left fa-2x"
+						th:onclick="|showsummary('prevpage',${reportsummary.number},${reportsummary.totalPages});|"></i></a>
+					<input type="text" id="pageno" style="width: 30px"
+						th:value="${reportsummary.number+1}"
+						th:onchange="|showsummary('givenpage',${reportsummary.number},${reportsummary.totalPages});|"></input>
+					of <font th:text="${reportsummary.totalPages}"></font> <a href="#"><i
+						class="fas fa-caret-right fa-2x"
+						th:onclick="|showsummary('nextpage',${reportsummary.number},${reportsummary.totalPages});|"></i></a>
+				</div> -->
+					<!------------------------------ Report Summary pagination - shown if paginated ---------------------------------------------------->
+
+<div class="card-footer text-center"
+				style="background-color: #386276";>
+				<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+					onclick="home();">Home</button>
+				<!-- <button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button> -->
+			</div>		</div>
+
+
+
+
+				<div class="modal fade" style="overflow-x: auto; display: none;"
+					id="addedit" th:fragment="dataedit">
+
+					<div class="modal-dialog modal-lg" style="margin-top: 135px;">
+
+						<div class="modal-content" style="width: 650px;">
+
+
+
+
+
+							<div class="modal-header" style="background-color: #eaecee;">
+								<b>Table 23: Compliance AML-CFT reviews/ checks - Modify</b>
+
+
+								<!-- <div class="btn-group nav-buttons float-right">
+												<button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button>
+												<button type="button" class="btn btn-xs btn-primary btns"
+													id="btnInq" onclick="list()">List</button>
+											</div>
+ -->
+							</div>
+
+
+							<div class="modal-body"
+								style="background-color: #eaecee; text-align: center">
+
+								<form action="#" th:object="${dataedit}" method="POST"
+									autocomplete="off" id="dataedit">
+
+									<table class="table  table-bordered  table-hover table-sm"
+										id="">
+										<thead class="thead-light">
+										<!-- 	<tr>
+												<th></th>
+												<th rowspan="2" style="width: 300px;"></th>
+												<th colspan="2">Previous quarter</th>
+												<th colspan="2">Current quarter</th>
+
+											</tr> -->
+
+											<tr>
+												<th></th> 
+												<!-- <th>No.</th>
+												<th>No. graded less than "fully compliant"</th> -->
+												<th>No.</th>
+												<th>No. graded less than "fully compliant"</th>
+
+
+											</tr>
+
+
+										</thead>
+
+
+										<tbody th:each="repdetail : ${reportsummary}">
+
+
+											<tr>
+
+
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d1a_acct_opn_appl}"
+													id="d1a_acct_opn_appl" class="form-control form-control-sm"
+													name="d1a_acct_opn_appl" autocomplete="off" readonly /></td>
+
+
+											<!-- 	<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; text-align: right;color: black;"
+													th:value="${repdetail?.p1b_pre_acct_opn_appl}"
+													id="p1b_pre_acct_opn_appl"
+													class="form-control form-control-sm"
+													name="p1b_pre_acct_opn_appl" autocomplete="off" readonly /></td>
+												<td><input type="text" 
+													style="width: 118px; text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p1c_pre_gr_acct_opn_appl}"
+													id="p1c_pre_gr_acct_opn_appl"
+													class="form-control form-control-sm"
+													name="p1c_pre_gr_acct_opn_appl" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px;text-align: right;  color: black;"
+													th:value="${repdetail?.c1d_cur_acct_opn_appl}"
+													id="c1d_cur_acct_opn_appl"
+													class="form-control form-control-sm"
+													name="c1d_cur_acct_opn_appl" autocomplete="off" /></td>
+
+												<td><input type="text"
+													style="width: 118px; text-align: right; color: black;"
+													th:value="${repdetail?.c1e_cur_gr_acct_opn_appl}"
+													id="c1e_cur_gr_acct_opn_appl"
+													class="form-control form-control-sm"
+													name="c1e_cur_gr_acct_opn_appl" autocomplete="off" /></td>
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d2a_cust_rate}" id="d2a_cust_rate"
+													class="form-control form-control-sm" name="d2a_cust_rate"
+													autocomplete="off" readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px; text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p2b_pre_cust_rate}"
+													id="p2b_pre_cust_rate"
+													class="form-control form-control-sm"
+													name="p2b_pre_cust_rate" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p2c_pre_gr_cust_rate}"
+													id="p2c_pre_gr_cust_rate"
+													class="form-control form-control-sm"
+													name="p2c_pre_gr_cust_rate" autocomplete="off" readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px;text-align: right; color: black;"
+													th:value="${repdetail?.c2d_cur_cust_rate}"
+													id="c2d_cur_cust_rate" class="form-control form-control-sm"
+													name="c2d_cur_cust_rate" autocomplete="off" /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right; color: black;"
+													th:value="${repdetail?.c2e_cur_gr_cust_rate}"
+													id="c2e_cur_gr_cust_rate"
+													class="form-control form-control-sm"
+													name="c2e_cur_gr_cust_rate" autocomplete="off" /></td>
+
+
+											</tr>
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d3a_large_cash_tran}"
+													id="d3a_large_cash_tran"
+													class="form-control form-control-sm"
+													name="d3a_large_cash_tran" autocomplete="off" readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p3b_pre_large_cash_tran}"
+													id="p3b_pre_large_cash_tran"
+													class="form-control form-control-sm"
+													name="p3b_pre_large_cash_tran" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p3c_pre_gr_large_cash_tran}"
+													id="p3c_pre_gr_large_cash_tran"
+													class="form-control form-control-sm"
+													name="p3c_pre_gr_large_cash_tran" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right; color: black;"
+													th:value="${repdetail?.c3d_cur_large_cash_tran}"
+													id="c3d_cur_large_cash_tran"
+													class="form-control form-control-sm"
+													name="c3d_cur_large_cash_tran" autocomplete="off" /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;color: black;"
+													th:value="${repdetail?.c3e_cur_gr_large_cash_tran}"
+													id="c3e_cur_gr_large_cash_tran"
+													class="form-control form-control-sm"
+													name="c3e_cur_gr_large_cash_tran" autocomplete="off" /></td>
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d4a_high_risk_client_tran}"
+													id="d4a_high_risk_client_tran"
+													class="form-control form-control-sm"
+													name="d4a_high_risk_client_tran" autocomplete="off"
+													readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px; text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p4b_pre_high_risk_client_tran}"
+													id="p4b_pre_high_risk_client_tran"
+													class="form-control form-control-sm"
+													name="p4b_pre_high_risk_client_tran" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p4c_pre_gr_high_risk_client_tran}"
+													id="p4c_pre_gr_high_risk_client_tran"
+													class="form-control form-control-sm"
+													name="p4c_pre_gr_high_risk_client_tran" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px;text-align: right; color: black;"
+													th:value="${repdetail?.c4d_cur_high_risk_client_tran}"
+													id="c4d_cur_high_risk_client_tran"
+													class="form-control form-control-sm"
+													name="c4d_cur_high_risk_client_tran" autocomplete="off" /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right;  color: black;"
+													th:value="${repdetail?.c4e_cur_gr_high_risk_client_tran}"
+													id="c4e_cur_gr_high_risk_client_tran"
+													class="form-control form-control-sm"
+													name="c4e_cur_gr_high_risk_client_tran" autocomplete="off" /></td>
+
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d5a_high_risk_client_files}"
+													id="d5a_high_risk_client_files"
+													class="form-control form-control-sm"
+													name="d5a_high_risk_client_files" autocomplete="off"
+													readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p5b_pre_high_risk_client_files}"
+													id="p5b_pre_high_risk_client_files"
+													class="form-control form-control-sm"
+													name="p5b_pre_high_risk_client_files" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p5c_pre_gr_high_risk_client_files}"
+													id="p5c_pre_gr_high_risk_client_files"
+													class="form-control form-control-sm"
+													name="p5c_pre_gr_high_risk_client_files" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right; color: black;"
+													th:value="${repdetail?.c5d_cur_high_risk_client_files}"
+													id="c5d_cur_high_risk_client_files"
+													class="form-control form-control-sm"
+													name="c5d_cur_high_risk_client_files" autocomplete="off" /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right;  color: black;"
+													th:value="${repdetail?.c5e_cur_gr_high_risk_client_files}"
+													id="c5e_cur_gr_high_risk_client_files"
+													class="form-control form-control-sm"
+													name="c5e_cur_gr_high_risk_client_files" autocomplete="off" /></td>
+
+
+											</tr>
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d6a_med_risk_client_tran}"
+													id="d6a_med_risk_client_tran"
+													class="form-control form-control-sm"
+													name="d6a_med_risk_client_tran" autocomplete="off" readonly /></td>
+											<!-- 	<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p6b_pre_med_risk_client_tran}"
+													id="p6b_pre_med_risk_client_tran"
+													class="form-control form-control-sm"
+													name="p6b_pre_med_risk_client_tran" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p6c_pre_gr_med_risk_client_tran}"
+													id="p6c_pre_gr_med_risk_client_tran"
+													class="form-control form-control-sm"
+													name="p6c_pre_gr_med_risk_client_tran" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px;text-align: right;  color: black;"
+													th:value="${repdetail?.c6d_cur_med_risk_client_tran}"
+													id="c6d_cur_med_risk_client_tran"
+													class="form-control form-control-sm"
+													name="c6d_cur_med_risk_client_tran" autocomplete="off" /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right; color: black;"
+													th:value="${repdetail?.c6e_cur_gr_med_risk_client_tran}"
+													id="c6e_cur_gr_med_risk_client_tran"
+													class="form-control form-control-sm"
+													name="c6e_cur_gr_med_risk_client_tran" autocomplete="off" /></td>
+
+
+											</tr>
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d7a_med_risk_client_files}"
+													id="d7a_med_risk_client_files"
+													class="form-control form-control-sm"
+													name="d7a_med_risk_client_files" autocomplete="off"
+													readonly /></td>
+											<!-- 	<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p7b_pre_med_risk_client_files}"
+													id="p7b_pre_med_risk_client_files"
+													class="form-control form-control-sm"
+													name="p7b_pre_med_risk_client_files" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p7c_pre_gr_med_risk_client_files}"
+													id="p7c_pre_gr_med_risk_client_files"
+													class="form-control form-control-sm"
+													name="p7c_pre_gr_med_risk_client_files" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px;text-align: right; color: black;"
+													th:value="${repdetail?.c7d_cur_med_risk_client_files}"
+													id="c7d_cur_med_risk_client_files"
+													class="form-control form-control-sm"
+													name="c7d_cur_med_risk_client_files" autocomplete="off" /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right; color: black;"
+													th:value="${repdetail?.c7e_cur_gr_med_risk_client_files}"
+													id="c7e_cur_gr_med_risk_client_files"
+													class="form-control form-control-sm"
+													name="c7e_cur_gr_med_risk_client_files" autocomplete="off" /></td>
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d8a_hits}" id="d8a_hits"
+													class="form-control form-control-sm" name="d8a_hits"
+													autocomplete="off" readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p8b_pre_hits}" id="p8b_pre_hits"
+													class="form-control form-control-sm" name="p8b_pre_hits"
+													autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p8c_pre_gr_hits}"
+													id="p8c_pre_gr_hits" class="form-control form-control-sm"
+													name="p8c_pre_gr_hits" autocomplete="off" readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right; color: black;"
+													th:value="${repdetail?.c8d_cur_hits}" id="c8d_cur_hits"
+													class="form-control form-control-sm" name="c8d_cur_hits"
+													autocomplete="off" /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; color: black;"
+													th:value="${repdetail?.c8e_cur_gr_hits}"
+													id="c8e_cur_gr_hits" class="form-control form-control-sm"
+													name="c8e_cur_gr_hits" autocomplete="off" /></td>
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d9a_alerts_raised}"
+													id="d9a_alerts_raised" class="form-control form-control-sm"
+													name="d9a_alerts_raised" autocomplete="off" readonly /></td>
+											<!-- 	<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p9b_pre_alerts_raised}"
+													id="p9b_pre_alerts_raised"
+													class="form-control form-control-sm"
+													name="p9b_pre_alerts_raised" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p9c_pre_gr_alerts_raised}"
+													id="p9c_pre_gr_alerts_raised"
+													class="form-control form-control-sm"
+													name="p9c_pre_gr_alerts_raised" autocomplete="off" readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right; color: black;"
+													th:value="${repdetail?.c9d_cur_alerts_raised}"
+													id="c9d_cur_alerts_raised"
+													class="form-control form-control-sm"
+													name="c9d_cur_alerts_raised" autocomplete="off" /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right; color: black;"
+													th:value="${repdetail?.c9e_cur_gr_alerts_raised}"
+													id="c9e_cur_gr_alerts_raised"
+													class="form-control form-control-sm"
+													name="c9e_cur_gr_alerts_raised" autocomplete="off" /></td>
+
+
+											</tr>
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d10a_alerts_closed}"
+													id="d10a_alerts_closed"
+													class="form-control form-control-sm"
+													name="d10a_alerts_closed" autocomplete="off" readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p10b_pre_alerts_closed}"
+													id="p10b_pre_alerts_closed"
+													class="form-control form-control-sm"
+													name="p10b_pre_alerts_closed" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p10c_pre_gr_alerts_closed}"
+													id="p10c_pre_gr_alerts_closed"
+													class="form-control form-control-sm"
+													name="p10c_pre_gr_alerts_closed	" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right; color: black;"
+													th:value="${repdetail?.c10d_cur_alerts_closed}"
+													id="c10d_cur_alerts_closed"
+													class="form-control form-control-sm"
+													name="c10d_cur_alerts_closed" autocomplete="off" /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;color: black;"
+													th:value="${repdetail?.c10e_cur_gr_alerts_closed}"
+													id="c10e_cur_gr_alerts_closed"
+													class="form-control form-control-sm"
+													name="c10e_cur_gr_alerts_closed" autocomplete="off" /></td>
+
+
+											</tr>
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d11a_int_susp_rpts}"
+													id="d11a_int_susp_rpts"
+													class="form-control form-control-sm"
+													name="d11a_int_susp_rpts" autocomplete="off" readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px;text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p11b_pre_int_susp_rpts}"
+													id="p11b_pre_int_susp_rpts"
+													class="form-control form-control-sm"
+													name="p11b_pre_int_susp_rpts" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p11c_pre_gr_int_susp_rpts}"
+													id="p11c_pre_gr_int_susp_rpts"
+													class="form-control form-control-sm"
+													name="p11c_pre_gr_int_susp_rpts" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right; color: black;"
+													th:value="${repdetail?.c11d_cur_int_susp_rpts}"
+													id="c11d_cur_int_susp_rpts"
+													class="form-control form-control-sm"
+													name="c11d_cur_int_susp_rpts" autocomplete="off" /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;color: black;"
+													th:value="${repdetail?.c11e_cur_gr_int_susp_rpts}"
+													id="c11e_cur_gr_int_susp_rpts"
+													class="form-control form-control-sm"
+													name="c11e_cur_gr_int_susp_rpts" autocomplete="off" /></td>
+
+
+											</tr>
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d12a_int_sups_rpts_closed}"
+													id="d12a_int_sups_rpts_closed"
+													class="form-control form-control-sm"
+													name="d12a_int_sups_rpts_closed" autocomplete="off"
+													readonly /></td>
+											<!-- 	<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p12b_pre_int_sups_rpts_closed}"
+													id="p12b_pre_int_sups_rpts_closed"
+													class="form-control form-control-sm"
+													name="p12b_pre_int_sups_rpts_closed" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p12c_pre_gr_int_sups_rpts_closed}"
+													id="p12c_pre_gr_int_sups_rpts_closed"
+													class="form-control form-control-sm"
+													name="p12c_pre_gr_int_sups_rpts_closed" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px;text-align: right;  color: black;"
+													th:value="${repdetail?.c12d_cur_int_sucp_rpts_closed}"
+													id="c12d_cur_int_sucp_rpts_closed"
+													class="form-control form-control-sm"
+													name="c12d_cur_int_sucp_rpts_closed" autocomplete="off" /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right; color: black;"
+													th:value="${repdetail?.c12e_cur_gr_int_susp_rpts_closed}"
+													id="c12e_cur_gr_int_susp_rpts_closed"
+													class="form-control form-control-sm"
+													name="c12e_cur_gr_int_susp_rpts_closed" autocomplete="off" /></td>
+
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d13a_accts_closed}"
+													id="d13a_accts_closed" class="form-control form-control-sm"
+													name="d13a_accts_closed" autocomplete="off" readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px; text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p13b_pre_accts_closed}"
+													id="p13b_pre_accts_closed"
+													class="form-control form-control-sm"
+													name="p13b_pre_accts_closed" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p13c_pre_gr_accts_closed}"
+													id="p13c_pre_gr_accts_closed"
+													class="form-control form-control-sm"
+													name="p13c_pre_gr_accts_closed" autocomplete="off" readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right;  color: black;"
+													th:value="${repdetail?.c13d_cur_accts_closed}"
+													id="c13d_cur_accts_closed"
+													class="form-control form-control-sm"
+													name="c13d_cur_accts_closed" autocomplete="off" /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;  color: black;"
+													th:value="${repdetail?.c13e_cur_gr_accts_closed}"
+													id="c13e_cur_gr_accts_closed"
+													class="form-control form-control-sm"
+													name="c13e_cur_gr_accts_closed" autocomplete="off" /></td>
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d14a_inact_accts_react}"
+													id="d14a_inact_accts_react"
+													class="form-control form-control-sm"
+													name="d14a_inact_accts_react" autocomplete="off" readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px; text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p14b_pre_inact_accts_react}"
+													id="p14b_pre_inact_accts_react"
+													class="form-control form-control-sm"
+													name="p14b_pre_inact_accts_react" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p14c_pre_gr_inact_accts_react}"
+													id="p14c_pre_gr_inact_accts_react"
+													class="form-control form-control-sm"
+													name="p14c_pre_gr_inact_accts_react" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px;text-align: right;  color: black;"
+													th:value="${repdetail?.c14d_cur_inact_accts_react}"
+													id="c14d_cur_inact_accts_react"
+													class="form-control form-control-sm"
+													name="c14d_cur_inact_accts_react" autocomplete="off" /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; color: black;"
+													th:value="${repdetail?.c14e_cur_gr_inact_accts_react}"
+													id="c14e_cur_gr_inact_accts_react"
+													class="form-control form-control-sm"
+													name="c14e_cur_gr_inact_accts_react" autocomplete="off" /></td>
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d15a_nof_aband_accts}"
+													id="d15a_nof_aband_accts"
+													class="form-control form-control-sm"
+													name="d15a_nof_aband_accts" autocomplete="off" readonly /></td>
+											<!-- 	<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p15b_pre_nof_aband_accts}"
+													id="p15b_pre_nof_aband_accts"
+													class="form-control form-control-sm"
+													name="p15b_pre_nof_aband_accts" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p15c_pre_gr_nof_aband_accts}"
+													id="p15c_pre_gr_nof_aband_accts"
+													class="form-control form-control-sm"
+													name="p15c_pre_gr_nof_aband_accts" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px;text-align: right;  color: black;"
+													th:value="${repdetail?.c15d_cur_nof_aband_accts}"
+													id="c15d_cur_nof_aband_accts"
+													class="form-control form-control-sm"
+													name="c15d_cur_nof_aband_accts" autocomplete="off" /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right; color: black;"
+													th:value="${repdetail?.c15e_cur_gr_nof_aband_accts}"
+													id="c15e_cur_gr_nof_aband_accts"
+													class="form-control form-control-sm"
+													name="c15e_cur_gr_nof_aband_accts" autocomplete="off" /></td>
+
+
+											</tr>
+											<tr>
+												<td style="display: none;"><input type="text"
+													style="color: black; display: none;"
+													th:value="${#dates.format(repdetail?.report_date ,'dd/MM/yyyy')}"
+													id="report_date" class="form-control form-control-sm"
+													name="report_date" autocomplete="off" /></td>
+												<td style="display: none;"><input type="text"
+													style="color: black; display: none;"
+													th:value="${#dates.format(repdetail?.rep_period_from ,'dd/MM/yyyy')}"
+													id="rep_period_from" class="form-control form-control-sm"
+													name="rep_period_from" autocomplete="off" /></td>
+												<td style="display: none;"><input type="text"
+													style="color: black; display: none;"
+													th:value="${#dates.format(repdetail?.rep_period_to ,'dd/MM/yyyy')}"
+													id="rep_period_to" class="form-control form-control-sm"
+													name="rep_period_to" autocomplete="off" /></td>
+											</tr>
+
+
+
+										</tbody>
+
+
+
+
+
+
+
+
+
+
+									</table>
+
+
+
+
+
+
+									<div class="card-footer text-center"
+										style="height: 38px; background-color: #eaecee;">
+										<button type="button" style="margin-top: -12px;"
+											class="btn btn-xs btn-primary"
+											onclick="editsubmitform(this);" form="dataedit"
+											id="btnSubmit">Submit</button>
+
+										<button type="button" style="margin-top: -12px;"
+											class="btn btn-xs btn-primary" 
+											id="close">Close</button>
+
+
+									</div>
+									<div class="container content"
+										style="border: 1px solid #36404a; background-color: #eaecee; padding: 15px;">
+										<div class="row formline">
+
+											<label class="col-sm-2">Entry User</label>
+											<div class="col-sm-2">
+												<input type="text" th:value="${session.USERID}"
+													id="entry_user" name="entry_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+											<label class="col-sm-2">Modify User</label>
+											<div class="col-sm-2">
+												<input type="text" th:value="${session.USERID}"
+													id="modify_user" name="modify_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+											<label class="col-sm-2">Verify User</label>
+											<div class="col-sm-2">
+												<input type="text" id="verify_user" name="verify_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+										</div>
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+											<label class="col-sm-2">Entry Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="entry_date" name="entry_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+
+											<label class="col-sm-2">Modify Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="verify_date" name="modify_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+
+
+
+											<label class="col-sm-2">Verify Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="verify_time" name="verify_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+
+											<label></label>
+										</div>
+
+
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- ------------------------Verify-------------------------- -->
+				<div class="modal fade" style="overflow-x: auto;" id="verify"
+					th:fragment="dataverify">
+
+
+					<div class="modal-dialog modal-lg" style="margin-top: 135px;">
+
+						<div class="modal-content" style="width: 650px;">
+
+
+
+
+
+							<div class="modal-header" style="background-color: #eaecee;">
+								<b>Table 23: Compliance AML-CFT reviews/ checks - Verify</b>
+
+
+								<!-- <div class="btn-group nav-buttons float-right">
+												<button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button>
+												<button type="button" class="btn btn-xs btn-primary btns"
+													id="btnInq" onclick="list()">List</button>
+											</div>
+ -->
+							</div>
+
+
+							<div class="modal-body"
+								style="background-color: #eaecee; text-align: center">
+
+								<form action="#" th:object="${dataverify}" method="POST"
+									autocomplete="off" id="dataverify">
+
+									<table class="table  table-bordered  table-hover table-sm"
+										id="">
+										<thead class="thead-light">
+								<!-- 			<tr>
+												<th></th>
+												<th rowspan="2" style="width: 300px;"></th>
+												<th colspan="2">Previous quarter</th>
+												<th colspan="2">Current quarter</th>
+
+											</tr> -->
+
+											<tr>
+												 <th></th> 
+												
+												<th>No.</th>
+												<th>No. graded less than "fully compliant"</th>
+
+
+											</tr>
+
+
+										</thead>
+
+
+										<tbody th:each="repdetail : ${reportsummary}">
+
+											<tr>
+
+
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d1a_acct_opn_appl}"
+													id="d1a_acct_opn_appl" class="form-control form-control-sm"
+													name="d1a_acct_opn_appl" autocomplete="off" readonly /></td>
+
+
+											<!-- 	<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p1b_pre_acct_opn_appl}"
+													id="p1b_pre_acct_opn_appl"
+													class="form-control form-control-sm"
+													name="p1b_pre_acct_opn_appl" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p1c_pre_gr_acct_opn_appl}"
+													id="p1c_pre_gr_acct_opn_appl"
+													class="form-control form-control-sm"
+													name="p1c_pre_gr_acct_opn_appl" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c1d_cur_acct_opn_appl}"
+													id="c1d_cur_acct_opn_appl"
+													class="form-control form-control-sm"
+													name="c1d_cur_acct_opn_appl" autocomplete="off" readonly /></td>
+
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c1e_cur_gr_acct_opn_appl}"
+													id="c1e_cur_gr_acct_opn_appl"
+													class="form-control form-control-sm"
+													name="c1e_cur_gr_acct_opn_appl" autocomplete="off" readonly /></td>
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d2a_cust_rate}" id="d2a_cust_rate"
+													class="form-control form-control-sm" name="d2a_cust_rate"
+													autocomplete="off" readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p2b_pre_cust_rate}"
+													id="p2b_pre_cust_rate	"
+													class="form-control form-control-sm"
+													name="p2b_pre_cust_rate	" autocomplete="off" redaonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p2c_pre_gr_cust_rate	}"
+													id="p2c_pre_gr_cust_rate	"
+													class="form-control form-control-sm"
+													name="p2c_pre_gr_cust_rate	" autocomplete="off" readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c2d_cur_cust_rate}"
+													id="c2d_cur_cust_rate" class="form-control form-control-sm"
+													name="c2d_cur_cust_rate" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c2e_cur_gr_cust_rate}"
+													id="c2e_cur_gr_cust_rate"
+													class="form-control form-control-sm"
+													name="c2e_cur_gr_cust_rate" autocomplete="off" readonly /></td>
+
+
+											</tr>
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d3a_large_cash_tran}"
+													id="d3a_large_cash_tran"
+													class="form-control form-control-sm"
+													name="d3a_large_cash_tran" autocomplete="off" readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p3b_pre_large_cash_tran}"
+													id="p3b_pre_large_cash_tran"
+													class="form-control form-control-sm"
+													name="p3b_pre_large_cash_tran" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p3c_pre_gr_large_cash_tran}"
+													id="p3c_pre_gr_large_cash_tran"
+													class="form-control form-control-sm"
+													name="p3c_pre_gr_large_cash_tran" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c3d_cur_large_cash_tran}"
+													id="c3d_cur_large_cash_tran"
+													class="form-control form-control-sm"
+													name="c3d_cur_large_cash_tran" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c3e_cur_gr_large_cash_tran}"
+													id="c3e_cur_gr_large_cash_tran"
+													class="form-control form-control-sm"
+													name="c3e_cur_gr_large_cash_tran" autocomplete="off"
+													readonly /></td>
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d4a_high_risk_client_tran}"
+													id="d4a_high_risk_client_tran"
+													class="form-control form-control-sm"
+													name="d4a_high_risk_client_tran" autocomplete="off"
+													readonly /></td>
+											<!-- 	<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p4b_pre_high_risk_client_tran}"
+													id="p4b_pre_high_risk_client_tran"
+													class="form-control form-control-sm"
+													name="p4b_pre_high_risk_client_tran" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p4c_pre_gr_high_risk_client_tran}"
+													id="p4c_pre_gr_high_risk_client_tran"
+													class="form-control form-control-sm"
+													name="p4c_pre_gr_high_risk_client_tran" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c4d_cur_high_risk_client_tran}"
+													id="c4d_cur_high_risk_client_tran"
+													class="form-control form-control-sm"
+													name="c4d_cur_high_risk_client_tran" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c4e_cur_gr_high_risk_client_tran}"
+													id="c4e_cur_gr_high_risk_client_tran"
+													class="form-control form-control-sm"
+													name="c4e_cur_gr_high_risk_client_tran" autocomplete="off"
+													readonly /></td>
+
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d5a_high_risk_client_files}"
+													id="d5a_high_risk_client_files"
+													class="form-control form-control-sm"
+													name="d5a_high_risk_client_files" autocomplete="off"
+													readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p5b_pre_high_risk_client_files}"
+													id="p5b_pre_high_risk_client_files"
+													class="form-control form-control-sm"
+													name="p5b_pre_high_risk_client_files" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p5c_pre_gr_high_risk_client_files}"
+													id="p5c_pre_gr_high_risk_client_files"
+													class="form-control form-control-sm"
+													name="p5c_pre_gr_high_risk_client_files" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c5d_cur_high_risk_client_files}"
+													id="c5d_cur_high_risk_client_files"
+													class="form-control form-control-sm"
+													name="c5d_cur_high_risk_client_files" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c5e_cur_gr_high_risk_client_files}"
+													id="c5e_cur_gr_high_risk_client_files"
+													class="form-control form-control-sm"
+													name="c5e_cur_gr_high_risk_client_files" autocomplete="off"
+													readonly /></td>
+
+
+											</tr>
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d6a_med_risk_client_tran}"
+													id="d6a_med_risk_client_tran"
+													class="form-control form-control-sm"
+													name="d6a_med_risk_client_tran" autocomplete="off" readonly /></td>
+											<!-- 	<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p6b_pre_med_risk_client_tran	}"
+													id="p6b_pre_med_risk_client_tran"
+													class="form-control form-control-sm"
+													name="p6b_pre_med_risk_client_tran" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p6c_pre_gr_med_risk_client_tran}"
+													id="p6c_pre_gr_med_risk_client_tran"
+													class="form-control form-control-sm"
+													name="p6c_pre_gr_med_risk_client_tran" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c6d_cur_med_risk_client_tran	}"
+													id="c6d_cur_med_risk_client_tran	"
+													class="form-control form-control-sm"
+													name="c6d_cur_med_risk_client_tran	" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c6e_cur_gr_med_risk_client_tran}"
+													id="c6e_cur_gr_med_risk_client_tran"
+													class="form-control form-control-sm"
+													name="c6e_cur_gr_med_risk_client_tran" autocomplete="off"
+													readonly /></td>
+
+
+											</tr>
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d7a_med_risk_client_files	}"
+													id="d7a_med_risk_client_files	"
+													class="form-control form-control-sm"
+													name="d7a_med_risk_client_files	" autocomplete="off"
+													readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p7b_pre_med_risk_client_files}"
+													id="p7b_pre_med_risk_client_files"
+													class="form-control form-control-sm"
+													name="p7b_pre_med_risk_client_files" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p7c_pre_gr_med_risk_client_files}"
+													id="p7c_pre_gr_med_risk_client_files"
+													class="form-control form-control-sm"
+													name="p7c_pre_gr_med_risk_client_files" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c7d_cur_med_risk_client_files}"
+													id="c7d_cur_med_risk_client_files"
+													class="form-control form-control-sm"
+													name="c7d_cur_med_risk_client_files" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c7e_cur_gr_med_risk_client_files}"
+													id="c7e_cur_gr_med_risk_client_files"
+													class="form-control form-control-sm"
+													name="c7e_cur_gr_med_risk_client_files" autocomplete="off"
+													readonly /></td>
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d8a_hits}" id="d8a_hits"
+													class="form-control form-control-sm" name="d8a_hits"
+													autocomplete="off" readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p8b_pre_hits}" id="p8b_pre_hits"
+													class="form-control form-control-sm" name="p8b_pre_hits"
+													autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p8c_pre_gr_hits}"
+													id="p8c_pre_gr_hits" class="form-control form-control-sm"
+													name="p8c_pre_gr_hits" autocomplete="off" readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c8d_cur_hits}" id="c8d_cur_hits"
+													class="form-control form-control-sm" name="c8d_cur_hits"
+													autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c8e_cur_gr_hits}"
+													id="c8e_cur_gr_hits" class="form-control form-control-sm"
+													name="c8e_cur_gr_hits" autocomplete="off" readonly /></td>
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d9a_alerts_raised}"
+													id="d9a_alerts_raised" class="form-control form-control-sm"
+													name="d9a_alerts_raised" autocomplete="off" readonly /></td>
+											<!-- 	<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p9b_pre_alerts_raised}"
+													id="p9b_pre_alerts_raised"
+													class="form-control form-control-sm"
+													name="p9b_pre_alerts_raised" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p9c_pre_gr_alerts_raised}"
+													id="p9c_pre_gr_alerts_raised"
+													class="form-control form-control-sm"
+													name="p9c_pre_gr_alerts_raised" autocomplete="off" readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c9d_cur_alerts_raised}"
+													id="c9d_cur_alerts_raised"
+													class="form-control form-control-sm"
+													name="c9d_cur_alerts_raised" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c9e_cur_gr_alerts_raised}"
+													id="c9e_cur_gr_alerts_raised"
+													class="form-control form-control-sm"
+													name="c9e_cur_gr_alerts_raised" autocomplete="off" readonly /></td>
+
+
+											</tr>
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d10a_alerts_closed}"
+													id="d10a_alerts_closed"
+													class="form-control form-control-sm"
+													name="d10a_alerts_closed" autocomplete="off" readonly /></td>
+										<!-- 		<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p10b_pre_alerts_closed}"
+													id="p10b_pre_alerts_closed"
+													class="form-control form-control-sm"
+													name="p10b_pre_alerts_closed" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p10c_pre_gr_alerts_closed	}"
+													id="p10c_pre_gr_alerts_closed	"
+													class="form-control form-control-sm"
+													name="p10c_pre_gr_alerts_closed	" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c10d_cur_alerts_closed}"
+													id="c10d_cur_alerts_closed"
+													class="form-control form-control-sm"
+													name="c10d_cur_alerts_closed" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c10e_cur_gr_alerts_closed	}"
+													id="c10e_cur_gr_alerts_closed	"
+													class="form-control form-control-sm"
+													name="c10e_cur_gr_alerts_closed	" autocomplete="off"
+													readonly /></td>
+
+
+											</tr>
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d11a_int_susp_rpts}"
+													id="d11a_int_susp_rpts"
+													class="form-control form-control-sm"
+													name="d11a_int_susp_rpts" autocomplete="off" readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p11b_pre_int_susp_rpts}"
+													id="p11b_pre_int_susp_rpts"
+													class="form-control form-control-sm"
+													name="p11b_pre_int_susp_rpts" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p11c_pre_gr_int_susp_rpts}"
+													id="p11c_pre_gr_int_susp_rpts"
+													class="form-control form-control-sm"
+													name="p11c_pre_gr_int_susp_rpts" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c11d_cur_int_susp_rpts}"
+													id="c11d_cur_int_susp_rpts"
+													class="form-control form-control-sm"
+													name="c11d_cur_int_susp_rpts" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c11e_cur_gr_int_susp_rpts}"
+													id="c11e_cur_gr_int_susp_rpts"
+													class="form-control form-control-sm"
+													name="c11e_cur_gr_int_susp_rpts" autocomplete="off"
+													readonly /></td>
+
+
+											</tr>
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d12a_int_sups_rpts_closed}"
+													id="d12a_int_sups_rpts_closed"
+													class="form-control form-control-sm"
+													name="d12a_int_sups_rpts_closed" autocomplete="off"
+													readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p12b_pre_int_sups_rpts_closed}"
+													id="p12b_pre_int_sups_rpts_closed"
+													class="form-control form-control-sm"
+													name="p12b_pre_int_sups_rpts_closed" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p12c_pre_gr_int_sups_rpts_closed}"
+													id="p12c_pre_gr_int_sups_rpts_closed"
+													class="form-control form-control-sm"
+													name="p12c_pre_gr_int_sups_rpts_closed" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c12d_cur_int_sucp_rpts_closed}"
+													id="c12d_cur_int_sucp_rpts_closed"
+													class="form-control form-control-sm"
+													name="c12d_cur_int_sucp_rpts_closed" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c12e_cur_gr_int_susp_rpts_closed}"
+													id="c12e_cur_gr_int_susp_rpts_closed"
+													class="form-control form-control-sm"
+													name="c12e_cur_gr_int_susp_rpts_closed" autocomplete="off"
+													readonly /></td>
+
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d13a_accts_closed}"
+													id="d13a_accts_closed" class="form-control form-control-sm"
+													name="d13a_accts_closed" autocomplete="off" readonly /></td>
+											<!-- 	<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p13b_pre_accts_closed}"
+													id="p13b_pre_accts_closed"
+													class="form-control form-control-sm"
+													name="p13b_pre_accts_closed" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p13c_pre_gr_accts_closed}"
+													id="p13c_pre_gr_accts_closed"
+													class="form-control form-control-sm"
+													name="p13c_pre_gr_accts_closed" autocomplete="off" readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c13d_cur_accts_closed}"
+													id="c13d_cur_accts_closed"
+													class="form-control form-control-sm"
+													name="c13d_cur_accts_closed" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c13e_cur_gr_accts_closed}"
+													id="c13e_cur_gr_accts_closed"
+													class="form-control form-control-sm"
+													name="c13e_cur_gr_accts_closed" autocomplete="off" readonly /></td>
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d14a_inact_accts_react}"
+													id="d14a_inact_accts_react"
+													class="form-control form-control-sm"
+													name="d14a_inact_accts_react" autocomplete="off" readonly /></td>
+											<!-- 	<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p14b_pre_inact_accts_react}"
+													id="p14b_pre_inact_accts_react"
+													class="form-control form-control-sm"
+													name="p14b_pre_inact_accts_react" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px; text-align: right;background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p14c_pre_gr_inact_accts_react}"
+													id="p14c_pre_gr_inact_accts_react"
+													class="form-control form-control-sm"
+													name="p14c_pre_gr_inact_accts_react" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c14d_cur_inact_accts_react}"
+													id="c14d_cur_inact_accts_react"
+													class="form-control form-control-sm"
+													name="c14d_cur_inact_accts_react" autocomplete="off"
+													readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c14e_cur_gr_inact_accts_react}"
+													id="c14e_cur_gr_inact_accts_react"
+													class="form-control form-control-sm"
+													name="c14e_cur_gr_inact_accts_react" autocomplete="off"
+													readonly /></td>
+
+
+											</tr>
+
+
+											<tr>
+												<td><input type="text"
+													style="width: 318px; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.d15a_nof_aband_accts}"
+													id="d15a_nof_aband_accts"
+													class="form-control form-control-sm"
+													name="d15a_nof_aband_accts" autocomplete="off" readonly /></td>
+												<!-- <td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p15b_pre_nof_aband_accts}"
+													id="p15b_pre_nof_aband_accts"
+													class="form-control form-control-sm"
+													name="p15b_pre_nof_aband_accts" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.p15c_pre_gr_nof_aband_accts}"
+													id="p15c_pre_gr_nof_aband_accts"
+													class="form-control form-control-sm"
+													name="p15c_pre_gr_nof_aband_accts" autocomplete="off"
+													readonly /></td> -->
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c15d_cur_nof_aband_accts}"
+													id="c15d_cur_nof_aband_accts"
+													class="form-control form-control-sm"
+													name="c15d_cur_nof_aband_accts" autocomplete="off" readonly /></td>
+												<td><input type="text"
+													style="width: 118px;text-align: right; background-color: #e3e3e4; color: black;"
+													th:value="${repdetail?.c15e_cur_gr_nof_aband_accts}"
+													id="c15e_cur_gr_nof_aband_accts"
+													class="form-control form-control-sm"
+													name="c15e_cur_gr_nof_aband_accts" autocomplete="off"
+													readonly /></td>
+
+
+											</tr>
+
+
+											<tr>
+												<td style="display: none;"><input type="text"
+													style="color: black; display: none;"
+													th:value="${#dates.format(repdetail?.report_date ,'dd/MM/yyyy')}"
+													id="report_date" class="form-control form-control-sm"
+													name="report_date" autocomplete="off" /></td>
+												<td style="display: none;"><input type="text"
+													style="color: black; display: none;"
+													th:value="${#dates.format(repdetail?.rep_period_from ,'dd/MM/yyyy')}"
+													id="rep_period_from" class="form-control form-control-sm"
+													name="rep_period_from" autocomplete="off" /></td>
+												<td style="display: none;"><input type="text"
+													style="color: black; display: none;"
+													th:value="${#dates.format(repdetail?.rep_period_to ,'dd/MM/yyyy')}"
+													id="rep_period_to" class="form-control form-control-sm"
+													name="rep_period_to" autocomplete="off" /></td>
+											</tr>
+
+										</tbody>
+									</table>
+
+
+
+
+
+									<div class="card-footer text-center"
+										style="height: 38px; background-color: #eaecee;">
+										<button type="button" style="margin-top: -12px;"
+											class="btn btn-xs btn-primary"
+											onclick="verifysubmitform(this);" form="dataverify"
+											id="btnSubmit">Verify</button>
+
+										<button type="button" style="margin-top: -12px;"
+											class="btn btn-xs btn-primary" id="btnclose"
+											data-dismiss="modal">Close</button>
+
+
+									</div>
+
+
+									<div class="container content"
+										th:each="report : ${reportsummary}"
+										style="border: 1px solid #36404a; background-color: #eaecee; padding: 15px;">
+										<div class="row formline">
+
+											<label class="col-sm-2">Entry User</label>
+											<div class="col-sm-2">
+												<input type="text" th:value="${session.USERID}"
+													id="entry_user" name="entry_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+											<label class="col-sm-2">Modify User</label>
+											<div class="col-sm-2">
+												<input type="text" th:value="${report?.modify_user}"
+													id="modify_user" name="modify_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+											<label class="col-sm-2">Verify User</label>
+											<div class="col-sm-2">
+												<input type="text" th:value="${session.USERID}"
+													id="verify_user" name="verify_user"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+										</div>
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+										<div class="row formline">
+
+											<label class="col-sm-2">Entry Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="entry_time2" name="entry_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+
+											<label class="col-sm-2">Modify Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="modify_time2" name="modify_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+											</div>
+
+
+
+											<label class="col-sm-2">Verify Time</label>
+											<div class="col-sm-2">
+												<input type="text" id="verify_time2" name="verify_time"
+													class="form-control form-control-sm" autocomplete="off"
+													readonly />
+
+											</div>
+
+											<label></label>
+										</div>
+
+
+
+									</div>
+
+
+								</form>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<!------------------------------ Report summary section ends it will shown only if summary button clicked------------------------->
+			<!------------------------------ Report Details section starts it will shown only if Details button clicked------------------------->
+			<div class="col-sm-12 customcol" th:if="${displaymode}=='detail'"
+				th:fragment="detail">
+				<div class="card-header" id="modheadtitle" style="width: 1100px;">
+					<b>Table 23: Compliance AML-CFT reviews/ checks</b>
+
+				</div>
+
+				<div style="overflow-x: auto; border-right: 1px solid #dee2e6"
+					th:class="${searchmsg == null}?'inner'">
+					<table th:if="${searchmsg} == null"
+						class="table table-bordered table-sm" style="width: 1100px"
+						id="detailtb">
+						<thead class="thead-light">
+
+							<!-- <th rowspan="5" class="first_left"><a
+										data-toggle="tooltip" class="editrec"
+										title="Click to add new Records"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype}=='report' ? addedit "
+											class="fa fa-plus-circle" onclick="addRecord();"
+											aria-hidden="true"></i></a></th>
+									<th rowspan="5" class="second_left"><a href="#"
+										data-toggle="tooltip" title="Click to Search Record"><i
+											class="fa fa-search" onclick="searchRecord();"
+											aria-hidden="true"></i></a></th> -->
+							<tr>
+								<th>Primary Sol Id</th>
+								<th>Customer Id</th>
+								<th>Customer Name</th>
+								<th>Sol Id</th>
+								<th>Cust Open Date</th>
+								<th>Cust Suspended Date</th>
+								<th>Kyc Date</th>
+								<th>Kyc Due Date</th>
+								<th>Customer Rating</th>
+								<th>Customer Rating Date</th>
+								<th>Gl Sub Head</th>
+								<th>Scheme Code</th>
+								<th>Acc No</th>
+
+							</tr>
+
+						</thead>
+						<tbody>
+
+							<!-- <td class="first_left"><a data-toggle="tooltip"
+										class="editrec" title="Click to Edit this Record"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+											class="fas fa-edit" onclick="editRecord(this)"></i></a></td>
+									<td class="second_left"><a data-toggle="tooltip"
+										class="editrec" title="Click to delete this Record"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+											class="fas fa-minus-circle" onclick="deleteRecord(this)"></i></a></td> -->
+							<tr th:each="repdetail : ${reportdetails.content}">
+
+								<td th:text="${repdetail.primary_sol_id	}">CHENNAI</td>
+								<td th:text="${repdetail.cust_id	}">CHENNAI</td>
+								<td th:text="${repdetail.cust_name	}">CHENNAI</td>
+								<td th:text="${repdetail.sol_id	}">CHENNAI</td>
+								<td
+									th:text="${#dates.format(repdetail.cust_opn_date	,'dd-MM-yyyy')}">CHENNAI</td>
+								<td
+									th:text="${#dates.format(repdetail.cust_susp_date	,'dd-MM-yyyy')}">CHENNAI</td>
+								<td
+									th:text="${#dates.format(repdetail.cust_kyc_date	,'dd-MM-yyyy')}">CHENNAI</td>
+								<td
+									th:text="${#dates.format(repdetail.cust_kyc_due_date	,'dd-MM-yyyy')}">CHENNAI</td>
+								<td th:text="${repdetail.cust_rating_code	}">CHENNAI</td>
+								<td
+									th:text="${#dates.format(repdetail.cust_rating_date	,'dd-MM-yyyy')}">CHENNAI</td>
+
+								<td th:text="${repdetail.gl_sub_head_code	}">CHENNAI</td>
+								<td th:text="${repdetail.sch_code	}">CHENNAI</td>
+								<td th:text="${repdetail.foracid	}">CHENNAI</td>
+
+
+
+							</tr>
+						</tbody>
+					</table>
+					<table th:if="${searchmsg} != null"
+						class="table table-bordered table-sm" style="width: 1500px"
+						id="detailtb">
+						<thead class="thead-light">
+							<tr>
+								<!-- <th><a data-toggle="tooltip" class="editrec"
+										title="Click to add new Records"><i
+											th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype}=='report' ? addedit "
+											class="fa fa-plus-circle" onclick="addRecord();"
+											aria-hidden="true"></i></a></th>
+									<th><a data-toggle="tooltip"
+										title="Click to Search Record"><i class="fa fa-search"
+											onclick="searchRecord();" aria-hidden="true"></i></a></th> -->
+								<th>Customer Id</th>
+								<th>Customer Name</th>
+								<th>Customer Type</th>
+								<th>Customer Rating</th>
+								<th>Account No</th>
+								<th>Account Name</th>
+								<th>Tran Type</th>
+								<th>Tran Sub Type</th>
+								<th>Tran date</th>
+								<th>Tran Id</th>
+								<th>Part Tran Id</th>
+								<th>Part Tran Type</th>
+								<th>Tran Currency</th>
+								<th>Tran Amount</th>
+								<th>Tran Category</th>
+								<th>Quarter Flag</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td colspan="10">No Data Available</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- -----------------------------------Details edit modal form----------------------------------------------------->
+				<!-- <div class="modal fade" id="addedit" th:fragment="dataedit">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+
+							Modal Header
+							<div class="modal-header">
+								<h4 class="modal-title">Add/Edit Records</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+							<div class="modal-body" style="text-align: center">
+								<form th:object=${singledetail} id="dataedit" method="post">
+									<div class="form-group">
+
+										<div class="row">
+											<label class="col-sm-5" for="trade_date">Trade Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{trade_date}" id="trade_date" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="value_date">Value Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{value_date}" id="value_date" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="isin">ISIN of Security</label> <input
+												class="form-control col-sm-5" type="text" th:field="*{isin}"
+												onkeyup="this.value = this.value.toUpperCase();" id="isin"
+												required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="type_of_sec">Type of
+												Security</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{type_of_sec}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="type_of_sec" required />
+										</div>
+
+
+
+
+										<div class="row">
+											<label class="col-sm-5" for="acct_of_sec">Account
+												Number of Security</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{acct_of_sec}" id="acct_of_sec"
+												required />
+										</div>
+
+
+
+										<div class="row">
+											<label class="col-sm-5" for="type_of_tran">Type of
+												Transaction</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{type_of_tran}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="type_of_tran" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="name_of_party">Name of
+												counterparty</label> <input class="form-control col-sm-5"
+												type="text" th:field="*{name_of_party}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="name_of_party" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="cntprty_code">Counterparty
+												Code</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.cntprty_code}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="cntprty_code" required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="categ_of_cntprty">Category
+												of Counterparty</label> <input class="form-control col-sm-5"
+												type="text" th:field="*{categ_of_cntprty}"
+												onkeyup="this.value = this.value.toUpperCase();"
+												id="categ_of_cntprty" required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="nom_of_sec">Nominal
+												Amount of security</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{nom_of_sec}" id="nom_of_sec"
+												required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="yield_of_sec">Yield to
+												Maturity of Security (%)</label> <input
+												class="form-control col-sm-5" type="number"
+												th:field="*{yield_of_sec}" id="yield_of_sec" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="clean_of_sec">Clean
+												Price of Security</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{clean_of_sec}" id="clean_of_sec"
+												required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="mat_date">Maturity Date
+												of security</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{mat_date}" id="mat_date" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="resid_days">Residual
+												Days to Maturity</label> <input class="form-control col-sm-5"
+												type="number" th:field="*{resid_days}" id="resid_days"
+												required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="indicate_bid">Indicative
+												Bid Yield on Days to Maturity</label> <input
+												class="form-control col-sm-5" type="number"
+												th:field="*{indicate_bid}" id="indicate_bid" required />
+										</div>
+
+										<div class="row">
+											<label class="col-sm-5" for="indicate_yield">Indicative
+												Ask Yield on Days to Maturity</label> <input
+												class="form-control col-sm-5" type="number"
+												th:field="*{indicate_yield}" id="indicate_yield" required />
+										</div>
+
+
+										<div class="row">
+											<label class="col-sm-5" for="isin">Report Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.report_date}" id="report_date"
+												required />
+										</div>
+
+
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitdataform();">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				 -->
+				<!-------------------------------------Details edit modal form----------------------------------------------------->
+				<!-- -----------------------------------Search modal form----------------------------------------------------->
+				<!-- <div class="modal fade" id="search" th:fragment="search">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+
+							Modal Header
+							<div class="modal-header">
+								<h4 class="modal-title">Search Records</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+							<div class="modal-body" style="text-align: center">
+								<form th:object=${singledetail} id="searchdtl" method="post">
+									<div class="form-group">
+										<div class="row">
+											<label class="col-sm-5" for="cntprty_code">Counterparty
+												Code</label> <input class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.cntprty_code}" id="cntprty_code"
+												required />
+										</div>
+										<div class="row">
+											<label class="col-sm-5" for="isin">Report Date</label> <input
+												class="form-control col-sm-5" type="text"
+												th:field="*{fim0800DetailId.report_date}" id="report_dates"
+												required />
+										</div>
+
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitSearchRecord();">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				 -->
+				<!-------------------------------------Search modal form----------------------------------------------------->
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<div class="modal fade" id="datadelete">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to delete?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitdataform();">Submit</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+				<div th:if="${displaymode}=='detail'">
+					<div class="float-right" th:if="${reportdetails.totalPages} gt 1">
+						<a href="#"><i class="fas fa-caret-left fa-2x"
+							th:onclick="|showdetails('prevpage',${reportdetails.number},${reportdetails.totalPages},${instancecode});|"></i></a>
+						<input type="text" id="pageno" style="width: 30px"
+							th:value="${reportdetails.number+1}"
+							th:onchange="|showdetails('givenpage',${reportdetails.number},${reportdetails.totalPages},${instancecode});|"></input>
+						of <font th:text="${reportdetails.totalPages}"></font> <a href="#"><i
+							class="fas fa-caret-right fa-2x"
+							th:onclick="|showdetails('nextpage',${reportdetails.number},${reportdetails.totalPages},${instancecode});|"></i></a>
+					</div>
+				</div>
+				<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+			</div>
+			<!------------------------------ Report Details section ends it will shown only if Details button clicked------------------------->
+		</div>
+	</div>
+
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg"></p>
+					<button type="button" class="btn btn-primary"  id ="close"onclick="showsummary();">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+
+</body>
+</html>
+
+

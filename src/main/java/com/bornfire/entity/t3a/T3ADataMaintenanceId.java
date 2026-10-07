@@ -1,0 +1,38 @@
+package com.bornfire.entity.t3a;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+
+import javax.persistence.Embeddable;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+@Embeddable
+public class T3ADataMaintenanceId implements Serializable{
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.S")
+	private Date tran_date;
+	private String tran_id;
+	private String part_tran_id;
+	public Date getTran_date() {
+		return tran_date;
+	}
+	public String getTran_id() {
+		return tran_id;
+	}
+
+	public void setTran_date(Date tran_date) {
+		this.tran_date = tran_date;
+	}
+	public void setTran_id(String tran_id) {
+		this.tran_id = tran_id;
+	}
+	public String getPart_tran_id() {
+		return part_tran_id;
+	}
+	public void setPart_tran_id(String part_tran_id) {
+		this.part_tran_id = part_tran_id;
+	}
+
+}

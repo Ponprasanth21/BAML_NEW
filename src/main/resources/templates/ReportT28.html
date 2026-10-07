@@ -1,0 +1,1380 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!-- 
+CREATED BY	: RAMPRASATH
+CREATED ON	: 27-MAY-2020
+PURPOSE		: T28 Report
+ -->
+<html lang="en" >
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/multifreeze/multifreezer.css"
+	th:href="@{/multifreeze/multifreezer.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+		
+		
+		
+		var permission = /*[[${session.PERMISSIONS}]]*/null;
+	
+		var reportsummary = /*[[${reportsummary}]]*/null;
+		
+		var dtltype = /*[[${dtltype}]]*/null;
+		
+		//to make the summary button active on load
+		$(function(){
+			
+			console.log(reportsummary);
+			
+			$("#summarybtn").addClass("active");
+
+		});
+		function home(){
+			location.href = "/AML/rbsreports";
+
+	}
+	/*to show details page - 3 parameters
+		mode - valid values are : nextpage, prevpage, givenpage, firstpage
+		num - page number to show to the user
+		maxpage - maximum number of pages avaialble in the data
+	*/
+	function showdetails(mode,num,maxpage,instancecode) {
+		
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+		Callurl = Callurl+"&instancecode="+instancecode;
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+		
+		
+		$.ajax({
+			type : 'get',
+			url : Callurl,
+			success : function(data) {
+				
+				/*<![CDATA[*/
+				
+
+				$('.content').html(data);
+				$("#detailsbtn").addClass("active");
+				/*]]>*/
+
+			}
+		})
+	}
+	
+	
+	//to fetch summary from the database - called from the summary button
+	function showsummary(mode,num,maxpage) {
+		
+
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Summary'(fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+		
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+
+		
+	window.location.href=Callurl;
+	}
+	
+
+	//to check for report or arch
+	//if report --->>> precheck and then save report else throws error
+	function savereport(){
+		
+		if(dtltype=='report'){
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/PrecheckFromrpt'(asondate=${asondate},fromdate=${fromdate},todate=${todate})}]]*/
+				$.ajax({
+					type : 'get',
+					url : Callurl,
+					success : function(data) {
+
+						if (data == 'success') {	
+							
+							
+							$("#loader").show();
+							
+							
+							var Callurl = /*[[@{'/Reports/'+${reportid}+'/save'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+								$.ajax({
+									type : 'get',
+									url : Callurl,
+									success : function(data) {
+
+										
+										if(data=='success'){
+											
+										 var Callurl = /*[[@{'/Reports/'+${reportid}+'/DownloadFormRptScr'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+											Callurl = Callurl+"&filetype=xbrl";
+											location.href=Callurl;
+											$("#loader").hide();
+										}
+										else{
+											$("#loader").hide();
+											 $("#alertmsg").text(data);
+											 $('#alert').modal("toggle");
+										}
+									}
+								})
+								
+							
+							
+						} else {
+							$("#alertmsg").text("Please verify the Pending Records Before Generating XBRL Instance");
+							$("#alert").modal("toggle");
+						}
+
+					}
+					});
+			
+		}
+		else{
+			
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/DownloadFormRptScr'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+				 Callurl = Callurl+"&filetype=xbrl";
+				 location.href=Callurl;
+				 $("#loader").hide();
+		}
+		
+	}
+	/*]]>*/
+</script>
+<!----------------------------------------Scripts to edit report details-------------------------------------------->
+<script th:inline="javascript">
+/*<![CDATA[*/
+	 var currlist = /*[[${currlist}]]*/null;
+	
+
+	 function editsum(a){
+			
+			
+			
+			
+			if(permission=='W' && dtltype=='report') {
+			//Assign action url for the edit/add form
+			var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+			$("#dataedit").attr('action', url); 
+			
+			
+			$("#c2b_bo_fully_applied").val(a.getAttribute("data-c2b_bo_fully_applied"));
+			$("#value_date").val(a.getAttribute("data-value_date"));
+			//Reset form if any data present
+			
+			
+			document.getElementById("dataedit").reset();
+			
+			/* //make readonly false to unique fields
+			//Make readonly fields
+			$("#cntprty_code").attr("readonly",false);
+			$("#report_date").attr("readonly",false); */
+			
+			//Reset errors
+			var validator = $("#dataedit").validate();
+			validator.resetForm();
+			
+
+		    
+			$("#addedit").modal("toggle");
+			
+			
+			
+			}
+		};
+		
+		
+		
+		$(function() {
+			
+			
+			
+			$("#entry_time1,verify_time1,modify_time1").datepicker({
+				changeMonth : true,
+				changeYear : true,
+				maxDate : new Date(),
+				dateFormat : "dd-mm-yy"
+			});
+
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth() + 1; //January is 0!
+
+			var yyyy = today.getFullYear();
+			if (dd < 10) {
+				dd = '0' + dd;
+			}
+			if (mm < 10) {
+				mm = '0' + mm;
+			}
+			var today = dd + '-' + mm + '-' + yyyy;  
+			document.getElementById('entry_time1').value = today;
+			document.getElementById('verify_time1').value = today; 
+			document.getElementById('modify_time1').value = today;
+		});
+		
+		
+
+	
+			
+			
+			
+			
+			
+		
+				function editRecord(a){
+	
+					if(permission=='W' && dtltype=='report') {
+						
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800edit'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Assign selected values to the model box fields
+					
+					$("#trade_date").val(a.getAttribute("data-trade_date"));
+					$("#value_date").val(a.getAttribute("data-value_date"));
+					$("#isin").val(a.getAttribute("data-isin"));
+					$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+					$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+					$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+					$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+					$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+					$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+					$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+					$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+					$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+					$("#mat_date").val(a.getAttribute("data-mat_date"));
+					$("#resid_days").val(a.getAttribute("data-resid_days"));
+					$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+					$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+					$("#report_date").val(a.getAttribute("data-report_date"));
+					$("#del_flg").val(a.getAttribute("data-del_flg"));
+					$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+					$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+					$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+					$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+					$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+					$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+					$("#addedit").modal("toggle");
+					
+				
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",true);
+					$("#report_date").attr("readonly",true);
+					
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					}
+					
+				};
+				function addRecord(){
+					
+					if(permission=='W' && dtltype=='report') {
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Reset form if any data present
+					document.getElementById("dataedit").reset();
+					
+					//make readonly false to unique fields
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",false);
+					$("#report_date").attr("readonly",false);
+					
+					//Reset errors
+					var validator = $("#dataedit").validate();
+					validator.resetForm();
+					
+					$("#addedit").modal("toggle");
+                    
+					
+					 
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					
+					}
+				};
+				
+				function deleteRecord(a){
+					
+					if(permission=='W' && dtltype=='report') {
+					
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800delete'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url);
+					
+					
+					//Assign selected values to the model box fields
+					
+						$("#trade_date").val(a.getAttribute("data-trade_date"));
+						$("#value_date").val(a.getAttribute("data-value_date"));
+						$("#isin").val(a.getAttribute("data-isin"));
+						$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+						$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+						$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+						$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+						$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+						$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+						$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+						$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+						$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+						$("#mat_date").val(a.getAttribute("data-mat_date"));
+						$("#resid_days").val(a.getAttribute("data-resid_days"));
+						$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+						$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+						$("#report_date").val(a.getAttribute("data-report_date"));
+						$("#del_flg").val(a.getAttribute("data-del_flg"));
+						$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+						$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+						$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+						$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+						$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+						$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+
+					$("#datadelete").modal("toggle");
+					
+					} 
+					
+				};
+				
+				function submitdataform(){
+					
+					if($("#dataedit").valid()){
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#dataedit').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 
+							 $("#alertmsg").text(responseText);
+							 
+							 if($('#addedit').is(':visible')){
+								 $('#addedit').modal("hide");
+							 };
+							 if($('#datadelete').is(':visible')){
+								 $('#datadelete').modal("hide");
+							 };
+							 $('#alert').modal("toggle");
+				                
+						 }
+						
+						
+					}
+					
+					$("#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				}
+				
+          function searchRecord(){
+					
+					document.getElementById("searchdtl").reset();
+					
+					$("#search").modal("toggle");
+					
+					$("#report_dates").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				};
+				
+				function submitSearchRecord(){
+					
+					
+					
+					if($("#searchdtl").valid()){
+						
+						
+						
+						var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800Search'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+						$("#searchdtl").attr('action', url);
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#searchdtl').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 $(".modal").modal("hide");
+							 $('.content').html(responseText);
+							 $("#detailsbtn").addClass("active");
+							 $(".modal-backdrop").remove();
+							 
+						 }	
+					}
+					
+				};
+				
+				
+				
+				
+
+				
+				
+/*]]>*/
+</script>
+<script>
+function editpage(a)  {
+	//alert("its time to edit");
+	$("#list").hide();
+	$("#summary").hide();
+	$("#inquiry1").show();
+	
+	$("#edit1").show();
+	$("#edisub").show();
+	$("#verisub").hide();
+	$("#veri").hide();
+}
+
+function Verify(a)  {
+	//alert("its time to edit");
+	
+	var flg = $("#flg").val();
+	if (flg == "N"){
+	$("#list").hide();
+	$("#edit1").hide();
+	$("#summary").hide();
+	$("#inquiry").show();
+	$("#edisub").hide();
+	$("#verisub").show();
+	$("#verify1").show();
+	$("#addRecord").hide();
+	$("#veri").hide();
+	}else if (flg == "Y"){
+		
+		$('#NoNEEDPOP').modal("toggle");
+	}
+}
+
+function editsub(a) {
+	
+	var jsonObj = [];
+    var jsonString;
+	var table = document.getElementById("edittable");
+	//alert(table.rows.length);
+    for (var r = 1; r < table.rows.length; r++) {
+    	 var item = {};
+        for (var c = 0, m = table.rows[r].cells.length; c < m; c++){    
+        	 if(c == 0){
+                 item ["entity_flg"] =table.rows[r].cells[c].childNodes[0].value;}
+        	 else if(c == 1){
+                 item ["srl_client"] =table.rows[r].cells[c].childNodes[0].value;}
+        	 else if(c==2){
+                 item ["srl_no"] =table.rows[r].cells[c].childNodes[0].value;}
+             else if(c==3){
+                 item ["inf_reqd"] =table.rows[r].cells[c].childNodes[0].value;}
+             else if(c==4){
+                 item ["cur_qtr"] =table.rows[r].cells[c].childNodes[0].value;}
+             else if(c==5){
+                  item ["remarks_cur"] = table.rows[r].cells[c].childNodes[0].value;} 
+            
+        }
+        jsonObj.push(item);
+    }
+    //alert(JSON.stringify(jsonObj));
+    
+    $.ajax({
+        type: "POST",
+        url : "../AML/T28Edit",
+        contentType:"application/json",
+        data : JSON.stringify(jsonObj),
+        success: function(data1){
+        	$('#success').modal("toggle");
+            //alert(data1);   
+        },
+        error:function(data){
+            console.log("failure"+data);
+            alert("failure"+data);
+        }
+    });  
+	
+    console.log(JSON.stringify(jsonObj));
+    console.log(data[0]);
+    
+    
+};	
+function verifysub(a) {
+	
+	var jsonObj = [];
+    var jsonString;
+	var table = document.getElementById("verifytable");
+	//alert(table.rows.length);
+    for (var r = 1; r < table.rows.length; r++) {
+    	 var item = {};
+        for (var c = 0, m = table.rows[r].cells.length; c < m; c++){    
+        	 if(c == 0){
+                 item ["entity_flg"] =table.rows[r].cells[c].childNodes[0].value;}
+        	 else if(c == 1){
+                 item ["srl_client"] =table.rows[r].cells[c].childNodes[0].value;}
+        	 else if(c==2){
+                 item ["srl_no"] =table.rows[r].cells[c].childNodes[0].value;}
+             else if(c==3){
+                 item ["inf_reqd"] =table.rows[r].cells[c].childNodes[0].value;}
+             else if(c==4){
+                 item ["cur_qtr"] =table.rows[r].cells[c].childNodes[0].value;}
+             else if(c==5){
+                  item ["remarks_cur"] = table.rows[r].cells[c].childNodes[0].value;} 
+            
+        }
+        jsonObj.push(item);
+    }
+   // alert(JSON.stringify(jsonObj));
+    
+    $.ajax({
+        type: "POST",
+        url : "../AML/T28Verify",
+        contentType:"application/json",
+        data : JSON.stringify(jsonObj),
+        success: function(data1){
+        	$('#Verify').modal("toggle");
+            //alert(data1);   
+        },
+        error:function(data){
+            console.log("failure"+data);
+            alert("failure"+data);
+        }
+    });  
+	
+    console.log(JSON.stringify(jsonObj));
+    console.log(data[0]);
+    
+    
+};	
+
+</script>
+<style>
+.nav-buttons {
+	float: right;
+}
+
+.reptitle {
+	float: left;
+}
+
+.reptitle>p {
+	margin-top:;
+}
+
+.customcol {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.first_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 0;
+	width: 30px;
+}
+
+.second_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 30px;
+	width: 30px;
+}
+
+.third_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 60px;
+	width: 150px;
+}
+
+.inner {
+	overflow-x: scroll;
+	overflow-y: visible;
+	margin-left: 48px;
+}
+
+.btn-primary {
+	background-color: #E77400;
+	border-color: #0c0c0c;
+}
+
+.btn-primary:not (:disabled ):not (.disabled ).active, .btn-primary:not
+	 (:disabled ):not (.disabled ):active, .show>.btn-primary.dropdown-toggle
+	{
+	color: #fff;
+	background-color: #cc000000;
+	border-color: #161617;
+}
+
+.addedit {
+	color: #007bff;
+}
+
+.addedit:hover {
+	color: #0056b3;
+}
+</style>
+</head>
+<body>
+	<!----------------------------------------------------- Header Section starts ----------------------------------------------------->
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" aria-hidden="true"
+		onclick="docEmb('Report')" id="ques"></i>
+	<!----------------------------------------------------- Header Section Ends ------------------------------------------------------->
+	<div style="margin-left: 310px; margin-top: 76px;">
+		<div class="container content" th:fragment="reportcontent">
+
+
+
+			<!--------------------------------------------------------------- Report title starts -------------------------------------------->
+			<div class="row" style="width: 959px; margin-left: 0px;">
+				<div class="col-sm-12 customcol"
+					style="background-color: #4d8cb9; padding-top: 10px; padding-bottom: 10px; padding-left: 5px;">
+					<!-- <select id="reporttype" style="background-color: #e9ecef;">
+						<option th:each="title : ${reportTitle}"
+							th:value="${title.reportName}" th:text="${title.reportName}"></option>
+
+					</select> -->
+					<div class="btn-group nav-buttons">
+						<!-- 	<button type="button" class="btn btn-primary"
+							onclick="showdetails('firstpage','1','0','0');" id="detailsbtn">Details</button> -->
+						<button type="button" class="btn btn-primary"
+							onclick="showsummary();" id="summarybtn">Summary</button>
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary dropdown-toggle"
+								data-toggle="dropdown">
+								Download <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/DownloadFormRptScr'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=pdf|">Pdf</a></li>
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/DownloadFormRptScr'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=excel|">Excel</a></li>
+
+								<li th:if="${displaymode}=='detail'"><a
+									th:href="|@{'/Reports/'+${reportid}+'/DownloadFormRptScr'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=detailexcel|">Excel</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report title ends ------------------------------------------------->
+			<!--------------------------------------------------------------- Report buttons section starts ------------------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol" style="background-color: #adb5bd;">
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report buttons section ends ------------------------------------->
+			<!------------------------------ Report summary section starts it will shown only if summary button clicked------------------------->
+			<div class="row">
+				<div class="col-sm-12 customcol"
+					th:if="${displaymode}=='summary' or ${displaymode}==null"
+					style="overflow-x: auto;">
+					<div class="card-header" id="modheadtitle" style="width: 959px;">
+						<b>Table 28: Information Required On AML/CFT For Non-Banking
+							Financial Institution</b>
+
+						<div class="btn-group nav-buttons"th:if="${type} !='ARCHIVAL'">
+							<button type="button" class="btn btn-primary"
+								onclick="editpage(this);" style="margin-top: -12px;"
+								title="Click to EDIT Records" id="addRecord">Modify</button>
+						</div>
+						<div class="btn-group nav-buttons" id="summary"th:if="${type} !='ARCHIVAL'">
+							<button type="button" class="btn btn-primary"
+								style="margin-right: 0px; margin-top: -12px; background-color: #4d8cb9;"
+								title="Summary Screen" id="addRecord">Inquiry</button>
+						</div>
+						<div style="display: none;" id="inquiry"th:if="${type} !='ARCHIVAL'"
+							class="btn-group nav-buttons">
+							<button type="button" class="btn btn-primary"
+								onclick="back(this);"
+								style="margin-right: 0px; margin-top: -12px; background-color: #4d8cb9;"
+								title="Click to View Summary Screen" id="inquiry1">Inquiry</button>
+						</div>
+
+						<div class="btn-group nav-buttons"th:if="${type} !='ARCHIVAL'">
+							<button type="button" class="btn btn-primary"
+								onclick="Verify(this);"
+								style="margin-right: 0px; margin-top: -12px;"
+								title="Click to verify the edited records" id="veri">Verify</button>
+						</div>
+
+
+					</div>
+
+					<table id="list"
+						class="table  table-bordered  table-hover table-sm"
+						style="width: 959px;">
+						<thead class="thead-light">
+							<tr>
+
+								<th style="width:5%;">Srl No</th>
+								<th style="display: none;">Ref No</th>
+								<th>Information Required on AML/CFT</th>
+								<th style="width:7%;">Current Quarter</th>
+								<th>Remarks</th>
+
+							</tr>
+						</thead>
+						<tbody th:each="repdetail: ${reportsummary}">
+							<tr>
+								<td th:text="${repdetail?.srl_client}"></td>
+								<td style="display: none;" th:text="${repdetail?.srl_no}"></td>
+								<td th:text="${repdetail?.inf_reqd}"></td>
+								<td th:text="${repdetail?.cur_qtr}"></td>
+								<td th:text="${repdetail?.remarks_cur}"></td>
+							</tr>
+						</tbody>
+
+
+					</table>
+
+					<!-- ---------MODIFICATION View After Clicking the MODIFY BUTTON STARTS------ -->
+					<div id="edit1" style="display: none;">
+						<form action="#" th:object="${editform}" method="POST"
+							autocomplete="off" id="editform">
+							<table class="table  table-bordered  table-hover table-sm"
+								id="edittable" style="width: 959px;">
+
+								<thead class="thead-light">
+									<tr>
+
+										<th style="width: 60px;">Srl No</th>
+										<th style="display: none;">Ref No</th>
+										<th style="width: 300px;">Information Required on AML/CFT</th>
+										<th style="width: 150px;">Current Quarter</th>
+										<th>Remarks</th>
+
+									</tr>
+								</thead>
+								<tbody th:each="repdetail: ${reportsummary}">
+
+									<tr id="data">
+										<td class="inputValue" style="display: none;"><input
+											type="hidden" style="text-align: right; color: black;"
+											th:value="${repdetail?.entity_flg}" id="flg"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly /></td>
+
+
+										<td class="inputValue"><input type="text"
+											style="border: hidden; background-color: #e3e3e4; text-align: right; color: black;"
+											th:value="${repdetail?.srl_client}" id="srl_client"
+											class="form-control form-control-sm" name="srl_client"
+											autocomplete="off" readonly /></td>
+										<td Style="display: none;" class="inputValue"><input
+											type="hidden"
+											style="text-align: right; border: hidden; background-color: #e3e3e4; color: black;"
+											th:value="${repdetail?.srl_no}" id="pre_qtr"
+											class="form-control form-control-sm" name="srl_no"
+											autocomplete="off" readonly /></td>
+
+										<td class="inputValue"><input type="text"
+											style="color: black; border: hidden; background-color: #e3e3e4;"
+											th:value="${repdetail?.inf_reqd}" id="inf_reqd"
+											class="form-control form-control-sm" name="inf_reqd"
+											autocomplete="off" readonly /></td>
+
+
+
+										<th:block th:switch="${repdetail?.inf_reqd}">
+											<td
+												th:case="'Does your institution have an IT-based sanction screening system or is the screening done manually?'">
+												<select class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Not Applicable">Fully IT Based</option>
+													<option value="Post-facto">Largely IT Based</option>
+													<option value="Largely post-facto">Largely Manual
+													</option>
+													<option value="Largely real-time">Fully Manual</option>
+
+
+
+											</select>
+											</td>
+
+											<td
+												th:case="'Does your institution have written procedures for the sanctions screening process?'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+
+											<td
+												th:case="'Please provide the name of the system/sofware if the sanction screening is IT-based.'"><input
+												type="text" style="color: black;"
+												placeholder="Insert name of sanction screening system for the relevant quarter in this cell. "
+												id="remarks_cur" class="form-control form-control-sm"
+												name="cur_qtr" autocomplete="off" /></td>
+
+											<td
+												th:case="'Is training provided to staff on sanctions screening?'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+											<td
+												th:case="'Are there awareness programs for staff regarding the sanctions listings?'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+											<td
+												th:case="'Is the sanctions screening process subject to regular audits?'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+											<td
+												th:case="'Do compliance reviews cover sanctions screening?'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+											<td
+												th:case="'Does your entity screen clients against the UN targeted financial sanctions lists for proliferation financing (UNSCR 1718 and its successor resolutions, and UNSCR 2231)?'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+											<td
+												th:case="'Does your entity screen clients against the UN targeted financial sanctions designated lists for terrorist financing (UNSCR 1267 and its successor resolutions)?'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+											<td
+												th:case="'Does your entity screen clients against national-level targeted financial sanctions lists for terrorist financing?'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+											<td
+												th:case="'At what frequency is the sanction list updated?'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Daily">Daily</option>
+													<option value="Weekly">Weekly</option>
+													<option value="Monthly">Monthly</option>
+													<option value="Quarterly">Quarterly</option>
+													<option value="Half-yearly">Half-yearly</option>
+													<option value="Yearly">Yearly</option>
+													<option value="Following Trigger Event">Following
+														Trigger Event</option>
+													<option value="Others(Please Mention In Remarks Column)">Others(Please
+														Mention In Remarks Column)</option>
+
+
+
+											</select></td>
+											<td
+												th:case="'Upon receipt of information which affects the sanction list, is it updated immediately?'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+											<td
+												th:case="'Is the sanction list updated manually or is it IT-based?'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Manual">Manual</option>
+													<option value="IT-based">IT-based</option>
+
+
+
+											</select></td>
+
+											<td
+												th:case="'Whenever there is an update to the sanction list, does your institution have a process in place to identify within 24 hours whether existing customers are part of the updated list? If Yes, please enclose a copy of the policy with your submission. '"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+
+											<td
+												th:case="'Is there an ongoing customer scanning/filtering process (automated or manual) for the designated persons sanctions lists? '"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+											<td
+												th:case="'(i) the National Sanctions Secretariat within 24 hours'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+											<td th:case="'(ii) the FIU within 24 hours'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+											<td th:case="'(iii) the Bank of Mauritius within 24 hours'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+											<td
+												th:case="' Is there a contingency plan in place in case the sanction screening system is down? '"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+											</select></td>
+
+											<td
+												th:case="'What was the average duration of the downtimes?'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Not Applicable">Not Applicable</option>
+													<option value="< 1day">< 1 day</option>
+													<option value="2 to 7 days">2 to 7 days</option>
+													<option value="8 to 15 days">8 to 15 days</option>
+
+													<option value="16 to 30 days">16 to 30 days</option>
+													<option value="> 30 days">> 30 days</option>
+
+
+
+											</select></td>
+											<td th:case="'What was the minimum duration of downtime'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Not Applicable">Not Applicable</option>
+													<option value="< 1day">< 1 day</option>
+													<option value="2 to 7 days">2 to 7 days</option>
+													<option value="8 to 15 days">8 to 15 days</option>
+
+													<option value="16 to 30 days">16 to 30 days</option>
+													<option value="> 30 days">> 30 days</option>
+
+
+
+											</select></td>
+											<td th:case="'What was the maximum duration of downtime'"><select
+												class="form-control form-control-sm" id="showme"
+												name="cur_qtr" style="float: left; font-size: 13px;"
+												required>
+													<option value="">Select</option>
+
+													<option value="Not Applicable">Not Applicable</option>
+													<option value="< 1day">< 1 day</option>
+													<option value="2 to 7 days">2 to 7 days</option>
+													<option value="8 to 15 days">8 to 15 days</option>
+
+													<option value="16 to 30 days">16 to 30 days</option>
+													<option value="> 30 days">> 30 days</option>
+
+
+
+											</select></td>
+											<td
+												th:case="'When was the last time the sanction screening process reviewed by internal audit? (dd/mm/yyyy)'"><input
+												type="text" style="color: black;" placeholder="dd/mm/yyyy"
+												id="remarks_cur" class="form-control form-control-sm"
+												name="cur_qtr" autocomplete="off" /></td>
+
+											<td
+												th:case="'When was the last time the sanction screening process reviewed by compliance? (dd/mm/yyyy)'"><input
+												type="text" style="color: black;" placeholder="dd/mm/yyyy"
+												id="remarks_cur" class="form-control form-control-sm"
+												name="cur_qtr" autocomplete="off" /></td>
+											<td th:case="*"><input type="text" style="color: black;"
+												id="remarks_cur" class="form-control form-control-sm"
+												name="cur_qtr" autocomplete="off" /></td>
+											<td th:case="' '"></td>
+
+
+										</th:block>
+
+
+
+
+
+
+										<td class="inputValue"><input type="text"
+											style="background-color: #e3e3e4; color: black;"
+											th:value="${repdetail?.remarks_cur}" id="remarks_cur"
+											class="form-control form-control-sm" name="remarks_cur"
+											autocomplete="off" /></td>
+
+										<td style="display: none;"><input type="text"
+											style="color: black; display: none;"
+											th:value="${#dates.format(repdetail?.report_date ,'dd/MM/yyyy')}"
+											id="report_date" class="form-control form-control-sm"
+											name="report_date" autocomplete="off" /></td>
+										<td style="display: none;"><input type="text"
+											style="color: black; display: none;"
+											th:value="${#dates.format(repdetail?.rep_period_from ,'dd/MM/yyyy')}"
+											id="rep_period_from" class="form-control form-control-sm"
+											name="rep_period_from" autocomplete="off" /></td>
+										<td style="display: none;"><input type="text"
+											style="color: black; display: none;"
+											th:value="${#dates.format(repdetail?.rep_period_to ,'dd/MM/yyyy')}"
+											id="rep_period_to" class="form-control form-control-sm"
+											name="rep_period_to" autocomplete="off" /></td>
+									</tr>
+
+
+								</tbody>
+
+							</table>
+						</form>
+					</div>
+					<!-- ---------!!!!!!!!MODIFICATION View After Clicking the MODIFY BUTTON ENDS!!!!!!!------ -->
+
+					<!-- --------------------Verification View After Clicking the VERIFY BUTTON------------------------------ -->
+					<div id="verify1" style="display: none;">
+						<form action="#" th:object="${verifyform}" method="POST"
+							autocomplete="off" id="verifyform">
+							<table class="table  table-bordered  table-hover table-sm"
+								id="verifytable" style="width: 959px;">
+								<thead class="thead-light">
+									<tr>
+										<th style="width: 60px;">Srl No</th>
+										<th style="display: none;">Ref No</th>
+										<th style="width: 300px;">Information Required on AML/CFT</th>
+										<th style="width: 150px;">Dec 19</th>
+										<th>Remarks</th>
+									</tr>
+								</thead>
+								<tbody th:each="repdetail: ${reportsummary}">
+									<tr>
+										<td class="inputValue" style="display: none;"><input
+											type="hidden" style="text-align: right; color: black;"
+											th:value="${repdetail?.entity_flg}" id="flg"
+											class="form-control form-control-sm" autocomplete="off"
+											readonly /></td>
+										<td><input type="text"
+											style="text-align: right; color: black; border: hidden; background-color: #e3e3e4;"
+											th:value="${repdetail?.srl_client}" id="srl_client"
+											class="form-control form-control-sm" name="srl_client"
+											autocomplete="off" readonly /></td>
+										<td style="display: none;"><input type="hidden"
+											style="text-align: right; border: hidden; background-color: #e3e3e4; color: black;"
+											th:value="${repdetail?.srl_no}" id="srl_no"
+											class="form-control form-control-sm" name="srl_no"
+											autocomplete="off" readonly /></td>
+										<td><input type="text"
+											style="color: black; border: hidden; background-color: #e3e3e4;"
+											th:value="${repdetail?.inf_reqd}" id="inf_reqd"
+											class="form-control form-control-sm" name="inf_reqd"
+											autocomplete="off" readonly /></td>
+										<td><input type="text"
+											style="background-color: #e3e3e4; color: black;"
+											th:value="${repdetail?.cur_qtr}" id="cur_qtr"
+											class="form-control form-control-sm" name="cur_qtr"
+											autocomplete="off" readonly /></td>
+										<td><input type="text"
+											style="background-color: #e3e3e4; color: black;"
+											th:value="${repdetail?.remarks_cur}" id="remarks_cur"
+											class="form-control form-control-sm" name="remarks_cur"
+											autocomplete="off" readonly /></td>
+
+										<td style="display: none;"><input type="text"
+											style="color: black; display: none;"
+											th:value="${#dates.format(repdetail?.report_date ,'dd/MM/yyyy')}"
+											id="report_date" class="form-control form-control-sm"
+											name="report_date" autocomplete="off" /></td>
+										<td style="display: none;"><input type="text"
+											style="color: black; display: none;"
+											th:value="${#dates.format(repdetail?.rep_period_from ,'dd/MM/yyyy')}"
+											id="rep_period_from" class="form-control form-control-sm"
+											name="rep_period_from" autocomplete="off" /></td>
+										<td style="display: none;"><input type="text"
+											style="color: black; display: none;"
+											th:value="${#dates.format(repdetail?.rep_period_to ,'dd/MM/yyyy')}"
+											id="rep_period_to" class="form-control form-control-sm"
+											name="rep_period_to" autocomplete="off" /></td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
+					</div>
+					<!-- --------------!Verify_View_Ends!------------- -->
+					<!-- --------------Buttons in T28 Report Screen------------- -->
+					<div class="card-footer text-center"
+						style="height: 38px; background-color: #386276; width: 958px;">
+						<button type="button" style="margin-top: -12px; display: none;"
+							class="btn btn-xs btn-primary" onclick="editsub(this);"
+							id="edisub">Submit</button>
+						<button type="button" style="margin-top: -12px; display: none;"
+							class="btn btn-xs btn-primary" onclick="verifysub(this);"
+							id="verisub">Verify</button>
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" id="btnclose"
+							onclick="back(this);">Back</button>
+					</div>
+					<!-- ----------!!!!!!Buttons in T28 Report Screen Ends!!!!!!------- -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!------------------------------ Report summary section ends it will shown only if summary button clicked------------------------->
+	<!------------------------------ Report Details section starts it will shown only if Details button clicked------------------------->
+	<!------------------------------ Report Details section ends it will shown only if Details button clicked------------------------->
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="success">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg">Record Edited Successfully</p>
+					<button type="button" class="btn btn-primary" id="close1">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="Verify">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg">Record Verified Successfully</p>
+					<button type="button" class="btn btn-primary" id="close2">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="NoNEEDPOP">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg">No Modified Data to Verify</p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	</div>
+	<div class="modal fade" id="verifybox">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="verifyboxmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+	$(document).ready(function(){
+        $("#close1").click(function(){
+            location.reload(true);
+        });
+    });
+	$(document).ready(function(){
+        $("#close2").click(function(){
+            location.reload(true);
+        });
+    });
+	function back(a) {
+		window.history.back(-1);
+	}
+	</script>
+</body>
+</html>

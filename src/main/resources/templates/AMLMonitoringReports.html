@@ -1,0 +1,1830 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLMonitoringReport
+CREATED BY	: Yeshwant
+CREATED ON	: 30-APR-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+
+<script src="js/bootstrap411.js"></script>
+
+<style type="text/css">
+.btn {
+	line-height: 0.5rem;
+}
+
+.dropdown-menu a:hover {
+	background-color: black;
+}
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+  .ui-datepicker-calendar 
+      {
+         display:none !important;
+      }
+     #ui-datepicker-div
+     { display:none !important;
+     } 
+</style>
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script th:inline="javascript">
+	/*<![CDATA[*/
+
+	$(function() {
+		
+		var monitoringalertflg = /*[[${monitoringalertflg}]]*/null;
+if(monitoringalertflg =='Y'){
+	
+	$("#finusers").modal("toggle"); 
+
+	
+}
+		$("#alert_date").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd/mm/yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;
+		document.getElementById('alert_date').value = today;
+	});
+	$(function() {
+
+		$("#entry_time1,verify_time1,modify_time1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd/mm/yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;
+		document.getElementById('entry_time1').value = today;
+		document.getElementById('verify_time1').value = today;
+		document.getElementById('modify_time1').value = today;
+	});
+
+	 	$("#executiontype").on("change", function() {
+
+		if ($("#executiontype").val() == "OnLine") {
+			$("#frequency").attr("readonly", true);
+		} else {
+			$("#frequency").val("");
+			$("#frequency").attr("readonly", false);
+		}
+	});
+	 	function getUserlistserach(mode, num, maxpage){
+	 		var n = parseInt(num);
+			var max = parseInt(maxpage);
+			var Fromdate = document.getElementById("Fromdatesearch").value;
+			var Todate = document.getElementById("Todatesearch").value;
+			var acid = document.getElementById("AcidSearch").value;
+			var alertcode = document.getElementById("AlertCodeSearch").value;
+		
+		var Callurl = 'AMLMonitoringReports?formmode=rulefilter&Fromdate=' + Fromdate + '&Todate=' + Todate + '&acid=' + acid + '&alertcode=' +alertcode;
+
+			switch (mode) {
+			case "nextpage":
+				n = n + 1;
+				if (n > max) {
+					break;
+				}
+				Callurl = Callurl + "&page=" + n;
+				break;
+			case "prevpage":
+				n = n - 1;
+				if (n < 0) {
+					break;
+				}
+				Callurl = Callurl + "&page=" + n;
+				break;
+			case "givenpage":
+				n = parseInt($("#pageno").val()) - 1;
+				if (n > max || n < 0) {
+					break;
+				}
+				Callurl = Callurl + "&page=" + n;
+			}
+
+			location.href = Callurl;
+
+	 	}
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+		var Fromdate = document.getElementById("Fromdate").value;
+		var Todate = document.getElementById("Todate").value;
+		var freeText = document.getElementById('searchbox').value;
+
+if(freeText != null){
+	var Callurl = 'AMLMonitoringReports?formmode=Search&Fromdate=' + Fromdate + '&Todate=' + Todate + '&freeText=' + freeText;
+}else{
+	
+
+		if (Fromdate == '') {
+			var Callurl = 'AMLMonitoringReports?formmode=list';
+
+		} else {
+		var Callurl = 'AMLMonitoringReports?formmode=datefilter&Fromdate='
+				+ Fromdate + '&Todate=' + Todate;
+			//var Callurl = 'AMLMonitoringReports?formmode=list';
+
+		}
+}
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		location.href = Callurl;
+	}
+	function home() {
+		location.href = 'Dashboard'
+	}
+	function home1() {
+		$("#dataHome").modal("toggle");
+	}
+
+	function back() {
+
+		window.history.back();
+	}
+	function back1() {
+		$("#dataBack").modal("toggle");
+
+	}
+
+	function alert_add(a) {
+
+		var formmode = a.getAttribute("frmode");
+
+		location.href = "./monitoringparameter?formmode=" + formmode;
+
+	}
+	function fnClick(a) {
+		var srlno = a.getAttribute("data-srl_no")
+		location.href = 'monitoringparameter?formmode=verify&srlno=' + srlno;
+
+	}
+	function list() {
+		location.href = './AMLMonitoringReports?formmode=list';
+	}
+
+	function verifyform(a) {
+		if ($("#MonitorParameter").valid()) {
+
+			var formmode = a.getAttribute("data-formmode");
+			var trandate = $("#tran_date").val();
+			var tranid = $("#aml_tran_ref_no").val();
+			var parttranid = $("#part_tran_srl_num").val();
+			var url = "./creatingAMLMonitoringReports?formmode=" + formmode
+					+ '&trandate=' + trandate + '&tranid=' + tranid
+					+ '&parttranid=' + parttranid;
+
+			$("#MonitorParameter").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#MonitorParameter").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+
+			}
+			;
+
+		}
+
+	};
+
+	function submitform(a) {
+		if ($("#MonitorParameter").valid()) {
+			var formmode = a.getAttribute("data-formmode");
+			var trandate = $("#tran_date").val();
+			var tranid = $("#aml_tran_ref_no").val();
+			var parttranid = $("#part_tran_srl_num").val();
+			var url = "./creatingAMLMonitoringReports?formmode=" + formmode
+					+ '&trandate=' + trandate + '&tranid=' + tranid
+					+ '&parttranid=' + parttranid;
+
+			$("#MonitorParameter").attr('action', url);
+			
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#MonitorParameter").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+
+			}
+			;
+		}
+	};
+
+	function edit_btn_submit(a) {
+
+		var tranid = a.getAttribute("data-tran_id");
+		var trandate = a.getAttribute("data-trandate");
+		var parttran = a.getAttribute("data-parttran");
+
+		location.href = 'AMLMonitoringReports?formmode=edit&tranid=' + tranid
+				+ '&trandate=' + trandate + '&parttran=' + parttran;
+	}
+
+	function alert_verify(a) {
+
+		var tranid = a.getAttribute("data-tran_id");
+		var trandate = a.getAttribute("data-trandate");
+		var parttran = a.getAttribute("data-parttran");
+
+		location.href = 'AMLMonitoringReports?formmode=verify&tranid=' + tranid
+				+ '&trandate=' + trandate + '&parttran=' + parttran;
+	}
+	function delete_btn_submit(a) {
+
+		var srlno = a.getAttribute("data-srl_no");
+		location.href = 'monitoringparameter?formmode=delete&srlno=' + srlno;
+		/* deleteval = srlno;
+		$("#datadelete").modal("toggle"); */
+
+	}
+	function submitformdelete(a) {
+
+		var tranid = a.getAttribute("data-tran_id");
+
+		location.href = 'monitoringparameter?formmode=delete&tranid=' + tranid;
+
+	};
+	function view_btn_submit(a) {
+		var tranid = a.getAttribute("data-tran_id");
+		var trandate = a.getAttribute("data-trandate");
+		var parttran = a.getAttribute("data-parttran");
+
+		location.href = 'AMLMonitoringReports?formmode=view&tranid=' + tranid
+				+ '&trandate=' + trandate + '&parttran=' + parttran;
+
+	}
+
+	function finuser(a) {
+
+		/* alert("dbfvch"+a.id); */
+		$("#finusers").modal("hide");
+
+		$("#rule_code").val(a.id);
+		var rulecode = a.id;
+
+		$.ajax({
+			type : 'get',
+			url : "/AML/getRuleCode/" + rulecode,
+
+			success : function(response) {
+
+				$("#rule_code_desc").val(response);
+
+			}
+
+		});
+
+	}
+
+
+
+		function search() {
+			var Fromdate = document.getElementById('Fromdate').value;
+			var Todate = document.getElementById('Todate').value;
+			var freeText = document.getElementById('searchbox').value;
+
+			location.href = 'AMLMonitoringReports?formmode=Search&Fromdate=' + Fromdate + '&Todate=' + Todate + '&freeText=' + freeText;
+
+
+		}
+
+		$(function () {
+		$("#Fromdate").datepicker({
+			//changeMonth : true,
+			//changeYear : true,
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+			//	$("#Todate").datepicker("option", "minDate", dt);
+
+			}
+		});
+		$("#Todate")
+				.datepicker(
+						{
+							changeMonth : true,
+							changeYear : true,
+							
+							dateFormat : "dd/mm/yy",
+							onSelect : function(selected) {
+								var dt = new Date(selected);
+								dt.setDate(dt.getDate() - 1);
+								var Fromdate = document
+										.getElementById("Fromdate").value;
+								var Todate = document.getElementById("Todate").value;
+								if (Fromdate == "" ) {
+									alert("Enter From date");
+								}else if(Todate == ""){
+									
+								}
+								else {
+							
+									 // alert(Date.parse(Fromdate) +" "+ Date.parse(Todate));
+									    if ((Date.parse(Fromdate) >= Date.parse(Todate))) {
+									        document.getElementById("Todate").value = "";
+									        $("#datealertmsg").text("To Date should be greater than From Date");
+
+											$('#datealert').modal("toggle");
+									    }else{
+									    	location.href = 'AMLMonitoringReports?formmode=datefilter&Fromdate='
+												+ Fromdate + '&Todate=' + Todate;
+									    }
+								
+									
+									
+								//var freeText = '';
+							//	location.href = 'AMLMonitoringReports?formmode=datefilter&Fromdate=' + Fromdate + '&Todate=' + Todate + '&freeText=' + freeText;
+								}
+
+								//$("#period_start_date").datepicker("option", "maxDate", dt);
+							}
+						});
+	});
+		
+	/* 	$(function() {
+
+			var table = $('#usertable').DataTable();
+	     // #myInput is a <input type="text"> element
+			$('#data').on('keyup', function() {
+				table.search(this.value).draw();
+			});
+		}); */
+	 
+		function fnClick(a) {
+			$("#loadermodal").modal("toggle");
+			var acid = a.getAttribute("data-acid");
+			var Fromdate = a.getAttribute("data-fromdate");
+			/* var parttranid = a.getAttribute("data-part_tran_id"); */
+			var Todate = a.getAttribute("data-todate");
+			var alertcode = a.getAttribute("data-alertcode");
+			
+			location.href = 'AMLMonitoringReports?formmode=rulefilter&Fromdate='
+				+ Fromdate + '&Todate=' + Todate +'&alertcode='+alertcode + '&acid=' +acid;
+
+		}
+	/*]]>*/
+</script>
+
+</head>
+
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('AMLMonitoringReports')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+
+				<div th:if="${formmode}=='list' OR ${formmode}=='datefilter' OR ${formmode}=='Search'"
+					class="container content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle" style="height: 50px;">
+								<b th:text="${menuname}"></b>
+
+								<!-- <div class="btn-group nav-buttons float-right">
+									<button type="button" class="btn btn-xs btn-primary "
+										onclick='alert_add(this)' th:attr="frmode=add">Add
+										Rule</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnInq" onclick="list()" style="border-color: #66dbe0;">List</button>
+								</div> -->
+							</div>
+
+
+							<div class="row formline">
+								<label style="height: 2px;"></label>
+							</div>
+
+
+
+							<div class="row formline">
+								<div class="col-sm-1"></div>
+								<div class="col-sm-1"></div>
+
+								<div class="col-sm-1">
+									<label for="CUSTID">From Date</label>
+								</div>
+
+								<div class="col-sm-2">
+									<input type="text" id="Fromdate" th:value="${Fromdate}"
+										class="form-control form-control-sm" name="cust_id"
+										autocomplete="off" />
+								</div>
+								<div class="col-sm-1"></div>
+
+								<div class="col-sm-1">
+									<label for="custName">To Date</label>
+								</div>
+
+								<div class="col-sm-2">
+									<input type="text" id="Todate" name="cust_name"
+										th:value="${Todate}" class="form-control form-control-sm"
+										autocomplete="false" required />
+								</div>
+							</div>
+
+
+							<!-- search box -->
+
+							<div class="row formline">
+							
+<div class="col-sm-9"></div>
+							<div class="col-sm-2">
+								<input type="text" id="searchbox" th:value="${freeText}"name="searchbox" class="form-control form-control-sm"
+									autocomplete="false" required />
+								
+							</div>
+							<div class="col-sm-1">
+								<button type="button" class="btn btn-primary" onclick="search();">search</button>
+
+							</div>
+
+</div>
+
+
+
+
+
+								<table class="table table-bordered  table-hover table-sm" style="width: 100%"
+									id="usertable">
+								<thead class="thead-light">
+
+									<tr>
+										<th style="width:7%;">Tran Date</th>
+										<!-- <th></th> -->
+										<th>Tran ID</th>
+										<th>Tran Type</th>
+										<th>Sub Type</th>
+										<th>Part Tran</th>
+										<th>Currency</th>
+										<th>Amount</th>
+										<th>Customer ID</th>
+										<th>Account No</th>
+										<th>Account Name</th>
+										<th>Tran Particular</th>
+										<th>Rule</th>
+
+										<th>Amount</th>
+										<th>Select</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:if="${MonitoringParameterList.totalPages} == '0'">
+										
+										<td colspan="14" style="text-align: left; color: red">No
+											Record available for this Period</td>
+									</tr>
+									<tr th:each="alert: ${MonitoringParameterList.content}"
+										th:attr="data-tran_id=${alert.tran_id}"
+										th:id="${alert.tran_id}" class="userlist">
+
+										<td
+											th:text="${#dates.format(alert.tran_date,'dd/MM/yyyy')}">CHENNAI</td>
+
+
+										<td th:text="${alert.tran_id}"></td>
+										<th:block th:switch="${alert.tran_type}">
+											<td th:case="'C'">Cash</td>
+											<td th:case="'T'">Transfer</td>
+										</th:block>
+
+										<th:block th:switch="${alert.tran_sub_type}">
+											<td th:case="'NR'">Normal Receipt</td>
+											<td th:case="'NP'">Normal Payment</td>
+											<td th:case="'IP'">Interest Paid</td>
+											<td th:case="'I'">Inward</td>
+											<td th:case="'CI'">Customer Induced</td>
+											<td th:case="'BI'">Bank Induced</td>
+											<td th:case="'IC'">Interest Collected</td>
+											<td th:case="'BS'">Customer Induced</td>
+											<td th:case="'SC'">Service Charge</td>
+										</th:block>
+										<th:block th:switch="${alert.part_tran_type}">
+											<td th:case="'D'">Debit</td>
+											<td th:case="'C'">Credit</td>
+										</th:block>
+
+										<td th:text="${alert.tran_crncy_code}"></td>
+										<td
+										
+											th:text="${#numbers.formatDecimal(alert.tran_amt 	,1,'COMMA',2,'POINT')}" style="text-align: right;"></td>
+										<td th:text="${alert.cust_id}"></td>
+										<td th:text="${alert.foracid}"></td>
+										<td th:text="${alert.acct_name}"></td>
+										<td th:text="${alert.tran_particulars}"></td>
+										<td th:text="${alert.alert_code}"></td>
+										<td	class="underline" onclick="fnClick(this);"
+										th:attr="data-acid=${alert.acid},data-fromdate =${#dates.format(alert.alert_from_date,'dd/MM/yyyy')},data-alertcode=${alert.alert_code},data-todate=${#dates.format(alert.aert_date,'dd/MM/yyyy')} "th:text="${#numbers.formatDecimal(alert.celling_amount 	,1,'COMMA',2,'POINT')}" style="text-align: right;"></td>
+
+										<!-- <th:block th:switch="${alert.entity_flag}">
+											<td th:case="'Y'" style="color: green;">Verified</td>
+											<td th:case="'N'" style="color: red;">UnVerified</td>
+											<td th:case="''" style="color: red;">UnVerified</td>
+										</th:block>
+										 --><td>
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle"
+													type="button" id="dropdownMenuButton"
+													style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">Action</button>
+												<div class="dropdown-menu"
+													aria-labelledby="dropdownMenuButton"
+													style="background-color: #e3e3e4; color: #3a4550;">
+
+													<a
+														th:attr="data-tran_id=${alert.aml_tran_ref_no},data-trandate = ${#dates.format(alert.tran_date, 'dd-MMM-yyyy')},data-parttran =${alert.part_tran_srl_num}"
+														class="dropdown-item" title="Inquiry"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														onclick="view_btn_submit(this)" id="view_btn">Inquiry
+													</a>
+													<div class="dropdown-divider"></div>
+													<a
+														th:attr="data-tran_id=${alert.aml_tran_ref_no},data-trandate = ${#dates.format(alert.tran_date, 'dd-MMM-yyyy')},data-parttran =${alert.part_tran_srl_num}"
+														class="dropdown-item" title="Modify"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
+
+													<!-- <a th:attr="frmode=add"
+														class="dropdown-item" style="cursor: pointer;"
+														id="edit_value" onclick="'alert_add(this)'">Add</a> -->
+
+
+													<!-- <a th:attr="data-tran_id=${alert.tran_id}"
+														class="dropdown-item" title="Delete"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4;height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														onclick="delete_btn_submit(this)" id="delete_value">Delete</a> -->
+													<div class="dropdown-divider"
+														th:if="${alert.entity_flag}=='N'"></div>
+													<a th:if="${alert.entity_flag}=='N'"
+														th:attr="data-tran_id=${alert.aml_tran_ref_no},data-trandate = ${#dates.format(alert.tran_date, 'dd-MMM-yyyy')},data-parttran =${alert.part_tran_srl_num}"
+														class="dropdown-item" title="Verify"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														id="verify_value" onclick="alert_verify(this)">Verify</a>
+
+													<!-- <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button> -->
+
+												</div>
+											</div>
+										</td>
+										<!-- <td th:text="${#numbers.formatDecimal(account.clr_bal_amt,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td> -->
+
+									</tr>
+								</tbody>
+							</table>
+
+
+
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+							<div class="float-right"
+								th:if="${MonitoringParameterList.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${MonitoringParameterList.number},${MonitoringParameterList.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${MonitoringParameterList.number+1}"
+									th:onchange="|getUserlist('givenpage',${MonitoringParameterList.number},${MonitoringParameterList.totalPages});|"></input>
+								of <font th:text="${MonitoringParameterList.totalPages}"></font>
+								<a href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${MonitoringParameterList.number},${MonitoringParameterList.totalPages});|"></i></a>
+							</div>
+
+
+						</div>
+						<div class="text-center"
+							style="background-color: #386276; padding: 5px; width: 100%;">
+
+							<div class="btn-group nav-buttons " style="align: center;">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div
+					th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete' OR ${formmode}=='rulefilter'"
+					class="container content">
+					<div class="row">
+						<div class="col-sm-12 ">
+
+							<form action="#" th:object="${MonitorParameter}" method="POST"
+								autocomplete="off" id="MonitorParameter">
+								<div class="card">
+									<div class="card-header">
+										<div class="float-left">
+											<b th:text="${menuname1}"></b> <input type="hidden"
+												th:value="${formmode}" id="formmode1" style="display: none;">
+										</div>
+
+										<div class="btn-group nav-buttons float-right">
+											<!-- <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button> -->
+											<button type="button" class="btn btn-xs btn-primary btns"
+												id="btnInq" onclick="list()">List</button>
+										</div>
+
+									</div>
+									<div class="card-body">
+
+										<input autocomplete="false" name="hidden" type="text"
+											style="display: none;">
+										<div class="form-group">
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="aml_tran_ref_no">AML Tran Ref No</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.aml_tran_ref_no}"
+														id="aml_tran_ref_no" class="form-control form-control-sm"
+														name="aml_tran_ref_no" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.aml_tran_ref_no}"
+														id="aml_tran_ref_no1" class="form-control form-control-sm"
+														name="aml_tran_ref_no" autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="sol_id">Sol ID</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text" th:value="${MonitorParameter?.sol_id}"
+														id="sol_id" class="form-control form-control-sm"
+														name="sol_id" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text" th:value="${MonitorParameter?.sol_id}"
+														id="sol_id" class="form-control form-control-sm"
+														name="sol_id" autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="tran_date">Tran Date</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${#dates.format(MonitorParameter.tran_date,'dd/MM/yyyy')}"
+														id="tran_date" class="form-control form-control-sm"
+														name="tran_date" autocomplete="off" readonly>
+												</div>
+											<!-- 	<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter.tran_date}"
+														id="tran_date" class="form-control form-control-sm"
+														name="tran_date" autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="value_date">Value Date</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+												
+														th:value="${#dates.format(MonitorParameter.tran_date,'dd/MM/yyyy')}"
+														id="value_date" class="form-control form-control-sm"
+														name="value_date" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.value_date}" id="value_date"
+														class="form-control form-control-sm" name="value_date"
+														autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="tran_type">Tran Type</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete' OR ${formmode}=='edit' ">
+													<input type="text"
+														th:if="${MonitorParameter?.tran_type} =='C'"
+														id="tran_type" value="Cash"
+														class="form-control form-control-sm" name="tran_type"
+														autocomplete="off" readonly> <input type="text"
+														th:if="${MonitorParameter?.tran_type} =='T'"
+														id="tran_type" value="Transfer"
+														class="form-control form-control-sm" name="tran_type"
+														autocomplete="off" readonly>
+												</div>
+											<!-- 	<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR  ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.tran_type}" id="tran_type"
+														class="form-control form-control-sm" name="tran_type"
+														autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="tran_sub_type">Tran Sub Type</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'OR ${formmode}=='edit'">
+													<input type="text"
+														th:if="${MonitorParameter?.tran_sub_type} =='NP'"
+														value="Normal Payment" id="tran_sub_type"
+														class="form-control form-control-sm" name="tran_sub_type"
+														autocomplete="off" readonly> <input type="text"
+														th:if="${MonitorParameter?.tran_sub_type} =='NR'"
+														value="Normal Receipt" id="tran_sub_type"
+														class="form-control form-control-sm" name="tran_sub_type"
+														autocomplete="off" readonly> <input type="text"
+														th:if="${MonitorParameter?.tran_sub_type} =='IP'"
+														value="Interest Paid" id="tran_sub_type"
+														class="form-control form-control-sm" name="tran_sub_type"
+														autocomplete="off" readonly> <input type="text"
+														th:if="${MonitorParameter?.tran_sub_type} =='I'"
+														value="Inward" id="tran_sub_type"
+														class="form-control form-control-sm" name="tran_sub_type"
+														autocomplete="off" readonly> <input type="text"
+														th:if="${MonitorParameter?.tran_sub_type} =='CI'"
+														value="Customer Induced" id="tran_sub_type"
+														class="form-control form-control-sm" name="tran_sub_type"
+														autocomplete="off" readonly> <input type="text"
+														th:if="${MonitorParameter?.tran_sub_type} =='BI'"
+														value="Bank Induced" id="tran_sub_type"
+														class="form-control form-control-sm" name="tran_sub_type"
+														autocomplete="off" readonly> <input type="text"
+														th:if="${MonitorParameter?.tran_sub_type} =='IC'"
+														value="Interest Collected" id="tran_sub_type"
+														class="form-control form-control-sm" name="tran_sub_type"
+														autocomplete="off" readonly> <input type="text"
+														th:if="${MonitorParameter?.tran_sub_type} =='BS'"
+														value="Customer Induced" id="tran_sub_type"
+														class="form-control form-control-sm" name="tran_sub_type"
+														autocomplete="off" readonly> <input type="text"
+														th:if="${MonitorParameter?.tran_sub_type} =='SC'"
+														value="Service Charge" id="tran_sub_type"
+														class="form-control form-control-sm" name="tran_sub_type"
+														autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3"
+													th:if=" ${formmode}=='edit' OR ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.tran_sub_type}"
+														id="tran_sub_type" class="form-control form-control-sm"
+														name="tran_sub_type" autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="part_tran_type">Part Tran Type</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:if="${MonitorParameter?.part_tran_type} =='C'"
+														value="Credit" id="part_tran_type"
+														class="form-control form-control-sm" name="part_tran_type"
+														autocomplete="off" readonly> <input type="text"
+														th:if="${MonitorParameter?.part_tran_type} =='D'"
+														value="Debit" id="part_tran_type"
+														class="form-control form-control-sm" name="part_tran_type"
+														autocomplete="off" readonly>
+												</div>
+											<!-- 	<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.part_tran_type}"
+														id="part_tran_type" class="form-control form-control-sm"
+														name="part_tran_type" autocomplete="off" readonly>
+												</div>
+ -->
+												<div class="col-sm-1"></div>
+												<div class="col-sm-2">
+													<label for="schm_code">Scheme Code</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.schm_code}" id="schm_code"
+														class="form-control form-control-sm" name="schm_code"
+														autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.schm_code}" id="schm_code"
+														class="form-control form-control-sm" name="schm_code"
+														autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="tran_id">Tran ID</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter.tran_id}"
+														id="tran_id" class="form-control form-control-sm"
+														name="tran_id" autocomplete="off" readonly>
+												</div>
+											<!-- 	<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter.tran_id}"
+														id="tran_id" class="form-control form-control-sm"
+														name="tran_id" autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="part_tran_srl_num">Part Tran Srl No</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter.part_tran_srl_num}"
+														id="part_tran_srl_num"
+														class="form-control form-control-sm"
+														name="part_tran_srl_num" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter.part_tran_srl_num}"
+														id="part_tran_srl_num"
+														class="form-control form-control-sm"
+														name="part_tran_srl_num" autocomplete="off" readonly>
+												</div> -->
+											</div>
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+
+
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="part_tran_srl_num">Tran Currency</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter.tran_crncy_code}"
+														id="part_tran_srl_num"
+														class="form-control form-control-sm"
+														name="part_tran_srl_num" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter.tran_crncy_code}"
+														id="part_tran_srl_num"
+														class="form-control form-control-sm"
+														name="part_tran_srl_num" autocomplete="off" readonly>
+												</div>
+ -->
+												<div class="col-sm-1"></div>
+												<div class="col-sm-2">
+													<label for="tran_id">Transaction Amount</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${#numbers.formatDecimal(MonitorParameter.tran_amt 	,1,'COMMA',2,'POINT')}"
+														 id="tran_id"
+														class="form-control form-control-sm" name="tran_id"
+														autocomplete="off" readonly>
+												</div>
+											<!-- 	<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text" th:value="${MonitorParameter.tran_amt}"
+														id="tran_id" class="form-control form-control-sm"
+														name="tran_id" autocomplete="off" readonly>
+												</div> -->
+
+
+
+
+											</div>
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="tran_particulars">Tran Particular</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.tran_particulars}"
+														id="tran_particulars" class="form-control form-control-sm"
+														name="tran_particulars" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.tran_particulars}"
+														id="tran_particulars" class="form-control form-control-sm"
+														name="tran_particulars" autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="srl_no">Transaction Remarks</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.tran_remarks}"
+														id="tran_remarks" class="form-control form-control-sm"
+														name="tran_remarks" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.tran_remarks}"
+														id="tran_remarks" class="form-control form-control-sm"
+														name="tran_remarks" autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="tran_code">Tran Code</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.tran_code}" id="tran_code"
+														class="form-control form-control-sm" name="tran_code"
+														autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.tran_code}" id="tran_code"
+														class="form-control form-control-sm" name="tran_code"
+														autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="tran_particular_code">Tran Particular
+														Code</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.tran_particular_code}"
+														id="tran_particular_code"
+														class="form-control form-control-sm"
+														name="tran_particular_code" autocomplete="off" readonly>
+												</div>
+											<!-- 	<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.tran_particular_code}"
+														id="tran_particular_code"
+														class="form-control form-control-sm"
+														name="tran_particular_code" autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="cust_id">Customer ID</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text" th:value="${MonitorParameter?.cust_id}"
+														id="cust_id" class="form-control form-control-sm"
+														name="cust_id" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text" th:value="${MonitorParameter?.cust_id}"
+														id="cust_id" class="form-control form-control-sm"
+														name="cust_id" autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="acct_name">Customer Name</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.acct_name}" id="acct_name"
+														class="form-control form-control-sm" name="acct_name"
+														autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.acct_name}" id="acct_name"
+														class="form-control form-control-sm" name="acct_name"
+														autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="foracid">Account No</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text" th:value="${MonitorParameter?.foracid}"
+														id="foracid" class="form-control form-control-sm"
+														name="foracid" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text" th:value="${MonitorParameter?.foracid}"
+														id="foracid" class="form-control form-control-sm"
+														name="foracid" autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="acct_name">Account Name</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+												
+													
+													<input type="text" 
+														th:value="${MonitorParameter?.acct_name}" id="acct_name"
+														class="form-control form-control-sm" name="acct_name"
+														autocomplete="off" readonly>
+												</div>
+											<!-- 	<div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.acct_name}" id="acct_name"
+														class="form-control form-control-sm" name="acct_name"
+														autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="gl_sub_head_code">GL Sub Head Code</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.gl_sub_head_code}"
+														id="gl_sub_head_code" class="form-control form-control-sm"
+														name="gl_sub_head_code" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.gl_sub_head_code}"
+														id="gl_sub_head_code" class="form-control form-control-sm"
+														name="gl_sub_head_code" autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="srl_no">Scheme Type</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.schm_type}" id="schm_type"
+														class="form-control form-control-sm" name="schm_type"
+														autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.schm_type}" id="schm_type"
+														class="form-control form-control-sm" name="schm_type"
+														autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="entry_user_id">Entry User</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.entry_user_id}"
+														id="entry_user_id" class="form-control form-control-sm"
+														name="entry_user_id" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.entry_user_id}"
+														id="entry_user_id" class="form-control form-control-sm"
+														name="entry_user_id" autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="entry_date">Entry Date</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${#dates.format(MonitorParameter?.entry_date,'dd/MM/yyyy')}"
+														id="entry_date" class="form-control form-control-sm"
+														name="entry_date" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.entry_date}" id="entry_date"
+														class="form-control form-control-sm" name="entry_date"
+														autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="pstd_user_id">Posted User</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.pstd_user_id}"
+														id="pstd_user_id" class="form-control form-control-sm"
+														name="pstd_user_id" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.pstd_user_id}"
+														id="pstd_user_id" class="form-control form-control-sm"
+														name="pstd_user_id" autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="pstd_date">Posted Date</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${#dates.format(MonitorParameter?.pstd_date,'dd/MM/yyyy')}"
+														id="pstd_date" class="form-control form-control-sm"
+														name="pstd_date" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.pstd_date}" id="pstd_date"
+														class="form-control form-control-sm" name="pstd_date"
+														autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="vfd_user_id">Verified User</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.vfd_user_id}"
+														id="vfd_user_id" class="form-control form-control-sm"
+														name="vfd_user_id" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.vfd_user_id}"
+														id="vfd_user_id" class="form-control form-control-sm"
+														name="vfd_user_id" autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="vfd_date">Verified Date</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${#dates.format(MonitorParameter?.vfd_date,'dd/MM/yyyy')}"
+														id="vfd_date" class="form-control form-control-sm"
+														name="vfd_date" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text" th:value="${MonitorParameter?.vfd_date}"
+														id="vfd_date" class="form-control form-control-sm"
+														name="vfd_date" autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="alert_code">Alert Type</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text" id=""
+														class="form-control form-control-sm" name=""
+														autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.alert_code}" id="alert_code"
+														class="form-control form-control-sm" name="alert_code"
+														autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="aert_date">Alert Date</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${#dates.format(MonitorParameter?.aert_date,'dd/MM/yyyy')}"
+														id="aert_date" class="form-control form-control-sm"
+														name="aert_date" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.aert_date}" id="aert_date"
+														class="form-control form-control-sm" name="aert_date"
+														autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="alert_code">Alert Code</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.alert_code}" id="alert_code"
+														class="form-control form-control-sm" name="alert_code"
+														autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.alert_code}" id="alert_code"
+														class="form-control form-control-sm" name="alert_code"
+														autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="alert_remarks">Alert Descriptions</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													
+													<input type="text" th:value="${MonitorParameter?.alert_desc}"
+														id="alert_desc" class="form-control form-control-sm"
+														name="alert_desc" autocomplete="off" readonly>
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+
+														th:value="${MonitorParameter?.alert_desc}"
+														id="alert_remarks" class="form-control form-control-sm"
+														name="alert_remarks" autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="alert_remarks">Alert Remarks</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.alert_remarks}"
+														id="alert_remarks" class="form-control form-control-sm"
+														name="alert_remarks" autocomplete="off">
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.alert_remarks}"
+														id="alert_remarks" class="form-control form-control-sm"
+														name="alert_remarks" autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="user_observations">User Observations</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.user_observations}"
+														id="user_observations"
+														class="form-control form-control-sm"
+														name="user_observations" autocomplete="off">
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.user_observations}"
+														id="user_observations"
+														class="form-control form-control-sm"
+														name="user_observations" autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="str_ref">STR Reference</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text" th:value="${MonitorParameter?.str_ref}"
+														id="str_ref" class="form-control form-control-sm"
+														name="str_ref" autocomplete="off">
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text" th:value="${MonitorParameter?.str_ref}"
+														id="str_ref" class="form-control form-control-sm"
+														name="str_ref" autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="case_ref">Case Reference</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text" th:value="${MonitorParameter?.case_ref}"
+														id="case_ref" class="form-control form-control-sm"
+														name="case_ref" autocomplete="off">
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text" th:value="${MonitorParameter?.case_ref}"
+														id="case_ref" class="form-control form-control-sm"
+														name="case_ref" autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+											</div>
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label for="free_field_1">Free Text 1</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.free_field_1}"
+														id="free_field_1" class="form-control form-control-sm"
+														name="free_field_1" autocomplete="off">
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.free_field_1}"
+														id="free_field_1" class="form-control form-control-sm"
+														name="free_field_1" autocomplete="off" readonly>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+
+												<div class="col-sm-2">
+													<label for="free_field_2">Free Text 2</label>
+												</div>
+												<div class="col-sm-3"
+													th:if="${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'">
+													<input type="text"
+														th:value="${MonitorParameter?.free_field_2}"
+														id="free_field_2" class="form-control form-control-sm"
+														name="free_field_2" autocomplete="off">
+												</div>
+												<!-- <div class="col-sm-3" th:if=" ${formmode}=='add' ">
+													<input type="text"
+														th:value="${MonitorParameter?.free_field_2}"
+														id="free_field_2" class="form-control form-control-sm"
+														name="free_field_2" autocomplete="off" readonly>
+												</div> -->
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+
+											</div>
+
+											<div class="card-footer text-center" style="height: 38px;">
+
+
+												<button th:if="${formmode}=='verify'" type="button"
+													class="btn btn-xs btn-primary" style="margin-top: -12px;"
+													onclick="verifyform(this);" form="MonitorParameter"
+													id="btnVerify" th:attr="data-formmode=${formmode}">Verify</button>
+
+												<button th:if="${formmode}=='edit' OR ${formmode}=='add'"
+													type="button" style="margin-top: -12px;"
+													class="btn btn-xs btn-primary" onclick="submitform(this);"
+													form="MonitorParameter" id="btnSubmit"
+													th:attr="data-formmode=${formmode}">Submit</button>
+
+												<button type="button" class="btn btn-xs btn-primary"
+													id="btnHome" style="margin-top: -12px;" onclick="home1();">Home</button>
+
+												<button type="button" class="btn btn-xs btn-primary"
+													id="btnBack" style="margin-top: -12px;" onclick="back1();">Back</button>
+
+											</div>
+
+										</div>
+							</form>
+
+						</div>
+					</div>
+				</div>
+
+				<!------------------------Pop window - Domain  list Ends--------------------------------->
+
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<div class="modal fade" id="datadelete">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to delete?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitformdelete(this);"
+									th:attr="data-formmode=delete">Submit</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="dataHome">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to Leave?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" onclick="home();">Yes</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">No</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="dataBack">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to Leave?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" onclick="back();">Yes</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">No</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+				<div class="modal fade" id="alert">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="alertmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal" onclick="list();">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="datealert">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="datealertmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal" >Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="verifybox">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="verifyboxmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="finusers" data-backdrop="static"
+					data-keyboard="false">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="border: 2px solid black;width:250%">
+
+							<!-- Modal Header -->
+							<div class="modal-header" style="background-color: #386276;">
+								<h4 class="modal-title" style="font-size: 20px !Important;">Transaction Inquiry</h4>
+								<button type="button" class="close" data-dismiss="modal" onclick="back();">×</button>
+								<input type="hidden" id="Fromdatesearch" th:value="${Fromdate}">
+								<input type="hidden" id="Todatesearch" th:value="${Todate}">
+								<input type="hidden" id="AlertCodeSearch" th:value="${AlertCode}">
+								<input type="hidden" id="AcidSearch" th:value="${acid}">
+							</div>
+
+							<!-- Modal body -->
+							<div class="modal-body" style="background-color: #e6eaed;">
+								<table class="table table-hover" id="finusertb">
+									<thead class="thead-light" style="background-color: #386276;">
+										<tr>
+											<th
+												style="color: #ffffff; width: 100px; background-color: #386276; border-color: #495561; font-size: 15px;">Tran ID</th>
+											<th
+												style="color: #ffffff; width: 300px; background-color: #386276; border-color: #495561; font-size: 15px;">Acct Name</th>
+											<th
+												style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 15px;">Tran Date</th>
+											<th
+												style="color: #ffffff; width: 100px; background-color: #386276; border-color: #495561; font-size: 15px;">Tran Type</th>
+											<th
+												style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 15px;">Tran Sub Type</th>
+											<th
+												style="color: #ffffff; width: 200px; background-color: #386276; border-color: #495561; font-size: 15px;">Tran Amount</th>
+											<th
+												style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 15px;">Tran Particular</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="alert: ${TransactionMaster}"
+											th:id="${alert.transactionmasterembeddedid.tran_id}" th:onclick="finuser(this)"
+											class="userlist1">
+											<td style="color: black;" th:text="${alert.transactionmasterembeddedid.tran_id}"></td>
+											<td style="color: black;" th:text="${alert.aCCT_MASTER.acct_name}"></td>
+											
+											<td style="color: black;"th:text="${#dates.format(alert.tran_date,'dd/MM/yyyy')}"></td>
+											<td style="color: black;" th:text="${alert.tran_type}"></td>
+											<td style="color: black;" th:text="${alert.tran_sub_type}"></td>
+											<td style="color: black;" th:text="${alert.tran_amt}"></td>
+											<td style="color: black;" th:text="${alert.tran_particular}"></td>
+										</tr>
+									</tbody>
+								</table>
+								<div th:if="${formmode}=='rulefilter'">
+								<div class="float-right"
+								th:if="${TransactionMaster.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlistserach('prevpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${TransactionMaster.number+1}"
+									th:onchange="|getUserlistserach('givenpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></input>
+								of <font th:text="${TransactionMaster.totalPages}"></font>
+								<a href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlistserach('nextpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></i></a>
+							</div></div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+</body>
+</html>

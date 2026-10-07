@@ -1,0 +1,342 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : rbs report
+CREATED BY	: Yeshwant
+CREATED ON	: 21-may-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+
+<script src="js/bootstrap411.js"></script>
+
+<style type="text/css">
+.btn {
+	line-height: 0.5rem;
+}
+
+.dropdown-menu a:hover {
+	background-color: black;
+}
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+</style>
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script th:inline="javascript">
+	/*<![CDATA[*/
+		
+		var reportlist = /*[[${reportlist}]]*/null;
+		var fromdate = /*[[${fromDate}]]*/null;
+		var todate = /*[[${toDate}]]*/null;
+	
+		function showReportName() {
+			
+			var fun = $('#function :selected').val();
+			var selectedIndex = $("#reportlist option:selected").index();
+			
+			var report = reportlist[selectedIndex - 1];
+			var reportname = report.reportid;
+			
+			$("#repname").val(report.reportname);
+			$("#repname").text(report.reportname);
+
+		};
+		
+		
+		$(function(){
+			var reportmodal = /*[[${reportmodal}]]*/null;
+			if (reportmodal == 'Y') {
+
+				$("#finusers").modal("toggle");
+				
+				 $('#finusers').modal({
+						backdrop: 'static',
+						keyboard:'false'
+					})
+			};
+			$.validator.addMethod("valueNotEquals", function(value, element, arg){
+				  return arg !== value;
+				 }, "Please Select");
+			
+			 $("#reportform").validate({
+				 rules: {
+					 reportid: { valueNotEquals: "Select" }
+				 },
+				  messages: {
+					  reportid : { valueNotEquals: "Please Select a Report Id" }
+				  },
+				  submitHandler: function(form){
+					  var selectedIndex = $("#reportlist option:selected").index();
+					  var report = reportlist[selectedIndex - 1];
+					  
+					  var Callurl;
+					 
+						
+						var reportid=report.reportid;
+						
+						$("#reportform").attr('action', 'Reports/' + reportid +'?dtltype=report' +'&fromdate=' + fromdate + '&todate=' + todate);
+					  
+						Callurl =  './Reports/' + report.reportid + '/Precheck?fromdate=' + fromdate + '&todate=' + todate;
+						
+						$.ajax({
+							type : 'get',
+							url : Callurl,
+							success : function(data) {
+								if (data == 'success') {
+									form.submit();
+								} else {
+									$("#alertmsg").text(data);
+									$("#alert").modal("toggle");
+								}
+
+							}
+						});
+					  
+					  
+					  
+					  
+				  }
+				 
+			 })
+			 
+			
+		});
+		
+		function getReport(a){
+			var reportid = a.getAttribute("data-rptcode");
+			var repdesc = a.getAttribute("data-report_desc");
+			location.href = 'rbsarchivalform?reportid=' + reportid + '&repdesc='+repdesc;
+
+		//	$("#finusers").modal("toggle");
+		}
+		function getReport1(a){
+		
+			var fromdate =a.getAttribute("data-from");
+			var todate =a.getAttribute("data-to");
+		
+			var reportid = $("#rep_code_id").val();
+			
+			//var reportid = a.getAttribute("data-rptcode");
+			  var selectedIndex = $("#reportlist option:selected").index();
+			  var report = reportlist[selectedIndex - 1];
+			  
+			  var Callurl;
+			 
+			  var form = $('#reportform')[0];
+
+			    
+				var type='ARCHIVAL';
+				
+				
+				
+				
+				//$("#reportform").attr('action', 'Reports/' + reportid +'?dtltype=report' +'&fromdate=' + fromdate + '&todate=' + todate);
+				$("#reportform").attr('action', 'Reports/' + reportid +'?dtltype=report' +'&fromdate=' + fromdate + '&todate=' + todate + '&type=' +type);
+				form.submit();
+				console.log("formsubmit");
+			//	Callurl =  './Reports/' + reportid + '/Precheck?fromdate=' + fromdate + '&todate=' + todate;
+				
+				/* $.ajax({
+					type : 'get',
+					url : Callurl,
+					success : function(data) {
+						if (data == 'success') {
+							$("#reportform").attr('action', 'Reports/' + reportid +'?dtltype=report' +'&fromdate=' + fromdate + '&todate=' + todate);
+
+
+							form.submit();
+						} else {
+							$("#alertmsg").text(data);
+							$("#alert").modal("toggle");
+						}
+
+					}
+				}); */
+			  
+			  
+			  
+			  
+		  }
+
+	
+
+	/*]]>*/
+</script>
+
+</head>
+
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 5%;"
+		aria-hidden="true" onclick="docEmb('RBSARCHIVAL')" id="ques"></i>
+
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+			<form class="form-horizontal" method="post" name="CriteriaForm"
+					id="reportform">
+				<div class="content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle">
+								<b>RBS ARCHIVAL</b>
+							</div>					
+							<div class="card-body" style="height: 740px;">
+						<table class="table table-bordered  table-hover table-sm"
+								style="width: 100%" id="usertable">
+								<thead class="thead-light">
+
+									<tr>
+										<!-- <th></th> -->
+										<th style="width: 7%;">Report Code</th>
+										<th style="width: 47%;">Report Name</th>
+										<!-- <th style="width: 9%;">Start Date</th>
+										<th style="width: 9%;">End Date</th>
+										 --><th style="width: 10%;">Report Type</th>
+										<th style="width: 8%;">Detail Flag</th>
+										<th style="width: 10%;">Status</th>
+
+
+									</tr>
+								</thead>
+								<tbody id="CustomerInq">
+									<tr th:if="${COUNT} == '0'">
+										<td colspan="9" style="text-align: center; color: red">No
+											Data Found</td>
+									</tr>
+									<tr th:each="userProfile : ${reportlist}"
+										th:attr="data-cust_id=${userProfile.srl_no}"
+										th:id="${userProfile.srl_no}" class="userlist">
+
+
+
+										<td class="underline" onclick="getReport(this);"
+											th:attr="data-rptcode=${userProfile.rpt_code},data-report_desc = ${userProfile.rpt_description}"
+											th:text="${userProfile.rpt_code}"></td>
+
+										<td th:text="${userProfile.rpt_description}"></td>
+										<!-- <td th:text="${#dates.format(userProfile.cur_qtr_start_date, 'dd/MM/yyyy')}"></td>
+										<td th:text="${#dates.format(userProfile.cur_qtr_end_date, 'dd/MM/yyyy')}"></td> -->
+										<td th:text="${userProfile.rpt_type}"></td>
+										<td th:text="${userProfile.det_flg}"></td>
+										<td th:text="${userProfile.rpt_status}"></td>
+
+									</tr>
+								</tbody>
+							</table>
+
+						
+
+						</div>
+						<div class="card-footer text-center">
+
+							
+
+
+						</div>
+					</div>
+			</div>
+		</div></form>
+	</div>
+</div>
+</div>
+
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="finusers">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="border: 2px solid black;">
+
+							<!-- Modal Header -->
+							<div class="modal-header">
+								<h4 class="modal-title">RBS ARCHIVAL</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+
+							<!-- Modal body -->
+							<div class="modal-body" style="background-color: #e6eaed;">
+							<input type="hidden" th:value="${reportid}" id ="rep_code_id">
+								<table class="table table-hover" id="finusertb">
+									<thead class="thead-light" style="background-color: #386276;">
+										<tr>
+											<th>Report Describition</th>
+											<th>Report Date</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="userProfile : ${reportDATE}"
+											th:attr="data-repcode=${reportid},data-from = ${#dates.format(userProfile.rep_period_from, 'dd/MM/yyyy')},data-to=${#dates.format(userProfile.rep_period_to, 'dd/MM/yyyy')}"
+											th:id="${userProfile.report_date}" class="userlist"
+											th:onclick="getReport1(this)">
+											<td th:text="${repdesc}">123</td>
+											<td th:text="${#dates.format(userProfile.rep_period_to, 'dd/MM/yyyy')}">123</td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="text-center"
+									style="background-color: #386276; padding: 5px; width: 100%;">
+
+									<!-- <div class="btn-group nav-buttons " style="align: center;">
+										
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnBack" onclick="back();">Back</button>
+									</div> -->
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+</body>
+</html>

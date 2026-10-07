@@ -1,0 +1,2853 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!-- 
+MODIFIED BY	: MANIVANNAN B.
+MODIFIED ON	: 04-MARCH-2020
+PURPOSE		: Report TABLE 1 
+ -->
+<html lang="en" >
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/multifreeze/multifreezer.css"
+	th:href="@{/multifreeze/multifreezer.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+		
+		
+		
+		var permission = /*[[${session.PERMISSIONS}]]*/null;
+	
+		var reportsummary = /*[[${reportsummary}]]*/null;
+		
+		var dtltype = /*[[${dtltype}]]*/null;
+		
+		var formmode;
+		
+		//to make the summary button active on load
+		$(function(){
+			
+			console.log(reportsummary);
+			
+			$("#summarybtn").addClass("active");
+
+		});
+
+	/*to show details page - 3 parameters
+		mode - valid values are : nextpage, prevpage, givenpage, firstpage
+		num - page number to show to the user
+		maxpage - maximum number of pages avaialble in the data
+	*/
+
+	
+	//to fetch summary from the database - called from the summary button
+	
+	function home(){
+			location.href = "/AML/rbsreports";
+
+	}
+	
+	
+		function showsummary(mode,num,maxpage) {
+		
+
+		var n=parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Summary'(fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+		
+		switch(mode){
+		case "nextpage":
+			n=n+1;
+			if(n>max){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "prevpage":
+			n=n-1;
+			if(n<0){
+				break;
+			}
+			Callurl = Callurl+"&page="+n;
+			break;
+		case "givenpage":
+			n=parseInt($("#pageno").val())-1;
+			if(n>max||n<0){
+			break;
+			}
+			Callurl = Callurl+"&page="+n;
+		}
+
+		
+	window.location.href=Callurl;
+	}
+	
+	
+	function savereportT1() {
+		
+
+		if ($("#reportForm").valid()) {
+			
+			var url = /*[[@{'/Reports/'+${reportid}+'/Form/T1Input'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+			$("#reportForm").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$('#reportForm').ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+				$('#alert').modal("toggle");
+				submitflg = 'Y';
+
+			}
+
+		} else {
+
+			$("#alertmsg").text("Please fill all Required Fields");
+
+			$('#alert').modal("toggle");
+
+		}
+
+	}
+	
+
+	
+	function edi1(a)  {
+		//alert("its time to edit");
+		$("#hideme1").hide();
+		$("#showme1").show();
+	}
+	
+	function edi2(a)  {
+		//alert("its time to edit");
+		$("#hideme2").hide();
+		$("#showme2").show();
+	}
+	
+	function edi3(a)  {
+		//alert("its time to edit");
+		$("#hideme3").hide();
+		$("#showme3").show();
+	}
+	
+	function edi4(a)  {
+		//alert("its time to edit");
+		$("#hideme4").hide();
+		$("#showme4").show();
+	}
+	
+	function edi5(a)  {
+		//alert("its time to edit");
+		$("#hideme5").hide();
+		$("#showme5").show();
+	}
+	
+	function edi6(a)  {
+		//alert("its time to edit");
+		$("#hideme6").hide();
+		$("#showme6").show();
+	}
+	
+	function edi7(a)  {
+		//alert("its time to edit");
+		$("#hideme7").hide();
+		$("#showme7").show();
+	}
+	
+	function edi8(a)  {
+		//alert("its time to edit");
+		$("#hideme8").hide();
+		$("#showme8").show();
+	}
+	
+	function edi9(a)  {
+		//alert("its time to edit");
+		$("#hideme9").hide();
+		$("#showme9").show();
+	}
+	
+	function edi10(a)  {
+		//alert("its time to edit");
+		$("#hideme10").hide();
+		$("#showme10").show();
+	}
+	
+	function edi11(a)  {
+		//alert("its time to edit");
+		$("#hideme11").hide();
+		$("#showme11").show();
+	}
+	
+
+	
+	function edi12(a)  {
+		//alert("its time to edit");
+		$("#hideme12").hide();
+		$("#showme12").show();
+	}
+	
+	function edi13(a)  {
+		//alert("its time to edit");
+		$("#hideme13").hide();
+		$("#showme13").show();
+	}
+	
+	function edi14(a)  {
+		//alert("its time to edit");
+		$("#hideme14").hide();
+		$("#showme14").show();
+	}
+	
+	function edi15(a)  {
+		//alert("its time to edit");
+		$("#hideme15").hide();
+		$("#showme15").show();
+	}
+	
+	function edi16(a)  {
+		//alert("its time to edit");
+		$("#hideme16").hide();
+		$("#showme16").show();
+	}
+	
+	function edi17(a)  {
+		//alert("its time to edit");
+		$("#hideme17").hide();
+		$("#showme17").show();
+	}
+	
+	function edi18(a)  {
+		//alert("its time to edit");
+		$("#hideme18").hide();
+		$("#showme18").show();
+	}
+	
+	function edi19(a)  {
+		//alert("its time to edit");
+		$("#hideme19").hide();
+		$("#showme19").show();
+	}
+	
+	function edi20(a)  {
+		//alert("its time to edit");
+		$("#hideme20").hide();
+		$("#showme20").show();
+	}
+	
+	function edi21(a)  {
+		//alert("its time to edit");
+		$("#hideme21").hide();
+		$("#showme21").show();
+	}
+
+	function edi22(a)  {
+		//alert("its time to edit");
+		$("#hideme22").hide();
+		$("#showme22").show();
+	}
+	
+	function edi23(a)  {
+		//alert("its time to edit");
+		$("#hideme23").hide();
+		$("#showme23").show();
+	}
+	
+	function edi24(a)  {
+		//alert("its time to edit");
+		$("#hideme24").hide();
+		$("#showme24").show();
+	}
+	
+	function edi25(a)  {
+		//alert("its time to edit");
+		$("#hideme25").hide();
+		$("#showme25").show();
+	}
+	
+	function edi26(a)  {
+		//alert("its time to edit");
+		$("#hideme26").hide();
+		$("#showme26").show();
+	}
+	
+	function edi27(a)  {
+		//alert("its time to edit");
+		$("#hideme27").hide();
+		$("#showme27").show();
+	}
+	
+	function edi28(a)  {
+		//alert("its time to edit");
+		$("#hideme28").hide();
+		$("#showme28").show();
+	}
+	
+	function edi29(a)  {
+		//alert("its time to edit");
+		$("#hideme29").hide();
+		$("#showme29").show();
+	}
+	
+	function edi30(a)  {
+		//alert("its time to edit");
+		$("#hideme30").hide();
+		$("#showme30").show();
+	}
+	
+	function edi31(a)  {
+		//alert("its time to edit");
+		$("#hideme31").hide();
+		$("#showme31").show();
+	}
+	
+	function edi32(a)  {
+		//alert("its time to edit");
+		$("#hideme32").hide();
+		$("#showme32").show();
+	}
+	
+	function edi33(a)  {
+		//alert("its time to edit");
+		$("#hideme33").hide();
+		$("#showme33").show();
+	}
+	
+	function edi34(a)  {
+		//alert("its time to edit");
+		$("#hideme34").hide();
+		$("#showme34").show();
+	}
+	
+	function edi35(a)  {
+		//alert("its time to edit");
+		$("#hideme35").hide();
+		$("#showme35").show();
+	}
+	
+	function edi36(a)  {
+		//alert("its time to edit");
+		$("#hideme36").hide();
+		$("#showme36").show();
+	}
+	
+	function edi37(a)  {
+		//alert("its time to edit");
+		$("#hideme37").hide();
+		$("#showme37").show();
+	}
+	
+	function edi38(a)  {
+		//alert("its time to edit");
+		$("#hideme38").hide();
+		$("#showme38").show();
+	}
+	
+	function edi39(a)  {
+		//alert("its time to edit");
+		$("#hideme39").hide();
+		$("#showme39").show();
+	}
+	
+	function edi40(a)  {
+		//alert("its time to edit");
+		$("#hideme40").hide();
+		$("#showme40").show();
+	}
+	
+	function edi41(a)  {
+		//alert("its time to edit");
+		$("#hideme41").hide();
+		$("#showme41").show();
+	}
+	
+	function edi42(a)  {
+		//alert("its time to edit");
+		$("#hideme42").hide();
+		$("#showme42").show();
+	}
+	
+	function edi43(a)  {
+		//alert("its time to edit");
+		$("#hideme43").hide();
+		$("#showme43").show();
+	}
+	
+	function edi44(a)  {
+		//alert("its time to edit");
+		$("#hideme44").hide();
+		$("#showme44").show();
+	}
+	
+	function edi45(a)  {
+		//alert("its time to edit");
+		$("#hideme45").hide();
+		$("#showme45").show();
+	}
+	
+	function edi46(a)  {
+		//alert("its time to edit");
+		$("#hideme46").hide();
+		$("#showme46").show();
+	}
+	
+	function edi47(a)  {
+		//alert("its time to edit");
+		$("#hideme47").hide();
+		$("#showme47").show();
+	}
+
+	function edi48(a)  {
+		//alert("its time to edit");
+		$("#hideme48").hide();
+		$("#showme48").show();
+	}
+	
+	
+	function editsubmitform() {
+		
+		//alert("come in");
+		 var reportdate = $("#report_date").val();
+		 alert(reportdate);
+		 
+		if ($("#dataedit").valid()) {
+			
+			var url = "./T1Edit?";
+			//alert(url);
+
+			$("#dataedit").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#dataedit").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+
+			}
+			;
+		}
+	};
+
+	//to check for report or arch
+	//if report --->>> precheck and then save report else throws error
+	function savereport(){
+		
+		if(dtltype=='report'){
+		var Callurl = /*[[@{'/Reports/'+${reportid}+'/Precheck'(asondate=${asondate},fromdate=${fromdate},todate=${todate})}]]*/
+				$.ajax({
+					type : 'get',
+					url : Callurl,
+					success : function(data) {
+
+						if (data == 'success') {	
+							
+							
+							$("#loader").show();
+							
+							
+							var Callurl = /*[[@{'/Reports/'+${reportid}+'/save'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+								$.ajax({
+									type : 'get',
+									url : Callurl,
+									success : function(data) {
+
+										
+										if(data=='success'){
+											
+										 var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+											Callurl = Callurl+"&filetype=xbrl";
+											location.href=Callurl;
+											$("#loader").hide();
+										}
+										else{
+											$("#loader").hide();
+											 $("#alertmsg").text(data);
+											 $('#alert').modal("toggle");
+										}
+									}
+								})
+								
+							
+							
+						} else {
+							$("#alertmsg").text("Please verify the Pending Records Before Generating XBRL Instance");
+							$("#alert").modal("toggle");
+						}
+
+					}
+					});
+			
+		}
+		else{
+			
+			var Callurl = /*[[@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+				 Callurl = Callurl+"&filetype=xbrl";
+				 location.href=Callurl;
+				 $("#loader").hide();
+		}
+		
+	}
+	/*]]>*/
+</script>
+<!----------------------------------------Scripts to edit report details-------------------------------------------->
+<script th:inline="javascript">
+/*<![CDATA[*/
+	 var currlist = /*[[${currlist}]]*/null;
+
+
+					
+				function editRecord(a){
+	
+					if(permission=='W' && dtltype=='report') {
+						
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800edit'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Assign selected values to the model box fields
+					
+					$("#trade_date").val(a.getAttribute("data-trade_date"));
+					$("#value_date").val(a.getAttribute("data-value_date"));
+					$("#isin").val(a.getAttribute("data-isin"));
+					$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+					$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+					$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+					$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+					$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+					$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+					$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+					$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+					$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+					$("#mat_date").val(a.getAttribute("data-mat_date"));
+					$("#resid_days").val(a.getAttribute("data-resid_days"));
+					$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+					$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+					$("#report_date").val(a.getAttribute("data-report_date"));
+					$("#del_flg").val(a.getAttribute("data-del_flg"));
+					$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+					$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+					$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+					$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+					$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+					$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+					$("#addedit").modal("toggle");
+					
+				
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",true);
+					$("#report_date").attr("readonly",true);
+					
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					}
+					
+				};
+				function addRecord(){
+					
+					if(permission=='W' && dtltype=='report') {
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url); 
+					//Reset form if any data present
+					document.getElementById("dataedit").reset();
+					
+					//make readonly false to unique fields
+					//Make readonly fields
+					$("#cntprty_code").attr("readonly",false);
+					$("#report_date").attr("readonly",false);
+					
+					//Reset errors
+					var validator = $("#dataedit").validate();
+					validator.resetForm();
+					
+					$("#addedit").modal("toggle");
+                    
+					
+					 
+					$("#trade_date,#value_date,#mat_date,#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+					
+					}
+				};
+				
+				function deleteRecord(a){
+					
+					if(permission=='W' && dtltype=='report') {
+					
+					//Assign action url for the edit/add form
+					var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800delete'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+					$("#dataedit").attr('action', url);
+					
+					
+					//Assign selected values to the model box fields
+					
+						$("#trade_date").val(a.getAttribute("data-trade_date"));
+						$("#value_date").val(a.getAttribute("data-value_date"));
+						$("#isin").val(a.getAttribute("data-isin"));
+						$("#type_of_sec").val(a.getAttribute("data-type_of_sec"));
+						$("#acct_of_sec").val(a.getAttribute("data-acct_of_sec"));
+						$("#type_of_tran").val(a.getAttribute("data-type_of_tran"));
+						$("#name_of_party").val(a.getAttribute("data-name_of_party"));
+						$("#cntprty_code").val(a.getAttribute("data-cntprty_code"));
+						$("#categ_of_cntprty").val(a.getAttribute("data-categ_of_cntprty"));
+						$("#nom_of_sec").val(a.getAttribute("data-nom_of_sec"));
+						$("#yield_of_sec").val(a.getAttribute("data-yield_of_sec"));
+						$("#clean_of_sec").val(a.getAttribute("data-clean_of_sec"));
+						$("#mat_date").val(a.getAttribute("data-mat_date"));
+						$("#resid_days").val(a.getAttribute("data-resid_days"));
+						$("#indicate_bid").val(a.getAttribute("data-indicate_bid"));
+						$("#indicate_yield").val(a.getAttribute("data-indicate_yield"));
+						$("#report_date").val(a.getAttribute("data-report_date"));
+						$("#del_flg").val(a.getAttribute("data-del_flg"));
+						$("#rcre_user_id").val(a.getAttribute("data-rcre_user_id"));
+						$("#rcre_time").val(a.getAttribute("data-rcre_time"));
+						$("#lchg_user_id").val(a.getAttribute("data-lchg_user_id"));
+						$("#lchg_time").val(a.getAttribute("data-lchg_time"));
+						$("#verify_user_id").val(a.getAttribute("data-verify_user_id"));
+						$("#verify_time").val(a.getAttribute("data-verify_time"));
+
+
+					$("#datadelete").modal("toggle");
+					
+					} 
+					
+				};
+				
+				function submitdataform(){
+					
+					if($("#dataedit").valid()){
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#dataedit').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 
+							 $("#alertmsg").text(responseText);
+							 
+							 if($('#addedit').is(':visible')){
+								 $('#addedit').modal("hide");
+							 };
+							 if($('#datadelete').is(':visible')){
+								 $('#datadelete').modal("hide");
+							 };
+							 $('#alert').modal("toggle");
+				                
+						 }
+						
+						
+					}
+					
+					$("#report_date").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				}
+				
+          function searchRecord(){
+					
+					document.getElementById("searchdtl").reset();
+					
+					$("#search").modal("toggle");
+					
+					$("#report_dates").datepicker({
+						changeMonth : true,
+						changeYear : true,
+						maxDate: new Date(),
+						dateFormat : "dd-mm-yy"
+					});
+					
+				};
+				
+				function submitSearchRecord(){
+					
+					
+					
+					if($("#searchdtl").valid()){
+						
+						
+						
+						var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800Search'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+						$("#searchdtl").attr('action', url);
+						
+						var options = { 
+						        success: showResponse  // post-submit callback 
+						    }; 
+						
+						 $('#searchdtl').ajaxSubmit(options);
+						 
+						 function showResponse(responseText, statusText, xhr, $form) { 
+							 $(".modal").modal("hide");
+							 $('.content').html(responseText);
+							 $("#detailsbtn").addClass("active");
+							 $(".modal-backdrop").remove();
+							 
+						 }	
+					}
+					
+				};
+				
+				function inputpage()
+				{
+					var Callurl = /*[[@{'/Reports/'+${reportid}+'/Input'(fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+					
+					$.ajax({
+						type : 'get',
+						url : Callurl,
+						success : function(data) {
+							
+							/*<![CDATA[*/
+							
+
+							$('.content').html(data);
+							$("#inputbtn").addClass("active");
+							/*]]>*/
+
+						}
+					})
+				}
+				
+				
+				
+				
+				 function editsum(a){
+						
+						
+						console.log("start.html")
+						
+						if(permission=='W' && dtltype=='report') {
+						//Assign action url for the edit/add form
+						var url = /*[[@{'/Reports/'+${reportid}+'/Changes/fim0800add'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency})}]]*/
+						$("#dataedit").attr('action', url); 
+						
+						
+						$("#c2b_bo_fully_applied").val(a.getAttribute("data-c2b_bo_fully_applied"));
+						$("#value_date").val(a.getAttribute("data-value_date"));
+						//Reset form if any data present
+						
+						
+						//document.getElementById("dataedit").reset();
+						
+						/* //make readonly false to unique fields
+						//Make readonly fields
+						$("#cntprty_code").attr("readonly",false);
+						$("#report_date").attr("readonly",false); */
+						
+						//Reset errors
+					/* var validator = $("#dataedit").validate();
+						validator.resetForm();
+					 */	
+
+					    
+						$("#addedit").modal("toggle");
+						
+						
+						
+						}
+					};
+				
+				function uneditbtn()
+				{   var Callurl = /*[[@{'/Reports/'+${reportid}+'/Input'(fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/
+					
+					$.ajax({
+						type : 'get',
+						url : Callurl,
+						success : function(data) {
+							
+							/*<![CDATA[*/
+							
+
+							$('.content').html(data);
+							$("#inputbtn").addClass("active");
+							/*]]>*/
+
+						}
+					})
+					
+				}
+				function showdetail(a){
+					var filter = a.id;
+					var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+					
+					Callurl = Callurl+"&filter="+filter;
+					$.ajax({
+						type : 'get',
+						url : Callurl,
+						success : function(data) {
+							
+							/*<![CDATA[*/
+							
+
+							$('.content').html(data);
+							$("#detailsbtn").addClass("active");
+							/*]]>*/
+
+						}
+					})
+					
+				}
+				function showdetails(mode,num,maxpage) {
+					var filter =$("#filters").val();
+				var n=parseInt(num);
+				var max = parseInt(maxpage);
+				if(filter!= null){
+					var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+					//Callurl = Callurl+"&instancecode="+instancecode;
+					Callurl = Callurl+"&filter="+filter;
+				}else{
+					
+					var filter= null;
+
+					var Callurl = /*[[@{'/Reports/'+${reportid}+'/Details'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}]]*/;
+				//	Callurl = Callurl+"&instancecode="+instancecode;
+					Callurl = Callurl+"&filter="+filter;
+				}	switch(mode){
+					case "nextpage":
+						n=n+1;
+						if(n>max){
+							break;
+						}
+						Callurl = Callurl+"&page="+n;
+						break;
+					case "prevpage":
+						n=n-1;
+						if(n<0){
+							break;
+						}
+						Callurl = Callurl+"&page="+n;
+						break;
+					case "givenpage":
+						n=parseInt($("#pageno").val())-1;
+						if(n>max||n<0){
+						break;
+						}
+						Callurl = Callurl+"&page="+n;
+					}
+					
+					
+					$.ajax({
+						type : 'get',
+						url : Callurl,
+						success : function(data) {
+							
+							/*<![CDATA[*/
+							
+
+							$('.content').html(data);
+							$("#detailsbtn").addClass("active");
+							/*]]>*/
+
+						}
+					})
+				}
+
+
+/*]]>*/
+</script>
+<style>
+.nav-buttons {
+	float: right;
+}
+
+.reptitle {
+	float: left;
+}
+
+.reptitle>p {
+	margin-top:;
+}
+
+.customcol {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.first_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 0;
+	width: 30px;
+}
+
+.second_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 30px;
+	width: 30px;
+}
+
+.third_left {
+	position: absolute;
+	*position: relative; /*ie7*/
+	left: 60px;
+	width: 150px;
+}
+
+.inner {
+	overflow-x: scroll;
+	overflow-y: visible;
+	margin-left: 48px;
+}
+
+.btn-primary {
+	background-color: #E77400;
+	border-color: #0c0c0c;
+}
+
+.btn-primary:not (:disabled ):not (.disabled ).active, .btn-primary:not
+	 (:disabled ):not (.disabled ):active, .show>.btn-primary.dropdown-toggle
+	{
+	color: #fff;
+	background-color: #cc000000;
+	border-color: #161617;
+}
+
+.addedit {
+	color: #007bff;
+}
+
+.addedit:hover {
+	color: #0056b3;
+}
+</style>
+</head>
+<body>
+	<!----------------------------------------------------- Header Section starts ----------------------------------------------------->
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" aria-hidden="true"
+		onclick="docEmb('Report')" id="ques"></i>
+	<!----------------------------------------------------- Header Section Ends ------------------------------------------------------->
+	<div style="margin-left: 310px; margin-top: 76px;">
+		<div class="container content" th:fragment="reportcontent">
+
+
+
+			<!--------------------------------------------------------------- Report title starts -------------------------------------------->
+			<div class="row" style="width: 1139px; PADDING-LEFT: 12px;">
+				<div class="col-sm-12 customcol"
+					style="background-color: #4d8cb9; padding-top: 10px; padding-bottom: 10px; padding-left: 5px;">
+					<!-- <select id="reporttype" style="background-color: #e9ecef;">
+						<option th:each="title : ${reportTitle}"
+							th:value="${title.reportName}" th:text="${title.reportName}"></option>
+
+					</select> -->
+					<div class="btn-group nav-buttons">
+						<!-- <button type="button" class="btn btn-primary" id="inputbtn"
+							onclick="inputpage()">Input</button> -->
+						<button type="button" class="btn btn-primary"
+							onclick="editsum(this);" 
+							title="Click to EDIT Records"
+							th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+							id="addRecord">Modify</button>
+						<button type="button" class="btn btn-primary"
+							th:if="${type} !='ARCHIVAL'"
+							onclick="showdetails('firstpage','1','0');" id="detailsbtn">Details</button>
+						<button type="button" class="btn btn-primary"
+							onclick="showsummary();" id="summarybtn">Summary</button>
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary dropdown-toggle"
+								data-toggle="dropdown">
+								Download <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=pdf|">Pdf</a></li>
+								<li th:if="${displaymode}=='summary' or ${displaymode}==null"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=excel|">Excel</a></li>
+								<li th:if="${displaymode}=='detail'"><a
+									th:href="|@{'/Reports/'+${reportid}+'/Download'(asondate=${asondate},fromdate=${fromdate},todate=${todate},currency=${currency},dtltype=${dtltype})}&filetype=detailexcel|">Excel</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--------------------------------------------------------------- Report title ends ------------------------------------------------->
+			<!--------------------------------------------------------------- Report buttons section starts ------------------------------------->
+
+			<!--------------------------------------------------------------- Report buttons section ends ------------------------------------->
+			<!------------------------------ Report summary section starts it will shown only if summary button clicked------------------------->
+			<div class="row" style="PADDING-LEFT: 12px; width: 1139px;">
+				<div class="card-header" id="modheadtitle"
+					style="width: 1139px; PADDING-LEFT: 12px;">
+					<b>Table 1-Current: Products, Services & Delivery Channels</b>
+				</div>
+			</div>
+			<div class="table responsive "
+				th:if="${displaymode}=='summary' or ${displaymode}==null"
+				style="overflow-x: auto; width: 1128px;">
+
+
+
+				<table class="table  table-bordered  table-hover table-sm" id=""
+					style="width: 3000px;">
+					<thead class="thead-light">
+						<tr>
+							<th rowspan="3">Name of products and services Product and
+								services</th>
+							<th rowspan="3" style="width:6%;">Description</th>
+							<th rowspan="3" style="width:5%;">Individual NBDTIs' ML/TF risk assessments of
+								the products and services</th>
+							<th colspan="3">To whom offered (Yes/No/Not Applicable)</th>
+							<th colspan="4">High risk customers</th>
+							<th colspan="4">Medium risk customers</th>
+							<th colspan="4">Low risk customers</th>
+							<th colspan="4">Walk-in customers</th>
+						</tr>
+
+						<tr>
+							<th>Face-to-face customers</th>
+							<th>Non face-to-face customers</th>
+							<th>Third parties</th>
+
+							<th>Total number of debit transactions</th>
+							<th>Total value of debit transactions</th>
+							<th>Total number of credit transactions</th>
+							<th>Total value of credit transactions</th>
+
+							<th>Total number of debit transactions</th>
+							<th>Total value of debit transactions</th>
+							<th>Total number of credit transactions</th>
+							<th>Total value of credit transactions</th>
+
+							<th>Total number of debit transactions</th>
+							<th>Total value of debit transactions</th>
+							<th>Total number of credit transactions</th>
+							<th>Total value of credit transactions</th>
+
+							<th>Total number of debit transactions</th>
+							<th>Total value of debit transactions</th>
+							<th>Total number of credit transactions</th>
+							<th>Total value of credit transactions</th>
+
+
+						</tr>
+					</thead>
+					<tbody th:each="report: ${reportsummary}">
+						<tr>
+							<td th:text="${report.d1a_dep_tkg_services	}">CHENNAI</td>
+							<td th:text="${report.d1b_dep_tkg_services	}">CHENNAI</td>
+							<td th:text="${report.c1c_dep_tkg_services_nbtdi	}">CHENNAI</td>
+							<td th:text="${report.c1d_dep_tkg_services_offer_ftf	}">CHENNAI</td>
+							<td th:text="${report.c1e_dep_tkg_services_offer_nftf	}">CHENNAI</td>
+							<td th:text="${report.c1f_dep_tkg_services_offer_tp	}">CHENNAI</td>
+							<td th:text="${report.c1g_dep_tkg_services_hig_nod	}"
+								align="right" onclick="showdetail(this)" id="A1">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c1h_dep_tkg_services_hig_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="A1" align="right">CHENNAI</td>
+							<td th:text="${report.c1i_dep_tkg_services_hig_noc	}"
+								align="right" onclick="showdetail(this)" id="B1">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c1j_dep_tkg_services_hig_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="B1" align="right">CHENNAI</td>
+							<td th:text="${report.c1k_dep_tkg_services_med_nod	}"
+								align="right" onclick="showdetail(this)" id="C1">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c1l_dep_tkg_services_med_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="C1" align="right">CHENNAI</td>
+							<td th:text="${report.c1m_dep_tkg_services_med_noc	}"
+								align="right" onclick="showdetail(this)" id="D1">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c1n_dep_tkg_services_med_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="D1" align="right">CHENNAI</td>
+							<td th:text="${report.c1o_dep_tkg_services_low_nod	}"
+								align="right" onclick="showdetail(this)" id="E1">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c1p_dep_tkg_services_low_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="E1" align="right">CHENNAI</td>
+							<td th:text="${report.c1q_dep_tkg_services_low_noc	}"
+								align="right" onclick="showdetail(this)" id="F1">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c1r_dep_tkg_services_low_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="F1" align="right">CHENNAI</td>
+							<td th:text="${report.c1s_dep_tkg_services_wic_nod	}"
+								align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c1t_dep_tkg_services_wic_vod	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+							<td th:text="${report.c1u_dep_tkg_services_wic_noc	}"
+								align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c1v_dep_tkg_services_wic_voc	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+
+						</tr>
+
+
+						<tr>
+							<td th:text="${report.d2a_lend_fund_based	}">CHENNAI</td>
+							<td th:text="${report.d2b_lend_fund_based	}">CHENNAI</td>
+							<td th:text="${report.c2c_lend_fund_based_nbtdi	}">CHENNAI</td>
+							<td th:text="${report.c2d_lend_fund_based_offer_ftf	}">CHENNAI</td>
+							<td th:text="${report.c2e_lend_fund_based_offer_nftf	}">CHENNAI</td>
+							<td th:text="${report.c2f_lend_fund_based_offer_tp	}">CHENNAI</td>
+							<td th:text="${report.c2g_lend_fund_based_hig_nod	}"
+								align="right" onclick="showdetail(this)" id="A2">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c2h_lend_fund_based_hig_vod	,1,'COMMA',2,'POINT')}"
+								align="right" onclick="showdetail(this)" id="A2">CHENNAI</td>
+							<td th:text="${report.c2i_lend_fund_based_hig_noc	}"
+								align="right" onclick="showdetail(this)" id="B2">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c2j_lend_fund_based_hig_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="B2" align="right">CHENNAI</td>
+							<td th:text="${report.c2k_lend_fund_based_med_nod	}"
+								align="right" onclick="showdetail(this)" id="C2">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c2l_lend_fund_based_med_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="C2" align="right">CHENNAI</td>
+							<td th:text="${report.c2m_lend_fund_based_med_noc	}"
+								align="right" onclick="showdetail(this)" id="D2">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c2n_lend_fund_based_med_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="D2" align="right">CHENNAI</td>
+							<td th:text="${report.c2o_lend_fund_based_low_nod	}"
+								align="right" onclick="showdetail(this)" id="E2">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c2p_lend_fund_based_low_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="E2" align="right">CHENNAI</td>
+							<td th:text="${report.c2q_lend_fund_based_low_noc	}"
+								align="right" onclick="showdetail(this)" id="F2">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c2r_lend_fund_based_low_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="F2" align="right">CHENNAI</td>
+							<td th:text="${report.c2s_lend_fund_based_wic_nod	}"
+								align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c2t_lend_fund_based_wic_vod	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+							<td th:text="${report.c2u_lend_fund_based_wic_noc	}"
+								align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c2v_lend_fund_based_wic_voc	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+
+
+						</tr>
+
+
+						<tr>
+							<td th:text="${report.d3a_fb_finance_lease	}">CHENNAI</td>
+							<td th:text="${report.d3b_fb_finance_lease	}">CHENNAI</td>
+							<td th:text="${report.c3c_fb_finance_lease_nbtdi	}">CHENNAI</td>
+							<td th:text="${report.c3d_fb_finance_lease_offer_ftf	}">CHENNAI</td>
+							<td th:text="${report.c3e_fb_finance_lease_offer_nftf	}">CHENNAI</td>
+							<td th:text="${report.c3f_fb_finance_lease_offer_tp	}">CHENNAI</td>
+							<td th:text="${report.c3g_fb_finance_lease_hig_nod	}"
+								align="right" onclick="showdetail(this)" id="A3">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c3h_fb_finance_lease_hig_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="A3" align="right">CHENNAI</td>
+							<td th:text="${report.c3i_fb_finance_lease_hig_noc	}"
+								align="right" onclick="showdetail(this)" id="B3">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c3j_fb_finance_lease_hig_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="B3" align="right">CHENNAI</td>
+							<td th:text="${report.c3k_fb_finance_lease_med_nod	}"
+								align="right" onclick="showdetail(this)" id="C3">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c3l_fb_finance_lease_med_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="C3" align="right">CHENNAI</td>
+							<td th:text="${report.c3m_fb_finance_lease_med_noc	}"
+								align="right" onclick="showdetail(this)" id="D3">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c3n_fb_finance_lease_med_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="D3" align="right">CHENNAI</td>
+							<td th:text="${report.c3o_fb_finance_lease_low_nod	}"
+								align="right" onclick="showdetail(this)" id="E3">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c3p_fb_finance_lease_low_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="E3" align="right">CHENNAI</td>
+							<td th:text="${report.c3q_fb_finance_lease_low_noc	}"
+								align="right" onclick="showdetail(this)" id="F3">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c3r_fb_finance_lease_low_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="F3" align="right">CHENNAI</td>
+							<td th:text="${report.c3s_fb_finance_lease_wic_nod	}"
+								align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c3t_fb_finance_lease_wic_vod	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+							<td th:text="${report.c3u_fb_finance_lease_wic_noc	}"
+								align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c3v_fb_finance_lease_wic_voc	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+						</tr>
+
+
+						<tr>
+							<td th:text="${report.d4a_fb_oper_lease	}">CHENNAI</td>
+							<td th:text="${report.d4b_fb_oper_lease	}">CHENNAI</td>
+							<td th:text="${report.c4c_fb_oper_lease_nbtdi	}">CHENNAI</td>
+							<td th:text="${report.c4d_fb_oper_lease_offer_ftf	}">CHENNAI</td>
+							<td th:text="${report.c4e_fb_oper_lease_offer_nftf	}">CHENNAI</td>
+							<td th:text="${report.c4f_fb_oper_lease_offer_tp	}">CHENNAI</td>
+							<td th:text="${report.c4g_fb_oper_lease_hig_nod	}" align="right"
+								onclick="showdetail(this)" id="A4">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c4h_fb_oper_lease_hig_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="A4" align="right">CHENNAI</td>
+							<td th:text="${report.c4i_fb_oper_lease_hig_noc	}" align="right"
+								onclick="showdetail(this)" id="B4">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c4j_fb_oper_lease_hig_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="B4" align="right">CHENNAI</td>
+							<td th:text="${report.c4k_fb_oper_lease_med_nod	}" align="right"
+								onclick="showdetail(this)" id="C4">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c4l_fb_oper_lease_med_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="C4" align="right">CHENNAI</td>
+							<td th:text="${report.c4m_fb_oper_lease_med_noc	}" align="right"
+								onclick="showdetail(this)" id="D4">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c4n_fb_oper_lease_med_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="D4" align="right">CHENNAI</td>
+							<td th:text="${report.c4o_fb_oper_lease_low_nod	}" align="right"
+								onclick="showdetail(this)" id="E4">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c4p_fb_oper_lease_low_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="E4" align="right">CHENNAI</td>
+							<td th:text="${report.c4q_fb_oper_lease_low_noc	}" align="right"
+								onclick="showdetail(this)" id="F4">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c4r_fb_oper_lease_low_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="F4" align="right">CHENNAI</td>
+							<td th:text="${report.c4s_fb_oper_lease_wic_nod	}" align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c4t_fb_oper_lease_wic_vod	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+							<td th:text="${report.c4u_fb_oper_lease_wic_noc	}" align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c4v_fb_oper_lease_wic_voc	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+						</tr>
+
+						<tr>
+							<td th:text="${report.d5a_fb_loans	}">CHENNAI</td>
+							<td th:text="${report.d5b_fb_loans	}">CHENNAI</td>
+							<td th:text="${report.c5c_fb_loans_nbtdi	}">CHENNAI</td>
+							<td th:text="${report.c5d_fb_loans_offer_ftf	}">CHENNAI</td>
+							<td th:text="${report.c5e_fb_loans_offer_nftf	}">CHENNAI</td>
+							<td th:text="${report.c5f_fb_loans_offer_tp	}">CHENNAI</td>
+							<td th:text="${report.c5g_fb_loans_hig_nod	}" align="right"
+								onclick="showdetail(this)" id="A5">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c5h_fb_loans_hig_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="A5" align="right">CHENNAI</td>
+							<td th:text="${report.c5i_fb_loans_hig_noc	}" align="right"
+								onclick="showdetail(this)" id="B5">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c5j_fb_loans_hig_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="B5" align="right">CHENNAI</td>
+							<td th:text="${report.c5k_fb_loans_med_nod	}" align="right"
+								onclick="showdetail(this)" id="C5">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c5l_fb_loans_med_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="C5" align="right">CHENNAI</td>
+							<td th:text="${report.c5m_fb_loans_med_noc	}" align="right"
+								onclick="showdetail(this)" id="D5">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c5n_fb_loans_med_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="D5" align="right">CHENNAI</td>
+							<td th:text="${report.c5o_fb_loans_low_nod	}" align="right"
+								onclick="showdetail(this)" id="E5">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c5p_fb_loans_low_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="E5" align="right">CHENNAI</td>
+							<td th:text="${report.c5q_fb_loans_low_noc	}" align="right"
+								onclick="showdetail(this)" id="F5">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c5r_fb_loans_low_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="F5" align="right">CHENNAI</td>
+							<td th:text="${report.c5s_fb_loans_wic_nod	}" align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c5t_fb_loans_wic_vod	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+							<td th:text="${report.c5u_fb_loans_wic_noc	}" align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c5v_fb_loans_wic_voc	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+
+						</tr>
+
+
+						<tr>
+							<td th:text="${report.d6a_fb_factoring	}">CHENNAI</td>
+							<td th:text="${report.d6b_fb_factoring	}">CHENNAI</td>
+							<td th:text="${report.c6c_fb_factoring_nbtdi	}">CHENNAI</td>
+							<td th:text="${report.c6d_fb_factoring_offer_ftf	}">CHENNAI</td>
+							<td th:text="${report.c6e_fb_factoring_offer_nftf	}">CHENNAI</td>
+							<td th:text="${report.c6f_fb_factoring_offer_tp	}">CHENNAI</td>
+							<td th:text="${report.c6g_fb_factoring_hig_nod	}" align="right"
+								onclick="showdetail(this)" id="A6">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c6h_fb_factoring_hig_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="A6" align="right">CHENNAI</td>
+							<td th:text="${report.c6i_fb_factoring_hig_noc	}" align="right"
+								onclick="showdetail(this)" id="B6">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c6j_fb_factoring_hig_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="B6" align="right">CHENNAI</td>
+							<td th:text="${report.c6k_fb_factoring_med_nod	}" align="right"
+								onclick="showdetail(this)" id="C6">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c6l_fb_factoring_med_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="C6" align="right">CHENNAI</td>
+							<td th:text="${report.c6m_fb_factoring_med_noc	}" align="right"
+								onclick="showdetail(this)" id="D6">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c6n_fb_factoring_med_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="D6" align="right">CHENNAI</td>
+							<td th:text="${report.c6o_fb_factoring_low_nod	}" align="right"
+								onclick="showdetail(this)" id="E6">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c6p_fb_factoring_low_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="E6" align="right">CHENNAI</td>
+							<td th:text="${report.c6q_fb_factoring_low_noc	}" align="right"
+								onclick="showdetail(this)" id="F6">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c6r_fb_factoring_low_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="F6" align="right">CHENNAI</td>
+							<td th:text="${report.c6s_fb_factoring_wic_nod	}" align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c6t_fb_factoring_wic_vod	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+							<td th:text="${report.c6u_fb_factoring_wic_noc	}" align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c6v_fb_factoring_wic_voc	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+
+
+
+						</tr>
+
+						<tr>
+							<td th:text="${report.d7a_fb_others	}">CHENNAI</td>
+							<td th:text="${report.d7b_fb_others	}">CHENNAI</td>
+							<td th:text="${report.c7c_fb_others_nbtdi	}">CHENNAI</td>
+							<td th:text="${report.c7d_fb_others_offer_ftf	}">CHENNAI</td>
+							<td th:text="${report.c7e_fb_others_offer_nftf	}">CHENNAI</td>
+							<td th:text="${report.c7f_fb_others_offer_tp	}">CHENNAI</td>
+							<td th:text="${report.c7g_fb_others_hig_nod	}" align="right"
+								onclick="showdetail(this)" id="A7">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c7h_fb_others_hig_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="A7" align="right">CHENNAI</td>
+							<td th:text="${report.c7i_fb_others_hig_noc	}" align="right"
+								onclick="showdetail(this)" id="B7">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c7j_fb_others_hig_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="B7" align="right">CHENNAI</td>
+							<td th:text="${report.c7k_fb_others_med_nod	}" align="right"
+								onclick="showdetail(this)" id="C7">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c7l_fb_others_med_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="C7" align="right">CHENNAI</td>
+							<td th:text="${report.c7m_fb_others_med_noc	}" align="right"
+								onclick="showdetail(this)" id="D7">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c7n_fb_others_med_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="D7" align="right">CHENNAI</td>
+							<td th:text="${report.c7o_fb_others_low_nod	}" align="right"
+								onclick="showdetail(this)" id="E7">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c7p_fb_others_low_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="E7" align="right">CHENNAI</td>
+							<td th:text="${report.c7q_fb_others_low_noc	}" align="right"
+								onclick="showdetail(this)" id="F7">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c7r_fb_others_low_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="F7" align="right">CHENNAI</td>
+							<td th:text="${report.c7s_fb_others_wic_nod	}" align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c7t_fb_others_wic_vod	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+							<td th:text="${report.c7u_fb_others_wic_noc	}" align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c7v_fb_others_wic_voc	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+
+						</tr>
+
+						<tr>
+							<td th:text="${report.d8a_lending_non_fund_based	}">CHENNAI</td>
+							<td th:text="${report.d8b_lending_non_fund_based	}">CHENNAI</td>
+							<td th:text="${report.c8c_lending_non_fund_based_nbtdi	}">CHENNAI</td>
+							<td th:text="${report.c8d_lending_non_fund_based_offer_ftf	}">CHENNAI</td>
+							<td th:text="${report.c8e_lending_non_fund_based_offer_nftf	}">CHENNAI</td>
+							<td th:text="${report.c8f_lending_non_fund_based_offer_tp	}">CHENNAI</td>
+							<td th:text="${report.c8g_lending_non_fund_based_hig_nod	}"
+								align="right" onclick="showdetail(this)" id="A8">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c8h_lending_non_fund_based_hig_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="A8" align="right">CHENNAI</td>
+							<td th:text="${report.c8i_lending_non_fund_based_hig_noc	}"
+								align="right" onclick="showdetail(this)" id="B8">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c8j_lending_non_fund_based_hig_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="B8" align="right">CHENNAI</td>
+							<td th:text="${report.c8k_lending_non_fund_based_med_nod	}"
+								align="right" onclick="showdetail(this)" id="C8">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c8l_lending_non_fund_based_med_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="C8" align="right">CHENNAI</td>
+							<td th:text="${report.c8m_lending_non_fund_based_med_noc	}"
+								align="right" onclick="showdetail(this)" id="D8">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c8n_lending_non_fund_based_med_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="D8" align="right">CHENNAI</td>
+							<td th:text="${report.c8o_lending_non_fund_based_low_nod	}"
+								align="right" onclick="showdetail(this)" id="E8">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c8p_lending_non_fund_based_low_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="E8" align="right">CHENNAI</td>
+							<td th:text="${report.c8q_lending_non_fund_based_low_noc	}"
+								align="right" onclick="showdetail(this)" id="F8">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c8r_lending_non_fund_based_low_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="F8" align="right">CHENNAI</td>
+							<td th:text="${report.c8s_lending_non_fund_based_wic_nod	}"
+								align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c8t_lending_non_fund_based_wic_vod	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+							<td th:text="${report.c8u_lending_non_fund_based_wic_noc	}"
+								align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c8v_lending_non_fund_based_wic_voc	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+
+
+
+						</tr>
+
+						<tr>
+							<td th:text="${report.d9a_credit_cards	}">CHENNAI</td>
+							<td th:text="${report.d9b_credit_cards	}">CHENNAI</td>
+							<td th:text="${report.c9c_credit_cards_nbtdi	}">CHENNAI</td>
+							<td th:text="${report.c9d_credit_cards_offer_ftf	}">CHENNAI</td>
+							<td th:text="${report.c9e_credit_cards_offer_nftf	}">CHENNAI</td>
+							<td th:text="${report.c9f_credit_cards_offer_tp	}">CHENNAI</td>
+							<td th:text="${report.c9g_credit_cards_hig_nod	}" align="right"
+								onclick="showdetail(this)" id="A9">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c9h_credit_cards_hig_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="A9" align="right">CHENNAI</td>
+							<td th:text="${report.c9i_credit_cards_hig_noc	}" align="right"
+								onclick="showdetail(this)" id="B9">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c9j_credit_cards_hig_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="B9" align="right">CHENNAI</td>
+							<td th:text="${report.c9k_credit_cards_med_nod	}" align="right"
+								onclick="showdetail(this)" id="C9">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c9l_credit_cards_med_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="C9" align="right">CHENNAI</td>
+							<td th:text="${report.c9m_credit_cards_med_noc	}" align="right"
+								onclick="showdetail(this)" id="D9">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c9n_credit_cards_med_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="D9" align="right">CHENNAI</td>
+							<td th:text="${report.c9o_credit_cards_low_nod	}" align="right"
+								onclick="showdetail(this)" id="E9">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c9p_credit_cards_low_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="E9" align="right">CHENNAI</td>
+							<td th:text="${report.c9q_credit_cards_low_noc	}" align="right"
+								onclick="showdetail(this)" id="F9">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c9r_credit_cards_low_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="F9" align="right">CHENNAI</td>
+							<td th:text="${report.c9s_credit_cards_wic_nod	}" align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c9t_credit_cards_wic_vod	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+							<td th:text="${report.c9u_credit_cards_wic_noc	}" align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c9v_credit_cards_wic_voc	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+
+
+
+						</tr>
+
+						<tr>
+							<td th:text="${report.d10a_merchang_pos	}">CHENNAI</td>
+							<td th:text="${report.d10b_merchang_pos	}">CHENNAI</td>
+							<td th:text="${report.c10c_merchang_pos_nbtdi	}">CHENNAI</td>
+							<td th:text="${report.c10d_merchang_pos_offer_ftf	}">CHENNAI</td>
+							<td th:text="${report.c10e_merchang_pos_offer_nftf	}">CHENNAI</td>
+							<td th:text="${report.c10f_merchang_pos_offer_tp	}">CHENNAI</td>
+							<td th:text="${report.c10g_merchang_pos_hig_nod	}" align="right"
+								onclick="showdetail(this)" id="A10">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c10h_merchang_pos_hig_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="A10" align="right">CHENNAI</td>
+							<td th:text="${report.c10i_merchang_pos_hig_noc	}" align="right"
+								onclick="showdetail(this)" id="B10">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c10j_merchang_pos_hig_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="B10" align="right">CHENNAI</td>
+							<td th:text="${report.c10k_merchang_pos_med_nod	}" align="right"
+								onclick="showdetail(this)" id="C10">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c10l_merchang_pos_med_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="C10" align="right">CHENNAI</td>
+							<td th:text="${report.c10m_merchang_pos_med_noc	}" align="right"
+								onclick="showdetail(this)" id="D10">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c10n_merchang_pos_med_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="D10" align="right">CHENNAI</td>
+							<td th:text="${report.c10o_merchang_pos_low_nod	}" align="right"
+								onclick="showdetail(this)" id="E10">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c10p_merchang_pos_low_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="E10" align="right">CHENNAI</td>
+							<td th:text="${report.c10q_merchang_pos_low_noc	}" align="right"
+								onclick="showdetail(this)" id="F10">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c10r_merchang_pos_low_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="F10" align="right">CHENNAI</td>
+							<td th:text="${report.c10s_merchang_pos_wic_nod	}" align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c10t_merchang_pos_wic_vod	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+							<td th:text="${report.c10u_merchang_pos_wic_noc	}" align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c10v_merchang_pos_wic_voc	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+
+
+
+						</tr>
+
+						<tr>
+							<td th:text="${report.d11a_other_prod_services	}">CHENNAI</td>
+							<td th:text="${report.d11b_other_prod_services	}">CHENNAI</td>
+							<td th:text="${report.c11c_other_prod_services_nbtdi	}">CHENNAI</td>
+							<td th:text="${report.c11d_other_prod_services_offer_ftf	}">CHENNAI</td>
+							<td th:text="${report.c11e_other_prod_services_offer_nftf	}">CHENNAI</td>
+							<td th:text="${report.c11f_other_prod_services_offer_tp	}">CHENNAI</td>
+							<td th:text="${report.c11g_other_prod_services_hig_nod	}"
+								align="right" onclick="showdetail(this)" id="A11">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c11h_other_prod_services_hig_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="A11" align="right">CHENNAI</td>
+							<td th:text="${report.c11i_other_prod_services_hig_noc	}"
+								align="right" onclick="showdetail(this)" id="B11">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c11j_other_prod_services_hig_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="B11" align="right">CHENNAI</td>
+							<td th:text="${report.c11k_other_prod_services_med_nod	}"
+								align="right" onclick="showdetail(this)" id="C11">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c11l_other_prod_services_med_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="C11" align="right">CHENNAI</td>
+							<td th:text="${report.c11m_other_prod_services_med_noc	}"
+								align="right" onclick="showdetail(this)" id="D11">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c11n_other_prod_services_med_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="D11" align="right">CHENNAI</td>
+							<td th:text="${report.c11o_other_prod_services_low_nod	}"
+								align="right" onclick="showdetail(this)" id="E11">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c11p_other_prod_services_low_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="E11" align="right">CHENNAI</td>
+							<td th:text="${report.c11q_other_prod_services_low_noc	}"
+								align="right" onclick="showdetail(this)" id="F11">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c11r_other_prod_services_low_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="F11" align="right">CHENNAI</td>
+							<td th:text="${report.c11s_other_prod_services_wic_nod	}"
+								align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c11t_other_prod_services_wic_vod	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+							<td th:text="${report.c11u_other_prod_services_wic_noc	}"
+								align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c11v_other_prod_services_wic_voc	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+
+
+						</tr>
+
+						<tr>
+							<td th:text="${report.d12a_retirement_saving_schemes	}">CHENNAI</td>
+							<td th:text="${report.d12b_retirement_saving_schemes	}">CHENNAI</td>
+							<td th:text="${report.c12c_retirement_saving_schemes_nbtdi	}">CHENNAI</td>
+							<td th:text="${report.c12d_retirement_saving_schemes_offer_ftf	}">CHENNAI</td>
+							<td
+								th:text="${report.c12e_retirement_saving_schemes_offer_nftf	}">CHENNAI</td>
+							<td th:text="${report.c12f_retirement_saving_schemes_offer_tp	}">CHENNAI</td>
+							<td th:text="${report.c12g_retirement_saving_schemes_hig_nod	}"
+								align="right" onclick="showdetail(this)" id="A12">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c12h_retirement_saving_schemes_hig_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="A12" align="right">CHENNAI</td>
+							<td th:text="${report.c12i_retirement_saving_schemes_hig_noc	}"
+								align="right" onclick="showdetail(this)" id="B12">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c12j_retirement_saving_schemes_hig_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="B12" align="right">CHENNAI</td>
+							<td th:text="${report.c12k_retirement_saving_schemes_med_nod	}"
+								align="right" onclick="showdetail(this)" id="C12">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c12l_retirement_saving_schemes_med_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="C12" align="right">CHENNAI</td>
+							<td th:text="${report.c12m_retirement_saving_schemes_med_noc	}"
+								align="right" onclick="showdetail(this)" id="D12">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c12n_retirement_saving_schemes_med_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="D12" align="right">CHENNAI</td>
+							<td th:text="${report.c12o_retirement_saving_schemes_low_nod	}"
+								align="right" onclick="showdetail(this)" id="E12">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c12p_retirement_saving_schemes_low_vod	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="E12" align="right">CHENNAI</td>
+							<td th:text="${report.c12q_retirement_saving_schemes_low_noc	}"
+								align="right" onclick="showdetail(this)" id="F12">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c12r_retirement_saving_schemes_low_voc	,1,'COMMA',2,'POINT')}"
+								onclick="showdetail(this)" id="F12" align="right">CHENNAI</td>
+							<td th:text="${report.c12s_retirement_saving_schemes_wic_nod	}"
+								align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c12t_retirement_saving_schemes_wic_vod	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+							<td th:text="${report.c12u_retirement_saving_schemes_wic_noc	}"
+								align="right">CHENNAI</td>
+							<td
+								th:text="${#numbers.formatDecimal(	report.c12v_retirement_saving_schemes_wic_voc	,1,'COMMA',2,'POINT')}"
+								align="right">CHENNAI</td>
+						</tr>
+
+
+
+					</tbody>
+				</table>
+
+
+			</div>
+			<label th:if="${displaymode}=='summary' or ${displaymode}==null">Note:<br>
+				1. The list of products and services is not exhaustive and not
+				mutually exclusive. Individual NBDTIs are required to fill-in all
+				their products and services as per their ML/TF risk assessment. <br>2.
+				Please include additional rows as required. <br>3. Debit and
+				Credit is with reference to the NBDTI's customers. Debit will refer
+				to transactions where the customer's account is debited and credit
+				will refer to transactions where the customer's account is credited.
+			</label>
+			<div class="card-footer text-center"
+				th:if="${displaymode}=='summary' or ${displaymode}==null"
+				style="background-color: #386276";>
+				<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+					onclick="home();">Home</button>
+				<!-- <button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button> -->
+			</div>
+
+
+			<div class="modal fade" style="overflow-x: auto; display: none;"
+				id="addedit" th:fragment="dataedit">
+
+				<div class="modal-dialog modal-lg" style="margin-top: 135px;">
+
+					<div class="modal-content" style="width: 744px;">
+
+
+
+
+
+
+						<div class="modal-header" style="background-color: #eaecee;">
+							<b>Warnings, Show-cause, Penalties Sanctions etc. for AML-CFT
+								related matters - Modify</b>
+
+
+
+						</div>
+
+
+						<div class="modal-body" th:each="repdetail : ${reportmaster}"
+							style="background-color: #eaecee; text-align: center">
+
+							<form action="#" th:object="${dataedit}" method="POST"
+								autocomplete="off" id="dataedit">
+
+								<table class="table  table-bordered  table-hover table-sm" id=""
+									style="width: 700px;">
+									<thead class="thead-light">
+										<!-- <tr>
+											<th></th>
+											<th rowspan="2"></th>
+
+											<th colspan="2">Current quarter</th>
+
+
+										</tr>
+ -->
+										<tr>
+											<th>Name of products and services</th>
+											<th>Description</th>
+											<th>Individual NBDTIs' ML/TF risk assessments of the
+												products and services</th>
+											<th colspan="3">To whom offered (Yes/No/Not Applicable)</th>
+										</tr>
+										<tr>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th>Face-to-face customers</th>
+											<th>Non face-to-face customers</th>
+											<th>Third parties</th>
+										</tr>
+									</thead>
+									<tbody th:each="repdetail : ${reportmaster}">
+										<tr>
+											<td>Deposit-taking services</td>
+											<td><input type="text"
+												style="color: black; text-align: right;"
+												th:value="${repdetail?.d1b_dep_tkg_services}" id="d1b_dep_tkg_services"
+												class="form-control form-control-sm" name="d1b_dep_tkg_services"
+												autocomplete="off" /></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme1" onclick="edi1(this);"
+													th:value="${repdetail?.c1c_dep_tkg_services_nbtdi}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme1"
+													name="c1c_dep_tkg_services_nbtdi"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c1c_dep_tkg_services_nbtdi}">Select</option>
+														<option value="High">High</option>
+														<option value="Medium">Medium</option>
+														<option value="Low">Low</option>
+														<option value="Not assessed">Not assessed</option>
+														<option value="Being assessed">Being assessed</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme13" onclick="edi13(this);"
+													th:value="${repdetail?.c1d_dep_tkg_services_offer_ftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme13"
+													name="c1d_dep_tkg_services_offer_ftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c1d_dep_tkg_services_offer_ftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+														
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme25" onclick="edi25(this);"
+													th:value="${repdetail?.c1e_dep_tkg_services_offer_nftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme25"
+													name="c1e_dep_tkg_services_offer_nftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c1e_dep_tkg_services_offer_nftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+														
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme37" onclick="edi37(this);"
+													th:value="${repdetail?.c1f_dep_tkg_services_offer_tp}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme37"
+													name="c1f_dep_tkg_services_offer_tp"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c1f_dep_tkg_services_offer_tp}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+														
+												</select></td>
+
+											<tr>
+											<td>Lending - Fund Based</td>
+											<td><input type="text"
+												style="color: black; text-align: right;"
+												th:value="${repdetail?.d2b_lend_fund_based}" id="d2b_lend_fund_based"
+												class="form-control form-control-sm" name="d2b_lend_fund_based"
+												autocomplete="off" /></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme2" onclick="edi2(this);"
+													th:value="${repdetail?.c2c_lend_fund_based_nbtdi}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme2"
+													name="c2c_lend_fund_based_nbtdi"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c2c_lend_fund_based_nbtdi}">Select</option>
+														<option value="High">High</option>
+														<option value="Medium">Medium</option>
+														<option value="Low">Low</option>
+														<option value="Not assessed">Not assessed</option>
+														<option value="Being assessed">Being assessed</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme14" onclick="edi14(this);"
+													th:value="${repdetail?.c2d_lend_fund_based_offer_ftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme14"
+													name="c2d_lend_fund_based_offer_ftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c2d_lend_fund_based_offer_ftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme26" onclick="edi26(this);"
+													th:value="${repdetail?.c2e_lend_fund_based_offer_nftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme26"
+													name="c2e_lend_fund_based_offer_nftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c2e_lend_fund_based_offer_nftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme38" onclick="edi38(this);"
+													th:value="${repdetail?.c2f_lend_fund_based_offer_tp}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme38"
+													name="c2f_lend_fund_based_offer_tp"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c2f_lend_fund_based_offer_tp}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+														
+												</select></td>
+
+										</tr>
+										<tr>
+											<td>Finance lease</td>
+											<td><input type="text"
+												style="color: black; text-align: right;"
+												th:value="${repdetail?.d3b_fb_finance_lease}" id="d3b_fb_finance_lease"
+												class="form-control form-control-sm" name="d3b_fb_finance_lease"
+												autocomplete="off" /></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme3" onclick="edi3(this);"
+													th:value="${repdetail?.c3c_fb_finance_lease_nbtdi}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme3"
+													name="c3c_fb_finance_lease_nbtdi"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c3c_fb_finance_lease_nbtdi}">Select</option>
+														<option value="High">High</option>
+														<option value="Medium">Medium</option>
+														<option value="Low">Low</option>
+														<option value="Not assessed">Not assessed</option>
+														<option value="Being assessed">Being assessed</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme15" onclick="edi15(this);"
+													th:value="${repdetail?.c3d_fb_finance_lease_offer_ftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme15"
+													name="c3d_fb_finance_lease_offer_ftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c3d_fb_finance_lease_offer_ftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>														
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme27" onclick="edi27(this);"
+													th:value="${repdetail?.c3e_fb_finance_lease_offer_nftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme27"
+													name="c3e_fb_finance_lease_offer_nftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c3e_fb_finance_lease_offer_nftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme39" onclick="edi39(this);"
+													th:value="${repdetail?.c3f_fb_finance_lease_offer_tp}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme39"
+													name="c3f_fb_finance_lease_offer_tp"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c3f_fb_finance_lease_offer_tp}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+														
+												</select></td>
+
+										</tr>
+
+										<tr>
+											<td>Operating lease</td>
+											<td><input type="text"
+												style="color: black; text-align: right;"
+												th:value="${repdetail?.d4b_fb_oper_lease}" id="d4b_fb_oper_lease"
+												class="form-control form-control-sm" name="d4b_fb_oper_lease"
+												autocomplete="off" /></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme4" onclick="edi4(this);"
+													th:value="${repdetail?.c4c_fb_oper_lease_nbtdi}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme4"
+													name="c4c_fb_oper_lease_nbtdi"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c4c_fb_oper_lease_nbtdi}">Select</option>
+														<option value="High">High</option>
+														<option value="Medium">Medium</option>
+														<option value="Low">Low</option>
+														<option value="Not assessed">Not assessed</option>
+														<option value="Being assessed">Being assessed</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme16" onclick="edi16(this);"
+													th:value="${repdetail?.c4d_fb_oper_lease_offer_ftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme16"
+													name="c4d_fb_oper_lease_offer_ftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c4d_fb_oper_lease_offer_ftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>														
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme28" onclick="edi28(this);"
+													th:value="${repdetail?.c4e_fb_oper_lease_offer_nftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme28"
+													name="c4e_fb_oper_lease_offer_nftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c4e_fb_oper_lease_offer_nftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme40" onclick="edi40(this);"
+													th:value="${repdetail?.c4f_fb_oper_lease_offer_tp}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme40"
+													name="c4f_fb_oper_lease_offer_tp"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c4f_fb_oper_lease_offer_tp}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+										</tr>
+
+										<tr>
+											<td>Loans</td>
+											<td><input type="text"
+												style="color: black; text-align: right;"
+												th:value="${repdetail?.d5b_fb_loans}" id="d5b_fb_loans"
+												class="form-control form-control-sm" name="d5b_fb_loans"
+												autocomplete="off" /></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme5" onclick="edi5(this);"
+													th:value="${repdetail?.c5c_fb_loans_nbtdi}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme5"
+													name="c5c_fb_loans_nbtdi"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c5c_fb_loans_nbtdi}">Select</option>
+														<option value="High">High</option>
+														<option value="Medium">Medium</option>
+														<option value="Low">Low</option>
+														<option value="Not assessed">Not assessed</option>
+														<option value="Being assessed">Being assessed</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme17" onclick="edi17(this);"
+													th:value="${repdetail?.c5d_fb_loans_offer_ftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme17"
+													name="c5d_fb_loans_offer_ftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c5d_fb_loans_offer_ftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>														
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme29" onclick="edi29(this);"
+													th:value="${repdetail?.c5e_fb_loans_offer_nftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme29"
+													name="c5e_fb_loans_offer_nftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c5e_fb_loans_offer_nftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme41" onclick="edi41(this);"
+													th:value="${repdetail?.c5f_fb_loans_offer_tp}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme41"
+													name="c5f_fb_loans_offer_tp"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c5f_fb_loans_offer_tp}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+
+										</tr>
+
+										<tr>
+											<td>Factoring</td>
+											<td><input type="text"
+												style="color: black; text-align: right;"
+												th:value="${repdetail?.d6b_fb_factoring}" id="d6b_fb_factoring"
+												class="form-control form-control-sm" name="d1b_dep_tkg_services"
+												autocomplete="off" /></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme6" onclick="edi6(this);"
+													th:value="${repdetail?.c6c_fb_factoring_nbtdi}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme6"
+													name="c5c_fb_loans_nbtdi"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c6c_fb_factoring_nbtdi}">Select</option>
+														<option value="High">High</option>
+														<option value="Medium">Medium</option>
+														<option value="Low">Low</option>
+														<option value="Not assessed">Not assessed</option>
+														<option value="Being assessed">Being assessed</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme18" onclick="edi18(this);"
+													th:value="${repdetail?.c6d_fb_factoring_offer_ftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme18"
+													name="c6d_fb_factoring_offer_ftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c6d_fb_factoring_offer_ftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>														
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme30" onclick="edi30(this);"
+													th:value="${repdetail?.c6e_fb_factoring_offer_nftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme30"
+													name="c6e_fb_factoring_offer_nftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c6e_fb_factoring_offer_nftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme42" onclick="edi42(this);"
+													th:value="${repdetail?.c6f_fb_factoring_offer_tp}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme42"
+													name="c6f_fb_factoring_offer_tp"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c6f_fb_factoring_offer_tp}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+
+										</tr>
+
+										<tr>
+											<td>Others</td>
+											<td><input type="text"
+												style="color: black; text-align: right;"
+												th:value="${repdetail?.d7b_fb_others}" id="d7b_fb_others"
+												class="form-control form-control-sm" name="d7b_fb_others"
+												autocomplete="off" /></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme7" onclick="edi7(this);"
+													th:value="${repdetail?.c7c_fb_others_nbtdi}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme7"
+													name="c7c_fb_others_nbtdi"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c7c_fb_others_nbtdi}">Select</option>
+														<option value="High">High</option>
+														<option value="Medium">Medium</option>
+														<option value="Low">Low</option>
+														<option value="Not assessed">Not assessed</option>
+														<option value="Being assessed">Being assessed</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme19" onclick="edi19(this);"
+													th:value="${repdetail?.c7d_fb_others_offer_ftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme19"
+													name="c7d_fb_others_offer_ftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c7d_fb_others_offer_ftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>														
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme31" onclick="edi31(this);"
+													th:value="${repdetail?.c7e_fb_others_offer_nftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme31"
+													name="c7e_fb_others_offer_nftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c7e_fb_others_offer_nftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme43" onclick="edi43(this);"
+													th:value="${repdetail?.c7f_fb_others_offer_tp}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme43"
+													name="c7f_fb_others_offer_tp"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c7f_fb_others_offer_tp}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+
+										</tr>
+
+										<tr>
+											<td>Lending - Non-Fund Based</td>
+											<td><input type="text"
+												style="color: black; text-align: right;"
+												th:value="${repdetail?.d8b_lending_non_fund_based}" id="d8b_lending_non_fund_based"
+												class="form-control form-control-sm" name="d8b_lending_non_fund_based"
+												autocomplete="off" /></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme8" onclick="edi8(this);"
+													th:value="${repdetail?.c8c_lending_non_fund_based_nbtdi}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme8"
+													name="c8c_lending_non_fund_based_nbtdi"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c8c_lending_non_fund_based_nbtdi}">Select</option>
+														<option value="High">High</option>
+														<option value="Medium">Medium</option>
+														<option value="Low">Low</option>
+														<option value="Not assessed">Not assessed</option>
+														<option value="Being assessed">Being assessed</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme20" onclick="edi20(this);"
+													th:value="${repdetail?.c8d_lending_non_fund_based_offer_ftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme20"
+													name="c8d_lending_non_fund_based_offer_ftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c8d_lending_non_fund_based_offer_ftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>														
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme32" onclick="edi32(this);"
+													th:value="${repdetail?.c8e_lending_non_fund_based_offer_nftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme32"
+													name="c8e_lending_non_fund_based_offer_nftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c8e_lending_non_fund_based_offer_nftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme44" onclick="edi44(this);"
+													th:value="${repdetail?.c8f_lending_non_fund_based_offer_tp}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme44"
+													name="c8f_lending_non_fund_based_offer_tp"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c8f_lending_non_fund_based_offer_tp}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+
+										</tr>
+
+										<tr>
+											<td>Credit card</td>
+											<td><input type="text"
+												style="color: black; text-align: right;"
+												th:value="${repdetail?.d9b_credit_cards}" id="d9b_credit_cards"
+												class="form-control form-control-sm" name="d9b_credit_cards"
+												autocomplete="off" /></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme9" onclick="edi9(this);"
+													th:value="${repdetail?.c9c_credit_cards_nbtdi}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme9"
+													name="c9c_credit_cards_nbtdi"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c9c_credit_cards_nbtdi}">Select</option>
+														<option value="High">High</option>
+														<option value="Medium">Medium</option>
+														<option value="Low">Low</option>
+														<option value="Not assessed">Not assessed</option>
+														<option value="Being assessed">Being assessed</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme21" onclick="edi21(this);"
+													th:value="${repdetail?.c9d_credit_cards_offer_ftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme21"
+													name="c9d_credit_cards_offer_ftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c9d_credit_cards_offer_ftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>														
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme33" onclick="edi33(this);"
+													th:value="${repdetail?.c9e_credit_cards_offer_nftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme33"
+													name="c9e_credit_cards_offer_nftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c9e_credit_cards_offer_nftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+											<td><input class="form-control form-control-sm"
+													id="hideme45" onclick="edi45(this);"
+													th:value="${repdetail?.c9f_credit_cards_offer_tp}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme45"
+													name="c9f_credit_cards_offer_tp"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c9f_credit_cards_offer_tp}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+
+										</tr>
+
+										<tr>
+											<td>Merchant point of sales</td>
+											<td><input type="text"
+												style="color: black; text-align: right;"
+												th:value="${repdetail?.d10b_merchang_pos}" id="d10b_merchang_pos"
+												class="form-control form-control-sm" name="d10b_merchang_pos"
+												autocomplete="off" /></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme10" onclick="edi10(this);"
+													th:value="${repdetail?.c10c_merchang_pos_nbtdi}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme10"
+													name="c10c_merchang_pos_nbtdi"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c10c_merchang_pos_nbtdi}">Select</option>
+														<option value="High">High</option>
+														<option value="Medium">Medium</option>
+														<option value="Low">Low</option>
+														<option value="Not assessed">Not assessed</option>
+														<option value="Being assessed">Being assessed</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme22" onclick="edi22(this);"
+													th:value="${repdetail?.c10d_merchang_pos_offer_ftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme22"
+													name="c10d_merchang_pos_offer_ftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c10d_merchang_pos_offer_ftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>														
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme34" onclick="edi34(this);"
+													th:value="${repdetail?.c10e_merchang_pos_offer_nftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme34"
+													name="c10e_merchang_pos_offer_nftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c10e_merchang_pos_offer_nftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme46" onclick="edi46(this);"
+													th:value="${repdetail?.c10f_merchang_pos_offer_tp}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme46"
+													name="c10f_merchang_pos_offer_tp"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c10f_merchang_pos_offer_tp}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+										
+										<tr />
+
+
+
+
+
+										<tr>
+											<td>Other products and services, please specify</td>
+											<td><input type="text"
+												style="color: black; text-align: right;"
+												th:value="${repdetail?.d11b_other_prod_services}" id="d11b_other_prod_services"
+												class="form-control form-control-sm" name="d11b_other_prod_services"
+												autocomplete="off" /></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme11" onclick="edi11(this);"
+													th:value="${repdetail?.c11c_other_prod_services_nbtdi}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme11"
+													name="c11c_other_prod_services_nbtdi"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c11c_other_prod_services_nbtdi}">Select</option>
+														<option value="High">High</option>
+														<option value="Medium">Medium</option>
+														<option value="Low">Low</option>
+														<option value="Not assessed">Not assessed</option>
+														<option value="Being assessed">Being assessed</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme23" onclick="edi23(this);"
+													th:value="${repdetail?.c11d_other_prod_services_offer_ftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme23"
+													name="c11d_other_prod_services_offer_ftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c11d_other_prod_services_offer_ftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>														
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme35" onclick="edi35(this);"
+													th:value="${repdetail?.c11e_other_prod_services_offer_nftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme35"
+													name="c11e_other_prod_services_offer_nftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c11e_other_prod_services_offer_nftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme47" onclick="edi47(this);"
+													th:value="${repdetail?.c11f_other_prod_services_offer_tp}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme47"
+													name="c11f_other_prod_services_offer_tp"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c11f_other_prod_services_offer_tp}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+										</tr>
+
+
+
+
+										<tr>
+											<td>Retirement Savings Scheme (RSS)</td>
+											<td><input type="text"
+												style="color: black; text-align: right;"
+												th:value="${repdetail?.d12b_retirement_saving_schemes}" id="d12b_retirement_saving_schemes"
+												class="form-control form-control-sm" name="d12b_retirement_saving_schemes"
+												autocomplete="off" /></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme12" onclick="edi12(this);"
+													th:value="${repdetail?.c12c_retirement_saving_schemes_nbtdi}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme12"
+													name="c12c_retirement_saving_schemes_nbtdi"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c12c_retirement_saving_schemes_nbtdi}">Select</option>
+														<option value="High">High</option>
+														<option value="Medium">Medium</option>
+														<option value="Low">Low</option>
+														<option value="Not assessed">Not assessed</option>
+														<option value="Being assessed">Being assessed</option>
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme24" onclick="edi24(this);"
+													th:value="${repdetail?.c12d_retirement_saving_schemes_offer_ftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme24"
+													name="c12d_retirement_saving_schemes_offer_ftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c12d_retirement_saving_schemes_offer_ftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>														
+												</select></td>
+												
+											<td><input class="form-control form-control-sm"
+													id="hideme36" onclick="edi36(this);"
+													th:value="${repdetail?.c12e_retirement_saving_schemes_offer_nftf}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme36"
+													name="c12e_retirement_saving_schemes_offer_nftf"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c12e_retirement_saving_schemes_offer_nftf}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+												
+											<td><input type ="hidden" id="report_date" name ="report_date" th:value="${#dates.format(repdetail?.report_date ,'dd/MM/yyyy')}"> 
+											<input class="form-control form-control-sm"
+													id="hideme48" onclick="edi48(this);"
+													th:value="${repdetail?.c12f_retirement_saving_schemes_offer_tp}"
+													style="float: left; font-size: 13px;"> <select
+													class="form-control form-control-sm" id="showme48"
+													name="c12f_retirement_saving_schemes_offer_tp"
+													style="float: left; font-size: 13px; width: 102px; display: none;"
+													required>
+														<option th:value="${report?.c12f_retirement_saving_schemes_offer_tp}">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+														<option value="Not Applicable">Not Applicable</option>
+												</select></td>
+										</tr>
+
+
+
+
+
+
+
+
+
+
+									</tbody>
+
+								</table>
+
+								<div class="
+												card-footer
+												text-center"
+									style="height: 38px; background-color: #eaecee;">
+							<button type="button" style="margin-top: -12px;"
+												class="btn btn-xs btn-primary"
+												onclick="editsubmitform(this);" form="dataedit"
+												id="btnSubmit">Submit</button>
+
+											<button type="button" style="margin-top: -12px;"
+												class="btn btn-xs btn-primary" id="btnclose"
+												data-dismiss="modal">Close</button>
+
+
+
+												</div>
+												<div class="container content"
+												style="border: 1px solid #36404a; padding: 15px;">
+													<div class="row formline">
+
+														<label class="col-sm-2">Entry User</label>
+														<div class="col-sm-2">
+															<input type="text" th:value="${session.USERID}"
+															id="entry_user" name="entry_user"
+															class="form-control form-control-sm" autocomplete="off"
+															readonly />
+
+														</div>
+														<label class="col-sm-2">Modify User</label>
+														<div class="col-sm-2">
+															<input type="text" th:value="${session.USERID}"
+															id="modify_user" name="modify_user"
+															class="form-control form-control-sm" autocomplete="off"
+															readonly />
+														</div>
+														<label class="col-sm-2">Verify User</label>
+														<div class="col-sm-2">
+															<input type="text" id="verify_user" name="verify_user"
+															class="form-control form-control-sm" autocomplete="off"
+															readonly />
+														</div>
+													</div>
+													<div class="row formline">
+														<label style="height: 2px;"></label>
+
+													</div>
+													<div class="row formline">
+
+														<label class="col-sm-2">Entry Time</label>
+														<div class="col-sm-2">
+															<input type="text" id="entry_time1" name="entry_time"
+															class="form-control form-control-sm" autocomplete="off"
+															readonly />
+														</div>
+
+														<label class="col-sm-2">Modify Time</label>
+														<div class="col-sm-2">
+															<input type="text" id="modify_time1" name="modify_time"
+															class="form-control form-control-sm" autocomplete="off"
+															readonly />
+
+														</div>
+
+
+
+														<label class="col-sm-2">Verify Time</label>
+														<div class="col-sm-2">
+															<input type="text" id="verify_time1" name="verify_time"
+															class="form-control form-control-sm" autocomplete="off"
+															readonly />
+
+														</div>
+
+														<label></label>
+													</div>
+
+												</div>
+							
+										</form>
+
+						</div>
+
+
+
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row"
+				th:if="${displaymode}=='detail' or ${displaymode}==null"
+				th:fragment="detail" style="overflow-x: auto; width: 1139px;">
+
+
+				<div class="col-sm-12 customcol" th:if="${displaymode}=='detail'"
+					th:fragment="detail">
+
+					<table th:if="${searchmsg} == null"
+						class="table table-bordered table-sm" style="width: 2098px"
+						id="detailtb">
+						<thead class="thead-light">
+							<tr>
+								<!-- <th rowspan="5" class="first_left"><a
+											data-toggle="tooltip" class="editrec"
+											title="Click to add new Records"><i
+												th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype}=='report' ? addedit "
+												class="fa fa-plus-circle" onclick="addRecord();"
+												aria-hidden="true"></i></a></th>
+										<th rowspan="5" class="second_left"><a href="#"
+											data-toggle="tooltip" title="Click to Search Record"><i
+												class="fa fa-search" onclick="searchRecord();"
+												aria-hidden="true"></i></a></th> -->
+								<th>Customer Id</th>
+								<th>Customer Name</th>
+								<th>Customer Type</th>
+								<th>Customer Rating</th>
+								<th>Account Number</th>
+								<th>Account Name</th>
+								<th>Transaction Type</th>
+								<th>Transaction Sub Type</th>
+								<th>Transaction Date</th>
+								<th>Transaction Id</th>
+								<th>Partial Transaction Id</th>
+								<th>Partial Transaction Type</th>
+								<th>Transaction Currency</th>
+								<th>Transaction Amount</th>
+								<th>Transaction Category</th>
+
+							</tr>
+
+						</thead>
+						<tbody>
+							<tr th:each="repdetail : ${reportdetails.content}">
+								<!-- <td class="first_left"><a data-toggle="tooltip"
+											class="editrec" title="Click to Edit this Record"><i
+												th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+												class="fas fa-edit" onclick="editRecord(this)"></i></a></td>
+										<td class="second_left"><a data-toggle="tooltip"
+											class="editrec" title="Click to delete this Record"><i
+												th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype == 'report'} ? addedit "
+												class="fas fa-minus-circle" onclick="deleteRecord(this)"></i></a></td>
+ -->
+								<td th:text="${repdetail.cust_id	}">CHENNAI</td>
+								<td th:text="${repdetail.cust_name	}">CHENNAI</td>
+								<td th:text="${repdetail.cust_type	}">CHENNAI</td>
+								<td th:text="${repdetail.cust_rating	}">CHENNAI</td>
+								<td th:text="${repdetail.acct_no	}">CHENNAI</td>
+								<td th:text="${repdetail.acct_name	}">CHENNAI</td>
+								<td th:text="${repdetail.tran_type	}">CHENNAI</td>
+								<td th:text="${repdetail.tran_sub_type	}">CHENNAI</td>
+								<td th:text="${repdetail.tran_date	}">CHENNAI</td>
+								<td th:text="${repdetail.tran_id	}">CHENNAI</td>
+								<td th:text="${repdetail.part_tran_id	}">CHENNAI</td>
+								<td th:text="${repdetail.part_tran_type	}">CHENNAI</td>
+								<td th:text="${repdetail.tran_crncy	}">CHENNAI</td>
+								<td
+									th:text="${#numbers.formatDecimal(repdetail.tran_amt	,1,'COMMA',2,'POINT')}"
+									align="right">CHENNAI</td>
+								<td th:text="${repdetail.tran_category	}">CHENNAI</td>
+
+
+							</tr>
+						</tbody>
+					</table>
+					<table th:if="${searchmsg} != null"
+						class="table table-bordered table-sm" style="width: 1500px"
+						id="detailtb">
+						<thead class="thead-light">
+							<tr>
+								<!-- 									<th><a data-toggle="tooltip" class="editrec"
+											title="Click to add new Records"><i
+												th:classappend="${session.PERMISSIONS == 'W'} AND ${dtltype}=='report' ? addedit "
+												class="fa fa-plus-circle" onclick="addRecord();"
+												aria-hidden="true"></i></a></th>
+										<th><a data-toggle="tooltip"
+											title="Click to Search Record"><i class="fa fa-search"
+												onclick="searchRecord();" aria-hidden="true"></i></a></th>
+	 -->
+								<th>Customer Id</th>
+								<th>Customer Name</th>
+								<th>Customer Type</th>
+								<th>Customer Rating</th>
+								<th>Account Number</th>
+								<th>Account Name</th>
+								<th>Transaction Type</th>
+								<th>Transaction Sub Type</th>
+								<th>Transaction Date</th>
+								<th>Transaction Id</th>
+								<th>Partial Transaction Id</th>
+								<th>Partial Transaction Type</th>
+								<th>Transaction Currency</th>
+								<th>Transaction Amount</th>
+								<th>Transaction Category</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td colspan="10">No Data Available</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+			<div class="modal fade" id="datadelete">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div class="modal-content">
+						<div class="modal-body" style="text-align: center">
+							<button type="button" class="close" data-dismiss="modal">×</button>
+							Are you Sure want to delete?
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary"
+								onclick="submitdataform();">Submit</button>
+							<button type="button" class="btn btn-primary"
+								data-dismiss="modal">Cancel</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+			<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+
+			<div th:if="${displaymode}=='detail'">
+				<input type="hidden" th:value="${filter}" id="filters">
+				<div class="float-right" th:if="${reportdetails.totalPages} gt 1">
+					<a href="#"><i class="fas fa-caret-left fa-2x"
+						th:onclick="|showdetails('prevpage',${reportdetails.number},${reportdetails.totalPages});|"></i></a>
+					<input type="text" id="pageno" style="width: 30px"
+						th:value="${reportdetails.number+1}"
+						th:onchange="|showdetails('givenpage',${reportdetails.number},${reportdetails.totalPages});|"></input>
+					of <font th:text="${reportdetails.totalPages}"></font> <a href="#"><i
+						class="fas fa-caret-right fa-2x"
+						th:onclick="|showdetails('nextpage',${reportdetails.number},${reportdetails.totalPages});|"></i></a>
+				</div>
+			</div>
+			<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+
+		</div>
+	</div>
+
+
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg"></p>
+					<button type="button" class="btn btn-primary"
+						onclick="showsummary();">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+</body>
+</html>

@@ -1,0 +1,476 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AccountGeneral
+CREATED BY	: MANIVANNAN
+CREATED ON	: 11-MAR-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en"  >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+
+
+</head>
+
+
+
+
+<title>AML</title>
+
+<style>
+nav>.nav.nav-tabs {
+	border: none;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
+	border: none;
+	padding: 18px 25px;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link.active:after {
+	content: "";
+	position: relative;
+	bottom: -60px;
+	left: -10%;
+	border: 15px solid transparent;
+	border-top-color: #1b6491;
+}
+
+.tab-content {
+	background: #fdfdfd;
+	line-height: 25px;
+	width: 100%;
+	border: 1px solid #ddd;
+	border-top: 5px solid #594a43;
+	border-bottom: 5px solid #594a43;
+	padding: 30px 25px;
+}
+
+nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
+	border: none;
+	background: #002942;
+	color: #fff;
+	border-radius: 0;
+	transition: background 0.20s linear;
+}
+
+ .underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+} 
+</style>
+<script type="text/javascript">
+	function back() {
+		$("#loadermodal").modal("toggle");
+		window.history.back();
+	}
+	function home() {
+		$("#loadermodal").modal("toggle");
+		location.href = 'TransactionInquiry'
+	}
+	
+	function AccountTransaction(){
+		$("#loadermodal").modal("toggle");
+		var CUSTID = $("#cust_id").val();
+		var CustName = $("#acct_name").val();
+		location.href = 'AccountTransaction?CUSTID='
+			+ CUSTID +'&CustName=' + CustName;
+	}
+	
+	function fnClick(a) {
+		$("#loadermodal").modal("toggle");
+		var custId = a.getAttribute("data-custId")
+		location.href = 'AMLCustInquiry1?custId=' + custId;
+	}
+	
+	function fnClickAcct(a){
+		$("#loadermodal").modal("toggle");
+		var acctnum = a.getAttribute("data-Acctnum");
+		var CUSTID = a.getAttribute("data-cust");
+		var acid = a.getAttribute("data-acid");
+		
+		if(CUSTID == null){
+			$("#alertmsg").text("Office Account Not Accessible! ");
+
+			$('#alert').modal("toggle");
+		}else{
+			location.href = 'AMLAccountInquiry1?acctnum='
+				+ acctnum +'&CUSTID=' + CUSTID + '&acid=' + acid;
+		}
+	
+	}
+	
+	var deleteval;
+	function getUserlist(mode, num, maxpage) {
+		$("#loadermodal").modal("toggle");
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+		var tranid =$("#tranidentity").val();
+
+		var Callurl = 'AMLTranInquiry?formmode=list' + '&tranid='+ tranid;
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		location.href = Callurl;
+	}
+	
+
+	
+</script>
+
+<script>
+</script>
+
+
+<script>
+	
+
+
+</script>
+<body>
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right;margin-top: 5%;" aria-hidden="true"
+		onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+
+
+
+
+
+
+
+
+
+
+			<!--  ***************************************************CUSTOMER SUB TAB MENU*************************************************************  -->
+
+
+			<!--  ***************************************************CUSTOMER SUB TAB MENU STARTS************************************************************* -->
+
+
+
+			<div class="container-fluid">
+
+				<div class="card">
+					<div class="card-header">
+						<div class="float-left">
+							<h4>Transaction General Details</h4>
+						</div>
+
+					</div>
+					<div class="card-body">
+
+
+						<div class="form-group">
+
+
+							<div th:if="${formmode}=='TransactionGeneral'" class=" content">
+								<!-- <div class="row formline">
+												<div class="col-sm-2">
+													<label for="cust_id">Bank</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" th:value="MCS"
+														id="cust_id" class="form-control form-control-sm" readonly
+														name="bank" autocomplete="off" required>
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Branch</label>
+
+
+												<div class="col-sm-3">
+													<input type="text" th:value="MCS"
+														id="primary_sol_id" name="sol_id" readonly
+														class="form-control form-control-sm" autocomplete="false"
+														required />
+												</div>
+
+											</div>
+
+											<label></label> -->
+
+
+<table class="table  table-bordered  table-hover table-sm"
+												style="margin-bottom: 0px" id="usertable">
+												<thead class="thead-light">
+													<tr>
+														<!-- <th></th> -->
+														<th>Tran Date</th>
+														<th>Account No</th>
+														<th>Account Name</th>
+														<th>Part Tran Type</th>
+														<th>Tran Id</th>
+														<th>Part Tran Id</th>
+														<th>Tran Currency</th>
+														<th>Tran Amount</th>
+														<th>Channel</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:if="${TranCount}=='0'">
+														<td colspan="10" style="text-align: center; color: red">No
+															Data Found</td>
+													</tr>
+													<tr th:if="${TranCount}!='0'"
+														th:each="AcctMasterdetail1 : ${AcctMaster}"
+														class="userlist">
+														<td
+															th:text="${#dates.format(AcctMasterdetail1?.tran_date, 'dd/MM/yyyy')}">TEST</td>
+
+														<td class="underline" onclick="fnClickAcct(this);"
+															th:attr="data-Acctnum=${AcctMasterdetail1.foracid},data-acid =${AcctMasterdetail1.acid},data-cust=${AcctMasterdetail1.cif_id}"
+															th:text="${AcctMasterdetail1.foracid}">TEST</td>
+														<td th:text="${AcctMasterdetail1.acct_name}">123</td>
+														
+														<th:block
+												th:switch="${AcctMasterdetail1.part_tran_type}">
+												<td th:case="'D'">Debit</td>
+												<td th:case="'C'">Credit</td>
+											</th:block>
+														<td th:text="${AcctMasterdetail1.tran_id}">123</td> 
+														<td th:text="${AcctMasterdetail1?.part_tran_srl_num}" align="right">123</td>						
+														<td th:text="${AcctMasterdetail1?.tran_crncy_code}">123</td>
+											<td th:text="${#numbers.formatDecimal(AcctMasterdetail1.tran_amt 	,1,'COMMA',2,'POINT')}"
+															align="right">CHENNAI</td>
+											<td th:text="${AcctMasterdetail1.acct_name}">123</td>
+
+
+										
+
+											
+
+										</tr>
+									</tbody>
+								</table>
+
+							<!-- <div class="float-right"
+								th:if="${AcctMaster.totalPages} gt 1"
+								id="paginationCust">
+								<input type="hidden" th:value="${tran_id}" id="tranidentity" > 
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${AcctMaster.number},${AcctMaster.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${AcctMaster.number+1}"
+									th:onchange="|getUserlist('givenpage',${AcctMaster.number},${AcctMaster.totalPages});|"></input>
+								of <font th:text="${AcctMaster.totalPages}"></font> <a
+									href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${AcctMaster.number},${AcctMaster.totalPages});|"></i></a>
+							</div>
+ -->
+
+
+							</div>
+
+							<div th:if="${formmode}=='AccountTransactionGeneral'"
+								class=" content">
+								<div class="row formline">
+									<div class="col-sm-2">
+										<label for="cust_id">Bank</label>
+									</div>
+
+									<div class="col-sm-3">
+										<input type="text" th:value="MCS" id="cust_id"
+											class="form-control form-control-sm" readonly name="bank"
+											autocomplete="off" required>
+									</div>
+									<div class="col-sm-1"></div>
+									<label class="col-sm-2">Branch</label>
+
+
+									<div class="col-sm-3">
+										<input type="text" th:value="MCS" id="primary_sol_id"
+											name="sol_id" readonly class="form-control form-control-sm"
+											autocomplete="false" required />
+									</div>
+
+								</div>
+
+								<label></label>
+
+
+								<table class="table  table-bordered  table-hover table-sm"
+									style="margin-bottom: 0px" id="usertable">
+									<thead class="thead-light">
+										<tr>
+											<!-- <th></th> -->
+											<th>Transaction Date</th>
+											<th>Value Date</th>
+											<th>Account Number</th>
+											<th>Account Name</th>
+											<th>Transaction Id</th>
+											<th>Part Transaction Type</th>
+											<th>Transaction currency</th>
+											<th>Transaction Amount</th>
+											<th>Particular</th>
+
+
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="AcctMasterdetail : ${AcctMaster}"
+											class="userlist">
+											<td
+												th:text="${#dates.format(AcctMasterdetail.tran_date, 'dd/MM/yyyy')}">CHENNAI</td>
+											<td
+												th:text="${#dates.format(AcctMasterdetail.value_date, 'dd/MM/yyyy')}">CHENNAI</td>
+											<td class="underline" onclick="fnClick(this);"
+												th:attr="data-custId=${AcctMasterdetail.tran_id}"
+												th:text="${AccName.acct_name}"></td>
+											<td th:text="${AccName.acct_num}">123</td>
+											<td th:text="${AcctMasterdetail.tran_id}">123</td>
+
+											<th:block th:switch="${AcctMasterdetail.part_tran_type}">
+												<td th:case="'T'">Transfer</td>
+												<td th:case="'C'">Credit</td>
+											</th:block>
+											<td th:text="${AcctMasterdetail.tran_crncy}">123</td>
+
+											<td
+												th:text="${#numbers.formatDecimal(AcctMasterdetail.tran_amt	,1,'COMMA',2,'POINT')}"
+												align="right">CHENNAI</td>
+											<td th:text="${AcctMasterdetail.tran_particular}">123</td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="float-right"
+								th:if="${transactionInquiry.totalPages} gt 1"
+								id="paginationCust">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${transactionInquiry.number},${transactionInquiry.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${transactionInquiry.number+1}"
+									th:onchange="|getUserlist('givenpage',${transactionInquiry.number},${transactionInquiry.totalPages});|"></input>
+								of <font th:text="${transactionInquiry.totalPages}"></font> <a
+									href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${transactionInquiry.number},${transactionInquiry.totalPages});|"></i></a>
+							</div>
+
+
+
+							</div>
+
+
+
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="card-footer text-center"
+			style="background-color: #386276;">
+			<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+				onclick="home();">Home</button>
+			<!-- <button type="button" class="btn btn-xs btn-primary" id="btnBack"
+				onclick="back();">Back</button> -->
+		</div>
+		<div class="modal fade" id="loadermodal" data-backdrop="static"
+					data-keyboard="false">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="background-color: #94b8dd00;">
+							<div class="modal-body" style="text-align: center">
+								<div class="loader">Loading...</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="alert">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="alertmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

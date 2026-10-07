@@ -1,0 +1,1235 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : BAMLSTR
+CREATED BY	: Ramprasath
+CREATED ON	: 06-MAY-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en"  >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+
+<script src="js/bootstrap411.js"></script>
+
+<style type="text/css">
+.btn {
+	line-height: 0.5rem;
+}
+
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+
+.dropdown-menu a:hover {
+	background-color: black;
+}
+</style>
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script th:inline="javascript">
+	function submitform(a) {
+		if ($("#STR").valid()) {
+			//var formmode = a.getAttribute("data-formmode");
+			var url = "./InternalReportOfSuspiciousTransactions";
+
+			$("#STR").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#STR").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+
+			}
+			;
+		}
+	};
+	$(function() {
+
+		$("#entry_time1,verify_time1,modify_time1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '/' + mm + '/' + yyyy;
+		document.getElementById('entry_time1').value = today;
+		document.getElementById('verify_time1').value = today;
+		document.getElementById('modify_time1').value = today;
+	});
+	$(function() {
+
+		$("#acct_opn_date").datepicker({
+
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+				$("#acct_closed_date").datepicker("option", "minDate", dt);
+
+			}
+		});
+		$("#acct_closed_date").datepicker({
+			minDate : 0,
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = new Date(selected);
+				dt.setDate(dt.getDate() - 1);
+				//$("#start_date").datepicker("option", "maxDate", dt);
+			}
+		});
+		$("#date_tran").datepicker({
+			dateFormat : "dd/mm/yy",
+			changeMonth : true,
+			changeYear : true,
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+			}
+		});
+		$(
+				"#date_of_birth_2,#date_of_birth_8,#date_detected,#date_of_incorporation,#date_of_suspension,#submission_date,#tran_date,#tran_date_1,#tran_date_7")
+				.datepicker({
+					dateFormat : "dd/mm/yy",
+					changeMonth : true,
+					onSelect : function(selected) {
+						var dt = $(this).datepicker('getDate');
+						dt.setDate(dt.getDate());
+					}
+				});
+		$("").datepicker({
+			minDate : 0,
+			dateFormat : "dd/mm/yy",
+			onSelect : function(selected) {
+				var dt = new Date(selected);
+				dt.setDate(dt.getDate() + 1);
+			}
+		});
+		$("#signDate").datepicker({
+			dateFormat : "dd/mm/yy",
+			changeMonth : true,
+			changeYear : true,
+			maxDate : 0,
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+			}
+		});
+		$("#CurrentDate").datepicker({
+			dateFormat : "dd/mm/yy",
+			changeMonth : true,
+			changeYear : true,
+			maxDate : 0,
+			onSelect : function(selected) {
+				var dt = $(this).datepicker('getDate');
+				dt.setDate(dt.getDate());
+			}
+		});
+	});
+
+	/*]]>*/
+</script>
+
+<script>
+	function SearchGo(a) {
+
+		var tran_id = document.getElementById("id_tran").value;
+		var tran_date = document.getElementById("date_tran").value;
+		var part_tran_srl_num = document.getElementById("part_tran_srl_num").value;
+		$('#acctaudit').modal("hide");
+		var chidWin = window.open("STRReportInternalSearch?tran_id=" + tran_id
+				+ '&tran_date=' + tran_date + '&part_tran_srl_num='
+				+ part_tran_srl_num);
+
+	}
+	
+	function home() {
+		location.href = 'Dashboard'
+	}
+	function home1() {
+		$("#dataHome").modal("toggle");
+	}
+
+	function back() {
+
+		window.history.back();
+	}
+</script>
+</head>
+
+<body>
+	<div class="modal fade" id="acctaudit">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content"
+				style="background-color: #ced4da; width: 100%;">
+				<div class="modal-header">
+					<b>Transaction Details Search</b>
+				</div>
+				<div class="modal-body" style="text-align: center">
+					<div class=" content">
+						<div class="row formline" style="text-align: -webkit-left;">
+
+							<label class="col-sm-4">Tran ID</label>
+							<div class="col-sm-5">
+								<input type="text" id="id_tran"
+									class="form-control form-control-sm">
+
+
+							</div>
+
+
+							<div class="col-sm-1"></div>
+
+						</div>
+						<div class="row formline" style="text-align: -webkit-left;">
+
+							<label class="col-sm-4">Tran Date</label>
+							<div class="col-sm-5">
+								<input type="text" id="date_tran"
+									class="form-control form-control-sm">
+
+
+							</div>
+
+
+							<div class="col-sm-1"></div>
+
+						</div>
+						<div class="row formline" style="text-align: -webkit-left;">
+
+							<label class="col-sm-4">Part Tran Srl Num</label>
+							<div class="col-sm-5">
+								<input type="text" id="part_tran_srl_num"
+									name="part_tran_srl_num" class="form-control form-control-sm">
+
+
+							</div>
+
+							<div class="col-sm-1"></div>
+
+
+						</div>
+
+						<label></label> <label></label>
+
+						<div>
+							<button type="button" style="margin-top: -12px;"
+								class="btn btn-xs btn-primary" id="btnclose"
+								onclick="SearchGo(this);">Go</button>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('BAMLSTR')" id="ques"></i>
+	<div class="content-page">
+
+		<div class="content">
+			<div class="container-fluid">
+
+				<div class="container content">
+					<div class="row">
+						<div class="col-sm-12">
+							<form action="#" th:object="${STR}" method="POST"
+								autocomplete="off" id="STR">
+
+								<div class="card" style="padding: 14px;">
+									<div class="card-header">
+										<div class="float-left">
+											<b th:text="${menuname}"></b> <input type="hidden"
+												th:value="${formmode}" id="formmode1" style="display: none;">
+										</div>
+
+										<!-- <a href="#"><i class="fas fa-search searchico"
+											style="margin-left: 19px; font-weight: bolder; font-size: 21px;"
+											data-toggle="modal" data-target="#acctaudit" id="iconacc"></i></a> -->
+
+									</div>
+									<div class="card" style="border: 1px solid #adb5bd;">
+										<div class="card-body">
+
+
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="dataid">STR Ref No</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" id="str_ref_no" th:value="${STR_REF_NO}"
+														class="form-control form-control-sm" name="str_ref_no"
+														autocomplete="off" readonly/>
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Date</label>
+
+
+												<div class="col-sm-3">
+													<input type="text" id="entry_time1" name="date_of_report"
+														 class="form-control form-control-sm"
+														autocomplete="false" readonly />
+												</div>
+
+											</div>
+
+
+
+
+
+
+
+
+										</div>
+									</div>
+
+									<div class="card" style="border: 1px solid #adb5bd;">
+										<div class="card-body">
+
+
+											<div class="row formline">
+												<div class="col-sm-6">
+													<label style="font-family: cursive; font-style: oblique;"
+														for="dataid"> From: Reporter's name and position</label>
+												</div>
+												<div class="col-sm-1"></div>
+												<div class="col-sm-3">
+													<label style="font-family: cursive; font-style: oblique;"
+														for="dataid">To: Money Laundering Reporting
+														Officer </label>
+												</div>
+
+
+											</div>
+											<label></label>
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="dataid">Name</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" id="from_rptr_name" value=""
+														class="form-control form-control-sm" name="from_rptr_name"
+														autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">MLRO/DMLRO</label>
+
+
+												<div class="col-sm-3">
+													<input type="text" id="to_mlro_dmlro" name="to_mlro_dmlro"
+														class="form-control form-control-sm" autocomplete="false"
+														required />
+												</div>
+
+
+											</div>
+											<div class="col-sm-1"></div>
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="dataid">Position</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" id="from_rptr_position"
+														class="form-control form-control-sm"
+														name="from_rptr_position" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+
+											</div>
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="dataid">Ext/Tel</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" id="from_rpt_extn_ph"
+														class="form-control form-control-sm"
+														name="from_rpt_extn_ph" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+
+											</div>
+
+										</div>
+
+									</div>
+
+
+									<div class="card" style="border: 1px solid #adb5bd;">
+										<div class="card-body">
+
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label style="font-style: oblique; font-family: cursive;"
+														for="dataid">Customer/Client</label>
+												</div>
+
+												<div class="col-sm-3">
+													<label style="font-style: oblique; font-family: cursive;"
+														for="dataid">Subject of Disclosure</label>
+												</div>
+												<div class="col-sm-1"></div>
+												<label
+													style="margin-left: 9px; font-style: oblique; font-family: cursive;"
+													for="dataid">Customer/Client</label>
+
+
+												<div class="col-sm-3">
+													<label
+														style="margin-left: 70px; font-style: oblique; font-family: cursive;"
+														for="dataid">Subject of Disclosure</label>
+												</div>
+
+											</div>
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="dataid">Name</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" id="cust_client_name"
+														class="form-control form-control-sm"
+														name="cust_client_name" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Occupation</label>
+
+
+												<div class="col-sm-3">
+													<input type="text" id="cust_client_occp"
+														name="cust_client_occp"
+														class="form-control form-control-sm" autocomplete="false"
+														 />
+												</div>
+
+											</div>
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="dataid">Address</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" id="cust_client_addr"
+														class="form-control form-control-sm"
+														name="cust_client_addr" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Employer</label>
+
+
+												<div class="col-sm-3">
+													<input type="text" id="cust_client_employer"
+														name="cust_client_employer"
+														class="form-control form-control-sm" autocomplete="false"
+														 />
+												</div>
+
+											</div>
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="dataid">Telephone</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" id="cust_client_mob"
+														class="form-control form-control-sm"
+														name="cust_client_mob" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">ID Card No</label>
+
+
+												<div class="col-sm-3">
+													<input type="text" id="cust_client_id_card_no"
+														name="cust_client_id_card_no"
+														class="form-control form-control-sm" autocomplete="false"
+														 />
+												</div>
+
+											</div>
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="dataid">Fax</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" id="cust_client_fax"
+														class="form-control form-control-sm"
+														name="cust_client_fax" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Other ID</label>
+
+
+												<div class="col-sm-3">
+													<input type="text" id="cust_client_otr_id"
+														name="cust_client_otr_id"
+														class="form-control form-control-sm" autocomplete="false"
+													 />
+												</div>
+
+											</div>
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="dataid">Mobile</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" id="cust_client_mob"
+														class="form-control form-control-sm"
+														name="cust_client_mob" autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Place of Birth</label>
+
+
+												<div class="col-sm-3">
+													<input type="text" id="cust_client_place_of_birth"
+														name="cust_client_place_of_birth"
+														class="form-control form-control-sm" autocomplete="false"
+														 />
+												</div>
+
+											</div>
+
+
+
+
+
+
+
+
+										</div>
+									</div>
+
+
+
+
+									<div class="card" style="border: 1px solid #adb5bd;">
+										<div class="card-body">
+
+
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="dataid">Transaction</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" id="tran_ref"
+														class="form-control form-control-sm" name="tran_ref"
+														autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Amount</label>
+
+
+												<div class="col-sm-3">
+													<input type="text" id="tran_amount" name="tran_amount"
+														class="form-control form-control-sm" autocomplete="false"
+														required />
+												</div>
+
+											</div>
+											<label></label>
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="dataid">Reason For Suspicion</label>
+												</div>
+
+												<div class="col-sm-8">
+													<textarea class="form-control form-control-sm"
+														id="resons_for_susp" name="resons_for_susp" placeholder=""
+														rows="5"></textarea>
+													<div class="col-sm-1"></div>
+
+												</div>
+
+
+
+
+
+
+
+
+											</div>
+										</div>
+
+
+
+
+
+
+
+									</div>
+
+
+
+									<div class="card" style="border: 1px solid #adb5bd;">
+										<div class="card-body">
+
+
+											<div class="row formline">
+												<p
+													style="color: black; font-family: cursive; font-size: large;">Please
+													Use another page if necessary and put page reference as
+													follows: 1 of 2, 2 of 2</p>
+
+											</div>
+											<p style="color: black;">Please describe any activity
+												that prompted the report, giving reason for your supicion
+												and any steps that have already been taken. Please add
+												continuation sheet as necessary</p>
+
+											<p style="color: black;">Has the subject client made any
+												voluntary statement as to the origin or source of the
+												proceeds. If es kindly enclose a copy of the statement</p>
+											<p style="color: black;">When submitting this report,
+												please append any additional material that you may consider
+												suitable and which may be of assistance to the Reporting
+												Officer, e.g. bank statements, correspondence, vouchers,
+												account opening and identification documents, etc.)</p>
+											<p style="color: black;">Give name of beneficial
+												woner(s); other associated persons or companies</p>
+											<label></label>
+											<div class="row formline"></div>
+
+
+
+
+
+
+
+
+										</div>
+									</div>
+
+									<div class="card" style="border: 1px solid #adb5bd;">
+										<div class="card-body">
+
+
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="dataid">Report Signature</label>
+												</div>
+
+												<div class="col-sm-3">
+													<input type="text" id="rptr_sig"
+														class="form-control form-control-sm" name=""
+														autocomplete="off" />
+												</div>
+												<div class="col-sm-1"></div>
+												<label class="col-sm-2">Date</label>
+
+
+												<div class="col-sm-3">
+													<input type="text" id="signDate" name="sig_date"
+														class="form-control form-control-sm" autocomplete="false"
+														required />
+												</div>
+
+											</div>
+											<label></label>
+											<div class="row formline">
+												<p style="color: black;">IMPORTANT: NO TIPPING OFF:
+													Customer/Client should not be informed of the suspicion
+													report</p>
+
+											</div>
+
+
+
+
+
+
+
+
+										</div>
+									</div>
+
+									<div class="card" style="border: 1px solid #adb5bd;">
+										<div class="card-body">
+
+
+											<div class="row formline">
+												<p
+													style="color: black; font-family: cursive; font-size: large;">MLRO
+													Use</p>
+
+
+
+
+											</div>
+											<label></label>
+
+
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label>Date Received</label>
+												</div>
+
+												<div class="col-sm-2">
+													<input type="text" id="date_of_report"
+														class="form-control form-control-sm" name=""
+														autocomplete="off">
+												</div>
+
+
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-2">Time Received</label>
+
+												<div class="col-sm-2">
+													<input type="text" id="cust_short_name"
+														name="cust_short_name" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-0"></div>
+												<label for="userName" class="col-sm-2">Ref:</label>
+
+												<div class="col-sm-2">
+
+													<input type="text" id="cust_name" name="cust_name" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+
+											</div>
+											<label></label>
+											<div class="row formline">
+
+												<div class="col-sm-2">
+													<label>FIU Advised</label>
+												</div>
+
+												<div class="col-sm-2">
+													<div class="form-check-inline  ">
+														<label class="form-check-label" for="radio1"> <input
+															type="radio" class="form-check-input " id="emailyes"
+															name="email_flg" value="Y" checked>Yes
+														</label>
+													</div>
+													<div class="form-check-inline -3">
+														<label class="form-check-label " for="radio2"> <input
+															type="radio" class="form-check-input" id="emailno"
+															name="email_flg" value="N">No
+														</label>
+													</div>
+												</div>
+
+
+
+
+												<div class="col-sm-0"></div>
+												<label class="col-sm-2">Time Received</label>
+
+												<div class="col-sm-2">
+													<input type="text" id="cust_short_name"
+														name="cust_short_name" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+												<div class="col-sm-0"></div>
+												<label for="userName" class="col-sm-2">Ref:</label>
+
+												<div class="col-sm-2">
+
+													<input type="text" id="cust_name" name="cust_name" value=""
+														class="form-control form-control-sm" autocomplete="off" />
+												</div>
+
+
+											</div>
+
+
+
+
+
+
+										</div>
+									</div>
+
+
+
+
+
+
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div class="card-footer text-center">
+
+
+				<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+					style="margin-top: -12px;" onclick="home();">Home</button>
+				<button type="button" class="btn btn-xs btn-primary" form="STR"
+					id="btnBack" style="margin-top: -12px;" onclick="submitform(this);">Submit</button>
+				<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+					style="margin-top: -12px;" onclick="back();">Back</button>
+
+			</div>
+		</div>
+	</div>
+	<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+	<div class="modal fade" id="datadelete">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					Are you Sure want to delete?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						onclick="submitformdelete(this);" th:attr="data-formmode=delete">Submit</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="dataHome">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					Are you Sure want to Leave?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="home();">Yes</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="dataBack">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body"
+					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					Are you Sure want to Leave?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="back();">Yes</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+	<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="list();">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="verifybox">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="verifyboxmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</div>
+	</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+
+
+
+	<!--------------------------------------------File Upload Modal Starts----------------------------------------------------------->
+	<div class="modal fade" id="fileupload">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<h1>Upload only xml file</h1>
+					<br /> <br />
+
+					<form action="#" th:object="${uploadform}" method="POST"
+						autocomplete="off" id="uploadform" enctype="multipart/form-data">
+
+						<input id="file" type="file" name="file"
+							style="background-color: white;" /><br /> <br />
+
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="fire_ajax_submit(this);"
+							form="uploadform" id="btn_Upload_Submit">Submit</button>
+
+
+						<!-- <form method="POST" action="upload" enctype="multipart/form-data">
+   									<input id="file" type="file" name="file" style="background-color: white;"/><br/><br/>
+    								<input  type="submit" value="Submit" /> -->
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="fileupload1">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<h1>Upload only xml file</h1>
+					<br /> <br />
+
+					<form action="#" th:object="${uploadform1}" method="POST"
+						autocomplete="off" id="uploadform1" enctype="multipart/form-data">
+
+						<input id="file" type="file" name="file"
+							style="background-color: white;" /><br /> <br />
+
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="fire_ajax_submit1(this);"
+							form="uploadform1" id="btn_Upload_Submit">Submit</button>
+
+
+						<!-- <form method="POST" action="upload" enctype="multipart/form-data">
+   									<input id="file" type="file" name="file" style="background-color: white;"/><br/><br/>
+    								<input  type="submit" value="Submit" /> -->
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="fileupload3">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<h1>Append only xml file</h1>
+					<br /> <br />
+
+					<form action="#" th:object="${uploadform3}" method="POST"
+						autocomplete="off" id="uploadform3" enctype="multipart/form-data">
+
+						<input id="file" type="file" name="file"
+							style="background-color: white;" /><br /> <br />
+
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="fire_ajax_submit3(this);"
+							form="uploadform3" id="btn_Upload_Submit">Submit</button>
+
+
+						<!-- <form method="POST" action="upload" enctype="multipart/form-data">
+   									<input id="file" type="file" name="file" style="background-color: white;"/><br/><br/>
+    								<input  type="submit" value="Submit" /> -->
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="fileupload4">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<h1>Upload only xml file</h1>
+					<br /> <br />
+
+					<form action="#" th:object="${uploadform4}" method="POST"
+						autocomplete="off" id="uploadform4" enctype="multipart/form-data">
+
+						<input id="file" type="file" name="file"
+							style="background-color: white;" /><br /> <br />
+
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" onclick="fire_ajax_submit4(this);"
+							form="uploadform4" id="btn_Upload_Submit">Submit</button>
+
+
+						<!-- <form method="POST" action="upload" enctype="multipart/form-data">
+   									<input id="file" type="file" name="file" style="background-color: white;"/><br/><br/>
+    								<input  type="submit" value="Submit" /> -->
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!--------------------------------------------File Upload Modal Ends----------------------------------------------------------->
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<script th:inline="javascript">
+		function fire_ajax_submit() {
+
+			// Get form
+			var form = $('#uploadform')[0];
+
+			var data = new FormData(form);
+
+			$.ajax({
+				type : "POST",
+				enctype : 'multipart/form-data',
+				url : "ws/marshallupload",
+				data : data,
+				processData : false, //prevent jQuery from automatically transforming the data into a query string
+				contentType : false,
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+
+					$('#fileupload').hide();
+
+					$("#alertmsg").text(data);
+
+					$("#alert").modal("toggle");
+
+				},
+				error : function(e) {
+
+					$('#fileupload').hide();
+
+					$("#alertmsg").text(e.responseText);
+					$("#alert").modal("toggle");
+
+					//location.href = './AMLUNSCList?formmode=list';
+
+				}
+			});
+		}
+	</script>
+
+	<script th:inline="javascript">
+		function fire_ajax_submit3() {
+
+			// Get form
+			var form = $('#uploadform3')[0];
+
+			var data = new FormData(form);
+
+			$.ajax({
+				type : "POST",
+				enctype : 'multipart/form-data',
+				url : "ws/marshallindappend",
+				data : data,
+				processData : false, //prevent jQuery from automatically transforming the data into a query string
+				contentType : false,
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+
+					$('#fileupload3').hide();
+
+					$("#alertmsg").text(data);
+
+					$("#alert").modal("toggle");
+
+				},
+				error : function(e) {
+
+					$('#fileupload3').hide();
+
+					$("#alertmsg").text(e.responseText);
+					$("#alert").modal("toggle");
+
+					//location.href = './AMLUNSCList?formmode=list';
+
+				}
+			});
+		}
+	</script>
+
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<script th:inline="javascript">
+		function fire_ajax_submit1() {
+
+			// Get form
+			var form = $('#uploadform1')[0];
+
+			var data = new FormData(form);
+
+			$.ajax({
+				type : "POST",
+				enctype : 'multipart/form-data',
+				url : "ws/marshallindupload",
+				data : data,
+				processData : false, //prevent jQuery from automatically transforming the data into a query string
+				contentType : false,
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+
+					$('#fileupload1').hide();
+
+					$("#alertmsg").text(data);
+
+					$("#alert").modal("toggle");
+
+				},
+				error : function(e) {
+
+					$('#fileupload1').hide();
+
+					$("#alertmsg").text(e.responseText);
+					$("#alert").modal("toggle");
+
+					//location.href = './AMLUNSCList?formmode=list';
+
+				}
+			});
+		}
+	</script>
+
+	<script th:inline="javascript">
+		function fire_ajax_submit4() {
+			// Get form
+			var form = $('#uploadform4')[0];
+			var data = new FormData(form);
+
+			$.ajax({
+				type : "POST",
+				enctype : 'multipart/form-data',
+				url : "ws/marshallindappend",
+				data : data,
+				processData : false, //prevent jQuery from automatically transforming the data into a query string
+				contentType : false,
+				cache : false,
+				timeout : 600000,
+				success : function(data) {
+
+					$('#fileupload4').hide();
+
+					$("#alertmsg").text(data);
+
+					$("#alert").modal("toggle");
+
+				},
+				error : function(e) {
+
+					$('#fileupload4').hide();
+
+					$("#alertmsg").text(e.responseText);
+					$("#alert").modal("toggle");
+
+					//location.href = './AMLUNSCList?formmode=list';
+
+				}
+			});
+		}
+	</script>
+	<!--------------------------------------------------------------- Modal for dialog messages-------------------------------->
+	<div class="modal fade" id="fileUpload_alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="fileupload_alertmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="openUploadModal();">Yes</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+
+
+
+</body>
+</html>

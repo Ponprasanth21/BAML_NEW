@@ -1,0 +1,1523 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLReferenceCodeMaster
+CREATED BY	: MANIVANNAN
+CREATED ON	: 27-JAN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+
+<script src="js/bootstrap411.js"></script>
+
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+<style>
+#iconacc1 {
+	display: none;
+}
+
+#iconacc2 {
+	display: none;
+}
+</style>
+<style type="text/css">
+.btn {
+	line-height: 0.5rem;
+}
+</style>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+
+	$(function() {
+
+		var custfirstname = document.getElementById("custid");
+		custfirstname.addEventListener("keyup", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				//	$("#loadermodal").modal("toggle");
+				searchcustid();
+			}
+		});
+
+		$("#entry_time1,verify_time1,modify_time1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;
+		document.getElementById('entry_time1').value = today;
+		document.getElementById('verify_time1').value = today;
+		document.getElementById('modify_time1').value = today;
+	});
+
+	$(document).ready(function() {
+		var formode = $("#formmode1").val();
+		if (formode == "view") {
+			$('input').attr('readonly', true);
+		} else if (formode == "verify") {
+			$('input').attr('readonly', true);
+		}
+
+	});
+
+	var deleteval;
+	function getUserlist(mode, num, maxpage) {
+
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+
+		var Callurl = 'ReferenceCodeMaster?formmode=list';
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+		}
+
+		location.href = Callurl;
+	}
+	function home() {
+		location.href = 'Dashboard'
+	}
+	function back() {
+
+		window.history.back();
+	}
+	function home1() {
+		$("#dataHome").modal("toggle");
+	}
+
+	function back1() {
+		$("#dataBack").modal("toggle");
+
+	}
+
+	function alert_add(a) {
+
+		var formmode = a.getAttribute("frmode");
+
+		location.href = "./ReferenceCodeMaster?formmode=" + formmode;
+
+	}
+	function fnClick(a) {
+		var refcode = a.getAttribute("data-ref_code");
+		location.href = 'ReferenceCodeMaster?formmode=verify&refcode='
+				+ refcode;
+
+	}
+	function list() {
+		location.href = './ReferenceCodeMaster?formmode=list';
+	}
+
+	function verifyform(a) {
+		if ($("#RefCodeMaster1").valid()) {
+			var entry = $("#entry_user").val();
+			var modify = $("#modify_user").val();
+			var verify = $("#verify_user").val();
+			var refcode = $("#ref_code").val();
+			var recordtype = $("#ref_rec_type").val();
+			if (modify != "") {
+				if (modify != verify) {
+					var formmode = a.getAttribute("data-formmode");
+					var url = "./createReferenceCodeMaster?formmode="
+							+ formmode + '&refcode=' + refcode + '&recordtype='
+							+ recordtype;
+
+					$("#RefCodeMaster1").attr('action', url);
+
+					var options = {
+						success : showResponse
+					// post-submit callback 
+					};
+
+					$("#RefCodeMaster1").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#alertmsg").text(responseText);
+
+						$('#alert').modal("toggle");
+
+					}
+					;
+				} else {
+
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+					$('#verifybox').modal("toggle");
+
+				}
+			} else if (modify == "") {
+				if (entry != verify) {
+					var formmode = a.getAttribute("data-formmode");
+					var url = "./createReferenceCodeMaster?formmode="
+							+ formmode + '&refcode=' + refcode + '&recordtype='
+							+ recordtype;
+
+					$("#RefCodeMaster1").attr('action', url);
+
+					var options = {
+						success : showResponse
+					// post-submit callback 
+					};
+
+					$("#RefCodeMaster1").ajaxSubmit(options);
+
+					function showResponse(responseText, statusText, xhr, $form) {
+
+						$("#alertmsg").text(responseText);
+
+						$('#alert').modal("toggle");
+
+					}
+					;
+				} else {
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+					$('#verifybox').modal("toggle");
+
+				}
+
+			}
+
+		}
+	};
+
+	function submitform(a) {
+		if ($("#RefCodeMaster1").valid()) {
+			var refcode = $("#ref_code").val();
+			var recordtype = $("#ref_rec_type").val();
+			var reportcode = $("#rpt_code").val();
+
+			var formmode = a.getAttribute("data-formmode");
+			var url = "./createReferenceCodeMaster?formmode=" + formmode
+					+ '&refcode=' + refcode + '&recordtype=' + recordtype
+					+ '&reportcode=' + reportcode;
+
+			$("#RefCodeMaster1").attr('action', url);
+
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$("#RefCodeMaster1").ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				$('#alert').modal("toggle");
+
+			}
+			;
+		}
+	};
+
+	function edit_btn_submit(a) {
+
+		var recordtype = a.getAttribute("data-ref_rec_type");
+		var refcode = a.getAttribute("data-ref_code");
+		var reportcode = a.getAttribute("data-rpt_code");
+
+		location.href = 'ReferenceCodeMaster?formmode=edit&refcode=' + refcode
+				+ '&recordtype=' + recordtype + '&reportcode=' + reportcode;
+	}
+
+	function alert_verify(a) {
+		var recordtype = a.getAttribute("data-ref_rec_type");
+		var refcode = a.getAttribute("data-ref_code");
+		var reportcode = a.getAttribute("data-rpt_code");
+		location.href = 'ReferenceCodeMaster?formmode=verify&refcode='
+				+ refcode + '&recordtype=' + recordtype + '&reportcode='
+				+ reportcode;
+	}
+	function delete_btn_submit(a) {
+		var recordtype = a.getAttribute("data-ref_rec_type");
+		var refcode = a.getAttribute("data-ref_code");
+		var reportcode = a.getAttribute("data-rpt_code");
+		/* location.href = 'ReferenceCodeMaster?formmode=delete&refcode=' + refcode; */
+		deleteval = refcode;
+		deleteval1 = recordtype;
+		deleteval2 = reportcode
+		$("#datadelete").modal("toggle");
+
+	}
+	function submitformdelete(a) {
+
+		$("#datadelete").modal("hide");
+
+		$.ajax({
+			type : 'post',
+			url : "./DeleteReferenceCodeMaster?formmode=delete&refcode="
+					+ deleteval + '&recordtype=' + deleteval1 + '&reportcode='
+					+ deleteval2,
+
+			success : function(response) {
+				$("#alertmsg").text(response);
+
+				$('#alert').modal("toggle");
+
+			}
+
+		});
+	};
+
+	function view_btn_submit(a) {
+		var recordtype = a.getAttribute("data-ref_rec_type");
+		var refcode = a.getAttribute("data-ref_code");
+		var reportcode = a.getAttribute("data-rpt_code");
+		location.href = 'ReferenceCodeMaster?formmode=view&refcode=' + refcode
+				+ '&recordtype=' + recordtype + '&reportcode=' + reportcode;
+	}
+
+	function finuser(a) {
+
+		/* alert("dbfvch"+a.id); */
+		$("#finusers").modal("hide");
+		$("#iconacc1").show();
+
+		$("#ref_rec_type").val(a.id);
+		var recordtype = a.id;
+		var recdesc = a.getAttribute("data-ref_desc");
+		$("#ref_rec_desc").val(recdesc);
+
+		$('#paymentdata').empty();
+		$.ajax({
+			type : 'get',
+			url : "./AML/getReferenceCode/" + recordtype,
+
+			success : function(response) {
+
+				var selectedRefCode = response;
+				var trHTML = '';
+
+				console.log(response);
+				$.each(response, function(key, value) {
+					trHTML += '<tr id=' + value.refCodeId.ref_code
+							+ ' onclick="finuser1(this)"><td>'
+							+ value.refCodeId.ref_code + '</td><td>'
+							+ value.ref_desc + '</td></tr>';
+				});
+				$('#paymentdata').append(trHTML);
+
+			}
+
+		});
+
+	}
+
+	function finuser1(a) {
+
+		/* alert("dbfvch"+a.id); */
+		$("#finusers1").modal("hide");
+
+		$("#ref_code").val(a.id);
+		var refcode = a.id;
+
+		var recordtype = $("#ref_rec_type").val();
+
+		$.ajax({
+			type : 'get',
+			url : "./AML/getReferenceCodedescribition/" + recordtype + "/"
+					+ refcode,
+
+			success : function(response) {
+
+				$("#ref_desc").val(response);
+
+			}
+
+		});
+		/* $('#paymentdata1').empty();
+		$.ajax({
+		type : 'get',
+		url : "/AML/getReferenceType/" + recordtype + "/" +refcode,
+
+		success : function(response){
+
+			var selectedRefCode = response;
+			var trHTML = '';
+
+			$("#ref_type").val(response);
+		}
+			
+			
+		}); */
+
+	}
+
+	function Module() {
+
+		var roleid = $("#ref_type").find(':selected').val();
+
+		$('#module').empty();
+		if (roleid == "FIN") {
+			$("#module").append('<option value=FIN>FIN</option>');
+
+		} else if (roleid == "AML") {
+			$("#module").append(
+					'<option value="Monitoring">Monitoring</option>');
+			$("#module")
+					.append('<option value="Screening" >Screening</option>');
+			$("#module").append(
+					'<option value="List Management">List Management</option>');
+			$("#module").append(
+					'<option value="Risk Management">Risk Management</option>');
+			$("#module").append('<option value="RBS">RBS</option>');
+		}
+	}
+	/* 	function Search(){
+	 $("#searchmodal").modal("toggle");
+	 } */
+	function Search() {
+		$("#CustSearch").modal("toggle");
+		$('#custid').focus();
+	}
+	$(document).ready(function() {
+		$('#CustSearch').on('shown.bs.modal', function() {
+			$('#custid').trigger('focus');
+		});
+	});
+
+	function searchcustid() {
+		$("#CustSearch").modal('hide');
+
+		var recordtype = $("#custid").val();
+
+		if (recordtype != '') {
+			$("#loadermodal").modal("toggle");
+			location.href = 'ReferenceCodeMaster?formmode=search&recordtype='
+					+ recordtype;
+			$('#CustomerInq').empty();
+		}
+	}
+	function searchRecType() {
+		$("#RecTypeSearch").modal('hide');
+
+		var recordtype = $("#RecType").val();
+
+		if (recordtype != '') {
+			$("#loadermodal").modal("toggle");
+			location.href = 'ReferenceCodeMaster?formmode=RecTypesearch&recordtype='
+					+ recordtype;
+			$('#CustomerInq').empty();
+		}
+	}
+	function searchRecDesc() {
+		$("#RecDescSearch").modal('hide');
+
+		var recordtype = $("#RecDesc").val();
+
+		if (recordtype != '') {
+			$("#loadermodal").modal("toggle");
+			location.href = 'ReferenceCodeMaster?formmode=RecDescsearch&recordtype='
+					+ recordtype;
+			$('#CustomerInq').empty();
+		}
+	}
+	function searchRefCode() {
+		$("#RefCodeSearch").modal('hide');
+
+		var recordtype = $("#RefCode").val();
+
+		if (recordtype != '') {
+			$("#loadermodal").modal("toggle");
+			location.href = 'ReferenceCodeMaster?formmode=RefCodesearch&recordtype='
+					+ recordtype;
+			$('#CustomerInq').empty();
+		}
+	}
+	function searchdata(a) {
+
+		/* alert("dbfvch"+a.id); */
+		$("#searchmodal").modal("hide");
+		$("#finusers1").modal("toggle");
+		//	$("#iconacc1").show();
+
+		$("#ref_rec_type").val(a.id);
+		$("#ref_type").val(a.id);
+
+		var recordtype = a.id;
+
+		var recdesc = a.getAttribute("data-ref_desc");
+		$("#ref_rec_desc").val(recdesc);
+
+		$('#paymentdata').empty();
+		$.ajax({
+			type : 'get',
+			url : "./AML/getReferenceCode/" + recordtype,
+
+			success : function(response) {
+
+				var selectedRefCode = response;
+				var trHTML = '';
+
+				console.log(response);
+				$.each(response, function(key, value) {
+					trHTML += '<tr id=' + value.refCodeId.ref_code
+							+ ' onclick="searchfinal(this)"><td>'
+							+ value.refCodeId.ref_code + '</td><td>'
+							+ value.ref_desc + '</td></tr>';
+				});
+				$('#paymentdata').append(trHTML);
+
+			}
+
+		});
+
+	}
+	function searchfinal(a) {
+
+		/* alert("dbfvch"+a.id); */
+		$("#finusers1").modal("hide");
+
+		$("#ref_code").val(a.id);
+		var refcode = a.id;
+
+		location.href = 'ReferenceCodeMaster?formmode=search&refcode='
+				+ refcode + '&recordtype=' + recordtype;
+
+	}
+	$(function() {
+		$('#finusertb1').dataTable({
+			"bPaginate" : false,
+			"bInfo" : false, //Dont display info e.g. "Showing 1 to 4 of 4 entries"
+			"paging" : false
+		});
+
+		var table = $('#finusertb1').DataTable();
+		// #myInput is a <input type="text"> element
+		$('#paymentdata').on('keyup', function() {
+			table.search(this.value).draw();
+		});
+	});
+
+	function custidsearch() {
+		$("#CustSearch").modal("toggle");
+		$('#custid').focus();
+	}
+	$(document).ready(function() {
+		$('#CustSearch').on('shown.bs.modal', function() {
+			$('#custid').trigger('focus');
+		});
+	});
+
+	function recordtypesearch() {
+		$("#RecTypeSearch").modal("toggle");
+		$('#Rectype').focus();
+	}
+	$(document).ready(function() {
+		$('#RecTypeSearch').on('shown.bs.modal', function() {
+			$('#Rectype').trigger('focus');
+		});
+	});
+
+	function refcodesearch() {
+		$("#RefCodeSearch").modal("toggle");
+		$('#RefCode').focus();
+	}
+	$(document).ready(function() {
+		$('#RefCodeSearch').on('shown.bs.modal', function() {
+			$('#RefCode').trigger('focus');
+		});
+	});
+
+	function recdescsearch() {
+		$("#RecDescSearch").modal("toggle");
+		$('#RecDesc').focus();
+	}
+	$(document).ready(function() {
+		$('#RefDescSearch').on('shown.bs.modal', function() {
+			$('#RefDesc').trigger('focus');
+		});
+	});
+
+	/*]]>*/
+</script>
+
+</head>
+
+<body>
+	<div th:insert="AStartheader :: header"
+		th:if="${formmode}=='list' OR ${formmode}=='view' OR ${formmode}=='search' "></div>
+	<div th:insert="TESTHEADER :: header"
+		th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='verify'OR ${formmode}=='delete' "></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('ReferenceCodeMaster')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+
+				<div th:if="${formmode}=='list' OR ${formmode}=='search' "
+					class="container content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle" style="height: 57px;">
+								<b th:text="${menuname}"></b>
+
+								<div class="btn-group nav-buttons float-right">
+									<button type="button" class="btn btn-xs btn-primary "
+										onclick='Search()' th:attr="frmode=add">Search</button>
+									<button type="button" class="btn btn-xs btn-primary "
+										onclick='alert_add(this)' th:attr="frmode=add">Add</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnInq" onclick="list()" style="border-color: #66dbe0;">List</button>
+								</div>
+							</div>
+							<table class="table table-bordered  table-hover table-sm" th:if="${master}!='master'"
+								style="width: 100%" id="usertable">
+								<thead class="thead-light">
+
+
+									<tr>
+										<!-- <th></th> -->
+										<th>Record Type <i class="fas fa-search searchico"
+											style="float: right;" for="custid" aria-hidden="true"
+											onclick="recordtypesearch()"></i></th>
+										<th>Record Description<i class="fas fa-search searchico"
+											style="float: right;" for="custid" aria-hidden="true"
+											onclick="recdescsearch()"></i></th>
+										<th>Reference Code<i class="fas fa-search searchico"
+											style="float: right;" for="custid" aria-hidden="true"
+											onclick="refcodesearch()"></i></th>
+										<th>Code Description<i class="fas fa-search searchico"
+											style="float: right;" for="custid" aria-hidden="true"
+											onclick="custidsearch()"></i></th>
+										<th>Reference Type</th>
+										<th>Module</th>
+										<th>Report</th>
+										<th>Verification</th>
+										<th>Select</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="alert: ${RefCodemasterList.content}"
+										th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type}"
+										th:id="${alert.refCodeId.ref_code}" class="userlist">
+										<td th:text="${alert.refCodeId.ref_rec_type}"></td>
+										<td th:text="${alert.ref_rec_desc}"></td>
+										<td th:text="${alert.refCodeId.ref_code}"></td>
+										<td th:text="${alert.ref_desc}"></td>
+										<td th:text="${alert.ref_type}"></td>
+										<td th:text="${alert.module}"></td>
+										<td th:text="${alert.rpt_code}"></td>
+
+										<th:block th:switch="${alert.entity_flag}">
+											<td th:case="'Y'" style="color: green;">Verified</td>
+											<td th:case="'N'" style="color: red;">UnVerified</td>
+										</th:block>
+										<td>
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle"
+													type="button" id="dropdownMenuButton"
+													style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">Action</button>
+												<div class="dropdown-menu"
+													aria-labelledby="dropdownMenuButton"
+													style="background-color: #e3e3e4; color: #3a4550;">
+													<a
+														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
+														class="dropdown-item"
+														style="background-color: #e3e3e4; color: #3a4550; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														onclick="view_btn_submit(this)" id="view_btn">Inquiry
+													</a>
+													<div class="dropdown-divider"></div>
+													<a
+														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
+														class="dropdown-item" th:if="${alert.entity_flag}=='Y'"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
+													<div class="dropdown-divider"
+														th:if="${alert.entity_flag}=='Y' "></div>
+													<!-- <a th:attr="frmode=add"
+														class="dropdown-item" style="cursor: pointer;"
+														id="edit_value" onclick="'alert_add(this)'">Add</a> -->
+
+
+													<a
+														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
+														class="dropdown-item"
+														th:if="${AMLRoleMenu.work_class} == 'C'"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														onclick="delete_btn_submit(this)" id="delete_value">Delete</a>
+													<div class="dropdown-divider"
+														th:if="${alert.entity_flag}=='N'  and ${AMLRoleMenu.work_class} == 'C'"></div>
+													<a
+														th:if="${alert.entity_flag}=='N' and ${AMLRoleMenu.work_class} == 'C'"
+														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
+														class="dropdown-item"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														id="verify_value" onclick="alert_verify(this)">Verify</a>
+													<!-- <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button> -->
+
+												</div>
+											</div>
+										</td>
+										<!-- <td th:text="${#numbers.formatDecimal(account.clr_bal_amt,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td> -->
+
+									</tr>
+								</tbody>
+							</table>
+							<table class="table table-bordered  table-hover table-sm" th:if="${master}=='master'"
+								style="width: 100%" id="usertable">
+								<thead class="thead-light">
+
+
+									<tr>
+										<!-- <th></th> -->
+										<th>Record Type<i class="fas fa-search searchico"
+											style="float: right;" for="custid" aria-hidden="true"
+											onclick="recordtypesearch()"></i></th>
+										<th>Record Description<i class="fas fa-search searchico"
+											style="float: right;" for="custid" aria-hidden="true"
+											onclick="recdescsearch()"></i></th>
+										<th>Reference Code<i class="fas fa-search searchico"
+											style="float: right;" for="custid" aria-hidden="true"
+											onclick="refcodesearch()"></i></th>
+										<th>Code Description<i class="fas fa-search searchico"
+											style="float: right;" for="custid" aria-hidden="true"
+											onclick="custidsearch()"></i></th>
+										<th>Reference Type</th>
+										<th>Module</th>
+										<th>Report</th>
+										<th>Verification</th>
+										<th>Select</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="alert: ${RefCodemasterList}"
+										th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type}"
+										th:id="${alert.refCodeId.ref_code}" class="userlist">
+										<td th:text="${alert.refCodeId.ref_rec_type}"></td>
+										<td th:text="${alert.ref_rec_desc}"></td>
+										<td th:text="${alert.refCodeId.ref_code}"></td>
+										<td th:text="${alert.ref_desc}"></td>
+										<td th:text="${alert.ref_type}"></td>
+										<td th:text="${alert.module}"></td>
+										<td th:text="${alert.rpt_code}"></td>
+
+										<th:block th:switch="${alert.entity_flag}">
+											<td th:case="'Y'" style="color: green;">Verified</td>
+											<td th:case="'N'" style="color: red;">UnVerified</td>
+										</th:block>
+										<td>
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle"
+													type="button" id="dropdownMenuButton"
+													style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">Action</button>
+												<div class="dropdown-menu"
+													aria-labelledby="dropdownMenuButton"
+													style="background-color: #e3e3e4; color: #3a4550;">
+													<a
+														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
+														class="dropdown-item"
+														style="background-color: #e3e3e4; color: #3a4550; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														onclick="view_btn_submit(this)" id="view_btn">Inquiry
+													</a>
+													<div class="dropdown-divider"></div>
+													<a
+														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
+														class="dropdown-item" th:if="${alert.entity_flag}=='Y'"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
+													<div class="dropdown-divider"
+														th:if="${alert.entity_flag}=='Y' "></div>
+													<!-- <a th:attr="frmode=add"
+														class="dropdown-item" style="cursor: pointer;"
+														id="edit_value" onclick="'alert_add(this)'">Add</a> -->
+
+
+													<a
+														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
+														class="dropdown-item"
+														th:if="${AMLRoleMenu.work_class} == 'C'"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														onclick="delete_btn_submit(this)" id="delete_value">Delete</a>
+													<div class="dropdown-divider"
+														th:if="${alert.entity_flag}=='N'  and ${AMLRoleMenu.work_class} == 'C'"></div>
+													<a
+														th:if="${alert.entity_flag}=='N' and ${AMLRoleMenu.work_class} == 'C'"
+														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
+														class="dropdown-item"
+														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														id="verify_value" onclick="alert_verify(this)">Verify</a>
+													<!-- <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button> -->
+
+												</div>
+											</div>
+										</td>
+										<!-- <td th:text="${#numbers.formatDecimal(account.clr_bal_amt,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td> -->
+
+									</tr>
+								</tbody>
+							</table>
+
+
+
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+							<div class="float-right"
+								th:if="${RefCodemasterList.totalPages} gt 1 and ${master}!='master'">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${RefCodemasterList.number},${RefCodemasterList.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${RefCodemasterList.number+1}"
+									th:onchange="|getUserlist('givenpage',${RefCodemasterList.number},${RefCodemasterList.totalPages});|"></input>
+								of <font th:text="${RefCodemasterList.totalPages}"></font> <a
+									href="#"><i class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${RefCodemasterList.number},${RefCodemasterList.totalPages});|"></i></a>
+							</div>
+
+
+						</div>
+						<div class="text-center"
+							style="background-color: #386276; padding: 5px; width: 100%;">
+
+							<div class="btn-group nav-buttons " style="align: center;">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div
+					th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'"
+					class="container content">
+					<div class="row">
+						<div class="col-sm-12 ">
+
+							<form action="#" th:object="${RefCodeMaster1}" method="POST"
+								autocomplete="off" id="RefCodeMaster1">
+								<div class="card">
+									<div class="card-header">
+										<div class="float-left">
+											<b th:text="${menuname1}"></b> <input type="hidden"
+												th:value="${formmode}" id="formmode1" style="display: none;">
+										</div>
+										<div class="btn-group nav-buttons float-right">
+											<!--  <button type="button"
+												class="btn btn-xs btn-primary btns  active"
+												onclick='alert_add(this)' th:attr="frmode=add">Add
+												Parameter</button>-->
+											<button type="button" class="btn btn-xs btn-primary btns"
+												id="btnInq" onclick="list()" style="">List</button>
+										</div>
+
+									</div>
+									<div class="card-body">
+										<div class="form-group">
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="srl_no">Record Type</label>
+												</div>
+												<div class="col-sm-3">
+													<input type="text" th:field="*{refCodeId.ref_rec_type}"
+														th:value="${refCodeId?.ref_rec_type}" id="ref_rec_type"
+														class="form-control form-control-sm" autocomplete="off"
+														required readonly>
+												</div>
+												<div class="col-sm-1">
+													<a th:if="${formmode}=='add' OR ${formmode}=='edit'"
+														href="#"><i class="fas fa-search searchico"
+														data-toggle="modal" data-target="#finusers" id="iconacc"></i></a>
+												</div>
+
+
+												<label for="userName" class="col-sm-2">Record
+													Description</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${ref_rec_desc}"
+														id="ref_rec_desc" th:field="*{ref_rec_desc}"
+														class="form-control form-control-sm" autocomplete="false"
+														readonly />
+												</div>
+											</div>
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+
+											</div>
+
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="ref_code">Reference Code</label>
+												</div>
+												<div class="col-sm-3">
+													<input type="text" th:value="${refCodeId?.ref_code}"
+														th:field="*{refCodeId.ref_code}" id="ref_code"
+														class="form-control form-control-sm" autocomplete="off"
+														required
+														th:readonly="${formmode}=='edit' OR ${formmode}=='verify' ">
+												</div>
+
+												<div class="col-sm-1">
+													<a th:if=" ${formmode}=='edit'" href="#"><i
+														class="fas fa-search searchico" data-toggle="modal"
+														data-target="#finusers1" id="iconacc1"></i></a>
+												</div>
+												<label for="userName" class="col-sm-2">Code
+													Description</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${ref_desc}" id="ref_desc"
+														th:field="*{ref_desc}"
+														class="form-control form-control-sm" autocomplete="false"
+														required
+														th:readonly="${formmode}=='edit' OR ${formmode}=='verify' " />
+												</div>
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+
+											</div>
+
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="srl_no">Reference Type</label>
+												</div>
+
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='edit' OR ${formmode}=='add'">
+													<select th:value="${ref_type}" th:field="*{ref_type}"
+														id="ref_type" class="form-control form-control-sm"
+														onchange="Module();" autocomplete="off" required>
+														<option value="">SELECT</option>
+														<option value="FIN">FIN</option>
+														<option value="AML">AML</option>
+													</select>
+												</div>
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input th:value="${ref_type}" th:field="*{ref_type}"
+														id="ref_type" class="form-control form-control-sm"
+														autocomplete="off" required>
+												</div>
+
+												<!-- 	<div class="col-sm-3">
+													<input type="text" th:value="${RefCodeMaster?.ref_type}"
+														id="ref_type" class="form-control form-control-sm"
+														name="ref_type" autocomplete="off">
+												</div>
+												<div class="col-sm-1">
+													<a th:if="${formmode}=='add' OR ${formmode}=='edit'"
+														href="#"><i class="fas fa-search searchico"
+														data-toggle="modal" data-target="#finusers2" id="iconacc2"></i></a>
+												</div> -->
+
+												<div class="col-sm-1"></div>
+												<label for="userName" class="col-sm-2">Module</label>
+												<div class="col-sm-3" th:if=" ${formmode}=='add'">
+													<select th:value="${module}" th:field="*{module}"
+														id="module" class="form-control form-control-sm"
+														autocomplete="off" required>
+														<option value="">SELECT</option>
+
+													</select>
+												</div>
+												<div class="col-sm-3" th:if="${formmode}=='edit' ">
+													<select th:value="${module}" th:field="*{module}"
+														id="module" class="form-control form-control-sm"
+														autocomplete="off" required>
+														<option value="">SELECT</option>
+														<option value="Monitoring">Monitoring</option>
+														<option value="Screening ">Screening</option>
+														<option value="List Management">List Management</option>
+														<option value="Risk Management">Risk Management</option>
+														<option value="RBS">RBS</option>
+														<option value="FIN">FIN</option>
+
+													</select>
+												</div>
+												<div class="col-sm-3"
+													th:if=" ${formmode}=='view' OR ${formmode}=='verify' OR ${formmode}=='delete'">
+													<input th:value="${module}" th:field="*{module}"
+														id="module" class="form-control form-control-sm"
+														autocomplete="off" required>
+												</div>
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+
+											</div>
+
+											<div class="row formline">
+												<div class="col-sm-2">
+													<label for="srl_no">Report Code</label>
+												</div>
+												<div class="col-sm-3">
+													<input type="text" th:value="${rpt_code}" id="rpt_code"
+														class="form-control form-control-sm"
+														th:field="*{rpt_code}" autocomplete="off">
+												</div>
+
+												<div class="col-sm-1"></div>
+												<label for="userName" class="col-sm-2">Report
+													Description</label>
+												<div class="col-sm-3">
+													<input type="text" th:value="${rpt_desc}" id="rpt_desc"
+														th:field="*{rpt_desc}"
+														class="form-control form-control-sm" autocomplete="false" />
+												</div>
+											</div>
+
+											<div class="row formline">
+												<label style="height: 2px;"></label>
+
+											</div>
+
+
+										</div>
+
+
+
+										<div class="card-footer text-center" style="height: 38px;">
+											<button th:if="${formmode}=='delete'" type="button"
+												class="btn btn-xs btn-primary" onclick="submitform(this);"
+												form="RefCodeMaster1" id="btnDelete"
+												style="margin-top: -12px;"
+												th:attr="data-formmode=${formmode}">Delete</button>
+											<button th:if="${formmode}=='verify'" type="button"
+												class="btn btn-xs btn-primary" onclick="verifyform(this);"
+												form="RefCodeMaster1" id="btnVerify"
+												style="margin-top: -12px;"
+												th:attr="data-formmode=${formmode}">Verify</button>
+											<button th:if="${formmode}=='edit' OR ${formmode}=='add'"
+												type="button" class="btn btn-xs btn-primary"
+												onclick="submitform(this);" form="RefCodeMaster1"
+												id="btnSubmit" style="margin-top: -12px;"
+												th:attr="data-formmode=${formmode},data-ref_code=${RefCodeMaster1.refCodeId?.ref_code},data-ref_rec_type=${RefCodeMaster1.refCodeId?.ref_rec_type}">Submit</button>
+											<button type="button" class="btn btn-xs btn-primary"
+												id="btnHome" style="margin-top: -12px;" onclick="home1();">Home</button>
+											<button type="button" class="btn btn-xs btn-primary"
+												id="btnBack" style="margin-top: -12px;" onclick="back1();">Back</button>
+										</div>
+									</div>
+								</div>
+
+								<div class="container content"
+									style="border: 1px solid #36404a; padding: 15px;">
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Entry User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='view' "
+												th:value="${entry_user}" id="entry_user"
+												class="form-control form-control-sm"
+												th:field="*{entry_user}" autocomplete="off" readonly /> <input
+												type="text" th:if="${formmode}=='add'"
+												th:value="${session.USERID}" id="entry_user"
+												name="entry_user" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+
+										</div>
+										<label class="col-sm-2">Modify User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='view' "
+												th:value="${modify_user}" id="modify_user"
+												th:field="*{modify_user}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text" th:if="${formmode}=='edit' "
+												th:value="${session.USERID}" id="modify_user"
+												name="modify_user" class="form-control form-control-sm"
+												autocomplete="off" readonly />
+										</div>
+										<label class="col-sm-2">Verify User</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='edit' OR ${formmode}=='view' "
+												th:value="${verify_user}" id="verify_user"
+												th:field="*{verify_user}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='verify' " th:value="${session.USERID}"
+												id="verify_user" name="verify_user"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+									</div>
+									<div class="row formline">
+										<label style="height: 2px;"></label>
+
+									</div>
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Entry Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='edit' OR ${formmode}=='verify' OR ${formmode}=='view' "
+												th:value="${#dates.format(entry_time,'dd-MM-yyyy')}"
+												id="entry_time" th:field="*{entry_time}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text" th:if="${formmode}=='add'"
+												th:value="${#dates.format(entry_time,'dd-MM-yyyy')}"
+												id="entry_time1" th:field="*{entry_time}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+										</div>
+
+										<label class="col-sm-2">Modify Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='view' "
+												th:value="${#dates.format(modify_time,'dd-MM-yyyy')}"
+												id="modify_time" th:field="*{modify_time}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text" th:if="${formmode}=='edit' "
+												th:value="${#dates.format(modify_time,'dd-MM-yyyy')}"
+												id="entry_time1" th:field="*{modify_time}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+
+
+
+										<label class="col-sm-2">Verify Time</label>
+										<div class="col-sm-2">
+											<input type="text"
+												th:if="${formmode}=='add' OR ${formmode}=='edit' OR ${formmode}=='view' "
+												th:value="${#dates.format(verify_time,'dd-MM-yyyy')}"
+												id="verify_time" th:field="*{verify_time}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly /> <input type="text"
+												th:if="${formmode}=='verify'"
+												th:value="${#dates.format(verify_time,'dd-MM-yyyy')}"
+												id="entry_time1" th:field="*{verify_time}"
+												class="form-control form-control-sm" autocomplete="off"
+												readonly />
+
+										</div>
+
+										<div class="row formline">
+											<label style="height: 2px;"></label>
+
+										</div>
+
+									</div>
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+
+				<!------------------------Pop window - Domain  list Ends--------------------------------->
+
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<div class="modal fade" id="datadelete">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to delete?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="submitformdelete(this);"
+									th:attr="data-formmode=delete">Submit</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="dataHome">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to Leave?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" onclick="home();">Yes</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">No</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="dataBack">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								Are you Sure want to Leave?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" onclick="back();">Yes</button>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">No</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+
+				<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+				<div class="modal fade" id="alert">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="alertmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal" onclick="list();">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="modal fade" id="verifybox">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="verifyboxmsg"></p>
+								<button type="button" class="btn btn-primary"
+									data-dismiss="modal">OK</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="modal fade" id="finusers">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="border: 2px solid black;">
+
+							<!-- Modal Header -->
+							<div class="modal-header" style="background-color: #386276;">
+								<h4 class="modal-title">Record Type</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+
+							<!-- Modal body -->
+							<div class="modal-body" style="background-color: #e6eaed;">
+								<table class="table table-hover" id="finusertb">
+									<thead class="thead-light" style="background-color: #386276;">
+										<tr>
+											<th
+												style="color: #ffffff; width: 100px; background-color: #386276; border-color: #495561; font-size: 11px;">Record
+												Type</th>
+											<th
+												style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">Record
+												Type Description</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="alert: ${RECORDTYPELIST}"
+											th:attr="data-ref_rec_type=${alert.ref_rec_type},data-ref_desc=${alert.rec_desc}"
+											th:id="${alert.ref_rec_type}" th:onclick="finuser(this)"
+											class="userlist1">
+											<td style="color: black;" th:text="${alert.ref_rec_type}"></td>
+											<td style="color: black;" th:text="${alert.rec_desc}"></td>
+
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="finusers1">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="border: 2px solid black;">
+
+							<!-- Modal Header -->
+							<div class="modal-header" style="background-color: #386276;">
+								<h4 class="modal-title">Reference Code</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+
+							<!-- Modal body -->
+							<div class="modal-body" style="background-color: #e6eaed;">
+								<input type="hidden" id="ref_type">
+								<table class="table table-hover" id="finusertb1">
+									<thead class="thead-light" style="background-color: #386276;">
+										<tr>
+											<th
+												style="color: #ffffff; width: 100px; background-color: #386276; border-color: #495561; font-size: 11px;">Reference
+												Code</th>
+											<th
+												style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">Reference
+												Code Description</th>
+
+										</tr>
+									</thead>
+									<tbody id="paymentdata">
+
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="finusers2">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="border: 2px solid black;">
+
+							<!-- Modal Header -->
+							<div class="modal-header" style="background-color: #386276;">
+								<h4 class="modal-title">Reference Type</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+
+							<!-- Modal body -->
+							<div class="modal-body" style="background-color: #e6eaed;">
+								<table class="table table-hover" id="finusertb2">
+									<thead class="thead-light" style="background-color: #386276;">
+										<tr>
+											<th
+												style="color: #ffffff; width: 100px; background-color: #386276; border-color: #495561; font-size: 11px;">Reference
+												Type</th>
+
+
+										</tr>
+									</thead>
+									<tbody id="paymentdata1">
+
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="searchmodal">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="border: 2px solid black;">
+
+							<!-- Modal Header -->
+							<div class="modal-header" style="background-color: #386276;">
+								<h4 class="modal-title">Record Type</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+
+							<!-- Modal body -->
+							<div class="modal-body" style="background-color: #e6eaed;">
+								<table class="table table-hover" id="finusertb">
+									<thead class="thead-light" style="background-color: #386276;">
+										<tr>
+											<th
+												style="color: #ffffff; width: 100px; background-color: #386276; border-color: #495561; font-size: 11px;">Record
+												Type</th>
+											<th
+												style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">Record
+												Type Description</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="alert: ${RECORDTYPELIST}"
+											th:attr="data-ref_rec_type=${alert.ref_rec_type},data-ref_desc=${alert.rec_desc}"
+											th:id="${alert.ref_rec_type}" th:onclick="searchdata(this)"
+											class="userlist1">
+											<td style="color: black;" th:text="${alert.ref_rec_type}"></td>
+											<td style="color: black;" th:text="${alert.rec_desc}"></td>
+
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Code" id="custid"
+									onblur="searchcustid()"
+									onkeyup="this.value = this.value.toUpperCase();"><i
+									class="fas fa-search searchico" style="float: right;"
+									aria-hidden="true" onclick="searchcustid()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="loadermodal" data-backdrop="static"
+					data-keyboard="false">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="background-color: #94b8dd00;">
+							<div class="modal-body" style="text-align: center">
+								<div class="loader">Loading...</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="CustSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Code Description"
+									id="custid" onblur="searchcustid()"><i
+									class="fas fa-search searchico" style="float: right;"
+									aria-hidden="true" onclick="searchcustid()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="RecTypeSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Record Type" id="RecType"
+									onblur="searchRecType()"><i
+									class="fas fa-search searchico" style="float: right;"
+									aria-hidden="true" onclick="searchRecType()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="RecDescSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Record Description"
+									id="RecDesc" onblur="searchRecDesc()"><i
+									class="fas fa-search searchico" style="float: right;"
+									aria-hidden="true" onclick="searchRecDesc()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="RefCodeSearch">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content" style="width: 60%;">
+							<div class="modal-body"
+								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								<input type="text" placeholder="Enter Reference Code"
+									id="RefCode" onblur="searchRefCode()"><i
+									class="fas fa-search searchico" style="float: right;"
+									aria-hidden="true" onclick="searchRefCode()"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+</body>
+</html>

@@ -1,0 +1,139 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : ACCOUNT LEDGER
+CREATED BY	: PRIYA A
+CREATED ON	: 10-JAN-2020
+MODIFY ON   :
+PURPOSE		: 
+ --> 
+ <html lang="en" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+</head>
+<script type="text/javascript">
+	function back() {
+		window.history.back();
+	}
+	function home() {
+		location.href = 'Dashboard'
+	}
+
+</script>
+<body>
+
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+
+			<!-- Start Content-->
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-12">
+						<div th:if="${formmode}=='list'" class=" content">
+							<div class="card">
+								<div class="card-header">
+									<div class="float-left">
+										<h4>Account Ledger</h4>
+									</div>
+								</div>
+								<table class="table table-bordered  table-hover table-sm"
+									style="width: 100%" id="usertable">
+									<thead class="thead-light">
+
+										<tr>
+											<th>Transaction Date</th>
+											<th>Value Date</th>
+											<th>Transaction Id</th>
+											<th>Part Transaction Id</th>
+											<th>Part Transaction Type</th>
+											<th>Amount</th>
+											<th>Balance</th>
+											<th>Currency</th>
+											<th>Purpose of Transaction</th>
+
+										</tr>
+									</thead>
+									<tbody >
+										<tr th:if="${not #lists.isEmpty(ledger)}" th:each="HTDEntity:${ledger}">
+											<td
+												th:text="${#dates.format(HTDEntity.tran_date, 'dd-MM-yyyy')}"></td>
+											<td
+												th:text="${#dates.format(HTDEntity.value_date, 'dd-MM-yyyy')}"></td>
+											<td th:text="${HTDEntity.tran_id}"></td>
+											<td th:text="${HTDEntity.part_tran_srl_num}"></td>
+											<td th:text="${HTDEntity.tran_type}"></td>
+											<td th:text="${HTDEntity.tran_amt}"></td>
+											<td th:text="${HTDEntity.part_tran_srl_num}"></td>
+											<td th:text="${HTDEntity.ref_crncy_code}"></td>
+											<td th:text="${HTDEntity.tran_particular}"></td>
+
+										</tr>
+										<tr th:if="${ #lists.isEmpty(ledger)}">
+										<td colspan="9" style="color: red ;font-size: 11px; text-align: center;">No Transactions Found</td>
+										</tr>
+									</tbody>
+									
+ 
+
+								</table>
+								<div class="card-footer text-center">
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnHome" onclick="home();">Home</button>
+                                    <button type="button" class="btn btn-xs btn-primary"
+										id="btnBack" onclick="back();">Back</button>
+								</div>
+
+								
+							</div>
+
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+ </body>
+</html>
+

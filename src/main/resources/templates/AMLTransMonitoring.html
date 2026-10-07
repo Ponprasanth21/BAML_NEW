@@ -1,0 +1,1299 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" >
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.noofdays.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.noofdays.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="js/bootstrap411.js"></script>
+
+
+<style>
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+
+.select {
+	/* margin-top: -93px;
+	margin-left: 645px; */
+	float: right;
+	background-color: #e3e3e4;
+	color: #5d3739;
+	/* width: 17%;
+	padding: 5px; */
+}
+</style>
+<script type="text/javascript">
+$(function() {
+    $("#start_date,#end_date,#suspended_date,#activated_date").datepicker({
+        changeMonth : true,
+        changeYear : true,
+         maxDate: new Date(),
+        dateFormat : "dd/mm/yy"
+    });
+});
+function home() {
+	$("#datadelete").modal("toggle");
+	location.href = 'Dashboard'
+}
+/* Date.prototype.toShortFormat = function() {
+
+    var month_names =["Jan","Feb","Mar",
+                      "Apr","May","Jun",
+                      "Jul","Aug","Sep",
+                      "Oct","Nov","Dec"];
+    
+    var day = this.getDate();
+    var month_index = this.getMonth();
+    var year = this.getFullYear();
+    
+    return "" + day + "/" + month_names[month_index] + "/" + year;
+} */
+Date.prototype.toShortFormat = function() {
+
+    var month_names =["Jan","Feb","Mar",
+                      "Apr","May","Jun",
+                      "Jul","Aug","Sep",
+                      "Oct","Nov","Dec"];
+    
+    var day = this.getDate();
+    var month_index = this.getMonth();
+    var year = this.getFullYear();
+    
+    return "" + day + "/" + month_index + "/" + year;
+}
+function back() {
+	$("#datadelete").modal("toggle");
+	window.history.back();
+}
+
+function fnClick(a) {
+	$("#datadelete").modal("toggle");
+	var tranId = a.getAttribute("data-tranId")
+	location.href = 'AMLTran1?tranId=' + tranId;
+}
+
+function fnClick1(a) {
+	$("#datadelete").modal("toggle");
+	var custId = a.getAttribute("data-custId")
+	location.href = 'AMLCustInquiry1?custId=' + custId;
+}
+function fnClick2(a) {
+	$("#datadelete").modal("toggle");
+	var acid = a.getAttribute("data-acid")
+	location.href = 'AMLAccountMaster1?acid=' + acid;
+}
+
+function fnClickAcct(a) {
+	$("#datadelete").modal("toggle");
+	var acctnum = a.getAttribute("data-acctnum")
+	var CUSTID = a.getAttribute("data-custid")
+	var acid = a.getAttribute("data-acid")
+	location.href = 'AMLAccountInquiry1?acctnum=' + acctnum + '&CUSTID='+CUSTID + '&acid='+acid;
+}
+function fnClickTran(a) {
+	$("#datadelete").modal("toggle");
+	var tranid = a.getAttribute("data-tran_id");
+	var tranDate = a.getAttribute("data-tran_date");
+	/* var parttranid = a.getAttribute("data-part_tran_id"); */
+	var acid = a.getAttribute("data-foracid");
+	var parttranid =  a.getAttribute("data-parttran");
+	location.href = 'AMLTranInqDate?tranid=' + tranid
+	+ '&tranDate=' + tranDate +'&acid='+acid + '&parttranid=' + parttranid;
+}
+
+$(function() {
+	var rulecode = $("#rule_code_id").val();
+    $("#suspended_date").change(function() {
+        $(this).datepicker().datepicker( "show" )
+        var today = $("#suspended_date").val();
+        var lowvalue = $("#lowvalue1").val();
+    	var highvalue = $("#highvalue1").val();
+    	var rolecodedesc = $("#rule_code_desc").val();
+    	var noofdays = $("#noofdays").val();
+       var threshold = $("#threshold").val();
+       $("#datadelete").modal("toggle");
+    	if (rulecode == "HVCDP"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=HVCDP' +'&rulecode=' +rulecode+ '&today=' +today +'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;	
+		}else if (rulecode == "HVCWL"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=HVCWL' +'&rulecode=' +rulecode+ '&today=' +today +'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "HVNCD"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=HVNCD' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "HVNCW"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=HVNCW' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "CVCDP"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()- noofdays)
+		    $( "#activated_date" ).datepicker("setDate", date2);
+		    var fromdate = $("#activated_date").val();
+		    
+		    
+		    location.href = 'AMLTransMonitoring?TRANTYPE=CVCDP' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "CVCWL"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=CVCWL' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "CVNCD"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+		    location.href = 'AMLTransMonitoring?TRANTYPE=CVNCD' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "CVNCW"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=CVNCW' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "CVCDP1"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+		    $( "#activated_date" ).datepicker("setDate", date2);
+		    var fromdate = $("#activated_date").val();
+		    
+		    location.href = 'AMLTransMonitoring?TRANTYPE=CVCDP1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "CVCWL1"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=CVCWL1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "CVNCD1"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+		    location.href = 'AMLTransMonitoring?TRANTYPE=CVNCD1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "CVNCW1"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=CVNCW1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "DTCDT"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=DTCDT' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "TSCTP"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=TSCTP' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "TSCTP1"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=TSCTP1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "CTACP"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=CTACP' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "STVID"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=CTACP' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "CTVID"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=CTVID' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "NTVET"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=NTVET' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "STVET"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=STVET' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc;
+		}else if (rulecode == "NATLS"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=NATLS' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "TATLS"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=TATLS' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "RTBLP"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=RTBLP' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;
+		}else if (rulecode == "CTBTL"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=CTBTL' +'&rulecode=' +rulecode+ '&today=' +today +'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "NCTBT"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=NCTBT' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "RTBTL"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=RTBTL' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "CUTMA"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=CUTMA' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "ATBTL"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=ATBTL' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "MTOOR"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=MTOOR' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "OTOMR"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=OTOMR' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "TINCP"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=TINCP' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "VINCP"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=VINCP' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+			}else if (rulecode == "FIFOE"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=FIFOE' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "MRTSB"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=MRTSB' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "RRTSB"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=RRTSB' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "FINWC"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=FINWC' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "FOUTC"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=FOUTC' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "SODWE"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=SODWE' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "RSINO"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=RSINO' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}else if (rulecode == "LVDFS"){
+			var date2 = $('#suspended_date').datepicker('getDate');
+			date2.setDate(date2.getDate()-noofdays)
+			$( "#activated_date" ).datepicker("setDate", date2);
+			var fromdate = $("#activated_date").val();
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=LVDFS' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		}
+});
+	
+        
+        $.ajax({
+    		type : 'get',
+    		url : "/AML/getRuleCodeId/" + rulecode,
+
+    		success : function(response) {
+
+    			$("#roleDesc").val(response.rule_code_desc);
+    			
+    			$('#rulelist1').empty();
+    		}
+
+    	});
+        
+    });
+
+function finuser(a) {
+	
+	$("#finusers").modal("hide"); 
+	$("#datadelete").modal("toggle");
+	var rulecode = a.getAttribute("data-rulecode");
+	var lowvalue = a.getAttribute("data-low");
+	var highvalue = a.getAttribute("data-high");
+	var rolecodedesc = a.getAttribute("data-rolecodedesc");
+	var noofdays =  a.getAttribute("data-date");
+	var threshold = a.getAttribute("data-threshold");
+	
+
+	$("#rule_code").val(a.id);
+	var rulecode=a.id;
+	
+	var current = new Date();
+
+	var today = current.toShortFormat();
+	
+		if (rulecode == "HVCDP"){
+			var master = 'AMLTransMonitoring?TRANTYPE=HVCDP' +'&rulecode=' +rulecode+ '&today=' +today +'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;	
+			location.href = master;
+		}else if (rulecode == "HVCWL"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=HVCWL' +'&rulecode=' +rulecode+ '&today=' +today +'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+		}else if (rulecode == "HVNCD"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=HVNCD' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+		}else if (rulecode == "HVNCW"){
+			location.href = 'AMLTransMonitoring?TRANTYPE=HVNCW' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+		}else if (rulecode == "CVCDP"){
+			 var fortnightAway = new Date(Date.now() );
+			fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+			var fromdate = fortnightAway.toShortFormat();
+		
+			
+			
+		      /*   final Calendar cal = Calendar.getInstance();
+		       cal.add(Calendar.DATE, -noofdays);
+		        var from = cal.getTime() ;
+		        var fromdate = from.toShortFormat();
+		         */
+			
+			location.href = 'AMLTransMonitoring?TRANTYPE=CVCDP' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "CVCWL"){
+				 var fortnightAway = new Date(Date.now() );
+					fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+					var fromdate = fortnightAway.toShortFormat();
+					
+				
+				location.href = 'AMLTransMonitoring?TRANTYPE=CVCWL' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+				}else if (rulecode == "CVNCD"){
+					 var fortnightAway = new Date(Date.now() );
+						fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+						var fromdate = fortnightAway.toShortFormat();
+						
+					
+					location.href = 'AMLTransMonitoring?TRANTYPE=CVNCD' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+					}else if (rulecode == "CVNCD"){
+						 var fortnightAway = new Date(Date.now() );
+							fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+							var fromdate = fortnightAway.toShortFormat();
+							
+						location.href = 'AMLTransMonitoring?TRANTYPE=CVNCD' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+						}else if (rulecode == "CVNCW"){
+							 var fortnightAway = new Date(Date.now() );
+								fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+								var fromdate = fortnightAway.toShortFormat();
+								
+							location.href = 'AMLTransMonitoring?TRANTYPE=CVNCW' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+							}else if (rulecode == "CVCDP1"){
+								 var fortnightAway = new Date(Date.now() );
+									fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+									var fromdate = fortnightAway.toShortFormat();
+									
+								
+								location.href = 'AMLTransMonitoring?TRANTYPE=CVCDP1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+								}else if (rulecode == "CVCWL1"){
+									 var fortnightAway = new Date(Date.now() );
+										fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+										var fromdate = fortnightAway.toShortFormat();
+										
+									
+									location.href = 'AMLTransMonitoring?TRANTYPE=CVCWL1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+									}else if (rulecode == "CVNCD1"){
+										 var fortnightAway = new Date(Date.now() );
+											fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+											var fromdate = fortnightAway.toShortFormat();
+											
+										
+										location.href = 'AMLTransMonitoring?TRANTYPE=CVNCD1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+										}else if (rulecode == "CVNCW1"){
+											 var fortnightAway = new Date(Date.now() );
+												fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+												var fromdate = fortnightAway.toShortFormat();
+												
+												
+												location.href = 'AMLTransMonitoring?TRANTYPE=CVNCW1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+												}
+										else if (rulecode == "DTCDT"){
+											location.href = 'AMLTransMonitoring?TRANTYPE=DTCDT' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+										}else if (rulecode == "TSCTP"){
+											 var fortnightAway = new Date(Date.now() );
+												fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+												var fromdate = fortnightAway.toShortFormat();
+												
+											
+											location.href = 'AMLTransMonitoring?TRANTYPE=TSCTP' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+											}
+										else if (rulecode == "TSCTP1"){
+											 var fortnightAway = new Date(Date.now() );
+												fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+												var fromdate = fortnightAway.toShortFormat();
+												
+											
+											location.href = 'AMLTransMonitoring?TRANTYPE=TSCTP1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+											}
+										else if (rulecode == "CTACP"){
+											location.href = 'AMLTransMonitoring?TRANTYPE=CTACP' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+										}else if (rulecode == "STVID"){
+											location.href = 'AMLTransMonitoring?TRANTYPE=STVID' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+										}
+										else if (rulecode == "CTVID"){
+											 var fortnightAway = new Date(Date.now() );
+												fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+												var fromdate = fortnightAway.toShortFormat();
+												
+											
+											location.href = 'AMLTransMonitoring?TRANTYPE=CTVID' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+											}else if (rulecode == "STVET"){
+												location.href = 'AMLTransMonitoring?TRANTYPE=STVET' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+											}
+											else if (rulecode == "NTVET"){
+												 var fortnightAway = new Date(Date.now() );
+													fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+													var fromdate = fortnightAway.toShortFormat();
+													
+												
+												location.href = 'AMLTransMonitoring?TRANTYPE=NTVET' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+												}
+											else if (rulecode == "TATLS"){
+												location.href = 'AMLTransMonitoring?TRANTYPE=TATLS' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+											}
+											else if (rulecode == "NATLS"){
+												 var fortnightAway = new Date(Date.now() );
+													fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+													var fromdate = fortnightAway.toShortFormat();
+													
+												
+												location.href = 'AMLTransMonitoring?TRANTYPE=NATLS' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+												}
+											else if (rulecode == "RTBLP"){
+												 var fortnightAway = new Date(Date.now() );
+													fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+													var fromdate = fortnightAway.toShortFormat();
+													
+												
+												location.href = 'AMLTransMonitoring?TRANTYPE=RTBLP' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+												}
+											else if (rulecode == "CTBTL"){
+												location.href = 'AMLTransMonitoring?TRANTYPE=CTBTL' +'&rulecode=' +rulecode+ '&today=' +today +'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+											}else if (rulecode == "NCTBT"){
+												location.href = 'AMLTransMonitoring?TRANTYPE=NCTBT' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+											}else if (rulecode == "RTBTL"){
+												location.href = 'AMLTransMonitoring?TRANTYPE=RTBTL' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+											}else if (rulecode == "CUTMA"){
+												location.href = 'AMLTransMonitoring?TRANTYPE=CUTMA' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+											}else if (rulecode == "ATBTL"){
+												 var fortnightAway = new Date(Date.now() );
+													fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+													var fromdate = fortnightAway.toShortFormat();
+													
+												
+												location.href = 'AMLTransMonitoring?TRANTYPE=ATBTL' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays+ '&threshold=' +threshold;
+												
+}else if (rulecode == "MTOOR"){
+	location.href = 'AMLTransMonitoring?TRANTYPE=MTOOR' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+}else if (rulecode == "OTOMR"){
+	location.href = 'AMLTransMonitoring?TRANTYPE=OTOMR' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+}else if (rulecode == "TINCP"){
+	location.href = 'AMLTransMonitoring?TRANTYPE=TINCP' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+}else if (rulecode == "VINCP"){
+	 var fortnightAway = new Date(Date.now() );
+		fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+		var fromdate = fortnightAway.toShortFormat();
+	location.href = 'AMLTransMonitoring?TRANTYPE=VINCP' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays+ '&threshold=' +threshold;
+	
+}else if (rulecode == "FIFOE"){
+	 var fortnightAway = new Date(Date.now() );
+		fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+		var fromdate = fortnightAway.toShortFormat();
+	
+	location.href = 'AMLTransMonitoring?TRANTYPE=FIFOE' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays+ '&threshold=' +threshold;
+	
+}else if (rulecode == "MRTSB"){
+	 var fortnightAway = new Date(Date.now() );
+		fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+		var fromdate = fortnightAway.toShortFormat();
+	
+	location.href = 'AMLTransMonitoring?TRANTYPE=MRTSB' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays+ '&threshold=' +threshold;
+	
+}else if (rulecode == "RRTSB"){
+	 var fortnightAway = new Date(Date.now() );
+		fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+		var fromdate = fortnightAway.toShortFormat();
+	location.href = 'AMLTransMonitoring?TRANTYPE=RRTSB' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays+ '&threshold=' +threshold;
+	
+}else if (rulecode == "FINWC"){
+	 var fortnightAway = new Date(Date.now() );
+		fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+		var fromdate = fortnightAway.toShortFormat();
+	
+	location.href = 'AMLTransMonitoring?TRANTYPE=FINWC' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays+ '&threshold=' +threshold;
+	
+}else if (rulecode == "FOUTC"){
+	 var fortnightAway = new Date(Date.now() );
+		fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+		var fromdate = fortnightAway.toShortFormat();
+	
+	location.href = 'AMLTransMonitoring?TRANTYPE=FOUTC' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays+ '&threshold=' +threshold;
+	
+}else if (rulecode == "SODWE"){
+	 var fortnightAway = new Date(Date.now() );
+		fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+		var fromdate = fortnightAway.toShortFormat();
+	
+	location.href = 'AMLTransMonitoring?TRANTYPE=SODWE' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays+ '&threshold=' +threshold;
+	
+}else if (rulecode == "FINWC"){
+	 var fortnightAway = new Date(Date.now() );
+		fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+		var fromdate = fortnightAway.toShortFormat();
+	
+	location.href = 'AMLTransMonitoring?TRANTYPE=FINWC' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays+ '&threshold=' +threshold;
+	
+}else if (rulecode == "RSINO"){
+	 var fortnightAway = new Date(Date.now() );
+		fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+		var fromdate = fortnightAway.toShortFormat();
+	
+	location.href = 'AMLTransMonitoring?TRANTYPE=RSINO' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays+ '&threshold=' +threshold;
+	
+}else if (rulecode == "LVDFS"){
+	 var fortnightAway = new Date(Date.now() );
+		fortnightAway.setDate(fortnightAway.getDate()-noofdays)
+		var fromdate = fortnightAway.toShortFormat();
+	
+	location.href = 'AMLTransMonitoring?TRANTYPE=LVDFS' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays+ '&threshold=' +threshold;
+	
+}
+}
+
+function getUserlist(mode, num, maxpage) {
+	$("#datadelete").modal("toggle");
+	var n = parseInt(num);
+	var max = parseInt(maxpage);
+		var rulecode = $("#rule_code_id").val();
+		 
+		 var today = $("#suspended_date").val();
+	        var lowvalue = $("#lowvalue1").val();
+	    	var highvalue = $("#highvalue1").val();
+	    	var rolecodedesc = $("#rule_code_desc").val();
+	    	var noofdays = $("#noofdays").val();
+	    	 var threshold = $("#threshold").val();
+	       
+	    	if (rulecode == "HVCDP"){
+	    		var Callurl = 'AMLTransMonitoring?TRANTYPE=HVCDP' +'&rulecode=' +rulecode+ '&today=' +today +'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;	
+			}else if (rulecode == "HVCWL"){
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=HVCWL' +'&rulecode=' +rulecode+ '&today=' +today +'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "HVNCD"){
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=HVNCD' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "HVNCW"){
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=HVNCW' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "CVCDP"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+			    $( "#activated_date" ).datepicker("setDate", date2);
+			    var fromdate = $("#activated_date").val();
+			    
+			    var Callurl = 'AMLTransMonitoring?TRANTYPE=CVCDP' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "CVCWL"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=CVCWL' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "CVNCD"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=CVNCD' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "CVNCW"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=CVNCW' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "CVCDP1"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+			    $( "#activated_date" ).datepicker("setDate", date2);
+			    var fromdate = $("#activated_date").val();
+			    
+			    var Callurl = 'AMLTransMonitoring?TRANTYPE=CVCDP1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "CVCWL1"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=CVCWL1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "CVNCD1"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=CVNCD1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+				
+			}else if (rulecode == "CVNCW1"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=CVNCW1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "DTCDT"){
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=DTCDT' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "TSCTP"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=CVNCW1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "TSCTP1"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=CVNCW1' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "CTACP"){
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=CTACP' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "STVID"){
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=STVID' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "CTVID"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=CTVID' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "STVET"){
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=STVET' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "NTVET"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=NTVET' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "TATLS"){
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=TATLS' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "NATLS"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=NATLS' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "RTBLP"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=RTBLP' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "CUTMA"){
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=CUTMA' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "ATBTL"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=ATBTL' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays+ '&threshold=' +threshold;
+			}else if (rulecode == "MTOOR"){
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=MTOOR' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "OTOMR"){
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=OTOMR' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "TINCP"){
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=TINCP' +'&rulecode=' +rulecode+ '&today=' +today+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays;
+			}else if (rulecode == "VINCP"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=VINCP' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays+ '&threshold=' +threshold;
+			}else if (rulecode == "FIFOE"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=FIFOE' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+			}else if (rulecode == "MRTSB"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=MRTSB' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+			}else if (rulecode == "RRTSB"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=RRTSB' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+			}else if (rulecode == "FINWC"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=FINWC' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+			}else if (rulecode == "FOUTC"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=FOUTC' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+			}else if (rulecode == "SODWE"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=SODWE' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+			}else if (rulecode == "RSINO"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+			
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=RSINO' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+			}else if (rulecode == "LVDFS"){
+				var date2 = $('#suspended_date').datepicker('getDate');
+				date2.setDate(date2.getDate()-noofdays)
+				$( "#activated_date" ).datepicker("setDate", date2);
+				var fromdate = $("#activated_date").val();
+				var Callurl = 'AMLTransMonitoring?TRANTYPE=LVDFS' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
+			}
+
+
+	switch (mode) {
+	case "nextpage":
+		n = n + 1;
+		if (n > max) {
+			break;
+		}
+		Callurl = Callurl + "&page=" + n;
+		
+		
+		break;
+	case "prevpage":
+		n = n - 1;
+		if (n < 0) {
+			break;
+		}
+		Callurl = Callurl + "&page=" + n;
+		
+		break;
+	case "givenpage":
+		n = parseInt($("#pageno").val()) - 1;
+		if (n > max || n < 0) {
+			break;
+		}
+		Callurl = Callurl + "&page=" + n;
+		
+	}
+
+		
+ location.href = Callurl;
+} 
+
+
+
+			
+
+	/*]]>*/
+</script>
+
+
+
+<script th:inline="javascript">
+	 $(function() {
+
+			$("#usertable").DataTable({
+			"paging" : false,
+		});
+	});
+
+  
+ 
+	function finuser(this) {
+
+		 var rulecode = $(this).val();
+		
+		location.href = 'AMLTransMonitoring?&rulecode=' +rulecode;	
+		}
+	function fnClick(a) {
+		var tranId = a.getAttribute("data-tranId")
+		location.href = 'AMLTransactionMaster?tranId=' + tranId;
+	}
+	
+	
+	function fnClick2(a) {
+		var acid = a.getAttribute("data-acid")
+		location.href = 'AMLAccountMaster1?acid=' + acid;
+	}
+	
+	
+	function submitform(a) {
+
+		var formmode = a.getAttribute("data-formmode");
+		var url = "./transMonitoring?formmode=" + formmode;
+
+		$("#TransMonitoring").attr('action', url);
+
+		var options = {
+			success : showResponse
+		// post-submit callback 
+		};
+
+		$("#TransMonitoring").ajaxSubmit(options);
+
+		function showResponse(responseText, statusText, xhr, $form) {
+
+			$("#alertmsg").text(responseText);
+
+			$('#alert').modal("toggle");
+
+		}
+		;
+
+	};
+
+	/* 	$("#dt1").datepicker({
+	 changeMonth : true,
+	 changeYear : true,
+	 maxDate: new Date(),
+	 dateFormat : "dd-mm-yy"
+	 });
+	 */
+	/*]]>*/
+	 $(function() {
+        $("#start_date,#end_date,#suspended_date,#activated_date").datepicker({
+            changeMonth : true,
+            changeYear : true,
+             maxDate: new Date(),
+            dateFormat : "dd-mm-yy"
+        });
+    });
+</script>
+</head>
+<title>AML</title>
+
+<body>
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('AMLTransMonitoring')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card-header" id="modheadtitle">
+							<b>Transaction Monitoring</b>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<label></label>
+
+			<!---------------------rule input form Starts-------------------------------------------------->
+			<div class="container content">
+				<div class="row">
+					<div class="col-sm-12 ">
+						<form action="#" th:object="${TransMonitoring}" method="POST"
+							autocomplete="off" id="TransMonitoring">
+							<div class="card">
+								<!-- <div class="card-body" style="height: 1px;">
+
+								<select class="select btn btn-secondary btn-sm" id="value"
+									name="value" style="float: left; font-size: 13px;">
+									<option value="default">Rule Id</option>
+									<option id="option"
+										th:each="transmonitoring : ${transactionMonitoring}"
+										th:value="${transmonitoring.rule_code}"
+										th:text="${transmonitoring.rule_code}"></option>
+								</select>
+
+							</div> -->
+								<div class="card-body">
+									<div class="row formline">
+
+
+
+
+										<div class="col-sm-2" th:if="${formmode}=='list'">
+											<label for="srl_no">Select Rule Code</label>
+										</div>
+										<div class="col-sm-3" th:if="${formmode}=='list'">
+											<input type="text" th:value="${TransMonitoring?.rule_code}"
+												style="background-color: #d2dae0;" id="rule_code"
+												placeholder="Select Rule Code"
+												class="form-control form-control-sm" name="rule_code"
+												autocomplete="off" readonly>
+										</div>
+										<div class="col-sm-1" th:if="${formmode}=='list'">
+											<a href="#"><i class="fas fa-search searchico"
+												data-toggle="modal" data-target="#finusers" id="iconacc"></i></a>
+										</div>
+
+										<label class="col-sm-2" th:if="${formmode}=='tranlist'">Rule
+											Code</label>
+										<div class="col-sm-3" th:if="${formmode}=='tranlist'">
+											<input type="text" th:value="${rulecode}" id="rule_code_id"
+												name="rule_code_desc" value=""
+												class="form-control form-control-sm" autocomplete="off"
+												required />
+
+										</div>
+										<div class="col-sm-1" th:if="${formmode}=='tranlist'">
+											<a href="#"><i class="fas fa-search searchico"
+												data-toggle="modal" data-target="#finusers" id="iconacc"></i></a>
+										</div>
+
+										<!-- <div>
+											<input type="hidden" id="valuemax"> <input
+												type="hidden" id="valuemin">
+
+										</div>
+ -->
+										<label class="col-sm-2">Code Description</label>
+										<div class="col-sm-3">
+											<input type="hidden" id="activated_date"> <input
+												type="hidden" id="lowvalue1" th:value="${lowvalue}">
+											<input type="hidden" id="highvalue1" th:value="${highvalue}">
+											<input type="hidden" id="noofdays" th:value="${noofdays}">
+											<input type="hidden" id="threshold" th:value="${threshold}">
+											<input type="text" th:value="${ruledescription}"
+												id="rule_code_desc" name="rule_code_desc" value=""
+												class="form-control form-control-sm" autocomplete="off"
+												required />
+										</div>
+										<div class="col-sm-1"></div>
+
+									</div>
+
+									<label></label>
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Report Date</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${today}" id="suspended_date"
+												name="suspended_date" style="background-color: #d2dae0"
+												class="form-control form-control-sm" autocomplete="off" />
+										</div>
+										<div class="col-sm-1"></div>
+										<label class="col-sm-2">No Of Days</label>
+										<div class="col-sm-3">
+											<input type="text" id="noofdays1" th:value="${noofdays}"
+												name="noofdays" style="background-color: #d2dae0"
+												class="form-control form-control-sm" autocomplete="off" />
+										</div>
+									</div>
+										<label></label>
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Celling(Rs)</label>
+										<div class="col-sm-3">
+											<input type="text" id="lowvalue12" 
+											th:value="${#numbers.formatDecimal(lowvalue 	,1,'COMMA',2,'POINT')}"
+												name="lowvalue12" style="background-color: #d2dae0"
+												class="form-control form-control-sm" autocomplete="off" />
+										</div>
+										<div class="col-sm-1"></div>
+										
+									</div>
+								</div>
+								<label></label>
+
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+			<div th:if="${formmode}=='tranlist'" class="container content">
+				<div class="row">
+					<div class="col-sm-12">
+
+						<div class="table-responsive"
+							style="overflow-x: scroll; overflow-y: hidden;">
+
+
+							<table class="table table-bordered  table-hover table-sm"
+								style="overflow-x: scroll; overflow-y: hidden; width: 180%"
+								id="usertable">
+								<thead class="thead-light">
+								<thead class="thead-light">
+									<tr>
+										<th>Customer ID</th>
+										<th>Account Name</th>
+										<th>Tran Date</th>
+										<th>Value Date</th>
+										<th>Tran Amount</th>
+										<th>Tran Type</th>
+										<th>Tran Sub Type</th>
+										<th>Tran Particulars</th>
+										<th>Part Tran Type</th>
+										<th th:if="${MODE}=='CTACP'">Tran Purpose Code</th>
+										<th>Tran ID</th>
+										<th>Part Tran ID</th>
+										<!-- <th>Tran Currency</th> -->
+										<th>Account Number</th>
+										<!-- <th>Tran Status</th> -->
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:if="${TransactionMaster.totalPages} == '0'">
+										<td colspan="14" style="text-align: left; color: red">No
+											record available for this peroid</td>
+									</tr>
+
+									<tr th:if="${TransactionMaster.totalPages}!='0'"
+										th:each="transactionMaster : ${TransactionMaster}">
+										<td class="underline" onclick="fnClick1(this);"
+											th:attr="data-custId=${transactionMaster.aCCT_MASTER.cif_id}"
+											th:text="${transactionMaster.aCCT_MASTER.cif_id}"></td>
+											<td th:text="${transactionMaster.aCCT_MASTER.acct_name}"></td>
+											<td
+											th:text="${#dates.format(transactionMaster.tran_date,'dd/MM/yyyy')}"></td>
+											<td th:text="${#dates.format(transactionMaster.tran_date,'dd/MM/yyyy')}"></td>
+											<td
+											th:text="${#numbers.formatDecimal(transactionMaster.tran_amt 	,1,'COMMA',2,'POINT')}"
+											align="right"></td>
+										<th:block th:switch="${transactionMaster.tran_type}">
+											<td th:case="'C'">Cash</td>
+											<td th:case="'T'">Transfer</td>
+										</th:block>
+
+										<th:block th:switch="${transactionMaster.tran_sub_type}">
+											<td th:case="'NR'">Normal Receipt</td>
+											<td th:case="'NP'">Normal Payment</td>
+											<td th:case="'IP'">Interest Paid</td>
+											<td th:case="'I'">Inward</td>
+											<td th:case="'CI'">Customer Induced</td>
+											<td th:case="'BI'">Bank Induced</td>
+											<td th:case="'IC'">Interest Collected</td>
+											<td th:case="'BS'">Customer Induced</td>
+											<td th:case="'SC'">Service Charge</td>
+										</th:block>
+										<td th:text="${transactionMaster.tran_particular}"></td>
+										<th:block
+											th:switch="${transactionMaster.transactionmasterembeddedid.part_tran_type}">
+											<td th:case="'D'">Debit</td>
+											<td th:case="'C'">Credit</td>
+										</th:block>
+										<td th:if="${MODE}=='CTACP'"
+											th:text="${transactionMaster.tran_particular_code}"></td>
+											<td class="underline" onclick="fnClickTran(this);"
+											th:attr="data-tran_id=${transactionMaster.transactionmasterembeddedid.tran_id},data-tran_date=${#dates.format(transactionMaster.tran_date,'dd-MMM-yyyy')},data-foracid=${transactionMaster.aCCT_MASTER.foracid},data-parttran=${transactionMaster.part_tran_srl_num}"
+											th:text="${transactionMaster.transactionmasterembeddedid.tran_id}">
+										</td>
+										<td th:text="${transactionMaster.part_tran_srl_num}"></td>
+										<!-- <td th:text="${transactionMaster.tran_crncy_code}"></td> -->
+									
+										<td class="underline" onclick="fnClickAcct(this);"
+											th:attr="data-acctnum=${transactionMaster.aCCT_MASTER.foracid},data-custid=${transactionMaster.aCCT_MASTER.cif_id},data-acid=${transactionMaster.aCCT_MASTER.acid}"
+											th:text="${transactionMaster.aCCT_MASTER.foracid}"></td>
+										
+										<!-- <td th:text="${transactionMaster.tr_status}"></td> -->
+
+
+									</tr>
+
+
+
+
+
+								</tbody>
+							</table>
+						</div>
+						<div class="float-right"
+							th:if="${TransactionMaster.totalPages} gt 1">
+							<a href="#"><i class="fas fa-caret-left fa-2x"
+								th:onclick="|getUserlist('prevpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></i></a>
+							<input type="text" id="pageno" style="width: 30px"
+								th:value="${TransactionMaster.number+1}"
+								th:onchange="|getUserlist('givenpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></input>
+							of <font th:text="${TransactionMaster.totalPages}"></font> <a
+								href="#"><i class="fas fa-caret-right fa-2x"
+								th:onclick="|getUserlist('nextpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></i></a>
+						</div>
+
+
+
+
+
+					</div>
+				</div>
+			</div>
+
+			<div class="card-footer text-center"
+				style="background-color: #386276;">
+
+				<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+					onclick="home();">Home</button>
+				<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+					onclick="back();">Back</button>
+
+			</div>
+
+
+			<div class="modal fade" id="finusers">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div class="modal-content" style="border: 2px solid black;">
+
+						<!-- Modal Header -->
+						<div class="modal-header" style="background-color: #386276;">
+							<h4 class="modal-title">Rule ID</h4>
+							<button type="button" class="close" data-dismiss="modal">×</button>
+						</div>
+
+						<!-- Modal body -->
+						<div class="modal-body" style="background-color: #e6eaed;">
+							<table class="table table-hover" id="finusertb">
+								<thead class="thead-light" style="background-color: #386276;">
+									<tr>
+										<th
+											style="color: #ffffff; width: 100px; background-color: #386276; border-color: #495561; font-size: 11px;">Rule
+											Code</th>
+										<th
+											style="color: #ffffff; background-color: #386276; border-color: #495561; font-size: 11px;">Rule
+											Code Description</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="alert: ${transactionMonitoring}"
+										th:attr="data-rulecode=${alert.rule_code},data-low=${alert.low_value},data-high = ${alert.high_value},data-rolecodedesc =${alert.rule_code_desc},data-date = ${alert.no_of_days},data-threshold =${alert.threshold_limit}"
+										th:id="${alert.rule_code}" th:onclick="finuser(this)"
+										class="userlist1">
+										<td style="color: black;" th:text="${alert.rule_code}"></td>
+										<td style="color: black;" th:text="${alert.rule_code_desc}"></td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!-- 
+			<div class="card-footer text-center">
+
+				<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+					onclick="home();">Home</button>
+				<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+					onclick="back();">Back</button>
+
+			</div>
+ -->
+			<!------------------------Pop window - Domain  list Ends--------------------------------->
+			<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+			<div class="modal fade" id="alert">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div class="modal-content">
+						<div class="modal-body" style="text-align: center">
+							<p id="alertmsg"></p>
+							<button type="button" class="btn btn-primary"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="datadelete" data-backdrop="static"
+			data-keyboard="false">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content" style="background-color: #94b8dd00;">
+					<div class="modal-body" style="text-align: center">
+						<div class="loader">Loading...</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!------------------------------------ Modal for alert messages -------------------------------->
+</body>
+</html>

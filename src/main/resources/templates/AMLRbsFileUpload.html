@@ -1,0 +1,498 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLRBSFileUpload
+CREATED BY	: MANIVANNAN
+CREATED ON	: 27-JAN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+ <html lang="en" >
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<script src="./js/bootstrap411.js"></script>
+
+<style>
+.row1 {
+	padding: 7px;
+}
+
+.error {
+	color: red;
+	padding-left: 10px;
+}
+
+.col-sm-12 {
+     flex: 0 0 100%;
+    max-width: 75%;
+}
+
+.col-sm-3 {
+     flex: 0 0 44%;
+    max-width: 66%;
+}
+</style>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	var reportlist = /*[[${reportlist}]]*/null;
+	var reportidnav=/*[[${reportid}]]*/null;
+	var frequency;
+
+	$(function() {
+		
+		$("#reportTimediv").hide();
+		
+		$.validator.addMethod("valueNotEquals", function(value, element, arg){
+			  return arg !== value;
+			 }, "Please Select");
+		
+		 $("#reportform").validate({
+			 rules: {
+				 reportid: { valueNotEquals: "Select" },
+		 		 function: { valueNotEquals: "Select" },
+		 		reportingTime: { valueNotEquals: "Select" }
+				  },
+				  messages: {
+				   reportid : { valueNotEquals: "Please Select a Report Id" },
+				   function :  { valueNotEquals: "Please Select a function" },
+				   reportingTime : { valueNotEquals : "Please Select Reporting Time" },
+				   asondate : "Please Select Report Date",
+				   fromdate : "Plese Select From Date",
+				   todate	: "Plesae Select To Date",
+				   currency : "Plesae Select Reporting currency"
+				  }  ,
+			  submitHandler: function(form) {
+					 var fun = $('#function :selected').val();
+					 /*var selectedIndex = $("#reportlist option:selected").index();
+					var report = reportlist[selectedIndex - 1];
+					
+ */
+
+ 
+ if (fun == "view") {
+
+						$("#reportform").attr('action', "Reports/" +reportidnav+"?dtltype=report");
+						var reportid = $('#reportlist :selected').text();
+						var asondate = $('#asonDate').val();
+						var fromdate = $('#dt1').val();
+						var todate = $('#dt2').val();
+						var reportingTime = $('#reportingTime :selected').text();
+						
+						var Callurl;
+						
+						
+							Callurl =  './Reports/' + reportidnav + '/Precheck?fromdate=' + fromdate + '&todate=' + todate;
+						$.ajax({
+							type : 'get',
+							url : Callurl,
+							success : function(data) {
+								if (data == 'success') {
+									form.submit();
+								} else {
+									$("#alertmsg").text(data);
+									$("#alert").modal("toggle");
+								}
+
+							}
+						});
+					} else if (fun == "nil"){
+						
+						
+						
+						var reportid = $('#reportlist :selected').text();
+						var asondate = $('#asonDate').val();
+						var fromdate = $('#dt1').val();
+						var todate = $('#dt2').val();
+						var reportingTime = $('#reportingTime :selected').text();
+						
+						Callurl = './Reports/' + reportid + '/nilReport?asondate='
+						+ asondate + '&fromdate=' + fromdate + '&todate=' + todate + '&reportingTime='+reportingTime;
+						
+						
+						$.ajax({
+							type : 'get',
+							url : Callurl,
+							success : function(data) {
+								
+								$("#alertmsg").text(data);
+								$("#alert").modal("toggle");
+
+							}
+						});
+						
+					}
+					
+					else {
+						
+						/* $("#reportform").attr('action',
+								"Reports/" + report.reportid + "/verify");	 */		
+								var todate = $('#dt2').val();
+								var reportid = "generation";
+								$("#reportform").attr('action', './Reports/' +reportid +'/Download');
+						
+						var reportid = "generation";
+						
+						var Callurl;	
+							Callurl =  './Reports/' + reportid + '/Precheck?todate=' + todate;
+						
+						$.ajax({
+							type : 'get',
+							url : Callurl,
+							success : function(data) {
+
+								if (data == 'success') {									
+									form.submit();
+									
+								} else {
+									
+									$("#alertmsg").text("No data Available for Verification");
+									$("#alert").modal("toggle");
+									
+									
+									
+								}
+
+
+							}
+						});
+						
+						
+						
+					}
+				  }
+				});	 
+		
+		/* $("#asonDate").datepicker(
+				{
+					changeMonth : true,
+					changeYear : true,
+					dateFormat : "dd-mm-yy",
+					maxDate: new Date(),
+					onClose : function() {
+						var asondate = $(this).datepicker('getDate');
+
+						if (asondate) {
+							
+							if (frequency == "Monthly") {
+								
+								asondate = new Date(asondate.getFullYear(),asondate.getMonth() + 1, 0);
+								$(this).datepicker("setDate", asondate);
+								$('#dt2').datepicker("setDate", asondate);
+								asondate.setDate(1);
+								$('#dt1').datepicker("setDate", asondate);
+								
+							} else if (frequency == "Daily") {
+												
+					            $("#dt2").datepicker("setDate", asondate);
+					            $('#dt1').datepicker("setDate", asondate);
+
+							} else if (frequency == "Fortnightly") {
+								
+								$("#dt2").datepicker('setDate', asondate);
+								asondate.setDate(asondate.getDate()-13);
+								$('#dt1').datepicker("setDate", asondate);
+								 
+							} else if (frequency == "Half Yearly") {
+								
+								asondate.setMonth((Math.trunc(asondate.getMonth()/6)*6)+5);
+								asondate = new Date(asondate.getFullYear(), asondate.getMonth() + 1, 0);
+					            $(this).datepicker('setDate', asondate);
+					            $("#dt2").datepicker('setDate', asondate);
+
+					            asondate.setDate(1);
+					            asondate.setMonth(Math.trunc(asondate.getMonth()/6)*6);
+					            $("#dt1").datepicker('setDate', asondate);
+
+							} else if (frequency == "Yearly") {
+								
+								asondate.setDate(31);
+								asondate.setMonth(11);
+								$('#dt2').datepicker("setDate",asondate);
+								$(this).datepicker('setDate', asondate);
+								 
+								asondate.setDate(1);
+								asondate.setMonth(0);
+						        $( "#dt1" ).datepicker("setDate", asondate);
+								
+								
+							} else if (frequency == "Quarterly") {
+								
+								
+								asondate.setMonth((Math.trunc(asondate.getMonth()/3)*3)+2);
+								asondate = new Date(asondate.getFullYear(), asondate.getMonth() + 1, 0);
+						        $(this).datepicker('setDate', asondate);
+						        $("#dt2").datepicker('setDate', asondate);
+
+						        asondate.setDate(1);
+						        asondate.setMonth(Math.trunc(asondate.getMonth()/3)*3);
+						         	
+						        $("#dt1").datepicker('setDate', asondate);
+								
+
+							} else if (frequency == "Weekly") {
+								
+
+							};
+
+						}
+					}
+
+				});
+	 */	$("#dt1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate: new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+		$("#dt2").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd/mm/yy"
+		});
+	});
+	
+	function showReportName() {
+		/* var fun = $('#function :selected').val();
+		var selectedIndex = $("#reportlist option:selected").index();
+		
+		var report = reportlist[selectedIndex - 1];
+	 */	var reportId = reportidnav;
+		/* frequency = report.report_frequency;
+		
+		$("#repname").text(report.report_name);
+		$("#reportTimediv").hide();
+		
+		if(reportId=='FIM0500'){
+			
+			$("#reportTimediv").show();
+			$("#reportingTime").addAttr("required");
+		} */
+
+	};
+	
+	function submitdataform() {
+		$("#loadermodal").modal("toggle");
+		 var reportid = $("#reportlist :selected").val();
+		 var jsDate = $('#dt2').val();
+		
+
+		$('#uploadForm').attr("action",
+				"upload/" + reportid + "?asondate=" + jsDate);
+
+		var options = {
+			beforeSubmit : validate,
+			success : showResponse
+		};
+
+		$('#uploadForm').ajaxSubmit(options);
+
+		function validate(formData, jqForm, options) {
+
+			for (var i = 0; i < formData.length; i++) {
+				
+				if (!formData[i].value) {
+					continue;
+				} else {
+					return true;
+				}
+			}
+			$("#loadermodal").modal("hide");
+			$("#alertmsg2").text("Please Choose the File");
+			$('#alert2').modal("toggle");
+			return false;
+		}
+
+		function showResponse(responseText, statusText, xhr, $form) {
+			$("#loadermodal").modal("hide");
+			$("#alertmsg2").text(responseText);
+			$('#alert2').modal("toggle");
+			
+		}
+			
+	}
+	function  closeform(a){
+		$("#loadermodal").modal("toggle");
+		location.href = "/AML/" + a.id;
+	}
+
+	/*]]>*/
+</script>
+</head>
+<title>AML</title>
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" aria-hidden="true"
+		onclick="docEmb('Report')" id="ques"></i>
+	<div class="container content"
+		style="padding-top: 7%; width: 985px; padding-left: 14%;">
+		<div class="row">
+			<div class="col-sm-12">
+				<form class="form-horizontal" method="post" name="CriteriaForm"
+					id="reportform">
+					<div class="card">
+						<div class="card-header">
+							<h4 th:text="${reportvalue}">AML Reports</h4>
+						</div>
+						<div class="card-body" style="height: 160px;">
+							<div class="form-group">
+							
+							
+							<div class="row row1">
+									<label class="col-sm-3 control-label">Select Report</label> 
+									<select
+										 name="reportid" id="reportlist"
+										 class="col-sm-3 form-control">
+										<option value="Select">Select</option>
+										<option value="t8">T8</option>
+										<option value="t9">T9</option>
+										<option value="t10">T10</option>
+										<option value="t15">T15</option>
+										<option value="t18">T18</option>
+										<option value="t12_RODRIGUES">T12 RODRIGUES</option>
+										<option value="t22">T22</option>
+
+
+									</select> <span class="col-sm-6" id="repname"></span>
+
+								</div>
+
+								<div class="row row1">
+									<label class="col-sm-3 control-label">Report Date<span
+										style="color: red; font-size: 10px;" class="mant">*</span></label> <input
+										type="text" name="todate" id="dt2" value=""
+										class="col-sm-3 form-control" placeholder="dd/mm/yyyy"
+										required />
+								</div>
+								
+								
+								
+							</div>
+						</div>
+						
+						
+						<div class="card-footer text-center">
+							<button type="button" class="btn btn-xs btn-primary"
+								data-toggle="modal" data-target="#uploadModal" id="btnUpload">Submit</button>
+							<button type="reset" class="btn btn-xs btn-primary" id="btnClear">Clear</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="alert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	
+	
+	
+	
+	<div class="modal fade" id="alert2">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="alertmsg2"></p>
+					<button type="button" class="btn btn-primary" onclick="closeform(this);" id="rbsFileUpload" data-dismiss="modal">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="loadermodal" data-backdrop="static"
+		data-keyboard="false">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="background-color: #94b8dd00;">
+				<div class="modal-body" style="text-align: center">
+					<div class="loader">Loading...</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div id="uploadModal" class="modal fade" role="dialog">
+  		<div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content" style="margin-top: 288px;">
+      <div class="modal-header">
+      <h4 class="modal-title">File upload form</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        
+      </div>
+      <div class="modal-body">
+        <!-- Form -->
+        <form method='post' th:action="@{/upload/import}" enctype="multipart/form-data" id=uploadForm>
+          Select file : <input type='file' name='files' id='files' class='form-control' ><br>
+          <input type='button' class='btn btn-info' value='Upload' id='btn_upload' onclick='submitdataform()'>
+        </form>
+
+
+       
+      </div>
+ 
+    </div>
+
+  </div>
+</div>
+	
+	
+	
+	
+
+
+
+</body>
+</body>
+</html>

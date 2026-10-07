@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="T3B" pageWidth="2000" pageHeight="595" orientation="Landscape" columnWidth="1960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="d611d333-dca4-4d4e-bbf3-2a503f40da44">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="aml@local"/>
+	<style name="Title" mode="Opaque" backcolor="#D6DCE4"/>
+	<style name="Header" mode="Opaque" backcolor="#B3C6E7"/>
+	<style name="Note" mode="Opaque" backcolor="#0070C0"/>
+	<style name="Validation" mode="Opaque" backcolor="#70AD47"/>
+	<style name="Orange" mode="Opaque" backcolor="#FFFFFF">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[OR($F{INSTANCE_CODE}.toString().equals("7"),
+	$F{INSTANCE_CODE}.toString().equals("8"),
+	$F{INSTANCE_CODE}.toString().equals("18"),
+	$F{INSTANCE_CODE}.toString().equals("24"),
+	$F{INSTANCE_CODE}.toString().equals("30")
+	
+)]]></conditionExpression>
+			<style backcolor="#FFCC66"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[OR($F{INSTANCE_CODE}.toString().equals("13"))]]></conditionExpression>
+			<style mode="Opaque" backcolor="#70AD47"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[OR($F{INSTANCE_CODE}.toString().equals("14") )]]></conditionExpression>
+			<style forecolor="#0070C0"/>
+		</conditionalStyle>
+	</style>
+	<style name="RED" mode="Opaque" backcolor="#FF0000"/>
+	<parameter name="REPORT_DATE" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM "T3B_PROFILE_OF_NON_FACE_TO_FACE_CUSTOMERS"
+WHERE REPORT_DATE=$P{REPORT_DATE}
+ORDER BY INSTANCE_CODE]]>
+	</queryString>
+	<field name="INSTANCE_CODE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="INSTANCE_CODE"/>
+	</field>
+	<field name="INSTANCE_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="INSTANCE_NAME"/>
+	</field>
+	<field name="LOW_NO_OF_CUST" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="LOW_NO_OF_CUST"/>
+	</field>
+	<field name="LOW_NO_OF_DEBIT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="LOW_NO_OF_DEBIT"/>
+	</field>
+	<field name="LOW_AMT_DEBIT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="LOW_AMT_DEBIT"/>
+	</field>
+	<field name="LOW_NO_OF_CREDIT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="LOW_NO_OF_CREDIT"/>
+	</field>
+	<field name="LOW_AMT_CREDIT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="LOW_AMT_CREDIT"/>
+	</field>
+	<field name="MED_NO_OF_CUST" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="MED_NO_OF_CUST"/>
+	</field>
+	<field name="MED_NO_OF_DEBIT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="MED_NO_OF_DEBIT"/>
+	</field>
+	<field name="MED_AMT_DEBIT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="MED_AMT_DEBIT"/>
+	</field>
+	<field name="MED_NO_OF_CREDIT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="MED_NO_OF_CREDIT"/>
+	</field>
+	<field name="MED_AMT_CREDIT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="MED_AMT_CREDIT"/>
+	</field>
+	<field name="HIGH_NO_OF_CUST" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="HIGH_NO_OF_CUST"/>
+	</field>
+	<field name="HIGH_NO_OF_DEBIT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="HIGH_NO_OF_DEBIT"/>
+	</field>
+	<field name="HIGH_AMT_DEBIT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="HIGH_AMT_DEBIT"/>
+	</field>
+	<field name="HIGH_NO_OF_CREDIT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="HIGH_NO_OF_CREDIT"/>
+	</field>
+	<field name="HIGH_AMT_CREDIT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="HIGH_AMT_CREDIT"/>
+	</field>
+	<field name="REPORT_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="REPORT_DATE"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="87" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="57" width="150" height="30" forecolor="#FF0000" uuid="dad42948-83d2-49fb-8a60-93e59949be18"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Bookman Old Style" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOT APPLICABLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1260" y="0" width="100" height="30" uuid="81cd2fab-2823-44c7-b85b-7c640d58e494">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Current Quarter:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1160" y="0" width="100" height="30" uuid="c7f66c18-1f0a-410f-90fc-84754be145d5">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[MUR]]></text>
+			</staticText>
+			<textField pattern="MMM/yyyy" isBlankWhenNull="true">
+				<reportElement x="1360" y="0" width="100" height="30" uuid="64ce54d2-8b9e-4481-abf1-a37eab2f188c"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{REPORT_DATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1010" y="0" width="150" height="30" uuid="f77ecc00-06a7-43ab-9fca-dc302dd8f29e">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Reporting Currency:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="149" splitType="Stretch">
+			<staticText>
+				<reportElement style="Header" x="0" y="26" width="285" height="123" uuid="eadb8390-9bca-4e63-a364-0f535bed21a2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="75bc897c-fd7f-4ae2-8829-e77c10cdd5e4"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="285" y="56" width="97" height="93" uuid="5245677c-fda7-40f4-8f2d-f3320238e27c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3c1d9be9-8584-4e7c-a560-7e5a452aa23c"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[No. of customers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="382" y="56" width="97" height="93" uuid="9ae4bb45-5efa-426b-8191-8ab47c2fa35a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="63ed11de-9f7f-4ddb-b7a2-b82043024c3f"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[Total number of debits transactions during the quarter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="479" y="56" width="97" height="93" uuid="4f89869f-17d5-4d0c-9e7d-aa9fd3fd4255">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="509d4218-da0d-4bfb-bc95-4ebe3f5ce5f3"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[Total debits during the quarter (amount)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="576" y="56" width="97" height="93" uuid="8858bab6-2a4c-4e78-9752-d74092ded58b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6e6e6feb-a669-4e0c-9154-bd9df8d74b5e"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[Total number of credits transactions during the quarter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="673" y="56" width="97" height="93" uuid="a075a7b6-0a87-4424-9830-11ecaba40394">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ff79f4a4-bcdf-45cb-bd9e-396576250bae"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[Total credits during the quarter (amount)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="770" y="56" width="97" height="93" uuid="4fdac58c-7410-4c46-933d-26587597c811">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="87ba6054-7c4c-4d2a-bc62-091bf2eba485"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[No. of customers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="867" y="56" width="97" height="93" uuid="717fd122-1bb6-412d-8278-993a981aac26">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ff360790-954b-408f-a4c7-541b7eb895fa"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[Total number of debits transactions during the quarter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="964" y="56" width="97" height="93" uuid="4fcb6971-742f-4568-aa34-635671cfaef2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f6afa6d1-d985-4580-95cf-b9c68cdb9b08"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[Total debits during the quarter (amount)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="1061" y="56" width="97" height="93" uuid="ca54bf09-7dfb-4e42-be0c-c5d0f4a402d9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="953d1cc3-7725-43bc-87cc-487bfa7c930f"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[Total number of credits transactions during the quarter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="1158" y="56" width="97" height="93" uuid="bb07f4b0-1644-40be-8a79-210db22ac931">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e33b6b81-c905-4747-adca-618399f30463"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[Total credits during the quarter (amount)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="1255" y="56" width="97" height="93" uuid="94b8b083-fcab-4c11-aaaa-a13f0272b1a0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="060987bf-9762-4235-9fbb-cc71d27aa56c"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[No. of customers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="1352" y="56" width="97" height="93" uuid="e1ea0050-ce8c-4132-a6fe-a6c8824c9270">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c957d7bf-32a4-4ccb-8d0e-10f6c8d4f09a"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[Total number of debits transactions during the quarter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="1449" y="56" width="97" height="93" uuid="ef8eff4d-4e6e-4b85-b0f5-56e67593e61c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="078f9556-2f40-4b7a-afc7-23bddebfffbc"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[Total debits during the quarter (amount)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="1546" y="56" width="97" height="93" uuid="9d7c7fb6-4cfe-4750-80f0-f9f92eb40e2f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="800a6132-d19c-4683-89a6-3941baf92b7b"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[Total number of credits transactions during the quarter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="1643" y="56" width="97" height="93" uuid="2f17090a-aa08-4a7d-bf38-15bf27e9c5a8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="85a87591-e4e1-4604-9dd9-8db828936c6e"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[Total credits during the quarter (amount)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="285" y="26" width="485" height="30" uuid="227ccaa8-ef06-4684-aeee-2a8dfb52df17"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Low risk]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="770" y="26" width="485" height="30" uuid="b9926fc2-5e2f-40d0-9b28-9d4ce9b34d01"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Medium risk]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Header" x="1255" y="26" width="485" height="30" uuid="427b864e-095b-4dc7-b2e0-ce6a13dceb7f"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style" isBold="true"/>
+				</textElement>
+				<text><![CDATA[High risk]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Title" x="0" y="1" width="1740" height="25" uuid="eff00388-aa95-426e-ab23-8e7c8352df2c"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bookman Old Style" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Table 3.B:  Profile of non-face-to-face customers]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="0" y="0" width="285" height="30" uuid="114cc606-b280-4156-9d22-71e06d5af829">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="75bc897c-fd7f-4ae2-8829-e77c10cdd5e4"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INSTANCE_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="285" y="0" width="97" height="30" uuid="76bd5606-fe82-4271-aaa9-7b66401f7a6a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3c1d9be9-8584-4e7c-a560-7e5a452aa23c"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOW_NO_OF_CUST}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="382" y="0" width="97" height="30" uuid="ebe2d022-a7fe-49e7-8b35-a0eda34bd41a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="63ed11de-9f7f-4ddb-b7a2-b82043024c3f"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOW_NO_OF_DEBIT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="479" y="0" width="97" height="30" uuid="b64cdf2e-8fe4-4d87-93af-b5595ce42f84">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="509d4218-da0d-4bfb-bc95-4ebe3f5ce5f3"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOW_AMT_DEBIT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="576" y="0" width="97" height="30" uuid="280c1539-934c-4f31-8d67-39a247bace5c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6e6e6feb-a669-4e0c-9154-bd9df8d74b5e"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOW_NO_OF_CREDIT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="673" y="0" width="97" height="30" uuid="2b815ce1-4446-4058-8c1f-31d39100baef">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ff79f4a4-bcdf-45cb-bd9e-396576250bae"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOW_AMT_CREDIT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="770" y="0" width="97" height="30" uuid="aaf591ec-bc1c-4f72-b456-2a51049aba81">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="87ba6054-7c4c-4d2a-bc62-091bf2eba485"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MED_NO_OF_CUST}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="867" y="0" width="97" height="30" uuid="d359882c-abb9-46ab-af0e-863e267394c4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ff360790-954b-408f-a4c7-541b7eb895fa"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MED_NO_OF_DEBIT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="964" y="0" width="97" height="30" uuid="43985d1e-1aa4-49a0-b3b9-dded73e29d56">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f6afa6d1-d985-4580-95cf-b9c68cdb9b08"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MED_AMT_DEBIT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="1061" y="0" width="97" height="30" uuid="5f4c1f4d-209d-415b-af4e-48eafb70bda4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="953d1cc3-7725-43bc-87cc-487bfa7c930f"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MED_NO_OF_CREDIT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="1158" y="0" width="97" height="30" uuid="d40cd29d-51dd-40c2-9a05-836bea8d4ecb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e33b6b81-c905-4747-adca-618399f30463"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MED_AMT_CREDIT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="1255" y="0" width="97" height="30" uuid="3b7a7e63-46d7-4faa-b95c-dbf7282f8aeb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="060987bf-9762-4235-9fbb-cc71d27aa56c"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HIGH_NO_OF_CUST}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="1352" y="0" width="97" height="30" uuid="490941cc-113b-4b05-afea-5c759b9eb518">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c957d7bf-32a4-4ccb-8d0e-10f6c8d4f09a"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HIGH_NO_OF_DEBIT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="1449" y="0" width="97" height="30" uuid="7c2f6797-1cc2-4034-b7cd-f530e77d3548">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="078f9556-2f40-4b7a-afc7-23bddebfffbc"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HIGH_AMT_DEBIT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="1546" y="0" width="97" height="30" uuid="7f8b1f40-59a1-4156-9b31-d2f974e176c5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="800a6132-d19c-4683-89a6-3941baf92b7b"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HIGH_NO_OF_CREDIT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Orange" x="1643" y="0" width="97" height="30" uuid="27616d68-7f5c-48f9-853f-be4147e17065">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="85a87591-e4e1-4604-9dd9-8db828936c6e"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HIGH_AMT_CREDIT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

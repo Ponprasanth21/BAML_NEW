@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BAML_STR1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="afc440ab-c3f9-4c46-a5e0-194f9c44b396">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="STR_REF_NO" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select str_ref_no,from_rptr_name,from_rptr_position,from_rpt_extn_ph,to_mlro_dmlro,cust_client_name,cust_client_addr,cust_client_tel,cust_client_fax,cust_client_mob,cust_client_occp,cust_client_employer,cust_client_id_card_no,cust_client_otr_id,cust_client_place_of_birth,tran_ref,tran_amount,resons_for_susp,mlro_remarks,date_of_report,date_submission from baml_str where str_ref_no = $P{STR_REF_NO}]]>
+	</queryString>
+	<field name="STR_REF_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="STR_REF_NO"/>
+	</field>
+	<field name="FROM_RPTR_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FROM_RPTR_NAME"/>
+	</field>
+	<field name="FROM_RPTR_POSITION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FROM_RPTR_POSITION"/>
+	</field>
+	<field name="FROM_RPT_EXTN_PH" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="FROM_RPT_EXTN_PH"/>
+	</field>
+	<field name="TO_MLRO_DMLRO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="TO_MLRO_DMLRO"/>
+	</field>
+	<field name="CUST_CLIENT_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_CLIENT_NAME"/>
+	</field>
+	<field name="CUST_CLIENT_ADDR" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_CLIENT_ADDR"/>
+	</field>
+	<field name="CUST_CLIENT_TEL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_CLIENT_TEL"/>
+	</field>
+	<field name="CUST_CLIENT_FAX" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_CLIENT_FAX"/>
+	</field>
+	<field name="CUST_CLIENT_MOB" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_CLIENT_MOB"/>
+	</field>
+	<field name="CUST_CLIENT_OCCP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_CLIENT_OCCP"/>
+	</field>
+	<field name="CUST_CLIENT_EMPLOYER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_CLIENT_EMPLOYER"/>
+	</field>
+	<field name="CUST_CLIENT_ID_CARD_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_CLIENT_ID_CARD_NO"/>
+	</field>
+	<field name="CUST_CLIENT_OTR_ID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_CLIENT_OTR_ID"/>
+	</field>
+	<field name="CUST_CLIENT_PLACE_OF_BIRTH" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CUST_CLIENT_PLACE_OF_BIRTH"/>
+	</field>
+	<field name="TRAN_REF" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_REF"/>
+	</field>
+	<field name="TRAN_AMOUNT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="TRAN_AMOUNT"/>
+	</field>
+	<field name="RESONS_FOR_SUSP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="RESONS_FOR_SUSP"/>
+	</field>
+	<field name="MLRO_REMARKS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MLRO_REMARKS"/>
+	</field>
+	<field name="DATE_OF_REPORT" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="DATE_OF_REPORT"/>
+	</field>
+	<field name="DATE_SUBMISSION" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="DATE_SUBMISSION"/>
+	</field>
+	<summary>
+		<band height="802" splitType="Stretch">
+			<staticText>
+				<reportElement x="77" y="-2" width="400" height="20" uuid="60f1e519-4341-44d9-aab0-ba6986ada31f"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AML SOLUTION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="77" y="18" width="400" height="20" uuid="1e325b92-eacc-4e13-b25e-f3a7f6780647"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Appendix 1 : INTERNAL REPORT TO MLRO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="77" y="38" width="400" height="20" uuid="a16132da-1b85-40cb-b97b-a736ebd56bac"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INTERNAL REPORT OF SUSPICIOUS TRANSACTIONS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="63" width="110" height="20" uuid="b80364d2-3ee6-46f7-9b65-a192de7d45a6"/>
+				<text><![CDATA[STR REF NO :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="110" y="63" width="100" height="20" uuid="a19ee259-0b97-4b74-8058-9f75a893f9ef"/>
+				<textFieldExpression><![CDATA[$P{STR_REF_NO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="355" y="63" width="100" height="20" uuid="63bdc9c9-dc17-46f0-97e7-feeb73d70780"/>
+				<text><![CDATA[DATE    :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="455" y="63" width="100" height="20" uuid="57dce4ff-1d9f-480d-81b5-741196aad609"/>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="280" y="112" width="274" height="21" uuid="bad321d6-5a41-4760-8bb5-b7462092ae43"/>
+				<textFieldExpression><![CDATA[$F{TO_MLRO_DMLRO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="280" y="90" width="24" height="21" uuid="d244f600-05bf-4552-a305-d42aa1e9018d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TO  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="91" width="40" height="20" uuid="f6687f7f-2050-4ead-bf6e-57dbf668e237"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[From ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="101" y="111" width="159" height="25" uuid="b00e4224-1ad5-4d48-8678-bc6be8aeff86"/>
+				<textElement markup="styled"/>
+				<textFieldExpression><![CDATA[$F{FROM_RPTR_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="101" y="136" width="159" height="20" uuid="e21468b6-d0e6-41cd-9b6d-d29373994730"/>
+				<textFieldExpression><![CDATA[$F{FROM_RPTR_POSITION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="157" width="70" height="20" uuid="05ccb121-5e5b-40ca-88c3-08f53c5a7225"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ext/Tel   :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="102" y="157" width="158" height="20" uuid="75fa5f1e-8959-4a17-838c-4d1bf765be7e"/>
+				<textFieldExpression><![CDATA[$F{FROM_RPT_EXTN_PH}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="90" width="30" height="20" uuid="3417e5a7-7dda-46c9-bfb3-bd71d0518b2f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="182" width="30" height="18" uuid="883f4602-9153-4651-8ee6-7571aeed5910"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="180" width="90" height="21" uuid="aa3d65a0-05db-462e-b98b-8f243ad187d7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer / Client]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="121" y="180" width="139" height="20" uuid="b7dbdf0b-f8f4-47ab-a82f-1e800b281924"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Subject of Disclosure]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="200" width="170" height="30" uuid="241601f0-7aa3-4ab0-87f6-545514add1ac"/>
+				<textFieldExpression><![CDATA[$F{CUST_CLIENT_NAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="200" width="60" height="30" uuid="b11069cb-a2bd-433b-bc15-9c873188a1be"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name        :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="230" width="60" height="30" uuid="f21f457c-7db2-4688-9f18-e221d1c8a6e7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Address   :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="230" width="170" height="30" uuid="562e51fb-bcd7-437d-bd03-d7fcca079ae7"/>
+				<textFieldExpression><![CDATA[$F{CUST_CLIENT_ADDR}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="260" width="170" height="20" uuid="386b15df-2943-4de4-9516-438c1a507bfe"/>
+				<textFieldExpression><![CDATA[$F{CUST_CLIENT_TEL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="260" width="60" height="20" uuid="3c3c22f2-d30d-4cfa-b7dd-847b1687dc65"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telephone :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="282" width="60" height="20" uuid="cd2703a5-d39b-4502-b995-85c5e75bef96"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fax           :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="282" width="170" height="20" uuid="c1d2bc28-871d-4dea-a810-62c548b33814"/>
+				<textFieldExpression><![CDATA[$F{CUST_CLIENT_FAX}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="303" width="170" height="20" uuid="de6314bf-6d8d-4908-88d5-c49145917d78"/>
+				<textFieldExpression><![CDATA[$F{CUST_CLIENT_MOB}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="304" width="60" height="19" uuid="e38d490c-9f2b-418b-af92-a6eff3ce6ff3"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mobile      :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="180" width="100" height="20" uuid="43e97758-1eb5-41e6-b2a1-59d101e92b49"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer / Client]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="181" width="174" height="20" uuid="9e063352-e67b-493a-a091-ff579bbea918"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Subject of Disclosure]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="380" y="200" width="175" height="30" uuid="138e154b-90d4-4dbd-9b8a-410987a9bd2f"/>
+				<textFieldExpression><![CDATA[$F{CUST_CLIENT_OCCP}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="280" y="200" width="100" height="30" uuid="5a8a1f79-a4bc-44f1-8eca-45dcd4f446c9"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Occupation       :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="230" width="100" height="30" uuid="71fdb33d-5993-4ff0-946e-ed8e8614e9fb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Employer          :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="380" y="230" width="175" height="30" uuid="19318885-fccd-44a0-95d4-e9050c26e1c4"/>
+				<textFieldExpression><![CDATA[$F{CUST_CLIENT_EMPLOYER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="380" y="260" width="175" height="21" uuid="5909a62b-9498-4c2a-bbd5-92dadcc5d310"/>
+				<textFieldExpression><![CDATA[$F{CUST_CLIENT_ID_CARD_NO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="280" y="281" width="100" height="20" uuid="9a7ab45d-9cea-4862-933f-118d6fcb6d4b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Other ID            :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="260" width="100" height="21" uuid="1a9fd19e-fb49-4cfd-ab1f-b6ae5c018db5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID Card No        :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="301" width="100" height="22" uuid="6a6289a7-0635-4566-b59f-a31fc3d1eefe"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Place of birth   :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="380" y="301" width="175" height="22" uuid="6d8873be-1190-44f1-aef8-61ee58dc4899"/>
+				<textFieldExpression><![CDATA[$F{CUST_CLIENT_PLACE_OF_BIRTH}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="380" y="281" width="175" height="20" uuid="40e019b0-e27b-4ed7-8b7c-a31de046a783"/>
+				<textFieldExpression><![CDATA[$F{CUST_CLIENT_OTR_ID}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="330" width="71" height="20" uuid="99b7c667-0a6c-480e-91e5-8bcbc39278a6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Transaction   :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="102" y="330" width="158" height="20" uuid="dc5edb5a-a1aa-48de-8908-b2d92a34de04"/>
+				<textFieldExpression><![CDATA[$F{TRAN_REF}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="330" width="30" height="20" uuid="3d28927b-2ab9-4d03-b5d1-2afa2ebce774"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="350" width="70" height="40" uuid="70cc60a8-3d37-4e07-9991-2e713f26e0ef"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reason for Suspicious]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="351" width="454" height="40" uuid="bcda6e40-5500-48bf-bd9a-9924b89d315a"/>
+				<textFieldExpression><![CDATA[$F{RESONS_FOR_SUSP}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="280" y="330" width="100" height="20" uuid="ae041b28-0242-48f5-a519-2f173b869be0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amount            :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="380" y="330" width="174" height="20" uuid="674f8038-61a2-4363-9905-e902b7111e85"/>
+				<textFieldExpression><![CDATA[$F{TRAN_AMOUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="31" y="396" width="523" height="83" uuid="f8d24448-2893-41c6-9163-988d624391ef"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<text><![CDATA[Please Use another page if necessary and put page reference as follows: 1 of 2, 2 of 2
+
+Please describe any activity that prompted the report, giving reason for your supicion and any steps that have already been taken. Please add continuation sheet as necessary
+
+Has the subject client made any voluntary statement as to the origin or source of the proceeds. If es kindly enclose a copy of the statement
+
+When submitting this report, please append any additional material that you may consider suitable and which may be of assistance to the Reporting Officer, e.g. bank statements, correspondence, vouchers, account opening and identification documents, etc.)
+
+Give name of beneficial woner(s); other associated persons or companies]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="396" width="30" height="20" uuid="ee1a7dcf-87ed-4013-bfa4-84d673d0f918"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="490" width="30" height="20" uuid="d1a14bb8-5231-414c-92fd-638e9634276a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="490" width="150" height="20" uuid="47f0149f-94a3-48dd-a0a8-06d9a0905f6a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporter's  Signature]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="490" width="60" height="20" uuid="08590a2e-7d07-4777-89bb-83ec17cefdf7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="511" width="523" height="39" uuid="792078f0-7445-4c5c-99df-60e714e609eb"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMPORTANT:  NO TIPPING OFF:  Customer/Client should not be informed of the suspicion report]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="440" y="490" width="112" height="20" uuid="06c95399-6889-465d-aa71-0d44ef8f88fb"/>
+				<textFieldExpression><![CDATA[$F{DATE_SUBMISSION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="580" width="30" height="20" uuid="5f33395b-3a0d-4bf3-8788-631abc7068cf"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="580" width="150" height="20" uuid="53e213ed-0899-4101-aad9-bdd0dfa9f9c9"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[MLRO USE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="610" width="80" height="20" uuid="f4915e29-78cf-47e5-8afd-a829bf8884ea"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Date Received]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="215" y="610" width="89" height="20" uuid="d828f33a-c624-4702-9f64-62a6e661643b"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Time Received]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="610" width="63" height="20" uuid="ac022d3b-7e2b-4d14-81cb-007eea29ffeb"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Ref]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="650" width="76" height="20" uuid="1b48f9bb-c136-4439-a0f3-61554010884c"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[FIU Adviced]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="83" y="656" width="10" height="10" uuid="ce478445-b31d-4aca-b643-44411902b0ba"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="657" width="30" height="20" uuid="9bc534a2-701c-42bb-aed1-a72d0c19fefc"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[YES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="657" width="10" height="10" uuid="04bb034b-50b4-49f1-8d49-8dde6042a6b3"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="656" width="33" height="20" uuid="308fcead-aa35-4886-a2e0-68db068a0b47"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="215" y="650" width="89" height="20" uuid="62cec102-7d5d-4785-9380-fde378c39009"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[REF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="650" width="64" height="20" uuid="0024b2c4-dee8-4f1c-8cf5-77241e4d32bc"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Ref]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="112" width="70" height="23" uuid="5b797aa9-fb51-4e4c-a2dd-fe2318b6f3de"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name     :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="136" width="70" height="20" uuid="415811f7-4a62-4cb1-83bc-3722b3124791"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Position :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="72" y="91" width="188" height="20" uuid="be67c074-de81-4c3f-a689-47f55303e164"/>
+				<text><![CDATA[Reporter's Name and Position]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="304" y="90" width="248" height="20" uuid="2d09976e-4d76-4823-8a83-e67783280a06"/>
+				<text><![CDATA[Money Laundering Reporting Officer]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

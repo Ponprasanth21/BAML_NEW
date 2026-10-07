@@ -1,0 +1,567 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLCustomerAuditList
+CREATED BY	: RAMPRASATH 
+CREATED ON	: 27-JAN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en" >
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+<style>
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+
+.dataTables_filter {
+	margin-top: -22px;
+}
+
+#usertable1_filter {
+	display: none;
+}
+
+#histtable_filter {
+	display: none;
+}
+</style>
+
+<script>
+	function myFunction(a) {
+		var acct_num = document.getElementById("foracid1").value;
+		if (acct_num != '') {
+
+			location.href = "BAMLAuditAccountInquiry?formmode=list1&foracid="
+					+ acct_num;
+		}
+	}
+	function myCustFunction(a) {
+		var acct_num = document.getElementById("cust_id").value;
+		if (acct_num != '') {
+
+			location.href = "BAMLAuditCustAccountInquiry?formmode=custname&cust_id="
+					+ acct_num;
+		}
+	}
+	function acctNameFunction(a) {
+		var acct_num = document.getElementById("acct_name").value;
+		if (acct_num != '') {
+
+			location.href = "BAMLAuditNameAccountInquiry?formmode=custname&acct_name="
+					+ acct_num;
+		}
+	}
+	function acctShortNameFunction(a) {
+		var acct_num = document.getElementById("acct_short_name").value;
+		if (acct_num != '') {
+
+			location.href = "BAMLAuditShortNameAccountInquiry?formmode=custname&acct_short_name="
+					+ acct_num;
+		}
+	}
+
+	function fnClickGetAudit(a) {
+
+		var foracid = a.getAttribute("data-foracid");
+		if (foracid != "") {
+			location.href = "BAMLAuditAccountInquiry?formmode=list1&foracid="
+					+ foracid;
+		}
+
+	}
+
+	function home() {
+		location.href = 'Dashboard'
+	}
+
+	function back() {
+		window.history.back();
+	}
+
+	function mobFunction(a) {
+
+		var acct_num = document.getElementById("mob_no").value;
+
+		if (acct_num != "") {
+			location.href = "BAMLAuditAccMobInquiry?formmode=custname&mob_no="
+					+ acct_num;
+		}
+
+	}
+
+	function nationalFunction(a) {
+
+		var acct_num = document.getElementById("national_id_card_num").value;
+
+		if (acct_num != "") {
+			location.href = "BAMLAuditAccNIDInquiry?formmode=custname&national_id_card_num="
+					+ acct_num;
+
+		}
+
+	}
+
+	function mailFunction(a) {
+
+		var acct_num = document.getElementById("mail_id").value;
+
+		if (acct_num != "") {
+			location.href = "BAMLAuditAccMailInquiry?formmode=custname&mail_id="
+					+ acct_num;
+
+		}
+
+	}
+</script>
+</head>
+<title>AML</title>
+
+<body>
+
+	<div class="modal fade" id="acctaudit">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content"
+				style="background-color: #ced4da; width: 150%;">
+				<div class="modal-header">
+					<b>Account Details Search</b>
+				</div>
+				<div class="modal-body" style="text-align: center">
+					<div class="row formline">
+
+						<label class="col-sm-2">Customer ID</label>
+						<div class="col-sm-3">
+							<input type="text" id="cust_id" placeholder=" " name="cust_id"
+								onblur="myCustFunction(this);"
+								class="form-control form-control-sm">
+
+
+						</div>
+
+						<div class="col-sm-1"></div>
+						<label class="col-sm-2">Account No</label>
+						<div class="col-sm-3">
+							<input text="text" id="foracid1" onblur="myFunction(this);"
+								class="form-control form-control-sm">
+
+
+						</div>
+					</div>
+					<div class="row formline">
+
+						<label class="col-sm-2">Account Name</label>
+						<div class="col-sm-3">
+							<input type="text" id="acct_name"
+								onblur="acctNameFunction(this);"
+								class="form-control form-control-sm">
+
+
+						</div>
+
+						<div class="col-sm-1"></div>
+						<label class="col-sm-2">Email ID</label>
+						<div class="col-sm-3">
+							<input type="email" id="mail_id" onblur="mailFunction(this)"
+								class="form-control form-control-sm">
+
+
+						</div>
+
+					</div>
+					<div class="row formline">
+
+						<label class="col-sm-2">Mobile No</label>
+						<div class="col-sm-3">
+							<input type="number" id="mob_no" onblur="mobFunction(this);"
+								class="form-control form-control-sm">
+
+
+						</div>
+
+						<div class="col-sm-1"></div>
+						<label class="col-sm-2">National ID</label>
+						<div class="col-sm-3">
+							<input text="text" id="national_id_card_num"
+								onblur="nationalFunction(this);"
+								class="form-control form-control-sm">
+
+
+						</div>
+
+					</div>
+
+
+					<label></label> <label></label>
+
+					<div>
+						<button type="button" style="margin-top: -12px;"
+							class="btn btn-xs btn-primary" id="btnclose" data-dismiss="modal">Search</button>
+
+					</div>
+
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div th:replace="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('AccountAudit')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+
+
+				<div th:if="${formmode}=='custname'">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header" id="modheadtitle" style="height: 57px;">
+								<b th:text="${menuname}"></b>
+
+							</div>
+
+							<table class="table table-bordered  table-hover table-sm"
+								style="width: 100%" id="usertable">
+								<thead class="thead-light">
+
+									<tr>
+
+
+
+										<!-- <th></th> -->
+										<th>Primary Sol ID</th>
+										<th>Customer ID</th>
+										<th>Account No</th>
+										<th>Account Name</th>
+
+
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr th:each="bankdetails: ${AccountAuditList}">
+										<td th:text="${bankdetails?.sol_id}"></td>
+										<td th:text="${bankdetails?.cust_id}"></td>
+										<td class="underline"
+											th:attr="data-foracid=${bankdetails?.foracid}"
+											onclick="fnClickGetAudit(this)"
+											th:text="${bankdetails?.foracid}"></td>
+										<td th:text="${bankdetails?.acct_name}"></td>
+
+
+
+
+									</tr>
+								</tbody>
+							</table>
+
+							<div class="text-center"
+								style="background-color: #386276; padding: 5px;">
+
+								<div class="btn-group nav-buttons " style="align: center;">
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnHome" onclick="home();" style="margin-right: 5px;">Home</button>
+									<button type="button" class="btn btn-xs btn-primary"
+										id="btnBack" onclick="back();">Back</button>
+								</div>
+							</div>
+
+
+
+
+						</div>
+					</div>
+				</div>
+				<div class="content">
+					<div class="row" th:if="${formmode}=='Main'">
+						<div class="col-sm-12" >
+
+							<div class="card">
+								<div class="card-header" id="modheadtitle" style="height: 47px;">
+									<b th:text="${menuname}"></b>
+
+								</div>
+								<label></label>
+								<div class="row formline">
+
+									<div class="col-sm-1">
+										<label for="CUSTID">Account No</label>
+									</div>
+
+									<div class="col-sm-2">
+										<input type="text" id="foracid1" onblur="myFunction();"
+											th:value="${AccountAuditList?.foracid}"
+											class="form-control form-control-sm" name="foracid"
+											autocomplete="off" />
+									</div>
+									<div class="col-sm-1">
+										<a href="#"><i class="fas fa-search searchico"
+											data-toggle="modal" data-target="#acctaudit" id="iconacc"></i></a>
+									</div>
+									<div class="col-sm-0"></div>
+									<label for="custName" class="col-sm-1">Account Name</label>
+
+
+									<div class="col-sm-2">
+										<input type="text" id="cust_first_name" name="cust_name"
+											th:value="${AccountAuditList?.acct_name}"
+											class="form-control form-control-sm" autocomplete="false"
+											required />
+									</div>
+
+									<div class="col-sm-1">
+										<!-- <a href="#"><i class="fas fa-search searchico"
+											data-toggle="modal" data-target="#acctaudit" id="iconacc"></i></a> -->
+									</div>
+									<div class="col-sm-0"></div>
+									<label for="Custmaster" class="col-sm-1">Customer ID </label>
+
+									<div class="col-sm-2">
+										<input type="text" id="cust_opn_date" name="cust_opn_date"
+											th:value="${AccountAuditList?.cif_id}" value=""
+											class="form-control form-control-sm" autocomplete="off" />
+									</div>
+									
+									
+								</div>
+								<label></label>
+							</div>
+						</div>
+					
+					<div class="text-center"
+										style="background-color: #386276; padding: 5px; width: 100%;">
+
+										<div class="btn-group nav-buttons " style="align: center;">
+											<button type="button" class="btn btn-xs btn-primary"
+												id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+											<button type="button" class="btn btn-xs btn-primary"
+												id="btnBack" onclick="back();">Back</button>
+										</div>
+									</div>
+									</div>
+				</div>
+				<!-- -------------------------list-Starts-------------------------- -->
+				<div class="content">
+					<div class="row">
+						<div class="col-sm-12" th:if="${formmode}=='list1'">
+
+							<div class="card">
+								<div class="card-header" id="modheadtitle" style="height: 47px;">
+									<b th:text="${menuname}"></b>
+
+								</div>
+								<label></label>
+								<div class="row formline">
+
+									<div class="col-sm-1">
+										<label for="CUSTID">Account No</label>
+									</div>
+
+									<div class="col-sm-2">
+										<input type="text" id="foracid" onblur="myFunction();"
+											th:value="${AccountAuditList?.foracid}"
+											class="form-control form-control-sm" name="foracid"
+											autocomplete="off" readonly />
+									</div>
+									<!-- <div class="col-sm-1">
+										<a href="#"><i class="fas fa-search searchico"
+											data-toggle="modal" data-target="#acctaudit" id="iconacc"></i></a>
+									</div> -->
+									<div class="col-sm-0"></div>
+									<label for="custName" class="col-sm-1">Account Name</label>
+
+
+									<div class="col-sm-2">
+										<input type="text" id="cust_first_name" name="cust_name"
+											th:value="${AccountAuditList?.acct_name}"
+											class="form-control form-control-sm" autocomplete="false"
+											required readonly />
+									</div>
+
+									<div class="col-sm-1">
+										<!-- <a href="#"><i class="fas fa-search searchico"
+											data-toggle="modal" data-target="#acctaudit" id="iconacc"></i></a> -->
+									</div>
+									<div class="col-sm-0"></div>
+									<label for="Custmaster" class="col-sm-1">Customer ID </label>
+
+									<div class="col-sm-2">
+										<input type="text" id="cust_opn_date" name="cust_opn_date"
+											th:value="${AccountAuditList?.cif_id}" value=""
+											class="form-control form-control-sm" autocomplete="off"
+											readonly />
+									</div>
+
+
+								</div>
+
+								<label></label>
+
+								<!-- <div class="card-body"> -->
+								<table class="table  table-bordered  table-hover table-sm"
+									style="margin-bottom: 0px" id="usertable12">
+									<thead class="thead-light">
+										<tr>
+											<!-- <th></th> -->
+											<th>Audit Date</th>
+											<th>Audit Branch</th>
+											<th>Function</th>
+											<th>Table Name</th>
+											<th>Remarks</th>
+											<th>Enterer</th>
+											<th>Authorizer</th>
+											<th>Field Name</th>
+											<th>Old Value</th>
+											<th>New Value</th>
+
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:if="${AuditList.totalPages} == '0'">
+											<td colspan="10" style="text-align: left; color: red">No
+												record available for this Account</td>
+										</tr>
+										<tr th:if="${AuditList.totalPages} != '0'"
+											th:each="auditdata : ${AuditList}" class="userlist">
+											<td
+												th:text="${#dates.format(auditdata?.audit_date, 'dd/MM/yyyy')}"></td>
+											<td th:text="${auditdata?.sol_id}"></td>
+											<td th:text="${auditdata?.funct_code}"></td>
+											<td th:text="${auditdata?.table_name}"></td>
+											<td th:text="${auditdata?.remarks}"></td>
+											<td th:text="${auditdata?.enterer_id}"></td>
+											<td th:text="${auditdata?.auth_id}"></td>
+											<td><span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, '|').length} < '0'"
+												th:text=""></span> <span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, '|').length} > '0'"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, '|')[0]}"></span>
+												<br> <span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, '|').length} > '3'"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, '|')[3]}"></span>
+												<br></td>
+											<td><span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, '|').length} > '1'"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, '|')[1]}"></span>
+												<br> <span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, '|').length} > '4'"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, '|')[4]}"></span>
+												<span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, '|').length} < '4'"></span></td>
+											<td><span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, '|').length} >  '2'"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, '|')[2]}"></span>
+												<br> <span
+												th:if="${#strings.arraySplit(auditdata?.modified_value, '|').length} >'5'"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, '|')[5]}"></span>
+											</td>
+											<!-- <td
+												th:if="${#strings.arraySplit(auditdata?.modified_value, '|')[3]} != ''"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, '|')[0]}+ '' +${#strings.arraySplit(auditdata?.modified_value, '|')[3]}"></td>
+
+											<td
+												th:if="${#strings.arraySplit(auditdata?.modified_value, '|')[4]} == ''"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, '|')[1]}"></td>
+
+											<td
+												th:if="${#strings.arraySplit(auditdata?.modified_value, '|')[4]} != ''"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, '|')[1]}+ ',' +${#strings.arraySplit(auditdata?.modified_value, '|')[4]}"></td>
+
+
+											<td
+												th:if="${#strings.arraySplit(auditdata?.modified_value, '|')[5]} == ''"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, '|')[2]}"></td>
+
+											<td
+												th:if="${#strings.arraySplit(auditdata?.modified_value, '|')[5]} != ''"
+												th:text="${#strings.arraySplit(auditdata?.modified_value, '|')[2]}+ ',' +${#strings.arraySplit(auditdata?.modified_value, '|')[5]}"></td>
+
+ -->
+
+
+										</tr>
+									</tbody>
+
+								</table>
+								<div class="text-center"
+									style="background-color: #386276; padding: 5px; width: 100%;">
+
+									<div class="btn-group nav-buttons " style="align: center;">
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnBack" onclick="back();">Back</button>
+									</div>
+								</div>
+
+								<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+								<div th:if="${formmode}=='list1'">
+									<div class="float-right" th:if="${AuditList.totalPages} gt 1">
+										<a href="#"><i class="fas fa-caret-left fa-2x"
+											th:onclick="|getUserlist('prevpage',${AuditList.number},${AuditList.totalPages});|"></i></a>
+										<input type="text" id="pageno" style="width: 30px"
+											th:value="${AuditList.number+1}"
+											th:onchange="|getUserlist('givenpage',${AuditList.number},${AuditList.totalPages});|"></input>
+										of <font th:text="${AuditList.totalPages}"></font> <a href="#"><i
+											class="fas fa-caret-right fa-2x"
+											th:onclick="|getUserlist('nextpage',${AuditList.number},${AuditList.totalPages});|"></i></a>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!------------------------list Ends--------------------------------->
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLCASEMANAGEMENTLIST
+CREATED BY	: RAMPRASATH
+CREATED ON	: 08-MAY-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en"  >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+
+<script src="js/bootstrap411.js"></script>
+
+<style type="text/css">
+.btn {
+	line-height: 0.5rem;
+}
+
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+
+.dropdown-menu a:hover {
+	background-color: black;
+}
+</style>
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+</head>
+
+<script>
+	$(document).ready(function() {
+		$('#usertable').DataTable({
+			"destroy" : false,
+			"scrollY" : 200,
+			"scrollCollapse" : false,
+			"paging" : false,
+			"autoWidth" : false,
+			"ordering" : false,
+			"searching" : false,
+			"lengthChange" : false,
+		});
+	});
+</script>
+
+
+
+<script>
+	var tranMonitorType = /*[[${tranMonitorType}]]*/0;
+	$(function() {
+		$("#disableDate").datepicker(
+				{
+					changeMonth : true,
+					changeYear : true,
+					maxDate : new Date(),
+					dateFormat : "dd/mm/yy",
+					onSelect : function(selected) {
+						var dt = $(this).datepicker('getDate');
+						dt.setDate(dt.getDate());
+						$("#disableTilDate")
+								.datepicker("option", "minDate", dt);
+						
+						location.href = "userAlert?alertDate="
+								+ $("#disableDate").val();
+						//document.getElementById('disableDate').value = maxDate ;
+					}
+				});
+	})
+
+	function home() {
+		location.href = 'Dashboard'
+	}
+	function home1() {
+		$("#dataHome").modal("toggle");
+	}
+
+	function back() {
+
+		window.history.back();
+	}
+	function back1() {
+		$("#dataBack").modal("toggle");
+
+	}
+</script>
+<body>
+	<div th:insert="AStartheader :: header"></div>
+	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+
+				<div class="container content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-header " id="modheadtitle" style="height: 50px;">
+								<b>User Alert </b>
+
+
+							</div>
+							<div class="card">
+								<label></label>
+								<div class="row formline">
+
+									<div class="col-sm-2">
+										<label for="custId">User ID</label>
+									</div>
+
+									<div class="col-sm-2">
+										<input type="text" id="primary_sol_id"
+											th:value="${session.USERID}"
+											class="form-control form-control-sm" name="primary_sol_id"
+											autocomplete="off" readonly />
+									</div>
+
+									<div class="col-sm-1"></div>
+									<label for="customerName" class="col-sm-2">Date</label>
+
+
+									<div class="col-sm-2">
+										<input type="text" id="disableDate" name="user_alert_date" th:value="${alertDate}"
+											class="form-control form-control-sm" autocomplete="false"
+											readonly />
+									</div>
+
+								</div>
+								<label></label>
+								<table class="table table-bordered  table-hover table-sm"
+									style="width: 100%" id="usertable">
+									<thead class="thead-light">
+
+										<tr>
+											<!-- <th></th> -->
+
+
+
+											<th>Msg Date</th>
+											<th>Msg Type</th>
+											<th>Module ID</th>
+											<th>Subject</th>
+											<th>Description</th>
+											<th>Status</th>
+
+
+										</tr>
+									</thead>
+									<tbody >
+										<tr th:each="alert1: ${alert1}"  th:if="${alert1.alert_type}=='A'"  class="userlist">
+
+											<td
+												th:text="${#dates.format(alert1?.msg_date, 'dd/MM/yyyy')}"></td>
+											<td th:text="${alert1.msg_type}"></td>
+											<td th:text="${alert1.module_id}"></td>
+											<td th:text="${alert1.user_alert_sub}"></td>
+											<td th:text="${alert1.user_alert_body}"></td>
+
+											<td th:text="${alert1?.msg_status}"></td>
+
+
+
+
+										</tr>
+									
+										<tr th:each="alert2: ${alert2}"  th:if="${alert2.alert_type}=='I'" class="userlist">
+
+
+											<td
+												th:text="${#dates.format(alert2?.msg_date, 'dd/MM/yyyy')}"></td>
+											<td th:text="${alert2.msg_type}"></td>
+											<td th:text="${alert2.module_id}"></td>
+											<td th:text="${alert2.user_alert_sub}"></td>
+											<td th:text="${alert2.user_alert_body}"></td>
+
+											<td th:text="${alert2?.msg_status}"></td>
+										</tr>
+
+									</tbody>
+								</table>
+
+							</div>
+
+							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
+							<!-- <div class="float-right" th:if="${alert.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${CaseList.number},${CaseList.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${CaseList.number+1}"
+									th:onchange="|getUserlist('givenpage',${CaseList.number},${CaseList.totalPages});|"></input>
+								of <font th:text="${CaseList.totalPages}"></font> <a href="#"><i
+									class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${CaseList.number},${CaseList.totalPages});|"></i></a>
+							</div>
+ -->
+
+						</div>
+						<div class="text-center"
+							style="background-color: #386276; padding: 5px; width: 100%;">
+
+							<div class="btn-group nav-buttons " style="align: center;">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnBack" onclick="back();">Back</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+</body>
+</html>

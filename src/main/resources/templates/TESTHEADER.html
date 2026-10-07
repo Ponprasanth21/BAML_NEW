@@ -1,0 +1,1736 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html lang="en"  th:fragment="header">
+<head>
+<meta charset="utf-8">
+<title>AML</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+	content="A fully featured admin theme which can be used to build CRM, CMS, etc."
+	name="description">
+<meta content="Coderthemes" name="author">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- App favicon -->
+<link rel="shortcut icon" href="assets/images/favicon.ico">
+
+<!-- App css -->
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"
+	type="text/css">
+<link th:href="@{/css/icons.min.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/app.min.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/materialdesignicons.css}" rel="stylesheet"
+	type="text/css">
+<link th:href="@{/css/materialdesignicons.css.map}" rel="stylesheet"
+	type="text/css">
+<link th:href="@{/css/materialdesignicons.min.css}" rel="stylesheet"
+	type="text/css">
+<link th:href="@{/css/materialdesignicons.min.css.map}" rel="stylesheet"
+	type="text/css">
+<!-- <link href="css/loginfontawesome4.css" rel="stylesheet" type="text/css"> -->
+<link rel="stylesheet"
+	href="//cdn.materialdesignicons.com/4.5.95/css/materialdesignicons.min.css">
+
+<script th:src="@{/js/bootstrap411.js}"></script>
+
+
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+
+
+<style type="text/css">
+.jqstooltip {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	visibility: hidden;
+	background: rgb(0, 0, 0) transparent;
+	background-color: rgba(0, 0, 0, 0.6);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000,
+		endColorstr=#99000000);
+	-ms-filter:
+		"progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+	color: white;
+	font: 10px arial, san serif;
+	text-align: left;
+	white-space: nowrap;
+	padding: 5px;
+	border: 1px solid white;
+	box-sizing: content-box;
+	z-index: 10000;
+}
+
+.submenu-indicator {
+	display: none;
+}
+
+.jqsfield {
+	color: white;
+	font: 10px arial, san serif;
+	text-align: left;
+}
+
+#left_menu {
+	/* background: linear-gradient(to bottom, #3f93c0 22%, #1b6491 62%); */
+	color: white;
+	background: linear-gradient(to bottom, #dee2e6 22%, #dee2e6 62%);
+	padding: 15px;
+	height: 100%;
+	overflow-y: scroll;
+	content: none;
+}
+.profile-dropdown {
+	position: absolute;
+	will-change: transform;
+	top: 0px;
+	left: 0px;
+	transform: translate3d(28px, 2px, 0px);
+}
+
+.waves-effect {
+	font-size: 13px;
+}
+</style>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+	
+	
+	
+	$(function() {
+		 $(".submenu").hide();
+		 
+		
+		 
+		var menu = /*[[${menu}]]*/ null;
+
+	var changepassword = /*[[${changepassword}]]*/null;
+
+		var checkpassExpiry = /*[[${checkpassExpiry}]]*/null;
+
+		var checkAcctExpiry = /*[[${checkAcctExpiry}]]*/null;
+		
+		$("#"+menu).css("background-color","#5d6f81a8");
+		
+		$("#adminflag").show("submenu");
+		$("#userprofileflag").show("submenu");
+		$("#alertflag").show("submenu");
+		$("#ruleflag").show("submenu");
+		
+		$("#inquiryflag").show("submenu");
+		$("#monitoringflag").show("submenu");
+		$("#parameterflag").show("submenu");
+		$("#listmgntflag").show("submenu");
+		$("#custlistflag").show("submenu");
+		$("#reglistflag").show("submenu");
+		$("#screeningflag1").show("submenu");
+		$("#scrCustlistflag1").show("submenu");
+		$("#watchlistflag1").show("submenu");
+		
+		$("#riskmgntflag").show("submenu");
+
+		$("#strreport").show("submenu");
+
+		$("#riskmgntflag").show("submenu");
+		$("#riskcatflag").show("submenu");
+		
+		$("#amlreport").show("submenu");
+		$("#amldailyreport").show("submenu");
+		$("#AmlmonitoringReportflag").show("submenu");
+		$("#interfaceflag").show("submenu");
+		$("#auditflag").show("submenu");
+		
+		$("#reportsflag").show("submenu");
+
+		
+		
+
+	});
+
+function formmenu(){
+		
+		$("#dataFormMenu").modal("toggle");
+	}
+function contentLoad(a) {
+
+	location.href = "/AML/" + a.id;
+}
+
+	/*<![CDATA[*/
+</script>
+
+
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<!-- Topbar Start -->
+		<div class="navbar-custom">
+			<ul class="list-unstyled topnav-menu float-right mb-0">
+
+			
+
+
+				<li class="dropdown notification-list"><a class="nav-link "
+					href="#" role="button" aria-haspopup="false" aria-expanded="false">
+						<img th:src=@{/images/dashboard.png} title="Dashboard" alt=""
+						id="Dashboard" onclick="formmenu()"
+						style="width: 32%; margin-right: -101px; border-radius: 50%;">
+
+
+				</a> <!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+				<li class="dropdown notification-list"><a
+					class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light"
+					data-toggle="dropdown" href="#" role="button" aria-haspopup="false"
+					aria-expanded="false"> <i
+						class="rounded-circle mdi mdi-18px mdi-account"></i> <span
+						title="Profile" class="pro-user-name ml-1"
+						th:text="${session.USERNAME}"> 
+					</span>
+
+						
+				</a>
+					<div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+						
+
+						<div class="dropdown-header noti-title">
+							<a href="javascript:void(0);" class="dropdown-item notify-item"
+								id="chngPass" value="Change Password"> <span>Change
+									Password</span>
+							</a>
+						</div>
+
+						<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+
+
+
+
+						<!-- item-->
+
+
+					</div></li>
+
+
+
+
+				<li class="dropdown notification-list"><a class="nav-link "
+					href="#" role="button" aria-haspopup="false" aria-expanded="false">
+						<i onclick="logout()" 
+						class="rounded-circle mdi mdi-18px mdi-logout-variant"
+						title="Logout"></i><span onclick="logout()"
+						class="pro-sign-out ml-1"> Logout </span>
+
+
+				</a> <!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+
+
+
+
+			</ul>
+
+			<!-- LOGO -->
+			<div class="logo-box" style="width: 18%;">
+				<a class="logo text-center"> <span class="logo-lg"> <img
+						th:src=@{/images/MUTUAL.png} alt=""
+						style="width: 183px; height: 66px;"> <!-- <span class="logo-lg-text-dark">Minton</span> -->
+				</span> <span class="logo-sm"> <!-- <span class="logo-sm-text-dark">M</span> -->
+						<img th:src=@{/images/client_Logo.png} alt="" height="24">
+				</span>
+				</a>
+			</div>
+			<!-- 
+			<div class="logo-box" style="width: 150px;">
+				<a href="" class="logo text-center"> <span
+					class="logo-lg"> <img th:src=@{/images/Bheader.png} alt=""
+						style="width: 183px; height: 66px;"> <span class="logo-lg-text-dark">Minton</span>
+				</span> <span class="logo-sm"> <span class="logo-sm-text-dark">M</span>
+						<img th:src=@{/images/client_Logo.png} alt="" height="24">
+				</span>
+				</a>
+			</div> -->
+
+
+			<div class="logo-box" style="width: 40%;">
+				<a class="logo text-center"> <span class="logo-lg"
+					style="font-family: cursive; color:#212529;"> <img
+						th:src=@{/images/Bheader.png} alt=""
+						style="width: 52px; height: 45px;">Anti Money Laundering
+				</span> <span class="logo-sm"> Anti Money Laundering </span>
+				</a>
+			</div>
+
+
+			<ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+				<li>
+				
+				</li>
+			</ul>
+		
+
+			<!-- ========== Left Sidebar Start ========== -->
+			<div class="left-side-menu" id="left_menu" style="height: auto;">
+
+				<div class="slimScrollDiv"
+					style="position: relative; overflow: hidden; width: auto; height: 245px;">
+					<div class="slimscroll-menu"
+						style="overflow: hidden; width: auto; height: 100%;">
+
+						<!--- Sidemenu -->
+						<div id="sidebar-menu" class="">
+
+							<ul class="metismenu mm-show" id="side-menu">
+
+
+								<!-- ////////-----------------------Admin Starts----------------------/////////-->
+								<li th:if="${AMLRoleMenu.admin}=='Y'" class=""><a
+									href="javascript: void(0);" class="waves-effect"><img
+										class="gn-icon" style="margin: -8px -5px;" /><span>
+											Admin</span> </a>
+
+
+									<ul class="submenu nav-second-level" th:id="${adminflag}"
+										aria-expanded="false" style="position: relative;">
+										<!--------------------------------- Dash board Starts----------------------------------- -->
+
+										<!--------------------------------- Dash board ends----------------------------------- -->
+										<!--------------------------  secondlevel menu-User Profile---------------------- -->
+
+										<li class="mm-active"><a href="javascript: void(0);"
+											class="waves-effect" id="userprofile"> <img
+												class="gn-icon" style="margin: -8px -5px;" /> <span>User
+													Profile Maintenance</span></a>
+
+											<ul class="submenu nav-third-level"
+												th:id="${userprofileflag}" aria-expanded="false">
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="UserProfile" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /> <span>User
+															Profile </span></a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLAccessandRoles" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /> <span>Access
+															and Roles </span></a></li>
+
+
+											</ul></li>
+
+										<!--------------------------  secondlevel menu-Alert Management---------------------- -->
+										<!-- 	<li><a href="javascript: void(0);" class="waves-effect">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>Alert
+													Management</span>
+										</a>
+											<ul class="submenu nav-third-level" th:id="${alertflag}"
+												aria-expanded="false">
+
+
+
+
+
+
+											</ul></li> -->
+
+
+
+										<!--------------------------  secondlevel menu-Rule Engine---------------------- -->
+										<!-- <li><a href="javascript: void(0);" class="waves-effect">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>Rule
+													Engine</span>
+										</a>
+											<ul class="submenu nav-third-level" th:id="${ruleflag}"
+												aria-expanded="false">
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLRuleEngine2" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /> <span>Screening
+															Validations</span></a></li>
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="transactionvalidations" onclick="formmenu()">
+														<img class="gn-icon" style="margin: -8px -5px;" /> <span>Transaction
+															Validations</span>
+												</a></li>
+
+
+
+
+											</ul></li>  -->
+
+										<!--------------------------  secondlevel menu-Reference Code Master---------------------- -->
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="ReferenceCodeMaster" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /> <span>Reference
+													Code Master </span>
+										</a></li>
+
+
+										<!--------------------------  secondlevel menu-Bank and Branch Details---------------------- -->
+										<li><a href="javascript: void(0);" class="waves-effect">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>Bank
+													and Branch Details</span>
+										</a></li>
+
+										<!-- parameter -->
+
+										<li th:if="${AMLRoleMenu.inquiry}=='Y'"><a
+											href="javascript: void(0);" class="waves-effect" id="inquiry"><img
+												class="gn-icon" style="margin: -8px -5px;" /><span>
+													Parameter</span> </a>
+
+											<ul class="submenu nav-second-level" th:id="${parameterflag}"
+												aria-expanded="false">
+
+
+												<!--------------------------  secondlevel parameter---------------------- -->
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="ScreeningParameter_Cust" onclick="formmenu()">
+														<img class="gn-icon" style="margin: -8px -5px;" /> <span>Screening
+															Parameter </span>
+												</a></li>
+												<!--------------------------  secondlevel parameter---------------------- -->
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="MonitoringParameter" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /><span>
+															Operations Parameter</span>
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLAlertParameters" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /> <span>Alert
+															Parameters</span></a></li>
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="monitoringparameter" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /> <span>Rule
+															Engine </span>
+												</a></li>
+
+
+											</ul></li>
+
+
+
+
+										<li><a href="javascript: void(0);" class="waves-effect">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>Batch
+													Jobs</span>
+										</a></li>
+
+									</ul></li>
+								<!------------///////////-------------- Admin ends-----------//////////--------------- -->
+
+
+
+								<!------------///////////-------------- Inquiry Starts-----------//////////--------------- -->
+								<li th:if="${AMLRoleMenu.inquiry}=='Y'"><a
+									href="javascript: void(0);" class="waves-effect" id="inquiry"><img
+										class="gn-icon" style="margin: -8px -5px;" /><span>
+											Inquiry</span> </a>
+
+									<ul class="submenu nav-second-level" th:id="${inquiryflag}"
+										aria-expanded="false">
+
+
+										<!--------------------------  secondlevel menu-Customer Inquiry---------------------- -->
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="CustomerInquiry" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /> <span>Customer
+													Inquiry</span>
+										</a></li>
+										<!--------------------------  secondlevel menu-Accounts Inquiry---------------------- -->
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="AMLAccountsInquiry" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /><span>
+													Accounts Inquiry</span>
+										</a></li>
+
+										<!--------------------------  secondlevel menu-Transaction Inquiry---------------------- -->
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="TransactionInquiry" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /><span>
+													Transaction Inquiry</span>
+										</a></li>
+									</ul></li>
+								<!------------///////////-------------- Inquiry ends-----------//////////--------------- -->
+
+								<!------------///////////-------------- List Management Starts-----------//////////--------------- -->
+								<li th:if="${AMLRoleMenu.list_management}=='Y'"><a
+									href="javascript: void(0);" class="waves-effect"> <img
+										class="gn-icon" style="margin: -8px -5px;" /> <span>List
+											Management</span>
+								</a>
+
+									<ul class="submenu nav-second-level" th:id="${listmgntflag}"
+										aria-expanded="false">
+
+										<!--------------------------  secondlevel menu-Customized Lists---------------------- -->
+
+										<li><a href="javascript: void(0);" class="waves-effect">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>Customized
+													List</span>
+										</a>
+											<ul class="submenu nav-third-level" th:id="${custlistflag}"
+												aria-expanded="false">
+
+
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLBlacklist" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /><span>
+															Black Listing</span>
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLnegativelist" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /><span>
+															Negative Listing</span>
+												</a></li>
+
+												<!-- li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLwhitelist" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /><span>
+															White Listing</span>
+												</a></li> -->
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLHNWIList" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /><span>
+															HNWI Listing</span>
+												</a></li>
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLABAND_FUNDList" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /><span>
+															Abandoned Fund Listing</span>
+												</a></li>
+
+												<!-- 	<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLduplication" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /><span>
+															Deduplication</span>
+												</a></li> -->
+
+
+											</ul></li>
+										<!--------------------------  secondlevel menu-Regulatory Lists---------------------- -->
+
+										<li><a href="javascript: void(0);" class="waves-effect">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>Regulatory
+													Checks</span>
+										</a>
+											<ul class="submenu nav-third-level" th:id="${reglistflag}"
+												aria-expanded="false">
+
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLUNSCList" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /><span>
+															UNSC</span>
+												</a></li>
+
+												<!-- <li><a href="javascript: void(0);" class="waves-effect"
+													id="" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span> World Check</span>
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span> World
+															Compliance</span>
+												</a></li>
+
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span> OFAC</span>
+												</a></li> -->
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLPEPList" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /><span>
+															PEP</span>
+												</a></li>
+
+											</ul></li>
+
+
+									</ul></li>
+								<!------------///////////-------------- List Management ends-----------//////////--------------- -->
+								<!------------///////////-------------- AML Case Management starts-----------//////////--------------- -->
+
+									<li  th:id="${casemanagementflag}"  th:if="${AMLRoleMenu.case_management}=='Y'"><a
+									href="javascript: void(0);" class="waves-effect"
+									id="CaseList" onclick="formmenu()"> <img
+										class="gn-icon" style="margin: -8px -5px;" /> <span>
+											Case Management </span></a>
+											</li>
+								<!------------///////////-------------- Risk Management starts-----------//////////--------------- -->
+
+								<li th:if="${AMLRoleMenu.risk_management}=='Y'"><a
+									href="javascript: void(0);" class="waves-effect"> <img
+										class="gn-icon" style="margin: -8px -5px;" /> <span>Risk
+											Management</span>
+								</a>
+
+									<ul class="submenu nav-second-level" th:id="${riskmgntflag}"
+										aria-expanded="false">
+										<!--------------------------  secondlevel menu-Risk Categorization---------------------- -->
+
+										<li>
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="kycparameter" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /><span>
+													KYC Parameter</span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="AMLCustomerKYC" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /><span>
+													Customer KYC</span>
+										</a></li>
+
+										
+
+
+									</ul></li>
+								<!------------///////////-------------- Risk Management ends-----------//////////--------------- -->
+
+
+
+								<!------------///////////-------------- Interfaces starts-----------//////////--------------- -->
+
+								<li th:if="${AMLRoleMenu.interfaces}=='Y'"><a
+									href="javascript: void(0);" class="waves-effect"> <img
+										class="gn-icon" style="margin: -8px -5px;" /> <span>Interfaces</span>
+								</a>
+
+									<ul class="submenu nav-second-level" aria-expanded="false"
+										th:id="${interfaceflag}">
+
+										<!--------------------------  secondlevel menu-GoAML---------------------- -->
+
+										<li><a href="javascript: void(0);" class="waves-effect">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>GoAML</span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="AML_STR_REPORT" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /> <span>Suspicious
+													Transaction Report</span>
+										</a></li>
+
+									</ul></li>
+								<!------------///////////-------------- Interfaces ends-----------//////////--------------- -->
+
+
+
+								<!------------///////////-------------- Screening starts-----------//////////--------------- -->
+
+								<li th:if="${AMLRoleMenu.screening}=='Y'"><a
+									href="javascript: void(0);" class="waves-effect"> <img
+										class="gn-icon" style="margin: -8px -5px;" /> <span>Screening</span>
+								</a>
+
+									<ul class="submenu nav-second-level" th:id="${screeningflag1}"
+										aria-expanded="false">
+
+										<!--------------------------  secondlevel menu-Watch List---------------------- -->
+
+									<li><a href="javascript: void(0);" class="waves-effect"
+													id="AML_SCR_OPERATION" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /><span>
+															Screening Operations</span>
+												</a></li>
+													
+									<!-- 	<li><a href="javascript: void(0);" class="waves-effect"
+											id="MonitoringOperation" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /><span>
+													Monitoring Operations</span>
+										</a></li> -->
+										
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="AML_SCR_Alert_Operations" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /><span>
+													AML Alert Operations</span>
+										</a></li>
+										
+										
+										
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="AML_SCR_RPT_Download" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /><span>
+													Screening Report Download</span>
+										</a></li>
+										
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="AML_SCR_Cust_Values" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /><span>
+													Screening Values</span>
+										</a></li>
+										
+
+								<!-- 		<li><a href="javascript: void(0);" class="waves-effect">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>Watch
+													List</span>
+										</a>
+											<ul class="submenu nav-third-level" th:id="${watchlistflag1}"
+												aria-expanded="false">
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AML_SCR_UNSCListing" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span> UNSC</span>
+												</a></li>
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AML_SCR_PepListing" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /><span>
+															PEP</span>
+												</a></li>
+												
+												
+											
+
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span> World Check</span>
+												</a></li>
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span> World
+															Compliance</span>
+												</a></li>
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span> Customized
+															List</span>
+												</a></li>
+
+
+											</ul></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>
+													Customer List</span>
+										</a>
+
+											<ul class="submenu nav-third-level"
+												th:id="${scrCustlistflag1}" aria-expanded="false">
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AML_SCR_BlackListing" onclick="formmenu()">
+														<img class="gn-icon" style="margin: -8px -5px;" /><span>
+															Customer Blacklisting</span>
+												</a></li>
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AML_SCR_NegativeListing" onclick="formmenu()">
+														<img class="gn-icon" style="margin: -8px -5px;" /><span>
+															Customer Negative Listing</span>
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AML_SCR_HNWIListing" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /><span>
+															HNWI Listing</span>
+												</a></li>
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AML_SCR_ABAND_FUNDListing" onclick="formmenu()">
+														<img class="gn-icon" style="margin: -8px -5px;" /><span>
+															Abandoned Fund Listing</span>
+												</a></li>
+
+											</ul></li> -->
+
+									</ul></li>
+									
+									
+								<!------------///////////-------------- Screening ends-----------//////////--------------- -->
+								<!-- ---------------- Monitoring------------------------->
+								<li th:if="${AMLRoleMenu.monitoring}=='Y'"><a
+									href="javascript: void(0);" class="waves-effect"><img
+										class="gn-icon" style="margin: -8px -5px;" /><span>
+											Monitoring</span> </a>
+									<ul class="submenu nav-second-level" th:id="${monitoringflag}"
+										aria-expanded="false">
+										<!--------------------------  secondlevel menu-Transaction Monitoring---------------------- -->
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="AMLTransMonitoring" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /> <span>Transaction
+													Monitoring </span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="AMLMonitoringReports" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /> <span>AML
+													Alert Transaction</span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="AMLMonitoringReportsDownload" onclick="formmenu()">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>Monitoring
+													Reports Download</span>
+										</a></li>
+
+										<!-- <li><a href="javascript: void(0);" class="waves-effect"
+											id="MonitoringOperation" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /><span>
+													Monitoring Operations</span>
+										</a></li> -->
+										<!-- <li><a href="javascript: void(0);" class="waves-effect"
+											id="AMLCaseManagement" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /> <span>AML
+													Case Management </span>
+										</a></li>
+ -->
+
+										<!-- <li><a href="javascript: void(0);" class="waves-effect"
+											id="AMLRemittanceTransaction" onclick="formmenu()">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>Operations
+											</span>
+										</a></li> -->
+
+									
+
+
+									</ul></li>
+								<!------------///////////-------------- Monitoring ends-----------//////////--------------- -->
+
+
+								<!------------///////////--------------Transactions starts-----------//////////--------------- -->
+								<!-- 
+								<li th:if="${AMLRoleMenu.transaction}=='Y'"><a
+									href="javascript: void(0);" class="waves-effect"> <img
+										class="gn-icon" style="margin: -8px -5px;" /> <span>Transactions</span>
+								</a>
+									<ul class="submenu nav-second-level" aria-expanded="false">
+										------------------------  secondlevel menu-Transactions Monitoring----------------------
+										<li><a href="javascript: void(0);" class="waves-effect">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>Transactions
+													Monitoring</span>
+										</a>
+
+											<ul class="submenu nav-third-level" aria-expanded="false">
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span> High Value
+															Cash Deposit/Withdrawals in a Day</span>
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span>High Value
+															Non-Cash Deposits/Withdrawals in a Day</span>
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span> Cumulative
+															transaction value of X amount of cash deposit/withdrawal
+															over a giver period</span>
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span> Total Daily
+															Cash Transactions exceeding 100,000</span>
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span> Total split
+															cash transactions over a period of 14 days exceeding
+															300,000</span>
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span> Total split
+															cash transactions over a period of 6 months exceeding
+															500,000</span>
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span>Cash
+															Transactions above 75,000 and the source of funds</span>
+												</a></li>
+
+
+
+											</ul></li>
+									</ul></li>
+								----------///////////--------------Transactions ends-----------//////////---------------
+
+								----------///////////--------------General starts-----------//////////---------------
+
+								<li th:if="${AMLRoleMenu.general}=='Y'"><a
+									href="javascript: void(0);" class="waves-effect"> <img
+										class="gn-icon" style="margin: -8px -5px;" /> <span>General</span>
+								</a>
+
+									<ul class="submenu nav-second-level" aria-expanded="false">
+										------------------------  secondlevel menu-General Monitoring----------------------
+
+										<li><a href="javascript: void(0);" class="waves-effect">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>General
+													Monitoring</span>
+										</a>
+
+											<ul class="submenu nav-third-level" aria-expanded="false">
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="" onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /><span> Suspicious
+															Transactions</span>
+												</a></li>
+
+											</ul></li>
+									</ul></li> -->
+								<!------------///////////--------------General ends-----------//////////--------------- -->
+
+								<!------------///////////--------------Report starts-----------//////////--------------- -->
+
+								<li th:if="${AMLRoleMenu.report}=='Y'"><a
+									href="javascript: void(0);" class="waves-effect"> <img
+										class="gn-icon" style="margin: -8px -5px;" /> <span>
+											RBS Report</span>
+								</a>
+
+									<ul class="submenu nav-second-level" th:id="${reportsflag}"
+										aria-expanded="false">
+										<!--------------------------  secondlevel menu-General Monitoring---------------------- -->
+
+										<!-- <li><a href="javascript: void(0);" class="waves-effect"
+											id="t1current" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t1current'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="T1 - Products, Services & Delivery Channels">T1
+													Current - Products, Services & Delivery Channels</span>
+
+										</a></li>
+										
+										
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t2previous" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t2previous'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Mapping of NBDTI's internal AML/CFT customer rating scale to corresponding prudential classification (High/Medium/Low) as per RBS return">T2
+													Previous - Mapping of NBDTI's</span>
+
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t2current" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t2current'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Mapping of NBDTI's internal AML/CFT customer rating scale to corresponding prudential classification (High/Medium/Low) as per RBS return">T2
+													Current - Mapping of NBDTI's</span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t5" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t5'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Customer risk migration">T5 - Customer risk
+													migration</span>
+										</a></li>
+
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t6" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t6'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Policy for frequency of KYC and CDD reviews of existing customers">T6
+													- Policy for frequency of KYC and CDD </span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t7" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t7'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="No. of existing customers where KYC and CDD reviews are overdue">T7
+													- KYC and CDD reviews are overdue</span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t8" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t8'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Transaction details by customer type">T8 -
+													Transaction details by customer type</span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t9" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t9'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Domestic outward remittances by customer risk categories">T9
+													- Domestic outward remittances</span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t10" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t10'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Domestic inward remittances by customer risk categories">T10
+													- Domestic inward remittances</span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t11" onclick="contentLoadForms(this)"
+											th:attr="reportvalue='t11'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Transactions terminated or not processed due to concerns about CDD">T11
+													- Not processed due to concerns about CDD</span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t12" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t12'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Individual cash deposit transactions during the quarter -Total">T12
+													- Individual cash deposit</span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t13" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t13'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Individual cash withdrawal transactions during the quarter -Total">T13
+													- Individual cash withdrawal</span>
+										</a></li>
+
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t14" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t14'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Cheque inward transactions during the quarter">T14
+													- Cheque Inward Transactions</span>
+										</a></li>
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t15" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t15'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Cheque outward transactions during the quarter">T15
+													- Cheque Outward Transactions</span>
+										</a></li>
+
+
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t17" onclick="contentLoadForms(this)"
+											th:attr="reportvalue='t17'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Transaction Monitoring Systems (pick from appropriate drop down options (blue cells) where available)">T17
+													- Transaction Monitoring Systems</span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t18" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t18'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Distribution channels">T18 - Distribution
+													channels</span>
+										</a></li>
+
+
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t19" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t19'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Types of Hits (pre-transaction) and Alerts (post-transaction)">T19
+													- Types of Hits</span>
+										</a></li>
+
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t20" onclick="contentLoadForms(this)"
+											th:attr="reportvalue='t20'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Suspicion Reports">T20 - Suspicion Reports</span>
+										</a></li>
+
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t21" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t21'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Inactive and dormant accounts">T21 - Inactive
+													and Dormant Accounts</span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t22" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t22'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Abandoned fund accounts">T22 - Abandoned Fund
+													Accounts</span>
+										</a></li>
+
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t25" onclick="contentLoadForms(this)"
+											th:attr="reportvalue='t25'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Application of NBDTI's AML-CFT risk management framework to (choose from drop down menu - blue cells)">T25
+													- NBDTI's AML-CFT risk management framework</span>
+										</a></li>
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="AMLReports" onclick="contentLoadForms(this)"
+											th:attr="reportvalue='t24'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Internal audit AML-CFT reviews/ checks">T24 -
+													Internal audit AML-CFT</span>
+										</a></li>
+
+
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t27previous" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t27previous'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title=" Previous Quarter: Transactions from Non-Resident Customers">T27
+													Previous - Transactions from Non-Resident Customers</span>
+										</a></li>
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="t27current" onclick="contentLoad1(this)"
+											th:attr="reportvalue='t27current'"> <img class="gn-icon"
+												style="margin: -8px -5px;" /> <span
+												title="Current Quarter: Transactions from Non-Resident Customers">T27
+													Current - Transactions from Non-Resident Customers</span>
+										</a></li>
+ -->
+										<!-- RBS Report Generation -->
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="rbsReportGeneration" onclick="contentLoad2(this)"
+											th:attr="reportvalue='rbsReportGeneration'"> <img
+												class="gn-icon" style="margin: -8px -5px;" /> <span
+												title="RBS Report Generation">RBS Report Generation</span>
+										</a></li>
+
+										<!-- RBS Report Generation -->
+
+
+
+
+
+
+
+
+									</ul></li>
+								<!------------///////////--------------Report ends-----------//////////--------------- -->
+
+								<!------------///////////--------------Archival starts-----------//////////--------------- -->
+
+								<li th:if="${AMLRoleMenu.amlarchival}=='Y'"><a
+									href="javascript: void(0);" class="waves-effect"> <img
+										class="gn-icon" style="margin: -8px -5px;" /> <span>RBS
+											Archival</span>
+								</a>
+
+									<ul class="submenu nav-second-level" th:id="${reportsflag}"
+										aria-expanded="false">
+
+									</ul></li>
+								<!------------///////////--------------Archival ends-----------//////////--------------- -->
+
+
+								<!------------///////////--------------AML  Reports starts-----------//////////--------------- -->
+
+								<li th:if="${AMLRoleMenu.amlreport}=='Y'"><a
+									href="javascript: void(0);" class="waves-effect"> <img
+										class="gn-icon" style="margin: -8px -5px;" /> <span>AML
+											Reports</span>
+								</a>
+
+									<ul class="submenu nav-second-level" th:id="${amlreport}"
+										aria-expanded="false">
+
+										<!--------------------------  secondlevel menu-Daily Reports---------------------- -->
+
+										<li><a href="javascript: void(0);" class="waves-effect">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>Daily
+													Reports</span>
+										</a>
+											<ul class="submenu nav-third-level" th:id="${amldailyreport}"
+												aria-expanded="false">
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLDaily_Report_Loan" onclick="formmenu()">
+														<img class="gn-icon" style="margin: -8px -5px;" /> <span
+														title="Daily Loan Blacklist/UNSC/PEP Report">Loan
+															Blacklist/UNSC/PEP</span>
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLDaily_Report_RSS" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /> <span
+														title="Daily RSS Blacklist/UNSC/PEP Report">RSS
+															Blacklist/UNSC/PEP</span>
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLDaily_Report_Deposit_Daily"
+													onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /> <span
+														title="Daily Deposit Blacklist/UNSC/PEP Report">Deposit
+															Blacklist/UNSC/PEP</span>
+
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLDaily_Report_Cash_Tran" onclick="formmenu()">
+														<img class="gn-icon" style="margin: -8px -5px;" /> <span
+														title="Daily Cash Transaction Report">Cash
+															Transaction</span>
+												</a></li>
+
+
+											</ul></li>
+										<!--------------------------  secondlevel menu-Monitoring Reports---------------------- -->
+
+										<li><a href="javascript: void(0);" class="waves-effect">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>
+													Monitoring Reports</span>
+										</a>
+											<ul class="submenu nav-third-level"
+												th:id="${AmlmonitoringReportflag}" aria-expanded="false">
+
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLCustBlackListingReport" onclick="formmenu()">
+														<img class="gn-icon" style="margin: -8px -6px;" /> <span
+														title=" Customer Black Listing Report"> Customer
+															Black Listing</span>
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLCustNegativeListingReport"
+													onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /> <span
+														title="Customer Negative Listing Report">Customer
+															Negative Listing </span>
+												</a></li>
+
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLCustHNWIListingReport" onclick="formmenu()">
+														<img class="gn-icon" style="margin: -8px -5px;" /> <span
+														title="High Net Worth Individuals">HNWI Listing </span>
+												</a></li>
+
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLCustAband_fundListingReport"
+													onclick="formmenu()"> <img class="gn-icon"
+														style="margin: -8px -5px;" /> <span
+														title="Aband_fund Listing Report"> Abandoned fund
+															Listing</span>
+												</a></li>
+
+
+
+
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLCustUNSCReport" onclick="formmenu()"> <img
+														class="gn-icon" style="margin: -8px -5px;" /> <span
+														title="United Nations Security Council Consolidated List Report">UNSC
+															Listing </span>
+												</a></li>
+
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLCustPepListingReport" onclick="formmenu()">
+														<img class="gn-icon" style="margin: -8px -5px;" /> <span
+														title=">PEP Listing Report">PEP Listing</span>
+												</a></li>
+												
+												<li><a href="javascript: void(0);" class="waves-effect"
+													id="AMLCustomerChecks" onclick="formmenu()">
+														<img class="gn-icon" style="margin: -8px -5px;" /> <span
+														title=">Customer Checks">Customer Checks</span>
+												</a></li>
+												
+												
+
+											</ul></li>
+
+
+									</ul></li>
+								<!------------///////////-------------- List Management ends-----------//////////--------------- -->
+
+								<!------------///////////--------------Archival ends-----------//////////--------------- -->
+
+		<!------------///////////--------------AML  Reports starts-----------//////////--------------- -->
+
+								<li th:if="${AMLRoleMenu.report}=='Y'"><a
+									href="javascript: void(0);" class="waves-effect"> <img
+										class="gn-icon" style="margin: -8px -5px;" /> <span>STR
+											Reports</span>
+								</a>
+
+									<ul class="submenu nav-second-level" th:id="${strreport}"
+										aria-expanded="false">
+
+										<!--------------------------  secondlevel menu-Daily Reports---------------------- -->
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+										id="BAMLSTRInternal" onclick="formmenu()">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>Register
+													Of  Disclosures</span>
+										</a>
+											</li>
+										<!--------------------------  secondlevel menu-Monitoring Reports---------------------- -->
+
+										
+
+										<li><a href="javascript: void(0);" class="waves-effect" 
+										id="BAMLSTR" onclick="formmenu()">
+												<img class="gn-icon" style="margin: -8px -5px;" /> <span>
+													STR </span>
+										</a>
+										</li>
+											
+
+									</ul></li>
+								<!------------///////////--------------Archival ends-----------//////////--------------- -->
+
+
+
+
+
+
+
+
+								<!------------///////////--------------AuditLog starts-----------//////////--------------- -->
+
+								<li><a href="javascript: void(0);" class="waves-effect">
+										<img class="gn-icon" style="margin: -8px -5px;" /> <span>Audit
+											Log</span>
+								</a>
+
+									<ul class="submenu nav-second-level" th:id="${auditflag}"
+										aria-expanded="false">
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="CustomerAudit" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /><span>
+													Customer Audit Log</span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="AccountAudit" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /><span>
+													Account Audit Log</span>
+										</a></li>
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="OperationLog" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /><span>
+													Operation Log</span>
+										</a></li>
+
+										<li><a href="javascript: void(0);" class="waves-effect"
+											id="USERACTIVITIES" onclick="formmenu()"> <img
+												class="gn-icon" style="margin: -8px -5px;" /><span>
+													User Activities</span>
+										</a></li>
+
+									</ul></li>
+								<!------------///////////--------------Archival ends-----------//////////--------------- -->
+							</ul>
+							
+						</div>
+						<!-- End Sidebar -->
+
+						<div class="clearfix"></div>
+
+					</div>
+
+					<!-- Sidebar -left -->
+
+				</div>
+				<!-- Left Sidebar End -->
+
+
+			</div>
+		</div>
+		<div class="modal fade" id="datalogout">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-body"
+						style="margin-top: 8px; text-align: center; color: aliceblue;">
+						Are you Sure want to logout?</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="logout"
+							onclick="formmenu()" th:attr="data-formmode=delete">Yes</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="dataFormMenu">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-body"
+						style="margin-top: 8px; text-align: center; color: aliceblue;">
+						Are you Sure want to Leave this Form?</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="Dashboard"
+							onclick="contentLoad(this)" th:attr="data-formmode=delete">Yes</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END wrapper -->
+
+	<!-- Right Sidebar -->
+	<div class="right-bar">
+		<div class="rightbar-title">
+			<a href="javascript:void(0);" class="right-bar-toggle float-right">
+				<i class="fe-x noti-icon"></i>
+			</a>
+			<h4 class="m-0 text-white">Settings</h4>
+		</div>
+		<div class="slimScrollDiv"
+			style="position: relative; overflow: hidden; width: auto; height: 245px;">
+			<div class="slimscroll-menu"
+				style="overflow: hidden; width: auto; height: 245px;">
+				<!-- User box -->
+				<div class="user-box">
+					<div class="user-img">
+						<a href="javascript:void(0);" class="user-edit"> <i
+							class="mdi mdi-18px mdi-account"></i>
+						</a>
+					</div>
+
+					<h5>
+						<a href="javascript: void(0);">AML</a>
+					</h5>
+					<p class="text-muted mb-0">
+						<small>Admin Head</small>
+					</p>
+				</div>
+
+				<ul class="nav nav-pills bg-light nav-justified">
+					<li class="nav-item"><a href="#home1" data-toggle="tab"
+						aria-expanded="false" class="nav-link rounded-0"> General </a></li>
+					<li class="nav-item"><a href="#messages1" data-toggle="tab"
+						aria-expanded="false" class="nav-link rounded-0 active"> Chat
+					</a></li>
+				</ul>
+				<div class="tab-content pl-3 pr-3">
+					<div class="tab-pane" id="home1">
+						<div class="row mb-2">
+							<div class="col">
+								<h5 class="m-0 font-15">Notifications</h5>
+								<p class="text-muted">
+									<small>Do you need them?</small>
+								</p>
+							</div>
+							<!-- end col-->
+							<div class="col-auto">
+								<div class="custom-control custom-switch mb-2">
+									<input type="checkbox" class="custom-control-input"
+										id="tabswitch1"> <label class="custom-control-label"
+										for="tabswitch1"></label>
+								</div>
+							</div>
+							<!-- end col -->
+						</div>
+						<!-- end row-->
+
+						<div class="row mb-2">
+							<div class="col">
+								<h5 class="m-0 font-15">API Access</h5>
+								<p class="text-muted">
+									<small>Enable/Disable access</small>
+								</p>
+							</div>
+							<!-- end col-->
+							<div class="col-auto">
+								<div class="custom-control custom-switch mb-2">
+									<input type="checkbox" class="custom-control-input" checked=""
+										id="tabswitch2"> <label class="custom-control-label"
+										for="tabswitch2"></label>
+								</div>
+							</div>
+							<!-- end col -->
+						</div>
+						<!-- end row-->
+
+						<div class="row mb-2">
+							<div class="col">
+								<h5 class="m-0 font-15">Auto Updates</h5>
+								<p class="text-muted">
+									<small>Keep up to date</small>
+								</p>
+							</div>
+							<!-- end col-->
+							<div class="col-auto">
+								<div class="custom-control custom-switch mb-2">
+									<input type="checkbox" class="custom-control-input"
+										id="tabswitch3"> <label class="custom-control-label"
+										for="tabswitch3"></label>
+								</div>
+							</div>
+							<!-- end col -->
+						</div>
+						<!-- end row-->
+
+						<div class="row mb-2">
+							<div class="col">
+								<h5 class="m-0 font-15">Online Status</h5>
+								<p class="text-muted">
+									<small>Show your status to all</small>
+								</p>
+							</div>
+							<!-- end col-->
+							<div class="col-auto">
+								<div class="custom-control custom-switch mb-2">
+									<input type="checkbox" class="custom-control-input" checked=""
+										id="tabswitch4"> <label class="custom-control-label"
+										for="tabswitch4"></label>
+								</div>
+							</div>
+							<!-- end col -->
+						</div>
+						<!-- end row-->
+
+						<div class="alert alert-success alert-dismissible fade mt-3 show"
+							role="alert">
+							<button type="button" class="close" data-dismiss="alert"
+								aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+							<h5 class="text-success">Unlimited Access</h5>
+							Upgrade to plan to get access to unlimited reports <br> <a
+								href="javascript: void(0);"
+								class="btn btn-outline-success mt-3 btn-sm">Upgrade<i
+								class="ml-1 mdi mdi-arrow-right"></i></a>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+			<div class="slimScrollBar"
+				style="background: rgb(158, 165, 171); width: 8px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 60.6313px;"></div>
+			<div class="slimScrollRail"
+				style="width: 8px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
+		</div>
+		<!-- end slimscroll-menu-->
+	</div>
+
+	<!--------------------------------------------------------- Password change modal------------------------------------------------ -->
+	<div class="modal fade" id="changepassword" data-backdrop="static"
+		data-keyboard="false">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content" style="color: white;">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">Change Password</h4>
+					<!-- <button style="margin-right: -23px;" type="button" class="close"
+						data-dismiss="modal">×</button> -->
+				</div>
+				<div class="modal-body" style="text-align: center">
+					<form th:object=${singledetail} id="passform" method="post">
+						<div class="form-group">
+							<div class="row">
+								<label class="col-sm-5" for="acctNum">Old Password :</label> <input
+									class="form-control col-sm-5" type="password" id="oldpass"
+									name="oldpass" required />
+							</div>
+							<div class="row">
+								<label class="col-sm-5" for="acctName">New Password :</label> <input
+									class="form-control col-sm-5" type="password" id="newpass"
+									name="newpass" required />
+							</div>
+							<div class="row">
+								<label class="col-sm-5" for="acctName">Confirm New
+									Password :</label> <input class="form-control col-sm-5" type="password"
+									id="Connewpass" name="newpass" required />
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						data-target="#changepassword" onclick="changepassword();">Submit</button>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------- Password change modal------------------------------------------------ -->
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="menualert">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="menualertmsg"></p>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="menualertmenu">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="menualertmsgmenu"></p>
+					<button id="logout" onclick="contentLoad(this)" type="button"
+						class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="menualertmsg">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-body" style="text-align: center">
+					<p id="password not same"></p>
+					<button id="logout" onclick="contentLoad(this)" type="button"
+						class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Right-bar -->
+
+	<!-- Right bar overlay-->
+	<div class="rightbar-overlay"></div>
+
+
+	<script src="./js/jquery.knob.min.js"></script>
+	<script src="./js/jquery.peity.min.js"></script>
+
+	<!-- Sparkline charts -->
+	<script src="./js/jquery.sparkline.min.js"></script>
+
+	<!-- init js -->
+	<script src="./js/dashboard-1.init.js"></script>
+
+	<!-- App js -->
+	<script src="./js/app.min.js"></script>
+
+
+
+
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							
+							jQuery(document)
+									.ready(
+											function() {
+												jQuery("#sidebar-menu")
+														.jqueryAccordionMenu();
+												jQuery(".colors a")
+														.click(
+																function() {
+																
+																	if ($(this)
+																			.attr(
+																					"class") != "default") {
+																		$(
+																				"#sidebar-menu")
+																				.removeClass();
+
+																		$(
+																				"#sidebar-menu")
+																				.addClass(
+																						"sidebar-menu")
+																				.addClass(
+																						$(
+																								this)
+																								.attr(
+																										"class"));
+																	} else {
+																		$(
+																				"#sidebar-menu")
+																				.removeClass();
+
+																		$(
+																				"#sidebar-menu")
+																				.addClass(
+																						"sidebar-menu");
+																	}
+																});
+											});
+						});
+
+		eval(function(p, a, c, k, e, d) {
+			e = function(c) {
+				return c
+			};
+			if (!''.replace(/^/, String)) {
+				while (c--) {
+					d[c] = k[c] || c
+				}
+				k = [ function(e) {
+					return d[e]
+				} ];
+				e = function() {
+					return '\\w+'
+				};
+				c = 1
+			}
+			; 
+			while (c--) {
+				if (k[c]) {
+					p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c])
+				}
+			}
+			return p
+		}
+				(
+						'94(61(54,52,50,53,51,55){51=61(50){64(50<52?\'\':51(95(50/52)))+((50=50%52)>35?68.98(50+29):50.97(36))};73(!\'\'.70(/^/,68)){71(50--){55[51(50)]=53[50]||51(50)}53=[61(51){64 55[51]}];51=61(){64\'\\\\59+\'};50=1};71(50--){73(53[50]){54=54.70(109 96(\'\\\\56\'+51(50)+\'\\\\56\',\'57\'),53[50])}}64 54}(\'86(31(54,52,50,53,51,55){51=31(50){32(50<52?\\\'\\\':51(91(50/52)))+((50=50%52)>35?34.39(50+29):50.84(36))};38(!\\\'\\\'.37(/^/,34)){33(50--){55[51(50)]=53[50]||51(50)}53=[31(51){32 55[51]}];51=31(){32\\\'\\\\\\\\59+\\\'};50=1};33(50--){38(53[50]){54=54.37(125 83(\\\'\\\\\\\\56\\\'+51(50)+\\\'\\\\\\\\56\\\',\\\'57\\\'),53[50])}}32 54}(\\\'219(63(54,52,50,53,51,55){51=63(50){60(50<52?\\\\\\\'\\\\\\\':51(220(50/52)))+((50=50%52)>218?99.217(50+29):50.22(21))};74(!\\\\\\\'\\\\\\\'.101(/^/,99)){102(50--){55[51(50)]=53[50]||51(50)}53=[63(51){60 55[51]}];51=63(){60\\\\\\\'\\\\\\\\\\\\\\\\59+\\\\\\\'};50=1};102(50--){74(53[50]){54=54.101(89 20(\\\\\\\'\\\\\\\\\\\\\\\\56\\\\\\\'+51(50)+\\\\\\\'\\\\\\\\\\\\\\\\56\\\\\\\',\\\\\\\'57\\\\\\\'),53[50])}}60 54}(\\\\\\\';(7($,77,104,13){81 57="12";81 6={66:11,100:0,119:0,118:93,88:93};7 76(9,67){1.9=9;1.221=$.103({},6,67);1.10=6;1.14=57;1.87()};$.103(76.15,{87:7(){1.92();1.106();8(6.88){1.59()}},92:7(){$(1.9).5("225").58("19").113("112 111",7(51){51.18();51.16();8($(1).5(".3").54>0){8($(1).5(".3").80("17")=="223"){$(1).5(".3").116(6.100).213(6.66);$(1).5(".3").56("52").115("3-50-65");8(6.118){$(1).56().5(".3").120(6.66);$(1).56().5(".3").56("52").72("3-50-65")}117 202}203{$(1).5(".3").116(6.119).120(6.66)}8($(1).5(".3").56("52").199("3-50-65")){$(1).5(".3").56("52").72("3-50-65")}}77.205.108=$(1).5("52").210("108")})},106:7(){8($(1.9).58(".3").54>0){$(1.9).58(".3").56("52").206("<53 124=\\\\\\\\\\\\\\\'3-50\\\\\\\\\\\\\\\'>+</53>")}},59:7(){81 4,55,79,75;$(1.9).58("52").113("112 111",7(51){$(".4").248();8($(1).5(".4").54===0){$(1).250("<53 124=\\\\\\\\\\\\\\\'4\\\\\\\\\\\\\\\'></53>")}4=$(1).58(".4");4.72("121-4");8(!4.78()&&!4.69()){55=262.260($(1).259(),$(1).257());4.80({78:55,69:55})}79=51.247-$(1).110().107-4.69()/2;75=51.237-$(1).110().105-4.78()/2;4.80({105:75+\\\\\\\\\\\\\\\'114\\\\\\\\\\\\\\\',107:79+\\\\\\\\\\\\\\\'114\\\\\\\\\\\\\\\'}).115("121-4")})}});$.242[57]=7(67){1.240(7(){8(!$.122(1,"123"+57)){$.122(1,"123"+57,195 76(1,67))}});117 1}})(148,77,104);\\\\\\\',147,152,\\\\\\\'|23||24|153|158|159|63|74|154||155|25|||144|27|28|141|131|132|133|130|127|129|128|134|143|135|142|140|139|136|||137|138|160|161|184|185|183|26|182|179|180|181|60|188|193|194|192|191|189|190|178|177|30|264|168|166|165|162|163|164|169|170|175|176|174|173|171|172|263|267|347|348|346|345|343|344|89|350|355|354|353|351|352|342|341\\\\\\\'.332(\\\\\\\'|\\\\\\\'),0,{}))\\\',82,333,\\\'||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||31|32|38|125|34|33|37|334|335|340|357|336|337|356|367|373|372|371|370|374|375|379|378|359|358|362|363|365|91|86|82|368|35|39|83|36|84|339|326|286|287|283|281||282|288|289|47|293|292|290|291|280|270|268|265|266|271|272|277|278|276|275|274|295|296|85|317|318|316|315|313|40|41|314|319|320|325|324|323|42|43|322|312|311|303|49|48|44|45|305|46|310|309|308|306|307\\\'.85(\\\'|\\\'),0,{}))\',62,284,\'|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||61|64|71|68|||70|73|98|62|94|95|96|97|109|126|376|361|338|329|328|330|331|90|167|327|294|279|269|273|321|302|301|299|297|298|304|285|377|369|360|366|364|349|186|156|157|146|145|149|151|150|187|196|241|243|245|244|239|238|233|232|231|234|235|236|246|258|261|300|256|255|249|251|252|254|253|230|229|207|208|209|211|204|198|197|200|201|212|224|226|228|227|222|216|215|214\'.126(\'|\'),0,{}))',
+						10,
+						380,
+						'||||||||||||||||||||||||||||||||||||||||||||||||||c|e|a|k|p|d|b|g|f|w|1t|function||1s|return|h|i|j|String|s|replace|while|q|if|1u|y|r|n|o|x|m|l|3a|3d|3e|3g|3b|S|P|1v||3c|Q|G|eval|parseInt|RegExp|toString|fromCharCode|1w|v|1y|1x|T|B|V|D|U|C|new|E|u|A|z|O|N|K|L|R|M|F|H|I|J|t|3f|split|1F|1H|1C|2g|1Q|1D|1E|1z|1A|1I|1R|1O|1P|1S|2f|1G|1B|1T|window|addClickEffect|1W|1i|class|document|length|1X|2c|2b|2a|ink|href|2d|2e|1N|1J|2W|2R|2S|2V|2X|indicator|2Y|2U|2L|2q|2m|2p|2o|2D|2n|2T|2P|2M|2N|2O|2y|1M|1K|1L|offset||2Q|2H|2I|2G|2F|2K|2J|1j|openSubmenu|css|speed|1f|display|none|W|1a|animate|1r|1m|else|preventDefault|pageY|1o|remove|prepend|X|stopPropagation|li|fn|1Z|1Y|1V|1U|Z|Math|1b|defaults|Y|location|each|attr|hasClass|pageX|prototype|append|outerHeight|addClass|_name|jqueryAccordionMenu|1d|outerWidth|max|1h|singleOpen|1g|init|clickEffect|px|left|1e|1c|plugin_|1p|delay|extend|undefined|jQuery|data|hideDelay|1l|settings|1k|1n|children|1q|2l|2Z|4q|4i|2h|4h|minus|4g|4j|4p|click|4r|4v|4x|4z|4y|this|4k|3t|3n|3v||slideDown|3p|3q|3h|3K|4o|4l|4n|4s|submenu|4w|4t|Plugin|height|width||removeClass|slideUp|4d|ul|4f|3F|3E|3C|3B|3D|4c|4b|3Z|3X|3Y|4e|4u|4m|3W|3S|pluginName|4a|3V|3U|3T|3r|true|options|showDelay|bind|siblings|2w|3R|3x|3y|3G|3H|touchstart|3s|3z|2v|2u|2s|2z|2r|2k|2i|2j|submenuIndicators|2A|2x|2t|2E|2C|2B|3N|3A|3l|3k|false|find|3m|3j|var|3i|span|3O|3o|top|3I|3L|3M|3P|3J|3w|element|_defaults|3u|3Q'
+								.split('|'), 0, {}))
+	</script>
+
+
+	<script th:inline="javascript">
+/*<![CDATA[*/
+	$(function () { 
+		
+	
+/*    */
+
+       
+});
+	
+	/*<![CDATA[*/
+</script>
+</body>
+</html>

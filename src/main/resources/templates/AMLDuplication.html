@@ -1,0 +1,316 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AMLDuplication
+CREATED BY	: DHARSHINI NIVEDHA
+CREATED ON	: 27-JAN-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+ <html lang="en" >
+<head>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+
+
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
+<script src="js/bootstrap411.js"></script>
+
+<title>AML</title>
+</head>
+<style>
+.error {
+	color: #ad3333;
+}
+</style>
+<!----------------------------------------Scripts to edit report details-------------------------------------------->
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	function home() {
+		location.href = 'Dashboard'
+	}
+	function home1() {
+		$("#dataHome").modal("toggle");
+	}
+	
+	function back() {
+		
+		window.history.back();
+	}
+	$(function() {
+
+		$("#repDate").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+
+	});
+
+	var permission = /*[[${session.PERMISSIONS}]]*/null;
+
+	function addRecord() {
+
+		//Assign action url for the edit/add form
+		var url = /*[[@{'blacklistadd'}]]*/
+		$("#dataedit").attr('action', url);
+		//Reset form if any data present
+		document.getElementById("dataedit").reset();
+
+		//make readonly false to unique fields
+		//Make readonly fields
+		$("#repDate").attr("readonly", false);
+		$("#tier1").attr("readonly", false);
+		$("#tier2").attr("readonly", false);
+		$("#tier3").attr("readonly", false);
+		$("#basedepositerate").attr("readonly", false);
+		$("#stareserve").attr("readonly", false);
+		$("#assignedcapital").attr("readonly", false);
+		$("#assigned_capital_fc").attr("readonly", false);
+		$("#retained_earnings_fc").attr("readonly", false);
+		$("#other_reserves").attr("readonly", false);
+		$("#capital_base").attr("readonly", false);
+
+		$("#addedit").modal("toggle");
+
+	};
+
+	function deleteRecord(a) {
+
+		//Assign action url for the edit/add form
+		var url = /*[[@{'blacklistdelete'}]]*/
+		$("#dataedit").attr('action', url);
+
+		//Assign selected values to the model box fields
+		$("#bank_name").val(a.getAttribute("data-bank_name"));
+		$("#cust_name").val(a.getAttribute("data-cust_name"));
+		$("#acct_no").val(a.getAttribute("data-acct_no"));
+		$("#reason").val(a.getAttribute("data-reason"));
+
+		$("#datadelete").modal("toggle");
+
+	};
+
+	function submitdataform() {
+		if ($("#dataedit").valid()) {
+			var options = {
+				success : showResponse
+			// post-submit callback 
+			};
+
+			$('#dataedit').ajaxSubmit(options);
+
+			function showResponse(responseText, statusText, xhr, $form) {
+
+				$("#alertmsg").text(responseText);
+
+				if ($('#addedit').is(':visible')) {
+					$('#addedit').modal("hide");
+
+				}
+				;
+				if ($('#datadelete').is(':visible')) {
+					$('#datadelete').modal("hide");
+
+				}
+				;
+				$('#alert').modal("toggle");
+
+			}
+		}
+
+	}
+
+	/*]]>*/
+</script>
+<body>
+	<!----------------------------------------------------- Header Section starts ----------------------------------------------------->
+	<div th:insert="AStartheader :: header"></div>
+	<div class="content-page">
+		<div class="content">
+
+			<!-- Start Content-->
+			<div class="container-fluid">
+				<!----------------------------------------------------- Header Section Ends ------------------------------------------------------->
+
+				<div class="container content" th:fragment="reportcontent">
+
+					<div class="row">
+						<div class="col-sm-12 customcol">
+							<div class="card">
+								<div class="card-header">
+									<div class="float-left">
+										<h4>Duplication List</h4>
+									</div>
+
+								</div>
+								<div class="card-body">
+									<div style="overflow-x: auto; border-right: 1px solid #dee2e6">
+										<table class="table table-hover table-sm" id="detailtb">
+											<thead class="thead-light">
+												<tr>
+													<th><a data-toggle="tooltip" class="editrec"
+														title="Click to add new Records"><i
+															class="fa fa-plus-circle" onclick="addRecord();"
+															aria-hidden="true"></i></a></th>
+
+													<th>Bank Name</th>
+													<th>Customer Name</th>
+													<th>Account Number</th>
+													<th>Reason</th>
+												</tr>
+											</thead>
+											<tbody class="databody det1" id="det1">
+												<tr th:each="blacklist : ${Blacklist}">
+
+
+
+
+													<td><a data-toggle="tooltip" class="editrec"
+														title="Click to delete this Record"><i
+															th:classappend="${session.PERMISSIONS == 'W'}  ? addedit "
+															class="fas fa-minus-circle"
+															th:attr="data-bank_name=${blacklist.bank_name},
+													data-cust_name=${blacklist.cust_name},
+													data-acct_no=${blacklist.acct_no},
+													data-reason=${blacklist.reason}"
+															onclick="deleteRecord(this)"></i></a></td>
+
+													<td th:text="${blacklist.bank_name}"></td>
+													<td th:text="${blacklist.cust_name}"></td>
+													<td th:text="${blacklist.acct_no}"></td>
+													<td th:text="${blacklist.reason}"></td>
+
+												</tr>
+											</tbody>
+										</table>
+										<div class="text-center" style="background-color: #386276;padding:5px;width: 100%;">
+									
+									<div class="btn-group nav-buttons "style="align:center;">
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnHome" onclick="home();"style="margin-right: 10px;">Home</button>
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnBack" onclick="back();">Back</button>
+									</div>
+								</div>
+									</div>
+
+
+
+									<!-- -----------------------------------Details edit modal form----------------------------------------------------->
+									<div class="modal fade" id="addedit" th:fragment="dataedit">
+										<div
+											class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+											<div class="modal-content">
+
+												<!-- Modal Header -->
+												<div class="modal-header">
+													<h4 class="modal-title">Add/Edit Records</h4>
+													<button type="button" class="close" data-dismiss="modal">×</button>
+												</div>
+												<div class="modal-body" style="text-align: center">
+													<form th:object=${singledetail} id="dataedit" method="post">
+														<div class="form-group"
+															style="color: #d2dae0; text-align: left;">
+															<div class="row">
+																<label class="col-sm-5">Bank Name</label> <input
+																	class="form-control col-sm-5" type="text"
+																	th:field="*{bank_name}" th:value="${bank_name}"
+																	id="bank_name" required />
+															</div>
+															<div class="row">
+																<label class="col-sm-5">Customer Name</label> <input
+																	class="form-control col-sm-5" type="text"
+																	th:field="*{cust_name}" th:value="${cust_name}"
+																	id="cust_name" required />
+															</div>
+															<div class="row">
+																<label class="col-sm-5">Account Number</label> <input
+																	class="form-control col-sm-5" type="text"
+																	th:field="*{acct_no}" th:value="${acct_no}"
+																	id="acct_no" required />
+															</div>
+															<div class="row">
+																<label class="col-sm-5">Reason</label> <input
+																	class="form-control col-sm-5" type="text"
+																	th:field="*{reason}" th:value="${reason}" id="reason"
+																	required>
+															</div>
+
+
+														</div>
+													</form>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary"
+														onclick="submitdataform();">Submit</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-------------------------------------Details edit modal form----------------------------------------------------->
+									<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+									<div class="modal fade" id="datadelete">
+										<div
+											class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+											<div class="modal-content" style="color: #e6eaec;">
+												<div class="modal-body" style="text-align: center">
+													<button type="button" class="close" data-dismiss="modal">×</button>
+													Are you Sure want to delete?
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary"
+														onclick="submitdataform();">Submit</button>
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal">Cancel</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-------------------------------------Details delete modal dialog----------------------------------------------------->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+				<div class="modal fade" id="alert">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-body" style="text-align: center">
+								<p id="alertmsg"></p>
+								<button type="button" class="btn btn-primary"
+									onclick="location.reload();" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+</body>
+</html>

@@ -1,0 +1,1046 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!--
+PROJECT NAME: AML
+FILE NAME   : AccountGeneral
+CREATED BY	: MANIVANNAN
+CREATED ON	: 11-MAR-2020
+MODIFY ON   :
+PURPOSE		: 
+ -->
+<html lang="en" th:fragment="casemain">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css"
+	th:href="@{/webjars/font-awesome/5.9.0/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.css}">
+<link rel="stylesheet" type="text/css"
+	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
+	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"
+	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
+<script
+	src="/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js"
+	th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+<link rel="stylesheet" type="text/css"
+	href="webjars/chartjs/2.8.0/Chart.min.css"
+	th:href="@{webjars/chartjs/2.8.0/Chart.min.css}">
+<script src="webjars/chartjs/2.8.0/Chart.min.js"
+	th:src="@{webjars/chartjs/2.8.0/Chart.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<script src="js/bootstrap411.js"></script>
+
+</head>
+
+
+
+
+<title>AML</title>
+
+<style>
+.underline {
+	text-decoration: underline;
+	color: #08a6f1;
+	cursor: pointer;
+}
+
+nav>.nav.nav-tabs {
+	border: none;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link, nav>div a.nav-item.nav-link.active {
+	border: none;
+	padding: 18px 25px;
+	color: #fff;
+	background: #1b6491;
+	border-radius: 0;
+}
+
+nav>div a.nav-item.nav-link.active:after {
+	content: "";
+	position: relative;
+	bottom: -60px;
+	left: -10%;
+	border: 15px solid transparent;
+	border-top-color: #1b6491;
+}
+
+.tab-content {
+	background: #fdfdfd;
+	line-height: 25px;
+	width: 100%;
+	border: 1px solid #ddd;
+	border-top: 5px solid #594a43;
+	border-bottom: 5px solid #594a43;
+	padding: 30px 25px;
+}
+
+nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
+	border: none;
+	background: #002942;
+	color: #fff;
+	border-radius: 0;
+	transition: background 0.20s linear;
+}
+</style>
+<script type="text/javascript">
+	function back() {
+		window.history.back();
+	}
+	function home() {
+		location.href = 'AMLAccountsInquiry'
+	}
+
+	function gettrandate() {
+
+		var CustName = $("#tran_acct_name").val();
+		var customer = $("#cust_id1").val();
+		var fromdate = $("#fromdate").val();
+		var todate = $("#todate").val();
+		var acid = $("#acidacct").val();
+		var cust = $("#cust_id2").val();
+		location.href = 'AcctTransactiondate?fromdate=' + fromdate + '&todate='
+				+ todate + '&customer=' + customer + '&CustName=' + CustName
+				+ '&acid=' + acid + '&cust=' + cust;
+	}
+	$(function() {
+
+		$("#entry_time1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate : new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = '0' + dd;
+		}
+		if (mm < 10) {
+			mm = '0' + mm;
+		}
+		var today = dd + '-' + mm + '-' + yyyy;
+		/* document.getElementById('fromdate').value = today;
+		document.getElementById('todate').value = today;
+		 *///document.getElementById('modify_time1').value = today;
+	});
+
+	$(function() {
+
+		$("#fromdate")
+				.datepicker(
+						{
+
+							dateFormat : "dd/mm/yy",
+							onSelect : function(selected) {
+								var dt = $(this).datepicker('getDate');
+								dt.setDate(dt.getDate());
+
+								$("#todate")
+										.datepicker("option", "minDate", dt);
+								var CustName = $("#tran_acct_name").val();
+								var customer = $("#cust_id1").val();
+
+								var acid = $("#acidacct").val();
+								var cust = $("#cust_id2").val();
+
+								var fromdate = document
+										.getElementById("fromdate").value;
+								var todate = $("#todate").val();
+								if (todate == "") {
+								} else {
+
+									location.href = 'AcctTransactiondate?fromdate='
+											+ fromdate
+											+ '&todate='
+											+ todate
+											+ '&customer='
+											+ customer
+											+ '&CustName='
+											+ CustName
+											+ '&acid=' + acid + '&cust=' + cust;
+								}
+
+							}
+						});
+		$("#todate")
+				.datepicker(
+						{
+							minDate : 0,
+							dateFormat : "dd/mm/yy",
+							onSelect : function(selected) {
+								var dt = new Date(selected);
+								dt.setDate(dt.getDate() - 1);
+								var CustName = $("#tran_acct_name").val();
+								var customer = $("#cust_id1").val();
+
+								var acid = $("#acidacct").val();
+								var cust = $("#cust_id2").val();
+
+								var fromdate = document
+										.getElementById("fromdate").value;
+								var todate = document.getElementById("todate").value;
+								if (fromdate == "") {
+									alert("Enter From date");
+								} else {
+
+									location.href = 'AcctTransactiondate?fromdate='
+											+ fromdate
+											+ '&todate='
+											+ todate
+											+ '&customer='
+											+ customer
+											+ '&CustName='
+											+ CustName
+											+ '&acid=' + acid + '&cust=' + cust;
+								}
+							}
+						});
+		//$("#start_date").datepicker("option", "maxDate", dt);
+
+	});
+
+	function fnClickAcct(a) {
+		var acctnum = a.getAttribute("data-Acctnum");
+		var CUSTID = a.getAttribute("data-cust");
+		var acid = a.getAttribute("data-acid");
+		location.href = 'AMLAccountInquiry1?acctnum=' + acctnum + '&CUSTID='
+				+ CUSTID + '&acid=' + acid;
+	}
+
+	function fnClickTran(a) {
+		var tranid = a.getAttribute("data-tran_id");
+		var tranrefno = a.getAttribute("data-tran_ref_no");
+		/* var parttranid = a.getAttribute("data-part_tran_id"); */
+		var acid = a.getAttribute("data-foracid");
+		var parttranid = a.getAttribute("data-parttran");
+		var trandate = a.getAttribute("data-trandate");
+		location.href = 'AMLTranInquiry?tranid=' + tranid + '&tranrefno='
+				+ tranrefno + '&acid=' + acid + '&parttranid=' + parttranid
+				+ '&trandate=' + trandate;
+	}
+	function AccountTransaction() {
+
+		var CUSTID = $("#cust_id").val();
+		var CustName = $("#cust_name").val();
+		var AcctNumber = $("#acct_num").val();
+		var acid = $("#acid").val();
+		location.href = 'AccountTransaction?CUSTID=' + CUSTID + '&CustName='
+				+ CustName + '&acid=' + acid + '&AcctNumber=' + AcctNumber;
+	}
+
+	function AccountAudit() {
+		var acct_num = document.getElementById("acct_num").value;
+		if (acct_num != '') {
+
+			location.href = "BAMLAuditAccountInquiry?foracid=" + acct_num;
+		}
+
+	}
+</script>
+
+
+
+
+<body>
+	<div th:replace="AStartheader :: header"></div>
+	<div class="content-page">
+		<div class="content">
+
+
+
+
+
+
+
+
+
+
+			<!--  ***************************************************CUSTOMER SUB TAB MENU*************************************************************  -->
+
+
+			<!--  ***************************************************CUSTOMER SUB TAB MENU STARTS************************************************************* -->
+
+
+
+			<div class="container-fluid">
+
+				<div class="card">
+					<div class="card-header">
+						<div class="float-left">
+						<!-- 	<h4 th:if="${formmode}=='AccountGeneral'">Account General
+								Details</h4> -->
+							<h4
+								th:if="${formmode}=='AccountGeneral' AND ${AcctMaster?.schm_type}=='SBA'">ACCOUNT
+								GENERAL DETAILS - RETIREMENT SAVINGS SCHEME</h4>
+							<h4
+								th:if="${formmode}=='AccountGeneral' AND ${AcctMaster?.schm_type}=='LAA'">ACCOUNT
+								GENERAL DETAILS - LOANS</h4>
+							<h4
+								th:if="${formmode}=='AccountGeneral' AND ${AcctMaster?.schm_type}=='TUA'">ACCOUNT
+								GENERAL DETAILS - FLEXI-DEPOSIT</h4>
+							<h4
+								th:if="${formmode}=='AccountGeneral' AND ${AcctMaster?.schm_type}=='TDA'">ACCOUNT
+								GENERAL DETAILS - DEPOSIT</h4>
+
+							<h4 th:if="${formmode}=='AccountTransactionGeneral'">Account
+								Transaction Details</h4>
+						</div>
+
+					</div>
+					<div class="card-body">
+
+
+						<div class="form-group">
+
+							<div class="row formline">
+
+								<button type="button" class="btn btn-primary"
+									th:if="${CustID}!= 'null' AND ${formmode}=='AccountGeneral'"
+									style="color: white; border: 2px solid black; width: 12%;"
+									id="btnBack" onclick="AccountTransaction()">Transaction</button>
+								<button type="button" class="btn btn-primary"
+									th:if="${formmode}=='AccountGeneral'"
+									style="color: white; border: 2px solid black; width: 12%;"
+									id="btnBack" onclick="AccountAudit()">Audit</button>
+							</div>
+							<label></label>
+							<div th:if="${formmode}=='AccountGeneral'" class=" content">
+									<input type="hidden" id="acid" name="acid" th:value="${acid}">
+
+
+								<div class="row formline">
+									<div class="col-sm-2">
+										<label for="srl_no"> Customer ID</label>
+									</div>
+
+									<div class="col-sm-3">
+										<input type="text" th:value="${CustID}" id="cust_id"
+											class="form-control form-control-sm" readonly name="cust_id"
+											 required>
+									</div>
+									<div class="col-sm-1"></div>
+									<label class="col-sm-2">Scheme Code</label>
+									<div class="col-sm-3">
+										<input type="text" th:value="${SCHMCODE}" id="schm_code"
+											name="schm_code" value="" readonly
+											class="form-control form-control-sm" 
+											required />
+									</div>
+
+								</div>
+								<div class="row formline">
+									<label class="col-sm-2">Customer Name</label>
+
+
+									<div class="col-sm-3">
+										<input type="text" th:value="${AcctMastertran?.cust_name}"
+											id="cust_name" name="cust_name" readonly
+											class="form-control form-control-sm" autocomplete="false"
+											required />
+									</div>
+									<div class="col-sm-1"></div>
+									<label class="col-sm-2">GL Sub Head Code </label>
+									<div class="col-sm-3">
+										<input type="text" th:value="${GLSUBHEAD}"
+											id="gl_sub_head_code1" name="gl_sub_head_code1" value=""
+											readonly class="form-control form-control-sm"
+											 required />
+									</div>
+
+								</div>
+
+								<div class="row formline">
+
+									<label class="col-sm-2">Account Open Date</label>
+									<div class="col-sm-3">
+										<input type="text"
+											th:value="${#dates.format(AcctMaster?.acct_opn_date, 'dd/MM/yyyy')}"
+											id="acct_opn_date" name="acct_opn_date" value="" readonly
+											class="form-control form-control-sm" 
+											required />
+									</div>
+									<div class="col-sm-1"></div>
+
+
+									<label class="col-sm-2">Account No. </label>
+									<div class="col-sm-3">
+										<input type="text" th:value="${ACCNUM}" id="acct_num"
+											name="acct_num" value="" readonly
+											class="form-control form-control-sm" 
+											required />
+									</div>
+									<div class="col-sm-1"></div>
+								</div>
+								<div th:if="${AcctMaster?.schm_type}=='SBA'">
+									<div class="row formline">
+
+										<label class="col-sm-2">Account Close Date</label>
+										<div class="col-sm-3">
+											<input type="text"
+												th:value="${#dates.format(AcctMaster?.acct_cls_date, 'dd/MM/yyyy')}"
+												id="acct_cls_date" name="acct_cls_date" value="" readonly
+												class="form-control form-control-sm" 
+												required />
+										</div>
+										<div class="col-sm-1"></div>
+<label class="col-sm-2">Account Status</label>
+										<div class="col-sm-3">
+										<input type="text" th:if="${AcctMaster?.acct_cls_flg} == 'Y' "
+												id="acct_cls_flg" value="Closed" name="acct_cls_flg"
+												readonly class="form-control form-control-sm"
+												 required /> 
+										<input type="text" th:if="${AcctMaster?.acct_cls_flg} !='Y'"
+												id="acct_cls_flg1" value="Active" name="acct_cls_flg1"
+												readonly class="form-control form-control-sm"
+												 required /> 
+
+										<!-- <label class="col-sm-2">Account Status</label> -->
+										<!-- <div class="col-sm-3">
+										<input type="text" th:if="${AcctMaster?.acct_cls_flg} == Y "
+												id="acct_cls_flg" value="Closed" name="acct_cls_flg"
+												readonly class="form-control form-control-sm"
+												 required /> 
+										<input type="text" th:if="${AcctMaster?.acct_cls_flg} !='Y'"
+												id="acct_cls_flg1" value="Active" name="acct_cls_flg"
+												readonly class="form-control form-control-sm"
+												 required /> 
+											<input type="text" th:if="${AcctMaster?.acct_status}=='A'"
+												id="cust_introd_name" value="Active" name="cust_introd_name"
+												readonly class="form-control form-control-sm"
+												 required /> <input type="text"
+												th:if="${AcctMaster?.acct_status}=='D'"
+												id="cust_introd_name" value="Dormant"
+												name="cust_introd_name" readonly
+												class="form-control form-control-sm" 
+												required /> <input type="text"
+												th:if="${AcctMaster?.acct_status}=='I'"
+												id="cust_introd_name" value="Inactive"
+												name="cust_introd_name" readonly
+												class="form-control form-control-sm" 
+												required /> <input type="text"
+												th:if="${AcctMaster?.acct_status}==null"
+												id="cust_introd_name" value="Inactive" name="cust_introd_name"
+												readonly class="form-control form-control-sm"
+												 required />-->
+										</div> 
+										<div class="col-sm-1"></div>
+									</div>
+
+									<div class="row formline">
+										<label class="col-sm-2">Balance Date</label>
+										<div class="col-sm-3">
+											<input type="text" id="last_frez_date2" th:value="${bal_date}"
+												name="last_frez_date"
+												class="form-control form-control-sm txtalign"
+												autocomplete="false" required readonly />
+										</div>
+
+										<div class="col-sm-1"></div>
+
+
+										<label class="col-sm-2">Account Balance</label>
+										<div class="col-sm-3">
+											<input type="text" style="align: right;"
+												th:value="${#numbers.formatDecimal(clr_bal_amt,1,'COMMA',2,'POINT')}"
+												id="clr_bal_amt1" name="clr_bal_amt" value="" readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+
+										<div class="col-sm-1"></div>
+									</div>
+									<div class="row formline">
+										<label class="col-sm-2">Source of Fund</label>
+
+
+										<div class="col-sm-3">
+											<input type="text" th:value="${AcctMaster?.free_text_8}"
+												id="free_text_8" name="free_text_8" readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+
+										<div class="col-sm-1"></div>
+										<label class="col-sm-2">Destination of Funds </label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${DESTINATIONOFFUND}"
+												id="free_text_12" name="free_text_12" value=""
+												readonly class="form-control form-control-sm"
+												 required />
+										</div>
+
+									</div>
+
+								</div>
+								<div
+									th:if="${AcctMaster?.schm_type}=='TDA' OR ${AcctMaster?.schm_type}=='TUA' OR ${AcctMaster?.schm_type}=='LAA'">
+									<div class="row formline">
+
+										<label class="col-sm-2">Maturity Date</label>
+										<div class="col-sm-3">
+											<input type="text" th:if ="${AcctMaster?.schm_type}!='LAA'"
+												th:value="${#dates.format(AcctMaster?.tam_maturity_date, 'dd/MM/yyyy')}"
+												id="tam_maturity_date" name="tam_maturity_date"  readonly
+												class="form-control form-control-sm"
+												required />
+										
+											<input type="text" th:if ="${AcctMaster?.schm_type}=='LAA'"
+												th:value="${#dates.format(AcctMaster?.lam_maturity_date, 'dd/MM/yyyy')}"
+												id="tam_maturity_date" name="tam_maturity_date"  readonly
+												class="form-control form-control-sm"
+												required />
+										</div>
+									<!-- 	th:if="${AcctMaster?.schm_type}=='TDA' OR ${AcctMaster?.schm_type}=='TUA' OR ${AcctMaster?.schm_type}=='SBA'"
+										<div class="col-sm-3" th:if="${AcctMaster?.schm_type}=='LAA'">
+											<input type="text"
+												th:value="${#dates.format(tam_maturity_date, 'dd/MM/yyyy')}"
+												id="acct_cls_date" name="tam_maturity_date" value="" readonly
+												class="form-control form-control-sm" 
+												required />
+										</div> -->
+										<div class="col-sm-1"></div>
+
+
+										<label class="col-sm-2">Account Status</label>
+										<div class="col-sm-3">
+										<input type="text" th:if="${AcctMaster?.acct_cls_flg} == 'Y' "
+												id="acct_cls_flg" value="Closed" name="acct_cls_flg"
+												readonly class="form-control form-control-sm"
+												 required /> 
+										<input type="text" th:if="${AcctMaster?.acct_cls_flg} !='Y'"
+												id="acct_cls_flg1" value="Active" name="acct_cls_flg1"
+												readonly class="form-control form-control-sm"
+												 required /> 
+										<!-- 	<input type="text" th:if="${AcctMaster?.acct_status}=='A'"
+												id="cust_introd_name" value="Active" name="cust_introd_name"
+												readonly class="form-control form-control-sm"
+												 required /> <input type="text"
+												th:if="${AcctMaster?.acct_status}=='D'"
+												id="cust_introd_name" value="Dormant"
+												name="cust_introd_name" readonly
+												class="form-control form-control-sm" 
+												required /> <input type="text"
+												th:if="${AcctMaster?.acct_status}=='I'"
+												id="cust_introd_name" value="Inactive"
+												name="cust_introd_name" readonly
+												class="form-control form-control-sm" 
+												required /> <input type="text"
+												th:if="${AcctMaster?.acct_status}==null"
+												id="cust_introd_name" value="Active" name="cust_introd_name"
+												readonly class="form-control form-control-sm"
+												 required /> -->
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Account Close Date</label>
+										<div class="col-sm-3">
+											<input type="text"
+												th:value="${#dates.format(AcctMaster?.acct_cls_date, 'dd/MM/yyyy')}"
+												id="acct_cls_date" name="acct_cls_date" value="" readonly
+												class="form-control form-control-sm" 
+												required />
+										</div>
+										<div class="col-sm-1"></div>
+
+
+										<label class="col-sm-2"
+											th:if="${AcctMaster?.schm_type} !='LAA'">Source of
+											Fund</label>
+
+
+										<div class="col-sm-3" th:if="${AcctMaster?.schm_type} !='LAA'">
+											<input type="text" th:value="${AcctMaster?.free_text_8}"
+												id="cust_name" name="free_text_8" readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+										<label class="col-sm-2"
+											th:if="${AcctMaster?.schm_type}=='LAA'">EMI</label>
+
+
+										<div class="col-sm-3" th:if="${AcctMaster?.schm_type}=='LAA'">
+											<input type="text" id="ldt_emi_amt"
+											th:value="${#numbers.formatDecimal(AcctMaster?.ldt_emi_amt	,1,'COMMA',2,'POINT')}" name="ldt_emi_amt" readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+
+									<div class="row formline">
+										<label class="col-sm-2">Balance Date</label>
+										<div class="col-sm-3">
+											<input type="text" id="last_frez_date1" th:value="${bal_date}"
+												name="last_frez_date"
+												class="form-control form-control-sm txtalign"
+												autocomplete="false" required readonly />
+										</div>
+
+										<div class="col-sm-1"></div>
+
+
+										<label class="col-sm-2">Account Balance</label>
+										<div class="col-sm-3">
+											<input type="text" style="align: right;"
+												th:value="${#numbers.formatDecimal(clr_bal_amt,1,'COMMA',2,'POINT')}"
+												id="clr_bal_amt1" name="clr_bal_amt" value="" readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+
+										<div class="col-sm-1"></div>
+									</div>
+
+									<div class="row formline">
+										<label class="col-sm-2">Destination of Funds </label>
+
+
+										<div class="col-sm-3">
+											<input type="text" th:value="${DESTINATIONOFFUND}"
+												id="purpose_of_advn" name="free_text_12" readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+										<div class="col-sm-1"></div>
+										<label class="col-sm-2"
+											th:if="${AcctMaster?.schm_type}=='TDA' OR ${AcctMaster?.schm_type}=='TUA'">Remarks
+										</label>
+										<div class="col-sm-3"
+											th:if="${AcctMaster?.schm_type}=='TDA' OR ${AcctMaster?.schm_type}=='TUA'">
+											<input type="text" th:value="${AcctMaster?.purpose_of_advn}"
+												id="gl_sub_head_code2" name="purpose_of_advn" value=""
+												readonly class="form-control form-control-sm"
+												 required />
+										</div>
+										<label class="col-sm-2" th:if="${AcctMaster.schm_type}=='LAA'">Loan
+											Period(months) </label>
+										<div class="col-sm-3" th:if="${AcctMaster.schm_type}=='LAA'">
+											<input type="text" th:value="${AcctMaster.lam_rep_perd_mths}"
+												id="gl_sub_head_code" name="gl_sub_head_code2" value=""
+												readonly class="form-control form-control-sm"
+												 required />
+										</div>
+									</div>
+								</div>
+								<!-- 
+								<div class="row formline">
+									<div class="col-sm-2">
+										<label for="cust_id">Bank</label>
+									</div>
+									<input type="hidden" id="acid" name="acid" th:value="${acid}">
+									<div class="col-sm-3">
+										<input type="text" value="MCS" id="bank_id"
+											class="form-control form-control-sm" readonly name="bank"
+											 required>
+									</div>
+									<div class="col-sm-1"></div>
+									<label class="col-sm-2">Branch</label>
+
+
+									<div class="col-sm-3">
+										<input type="text" value="PORT LOUIS" id="primary_sol_id"
+											name="sol_id" readonly class="form-control form-control-sm"
+											autocomplete="false" required />
+									</div>
+
+								</div>
+
+								<label></label>
+
+								<div class="form-group">
+									<div class="row formline">
+										<div class="col-sm-2">
+											<label for="srl_no"> Customer ID</label>
+										</div>
+
+										<div class="col-sm-3">
+											<input type="text" th:value="${CustID}" id="cust_id"
+												class="form-control form-control-sm" readonly name="cust_id"
+												 required>
+										</div>
+										<div class="col-sm-1"></div>
+										<label class="col-sm-2">Customer Name</label>
+
+
+										<div class="col-sm-3">
+											<input type="text" th:value="${AcctMastertran?.cust_name}"
+												id="cust_name" name="cust_name" readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+
+									</div>
+
+									<label></label>
+									<div class="row formline">
+
+										<label class="col-sm-2">Constitution</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${AcctMastertran?.cust_const}"
+												id="cust_const" name="cust_const" value="" readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+
+
+										<div class="col-sm-1"></div>
+
+
+										<label class="col-sm-2">Customer Group</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${AcctMastertran?.cust_grp}"
+												id="cust_grp" name="cust_grp" value="" readonly
+												class="form-control form-control-sm txtalign"
+												autocomplete="false" required />
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+
+
+
+									<label></label>
+									<div class="row formline">
+
+										<label class="col-sm-2">GL Sub Head Code </label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${GLSUBHEAD}"
+												id="gl_sub_head_code" name="gl_sub_head_code" value=""
+												readonly class="form-control form-control-sm"
+												 required />
+										</div>
+										<div class="col-sm-1"></div>
+
+
+										<label class="col-sm-2">Scheme Code</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${SCHMCODE}" id="schm_code"
+												name="schm_code" value="" readonly
+												class="form-control form-control-sm" 
+												required />
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+									<label></label>
+									<div class="row formline">
+
+										<label class="col-sm-2">Account No </label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${ACCNUM}" id="acct_num"
+												name="acct_num" value="" readonly
+												class="form-control form-control-sm" 
+												required />
+										</div>
+										<div class="col-sm-1"></div>
+
+
+										<label class="col-sm-2">Account Name</label>
+										<div class="col-sm-3">
+											<input type="text" th:value="${AcctMaster?.acct_name}"
+												id="acct_name" name="acct_name" value="" readonly
+												class="form-control form-control-sm" 
+												required />
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+
+									<label></label>
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Account Open Date</label>
+										<div class="col-sm-3">
+											<input type="text"
+												th:value="${#dates.format(AcctMaster?.acct_opn_date, 'dd/MM/yyyy')}"
+												id="acct_opn_date" name="acct_opn_date" value="" readonly
+												class="form-control form-control-sm" 
+												required />
+										</div>
+										<div class="col-sm-1"></div>
+
+
+										<label class="col-sm-2">Account Close Date</label>
+										<div class="col-sm-3">
+											<input type="text"
+												th:value="${#dates.format(AcctMaster?.acct_cls_date, 'dd/MM/yyyy')}"
+												id="acct_cls_date" name="acct_cls_date" value="" readonly
+												class="form-control form-control-sm" 
+												required />
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+									<label></label>
+
+									<div class="row formline">
+
+
+										<label class="col-sm-2">Account Status</label>
+										<div class="col-sm-3">
+											<input type="text" th:if="${AcctMaster?.acct_status}=='A'"
+												id="cust_introd_name" value="Active" name="cust_introd_name"
+												readonly class="form-control form-control-sm"
+												 required /> <input type="text"
+												th:if="${AcctMaster?.acct_status}=='D'"
+												id="cust_introd_name" value="Dormant"
+												name="cust_introd_name" readonly
+												class="form-control form-control-sm" 
+												required /> <input type="text"
+												th:if="${AcctMaster?.acct_status}=='I'"
+												id="cust_introd_name" value="Inactive"
+												name="cust_introd_name" readonly
+												class="form-control form-control-sm" 
+												required /> <input type="text"
+												th:if="${AcctMaster?.acct_status}==null"
+												id="cust_introd_name" value="Active" name="cust_introd_name"
+												readonly class="form-control form-control-sm"
+												 required />
+										</div>
+
+										<div class="col-sm-1"></div>
+
+										<label class="col-sm-2">Status Date</label>
+										<div class="col-sm-3">
+											<input type="text"
+												th:value="${#dates.format(AcctMaster?.acct_status_date, 'dd/MM/yyyy')}"
+												id="email_user_1" value="" name="email_user_1" readonly
+												class="form-control form-control-sm" 
+												required />
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+
+
+									<label></label>
+									<div class="row formline">
+
+										<label class="col-sm-2">Mode Of Operation</label>
+										<div class="col-sm-3">
+											<input type="text"
+												th:value="${AcctMaster?.mode_of_oper_code}"
+												id="mode_of_oper_code" name="mode_of_oper_code" value=""
+												readonly class="form-control form-control-sm"
+												autocomplete="false" required />
+										</div>
+
+										<div class="col-sm-1"></div>
+
+
+										<label class="col-sm-2">Remarks</label>
+										<div class="col-sm-3">
+											<input type="text" id="cust_comu_addr2"
+												name="cust_comu_addr2" value="" readonly
+												class="form-control form-control-sm txtalign"
+												autocomplete="false" required />
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+									<label></label>
+
+									<div class="row formline">
+
+										<label class="col-sm-2">Account Balance</label>
+										<div class="col-sm-3">
+											<input type="text" style="align: right;"
+												th:value="${#numbers.formatDecimal(clr_bal_amt,1,'COMMA',2,'POINT')}"
+												id="clr_bal_amt" name="clr_bal_amt" value="" readonly
+												class="form-control form-control-sm" autocomplete="false"
+												required />
+										</div>
+
+										<div class="col-sm-1"></div>
+
+
+										<label class="col-sm-2">Balance Date</label>
+										<div class="col-sm-3">
+											<input type="text" id="last_frez_date" th:value="${bal_date}"
+												name="last_frez_date"
+												class="form-control form-control-sm txtalign"
+												autocomplete="false" required readonly />
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+									<label></label>
+ -->
+
+
+
+
+							</div>
+						</div>
+
+						<div th:if="${formmode}=='AccountTransactionGeneral'"
+							class=" content">
+							<div class="row formline" style="padding-left: 40px;">
+								<input type="hidden" th:value="*{CustID1}" id="cust_id2">
+								<div class="col-sm-2">
+									<label for="userId">Account Number</label>
+								</div>
+								<div class="col-sm-3">
+									<input type="text" th:value="*{CustID}" id="cust_id1"
+										class="form-control form-control-sm" name="cust_id1"
+										 readonly />
+								</div>
+								<div class="col-sm-1"></div>
+								<div class="col-sm-2">
+									<label for="userName">Account Name</label>
+								</div>
+								<div class="col-sm-3">
+									<input type="text" th:value="${CustomerName}"
+										id="tran_acct_name" class="form-control form-control-sm"
+										autocomplete="false" readonly />
+								</div>
+							</div>
+							<label></label> <label></label>
+
+							<div class="row formline" style="padding-left: 40px;">
+
+								<div class="col-sm-2" style="padding-top: 8px;">
+									<label for="userId">Start Date</label>
+								</div>
+								<div class="col-sm-3" style="padding-top: 8px;">
+									<input type="text" id="fromdate" th:value="${fromdate}"
+										class="form-control form-control-sm" name="fromdate"
+										 />
+								</div>
+								<div class="col-sm-1"></div>
+								<input type="hidden" id="acidacct" th:value="${ACID}">
+								<div class="col-sm-2" style="padding-top: 8px;">
+									<label for="userName">End Date</label>
+								</div>
+								<div class="col-sm-3" style="padding-top: 8px;">
+
+									<input type="text" id="todate" th:value="${todate}"
+										class="form-control form-control-sm" autocomplete="false" />
+								</div>
+								<!-- <i class="fa fa-arrow-circle-right"
+										style="font-size: 48px; color: #080876; float: right;"
+										onclick="gettrandate();"></i> -->
+							</div>
+							<label></label>
+
+							<table class="table  table-bordered  table-hover table-sm"
+								style="margin-bottom: 0px" id="usertable">
+								<thead class="thead-light">
+									<tr>
+										<!-- <th></th> -->
+										<th>Transaction Date</th>
+
+										<th>Account Number</th>
+										<th>Account Name</th>
+										<th>Transaction ID</th>
+										<th>Part Transaction Type</th>
+										<th>Part Tran ID</th>
+										<th>Transaction currency</th>
+										<th>Transaction Amount</th>
+										<th>Particular</th>
+
+
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:if="${count}=='0'">
+										<td colspan="9" style="text-align: center; color: red">No
+											Data Found</td>
+									</tr>
+									<tr th:each="AcctMasterdetail : ${AcctTransaction}"
+										class="userlist">
+										<td
+											th:text="${#dates.format(AcctMasterdetail.tran_date, 'dd/MM/yyyy')}">CHENNAI</td>
+										<td class="underline" onclick="fnClickAcct(this);"
+											th:attr="data-Acctnum=${AccName.foracid},data-acid =${AccName.acid},data-cust=${CustID1}"
+											th:text="${AccName?.foracid}"></td>
+										<td th:text="${AccName?.acct_name}">123</td>
+										<td class="underline" onclick="fnClickTran(this);"
+											th:attr="data-tran_id=${AcctMasterdetail.transactionmasterembeddedid.tran_id},data-foracid=${AccName.foracid},data-parttran=${AcctMasterdetail.part_tran_srl_num},data-trandate = ${#dates.format(AcctMasterdetail.tran_date, 'dd-MMM-yyyy')}"
+											th:text="${AcctMasterdetail.transactionmasterembeddedid.tran_id}">123</td>
+
+										<th:block
+											th:switch="${AcctMasterdetail.transactionmasterembeddedid.part_tran_type}">
+											<td th:case="'D'">Debit</td>
+											<td th:case="'C'">Credit</td>
+										</th:block>
+										<td th:text="${AcctMasterdetail.part_tran_srl_num}"
+											align="right">123</td>
+										<td th:text="${AcctMasterdetail.tran_crncy_code}">123</td>
+
+										<td
+											th:text="${#numbers.formatDecimal(AcctMasterdetail.tran_amt	,1,'COMMA',2,'POINT')}"
+											align="right">CHENNAI</td>
+										<td th:text="${AcctMasterdetail.tran_particular}">123</td>
+
+
+
+
+
+
+									</tr>
+								</tbody>
+							</table>
+
+
+
+
+						</div>
+
+
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="card-footer text-center"
+			style="background-color: #386276;">
+			<button type="button" class="btn btn-xs btn-primary" id="btnHome"
+				onclick="home();">Home</button>
+			<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+				onclick="back();">Back</button>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
