@@ -14,7 +14,10 @@ public interface UserProfileRep extends CrudRepository<UserProfile, String> {
 
 	public Optional<UserProfile> findByusername(String userName);
 
-	@Query(value = "SELECT COUNT(*) " + "FROM BAML_USER_PROFILE_TABLE " + "WHERE del_flg = 'N' "
-			+ "AND user_id = ?1", nativeQuery = true)
+	 @Query(value = "SELECT COUNT(*) " +
+             "FROM \"AML\".\"BAML_USER_PROFILE_TABLE\" " +
+             "WHERE \"DEL_FLG\" = 'N' " +
+             "AND \"USER_ID\" = ?1",
+     nativeQuery = true)
 	String getusercount(String custId);
 }

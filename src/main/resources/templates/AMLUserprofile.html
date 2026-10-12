@@ -629,53 +629,54 @@ function searchuserid() {
 </head>
 <title>AML</title>
 <body>
-	<div th:insert="AStartheader :: header" th:if="${formmode}!='add'"></div>
-	<div th:insert="TESTHEADER :: header" th:if="${formmode}=='add'"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('UserProfile')" id="ques"></i>
+	<div th:insert="AStartheader :: header"
+			th:if="${formmode}=='list' OR ${formmode}=='view'OR ${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='verify'"></div>
+	
+		<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+			aria-hidden="true" onclick="docEmb('AccessAndRoles')" id="ques"></i>
+		<div class="content-page">
+			<div class="content">
+				<div class="container-fluid">
+					<!---------------------User List Starts------------------------------------------------------->
+					<div th:if="${formmode}=='list' OR ${formmode}=='delete' "
+						class=" content">
+						<div class="row">
+							<div class="col-sm-12  customcol">
+								<!-- <div class="card"> -->
+								
+									<div class="card-header" id="modheadtitle">
+									    <b>User Profile</b>
 
-	<!------------onclick="docEmb('UserProfile')"---------User List Starts------------------------------------------------------->
-
-	<div class="content-page" style="font-size: .7rem;">
-		<div class="content">
-
-			<!-- Start Content-->
-			<div class="container-fluid">
-
-
-				<div th:if="${formmode}=='list'">
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="card">
-								<div class="card-header" style="background-color: #386276;">
-									<div class="float-left">
-										<h6 style="margin-top: 4px;">User Profile</h6>
+									    <div class="btn-group nav-buttons float-right"style="margin-top: -5px;">
+									        <button type="button"
+									                class="btn btn-xs btn-secondary btns"
+									                id="btnAdd"
+									                onclick="adduser();"
+									                title="Create User"
+									                style="background-color: #0e2840;">
+									            Create User
+									        </button>
+									    </div>
 									</div>
-									<div class="btn-group nav-buttons float-right">
-										<button type="button" class="btn btn-xs btn-primary btns"
-											id="btnAdd" onclick="adduser();">Create User</button>
-										<button type="button"
-											class="btn btn-xs btn-primary btns active" id="btnInq"
-											onclick="list()" style="border-color: #66dbe0;">List</button>
-									</div>
-								</div>
+								
 								<!-- <div class="card-body"> -->
-								<table class="table  table-bordered  table-hover table-sm"
-									style="margin-bottom: 0px" id="usertable">
-									<thead class="thead-light">
-										<tr>
-											<!-- <th></th> -->
-											<th style="width: 10%">User ID</th>
-											<th style="width: 34%">User Name</th>
-											<th style="width: 20%">Email ID</th>
-											<th style="width: 10%">Employee ID</th>
-											<th style="width: 10%">Branch code</th>
-											<th style="width: 10%">Branch Name</th>
-											<th style="width: 6%">Status</th>
-											<th></th>
-
-
-										</tr>
+								
+									
+									<table class="table  table-bordered  table-hover table-sm"
+																	id="usertable" style="width: 100%">
+																	<thead class="thead-light">
+									        <tr>
+									            <th style="width: 10%;">User ID</th>
+									            <th style="width: 24%;">User Name</th>
+									            <th style="width: 18%;">Email ID</th>
+									            <th style="width: 10%;">Employee ID</th>
+									            <th style="width: 10%;">Branch Code</th>
+									            <th style="width: 14%;">Branch Name</th>
+									            <th style="width: 7%;">Status</th>
+									            <th style="width: 7%;">Select</th>
+									        </tr>
+									    </thead>
+						
 									</thead>
 									<tbody>
 										<tr th:each="userProfile : ${userProfiles}" class="userlist">
@@ -767,14 +768,23 @@ function searchuserid() {
 										</tr>
 									</tbody>
 								</table>
-								<div class="card-footer text-center">
-									<button type="button" class="btn btn-xs btn-primary"
-										id="btnHome" onclick="home();">Home</button>
-									<button type="button" class="btn btn-xs btn-primary"
-										id="btnBack" onclick="back();">Back</button>
-								</div>
-								<!-- </div> -->
-							</div>
+								<div class="text-center"
+								                            style="background-color: #386276;
+								                                   padding: 5px;
+								                                   width: 100%;">
+								                           <div class="btn-group nav-buttons">
+								                               <button type="button"
+								                                       class="btn btn-xs btn-primary"
+								                                       id="btnHome"
+								                                       onclick="home()"
+								                                       style="margin-right: 10px;">Home</button>
+
+								                               <button type="button"
+								                                       class="btn btn-xs btn-primary"
+								                                       id="btnBack"
+								                                       onclick="back()">Back</button>
+								                           </div>
+								                       </div>
 						</div>
 					</div>
 				</div>
@@ -818,7 +828,7 @@ function searchuserid() {
 												onclick="list();">List</button>
 										</div>
 									</div>
-									<div class="card-body">
+									<div class="card-body" style="margin-top: -10px;">
 
 										<input autocomplete="false" name="hidden" type="text"
 											style="display: none;">
@@ -1169,6 +1179,7 @@ function searchuserid() {
 													<select th:field="*{role_id}" th:value="${role_id}"
 														id="roleId" class="form-control form-control-sm"
 														onchange="roledesc();" autocomplete="off" required>
+														<option value="ADMIN">ADMIN</option>
 														<option value="">SELECT</option>
 														<option id="role_id"
 															th:each="monitoringparam : ${RuleIDType}"
@@ -1232,7 +1243,9 @@ function searchuserid() {
 										</div>
 
 
-										<div class="card-footer text-center" style="height: 38px;">
+										<div class="card-footer text-center"
+										     style="background-color: #386276;
+										            padding: 6px;">
 
 											<button
 												th:if=" ${formmode}=='verify' AND ${userProfile.entity_flg}=='N'"
@@ -1272,10 +1285,6 @@ function searchuserid() {
 												id="btnBack" style="margin-top: -12px;" onclick="back1();">Back</button>
 
 
-
-
-
-
 										</div>
 
 									</div>
@@ -1295,17 +1304,19 @@ function searchuserid() {
 						<div class="modal-content" style="border: 2px solid black;">
 
 							<!-- Modal Header -->
-							<div class="modal-header">
+							<div class="modal-header"
+							     style="background-color: #386276; color: white;">
 								<h4 class="modal-title">Finacle Users</h4>
 								<button type="button" class="close" data-dismiss="modal">×</button>
 							</div>
 
 							<!-- Modal body -->
 							<div class="modal-body" style="background-color: #e6eaed;">
-							<div class="table-responsive">
-							
-								<table class="table table-hover" id="my_table">
-									<thead class="thead-light" style="background-color: #386276;">
+								<div class="table-responsive" style="min-height: 350px;">
+									<div class="table-responsive" style="min-height: 350px;">
+									    <table class="table table-bordered table-hover table-sm"
+									           id="usertable"
+									           style="width: 100%; margin-bottom: 0;">
 										<tr>
 											<th>Branch code</th>
 											<th>Employee ID</th>
@@ -1324,16 +1335,30 @@ function searchuserid() {
 									</tbody>
 								</table>
 								</div>
+								
 								<div class="text-center"
-									style="background-color: #386276; padding: 5px; width: 100%;">
+								     style="background-color: #386276;
+								            padding: 5px;
+								            width: 100%;">
 
-									<div class="btn-group nav-buttons " style="align: center;">
-										<button type="button" class="btn btn-xs btn-primary"
-											id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
-										<button type="button" class="btn btn-xs btn-primary"
-											id="btnBack" onclick="back();">Back</button>
-									</div>
+								    <div class="btn-group nav-buttons">
+								        <button type="button"
+								                class="btn btn-xs btn-primary"
+								                id="btnHome"
+								                onclick="home();"
+								                style="margin-right: 10px;">
+								            Home
+								        </button>
+
+								        <button type="button"
+								                class="btn btn-xs btn-primary"
+								                id="btnBack"
+								                onclick="back();">
+								            Back
+								        </button>
+								    </div>
 								</div>
+							
 							</div>
 
 						</div>

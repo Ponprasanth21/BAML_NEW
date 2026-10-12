@@ -605,23 +605,24 @@ PURPOSE		:
 
 <body>
 	<div th:insert="AStartheader :: header"
-		th:if="${formmode}=='list' OR ${formmode}=='view' OR ${formmode}=='search' "></div>
-	<div th:insert="TESTHEADER :: header"
-		th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='verify'OR ${formmode}=='delete' "></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('ReferenceCodeMaster')" id="ques"></i>
-	<div class="content-page">
-		<div class="content">
-			<div class="container-fluid">
+			th:if="${formmode}=='list' OR ${formmode}=='view' "></div>
+		<div th:insert="TESTHEADER :: header"
+			th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='verify'"></div>
+		<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
+			aria-hidden="true" onclick="docEmb('AccessAndRoles')" id="ques"></i>
+		<div class="content-page">
+			<div class="content">
+				<div class="container-fluid">
+					<!---------------------User List Starts------------------------------------------------------->
+					<div th:if="${formmode}=='list' OR ${formmode}=='delete' "
+						class=" content">
+						<div class="row">
+							<div class="col-sm-12  customcol">
+								<!-- <div class="card"> -->
+								<div class="card-header" id="modheadtitle">
+									<b th:text="${menuname}"></b>
 
-				<div th:if="${formmode}=='list' OR ${formmode}=='search' "
-					class="container content">
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="card-header " id="modheadtitle" style="height: 57px;">
-								<b th:text="${menuname}"></b>
-
-								<div class="btn-group nav-buttons float-right">
+								<div class="btn-group nav-buttons float-right"style="margin-top: -5px;">
 									<button type="button" class="btn btn-xs btn-primary "
 										onclick='Search()' th:attr="frmode=add">Search</button>
 									<button type="button" class="btn btn-xs btn-primary "
@@ -846,18 +847,28 @@ PURPOSE		:
 
 
 						</div>
+					
+						<div class="col-sm-12 ">
 						<div class="text-center"
-							style="background-color: #386276; padding: 5px; width: 100%;">
+						     style="background-color: #386276;
+						            padding: 5px;
+						            width: 100%;
+						            box-sizing: border-box;
+						            margin: 0;">
+						    <div class="btn-group nav-buttons">
+						        <button type="button"
+						                class="btn btn-xs btn-primary"
+						                id="btnHome"
+						                onclick="home()"
+						                style="margin-right: 10px;">Home</button>
 
-							<div class="btn-group nav-buttons " style="align: center;">
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnBack" onclick="back();">Back</button>
-							</div>
+						        <button type="button"
+						                class="btn btn-xs btn-primary"
+						                id="btnBack"
+						                onclick="back()">Back</button>
+						    </div>
 						</div>
-					</div>
-				</div>
+</div>					
 				<div
 					th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='view' OR ${formmode}=='verify'OR ${formmode}=='delete'"
 					class="container content">
