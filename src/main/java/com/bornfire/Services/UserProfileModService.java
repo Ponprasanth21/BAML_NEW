@@ -67,7 +67,8 @@ public class UserProfileModService {
 
 		String msg = "";
 		Session hs = sessionFactory.getCurrentSession();
-		BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT aml_audit_seq.NEXTVAL AS SRL_NO FROM DUAL")
+		BigDecimal Number = (BigDecimal) hs
+				.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
 				.getSingleResult();
 
 		AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
@@ -84,13 +85,13 @@ public class UserProfileModService {
 					try {
 						String encryptedPassword = PasswordEncryption.getEncryptedPassword(this.password);
 
-						if (up.getLogin_status().equals("Active")) {
+						if ("Active".equals(up.getLogin_status())) {
 							up.setUser_locked_flg("N");
 						} else {
 							up.setUser_locked_flg("Y");
 						}
 
-						if (up.getUser_status().equals("Active")) {
+						if ("Active".equals(up.getUser_status())) {
 							up.setDisable_flg("N");
 						} else {
 							up.setDisable_flg("Y");
@@ -140,45 +141,59 @@ public class UserProfileModService {
 				if (up.isPresent()) {
 					UserProfile us1 = up.get();
 
-					DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-					String acctexpold = dateFormat.format(us1.getAcc_exp_date());
-					String acctexpnew = dateFormat.format(userProfile.getAcc_exp_date());
-					String disableSold = dateFormat.format(us1.getDisable_start_date());
-					String disableSnew = dateFormat.format(userProfile.getDisable_start_date());
-					String disableEold = dateFormat.format(us1.getDisable_end_date());
-					String disableEnew = dateFormat.format(userProfile.getDisable_end_date());
-					String passOLD = dateFormat.format(us1.getPass_exp_date());
-					String passNEW = dateFormat.format(userProfile.getPass_exp_date());
+					DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+					String acctexpold = us1.getAcc_exp_date() != null ? dateFormat.format(us1.getAcc_exp_date()) : "";
+					String acctexpnew = userProfile.getAcc_exp_date() != null ? dateFormat.format(userProfile.getAcc_exp_date()) : "";
+					String disableSold = us1.getDisable_start_date() != null ? dateFormat.format(us1.getDisable_start_date()) : "";
+					String disableSnew = userProfile.getDisable_start_date() != null ? dateFormat.format(userProfile.getDisable_start_date()) : "";
+					String disableEold = us1.getDisable_end_date() != null ? dateFormat.format(us1.getDisable_end_date()) : "";
+					String disableEnew = userProfile.getDisable_end_date() != null ? dateFormat.format(userProfile.getDisable_end_date()) : "";
+					String passOLD = us1.getPass_exp_date() != null ? dateFormat.format(us1.getPass_exp_date()) : "";
+					String passNEW = userProfile.getPass_exp_date() != null ? dateFormat.format(userProfile.getPass_exp_date()) : "";
 
-					if ((us1.getEmail_id().equals(userProfile.getEmail_id()))
-							&& (us1.getMob_number().equals(userProfile.getMob_number()))
-							&& (us1.getLogin_low().equals(userProfile.getLogin_low()))
-							&& (us1.getLogin_high().equals(userProfile.getLogin_high()))
-							&& (acctexpold.equals(acctexpnew))
-							&& (disableSold.equals(disableSnew))
-							&& (disableEold.equals(disableEnew))
-							&& (passOLD.equals(passNEW))
-							&& (us1.getUser_status().equals(userProfile.getUser_status())) && (us1.getLogin_status().equals(userProfile.getLogin_status()))
-							&& (us1.getRemark().equals(userProfile.getRemark())) && (us1.getRole_id().equals(userProfile.getRole_id()))
-) {
+					if (java.util.Objects.equals(us1.getEmail_id(), userProfile.getEmail_id())
+							&& java.util.Objects.equals(us1.getMob_number(), userProfile.getMob_number())
+							&& java.util.Objects.equals(us1.getLogin_low(), userProfile.getLogin_low())
+							&& java.util.Objects.equals(us1.getLogin_high(), userProfile.getLogin_high())
+							&& acctexpold.equals(acctexpnew)
+							&& disableSold.equals(disableSnew)
+							&& disableEold.equals(disableEnew)
+							&& passOLD.equals(passNEW)
+							&& java.util.Objects.equals(us1.getUser_status(), userProfile.getUser_status())
+							&& java.util.Objects.equals(us1.getLogin_status(), userProfile.getLogin_status())
+							&& java.util.Objects.equals(us1.getRemark(), userProfile.getRemark())
+							&& java.util.Objects.equals(us1.getRole_id(), userProfile.getRole_id())) {
 						msg = "No any Modification done";
 
 					} else {
-						
 
 						userProfile.setPassword(up.get().getPassword());
 
-						if (userProfile.getLogin_status().equals("Active")) {
+						if ("Active".equals(userProfile.getLogin_status())) {
 							userProfile.setUser_locked_flg("N");
 						} else {
 							userProfile.setUser_locked_flg("Y");
 						}
 
-						if (userProfile.getUser_status().equals("Active")) {
+						if ("Active".equals(userProfile.getUser_status())) {
 							userProfile.setDisable_flg("N");
 						} else {
 							userProfile.setDisable_flg("Y");
 						}
+
+						if (userProfile.getBank_code() == null) userProfile.setBank_code(us1.getBank_code());
+						if (userProfile.getBank_name() == null) userProfile.setBank_name(us1.getBank_name());
+						if (userProfile.getBranch_code() == null) userProfile.setBranch_code(us1.getBranch_code());
+						if (userProfile.getBranch_name() == null) userProfile.setBranch_name(us1.getBranch_name());
+						if (userProfile.getEmpid() == null) userProfile.setEmpid(us1.getEmpid());
+						if (userProfile.getEmp_name() == null) userProfile.setEmp_name(us1.getEmp_name());
+						if (userProfile.getUsername() == null) userProfile.setUsername(us1.getUsername());
+						if (userProfile.getEntry_user() == null) userProfile.setEntry_user(us1.getEntry_user());
+						if (userProfile.getEntry_time() == null) userProfile.setEntry_time(us1.getEntry_time());
+						if (userProfile.getNew_user_flg() == null) userProfile.setNew_user_flg("N");
+						if (userProfile.getDel_flg() == null) userProfile.setDel_flg("N");
+						if (userProfile.getLogin_flg() == null) userProfile.setLogin_flg(us1.getLogin_flg());
+						if (userProfile.getPhoto() == null) userProfile.setPhoto(us1.getPhoto());
 
 						userProfile.setNo_of_attmp(0);
 						userProfile.setEntity_flg("N");
@@ -187,8 +202,6 @@ public class UserProfileModService {
 
 						Session session = sessionFactory.getCurrentSession();
 						session.saveOrUpdate(userProfile);
-						
-						// userProfileModRep.save(userProfile)
 
 						msg = "User Edited Successfully";
 					}
@@ -199,20 +212,34 @@ public class UserProfileModService {
 				Optional<UserProfile> up = userProfileRep.findById(userProfile.getUserid());
 
 				if (up.isPresent()) {
+					UserProfile us1 = up.get();
+					userProfile.setPassword(us1.getPassword());
 
-					userProfile.setPassword(up.get().getPassword());
-
-					if (userProfile.getLogin_status().equals("Active")) {
+					if ("Active".equals(userProfile.getLogin_status())) {
 						userProfile.setUser_locked_flg("N");
 					} else {
 						userProfile.setUser_locked_flg("Y");
 					}
 
-					if (userProfile.getUser_status().equals("Active")) {
+					if ("Active".equals(userProfile.getUser_status())) {
 						userProfile.setDisable_flg("N");
 					} else {
 						userProfile.setDisable_flg("Y");
 					}
+
+					if (userProfile.getBank_code() == null) userProfile.setBank_code(us1.getBank_code());
+					if (userProfile.getBank_name() == null) userProfile.setBank_name(us1.getBank_name());
+					if (userProfile.getBranch_code() == null) userProfile.setBranch_code(us1.getBranch_code());
+					if (userProfile.getBranch_name() == null) userProfile.setBranch_name(us1.getBranch_name());
+					if (userProfile.getEmpid() == null) userProfile.setEmpid(us1.getEmpid());
+					if (userProfile.getEmp_name() == null) userProfile.setEmp_name(us1.getEmp_name());
+					if (userProfile.getUsername() == null) userProfile.setUsername(us1.getUsername());
+					if (userProfile.getEntry_user() == null) userProfile.setEntry_user(us1.getEntry_user());
+					if (userProfile.getEntry_time() == null) userProfile.setEntry_time(us1.getEntry_time());
+					if (userProfile.getNew_user_flg() == null) userProfile.setNew_user_flg("N");
+					if (userProfile.getDel_flg() == null) userProfile.setDel_flg("Y");
+					if (userProfile.getLogin_flg() == null) userProfile.setLogin_flg(us1.getLogin_flg());
+					if (userProfile.getPhoto() == null) userProfile.setPhoto(us1.getPhoto());
 
 					userProfile.setNo_of_attmp(0);
 					userProfile.setEntity_flg("N");
@@ -257,34 +284,25 @@ public class UserProfileModService {
 	};
 
 	public String deleteUser(UserProfileModEn userProfilemoden, String inputUser) {
-		String msg = "";
-
-		Session hs = sessionFactory.getCurrentSession();
-		NativeQuery q1 = hs.createNativeQuery("delete from BAML_USER_PROFILE_MOD_TABLE where user_id=?1 ")
-				.setParameter(1, inputUser);
-		System.out.println(inputUser);
-
+		String targetUserId = (userProfilemoden != null && userProfilemoden.getUserid() != null) ? userProfilemoden.getUserid() : inputUser;
+		if (targetUserId != null) {
+			Session hs = sessionFactory.getCurrentSession();
+			hs.createNativeQuery("DELETE FROM \"AML\".\"BAML_USER_PROFILE_MOD_TABLE\" WHERE \"USER_ID\" = ?1 ")
+					.setParameter(1, targetUserId)
+					.executeUpdate();
+		}
 		return inputUser;
 	}
 
 	public String cancel(UserProfileModEn userProfilemoden, UserProfile userprofile, String inputUser) {
-		String msg = "";
-
-		UserProfileModEn up = userProfilemoden;
-		Session session = sessionFactory.getCurrentSession();
-		// UserProfile ups = userprofile;
-		// session.saveOrUpdate(user);
-		// ups.setEntity_flg("Y");
-		// session.update(ups);
-		session.remove(up);
-		Session hs = sessionFactory.getCurrentSession();
-		 NativeQuery q1 = hs.createNativeQuery("delete from AML_USER_PROFILE_MOD_TABLE where user_id=?1").setParameter(1,inputUser);
-		/*NativeQuery q2 = session
-				.createNativeQuery("update BAML_USER_PROFILE_TABLE set ENTITY_FLG ='Y' where user_id = ?1")
-				.setParameter(1, inputUser);
-		*/// System.out.println(inputUser);
-
-		msg = "Last changes are removed ";
-		return msg;
+		String targetUserId = (userProfilemoden != null && userProfilemoden.getUserid() != null) ? userProfilemoden.getUserid()
+				: (userprofile != null && userprofile.getUserid() != null ? userprofile.getUserid() : inputUser);
+		if (targetUserId != null) {
+			Session hs = sessionFactory.getCurrentSession();
+			hs.createNativeQuery("DELETE FROM \"AML\".\"BAML_USER_PROFILE_MOD_TABLE\" WHERE \"USER_ID\" = ?1")
+					.setParameter(1, targetUserId)
+					.executeUpdate();
+		}
+		return "Last changes are removed ";
 	}
 }

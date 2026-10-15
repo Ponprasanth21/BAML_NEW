@@ -960,10 +960,10 @@ function searchgl1() {
 							<label></label>
 
 							<!-- ***********************Individual Tab*************************************** -->
-							<div th:if="${formmode}=='Ind_list'" class="container content">
+<div th:if="${formmode}=='Ind_list'" class="content" style="width: 100%; margin: 0; padding: 0;">
 										<div class="row"  style="width : 100%;">
-											<div class="col-sm-12" style="width : 100%;">
-											  <div class="card"  style="width : 100%;">
+											<div class="col-sm-13" style="width : 100%;">
+											  <div class="card"  style="width : 102%;">
 												<div class="card-header " id="modheadtitle"
 													style="height: 50px; width : 100%;">
 													<b th:text="${menuname}"></b> 
@@ -2466,13 +2466,26 @@ function searchgl1() {
 					</div>
 				</div>
 			</div>
-			<div class="card-footer text-center"
-				style="background-color: #386276";>
-				<button type="button" class="btn btn-xs btn-primary" id="btnHome"
-					onclick="home();">Home</button>
-				<button type="button" class="btn btn-xs btn-primary" id="btnBack"
-					onclick="back();">Back</button>
-			</div>
+			
+			<div class ="col-sm-12">
+			<div class="text-center"
+											                            style="background-color: #386276;
+											                                   padding: 5px;
+											                                   width: 100%;">
+											                           <div class="btn-group nav-buttons">
+											                               <button type="button"
+											                                       class="btn btn-xs btn-primary"
+											                                       id="btnHome"
+											                                       onclick="home()"
+											                                       style="margin-right: 10px;">Home</button>
+
+											                               <button type="button"
+											                                       class="btn btn-xs btn-primary"
+											                                       id="btnBack"
+											                                       onclick="back()">Back</button>
+											                           </div>
+											                       </div>
+																   </div>
 		</div>
 	</div>
 

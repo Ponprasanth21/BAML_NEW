@@ -188,7 +188,7 @@ public class UserProfile implements UserDetails {
 	private String disable_flg;
 
 	@Column(name = "\"PHOTO\"")
-	private Blob photo;
+	private byte[] photo;
 
 	@Column(name = "\"DOMAIN_ID\"")
 	private String domain_id;
@@ -634,11 +634,11 @@ public class UserProfile implements UserDetails {
 	}
 
 	@JsonIgnore
-	public Blob getPhoto() {
+	public byte[] getPhoto() {
 		return photo;
 	}
 
-	public void setPhoto(Blob photo) {
+	public void setPhoto(byte[] photo) {
 		this.photo = photo;
 	}
 
@@ -890,6 +890,7 @@ public class UserProfile implements UserDetails {
 		this.domain_id = userProfile.getDomain_id();
 		this.new_user_flg = userProfile.getNew_user_flg();
 		this.remark = userProfile.getRemark();
+		this.photo = userProfile.getPhoto();
 
 	}
 

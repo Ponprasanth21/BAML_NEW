@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FinUserProfileRep extends CrudRepository<FinUserProfileEntity,String> {
-	@Query(value = "select * from BAML_USER_PROFILE_TABLE_FINACLE ORDER  BY EMP_NAME", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_USER_PROFILE_TABLE_FINACLE\" ORDER BY \"EMP_NAME\"", nativeQuery = true)
 	List<FinUserProfileEntity> getfin_user_details();
 	
 	

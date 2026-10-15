@@ -53,7 +53,8 @@ public class AMLAccessRoleService {
 		
 		Session hs1 = sessionFactory.getCurrentSession();
 
-		BigDecimal Number1 = (BigDecimal) hs1.createNativeQuery("SELECT aml_audit_seq.NEXTVAL AS SRL_NO FROM DUAL")
+		BigDecimal Number1 = (BigDecimal) hs1
+				.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
 				.getSingleResult();
 
 		/* try { */

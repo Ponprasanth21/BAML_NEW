@@ -320,7 +320,7 @@
 			finalVar.push("Report");
 		}
 
-		var formmode = a.getAttribute("data-formmode");
+		var formmode = (a && a.getAttribute) ? a.getAttribute("data-formmode") : $("#btnSubmit").attr("data-formmode") || new URLSearchParams(window.location.search).get('formmode') || "add";
 
 		//comma separated
 		var finalString = finalVar.join(',');
@@ -346,8 +346,12 @@
 		 } */
 
 		var options = {
-			success : showResponse
-		// post-submit callback 
+			success : showResponse,
+			error : function(xhr, status, error) {
+				var errText = xhr.responseText || "Operation failed. Please try again.";
+				$("#alertmsg").text(errText);
+				$('#alert').modal("show");
+			}
 		};
 
 		$("#AMLAccessRole").ajaxSubmit(options);
@@ -356,7 +360,7 @@
 
 			$("#alertmsg").text(responseText);
 
-			$('#alert').modal("toggle");
+			$('#alert').modal("show");
 
 		}
 		;
@@ -395,9 +399,7 @@
 <title>AML</title>
 <body>
 	<div th:insert="AStartheader :: header"
-		th:if="${formmode}=='list' OR ${formmode}=='view' "></div>
-	<div th:insert="TESTHEADER :: header"
-		th:if="${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='verify'"></div>
+				th:if="${formmode}=='list' OR ${formmode}=='view'OR ${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='verify'"></div>
 	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
 		aria-hidden="true" onclick="docEmb('AccessAndRoles')" id="ques"></i>
 	<div class="content-page">
@@ -859,17 +861,19 @@
 							</div>
 							<div class="card-footer text-center"
 								style="height: 38px; margin-top: -59px;">
+								<button type="button" class="btn btn-xs btn-primary"
+									id="btnHome" style="margin-top: -12px; margin-right: 10px;" onclick="home();">Home</button>
 								<button th:if="${formmode}=='edit' OR ${formmode}=='add'"
 									type="button" class="btn btn-xs btn-primary"
 									form="AMLAccessRole" th:attr="data-formmode=${formmode}"
-									id="btnSubmit" style="margin-top: -12px;"
+									id="btnSubmit" style="margin-top: -12px; margin-right: 10px;"
 									onclick="submitform(this);">Submit</button>
 								<button th:if="${formmode}=='verify'" type="button"
 									class="btn btn-xs btn-primary" form="AMLAccessRole"
 									th:attr="data-formmode=${formmode}" id="btnSubmit"
-									style="margin-top: -12px;" onclick="submitform(this);">Submit</button>
+									style="margin-top: -12px; margin-right: 10px;" onclick="submitform(this);">Submit</button>
 								<button type="button" class="btn btn-xs btn-primary"
-									id="btnpassrst" style="margin-top: -12px;" onclick="back();">Back</button>
+									id="btnBack" style="margin-top: -12px;" onclick="back();">Back</button>
 
 							</div>
 						</div>
@@ -883,14 +887,25 @@
 	</div>
 
 
-	<div class="modal fade" id="alert">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-			<div class="modal-content">
-				<div class="modal-body" style="text-align: center">
-					<p id="alertmsg"></p>
-					<button type="button" class="btn btn-primary" data-dismiss="modal"
-						onclick="list();">Close</button>
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+			<div class="modal-content" style="border: 2px solid #386276; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+				<div class="modal-header" style="background-color: #386276; color: white; padding: 10px 15px;">
+					<h5 class="modal-title" style="margin-bottom: 0; font-size: 1.1rem; font-weight: 500;">
+						<i class="fas fa-info-circle mr-2"></i>Access and Role
+					</h5>
+					<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="color: white; opacity: 1;" onclick="list();">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" style="text-align: center; padding: 25px 20px; font-size: 16px; background-color: #f8f9fa;">
+					<p id="alertmsg" style="margin-bottom: 0; font-weight: 600; color: #386276;"></p>
+				</div>
+				<div class="modal-footer" style="justify-content: center; background-color: #f8f9fa; border-top: 1px solid #dee2e6; padding: 10px 15px;">
+					<button type="button" class="btn btn-primary"
+						style="background-color: #386276; border-color: #386276; min-width: 90px; height: 32px; padding: 2px 16px; font-weight: 500;"
+						data-dismiss="modal" onclick="list();">Close</button>
 				</div>
 			</div>
 		</div>
@@ -902,7 +917,7 @@
 			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-body"
-					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					style="margin-top: 8px; text-align: center; color: #212529; font-weight: 500;">
 					<button type="button" class="close" data-dismiss="modal">×</button>
 					Are you Sure want to delete?
 				</div>
@@ -919,7 +934,7 @@
 			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-body"
-					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					style="margin-top: 8px; text-align: center; color: #212529; font-weight: 500;">
 					<button type="button" class="close" data-dismiss="modal">×</button>
 					<a th:value="${msg}"></a>
 				</div>

@@ -24,7 +24,7 @@ public interface AML_AUDIT_LOCAL_REP extends JpaRepository<AML_AUDIT_LOCAL, Stri
 	Page<BAML_AUDIT_ENTITY> getCustAuditlist(String cust_id,String acct_len,Pageable pageable);
 	
 	
-	@Query(value = "select * from BAML_AUDIT_TABLE where event_id=?1 and remarks in ('ADDED','MODIFIED') and audit_table ='BAML_USER_PROFILE_TABLE' ", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_AUDIT_TABLE\" WHERE \"EVENT_ID\" = ?1 AND \"REMARKS\" IN ('ADDED', 'MODIFIED') AND \"AUDIT_TABLE\" = 'BAML_USER_PROFILE_TABLE'", nativeQuery = true)
 	AML_AUDIT_LOCAL getAuditVerifyUser(String userid);
 	
 	
@@ -43,7 +43,7 @@ public interface AML_AUDIT_LOCAL_REP extends JpaRepository<AML_AUDIT_LOCAL, Stri
 	
 	
 	
-	@Query(value = "select * from BAML_AUDIT_TABLE where event_id=?1 and remarks in ('ADDED','MODIFIED') and audit_table ='BAML_ACCESS_ROLE_TABLE' ", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_AUDIT_TABLE\" WHERE \"EVENT_ID\" = ?1 AND \"REMARKS\" IN ('ADDED', 'MODIFIED') AND \"AUDIT_TABLE\" = 'BAML_ACCESS_ROLE_TABLE'", nativeQuery = true)
 	AML_AUDIT_LOCAL getAuditVerifyUseraccess(String userid);
 	
 	@Query(value = "select * from BAML_AUDIT_TABLE where trunc(audit_date) between ?1 and ?2  AND audit_table  in ('USER PROFILE MAINTENANCE','BAML_USER_PROFILE_TABLE') and modi_details is not null order by audit_date", nativeQuery = true)

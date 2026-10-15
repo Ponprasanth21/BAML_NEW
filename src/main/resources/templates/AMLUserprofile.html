@@ -372,9 +372,13 @@ PURPOSE		:
 	function roledesc() {
 
 		var roleid = $("#roleId").find(':selected').val();
+		if (!roleid) {
+			$("#roleDesc").val('');
+			$("#permissions").val('');
+			$("#workclass").val('');
+			return;
+		}
 
-	
-		
 		$.ajax({
 			type : 'get',
 			url : "./AML/getRoleDetails/" + roleid,
@@ -439,20 +443,20 @@ PURPOSE		:
 						{
 							rules : {
 								disableDate : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+									required : false,
+									regex : "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-[0-9]{4}$"
 								},
 								disableTilDate : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+									required : false,
+									regex : "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-[0-9]{4}$"
 								},
 								passExDate : {
 									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+									regex : "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-[0-9]{4}$"
 								},
 								expiryDate : {
 									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+									regex : "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-[0-9]{4}$"
 								},
 
 							},
@@ -465,6 +469,9 @@ PURPOSE		:
 		if ($("#userProfile").valid()) {
 
 			var formmode = /*[[${formmode}]]*/null;
+			if (!formmode) {
+				formmode = $("#btnSubmit").attr("data-formmode") || new URLSearchParams(window.location.search).get('formmode') || "add";
+			}
 			var user = $("#userId").val();
 
 			var url = "./createUser?formmode=" + formmode + "&user=" + user;
@@ -472,8 +479,12 @@ PURPOSE		:
 			$("#userProfile").attr('action', url);
 
 			var options = {
-				success : showResponse
-			// post-submit callback 
+				success : showResponse,
+				error : function(xhr, status, error) {
+					var errText = xhr.responseText || "Operation failed. Please try again.";
+					$("#alertmsg").text(errText);
+					$('#alert').modal("show");
+				}
 			};
 
 			$("#userProfile").ajaxSubmit(options);
@@ -482,11 +493,14 @@ PURPOSE		:
 
 				$("#alertmsg").text(responseText);
 
-				$('#alert').modal("toggle");
+				$('#alert').modal("show");
 
 			}
 			;
 
+		} else {
+			$("#alertmsg").text("Please fill all required fields correctly.");
+			$('#alert').modal("show");
 		}
 
 	};
@@ -511,20 +525,20 @@ PURPOSE		:
 						{
 							rules : {
 								disableDate : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+									required : false,
+									regex : "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-[0-9]{4}$"
 								},
 								disableTilDate : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+									required : false,
+									regex : "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-[0-9]{4}$"
 								},
 								passExDate : {
 									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+									regex : "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-[0-9]{4}$"
 								},
 								expiryDate : {
 									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
+									regex : "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-[0-9]{4}$"
 								},
 
 							},
@@ -537,14 +551,21 @@ PURPOSE		:
 		if ($("#userProfile").valid()) {
 
 			var formmode = /*[[${formmode}]]*/null;
+			if (!formmode) {
+				formmode = $("#btnSubmit").attr("data-formmode") || "delete";
+			}
 
 			var url = "./DeleteUser?formmode=" + formmode;
 
 			$("#userProfile").attr('action', url);
 
 			var options = {
-				success : showResponse
-			// post-submit callback 
+				success : showResponse,
+				error : function(xhr, status, error) {
+					var errText = xhr.responseText || "Deletion failed. Please try again.";
+					$("#alertmsg").text(errText);
+					$('#alert').modal("show");
+				}
 			};
 
 			$("#userProfile").ajaxSubmit(options);
@@ -553,7 +574,7 @@ PURPOSE		:
 
 				$("#alertmsg").text(responseText);
 
-				$('#alert').modal("toggle");
+				$('#alert').modal("show");
 
 			}
 			;
@@ -676,8 +697,6 @@ function searchuserid() {
 									            <th style="width: 7%;">Select</th>
 									        </tr>
 									    </thead>
-						
-									</thead>
 									<tbody>
 										<tr th:each="userProfile : ${userProfiles}" class="userlist">
 											<!-- <td><a href="#" data-toggle="tooltip" class="editrec"
@@ -819,6 +838,7 @@ function searchuserid() {
 										</div>
 										<div class="btn-group nav-buttons float-right">
 											<button type="button"
+												th:if="${formmode}!='add' AND ${formmode}!='edit' AND ${formmode}!='view' AND ${formmode}!='viewnew'"
 												style="border-radius: .22rem; padding: 2px 10px; top: -5px; height: 25px;"
 												class="btn btn-xs btn-primary btns active" id="btnAdd"
 												onclick="adduser();">Create User</button>
@@ -1031,7 +1051,6 @@ function searchuserid() {
 													<input type="text" th:field="*{disable_start_date}"
 														th:value="${disable_start_date}" id="disableDate" value=""
 														class="form-control form-control-sm" autocomplete="off"
-														required
 														th:readonly=" ${formmode}=='verify' OR ${formmode}=='edit' OR ${formmode}=='cancel'OR ${formmode}=='view'OR ${formmode}=='viewnew'OR ${formmode}=='add'" />
 												</div>
 												<div class="col-sm-1"></div>
@@ -1042,7 +1061,7 @@ function searchuserid() {
 													<input type="text" th:field="*{disable_end_date}"
 														th:value="${disable_end_date}" name="disable_end_date"
 														id="disableTilDate" value=""
-														class="form-control form-control-sm" required
+														class="form-control form-control-sm"
 														th:readonly="${userProfile.entity_flg=='N'}  OR ${formmode}=='edit' OR ${formmode}=='view' OR ${formmode}=='viewnew'OR ${formmode}=='add'" />
 												</div>
 												<div class="col-sm-1"></div>
@@ -1179,8 +1198,8 @@ function searchuserid() {
 													<select th:field="*{role_id}" th:value="${role_id}"
 														id="roleId" class="form-control form-control-sm"
 														onchange="roledesc();" autocomplete="off" required>
-														<option value="ADMIN">ADMIN</option>
 														<option value="">SELECT</option>
+														<option value="ADMIN">ADMIN</option>
 														<option id="role_id"
 															th:each="monitoringparam : ${RuleIDType}"
 															th:value="${monitoringparam}"
@@ -1247,16 +1266,19 @@ function searchuserid() {
 										     style="background-color: #386276;
 										            padding: 6px;">
 
+											<button type="button" class="btn btn-xs btn-primary"
+												id="btnHome" style="margin-top: -12px; margin-right: 10px;" onclick="home();">Home</button>
+
 											<button
 												th:if=" ${formmode}=='verify' AND ${userProfile.entity_flg}=='N'"
 												type="button" class="btn btn-xs btn-primary"
-												style="margin-top: -12px;"
+												style="margin-top: -12px; margin-right: 10px;"
 												th:attr="data-userid=${userProfile.userid},data-entry_user=${userProfile.entry_user},data-modify_user=${userProfile.modify_user}"
 												onclick="verify(this);" id="btnModify">Verify</button>
 											<button
 												th:if=" ${formmode}=='cancel' AND ${userProfile.entity_flg}=='N'"
 												type="button" class="btn btn-xs btn-primary"
-												style="margin-top: -12px;"
+												style="margin-top: -12px; margin-right: 10px;"
 												th:attr="data-userid=${userProfile.userid},data-entry_user=${userProfile.entry_user},data-modify_user=${userProfile.modify_user}"
 												onclick="cancel(this);" id="btnModify">Submit</button>
 											<!-- <button
@@ -1267,23 +1289,20 @@ function searchuserid() {
 												<button
 													th:if="${formmode}=='delete'"
 													type="button" class="btn btn-xs btn-primary"
-													style="margin-top: -12px;" form="userProfile"
+													style="margin-top: -12px; margin-right: 10px;" form="userProfile"
 													id="btnSubmit" onclick="Deleteform();"
 													th:attr="data-formmode=${formmode},data-entity=${entity_flg}">Submit</button>
 													
-													<button
+												<button
 													th:if="${formmode}=='edit' OR ${formmode}=='add'"
 													type="button" class="btn btn-xs btn-primary"
-													style="margin-top: -12px;" form="userProfile"
+													style="margin-top: -12px; margin-right: 10px;" form="userProfile"
 													id="btnSubmit" onclick="submitform();"
 													th:attr="data-formmode=${formmode},data-entity=${entity_flg}">Submit</button>
 											</span>
 
 											<button type="button" class="btn btn-xs btn-primary"
-												id="btnHome" style="margin-top: -12px;" onclick="home();">Home</button>
-											<button type="button" class="btn btn-xs btn-primary"
-												id="btnBack" style="margin-top: -12px;" onclick="back1();">Back</button>
-
+												id="btnBack" style="margin-top: -12px;" onclick="back();">Back</button>
 
 										</div>
 
@@ -1371,7 +1390,7 @@ function searchuserid() {
 			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-body"
-					style="margin-top: 8px; text-align: center; color: aliceblue;">
+					style="margin-top: 8px; text-align: center; color: #212529; font-weight: 500;">
 					<button type="button" class="close" data-dismiss="modal">×</button>
 					Are you Sure want to Cancel the last changes?
 				</div>
@@ -1388,7 +1407,7 @@ function searchuserid() {
 						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 						<div class="modal-content">
 							<div class="modal-body"
-								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								style="margin-top: 8px; text-align: center; color: #212529; font-weight: 500;">
 								<button type="button" class="close" data-dismiss="modal">×</button>
 								Are you Sure want to Leave?
 							</div>
@@ -1433,25 +1452,12 @@ function searchuserid() {
 					</div>
 				</div>
 				<!------------------------Pop window - Domain  list Ends--------------------------------->
-				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
-				<div class="modal fade" id="alert">
-					<div
-						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-						<div class="modal-content">
-							<div class="modal-body" style="text-align: center">
-								<p id="alertmsg" style="font-size: 16px;"></p>
-								<button type="button" class="btn btn-primary"
-									data-dismiss="modal" onclick="list();">Close</button>
-							</div>
-						</div>
-					</div>
-				</div>
 	<div class="modal fade" id="UserIdSearch">
 					<div
 						class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 						<div class="modal-content" style="width: 60%;">
 							<div class="modal-body"
-								style="margin-top: 8px; text-align: center; color: aliceblue;">
+								style="margin-top: 8px; text-align: center; color: #212529;">
 								<input type="text" placeholder="Enter User ID" id="userid" onblur="searchuserid()"><i
 									class="fas fa-search searchico" style="float: right;" 
 									aria-hidden="true" onclick="searchuserid()"></i>
@@ -1460,7 +1466,30 @@ function searchuserid() {
 						</div>
 					</div>
 				</div>
-				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+			</div>
+		</div>
+	</div>
+
+	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
+	<div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+			<div class="modal-content" style="border: 2px solid #386276; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+				<div class="modal-header" style="background-color: #386276; color: white; padding: 10px 15px;">
+					<h5 class="modal-title" style="margin-bottom: 0; font-size: 1.1rem; font-weight: 500;">
+						<i class="fas fa-info-circle mr-2"></i>User Profile
+					</h5>
+					<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="color: white; opacity: 1;" onclick="list();">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" style="text-align: center; padding: 25px 20px; font-size: 16px; background-color: #f8f9fa;">
+					<p id="alertmsg" style="margin-bottom: 0; font-weight: 600; color: #386276;"></p>
+				</div>
+				<div class="modal-footer" style="justify-content: center; background-color: #f8f9fa; border-top: 1px solid #dee2e6; padding: 10px 15px;">
+					<button type="button" class="btn btn-primary"
+						style="background-color: #386276; border-color: #386276; min-width: 90px; height: 32px; padding: 2px 16px; font-weight: 500;"
+						data-dismiss="modal" onclick="list();">Close</button>
+				</div>
 			</div>
 		</div>
 	</div>

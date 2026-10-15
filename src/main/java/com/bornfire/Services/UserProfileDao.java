@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.sql.DataSource;
@@ -116,13 +117,13 @@ public class UserProfileDao {
 		if (up.isPresent()) {
 			userProfile.setPassword(up.get().getPassword());
 
-			if (userProfile.getLogin_status().equals("Active")) {
+			if ("Active".equals(userProfile.getLogin_status())) {
 				userProfile.setUser_locked_flg("N");
 			} else {
 				userProfile.setUser_locked_flg("Y");
 			}
 
-			if (userProfile.getUser_status().equals("Active")) {
+			if ("Active".equals(userProfile.getUser_status())) {
 				userProfile.setDisable_flg("N");
 			} else {
 				userProfile.setDisable_flg("Y");
@@ -154,89 +155,105 @@ public class UserProfileDao {
 		
 		if(count.equals("1")) {
 			UserProfile up1 = up.get();
-			DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-			String acctexpold = dateFormat.format(up1.getAcc_exp_date());
-			String acctexpnew = dateFormat.format(USERMOD.getAcc_exp_date());
-			String disableSold = dateFormat.format(up1.getDisable_start_date());
-			String disableSnew = dateFormat.format(USERMOD.getDisable_start_date());
-			String disableEold = dateFormat.format(up1.getDisable_end_date());
-			String disableEnew = dateFormat.format(USERMOD.getDisable_end_date());
-			String passOLD = dateFormat.format(up1.getPass_exp_date());
-			String passNEW = dateFormat.format(USERMOD.getPass_exp_date());
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			String acctexpold = up1.getAcc_exp_date() != null ? dateFormat.format(up1.getAcc_exp_date()) : "";
+			String acctexpnew = USERMOD.getAcc_exp_date() != null ? dateFormat.format(USERMOD.getAcc_exp_date()) : "";
+			String disableSold = up1.getDisable_start_date() != null ? dateFormat.format(up1.getDisable_start_date()) : "";
+			String disableSnew = USERMOD.getDisable_start_date() != null ? dateFormat.format(USERMOD.getDisable_start_date()) : "";
+			String disableEold = up1.getDisable_end_date() != null ? dateFormat.format(up1.getDisable_end_date()) : "";
+			String disableEnew = USERMOD.getDisable_end_date() != null ? dateFormat.format(USERMOD.getDisable_end_date()) : "";
+			String passOLD = up1.getPass_exp_date() != null ? dateFormat.format(up1.getPass_exp_date()) : "";
+			String passNEW = USERMOD.getPass_exp_date() != null ? dateFormat.format(USERMOD.getPass_exp_date()) : "";
 
-			if((up1.getEmail_id().equals(USERMOD.getEmail_id())) && (up1.getMob_number().equals(USERMOD.getMob_number()))
-					&& (up1.getLogin_low().equals(USERMOD.getLogin_low())) && (up1.getLogin_high().equals(USERMOD.getLogin_high()))
-					&& (acctexpold.equals(acctexpnew))
-					&& (disableSold.equals(disableSnew))
-					&& (disableEold.equals(disableEnew))
-					&& (passOLD.equals(passNEW))
-					&& (up1.getUser_status().equals(USERMOD.getUser_status())) && (up1.getLogin_status().equals(USERMOD.getLogin_status()))
-					&& (up1.getRemark().equals(USERMOD.getRemark())) && (up1.getRole_id().equals(USERMOD.getRole_id()))) {
+			if (Objects.equals(up1.getEmail_id(), USERMOD.getEmail_id())
+					&& Objects.equals(up1.getMob_number(), USERMOD.getMob_number())
+					&& Objects.equals(up1.getLogin_low(), USERMOD.getLogin_low())
+					&& Objects.equals(up1.getLogin_high(), USERMOD.getLogin_high())
+					&& acctexpold.equals(acctexpnew)
+					&& disableSold.equals(disableSnew)
+					&& disableEold.equals(disableEnew)
+					&& passOLD.equals(passNEW)
+					&& Objects.equals(up1.getUser_status(), USERMOD.getUser_status())
+					&& Objects.equals(up1.getLogin_status(), USERMOD.getLogin_status())
+					&& Objects.equals(up1.getRemark(), USERMOD.getRemark())
+					&& Objects.equals(up1.getRole_id(), USERMOD.getRole_id())) {
 				
-			}else {
-		if (up.isPresent()) {
-			userProfile.setPassword(up.get().getPassword());
-
-			if (userProfile.getLogin_status().equals("Active")) {
-				userProfile.setUser_locked_flg("N");
 			} else {
-				userProfile.setUser_locked_flg("Y");
-			}
+				if (up.isPresent()) {
+					userProfile.setPassword(up.get().getPassword());
 
-			if (userProfile.getUser_status().equals("Active")) {
-				userProfile.setDisable_flg("N");
-			} else {
-				userProfile.setDisable_flg("Y");
-			}
-			
-			UserProfile user = up.get();
-			System.out.println("+++++++++++++++++++++++" +user);
+					if ("Active".equals(userProfile.getLogin_status())) {
+						userProfile.setUser_locked_flg("N");
+					} else {
+						userProfile.setUser_locked_flg("Y");
+					}
 
-			user.setNo_of_attmp(0);
-			user.setEntity_flg("N");
-			user.setModify_user(inputUser);
-			user.setModify_time(new Date());
-			user.setLogin_flg("Y");
-			
+					if ("Active".equals(userProfile.getUser_status())) {
+						userProfile.setDisable_flg("N");
+					} else {
+						userProfile.setDisable_flg("Y");
+					}
+					
+					UserProfile user = up.get();
+					System.out.println("+++++++++++++++++++++++" +user);
 
-			Session session = sessionFactory.getCurrentSession();
-			session.saveOrUpdate(user);
-			
-			String modi = "";
+					user.setNo_of_attmp(0);
+					user.setEntity_flg("N");
+					user.setModify_user(inputUser);
+					user.setModify_time(new Date());
+					user.setLogin_flg("Y");
+					
 
-			BigDecimal Number = (BigDecimal) session.createNativeQuery("SELECT aml_audit_seq.NEXTVAL AS SRL_NO FROM DUAL")
-					.getSingleResult();
-			BigDecimal EMAIL = (BigDecimal) session.createNativeQuery("SELECT EMAILSEQUENCE.NEXTVAL AS SRL_NO FROM DUAL")
-					.getSingleResult();
+					Session session = sessionFactory.getCurrentSession();
+					session.saveOrUpdate(user);
+					
+					String modi = "";
 
-			AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
-			
-			if (!up1.getEmail_id().equals(USERMOD.getEmail_id())) {
-				modi = modi + ("EMAIL ID  + " + up1.getEmail_id() + '+' + USERMOD.getEmail_id() + '+');
-				
-			} else if (!up1.getMob_number().equals(USERMOD.getMob_number())) {
-				modi = modi + ("MOBILE NUMBER  + " + up1.getMob_number() + '+' + USERMOD.getMob_number() + '+');	
-			}else if (!up1.getLogin_low().equals(USERMOD.getLogin_low())) {
-				modi = modi + ("LOGIN_LOW  + " + up1.getLogin_low() + '+' + USERMOD.getLogin_low() + '+');	
-			}else if (!up1.getLogin_high().equals(USERMOD.getLogin_high())) {
-				modi = modi + ("LOGIN_HIGH  + " + up1.getLogin_high() + '+' + USERMOD.getLogin_high() + '+');	
-			}else if (up1.getRemark() != null && USERMOD.getRemark() !=null && !up1.getRemark().equals(USERMOD.getRemark())) {
-				modi = modi + ("REMARKS  + " + up1.getRemark() + '+' + USERMOD.getRemark() + '+');	
-			}else if (!up1.getRole_id().equals(USERMOD.getRole_id())) {
-				modi = modi + ("ROLE_ID  + " + up1.getRole_id() + '+' + USERMOD.getRole_id() + '+');	
-			}else if (!up1.getUser_status().equals(USERMOD.getUser_status())) {
-				modi = modi + ("USER_STATUS  + " + up1.getUser_status() + '+' + USERMOD.getUser_status() + '+');	
-			}else if (!up1.getLogin_status().equals(USERMOD.getLogin_status())) {
-				modi = modi + ("USER_STATUS  + " + up1.getLogin_status() + '+' + USERMOD.getLogin_status() + '+');	
-			}else if(!acctexpold.equals(acctexpnew)) {
-				modi = modi + ("ACCT_EXP_DATE  + " + acctexpold + '+' + acctexpnew + '+');	
-			}else if(!passOLD.equals(passNEW)) {
-				modi = modi + ("PASSWORD_EXP_DATE  + " + passOLD + '+' + passNEW + '+');	
-			}else if(!disableSold.equals(disableSnew)) {
-				modi = modi + ("DISABLE_START_DATE  + " + disableSold + '+' + disableSnew + '+');	
-			}else if(!disableEold.equals(disableEnew)) {
-				modi = modi + ("USER_STATUS  + " + disableEold + '+' + disableEnew + '+');	
-			}
+					BigDecimal Number = (BigDecimal) session
+							.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
+							.getSingleResult();
+					BigDecimal EMAIL = (BigDecimal) session
+							.createNativeQuery("SELECT CAST(nextval('\"AML\".\"EMAILSEQUENCE\"') AS NUMERIC)")
+							.getSingleResult();
+
+					AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
+					
+					if (!Objects.equals(up1.getEmail_id(), USERMOD.getEmail_id())) {
+						modi = modi + ("EMAIL ID  + " + up1.getEmail_id() + '+' + USERMOD.getEmail_id() + '+');
+					}
+					if (!Objects.equals(up1.getMob_number(), USERMOD.getMob_number())) {
+						modi = modi + ("MOBILE NUMBER  + " + up1.getMob_number() + '+' + USERMOD.getMob_number() + '+');	
+					}
+					if (!Objects.equals(up1.getLogin_low(), USERMOD.getLogin_low())) {
+						modi = modi + ("LOGIN_LOW  + " + up1.getLogin_low() + '+' + USERMOD.getLogin_low() + '+');	
+					}
+					if (!Objects.equals(up1.getLogin_high(), USERMOD.getLogin_high())) {
+						modi = modi + ("LOGIN_HIGH  + " + up1.getLogin_high() + '+' + USERMOD.getLogin_high() + '+');	
+					}
+					if (!Objects.equals(up1.getRemark(), USERMOD.getRemark())) {
+						modi = modi + ("REMARKS  + " + up1.getRemark() + '+' + USERMOD.getRemark() + '+');	
+					}
+					if (!Objects.equals(up1.getRole_id(), USERMOD.getRole_id())) {
+						modi = modi + ("ROLE_ID  + " + up1.getRole_id() + '+' + USERMOD.getRole_id() + '+');	
+					}
+					if (!Objects.equals(up1.getUser_status(), USERMOD.getUser_status())) {
+						modi = modi + ("USER_STATUS  + " + up1.getUser_status() + '+' + USERMOD.getUser_status() + '+');	
+					}
+					if (!Objects.equals(up1.getLogin_status(), USERMOD.getLogin_status())) {
+						modi = modi + ("LOGIN_STATUS  + " + up1.getLogin_status() + '+' + USERMOD.getLogin_status() + '+');	
+					}
+					if (!acctexpold.equals(acctexpnew)) {
+						modi = modi + ("ACCT_EXP_DATE  + " + acctexpold + '+' + acctexpnew + '+');	
+					}
+					if (!passOLD.equals(passNEW)) {
+						modi = modi + ("PASSWORD_EXP_DATE  + " + passOLD + '+' + passNEW + '+');	
+					}
+					if (!disableSold.equals(disableSnew)) {
+						modi = modi + ("DISABLE_START_DATE  + " + disableSold + '+' + disableSnew + '+');	
+					}
+					if (!disableEold.equals(disableEnew)) {
+						modi = modi + ("DISABLE_END_DATE  + " + disableEold + '+' + disableEnew + '+');	
+					}
 			System.out.println("number"+Number);
 			audit.setAudit_ref_no(Number.toString());
 
@@ -282,13 +299,13 @@ public class UserProfileDao {
 				try {
 					String encryptedPassword = PasswordEncryption.getEncryptedPassword(this.password);
 
-					if (up.getLogin_status().equals("Active")) {
+					if ("Active".equals(up.getLogin_status())) {
 						up.setUser_locked_flg("N");
 					} else {
 						up.setUser_locked_flg("Y");
 					}
 
-					if (up.getUser_status().equals("Active")) {
+					if ("Active".equals(up.getUser_status())) {
 						up.setDisable_flg("N");
 					} else {
 						up.setDisable_flg("Y");
@@ -321,13 +338,13 @@ public class UserProfileDao {
 
 					userProfile.setPassword(up.get().getPassword());
 
-					if (userProfile.getLogin_status().equals("Active")) {
+					if ("Active".equals(userProfile.getLogin_status())) {
 						userProfile.setUser_locked_flg("N");
 					} else {
 						userProfile.setUser_locked_flg("Y");
 					}
 
-					if (userProfile.getUser_status().equals("Active")) {
+					if ("Active".equals(userProfile.getUser_status())) {
 						userProfile.setDisable_flg("N");
 					} else {
 						userProfile.setDisable_flg("Y");
@@ -357,7 +374,7 @@ public class UserProfileDao {
 		Query q1;
 		Session hs = sessionFactory.getCurrentSession();
 		q1 = hs.createNativeQuery(
-				"select * from BAML_USER_PROFILE_TABLE union all SELECT * FROM Baml_user_profile_mod_table ");
+				"SELECT * FROM \"AML\".\"BAML_USER_PROFILE_TABLE\" UNION ALL SELECT * FROM \"AML\".\"BAML_USER_PROFILE_MOD_TABLE\"");
 		List<UserProfile> result1 = q1.getResultList();
 		return result1;
 	}
@@ -570,223 +587,154 @@ public List<Object> getUsersListsearch( String Userid) {
 		
 		List<Object> userProfileList = new ArrayList<Object>();
 		
-		q1 = hs.createNativeQuery("select * from BAML_USER_PROFILE_TABLE where entity_flg ='Y' and del_flg ='N' order by USER_ID");
-		
-		q2 = hs.createNativeQuery("select * from BAML_USER_PROFILE_MOD_TABLE WHERE entity_flg ='N'  ");
-		
+		q1 = hs.createNativeQuery(
+				"SELECT * FROM \"AML\".\"BAML_USER_PROFILE_TABLE\" WHERE \"ENTITY_FLG\" = 'Y' AND \"DEL_FLG\" = 'N' ORDER BY \"USER_ID\"");
+
+		q2 = hs.createNativeQuery(
+				"SELECT * FROM \"AML\".\"BAML_USER_PROFILE_MOD_TABLE\" WHERE \"ENTITY_FLG\" = 'N'");
+
 		List<Object[]> result1 = q1.getResultList();
 		List<Object[]> result2 = q2.getResultList();
-		
+
 		for (Object[] a : result1) {
-			String bank_code = (String) a[0];
-			String bank_name = (String) a[1];
-			String branch_code = (String) a[2];
-			String branch_name = (String) a[3];
-			String emp_id = (String) a[4];
-			String emp_name = (String) a[5];
-			String user_id = (String) a[6];
-			String user_name = (String) a[7];
-			String inactive_time = (String) a[8];
+			String bank_code = getStringValue(a[0]);
+			String bank_name = getStringValue(a[1]);
+			String branch_code = getStringValue(a[2]);
+			String branch_name = getStringValue(a[3]);
+			String emp_id = getStringValue(a[4]);
+			String emp_name = getStringValue(a[5]);
+			String user_id = getStringValue(a[6]);
+			String user_name = getStringValue(a[7]);
+			String inactive_time = getStringValue(a[8]);
 			Date acc_exp_date = (Date) a[9];
-			String login_low = (String) a[10];
-			String login_high = (String) a[11];
+			String login_low = getStringValue(a[10]);
+			String login_high = getStringValue(a[11]);
 			Date disable_start_date = (Date) a[12];
 			Date disable_end_date = (Date) a[13];
-			String password = (String) a[14];
+			String password = getStringValue(a[14]);
 			Date pass_exp_date = (Date) a[15];
-			String user_status = (String) a[16];
-			String login_status = (String) a[17];
-			
-			
-			Character virtual_flg = (Character) a[18];
-			String virtualFlg = String.valueOf(virtual_flg);
-			
-			
-			
-			String work_class = (String) a[19];
-			BigDecimal mob_number = (BigDecimal) a[20];
-			String mobNum =mob_number.toString();
-			
-			
-			String email_id = (String) a[21];
-			String role_id = (String) a[22];
-			String role_desc = (String) a[23];
-			String permissions = (String) a[24];
-			String per_effctive_date = (String) a[25];
-			String admin = (String) a[26];
-			String xbrl_configuration = (String) a[27];
-			String xbrl_report = (String) a[28];
-			String scheduler = (String) a[29];
-			String execution = (String) a[30];
-			String mis_reports = (String) a[31];
-			String xml_reports = (String) a[32];
-			String archivel = (String) a[33];
-			String general_inq = (String) a[34];
-			String audit_inq = (String) a[35];
-			String channel = (String) a[36];
-			String entry_user = (String) a[37];
+			String user_status = getStringValue(a[16]);
+			String login_status = getStringValue(a[17]);
+			String virtualFlg = getStringValue(a[18]);
+			String work_class = getStringValue(a[19]);
+			String mobNum = getStringValue(a[20]);
+			String email_id = getStringValue(a[21]);
+			String role_id = getStringValue(a[22]);
+			String role_desc = getStringValue(a[23]);
+			String permissions = getStringValue(a[24]);
+			String per_effctive_date = getStringValue(a[25]);
+			String admin = getStringValue(a[26]);
+			String xbrl_configuration = getStringValue(a[27]);
+			String xbrl_report = getStringValue(a[28]);
+			String scheduler = getStringValue(a[29]);
+			String execution = getStringValue(a[30]);
+			String mis_reports = getStringValue(a[31]);
+			String xml_reports = getStringValue(a[32]);
+			String archivel = getStringValue(a[33]);
+			String general_inq = getStringValue(a[34]);
+			String audit_inq = getStringValue(a[35]);
+			String channel = getStringValue(a[36]);
+			String entry_user = getStringValue(a[37]);
 			Date entry_time = (Date) a[38];
-			String auth_user = (String) a[39];
+			String auth_user = getStringValue(a[39]);
 			Date auth_time = (Date) a[40];
-			String modify_user = (String) a[41];
+			String modify_user = getStringValue(a[41]);
 			Date modify_time = (Date) a[42];
-			Character entity_flg = (Character) a[43];
-			String entityFlag = String.valueOf(entity_flg);
-			
-			String auth_flg = (String) a[44];
-			Character modify_flg = (Character) a[45];
-			String modifyFlg = String.valueOf(modify_flg);
-			
-			
-			Character del_flg = (Character) a[46];
-			String delFlg = String.valueOf(del_flg);
-			
-			
-			String session_id = (String) a[47];
-			
-			
-			Character login_flg = (Character) a[48];
-			String loginFlag = String.valueOf(login_flg);
-			
-			
-			Character user_locked_flg = (Character) a[49];
-			String userLockedFlag = String.valueOf(user_locked_flg);
-			
-			
-			BigDecimal no_of_attmp = (BigDecimal) a[50];
-			Integer noOfAttmp = no_of_attmp.intValue();
-			
-			
-			Character disable_flg = (Character) a[51];
-			String disableFlag = String.valueOf(disable_flg);
-			
-			
-			String domain_id = (String) a[53];
-			
-			Character new_user_flg = (Character) a[54];
-			String newUserFlag = String.valueOf(new_user_flg);
-			
-			String remark = (String) a[55];
-			
-			UserProfile userProfile = new UserProfile(bank_code, bank_name, branch_code, branch_name, emp_id, emp_name, 
-					user_id, user_name, inactive_time, acc_exp_date, login_low, login_high, disable_start_date, disable_end_date, 
+			String entityFlag = getStringValue(a[43]);
+			String auth_flg = getStringValue(a[44]);
+			String modifyFlg = getStringValue(a[45]);
+			String delFlg = getStringValue(a[46]);
+			String session_id = getStringValue(a[47]);
+			String loginFlag = getStringValue(a[48]);
+			String userLockedFlag = getStringValue(a[49]);
+			Integer noOfAttmp = a[50] != null ? ((Number) a[50]).intValue() : null;
+			String disableFlag = getStringValue(a[51]);
+			String domain_id = getStringValue(a[53]);
+			String newUserFlag = getStringValue(a[54]);
+			String remark = getStringValue(a[55]);
+
+			UserProfile userProfile = new UserProfile(bank_code, bank_name, branch_code, branch_name, emp_id, emp_name,
+					user_id, user_name, inactive_time, acc_exp_date, login_low, login_high, disable_start_date, disable_end_date,
 					password, pass_exp_date, user_status, login_status, virtualFlg, work_class, mobNum, email_id, role_id,
 					role_desc, permissions, per_effctive_date, admin, xbrl_configuration, xbrl_report, scheduler, execution,
-					mis_reports, xml_reports, archivel, general_inq, audit_inq, channel, entry_user, entry_time, auth_user, 
-					auth_time, modify_user, modify_time, entityFlag, auth_flg, modifyFlg, delFlg, session_id, loginFlag, 
-					userLockedFlag, noOfAttmp, disableFlag, domain_id, newUserFlag,remark);
-			
-			
+					mis_reports, xml_reports, archivel, general_inq, audit_inq, channel, entry_user, entry_time, auth_user,
+					auth_time, modify_user, modify_time, entityFlag, auth_flg, modifyFlg, delFlg, session_id, loginFlag,
+					userLockedFlag, noOfAttmp, disableFlag, domain_id, newUserFlag, remark);
 
 			userProfileList.add(userProfile);
-			
-			
 		}
-		
-		
+
 		for (Object[] a : result2) {
-			String bank_code = (String) a[0];
-			String bank_name = (String) a[1];
-			String branch_code = (String) a[2];
-			String branch_name = (String) a[3];
-			String emp_id = (String) a[4];
-			String emp_name = (String) a[5];
-			String user_id = (String) a[6];
-			String user_name = (String) a[7];
-			String inactive_time = (String) a[8];
+			String bank_code = getStringValue(a[0]);
+			String bank_name = getStringValue(a[1]);
+			String branch_code = getStringValue(a[2]);
+			String branch_name = getStringValue(a[3]);
+			String emp_id = getStringValue(a[4]);
+			String emp_name = getStringValue(a[5]);
+			String user_id = getStringValue(a[6]);
+			String user_name = getStringValue(a[7]);
+			String inactive_time = getStringValue(a[8]);
 			Date acc_exp_date = (Date) a[9];
-			String login_low = (String) a[10];
-			String login_high = (String) a[11];
+			String login_low = getStringValue(a[10]);
+			String login_high = getStringValue(a[11]);
 			Date disable_start_date = (Date) a[12];
 			Date disable_end_date = (Date) a[13];
-			String password = (String) a[14];
+			String password = getStringValue(a[14]);
 			Date pass_exp_date = (Date) a[15];
-			String user_status = (String) a[16];
-			String login_status = (String) a[17];
-			
-			Character virtual_flg = (Character) a[18];
-			String virtualFlg = String.valueOf(virtual_flg);
-			
-			String work_class = (String) a[19];
-			BigDecimal mob_number = (BigDecimal) a[20];
-			String mobNum =mob_number.toString();
-			
-			
-			String email_id = (String) a[21];
-			String role_id = (String) a[22];
-			String role_desc = (String) a[23];
-			String permissions = (String) a[24];
-			String per_effctive_date = (String) a[25];
-			String admin = (String) a[26];
-			String xbrl_configuration = (String) a[27];
-			String xbrl_report = (String) a[28];
-			String scheduler = (String) a[29];
-			String execution = (String) a[30];
-			String mis_reports = (String) a[31];
-			String xml_reports = (String) a[32];
-			String archivel = (String) a[33];
-			String general_inq = (String) a[34];
-			String audit_inq = (String) a[35];
-			String channel = (String) a[36];
-			String entry_user = (String) a[37];
+			String user_status = getStringValue(a[16]);
+			String login_status = getStringValue(a[17]);
+			String virtualFlg = getStringValue(a[18]);
+			String work_class = getStringValue(a[19]);
+			String mobNum = getStringValue(a[20]);
+			String email_id = getStringValue(a[21]);
+			String role_id = getStringValue(a[22]);
+			String role_desc = getStringValue(a[23]);
+			String permissions = getStringValue(a[24]);
+			String per_effctive_date = getStringValue(a[25]);
+			String admin = getStringValue(a[26]);
+			String xbrl_configuration = getStringValue(a[27]);
+			String xbrl_report = getStringValue(a[28]);
+			String scheduler = getStringValue(a[29]);
+			String execution = getStringValue(a[30]);
+			String mis_reports = getStringValue(a[31]);
+			String xml_reports = getStringValue(a[32]);
+			String archivel = getStringValue(a[33]);
+			String general_inq = getStringValue(a[34]);
+			String audit_inq = getStringValue(a[35]);
+			String channel = getStringValue(a[36]);
+			String entry_user = getStringValue(a[37]);
 			Date entry_time = (Date) a[38];
-			String auth_user = (String) a[39];
+			String auth_user = getStringValue(a[39]);
 			Date auth_time = (Date) a[40];
-			String modify_user = (String) a[41];
+			String modify_user = getStringValue(a[41]);
 			Date modify_time = (Date) a[42];
-			Character entity_flg = (Character) a[43];
-			
-			String entityFlag = String.valueOf(entity_flg);
-			
-			String auth_flg = (String) a[44];
-			Character modify_flg = (Character) a[45];
-			String modifyFlg = String.valueOf(modify_flg);
-			
-			
-			Character del_flg = (Character) a[46];
-			String delFlg = String.valueOf(del_flg);
-			String session_id = (String) a[47];
-			Character login_flg = (Character) a[48];
-			String loginFlag = String.valueOf(login_flg);
-			
-			Character user_locked_flg = (Character) a[49];
-			String userLockedFlag = String.valueOf(user_locked_flg);
-			
-			BigDecimal no_of_attmp = (BigDecimal) a[50];
-			Integer noOfAttmp = no_of_attmp.intValue();
-			
-			
-			
-			Character disable_flg = (Character) a[51];
-			String disableFlag = String.valueOf(disable_flg);
-			
-			String domain_id = (String) a[53];
-			
-			Character new_user_flg = (Character) a[54];
-			String newUserFlag = String.valueOf(new_user_flg);
-			
-			String remark = (String) a[55];
+			String entityFlag = getStringValue(a[43]);
+			String auth_flg = getStringValue(a[44]);
+			String modifyFlg = getStringValue(a[45]);
+			String delFlg = getStringValue(a[46]);
+			String session_id = getStringValue(a[47]);
+			String loginFlag = getStringValue(a[48]);
+			String userLockedFlag = getStringValue(a[49]);
+			Integer noOfAttmp = a[50] != null ? ((Number) a[50]).intValue() : null;
+			String disableFlag = getStringValue(a[51]);
+			String domain_id = getStringValue(a[53]);
+			String newUserFlag = getStringValue(a[54]);
+			String remark = getStringValue(a[55]);
+
 			UserProfileModEn userProfileModEn = new UserProfileModEn(bank_code, bank_name, branch_code, branch_name, emp_id, emp_name,
 					user_id, user_name, inactive_time, acc_exp_date, login_low, login_high, disable_start_date, disable_end_date,
 					password, pass_exp_date, user_status, login_status, virtualFlg, work_class, mobNum, email_id, role_id, 
 					role_desc, permissions, per_effctive_date, admin, xbrl_configuration, xbrl_report, scheduler, execution, 
 					mis_reports, xml_reports, archivel, general_inq, audit_inq, channel, entry_user, entry_time, auth_user, 
 					auth_time, modify_user, modify_time, entityFlag, auth_flg, modifyFlg, delFlg, session_id, loginFlag, 
-					userLockedFlag, noOfAttmp, disableFlag, newUserFlag, domain_id,remark);
-			
-		
-			
+					userLockedFlag, noOfAttmp, disableFlag, newUserFlag, domain_id, remark);
+
 			userProfileList.add(userProfileModEn);
-
-			
 		}
-		
-
 
 		Iterable<UserProfile> users = userProfileRep.findAll();
-		
-		return userProfileList;
 
+		return userProfileList;
 	}
 	public UserProfile getUser(String id) {
 		logger.info(id);
@@ -803,24 +751,23 @@ public List<Object> getUsersListsearch( String Userid) {
 		String msg = "";
 
 		Session hs = sessionFactory.getCurrentSession();
-		BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT aml_audit_seq.NEXTVAL AS SRL_NO FROM DUAL")
+		BigDecimal Number = (BigDecimal) hs
+				.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
 				.getSingleResult();
 
 		AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
-		/*
-		 * Optional<UserProfile> up = userProfileRep.findById(userProfile.getUserid());
-		 */
-		UserProfile up = userProfile;
+		Optional<UserProfile> upOpt = userProfileRep.findById(userProfile.getUserid());
+		UserProfile up = upOpt.isPresent() ? upOpt.get() : userProfile;
 		try {
 			String encryptedPassword = PasswordEncryption.getEncryptedPassword(this.password);
 
-			if (up.getLogin_status().equals("Active")) {
+			if ("Active".equals(up.getLogin_status())) {
 				up.setUser_locked_flg("N");
 			} else {
 				up.setUser_locked_flg("Y");
 			}
 
-			if (up.getUser_status().equals("Active")) {
+			if ("Active".equals(up.getUser_status())) {
 				up.setDisable_flg("N");
 			} else {
 				up.setDisable_flg("Y");
@@ -886,14 +833,14 @@ public List<Object> getUsersListsearch( String Userid) {
 		
 		try {
 
-			if (up.getLogin_status().equals("Active")) {
+			if ("Active".equals(up.getLogin_status())) {
 				up.setUser_locked_flg("N");
 				up.setNo_of_attmp(0);
 			} else {
 				up.setUser_locked_flg("Y");
 			}
 
-			if (up.getUser_status().equals("Active")) {
+			if ("Active".equals(up.getUser_status())) {
 				up.setDisable_flg("N");
 			} else {
 				up.setDisable_flg("Y");
@@ -918,9 +865,12 @@ public List<Object> getUsersListsearch( String Userid) {
 			
 			session.clear();
 			session.saveOrUpdate(user);
-			session.remove(up);
+			session.createNativeQuery("DELETE FROM \"AML\".\"BAML_USER_PROFILE_MOD_TABLE\" WHERE \"USER_ID\" = ?1")
+					.setParameter(1, up.getUserid())
+					.executeUpdate();
 
-			BigDecimal EMAIL = (BigDecimal) session.createNativeQuery("SELECT aml_audit_seq.NEXTVAL AS SRL_NO FROM DUAL")
+			BigDecimal EMAIL = (BigDecimal) session
+					.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
 					.getSingleResult();
 		
 			if (audit !=null && audit.getRemarks().equals("ADDED")) {
@@ -981,7 +931,8 @@ public List<Object> getUsersListsearch( String Userid) {
 
 		Session session = sessionFactory.getCurrentSession();
 		String msg = "";
-		BigDecimal EMAIL = (BigDecimal) session.createNativeQuery("SELECT aml_audit_seq.NEXTVAL AS SRL_NO FROM DUAL")
+		BigDecimal EMAIL = (BigDecimal) session
+				.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
 				.getSingleResult();
 		AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
 System.out.println("passwordReset"+userid);

@@ -22,76 +22,182 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "BAML_USER_PROFILE_MOD_TABLE")
+@Table(name = "\"BAML_USER_PROFILE_MOD_TABLE\"", schema = "\"AML\"")
 public class UserProfileModEn implements UserDetails{
 	private static final long serialVersionUID = 1L;
+
+	@Column(name = "\"BANK_CODE\"")
 	private String bank_code;
+
+	@Column(name = "\"BANK_NAME\"")
 	private String bank_name;
+
+	@Column(name = "\"BRANCH_CODE\"")
 	private String branch_code;
+
+	@Column(name = "\"BRANCH_NAME\"")
 	private String branch_name;
 	
-	@Column(name = "emp_id")
+	@Column(name = "\"EMP_ID\"")
 	private String empid;
+
+	@Column(name = "\"EMP_NAME\"")
 	private String emp_name;
 	
 	@Id
-	@Column(name="user_id")
+	@Column(name = "\"USER_ID\"")
 	private String userid;
 	
-	@Column(name = "user_name")
+	@Column(name = "\"USER_NAME\"")
 	private String username;
+
+	@Column(name = "\"INACTIVE_TIME\"")
 	private String inactive_time;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"ACC_EXP_DATE\"")
 	private Date acc_exp_date;
+
+	@Column(name = "\"LOGIN_LOW\"")
 	private String login_low;
+
+	@Column(name = "\"LOGIN_HIGH\"")
 	private String login_high;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"DISABLE_START_DATE\"")
 	private Date disable_start_date;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"DISABLE_END_DATE\"")
 	private Date disable_end_date;
+
+	@Column(name = "\"PASSWORD\"")
 	private String password;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"PASS_EXP_DATE\"")
 	private Date pass_exp_date;
+
+	@Column(name = "\"USER_STATUS\"")
 	private String user_status;
+
+	@Column(name = "\"LOGIN_STATUS\"")
 	private String login_status;
+
+	@Column(name = "\"VIRTUAL_FLG\"")
 	private String virtual_flg;
+
+	@Column(name = "\"WORK_CLASS\"")
 	private String work_class;
+
+	@Column(name = "\"MOB_NUMBER\"")
 	private String mob_number;
+
+	@Column(name = "\"EMAIL_ID\"")
 	private String email_id;
+
+	@Column(name = "\"ROLE_ID\"")
 	private String role_id;
+
+	@Column(name = "\"ROLE_DESC\"")
 	private String role_desc;
+
+	@Column(name = "\"PERMISSIONS\"")
 	private String permissions;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"PER_EFFCTIVE_DATE\"")
 	private String per_effctive_date;
+
+	@Column(name = "\"ADMIN\"")
 	private String admin;
+
+	@Column(name = "\"XBRL_CONFIGURATION\"")
 	private String xbrl_configuration;
+
+	@Column(name = "\"XBRL_REPORT\"")
 	private String xbrl_report;
+
+	@Column(name = "\"SCHEDULER\"")
 	private String scheduler;
+
+	@Column(name = "\"EXECUTION\"")
 	private String execution;
+
+	@Column(name = "\"MIS_REPORTS\"")
 	private String mis_reports;
+
+	@Column(name = "\"XML_REPORTS\"")
 	private String xml_reports;
+
+	@Column(name = "\"ARCHIVEL\"")
 	private String archivel;
+
+	@Column(name = "\"GENERAL_INQ\"")
 	private String general_inq;
+
+	@Column(name = "\"AUDIT_INQ\"")
 	private String audit_inq;
+
+	@Column(name = "\"CHANNEL\"")
 	private String channel;
+
+	@Column(name = "\"ENTRY_USER\"")
 	private String entry_user;
+
+	@Column(name = "\"ENTRY_TIME\"")
 	private Date entry_time;
+
+	@Column(name = "\"AUTH_USER\"")
 	private String auth_user;
+
+	@Column(name = "\"AUTH_TIME\"")
 	private Date auth_time;
+
+	@Column(name = "\"MODIFY_USER\"")
 	private String modify_user;
+
+	@Column(name = "\"MODIFY_TIME\"")
 	private Date modify_time;
+
+	@Column(name = "\"ENTITY_FLG\"")
 	private String entity_flg;
+
+	@Column(name = "\"AUTH_FLG\"")
 	private String auth_flg;
+
+	@Column(name = "\"MODIFY_FLG\"")
 	private String modify_flg;
+
+	@Column(name = "\"DEL_FLG\"")
 	private String del_flg;
+
+	@Column(name = "\"SESSION_ID\"")
 	private String session_id;
+
+	@Column(name = "\"LOGIN_FLG\"")
 	private String login_flg;
+
+	@Column(name = "\"USER_LOCKED_FLG\"")
 	private String user_locked_flg;
+
+	@Column(name = "\"NO_OF_ATTMP\"")
 	private Integer no_of_attmp;
+
+	@Column(name = "\"DISABLE_FLG\"")
 	private String disable_flg;
+
+	@Column(name = "\"NEW_USER_FLG\"")
 	private String new_user_flg;
-	private Blob photo;
+
+	@Column(name = "\"PHOTO\"")
+	private byte[] photo;
+
+	@Column(name = "\"DOMAIN_ID\"")
 	private String domain_id;
+
+	@Column(name = "\"REMARK\"")
 	private String remark;
 	public String getBank_code() {
 		return bank_code;
@@ -172,10 +278,6 @@ public class UserProfileModEn implements UserDetails{
 
 	public void setAcc_exp_date(Date acc_exp_date) {
 		this.acc_exp_date = acc_exp_date;
-	}
-
-	public void setAcc_exp_date(String acc_exp_date) throws ParseException {
-		this.entry_time = new SimpleDateFormat("YYYY-MM-DD").parse(acc_exp_date);
 	}
 
 	public String getLogin_low() {
@@ -515,11 +617,11 @@ public class UserProfileModEn implements UserDetails{
 		this.disable_flg = disable_flg;
 	}
 	@JsonIgnore
-	public Blob getPhoto() {
+	public byte[] getPhoto() {
 		return photo;
 	}
 
-	public void setPhoto(Blob photo) {
+	public void setPhoto(byte[] photo) {
 		this.photo = photo;
 	}
 
@@ -765,7 +867,8 @@ public class UserProfileModEn implements UserDetails{
 		this.disable_flg = userProfile.getDisable_flg();
 		this.domain_id = userProfile.getDomain_id();
 		this.new_user_flg = userProfile.getNew_user_flg();
-		this.remark=userProfile.getRemark();
+		this.remark = userProfile.getRemark();
+		this.photo = userProfile.getPhoto();
 	}
 
 	public String getRemark() {

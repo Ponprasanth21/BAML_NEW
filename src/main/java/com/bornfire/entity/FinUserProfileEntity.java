@@ -3,50 +3,95 @@ package com.bornfire.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-
-
-
 @Entity
-@Table(name = "BAML_USER_PROFILE_TABLE_FINACLE")
+@Table(name = "\"BAML_USER_PROFILE_TABLE_FINACLE\"", schema = "\"AML\"")
 public class FinUserProfileEntity {
 	
 	@Id
+	@Column(name = "\"USER_ID\"")
 	private String	user_id;
+
+	@Column(name = "\"USER_WORK_CLASS\"")
 	private String	user_work_class;
+
+	@Column(name = "\"BANK_ID\"")
 	private String	bank_id;
+
+	@Column(name = "\"BANK_NAME\"")
 	private String	bank_name;
+
+	@Column(name = "\"SOL_ID\"")
 	private String	sol_id;
+
+	@Column(name = "\"SOL_DESC\"")
 	private String	sol_desc;
+
+	@Column(name = "\"USER_SOL_TENOR\"")
 	private String	user_sol_tenor;
+
+	@Column(name = "\"USER_MAX_INACTIVE_TIME\"")
 	private BigDecimal	user_max_inactive_time;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"USER_ACCT_EXPY_DATE\"")
 	private Date	user_acct_expy_date;
+
+	@Column(name = "\"USER_APPL_NAME\"")
 	private String	user_appl_name;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"USER_DISABLED_FROM_DATE\"")
 	private Date	user_disabled_from_date;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"USER_DISABLED_UPTO_DATE\"")
 	private Date	user_disabled_upto_date;
+
+	@Column(name = "\"USER_EMP_ID\"")
 	private String	user_emp_id;
+
 	@DateTimeFormat(pattern = "HH:mm:ss")
+	@Column(name = "\"USER_LOGIN_TIME_LOW\"")
 	private Date	user_login_time_low;
+
 	@DateTimeFormat(pattern = "HH:mm:ss")
+	@Column(name = "\"USER_LOGIN_TIME_HIGH\"")
 	private Date	user_login_time_high;
+
+	@Column(name = "\"LCHG_USER_ID\"")
 	private String	lchg_user_id;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"LCHG_TIME\"")
 	private Date	lchg_time;
+
+	@Column(name = "\"RCRE_USER_ID\"")
 	private String	rcre_user_id;
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"RCRE_TIME\"")
 	private Date	rcre_time;
+
+	@Column(name = "\"ROLE_ID\"")
 	private String	role_id;
+
+	@Column(name = "\"EMP_NAME\"")
 	private String	emp_name;
+
+	@Column(name = "\"EMP_DESIG\"")
 	private String	emp_desig;
+
+	@Column(name = "\"EMP_STAT\"")
 	private String	emp_stat;
+
+	@Column(name = "\"EMP_EMAIL_ID\"")
 	private String	emp_email_id;
 	public String getUser_id() {
 		return user_id;
