@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 public interface ETLErrorRep extends JpaRepository<EtlErrorInfo, String> {
 	
 	
-	@Query(value = "select * from BAML_ETL_ERROR_INFO_TB where module_name in (select distinct module_name from BAML_ETL_ERROR_INFO_TB) and recr_time in (select max(recr_time) from BAML_ETL_ERROR_INFO_TB group by module_name)", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ETL_ERROR_INFO_TB\" where \"MODULE_NAME\" in (select distinct \"MODULE_NAME\" from \"AML\".\"BAML_ETL_ERROR_INFO_TB\") and \"RECR_TIME\" in (select max(\"RECR_TIME\") from \"AML\".\"BAML_ETL_ERROR_INFO_TB\" group by \"MODULE_NAME\") order by \"RECR_TIME\" desc", nativeQuery = true)
 	List<EtlErrorInfo> getEtlError();
 	
 }

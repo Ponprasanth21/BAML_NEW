@@ -3,21 +3,32 @@ package com.bornfire.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="BAML_ETL_PROCESS_INFO_TB")
+@Table(name="\"BAML_ETL_PROCESS_INFO_TB\"", schema = "\"AML\"")
 public class EtlProcessInfo {
 
-	
-	String module_name;
-	Date report_date;
 	@Id
+	@Column(name = "\"MODULE_NAME\"")
+	String module_name;
+	
+	@Column(name = "\"REPORT_DATE\"")
+	Date report_date;
+	
+	@Column(name = "\"START_TIME\"")
 	Date start_time;
+	
+	@Column(name = "\"END_TIME\"")
 	Date end_time;
+	
+	@Column(name = "\"NO_OF_ROWS_PROCESSED\"")
 	BigDecimal no_of_rows_processed;
+	
+	@Column(name = "\"STATUS_FLG\"")
 	String status_flg;
 
 	public String getModule_name() {

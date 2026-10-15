@@ -18,27 +18,31 @@ public interface AlertManagementRepository extends JpaRepository<AlertManagement
 
 	Optional<AlertManagementEntity> findById(String directorId);
 
-	@Query(value = "select * from BAML_ALERT_MGMT_TABLE  where del_flg='N'", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ALERT_MGMT_TABLE\" WHERE \"DEL_FLG\" = 'N' ORDER BY \"SRL_NO\"",
+			countQuery = "SELECT COUNT(*) FROM \"AML\".\"BAML_ALERT_MGMT_TABLE\" WHERE \"DEL_FLG\" = 'N'",
+			nativeQuery = true)
 	Page<AlertManagementEntity> alertlist(Pageable page);
 
 	@Modifying
-	@Query(value = "UPDATE BAML_ALERT_MGMT_TABLE u set u.DEL_FLG ='Y' where u.SRL_NO =?1", nativeQuery = true)
+	@Query(value = "UPDATE \"AML\".\"BAML_ALERT_MGMT_TABLE\" SET \"DEL_FLG\" = 'Y' WHERE \"SRL_NO\" = ?1", nativeQuery = true)
 	int findByfgdg1(String srl_no);
 
-	@Query(value = "select * from BAML_ALERT_MGMT_TABLE  where alert_code = ?1", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ALERT_MGMT_TABLE\" WHERE \"ALERT_CODE\" = ?1", nativeQuery = true)
 	AlertManagementEntity getalertdetail(String alertcode);
+
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ALERT_MGMT_TABLE\" WHERE \"SRL_NO\" = ?1", nativeQuery = true)
+	AlertManagementEntity findByIdcustom(String srlNo);
 	
-	
-	@Query(value = "select param_1 from BAML_ALERT_MGMT_TABLE  where srl_no = ?1", nativeQuery = true)
+	@Query(value = "SELECT \"PARAM_1\" FROM \"AML\".\"BAML_ALERT_MGMT_TABLE\" WHERE \"SRL_NO\" = ?1", nativeQuery = true)
 	String getParamdetail1(String srl_no);
 	
-	@Query(value = "select param_2 from BAML_ALERT_MGMT_TABLE  where srl_no = ?1", nativeQuery = true)
+	@Query(value = "SELECT \"PARAM_2\" FROM \"AML\".\"BAML_ALERT_MGMT_TABLE\" WHERE \"SRL_NO\" = ?1", nativeQuery = true)
 	String getParamdetail2(String srl_no);
 	
-	@Query(value = "select param_3 from BAML_ALERT_MGMT_TABLE  where srl_no = ?1", nativeQuery = true)
+	@Query(value = "SELECT \"PARAM_3\" FROM \"AML\".\"BAML_ALERT_MGMT_TABLE\" WHERE \"SRL_NO\" = ?1", nativeQuery = true)
 	String getParamdetail3(String srl_no);
 	
-	@Query(value = "select * from BAML_USER_ALERT_NOTIFICATION_TABLE  ", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_USER_ALERT_NOTIFICATION_TABLE\"", nativeQuery = true)
 	List<AMLUserAlertNotification> getUserList();
 
 }

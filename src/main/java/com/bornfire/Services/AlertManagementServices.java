@@ -134,17 +134,16 @@ public class AlertManagementServices {
 	}
 
 	public AlertManagementEntity getSrlNo(String id) {
-		/* logger.info(id); */
-		if (alertrepository.existsById(id)) {
-			System.out.println("getsrlno");
-			AlertManagementEntity up = alertrepository.findById(id).get();
-
+		AlertManagementEntity up = alertrepository.findByIdcustom(id);
+		if (up != null) {
 			return up;
+		}
+		if (alertrepository.existsById(id)) {
+			return alertrepository.findById(id).get();
 		} else {
 			return new AlertManagementEntity();
 		}
-
-	};
+	}
 
 	public String deletealert(String inputSrlNo) {
 		String msg = "";

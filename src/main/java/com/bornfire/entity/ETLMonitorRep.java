@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 public interface ETLMonitorRep extends JpaRepository<EtlProcessInfo, String> {
 	
 	
-	@Query(value = "select * from BAML_etl_process_info_tb where module_name in (select distinct module_name from BAML_etl_process_info_tb) and start_time in (select max(start_time) from BAML_etl_process_info_tb group by module_name)", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ETL_PROCESS_INFO_TB\" where \"MODULE_NAME\" in (select distinct \"MODULE_NAME\" from \"AML\".\"BAML_ETL_PROCESS_INFO_TB\") and \"START_TIME\" in (select max(\"START_TIME\") from \"AML\".\"BAML_ETL_PROCESS_INFO_TB\" group by \"MODULE_NAME\") order by \"START_TIME\" desc", nativeQuery = true)
 	List<EtlProcessInfo> getEtlStatus();
 	
 	

@@ -60,6 +60,12 @@ PURPOSE		:
 	console.log(EtlError);
 	console.log(EtlStatus);
 	var url;
+	function home() {
+		location.href = 'Dashboard';
+	}
+	function back() {
+		location.href = 'Dashboard';
+	}
 	function runprocedure(a) {
 
 		var report_date = a.getAttribute("data-report_date");
@@ -134,10 +140,7 @@ table {
 	border-color: #e9ecef;
 }
 
-.modal-backdrop {
-	background-color: +;
-	zoom: 1;
-}
+
 
 .addedit {
 	color: #007bff;
@@ -171,23 +174,23 @@ background-color: #1f71ca !important;}
 		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
 		<div class="content-page">
 		<div class="content">
-	<div class="container content" th:fragment="reportcontent">
+	<div class="container-fluid" th:fragment="reportcontent">
 		<div class="card">
-			<div class="card-header">
+			<div class="card-header" id="modheadtitle" style="height: 40px;">
 				<div class="float-left">
-					<h4>ETL Monitor</h4>
+					<b>ETL Monitor</b>
 				</div>
 
 			</div>
 			<div class="card-body">
 				<!--------------------------------------------------------------- Report buttons section starts ------------------------------------->
 				<div class="row">
-					<div class="col-sm-12 customcol" style="background-color: #1f71ca;">
+					<div class="col-sm-12" >
 						<ul class="nav nav-tabs">
-							<li class="nav-item"><a class="nav-link active"
-								data-toggle="tab" href="#etlStatus">ETL Status</a></li>
+							<li class="nav-item"><a class="nav-link active" 
+								data-toggle="tab" href="#etlStatus"style="color:black;">ETL Status</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#etlErrors">ETL Error</a></li>
+								href="#etlErrors"style="color:black;">ETL Error</a></li>
 						</ul>
 					</div>
 				</div>
@@ -214,21 +217,21 @@ background-color: #1f71ca !important;}
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:if="${etlstatus}!=null"
-											th:each="etlstatus : ${EtlStatus}">
-
-										
+										<tr th:each="etlstatus : ${EtlStatus}">
 											<td th:text="${etlstatus.module_name}"></td>
 											<td
 												th:text="${#dates.format(etlstatus.report_date, 'dd-MM-yyyy')}"></td>
 											<td
-												th:text="${#dates.format(etlstatus.start_time, 'dd-MM-yyyy hh:mm:ss')}"></td>
+												th:text="${#dates.format(etlstatus.start_time, 'dd-MM-yyyy HH:mm:ss')}"></td>
 											<td
-												th:text="${#dates.format(etlstatus.end_time, 'dd-MM-yyyy hh:mm:ss')}"></td>
+												th:text="${#dates.format(etlstatus.end_time, 'dd-MM-yyyy HH:mm:ss')}"></td>
 											<td th:text="${etlstatus.status_flg}"></td>
 											 <td><i
 												th:attr="data-report_date=${#dates.format(etlstatus.report_date, 'dd-MMM-yyyy')},data-module_name=${etlstatus.module_name}"
 												class="fas fa-play-circle" th:onclick="runprocedure(this);"></i></td>
+										</tr>
+										<tr th:if="${#lists.isEmpty(EtlStatus)}">
+											<td colspan="6" class="text-center">No Data Available</td>
 										</tr>
 									</tbody>
 								</table>
@@ -252,18 +255,19 @@ background-color: #1f71ca !important;}
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:if="${etlerror}!=null" th:each="etlerror : ${EtlError}">
-
+										<tr th:each="etlerror : ${EtlError}">
 											<td th:text="${etlerror.module_name}"></td>
 											<td
 												th:text="${#dates.format(etlerror.report_date, 'dd-MM-yyyy')}"></td>
 											<td th:text="${etlerror.error_details}"></td>
 											<td
-												th:text="${#dates.format(etlerror.recr_time, 'dd-MM-yyyy hh:mm:ss')}"></td>
+												th:text="${#dates.format(etlerror.recr_time, 'dd-MM-yyyy HH:mm:ss')}"></td>
 										<td><i
 												th:attr="data-report_date=${#dates.format(etlerror.report_date, 'dd-MMM-yyyy')},data-module_name=${etlerror.module_name}"
 												class="fas fa-play-circle" th:onclick="runprocedure(this);"></i></td>
-
+										</tr>
+										<tr th:if="${#lists.isEmpty(EtlError)}">
+											<td colspan="5" class="text-center">No Data Available</td>
 										</tr>
 									</tbody>
 								</table>
@@ -273,6 +277,14 @@ background-color: #1f71ca !important;}
 						<!-------------------------------------------------------------------section 2 end------------------------------------------>
 					</div>
 				</div>
+			</div>
+			<div class="card-footer text-center" style="height: 45px;">
+			    <button type="button" class="btn btn-xs btn-primary"
+			        id="btnHome" style="margin-top: -13px;"
+			        onclick="home();">Home</button>
+			    <button type="button" class="btn btn-xs btn-primary"
+			        id="btnBack" style="margin-top: -13px;"
+			        onclick="back();">Back</button>
 			</div>
 		</div>
 	</div>

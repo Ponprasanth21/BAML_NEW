@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -13,66 +14,158 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name = "BAML_ALERT_MGMT_TABLE")
+@Table(name = "\"BAML_ALERT_MGMT_TABLE\"", schema = "\"AML\"")
 public class AlertManagementEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column(name = "\"SRL_NO\"")
 	private String	srl_no;
+
+	@Column(name = "\"ALERT_DATE\"")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date	alert_date;
+
+	@Column(name = "\"ALERT_CODE\"")
 	private String	alert_code;
+
+	@Column(name = "\"ALERT_DESC\"")
 	private String	alert_desc;
+
+	@Column(name = "\"PARAM_1\"")
 	private String	param_1;
+
+	@Column(name = "\"PARAM_2\"")
 	private String	param_2;
+
+	@Column(name = "\"PARAM_3\"")
 	private String	param_3;
+
+	@Column(name = "\"PARAM_VALUE_1\"")
 	private BigDecimal	param_value_1;
+
+	@Column(name = "\"PARAM_VALUE_2\"")
 	private BigDecimal	param_value_2;
+
+	@Column(name = "\"PARAM_VALUE_3\"")
 	private BigDecimal	param_value_3;
+
+	@Column(name = "\"EMAIL_FLG\"")
 	private String	email_flg;
+
+	@Column(name = "\"EMAIL_1\"")
 	private String	email_1;
+
+	@Column(name = "\"EMAIL_2\"")
 	private String	email_2;
+
+	@Column(name = "\"EMAIL_3\"")
 	private String	email_3;
+
+	@Column(name = "\"EMAIL_USER_1\"")
 	private String	email_user_1;
+
+	@Column(name = "\"EMAIL_USER_2\"")
 	private String	email_user_2;
+
+	@Column(name = "\"EMAIL_USER_3\"")
 	private String	email_user_3;
+
+	@Column(name = "\"SMS_FLG\"")
 	private String	sms_flg;
+
+	@Column(name = "\"MOBILE_1\"")
 	private BigDecimal	mobile_1;
+
+	@Column(name = "\"MOBILE_2\"")
 	private BigDecimal	mobile_2;
+
+	@Column(name = "\"MOBILE_3\"")
 	private BigDecimal	mobile_3;
+
+	@Column(name = "\"MOBILE_USER_1\"")
 	private String	mobile_user_1;
+
+	@Column(name = "\"MOBILE_USER_2\"")
 	private String	mobile_user_2;
+
+	@Column(name = "\"MOBILE_USER_3\"")
 	private String	mobile_user_3;
+
+	@Column(name = "\"ALERT_FLG\"")
 	private String	alert_flg;
+
+	@Column(name = "\"ALERT_USERID_1\"")
 	private String	alert_userid_1;
+
+	@Column(name = "\"ALERT_USERID_2\"")
 	private String	alert_userid_2;
+
+	@Column(name = "\"ALERT_USERID_3\"")
 	private String	alert_userid_3;
+
+	@Column(name = "\"ALERT_USER_1\"")
 	private String	alert_user_1;
+
+	@Column(name = "\"ALERT_USER_2\"")
 	private String	alert_user_2;
+
+	@Column(name = "\"ALERT_USER_3\"")
 	private String	alert_user_3;
+
+	@Column(name = "\"START_DATE\"")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date	start_date;
+
+	@Column(name = "\"END_DATE\"")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date	end_date;
+
+	@Column(name = "\"SUSPEND_FLG\"")
 	private String	suspend_flg;
+
+	@Column(name = "\"REMARKS\"")
 	private String	remarks;
+
+	@Column(name = "\"SUSPEND_DATE\"")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date	suspend_date;
+
+	@Column(name = "\"ACTIVATE_DATE\"")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date	activate_date;
+
+	@Column(name = "\"ENTITY_FLG\"")
 	private String	entity_flg;
+
+	@Column(name = "\"DEL_FLG\"")
 	private String	del_flg;
+
+	@Column(name = "\"MOD_FLG\"")
 	private String	mod_flg;
+
+	@Column(name = "\"ENTRY_USER\"")
 	private String	entry_user;
+
+	@Column(name = "\"MODIFY_USER\"")
 	private String	modify_user;
+
+	@Column(name = "\"AUTH_USER\"")
 	private String	auth_user;
+
+	@Column(name = "\"ENTRY_TIME\"")
 	private Date	entry_time;
+
+	@Column(name = "\"MODIFY_TIME\"")
 	private Date	modify_time;
+
+	@Column(name = "\"AUTH_TIME\"")
+	private Date	auth_time;
 	public String getSrl_no() {
 		return srl_no;
 	}
@@ -342,6 +435,12 @@ public class AlertManagementEntity implements Serializable{
 	}
 	public void setModify_time(Date modify_time) {
 		this.modify_time = modify_time;
+	}
+	public Date getAuth_time() {
+		return auth_time;
+	}
+	public void setAuth_time(Date auth_time) {
+		this.auth_time = auth_time;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;

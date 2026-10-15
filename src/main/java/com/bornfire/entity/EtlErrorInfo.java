@@ -2,20 +2,29 @@ package com.bornfire.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="BAML_ETL_ERROR_INFO_TB")
+@Table(name="\"BAML_ETL_ERROR_INFO_TB\"", schema = "\"AML\"")
 public class EtlErrorInfo {
 
-	
-	String module_name;
-	String procedure_name;
 	@Id
+	@Column(name = "\"MODULE_NAME\"")
+	String module_name;
+	
+	@Column(name = "\"PROCEDURE_NAME\"")
+	String procedure_name;
+	
+	@Column(name = "\"REPORT_DATE\"")
 	Date report_date;
+	
+	@Column(name = "\"ERROR_DETAILS\"")
 	String error_details;
+	
+	@Column(name = "\"RECR_TIME\"")
 	Date recr_time;
 	
 	public String getModule_name() {

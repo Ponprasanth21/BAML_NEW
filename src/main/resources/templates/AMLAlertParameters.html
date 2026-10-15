@@ -80,7 +80,10 @@ PURPOSE		:
 			mm = '0' + mm;
 		}
 		var today = dd + '-' + mm + '-' + yyyy;
-		document.getElementById('alert_date').value = today;
+		var alertDateElem = document.getElementById('alert_date');
+		if (alertDateElem) {
+			alertDateElem.value = today;
+		}
 
 		$("#suspend_date").datepicker({
 			changeMonth : true,
@@ -123,6 +126,39 @@ PURPOSE		:
 
 	function back() {
 		window.history.back();
+	}
+
+	function getUserlist(mode, num, maxpage) {
+		var n = parseInt(num);
+		var max = parseInt(maxpage);
+		var Callurl = 'AMLAlertParameters?formmode=list';
+
+		switch (mode) {
+		case "nextpage":
+			n = n + 1;
+			if (n > max) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			location.href = Callurl;
+			break;
+		case "prevpage":
+			n = n - 1;
+			if (n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			location.href = Callurl;
+			break;
+		case "givenpage":
+			n = parseInt($("#pageno").val()) - 1;
+			if (n > max || n < 0) {
+				break;
+			}
+			Callurl = Callurl + "&page=" + n;
+			location.href = Callurl;
+			break;
+		}
 	}
 	function home1() {
 		$("#dataHome").modal("toggle");
@@ -373,15 +409,15 @@ PURPOSE		:
 
 										<th:block th:switch="${alert?.email_flg}">
 											<td th:case="'Y'">YES</td>
-											<td th:case="'N'">NO</td>
+											<td th:case="*">NO</td>
 										</th:block>
 										<th:block th:switch="${alert?.sms_flg}">
 											<td th:case="'Y'">YES</td>
-											<td th:case="'N'">NO</td>
+											<td th:case="*">NO</td>
 										</th:block>
 										<th:block th:switch="${alert?.alert_flg}">
 											<td th:case="'Y'">YES</td>
-											<td th:case="'N'">NO</td>
+											<td th:case="*">NO</td>
 										</th:block>
 
 
@@ -401,25 +437,26 @@ PURPOSE		:
 														style="cursor: pointer; height: 20px; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
 													<div class="dropdown-divider"></div>
-													<a th:attr="data-srl_no=${alert.srl_no}" th:if ="${AMLRoleMenu.work_class} == 'C'"
+													<a th:attr="data-srl_no=${alert.srl_no}" th:if="${AMLRoleMenu?.work_class} == 'C'"
 														class="dropdown-item" title="Delete"
 														style="cursor: pointer; height: 20px; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														onclick="submitformdelete(this)" id="delete_value">Delete</a>
-													<div class="dropdown-divider" th:if ="${AMLRoleMenu.work_class} == 'C'"></div>
+													<div class="dropdown-divider" th:if="${AMLRoleMenu?.work_class} == 'C'"></div>
 													<a th:attr="data-srl_no=${alert.srl_no}"
 														class="dropdown-item" title="View"
 														style="cursor: pointer; height: 20px; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														onclick="view_btn_submit(this)" id="view_btn">View </a>
-														<div class="dropdown-divider" th:if ="${AMLRoleMenu.work_class} == 'C'"></div>
-													<a th:if ="${alert.srl_no} == 'A023'" th:attr="data-srl_no=${alert.srl_no}"
+														<div class="dropdown-divider" th:if="${AMLRoleMenu?.work_class} == 'C'"></div>
+													<a th:if="${alert.srl_no} == 'A023'" th:attr="data-srl_no=${alert.srl_no}"
 														class="dropdown-item" title="View"
 														style="cursor: pointer; height: 20px; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														onclick="exec_btn_submit(this)" id="view_btn">EXE </a>
 												</div>
 											</div>
 										</td>
-										<!-- <td th:text="${#numbers.formatDecimal(account.clr_bal_amt,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td> -->
-
+									</tr>
+									<tr th:if="${AlertParameterList == null or AlertParameterList.totalElements == 0}">
+										<td colspan="8" class="text-center">No Data Available</td>
 									</tr>
 								</tbody>
 							</table>
@@ -435,17 +472,16 @@ PURPOSE		:
 							</div>
 
 
-							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
-							<!-- 			<div class="float-right" th:if="${RuleList.totalPages} gt 1">
-					<a href="#"><i class="fas fa-caret-left fa-2x"
-						th:onclick="|getUserlist('prevpage',${RuleList.number},${RuleList.totalPages});|"></i></a>
-					<input type="text" id="pageno" style="width: 30px"
-						th:value="${RuleList.number+1}"
-						th:onchange="|getUserlist('givenpage',${RuleList.number},${RuleList.totalPages});|"></input>
-					of <font th:text="${RuleList.totalPages}"></font> <a href="#"><i
-						class="fas fa-caret-right fa-2x"
-						th:onclick="|getUserlist('nextpage',${RuleList.number},${RuleList.totalPages});|"></i></a>
-				</div> -->
+							<div class="float-right" th:if="${AlertParameterList?.totalPages} gt 1">
+								<a href="#"><i class="fas fa-caret-left fa-2x"
+									th:onclick="|getUserlist('prevpage',${AlertParameterList.number},${AlertParameterList.totalPages});|"></i></a>
+								<input type="text" id="pageno" style="width: 30px"
+									th:value="${AlertParameterList.number+1}"
+									th:onchange="|getUserlist('givenpage',${AlertParameterList.number},${AlertParameterList.totalPages});|"></input>
+								of <font th:text="${AlertParameterList.totalPages}"></font> <a href="#"><i
+									class="fas fa-caret-right fa-2x"
+									th:onclick="|getUserlist('nextpage',${AlertParameterList.number},${AlertParameterList.totalPages});|"></i></a>
+							</div>
 
 
 						</div>
