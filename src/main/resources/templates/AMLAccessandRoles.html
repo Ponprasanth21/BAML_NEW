@@ -105,7 +105,12 @@
 	}
 
 	function back() {
-		window.history.back();
+		var formmode = new URLSearchParams(window.location.search).get('formmode');
+		if (formmode && formmode !== "list") {
+			location.href = 'AMLAccessandRoles?formmode=list';
+		} else {
+			location.href = 'Dashboard';
+		}
 	}
 
 	function fnClick(a) {

@@ -3,6 +3,7 @@ package com.bornfire.Services;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -48,7 +49,8 @@ public class RefCodeService {
 		 * ref.isPresent(); System.out.println(ref.isPresent()); RefcodeEntity reg =
 		 * ref.get();
 		 */Session hs = sessionFactory.getCurrentSession();
-		BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT RULESEQUENCE_1.NEXTVAL AS SRL_NO FROM DUAL")
+		BigDecimal Number = (BigDecimal) hs
+				.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
 				.getSingleResult();
 
 		AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
@@ -83,11 +85,11 @@ public class RefCodeService {
 
 				RefcodeEntity reg1 = reg.get();
 				System.out.println("old  =" + reg1.getModule() +" " +alertparam.getModule());
-				if ((reg1.getModule().equals(alertparam.getModule()))
-						&& (reg1.getRef_type().equals(alertparam.getRef_type()))
-						&& (reg1.getRpt_code().equals(alertparam.getRpt_code()))
-						&& (reg1.getRefCodeId().equals(alertparam.getRefCodeId()))
-						&& (reg1.getRef_desc().equals(alertparam.getRef_desc()))) {
+				if (Objects.equals(reg1.getModule(), alertparam.getModule())
+						&& Objects.equals(reg1.getRef_type(), alertparam.getRef_type())
+						&& Objects.equals(reg1.getRpt_code(), alertparam.getRpt_code())
+						&& Objects.equals(reg1.getRefCodeId(), alertparam.getRefCodeId())
+						&& Objects.equals(reg1.getRef_desc(), alertparam.getRef_desc())) {
 					msg = "No any Modification done";
 
 				} else {
@@ -95,14 +97,14 @@ public class RefCodeService {
 
 					
 				
-					if (!reg1.getModule().equals(alertparam.getModule())) {
+					if (!Objects.equals(reg1.getModule(), alertparam.getModule())) {
 						modi = modi + ("MODULE + " + reg1.getModule() + '+' + alertparam.getModule() + '+');
 						
-					} else if (!reg1.getRef_type().equals(alertparam.getRef_type())) {
+					} else if (!Objects.equals(reg1.getRef_type(), alertparam.getRef_type())) {
 						modi = modi +("REF_TYPE + " + reg1.getRef_type() + '+' + alertparam.getRef_type() + '+');
-					} else if (!reg1.getRpt_code().equals(alertparam.getRpt_code())) {
+					} else if (!Objects.equals(reg1.getRpt_code(), alertparam.getRpt_code())) {
 						modi = modi +("REPORT_CODE + " + reg1.getRpt_code() + '+' + alertparam.getRpt_code() + '+');
-					} else if (!reg1.getRef_desc().equals(alertparam.getRef_desc())) {
+					} else if (!Objects.equals(reg1.getRef_desc(), alertparam.getRef_desc())) {
 						modi = modi +("REF_TYPE + " + reg1.getRef_desc() + '+' + alertparam.getRef_desc() + '+');
 					}
 					System.out.println("number"+Number);
@@ -183,23 +185,28 @@ public class RefCodeService {
 
 	public RefcodeEntity getRefcode(String id, String rectype) {
 
-		System.out.println("getrefcode" + id + "" + rectype + "");
-		Session session = sessionFactory.getCurrentSession();
-		Query<RefcodeEntity> query = session.createQuery(
-				" from RefcodeEntity where ref_code=?1 and ref_rec_type=?2  ", RefcodeEntity.class);
-		query.setParameter(1, id);
-		query.setParameter(2, rectype);
-
-		List<RefcodeEntity> result = query.getResultList();
-
-		if (!result.isEmpty()) {
-
-			return result.get(0);
-		} else {
-
+		System.out.println("getrefcode id: " + id + ", rectype: " + rectype);
+		if (id == null || rectype == null) {
 			return new RefcodeEntity();
 		}
 
+		Optional<RefcodeEntity> result = refCodeRepository.findById(new RefCodeMasterEmbeddedID(rectype, id));
+		if (result.isPresent()) {
+			return result.get();
+		}
+
+		Session session = sessionFactory.getCurrentSession();
+		Query<RefcodeEntity> query = session.createQuery(
+				" from RefcodeEntity where refCodeId.ref_code=?1 and refCodeId.ref_rec_type=?2  ", RefcodeEntity.class);
+		query.setParameter(1, id);
+		query.setParameter(2, rectype);
+
+		List<RefcodeEntity> list = query.getResultList();
+		if (!list.isEmpty()) {
+			return list.get(0);
+		} else {
+			return new RefcodeEntity();
+		}
 	};
 
 	public String deleteParameter(String refcode, String recordtype, String reportcode) {
@@ -231,7 +238,7 @@ public class RefCodeService {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createNativeQuery(
-				"select distinct(rule_code_desc) from BAML_REFERENCE_CODE_TABLE where rule_code=?1  ");
+				"select distinct(rule_code_desc) from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where rule_code=?1  ");
 		query.setParameter(1, repcode);
 
 		String result = (String) query.getSingleResult();
@@ -245,7 +252,7 @@ public class RefCodeService {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session
-				.createNativeQuery("select distinct(rec_desc) from RECORD_TYPE_TABLE where ref_rec_type=?1  ");
+				.createNativeQuery("select distinct(ref_rec_desc) from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where ref_rec_type=?1  ");
 		query.setParameter(1, repcode);
 
 		String result = (String) query.getSingleResult();
@@ -260,7 +267,7 @@ public class RefCodeService {
 		System.out.println(refcode);
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createNativeQuery(
-				"select distinct(ref_desc) from BAML_REFERENCE_CODE_TABLE where ref_rec_type=?1 and ref_code=?2 ");
+				"select distinct(ref_desc) from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where ref_rec_type=?1 and ref_code=?2 ");
 		query.setParameter(1, rectype);
 		query.setParameter(2, refcode);
 
@@ -275,7 +282,7 @@ public class RefCodeService {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createNativeQuery(
-				"select distinct ref_type from BAML_REFERENCE_CODE_TABLE where ref_rec_type=?1 and ref_code=?2");
+				"select distinct ref_type from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where ref_rec_type=?1 and ref_code=?2");
 		query.setParameter(1, rectype);
 		query.setParameter(2, refcode);
 

@@ -2,46 +2,110 @@ package com.bornfire.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="BAML_SOL")
+@Table(name = "\"BAML_SOL\"", schema =  "\"AML\"")
 public class BAMLSolEntity {
 	
-	private String	bank_code;
-	private String	bank_name;
+	@Column(name = "\"BANK_CODE\"")
+	private String bank_code;
+
+	@Column(name = "\"BANK_NAME\"")
+	private String bank_name;
+
 	@Id
-	private String	sol_id;
-	private String	sol_desc;
-	private String	addr_1;
-	private String	addr_2;
-	private String	city_code;
-	private String	state_code;
-	private String	country_code;
-	private String	zip_code;
-	private String	screen_flg;
-	private String	monitor_flg;
-	private String	email_alert_flg;
-	private String	sms_alert_flg;
-	private String	user_alert_flg;
-	private String	alert_type;
-	private String	aml_parm_1;
-	private String	aml_parm_2;
-	private String	aml_parm_3;
-	private String	aml_parm_4;
-	private String	entity_flg;
-	private String	del_flg;
-	private String	modify_flg;
-	private String	entry_user;
-	private String	modify_user;
-	private String	verify_user;
-	private Date	entry_time;
-	private Date	modify_time;
-	private Date	verify_time;
+	@Column(name = "\"SOL_ID\"")
+	private String sol_id;
+
+	@Column(name = "\"SOL_DESC\"")
+	private String sol_desc;
+
+	@Column(name = "\"ADDR_1\"")
+	private String addr_1;
+
+	@Column(name = "\"ADDR_2\"")
+	private String addr_2;
+
+	@Column(name = "\"CITY_CODE\"")
+	private String city_code;
+
+	@Column(name = "\"STATE_CODE\"")
+	private String state_code;
+
+	@Column(name = "\"COUNTRY_CODE\"")
+	private String country_code;
+
+	@Column(name = "\"ZIP_CODE\"")
+	private String zip_code;
+
+	@Column(name = "\"SCREEN_FLG\"")
+	private String screen_flg;
+
+	@Column(name = "\"MONITOR_FLG\"")
+	private String monitor_flg;
+
+	@Column(name = "\"EMAIL_ALERT_FLG\"")
+	private String email_alert_flg;
+
+	@Column(name = "\"SMS_ALERT_FLG\"")
+	private String sms_alert_flg;
+
+	@Column(name = "\"USER_ALERT_FLG\"")
+	private String user_alert_flg;
+
+	@Column(name = "\"ALERT_TYPE\"")
+	private String alert_type;
+
+	@Column(name = "\"AML_PARM_1\"")
+	private String aml_parm_1;
+
+	@Column(name = "\"AML_PARM_2\"")
+	private String aml_parm_2;
+
+	@Column(name = "\"AML_PARM_3\"")
+	private String aml_parm_3;
+
+	@Column(name = "\"AML_PARM_4\"")
+	private String aml_parm_4;
+
+	@Column(name = "\"ENTITY_FLG\"")
+	private String entity_flg;
+
+	@Column(name = "\"DEL_FLG\"")
+	private String del_flg;
+
+	@Column(name = "\"MODIFY_FLG\"")
+	private String modify_flg;
+
+	@Column(name = "\"ENTRY_USER\"")
+	private String entry_user;
+
+	@Column(name = "\"MODIFY_USER\"")
+	private String modify_user;
+
+	@Column(name = "\"VERIFY_USER\"")
+	private String verify_user;
+
+	@Column(name = "\"ENTRY_TIME\"")
+	private Date entry_time;
+
+	@Column(name = "\"MODIFY_TIME\"")
+	private Date modify_time;
+
+	@Column(name = "\"VERIFY_TIME\"")
+	private Date verify_time;
+
+	@Column(name = "\"BR_CODE\"")
 	private String br_code;
+
+	@Column(name = "\"BOD_SYSDATE\"")
 	private Date bod_sysdate;
+
+	@Column(name = "\"SOL_TYPE\"")
 	private String sol_type;	
 	
 	public String getBank_code() {

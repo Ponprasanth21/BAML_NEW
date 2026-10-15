@@ -16,23 +16,25 @@ import org.springframework.stereotype.Repository;
 public interface RefCodeRepository extends JpaRepository<RefcodeEntity, RefCodeMasterEmbeddedID>{
  
 
-		  @Query(value = "select * from BAML_REFERENCE_CODE_TABLE where DEL_FLG='N' ORDER BY ENTITY_FLAG,REF_REC_TYPE", nativeQuery = true)
+		  @Query(value = "SELECT * FROM \"AML\".\"BAML_REFERENCE_CODE_TABLE\" WHERE \"DEL_FLG\" = 'N' ORDER BY \"ENTITY_FLAG\", \"REF_REC_TYPE\"",
+				countQuery = "SELECT COUNT(*) FROM \"AML\".\"BAML_REFERENCE_CODE_TABLE\" WHERE \"DEL_FLG\" = 'N'",
+				nativeQuery = true)
 		 Page<RefcodeEntity> refcodelist(Pageable page);
 		  
-		  @Query(value = "select * from BAML_REFERENCE_CODE_TABLE where  UPPER(ref_desc) like UPPER(?1) and DEL_FLG='N'", nativeQuery = true)
+		  @Query(value = "SELECT * FROM \"AML\".\"BAML_REFERENCE_CODE_TABLE\" WHERE UPPER(\"REF_DESC\") LIKE UPPER(?1) AND \"DEL_FLG\" = 'N' ORDER BY \"ENTITY_FLAG\", \"REF_REC_TYPE\"", nativeQuery = true)
 			 List<RefcodeEntity> codelistsearch(String recordtype);
 		  
-		  @Query(value = "select * from BAML_REFERENCE_CODE_TABLE where  UPPER(ref_rec_type) like UPPER(?1) and DEL_FLG='N'", nativeQuery = true)
+		  @Query(value = "SELECT * FROM \"AML\".\"BAML_REFERENCE_CODE_TABLE\" WHERE UPPER(\"REF_REC_TYPE\") LIKE UPPER(?1) AND \"DEL_FLG\" = 'N' ORDER BY \"ENTITY_FLAG\", \"REF_REC_TYPE\"", nativeQuery = true)
 		  List<RefcodeEntity> rectypelistsearch(String recordtype);
 		  
-		  @Query(value = "select * from BAML_REFERENCE_CODE_TABLE where  UPPER(ref_rec_desc) like UPPER(?1) and DEL_FLG='N'", nativeQuery = true)
+		  @Query(value = "SELECT * FROM \"AML\".\"BAML_REFERENCE_CODE_TABLE\" WHERE UPPER(\"REF_REC_DESC\") LIKE UPPER(?1) AND \"DEL_FLG\" = 'N' ORDER BY \"ENTITY_FLAG\", \"REF_REC_TYPE\"", nativeQuery = true)
 		  List<RefcodeEntity> recdesclistsearch(String recordtype);
 		  
-		  @Query(value = "select * from BAML_REFERENCE_CODE_TABLE where  UPPER(ref_code) like UPPER(?1) and DEL_FLG='N'", nativeQuery = true)
+		  @Query(value = "SELECT * FROM \"AML\".\"BAML_REFERENCE_CODE_TABLE\" WHERE UPPER(\"REF_CODE\") LIKE UPPER(?1) AND \"DEL_FLG\" = 'N' ORDER BY \"ENTITY_FLAG\", \"REF_REC_TYPE\"", nativeQuery = true)
 		  List<RefcodeEntity> refcodelistsearch(String recordtype);
 		  
 		  
-		  @Query(value = "select * from BAML_REFERENCE_CODE_TABLE where REF_REC_desc = 'MONITORING RULE' and REF_REC_TYPE = 'MONR'", nativeQuery = true)
+		  @Query(value = "SELECT * FROM \"AML\".\"BAML_REFERENCE_CODE_TABLE\" WHERE \"REF_REC_DESC\" = 'MONITORING RULE' AND \"REF_REC_TYPE\" = 'MONR'", nativeQuery = true)
 			
 		     List<RefcodeEntity> findAllCustomList();
 		 
@@ -46,12 +48,12 @@ public interface RefCodeRepository extends JpaRepository<RefcodeEntity, RefCodeM
 	 */
 		  
 	 
-			@Query(value = "select  Distinct REC_TYPE,REC_DESC from BAML_REFERENCE_CODE_TABLE ", nativeQuery = true)
+			@Query(value = "SELECT DISTINCT \"REC_TYPE\", \"REC_DESC\" FROM \"AML\".\"BAML_REFERENCE_CODE_TABLE\"", nativeQuery = true)
 			
 		     List<RefcodeEntity> findAllCustom();
 
 		
-			@Query(value = "select * from BAML_REFERENCE_CODE_TABLE where REF_CODE =?1 and REF_REC_TYPE =?2" , nativeQuery = true)
+			@Query(value = "SELECT * FROM \"AML\".\"BAML_REFERENCE_CODE_TABLE\" WHERE \"REF_CODE\" = ?1 AND \"REF_REC_TYPE\" = ?2", nativeQuery = true)
 			Optional<RefcodeEntity> getValue(String refcode, String recordtype);
 
 			

@@ -22,7 +22,7 @@ public interface RecordTypeRepository extends JpaRepository<RecordTypeEntity, St
 	 * nativeQuery = true) String findByfgdg1(String srl_no);
 	 */
 	 
-			@Query(value = "select distinct REF_REC_TYPE,REF_REC_DESC from BAML_REFERENCE_CODE_TABLE where del_flg = 'N'", nativeQuery = true)
+			@Query(value = "SELECT DISTINCT \"REF_REC_TYPE\", \"REF_REC_DESC\" FROM \"AML\".\"BAML_REFERENCE_CODE_TABLE\" WHERE \"DEL_FLG\" = 'N'", nativeQuery = true)
 			List<Object[]>  findAllCustom();
 
 			

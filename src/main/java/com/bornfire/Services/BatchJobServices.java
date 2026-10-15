@@ -29,14 +29,19 @@ public class BatchJobServices {
 	BAMLBatchJobSchedularRepository bamlBatchJobSchedularRepository;
 
 	public String getSrlNoValue() {
-		Session hs = sessionFactory.getCurrentSession();
+	    Session hs = sessionFactory.getCurrentSession();
 
-		DecimalFormat numformate = new DecimalFormat("00");
-		BigDecimal billNumber = (BigDecimal) hs.createNativeQuery("SELECT BATCHJOB.NEXTVAL AS SRL_NO FROM DUAL")
-				.getSingleResult();
-		String serialno = "JOB" + numformate.format(billNumber);
-		System.out.println("billno" + serialno);
-		return serialno;
+	    DecimalFormat numformate = new DecimalFormat("00");
+
+	    BigDecimal billNumber = (BigDecimal) hs
+	            .createNativeQuery("SELECT nextval('\"AML\".\"BATCHJOB\"')")
+	            .getSingleResult();
+
+	    String serialno = "JOB" + numformate.format(billNumber);
+
+	    System.out.println("billno" + serialno);
+
+	    return serialno;
 	}
 
 	public String createJob(BAMLBatchJobSchedular bamlBatchJobSchedular, String formmode) {

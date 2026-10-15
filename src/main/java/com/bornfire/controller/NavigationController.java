@@ -1170,38 +1170,79 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			md.addAttribute("menuname", "REFERENCE CODE MASTER - List ");
 			md.addAttribute("formmode", "search"); // to set which form - valid values are "edit" , "add" & "list"
 
+			String searchVal = (recordtype == null) ? "" : recordtype.trim();
 			md.addAttribute("RefCodemasterList",
-					refCodeRepository.codelistsearch('%' + recordtype + '%'));
+					refCodeRepository.codelistsearch('%' + searchVal + '%'));
 			md.addAttribute("master", "master");
+
+			List<RecordTypeEntity> custMaster_List = new ArrayList<>();
+			List<Object[]> lst_Objects = recordTypeRepository.findAllCustom();
+			for (Object[] obj : lst_Objects) {
+				RecordTypeEntity info = new RecordTypeEntity();
+				info.setRef_rec_type(String.valueOf(obj[0]));
+				info.setRec_desc(String.valueOf(obj[1]));
+				custMaster_List.add(info);
+			}
+			md.addAttribute("RECORDTYPELIST", custMaster_List);
 		}
 		else if (formmode.equals("RecTypesearch")) {
 
 			md.addAttribute("menuname", "REFERENCE CODE MASTER - List ");
 			md.addAttribute("formmode", "search"); // to set which form - valid values are "edit" , "add" & "list"
 
+			String searchVal = (recordtype == null) ? "" : recordtype.trim();
 			md.addAttribute("RefCodemasterList",
-					refCodeRepository.rectypelistsearch('%' + recordtype + '%'));
+					refCodeRepository.rectypelistsearch('%' + searchVal + '%'));
 			md.addAttribute("master", "master");
+
+			List<RecordTypeEntity> custMaster_List = new ArrayList<>();
+			List<Object[]> lst_Objects = recordTypeRepository.findAllCustom();
+			for (Object[] obj : lst_Objects) {
+				RecordTypeEntity info = new RecordTypeEntity();
+				info.setRef_rec_type(String.valueOf(obj[0]));
+				info.setRec_desc(String.valueOf(obj[1]));
+				custMaster_List.add(info);
+			}
+			md.addAttribute("RECORDTYPELIST", custMaster_List);
 		}
 		else if (formmode.equals("RecDescsearch")) {
 
 			md.addAttribute("menuname", "REFERENCE CODE MASTER - List ");
 			md.addAttribute("formmode", "search"); // to set which form - valid values are "edit" , "add" & "list"
 			md.addAttribute("master", "master"); 
+			String searchVal = (recordtype == null) ? "" : recordtype.trim();
 			md.addAttribute("RefCodemasterList",
-					refCodeRepository.recdesclistsearch('%' + recordtype + '%'));
-			
-			 
+					refCodeRepository.recdesclistsearch('%' + searchVal + '%'));
 
+			List<RecordTypeEntity> custMaster_List = new ArrayList<>();
+			List<Object[]> lst_Objects = recordTypeRepository.findAllCustom();
+			for (Object[] obj : lst_Objects) {
+				RecordTypeEntity info = new RecordTypeEntity();
+				info.setRef_rec_type(String.valueOf(obj[0]));
+				info.setRec_desc(String.valueOf(obj[1]));
+				custMaster_List.add(info);
+			}
+			md.addAttribute("RECORDTYPELIST", custMaster_List);
 		}
 		else if (formmode.equals("RefCodesearch")) {
 
 			md.addAttribute("menuname", "REFERENCE CODE MASTER - List ");
 			md.addAttribute("formmode", "search"); // to set which form - valid values are "edit" , "add" & "list"
 
+			String searchVal = (recordtype == null) ? "" : recordtype.trim();
 			md.addAttribute("RefCodemasterList",
-					refCodeRepository.refcodelistsearch('%' + recordtype + '%'));
+					refCodeRepository.refcodelistsearch('%' + searchVal + '%'));
 			md.addAttribute("master", "master");
+
+			List<RecordTypeEntity> custMaster_List = new ArrayList<>();
+			List<Object[]> lst_Objects = recordTypeRepository.findAllCustom();
+			for (Object[] obj : lst_Objects) {
+				RecordTypeEntity info = new RecordTypeEntity();
+				info.setRef_rec_type(String.valueOf(obj[0]));
+				info.setRec_desc(String.valueOf(obj[1]));
+				custMaster_List.add(info);
+			}
+			md.addAttribute("RECORDTYPELIST", custMaster_List);
 		}else if (formmode.equals("add")) {
 			md.addAttribute("formmode", formmode);
 

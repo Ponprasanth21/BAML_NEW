@@ -2,13 +2,16 @@ package com.bornfire.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 
 @Embeddable
 public class RefCodeMasterEmbeddedID implements Serializable{
 	
+	@Column(name = "\"REF_REC_TYPE\"")
 	private String	ref_rec_type;
+	@Column(name = "\"REF_CODE\"")
 	private String	ref_code;
 	
 	

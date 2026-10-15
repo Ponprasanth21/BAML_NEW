@@ -188,7 +188,12 @@ PURPOSE		:
 	}
 
 	function back() {
-		window.history.back();
+		var formmode = $("#formmode1").val() || new URLSearchParams(window.location.search).get('formmode');
+		if (formmode && formmode !== "list") {
+			location.href = 'UserProfile?formmode=list';
+		} else {
+			location.href = 'Dashboard';
+		}
 	}
 	function back1() {
 		$("#dataBack").modal("toggle");

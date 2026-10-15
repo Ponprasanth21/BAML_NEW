@@ -2,25 +2,20 @@ package com.bornfire.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 @Entity
-@Table(name = "BAML_REFERENCE_CODE_TABLE")
+@Table(name = "\"BAML_REFERENCE_CODE_TABLE\"", schema = "\"AML\"")
 public class RefcodeEntity {
 	
-
-	
-	
-
 	public RefcodeEntity() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-
 
 	@EmbeddedId
 	RefCodeMasterEmbeddedID refCodeId;
@@ -38,26 +33,41 @@ public class RefcodeEntity {
 		this.rpt_code = rpt_code;
 	}
 
+	@Column(name = "\"RPT_CODE\"")
 	private String	rpt_code;
+	@Column(name = "\"DEL_FLG\"")
 	private String	del_flg;
+	@Column(name = "\"REF_DESC\"")
 	private String	ref_desc;
+	@Column(name = "\"LONG_REF_CODE\"")
 	private String	long_ref_code;
+	@Column(name = "\"REF_REC_DESC\"")
 	private String	ref_rec_desc;
+	@Column(name = "\"REF_TYPE\"")
 	private String	ref_type;
+	@Column(name = "\"MODULE\"")
 	private String	module;
-
 	
+	@Column(name = "\"RPT_DESC\"")
 	private String	rpt_desc;
+	@Column(name = "\"ENTITY_FLAG\"")
 	private String	entity_flag;
+	@Column(name = "\"MODIFY_FLAG\"")
 	private String	modify_flag;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"ENTRY_TIME\"")
 	private Date	entry_time;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"MODIFY_TIME\"")
 	private Date	modify_time;
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"VERIFY_TIME\"")
 	private Date	verify_time;
+	@Column(name = "\"ENTRY_USER\"")
 	private String	entry_user;
+	@Column(name = "\"MODIFY_USER\"")
 	private String	modify_user;
+	@Column(name = "\"VERIFY_USER\"")
 	private String	verify_user;
 	
 

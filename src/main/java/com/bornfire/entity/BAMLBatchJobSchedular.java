@@ -2,6 +2,7 @@ package com.bornfire.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,57 +13,115 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity	
-@Table(name="BAML_BATCH_JOB_SCHEDULER")
+@Table(name = "\"BAML_BATCH_JOB_SCHEDULER\"", schema = "\"AML\"")
 public class BAMLBatchJobSchedular {
 
-	
-	@Id
-	private String	job_id;
-	private String	job_desc;
-	private String	script_type;
-	private String	script_name;
-	private String	parmeters;
-	private String	conditions;
-	private String	frequency;
-	private String	start_day;
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date	start_date;
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date	end_date;
-	private String	suspend_flg;
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date	suspend_date;
-	private String	exec_process;
-	private String	exec_freq;
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date	last_tried_date;
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date	next_due_date;
-	private String	alert_flg;
-	private String	aler_user;
-	private String	alert_email_id;
-	private String	alert_mobile;
-	private String	entity_flg;
-	private String	del_flg;
-	private String	modify_flg;
-	private String	entry_user;
-	private String	modify_user;
-	private String	verify_user;
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date	entry_time;
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date	modify_time;
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date	verify_time;
-	private String exec_status;
+    @Id
+    @Column(name = "\"JOB_ID\"")
+    private String job_id;
+
+    @Column(name = "\"JOB_DESC\"")
+    private String job_desc;
+
+    @Column(name = "\"SCRIPT_TYPE\"")
+    private String script_type;
+
+    @Column(name = "\"SCRIPT_NAME\"")
+    private String script_name;
+
+    @Column(name = "\"PARMETERS\"")
+    private String parmeters;
+
+    @Column(name = "\"CONDITIONS\"")
+    private String conditions;
+
+    @Column(name = "\"FREQUENCY\"")
+    private String frequency;
+
+    @Column(name = "\"START_DAY\"")
+    private String start_day;
+
+    @Column(name = "\"START_DATE\"")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date start_date;
+
+    @Column(name = "\"END_DATE\"")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date end_date;
+
+    @Column(name = "\"SUSPEND_FLG\"")
+    private String suspend_flg;
+
+    @Column(name = "\"SUSPEND_DATE\"")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date suspend_date;
+
+    @Column(name = "\"EXEC_PROCESS\"")
+    private String exec_process;
+
+    @Column(name = "\"EXEC_FREQ\"")
+    private String exec_freq;
+
+    @Column(name = "\"LAST_TRIED_DATE\"")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date last_tried_date;
+
+    @Column(name = "\"NEXT_DUE_DATE\"")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date next_due_date;
+
+    @Column(name = "\"ALERT_FLG\"")
+    private String alert_flg;
+
+    @Column(name = "\"ALER_USER\"")
+    private String aler_user;
+
+    @Column(name = "\"ALERT_EMAIL_ID\"")
+    private String alert_email_id;
+
+    @Column(name = "\"ALERT_MOBILE\"")
+    private String alert_mobile;
+
+    @Column(name = "\"ENTITY_FLG\"")
+    private String entity_flg;
+
+    @Column(name = "\"DEL_FLG\"")
+    private String del_flg;
+
+    @Column(name = "\"MODIFY_FLG\"")
+    private String modify_flg;
+
+    @Column(name = "\"ENTRY_USER\"")
+    private String entry_user;
+
+    @Column(name = "\"MODIFY_USER\"")
+    private String modify_user;
+
+    @Column(name = "\"VERIFY_USER\"")
+    private String verify_user;
+
+    @Column(name = "\"ENTRY_TIME\"")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date entry_time;
+
+    @Column(name = "\"MODIFY_TIME\"")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date modify_time;
+
+    @Column(name = "\"VERIFY_TIME\"")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date verify_time;
+
+    @Column(name = "\"EXEC_STATUS\"")
+    private String exec_status;
 	
 	public String getJob_id() {
 		return job_id;
