@@ -2,11 +2,14 @@ package com.bornfire.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class TransactionMasterEmbeddedId implements Serializable{
+	@Column(name = "\"TRAN_ID\"")
 	private String	tran_id;
+	@Column(name = "\"PART_TRAN_TYPE\"")
 	private String	part_tran_type;
 	public String getTran_id() {
 		return tran_id;

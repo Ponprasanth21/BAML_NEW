@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,76 +12,129 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name="BAML_ACCT_MAST_TABLE")
+@Table(name = "\"BAML_ACCT_MAST_TABLE\"", schema = "\"AML\"")
 public class ACCT_MASTER implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
+	@Column(name = "\"SOL_ID\"")
 	private String	sol_id;
+	@Column(name = "\"SCHM_TYPE\"")
 	private String	schm_type;
+	@Column(name = "\"SCHM_CODE\"")
 	private String	schm_code;
+	@Column(name = "\"GL_SUB_HEAD_CODE\"")
 	private String	gl_sub_head_code;
+	@Column(name = "\"ACCT_OWNERSHIP\"")
 	private String	acct_ownership;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"ACCT_OPN_DATE\"")
 	private Date	acct_opn_date;
+	@Column(name = "\"CUST_ID\"")
 	private String	cust_id;
+	@Column(name = "\"CIF_ID\"")
 	private String	cif_id;
 	@Id
+	@Column(name = "\"FORACID\"")
 	private String	foracid;
+	@Column(name = "\"ACID\"")
 	private String	acid;
+	@Column(name = "\"ACCT_NAME\"")
 	private String	acct_name;
+	@Column(name = "\"ACCT_SHORT_NAME\"")
 	private String	acct_short_name;
+	@Column(name = "\"ACCT_CRNCY_CODE\"")
 	private String	acct_crncy_code;
+	@Column(name = "\"SANCT_LIM\"")
 	private BigDecimal	sanct_lim;
+	@Column(name = "\"CLR_BAL_AMT\"")
 	private String	clr_bal_amt;
+	@Column(name = "\"ACCT_CLS_FLG\"")
 	private String	acct_cls_flg;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"ACCT_CLS_DATE\"")
 	private Date	acct_cls_date;
+	@Column(name = "\"FREZ_CODE\"")
 	private String	frez_code;
+	@Column(name = "\"FREZ_REASON_CODE\"")
 	private String	frez_reason_code;
+	@Column(name = "\"BAL_ON_FREZ_DATE\"")
 	private BigDecimal	bal_on_frez_date;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"LAST_FREZ_DATE\"")
 	private Date	last_frez_date;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"LAST_UNFREZ_DATE\"")
 	private Date	last_unfrez_date;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"LAST_TRAN_DATE\"")
 	private Date	last_tran_date;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"LAST_ANY_TRAN_DATE\"")
 	private Date	last_any_tran_date;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"LCHG_TIME\"")
 	private Date	lchg_time;
+	@Column(name = "\"ACCT_LOCN_CODE\"")
 	private String	acct_locn_code;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"RCRE_TIME\"")
 	private Date	rcre_time;
+	@Column(name = "\"ACCT_STATUS\"")
 	private String	acct_status;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"ACCT_STATUS_DATE\"")
 	private Date	acct_status_date;
+	@Column(name = "\"V_RISK_RATE\"")
 	private String	v_risk_rate;
+	@Column(name = "\"V_NRE_RATING\"")
 	private String	v_nre_rating;
+	@Column(name = "\"MODE_OF_OPER_CODE\"")
 	private String mode_of_oper_code;
+	@Column(name = "\"PURPOSE_OF_ADVN\"")
 	private String purpose_of_advn;
+	@Column(name = "\"ACCT_OCCP_CODE\"")
 	private String acct_occp_code;
+	@Column(name = "\"SOURCE_OF_FUND\"")
 	private	String source_of_fund;
+	@Column(name = "\"DEL_FLG\"")
 	private Character del_flg;
+	@Column(name = "\"ENTITY_CRE_FLG\"")
 	private Character entity_cre_flg;
+	@Column(name = "\"NOM_NAME1\"")
 	private String nom_name1;
+	@Column(name = "\"NOM_NAME2\"")
 	private String nom_name2;
+	@Column(name = "\"TAM_DEPOSIT_STATUS\"")
 	private String	tam_deposit_status;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"TAM_OPEN_EFFECTIVE_DATE\"")
 	private Date	tam_open_effective_date;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"TAM_MATURITY_DATE\"")
 	private Date	tam_maturity_date;
+	@Column(name = "\"TAM_MATURITY_AMOUNT\"")
 	private BigDecimal	tam_maturity_amount;
+	@Column(name = "\"TAM_AUTO_RENEWED_COUNTER\"")
 	private BigDecimal	tam_auto_renewed_counter;
+	@Column(name = "\"LAM_ACCT_STATUS_FLG\"")
 	private String	lam_acct_status_flg;
+	@Column(name = "\"LDT_EMI_AMT\"")
 	private BigDecimal	ldt_emi_amt;
+	@Column(name = "\"FREE_TEXT_8\"")
 	private String free_text_8;
+	@Column(name = "\"FREE_TEXT_10\"")
 	private String free_text_10;
+	@Column(name = "\"FREE_TEXT_12\"")
 	private String free_text_12;
+	@Column(name = "\"TYPE_OF_ADVN\"")
 	private String type_of_advn;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"RELATIONSHIPOPENDATE\"")
 	private Date relationshipopendate;
+	@Column(name = "\"LAM_REP_PERD_MTHS\"")
 	private BigDecimal lam_rep_perd_mths;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"LAM_MATURITY_DATE\"")
 	private Date lam_maturity_date;
 	
 	

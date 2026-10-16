@@ -4,16 +4,19 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity  
-@Table(name="BAML_ACCT_TRANS_TABLE")
+@Table(name = "\"BAML_ACCT_TRANS_TABLE\"", schema = "\"AML\"")
 public class TRAN_MASTER implements Serializable{
 	@EmbeddedId
 	TransactionMasterEmbeddedId transactionmasterembeddedid;
@@ -24,11 +27,14 @@ public class TRAN_MASTER implements Serializable{
 	public void setTransactionmasterembeddedid(TransactionMasterEmbeddedId transactionmasterembeddedid) {
 		this.transactionmasterembeddedid = transactionmasterembeddedid;
 	}
+	@Column(name = "\"SOL_ID\"")
 	private String	sol_id;
+	@Column(name = "\"GL_SUB_HEAD_CODE\"")
 	private String	gl_sub_head_code;
 	
 	@ManyToOne
-	@JoinColumn(name="acid", referencedColumnName="acid")
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JoinColumn(name = "\"ACID\"", referencedColumnName = "\"ACID\"")
 	private ACCT_MASTER aCCT_MASTER;
 	
 	public ACCT_MASTER getaCCT_MASTER() {
@@ -38,66 +44,120 @@ public class TRAN_MASTER implements Serializable{
 		this.aCCT_MASTER = aCCT_MASTER;
 	}
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"TRAN_DATE\"")
 	private Date	tran_date;
+	@Column(name = "\"TRAN_TYPE\"")
 	private String	tran_type;
+	@Column(name = "\"TRAN_SUB_TYPE\"")
 	private String	tran_sub_type;
+	@Column(name = "\"PART_TRAN_SRL_NUM\"")
 	private String	part_tran_srl_num;
+	@Column(name = "\"TRAN_CRNCY_CODE\"")
 	private String	tran_crncy_code;
+	@Column(name = "\"TRAN_AMT\"")
 	private BigDecimal	tran_amt;
+	@Column(name = "\"TRAN_PARTICULAR\"")
 	private String	tran_particular;
+	@Column(name = "\"TRAN_RMKS\"")
 	private String	tran_rmks;
+	@Column(name = "\"REF_NUM\"")
 	private String	ref_num;
+	@Column(name = "\"MODULE_ID\"")
 	private String	module_id;
+	@Column(name = "\"TR_STATUS\"")
 	private String	tr_status;
+	@Column(name = "\"ENTRY_USER_ID\"")
 	private String	entry_user_id;
+	@Column(name = "\"PSTD_USER_ID\"")
 	private String	pstd_user_id;
+	@Column(name = "\"VFD_USER_ID\"")
 	private String	vfd_user_id;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"ENTRY_DATE\"")
 	private Date	entry_date;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"VFD_DATE\"")
 	private Date	vfd_date;
+	@Column(name = "\"PSTD_FLG\"")
 	private String	pstd_flg;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"PSTD_DATE\"")
 	private Date	pstd_date;
+	@Column(name = "\"DEL_FLG\"")
 	private String	del_flg;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"RCRE_TIME\"")
 	private Date	rcre_time;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"LCHG_TIME\"")
 	private Date	lchg_time;
+	@Column(name = "\"CUST_ID\"")
 	private String	cust_id;
+	@Column(name = "\"RATE_CODE\"")
 	private String	rate_code;
+	@Column(name = "\"RATE\"")
 	private BigDecimal	rate;
+	@Column(name = "\"CRNCY_CODE\"")
 	private String	crncy_code;
+	@Column(name = "\"FX_TRAN_AMT\"")
 	private BigDecimal	fx_tran_amt;
+	@Column(name = "\"TRAN_PARTICULAR_CODE\"")
 	private String	tran_particular_code;
+	@Column(name = "\"TRAN_FREE_CODE1\"")
 	private String	tran_free_code1;
+	@Column(name = "\"TRAN_FREE_CODE2\"")
 	private String	tran_free_code2;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"REVERSAL_DATE\"")
 	private Date	reversal_date;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"REVERSAL_VALUE_DATE\"")
 	private Date	reversal_value_date;
+	@Column(name = "\"SCHM_CODE\"")
 	private String	schm_code;
+	@Column(name = "\"DTT_FLOW_CODE\"")
 	private String	dtt_flow_code;
+	@Column(name = "\"LOAN_FLOW_CODE\"")
 	private String	loan_flow_code;
+	@Column(name = "\"CTRAN_ID\"")
 	private String	ctran_id;
+	@Column(name = "\"REVERSAL_FLG\"")
 	private String	reversal_flg;
+	@Column(name = "\"REV_TRAN_DATE\"")
 	private Date	rev_tran_date;
+	@Column(name = "\"REV_TRAN_ID\"")
 	private String	rev_tran_id;
+	@Column(name = "\"REV_PART_TRAN_SRL_NUM\"")
 	private String	rev_part_tran_srl_num;
+	@Column(name = "\"RECV_BANKBRANCHCODE\"")
 	private String	recv_bankbranchcode;
+	@Column(name = "\"RECV_ACCTNUMBER\"")
 	private String	recv_acctnumber;
+	@Column(name = "\"RECV_NAME\"")
 	private String	recv_name;
+	@Column(name = "\"TRAN_REF_BEN\"")
 	private String	tran_ref_ben;
+	@Column(name = "\"PAYEE_NAME\"")
 	private String	payee_name;
+	@Column(name = "\"EXTRACTION_DATE\"")
 	private Date	extraction_date;
+	@Column(name = "\"TRANSACTION_INDICATOR\"")
 	private String	transaction_indicator;
+	@Column(name = "\"FREE_TEXT1\"")
 	private String	free_text1;
+	@Column(name = "\"FREE_TEXT2\"")
 	private String	free_text2;
+	@Column(name = "\"FREE_TEXT3\"")
 	private String	free_text3;
+	@Column(name = "\"DTT_CONTRA_ACID\"")
 	private String	dtt_contra_acid;
+	@Column(name = "\"EFT_CIF_ID\"")
 	private String eft_cif_id;
+	@Column(name = "\"EFT_FORACID\"")
 	private String eft_foracid;
+	@Column(name = "\"EFT_AMOUNT\"")
 	private BigDecimal eft_amount;
+	@Column(name = "\"EFT_ACID\"")
 	private String eft_acid;
 	
 	public String getReversal_flg() {

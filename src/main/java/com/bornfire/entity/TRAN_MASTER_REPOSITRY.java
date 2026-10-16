@@ -19,94 +19,106 @@ import org.springframework.stereotype.Repository;
 public interface TRAN_MASTER_REPOSITRY extends JpaRepository<TRAN_MASTER, String> {
 	Optional<TRAN_MASTER> findById(String directorId);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where tran_date between ?1 and ?2 ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC",
+			countQuery = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\"",
+			nativeQuery = true)
+	Page<TRAN_MASTER> findAllCustom(Pageable pageable);
+
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\"", nativeQuery = true)
+	String findAlldatecount();
+
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_DATE\" BETWEEN ?1 AND ?2 ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC",
+			countQuery = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_DATE\" BETWEEN ?1 AND ?2",
+			nativeQuery = true)
 	Page<TRAN_MASTER> findAllCustom(Date formdate, Date todate, Pageable pageable);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where Tran_date between ?1 and ?2 ORDER BY tran_date DESC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_DATE\" BETWEEN ?1 AND ?2", nativeQuery = true)
 	String findAlldatecount(Date today, Date fromdate);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where Tran_date=?1 ORDER BY tran_date DESC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_DATE\" = ?1", nativeQuery = true)
 	String findAlldatecount1(Date today);
 
 	/*******************************************************
 	 * TRANSACTION INQUIRY SEARCH
 	 **************************************************************/
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where tran_crncy_code =?1 ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_CRNCY_CODE\" = ?1 ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	List<TRAN_MASTER> getTRANCRNCY(String CustName2);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where tran_crncy_code =?1 ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_CRNCY_CODE\" = ?1", nativeQuery = true)
 	String getTRANCRNCYcount(String CustName2);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where ref_num LIKE %?1% ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"REF_NUM\" LIKE %?1% ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	List<TRAN_MASTER> getTRANREF(String CustName2);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where ref_num LIKE %?1% ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"REF_NUM\" LIKE %?1%", nativeQuery = true)
 	String getTRANREFcount(String CustName2);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where tran_date = ?1 ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_DATE\" = ?1 ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	List<TRAN_MASTER> getTRANDATE(String CustName2);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where tran_date = ?1 ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_DATE\" = ?1", nativeQuery = true)
 	String getTRANDATEcount(String CustName2);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where trim(tran_id) = ?1 ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE TRIM(\"TRAN_ID\") = ?1 ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	List<TRAN_MASTER> getTRANID(String CustName2);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where trim(tran_id) = ?1 ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE TRIM(\"TRAN_ID\") = ?1", nativeQuery = true)
 	String getTRANIDcount(String CustName2);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where trim(part_tran_srl_num) = ?1 ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE TRIM(\"PART_TRAN_SRL_NUM\") = ?1 ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	List<TRAN_MASTER> getPARTTRANID(String CustName2);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where trim(part_tran_srl_num) = ?1 ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE TRIM(\"PART_TRAN_SRL_NUM\") = ?1", nativeQuery = true)
 	String getPARTTRANIDcount(String CustName2);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where part_tran_type = ?1 ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"PART_TRAN_TYPE\" = ?1 ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	List<TRAN_MASTER> getPARTTRANTYPE(String CustName2);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where part_tran_type = ?1 ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"PART_TRAN_TYPE\" = ?1", nativeQuery = true)
 	String getPARTTRANTYPEcount(String CustName2);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where tran_amt = ?1 ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_AMT\" = ?1 ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	List<TRAN_MASTER> getTRANAMT(String CustName2);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where tran_amt = ?1 ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_AMT\" = ?1", nativeQuery = true)
 	String getTRANAMTcount(String CustName2);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where acid in(select acid from bam where  substr(tam_deposit_status,1,2) LIKE '%?1%') ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TR_STATUS\" = ?1 ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	List<TRAN_MASTER> getTRANSTATUS(String CustName2);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where tr_status = ?1 ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TR_STATUS\" = ?1", nativeQuery = true)
 	String getTRANSTATUScount(String CustName2);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where acid in (select acid from bam where foracid = ?1) ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"ACID\" IN (SELECT \"ACID\" FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"FORACID\" = ?1) ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	List<TRAN_MASTER> getTRANACCT(String CustName2);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where acid in (select acid from bam where foracid = ?1) ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"ACID\" IN (SELECT \"ACID\" FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"FORACID\" = ?1)", nativeQuery = true)
 	String getTRANACCTcount(String CustName2);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where acid in(select acid from bam where acct_name like %?1%) ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"ACID\" IN (SELECT \"ACID\" FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"ACCT_NAME\" LIKE %?1%) ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	List<TRAN_MASTER> getTRANCUST(String CustName2);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where acid in(select acid from bam where acct_name like %?1%) ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"ACID\" IN (SELECT \"ACID\" FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"ACCT_NAME\" LIKE %?1%)", nativeQuery = true)
 	String getTRANCUSTcount(String CustName2);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where acid in(select acid from bam where cif_id like %?1%) ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"ACID\" IN (SELECT \"ACID\" FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"CIF_ID\" LIKE %?1%) ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	List<TRAN_MASTER> getTRANCUSTID(String CustName2);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where acid in(select acid from bam where cif_id like %?1%) ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"ACID\" IN (SELECT \"ACID\" FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"CIF_ID\" LIKE %?1%)", nativeQuery = true)
 	String getTRANCUSTIDcount(String CustName2);
 
 	/********************************************************
 	 * TRANSACTION INQUIRY SEARCH
 	 ***************************************************************/
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where Tran_date between ?1 and ?2 ORDER BY tran_date DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_DATE\" BETWEEN ?1 AND ?2 ORDER BY \"TRAN_DATE\" DESC, \"PART_TRAN_SRL_NUM\" ASC",
+			countQuery = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_DATE\" BETWEEN ?1 AND ?2",
+			nativeQuery = true)
 	Page<TRAN_MASTER> findAlldate(Date fromdate, Date todate, Pageable pageable);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where Tran_date =?1 ORDER BY tran_date DESC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_DATE\" = ?1", nativeQuery = true)
 	String findAlldatecount(String fromdate);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where Tran_date between ?1 and ?2 ORDER BY tran_date DESC", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_DATE\" BETWEEN ?1 AND ?2", nativeQuery = true)
 	String findAlldatecount(String fromdate, String todate);
 
 	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where tran_id=?1", nativeQuery = true)

@@ -1479,8 +1479,9 @@ System.out.println("AuditlogValue "+AuditlogValue);
 		if (formmode == null || formmode.equals("list")) {
 			md.addAttribute("menu", "CustomerInquiry");
 			md.addAttribute("formmode", "list"); // to set which form - valid values are "edit" , "add" & "list"
-			md.addAttribute("customerInquiry", cmgMaster.findAllCustom(PageRequest.of(currentPage, pageSize)));
-			md.addAttribute("COUNT", "10");
+			Page<CMG_MASTER> custPage = cmgMaster.findAllCustom(PageRequest.of(currentPage, pageSize));
+			md.addAttribute("customerInquiry", custPage);
+			md.addAttribute("COUNT", String.valueOf(custPage.getTotalElements()));
 
 		}
 		md.addAttribute("inquiryflag", "inquiryflag");
@@ -1647,7 +1648,9 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			md.addAttribute("menuparent", "inquiry");
 			md.addAttribute("menuname", "Accounts Inquiry");
 			md.addAttribute("formmode", "list");
-			md.addAttribute("AccountList", ACCTMaster.findAllAcctIdCustom(PageRequest.of(currentPage, pageSize)));
+			Page<ACCT_MASTER> acctPage = ACCTMaster.findAllAcctIdCustom(PageRequest.of(currentPage, pageSize));
+			md.addAttribute("AccountList", acctPage);
+			md.addAttribute("count", String.valueOf(acctPage.getTotalElements()));
 
 		}
 		md.addAttribute("inquiryflag", "inquiryflag");
@@ -1739,31 +1742,28 @@ System.out.println("AuditlogValue "+AuditlogValue);
 		int currentPage = page.orElse(0);
 		int pageSize = size.orElse(Integer.parseInt(pagesize));
 
-		/// Get Yesterday date
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		final Calendar cal1 = Calendar.getInstance();
-		final Calendar cal2 = Calendar.getInstance();
-
-		cal1.add(Calendar.DATE, -2);
-		cal2.add(Calendar.DATE, -1);
-		String date = dateFormat.format(cal1.getTime());
-		String date1 = dateFormat.format(cal2.getTime());
-
-		Date fromdate1 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
-		Date todate1 = new SimpleDateFormat("dd/MM/yyyy").parse(date1);
-
 		String roleId = (String) req.getSession().getAttribute("ROLEID");
 		md.addAttribute("AMLRoleMenu", AccessRoleService.getRoleMenu(roleId));
 		if (formmode == null || formmode.equals("list")) {
 			md.addAttribute("menu", "TransactionInquiry");
 			md.addAttribute("menuname", "Transaction Inquiry");
 			md.addAttribute("formmode", "list");
-			md.addAttribute("fromdate", date);
-			md.addAttribute("todate", date1);
-			md.addAttribute("datatype", "list"); // to set which form - valid values are "edit" , "add" & "list"
-			md.addAttribute("transactionInquiry",
-					TRANMaster.findAllCustom(fromdate1, todate1, PageRequest.of(currentPage, pageSize)));
-			md.addAttribute("count", TRANMaster.findAlldatecount(fromdate1, todate1));
+			md.addAttribute("datatype", "list");
+			if (fromdate != null && !fromdate.trim().isEmpty() && todate != null && !todate.trim().isEmpty()) {
+				Date fromdate1 = new SimpleDateFormat("dd/MM/yyyy").parse(fromdate);
+				Date todate1 = new SimpleDateFormat("dd/MM/yyyy").parse(todate);
+				md.addAttribute("fromdate", fromdate);
+				md.addAttribute("todate", todate);
+				md.addAttribute("transactionInquiry",
+						TRANMaster.findAllCustom(fromdate1, todate1, PageRequest.of(currentPage, pageSize)));
+				md.addAttribute("count", TRANMaster.findAlldatecount(fromdate1, todate1));
+			} else {
+				md.addAttribute("fromdate", "");
+				md.addAttribute("todate", "");
+				Page<TRAN_MASTER> tranPage = TRANMaster.findAllCustom(PageRequest.of(currentPage, pageSize));
+				md.addAttribute("transactionInquiry", tranPage);
+				md.addAttribute("count", String.valueOf(tranPage.getTotalElements()));
+			}
 
 		}
 		md.addAttribute("inquiryflag", "inquiryflag");
@@ -1832,7 +1832,7 @@ System.out.println("AuditlogValue "+AuditlogValue);
 		// md.addAttribute("datatype", "list");
 		md.addAttribute("inquiryflag", "inquiryflag");
 
-		return "NewFile";
+		return "AMLTransaction";
 	}
 
 	@RequestMapping(value = "TransactionInquirydate", method = { RequestMethod.GET, RequestMethod.POST })
@@ -1862,7 +1862,7 @@ System.out.println("AuditlogValue "+AuditlogValue);
 
 		md.addAttribute("inquiryflag", "inquiryflag");
 
-		return "NewFile";
+		return "AMLTransaction";
 	}
 
 	/*************************************

@@ -724,32 +724,32 @@ location.href = Callurl;
 											class="userlist">
 
 											<td class="underline" onclick="fnClickCUST(this);"
-												th:attr="data-custId=${transaction.aCCT_MASTER.cif_id}"
-												th:text="${transaction.aCCT_MASTER.cif_id}"></td>
+												th:attr="data-custId=${transaction.aCCT_MASTER?.cif_id}"
+												th:text="${transaction.aCCT_MASTER?.cif_id}"></td>
 												
-											 <td th:text="${transaction.aCCT_MASTER.acct_name}"></td>
+											 <td th:text="${transaction.aCCT_MASTER?.acct_name}"></td>
 													
 											 <td th:text="${#dates.format(transaction.tran_date,'dd/MM/yyyy')}"></td>
 													
 											 <td th:text="${#numbers.formatDecimal(transaction.tran_amt,1,'COMMA',2,'POINT')}" align="right">CHENNAI</td>
 													
-											 <td th:attr="data-custId=${transaction.aCCT_MASTER.schm_code}" th:text="${transaction.aCCT_MASTER.schm_type}"></td>
+											 <td th:attr="data-custId=${transaction.aCCT_MASTER?.schm_code}" th:text="${transaction.aCCT_MASTER?.schm_type}"></td>
 											 
-											 <th:block th:if="${transaction.aCCT_MASTER.schm_type} !='LAA' AND ${transaction.aCCT_MASTER.schm_type} !='TDA' and ${transaction.tran_sub_type} != 'NP' AND ${transaction.tran_sub_type} != 'NR' OR ${transaction.aCCT_MASTER.schm_type} =='OAB' "
+											 <th:block th:if="${transaction.aCCT_MASTER?.schm_type} !='LAA' AND ${transaction.aCCT_MASTER?.schm_type} !='TDA' and ${transaction.tran_sub_type} != 'NP' AND ${transaction.tran_sub_type} != 'NR' OR ${transaction.aCCT_MASTER?.schm_type} =='OAB' "
 												th:switch="${transaction.transactionmasterembeddedid.part_tran_type}">
 												<td th:case="'C'">Other Receipts</td>
 												<td th:case="'D'">Other Withdrawal</td>
 											</th:block> 
-											<th:block th:if="${transaction.aCCT_MASTER.schm_type} =='LAA' AND ${transaction.dtt_flow_code} == ''" th:switch="${transaction.transactionmasterembeddedid.part_tran_type}" >
+											<th:block th:if="${transaction.aCCT_MASTER?.schm_type} =='LAA' AND ${transaction.dtt_flow_code} == ''" th:switch="${transaction.transactionmasterembeddedid.part_tran_type}" >
 											<td th:case="'C'">Other Receipts</td>
 												<td th:case="'D'">Other Withdrawal</td>
 											</th:block>
 												
-											<td th:if="${transaction.aCCT_MASTER.schm_type} =='LAA' AND ${transaction.dtt_flow_code} != null" th:text="${transaction.dtt_flow_code}" ></td>
+											<td th:if="${transaction.aCCT_MASTER?.schm_type} =='LAA' AND ${transaction.dtt_flow_code} != null" th:text="${transaction.dtt_flow_code}" ></td>
 										
 												
 											<td class="underline" onclick="fnClick(this);"
-												th:attr="data-tran_id=${transaction.transactionmasterembeddedid.tran_id},data-tran_ref_no=${transaction?.ref_num},data-foracid=${transaction.aCCT_MASTER.acid},data-parttran=${transaction.part_tran_srl_num},data-trandate = ${#dates.format(transaction.tran_date,'dd-MMM-yyyy')}"
+												th:attr="data-tran_id=${transaction.transactionmasterembeddedid.tran_id},data-tran_ref_no=${transaction?.ref_num},data-foracid=${transaction.aCCT_MASTER?.acid},data-parttran=${transaction.part_tran_srl_num},data-trandate = ${#dates.format(transaction.tran_date,'dd-MMM-yyyy')}"
 												th:text="${transaction.transactionmasterembeddedid.tran_id}">
 											</td>
 												

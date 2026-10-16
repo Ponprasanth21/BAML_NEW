@@ -17,7 +17,9 @@ import org.springframework.stereotype.Repository;
 public interface CMG_MASTER_REPOSITRY extends JpaRepository<CMG_MASTER, String> {
 	Optional<CMG_MASTER> findById(String directorId);
 
-	@Query(value = "select * from BAML_CUST_MAST_TABLE order by cust_id DESC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_CUST_MAST_TABLE\" ORDER BY \"CUST_ID\" DESC",
+			countQuery = "SELECT COUNT(*) FROM \"AML\".\"BAML_CUST_MAST_TABLE\"",
+			nativeQuery = true)
 	Page<CMG_MASTER> findAllCustom(Pageable pageable);
 
 	@Query(value = "select * from BAML_CUST_MAST_TABLE where cif_id=?1", nativeQuery = true)
@@ -140,31 +142,31 @@ public interface CMG_MASTER_REPOSITRY extends JpaRepository<CMG_MASTER, String> 
 	 * SEARCH DETAILS
 	 *********************************************/
 
-	@Query(value = "select * from BAML_CUST_MAST_TABLE where cif_id LIKE %?1%", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_CUST_MAST_TABLE\" WHERE \"CIF_ID\" LIKE %?1%", nativeQuery = true)
 	List<CMG_MASTER> getcustomerId(String custid2);
 
-	@Query(value = "select * from BAML_CUST_MAST_TABLE where   UPPER(cust_name)  like UPPER(?1)", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_CUST_MAST_TABLE\" WHERE UPPER(\"CUST_NAME\") LIKE UPPER(?1)", nativeQuery = true)
 	List<CMG_MASTER> getcustomerName(String custName2);
 
-	@Query(value = "select * from BAML_CUST_MAST_TABLE where upper(residing_country) like UPPER(?1)", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_CUST_MAST_TABLE\" WHERE UPPER(\"RESIDING_COUNTRY\") LIKE UPPER(?1)", nativeQuery = true)
 	List<CMG_MASTER> getcustomerDOB(String custName2);
 
-	@Query(value = "select * from BAML_CUST_MAST_TABLE where preferredphone LIKE %?1%", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_CUST_MAST_TABLE\" WHERE \"PREFERREDPHONE\" LIKE %?1%", nativeQuery = true)
 	List<CMG_MASTER> getcustomerNUMBER(String custName2);
 
-	@Query(value = "select count(*) from BAML_CUST_MAST_TABLE where preferredphone LIKE %?1%", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_CUST_MAST_TABLE\" WHERE \"PREFERREDPHONE\" LIKE %?1%", nativeQuery = true)
 	String getcustomerNUMBERcount(String custName2);
 
-	@Query(value = "select * from BAML_CUST_MAST_TABLE where preferredemail LIKE %?1%", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_CUST_MAST_TABLE\" WHERE \"PREFERREDEMAIL\" LIKE %?1%", nativeQuery = true)
 	List<CMG_MASTER> getcustomerEMAIL(String custName2);
 
-	@Query(value = "select count(*) from BAML_CUST_MAST_TABLE where preferredemail LIKE %?1%", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_CUST_MAST_TABLE\" WHERE \"PREFERREDEMAIL\" LIKE %?1%", nativeQuery = true)
 	String getcustomerEMAILcount(String custName2);
 
-	@Query(value = "select * from BAML_CUST_MAST_TABLE where nat_id_card_num LIKE %?1%", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_CUST_MAST_TABLE\" WHERE \"NAT_ID_CARD_NUM\" LIKE %?1%", nativeQuery = true)
 	List<CMG_MASTER> getcustomerNatID(String custName2);
 
-	@Query(value = "select count(*) from BAML_CUST_MAST_TABLE where nat_id_card_num LIKE %?1%", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_CUST_MAST_TABLE\" WHERE \"NAT_ID_CARD_NUM\" LIKE %?1%", nativeQuery = true)
 	String getcustomerNatIDcount(String custName2);
 
 //		888888*************************************************8report

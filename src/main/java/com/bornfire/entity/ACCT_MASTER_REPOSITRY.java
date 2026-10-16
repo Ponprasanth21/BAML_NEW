@@ -17,10 +17,14 @@ import org.springframework.stereotype.Repository;
 public interface ACCT_MASTER_REPOSITRY extends JpaRepository<ACCT_MASTER, String> {
 	Optional<ACCT_MASTER> findById(String directorId);
 
-	@Query(value = "select * from BAML_ACCT_MAST_TABLE where ACCT_CLS_FLG='N'  and schm_code !='LASET' and cust_id=?1 order by cust_id desc", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"ACCT_CLS_FLG\" = 'N' AND \"SCHM_CODE\" != 'LASET' AND \"CUST_ID\" = ?1 ORDER BY \"CUST_ID\" DESC",
+			countQuery = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"ACCT_CLS_FLG\" = 'N' AND \"SCHM_CODE\" != 'LASET' AND \"CUST_ID\" = ?1",
+			nativeQuery = true)
 	Page<ACCT_MASTER> findAllCustIdCustom(String custId, Pageable pageable);
 
-	@Query(value = "select * from BAML_ACCT_MAST_TABLE where ACCT_CLS_FLG='N' and schm_code !='LASET' and cust_id is not null order by cust_id desc", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"ACCT_CLS_FLG\" = 'N' AND \"SCHM_CODE\" != 'LASET' AND \"CUST_ID\" IS NOT NULL ORDER BY \"CUST_ID\" DESC",
+			countQuery = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"ACCT_CLS_FLG\" = 'N' AND \"SCHM_CODE\" != 'LASET' AND \"CUST_ID\" IS NOT NULL",
+			nativeQuery = true)
 	Page<ACCT_MASTER> findAllAcctIdCustom(Pageable pageable);
 
 	@Query(value = "select * from BAML_ACCT_MAST_TABLE  where acid=?1", nativeQuery = true)
@@ -85,40 +89,40 @@ public interface ACCT_MASTER_REPOSITRY extends JpaRepository<ACCT_MASTER, String
 
 	/************************************************************************SEARCH ACCOUNT INQUIRY*********************************************************************/
 
-	@Query(value = "select * from BAML_ACCT_MAST_TABLE where cif_id LIKE %?1% AND ACCT_CLS_FLG='N'  and schm_code !='LASET'", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"CIF_ID\" LIKE %?1% AND \"ACCT_CLS_FLG\" = 'N' AND \"SCHM_CODE\" != 'LASET'", nativeQuery = true)
 	List<ACCT_MASTER> getcustomerId(String custId);
 
-	@Query(value = "select count(*) from BAML_ACCT_MAST_TABLE where cif_id LIKE %?1% AND ACCT_CLS_FLG='N'  and schm_code !='LASET'", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"CIF_ID\" LIKE %?1% AND \"ACCT_CLS_FLG\" = 'N' AND \"SCHM_CODE\" != 'LASET'", nativeQuery = true)
 	String getcustomerIdcount(String custId);
 
-	@Query(value = "select * from BAML_ACCT_MAST_TABLE where foracid LIKE %?1% AND ACCT_CLS_FLG='N'  and schm_code !='LASET'", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"FORACID\" LIKE %?1% AND \"ACCT_CLS_FLG\" = 'N' AND \"SCHM_CODE\" != 'LASET'", nativeQuery = true)
 	List<ACCT_MASTER> getACCNumber(String custId);
 	
-	@Query(value = "select * from BAML_ACCT_MAST_TABLE where acct_name LIKE %?1% AND ACCT_CLS_FLG='N'  and schm_code !='LASET'", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"ACCT_NAME\" LIKE %?1% AND \"ACCT_CLS_FLG\" = 'N' AND \"SCHM_CODE\" != 'LASET'", nativeQuery = true)
 	List<ACCT_MASTER> getACCName(String custId);
 	
-	@Query(value = "select * from BAML_ACCT_MAST_TABLE where schm_code LIKE %?1% AND ACCT_CLS_FLG='N'  and schm_code !='LASET' ", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"SCHM_CODE\" LIKE %?1% AND \"ACCT_CLS_FLG\" = 'N' AND \"SCHM_CODE\" != 'LASET'", nativeQuery = true)
 	List<ACCT_MASTER> getACCSchCode(String custId);
 	
-	@Query(value = "select * from BAML_ACCT_MAST_TABLE where acct_crncy_code LIKE %?1% AND ACCT_CLS_FLG='N'  and schm_code !='LASET'", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"ACCT_CRNCY_CODE\" LIKE %?1% AND \"ACCT_CLS_FLG\" = 'N' AND \"SCHM_CODE\" != 'LASET'", nativeQuery = true)
 	List<ACCT_MASTER> getACCCurCode(String custId);
 	
-	@Query(value = "select * from BAML_ACCT_MAST_TABLE where clr_bal_amt= ?1 AND ACCT_CLS_FLG='N'  and schm_code !='LASET'", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"CLR_BAL_AMT\" = ?1 AND \"ACCT_CLS_FLG\" = 'N' AND \"SCHM_CODE\" != 'LASET'", nativeQuery = true)
 	List<ACCT_MASTER> getACCBalance(String custId);
 	
-	@Query(value = "select count(*) from BAML_ACCT_MAST_TABLE where foracid LIKE %?1% AND ACCT_CLS_FLG='N'  and schm_code !='LASET'", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"FORACID\" LIKE %?1% AND \"ACCT_CLS_FLG\" = 'N' AND \"SCHM_CODE\" != 'LASET'", nativeQuery = true)
 	String getACCNumbercount(String custId);
 	
-	@Query(value = "select count(*) from BAML_ACCT_MAST_TABLE where acct_name LIKE %?1% AND ACCT_CLS_FLG='N'  and schm_code !='LASET'", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"ACCT_NAME\" LIKE %?1% AND \"ACCT_CLS_FLG\" = 'N' AND \"SCHM_CODE\" != 'LASET'", nativeQuery = true)
 	String getACCNamecount(String custId);
 	
-	@Query(value = "select count(*) from BAML_ACCT_MAST_TABLE where schm_code LIKE %?1% AND ACCT_CLS_FLG='N'  and schm_code !='LASET'", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"SCHM_CODE\" LIKE %?1% AND \"ACCT_CLS_FLG\" = 'N' AND \"SCHM_CODE\" != 'LASET'", nativeQuery = true)
 	String getACCSchCodecount(String custId);
 	
-	@Query(value = "select count(*) from BAML_ACCT_MAST_TABLE where acct_crncy_code LIKE %?1% ", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"ACCT_CRNCY_CODE\" LIKE %?1%", nativeQuery = true)
 	String getACCCurCodecount(String custId);
 	
-	@Query(value = "select count(*) from BAML_ACCT_MAST_TABLE where clr_bal_amt= ?1 ", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_MAST_TABLE\" WHERE \"CLR_BAL_AMT\" = ?1", nativeQuery = true)
 	String getACCBalancecount(String custId);
 
 	/************************************************************************SEARCH ACCOUNT INQUIRY*********************************************************************/
