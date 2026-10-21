@@ -115,7 +115,8 @@ PURPOSE		:
 
 		var today = dd + '-' + mm + '-' + yyyy;
 
-		document.getElementById('alert_date').value = today;
+		var elemAlertDate = document.getElementById('alert_date');
+		if (elemAlertDate) elemAlertDate.value = today;
 
 	});
 
@@ -155,11 +156,14 @@ PURPOSE		:
 
 		var today = dd + '/' + mm + '/' + yyyy;
 
-		document.getElementById('entry_date').value = today;
+		var elemEntryDate = document.getElementById('entry_date');
+		if (elemEntryDate) elemEntryDate.value = today;
 
-		document.getElementById('verify_date').value = today;
+		var elemVerifyDate = document.getElementById('verify_date');
+		if (elemVerifyDate) elemVerifyDate.value = today;
 
-		document.getElementById('modify_date').value = today;
+		var elemModifyDate = document.getElementById('modify_date');
+		if (elemModifyDate) elemModifyDate.value = today;
 
 	});
 
@@ -171,75 +175,32 @@ PURPOSE		:
 
 						var formode = $("#formmode1").val();
 
-						if (formode == "view") {
+						function setReadonlyBackground(selector) {
+							var el = document.querySelector(selector);
+							if (el) el.style.background = '#9a9fa5';
+						}
+
+						if (formode == "view" || formode == "verify" || formode == "delete") {
 
 							$('input').attr('readonly', true);
 
 							$('select').attr('readonly', true);
 
-							document.querySelector('#start_date').style.background = '#9a9fa5';
+							setReadonlyBackground('#start_date');
 
-							document.querySelector('#end_date').style.background = '#9a9fa5';
+							setReadonlyBackground('#end_date');
 
-							document.querySelector('#period_start_date').style.background = '#9a9fa5';
+							setReadonlyBackground('#period_start_date');
 
-							document.querySelector('#period_end_date').style.background = '#9a9fa5';
+							setReadonlyBackground('#period_end_date');
 
-							document.querySelector('#last_tried_date').style.background = '#9a9fa5';
+							setReadonlyBackground('#last_tried_date');
 
-							document.querySelector('#next_exec_status').style.background = '#9a9fa5';
-
-							$(
-
-									"start_date,#end_date,period_start_date,period_end_date,last_tried_date,next_exec_status")
-
-							.attr('readonly', true);
-
-						} else if (formode == "verify") {
-
-							$('input').attr('readonly', true);
-
-							$('select').attr('readonly', true);
-
-							document.querySelector('#start_date').style.background = '#9a9fa5';
-
-							document.querySelector('#end_date').style.background = '#9a9fa5';
-
-							document.querySelector('#period_start_date').style.background = '#9a9fa5';
-
-							document.querySelector('#period_end_date').style.background = '#9a9fa5';
-
-							document.querySelector('#last_tried_date').style.background = '#9a9fa5';
-
-							document.querySelector('#next_exec_status').style.background = '#9a9fa5';
+							setReadonlyBackground('#next_exec_status');
 
 							$(
 
-									"start_date,#end_date,period_start_date,period_end_date,last_tried_date,next_exec_status")
-
-							.attr('readonly', true);
-
-						} else if (formode == "delete") {
-
-							$('input').attr('readonly', true);
-
-							$('select').attr('readonly', true);
-
-							document.querySelector('#start_date').style.background = '#9a9fa5';
-
-							document.querySelector('#end_date').style.background = '#9a9fa5';
-
-							document.querySelector('#period_start_date').style.background = '#9a9fa5';
-
-							document.querySelector('#period_end_date').style.background = '#9a9fa5';
-
-							document.querySelector('#last_tried_date').style.background = '#9a9fa5';
-
-							document.querySelector('#next_exec_status').style.background = '#9a9fa5';
-
-							$(
-
-									"start_date,#end_date,period_start_date,period_end_date,last_tried_date,next_exec_status")
+									"#start_date,#end_date,#period_start_date,#period_end_date,#last_tried_date,#next_exec_status")
 
 							.attr('readonly', true);
 
@@ -973,7 +934,7 @@ PURPOSE		:
 
 									<button th:each="alert : ${KYCParameterList}" type="button"
 										class="btn btn-xs btn-primary btns" id="btnInq"
-										th:attr="data-srl_no=${srlno}" onclick='Editlist(this)'>Edit</button>
+										th:attr="data-srl_no=${alert?.srl_no != null ? alert?.srl_no : (srlno != null ? srlno : '01')}" onclick='Editlist(this)'>Edit</button>
 
 									<button type="button" class="btn btn-xs btn-primary btns"
 										id="btnInq" style="background-color: #1b6491;" onclick="list()">Inquiry</button>
@@ -981,7 +942,7 @@ PURPOSE		:
 									<button th:each="alert : ${KYCParameterList}"
 										th:if="${alert?.entity_flg}=='N'" type="button"
 										class="btn btn-xs btn-primary btns" id="btnInq"
-										th:attr="data-srl_no=${srlno}" onclick='alert_verify(this)'>Verify</button>
+										th:attr="data-srl_no=${alert?.srl_no != null ? alert?.srl_no : (srlno != null ? srlno : '01')}" onclick='alert_verify(this)'>Verify</button>
 
 
 								</div>
@@ -2557,6 +2518,25 @@ PURPOSE		:
 
 									</div>
 
+									<div class="card-footer text-center" style="height: 38px;">
+										<button th:if="${formmode}=='verify'" type="button"
+											class="btn btn-xs btn-primary" style="margin-top: -12px;"
+											onclick="verifyform(this);" form="KycParameter"
+											id="btnVerify" th:attr="data-formmode=${formmode}">Verify</button>
+
+										<button th:if="${formmode}=='edit' OR ${formmode}=='Editlist'" type="button"
+											style="margin-top: -12px;" class="btn btn-xs btn-primary"
+											onclick="submitform(this);" form="KycParameter"
+											id="btnSubmit"
+											th:attr="data-formmode=${formmode}">Submit</button>
+
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnHome" style="margin-top: -12px;" onclick="home1();">Home</button>
+
+										<button type="button" class="btn btn-xs btn-primary"
+											id="btnBack" style="margin-top: -12px;" onclick="back1();">Back</button>
+									</div>
+
 								</form>
 							</div>
 
@@ -2852,11 +2832,11 @@ PURPOSE		:
 												id="btnVerify" th:attr="data-formmode=${formmode}">Verify</button>
 
 
-											<button th:if="${formmode}=='edit' " type="button"
+											<button th:if="${formmode}=='edit' OR ${formmode}=='Editlist'" type="button"
 												style="margin-top: -12px;" class="btn btn-xs btn-primary"
 												onclick="submitform(this);" form="KycParameter"
 												id="btnSubmit"
-												th:attr="data-formmode=${formmode},data-type=${name}">Submit</button>
+												th:attr="data-formmode=${formmode}">Submit</button>
 
 
 											<button type="button" class="btn btn-xs btn-primary"

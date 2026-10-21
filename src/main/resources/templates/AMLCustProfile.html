@@ -165,15 +165,11 @@ PURPOSE		:
 	}
 
 	function home() {
-		$("#loadermodal").modal("toggle");
-		location.href = 'Dashboard'
+		location.href = 'Dashboard';
 	}
 
 	function back() {
-		$("#loadermodal").modal("toggle");
-		var Callurl = 'CustomerInquiry?formmode=list';
-		location.href = Callurl;
-		//window.history.back();
+		window.history.back();
 	}
 	$(document).ready(function() {
 		  $('#CustSearch').on('shown.bs.modal', function() {

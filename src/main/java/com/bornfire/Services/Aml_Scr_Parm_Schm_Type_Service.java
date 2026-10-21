@@ -5,6 +5,7 @@ package com.bornfire.Services;
  * 
  * */
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,31 +49,37 @@ public class Aml_Scr_Parm_Schm_Type_Service {
 	SessionFactory sessionFactory;
 
 	public String addSchm_Type_List(Aml_Scr_Parm_Schm_Type_Entity alertparam, String formmode,String USERID) {
-		// TODO Auto-generated method stub
 		String msg = "";
 		
 		Session hs1 = sessionFactory.getCurrentSession();
 
-		BigDecimal Number1 = (BigDecimal) hs1.createNativeQuery("SELECT aml_audit_seq.NEXTVAL AS SRL_NO FROM DUAL")
-				.getSingleResult();
+		BigDecimal Number1 = null;
+		try {
+			Number1 = (BigDecimal) hs1.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
+					.getSingleResult();
+		} catch (Exception e) {
+			Number1 = new BigDecimal(System.currentTimeMillis());
+		}
+
 		if (formmode.equals("Corp_add")) {
 			Aml_Scr_Parm_Schm_Type_Entity up = alertparam;
 			Session hs = sessionFactory.getCurrentSession();
+			DecimalFormat numformate = new DecimalFormat("000");
 			
-		DecimalFormat numformate = new DecimalFormat("0");
-			
-			if (up.getRef_no().isEmpty() || up.getRef_no().equals(null)) {
-				BigDecimal billNumber = (BigDecimal) hs
-						.createNativeQuery("SELECT BAML_SCR_PARM_SCHM_TYPE_SEQUENCE.NEXTVAL AS SRL_NO FROM DUAL")
-						.getSingleResult();
-				String serialno = numformate.format(billNumber);
-				up.setRef_no(serialno);
+			if (up.getRef_no() == null || up.getRef_no().trim().isEmpty()) {
+				try {
+					BigInteger cnt = (BigInteger) hs.createNativeQuery("SELECT COUNT(*) FROM \"AML\".\"BAML_SCR_PARM_SCHM_TYPE\"").getSingleResult();
+					up.setRef_no(numformate.format(cnt.longValue() + 1));
+				} catch (Exception e) {
+					up.setRef_no(String.valueOf(System.currentTimeMillis() % 1000));
+				}
 			}
 			
-			
-			hs.save(up);
 			up.setDel_flag('N');
 			up.setEntity_flag('N');
+			up.setModify_flag('N');
+			up.setAml_entry_user(USERID);
+			up.setAml_entry_time(new Date());
 			aml_scr_parm_schm_type_Repository.save(up);
 			AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
 			audit.setAudit_date(new Date());
@@ -80,192 +87,179 @@ public class Aml_Scr_Parm_Schm_Type_Service {
 			audit.setEntry_user(USERID);
 			audit.setFunc_code("PARAMETER CREATED");
 			audit.setRemarks("ADDED");
-			audit.setAudit_table("BAML_SCR_PARM_CUST_TYPE");
+			audit.setAudit_table("BAML_SCR_PARM_SCHM_TYPE");
 			audit.setAudit_screen("LOAN TYPE SCREENING PARAMETER");
 			audit.setEvent_id(up.getCust_id());
 			audit.setEvent_name(up.getRef_no());
 			audit.setModi_details("PARAMETER CREATED");
-			audit.setAudit_ref_no(Number1.toString());
+			audit.setAudit_ref_no(Number1 != null ? Number1.toString() : "1");
 			auditLocal.save(audit);
 
 			msg = "Loan Scheme Created Successfully";
 
 		} else if (formmode.equals("Corp_edit")) {
-			Aml_Scr_Parm_Schm_Type_Entity up = alertparam;
-			up.setDel_flag('N');
-			up.setModify_flag('Y');
-			up.setEntity_flag('N');
-			aml_scr_parm_schm_type_Repository.save(up);
-			msg = "Loan Scheme Edited Successfully";
+			Aml_Scr_Parm_Schm_Type_Entity existing = getSrlNo(alertparam.getRef_no());
+			if (existing != null && existing.getRef_no() != null) {
+				if ("N".equalsIgnoreCase(String.valueOf(existing.getEntity_flag()))) {
+					return "Record is pending verification and cannot be modified!";
+				}
+				if (alertparam.getCrncy_code() != null) existing.setCrncy_code(alertparam.getCrncy_code());
+				if (alertparam.getLoan_limit() != null) existing.setLoan_limit(alertparam.getLoan_limit());
+				if (alertparam.getLoan_scheme() != null) existing.setLoan_scheme(alertparam.getLoan_scheme());
+				if (alertparam.getLoan_conditions() != null) existing.setLoan_conditions(alertparam.getLoan_conditions());
+				if (alertparam.getSchm_code() != null) existing.setSchm_code(alertparam.getSchm_code());
+				if (alertparam.getGl_sub_head_code() != null) existing.setGl_sub_head_code(alertparam.getGl_sub_head_code());
+				if (alertparam.getCust_id() != null) existing.setCust_id(alertparam.getCust_id());
+				if (alertparam.getParameters() != null) existing.setParameters(alertparam.getParameters());
+				if (alertparam.getStart_date() != null) existing.setStart_date(alertparam.getStart_date());
+				if (alertparam.getEnd_date() != null) existing.setEnd_date(alertparam.getEnd_date());
+				if (alertparam.getRemarks1() != null) existing.setRemarks1(alertparam.getRemarks1());
+				if (alertparam.getRemarks2() != null) existing.setRemarks2(alertparam.getRemarks2());
+
+				existing.setDel_flag('N');
+				existing.setModify_flag('Y');
+				existing.setEntity_flag('N');
+				existing.setAml_modify_user(USERID);
+				existing.setAml_modify_time(new Date());
+				aml_scr_parm_schm_type_Repository.save(existing);
+
+				try {
+					AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
+					audit.setAudit_date(new Date());
+					audit.setEntry_time(new Date());
+					audit.setEntry_user(USERID);
+					audit.setFunc_code("PARAMETER MODIFIED");
+					audit.setRemarks("MODIFIED");
+					audit.setAudit_table("BAML_SCR_PARM_SCHM_TYPE");
+					audit.setAudit_screen("LOAN TYPE SCREENING PARAMETER");
+					audit.setEvent_id(existing.getCust_id());
+					audit.setEvent_name(existing.getRef_no());
+					audit.setModi_details("PARAMETER MODIFIED");
+					audit.setAudit_ref_no(Number1 != null ? Number1.toString() : "1");
+					auditLocal.save(audit);
+				} catch (Exception e) {
+					System.out.println("Audit save error: " + e.getMessage());
+				}
+				msg = "Loan Scheme Edited Successfully";
+			} else {
+				msg = "Record not found!";
+			}
 		} else if (formmode.equals("Corp_delete")) {
-			Aml_Scr_Parm_Schm_Type_Entity up = alertparam;
-			up.setDel_flag('Y');
-			up.setEntity_flag('N');
-			aml_scr_parm_schm_type_Repository.save(up);
-			AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
-			audit.setAudit_date(new Date());
-			audit.setEntry_time(new Date());
-			audit.setEntry_user(USERID);
-			audit.setFunc_code("PARAMETER REMOVED");
-			audit.setRemarks("REMOVED");
-			audit.setAudit_table("BAML_SCR_PARM_CUST_TYPE");
-			audit.setAudit_screen("LOAN TYPE SCREENING PARAMETER");
-			audit.setEvent_id(up.getCust_id());
-			audit.setEvent_name(up.getRef_no());
-			audit.setModi_details("PARAMETER DELETED");
-			audit.setAudit_ref_no(Number1.toString());
-			auditLocal.save(audit);
-			msg = "Loan Scheme Deleted Successfully";
+			Aml_Scr_Parm_Schm_Type_Entity existing = getSrlNo(alertparam.getRef_no());
+			if (existing != null && existing.getRef_no() != null) {
+				existing.setDel_flag('Y');
+				existing.setEntity_flag('N');
+				aml_scr_parm_schm_type_Repository.save(existing);
+				AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
+				audit.setAudit_date(new Date());
+				audit.setEntry_time(new Date());
+				audit.setEntry_user(USERID);
+				audit.setFunc_code("PARAMETER REMOVED");
+				audit.setRemarks("REMOVED");
+				audit.setAudit_table("BAML_SCR_PARM_SCHM_TYPE");
+				audit.setAudit_screen("LOAN TYPE SCREENING PARAMETER");
+				audit.setEvent_id(existing.getCust_id());
+				audit.setEvent_name(existing.getRef_no());
+				audit.setModi_details("PARAMETER DELETED");
+				audit.setAudit_ref_no(Number1 != null ? Number1.toString() : "1");
+				auditLocal.save(audit);
+				msg = "Loan Scheme Deleted Successfully";
+			} else {
+				msg = "Record not found!";
+			}
 		} else if (formmode.equals("Corp_verify")) {
-			AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
-			Aml_Scr_Parm_Schm_Type_Entity up = alertparam;
-			up.setEntity_flag('Y');
-			up.setDel_flag('N');
-			aml_scr_parm_schm_type_Repository.save(up);
-			audit.setAudit_date(new Date());
-			audit.setAudit_table("BAML_SCR_PARM_CUST_TYPE");
-			audit.setAudit_screen(" LOAN TYPE SCREENING PARAMETER- MODIFIED");
-			audit.setFunc_code("PARAMETER MODIFIED");
-			audit.setRemarks("VERIFIED");
-			audit.setEvent_id(up.getCust_id());
-			audit.setEvent_name(up.getRef_no());
-			audit.setModi_details(audit.getModi_details());
-			audit.setEntry_user(up.getAml_modify_user());
-			audit.setEntry_time(up.getAml_modify_time());
-			audit.setAuth_user(USERID);
-			audit.setAuth_time(new Date());
-			audit.setAudit_ref_no(audit.getAudit_ref_no());
-			msg = "Loan Scheme Verified Successfully";
+			Aml_Scr_Parm_Schm_Type_Entity existing = getSrlNo(alertparam.getRef_no());
+			if (existing != null && existing.getRef_no() != null) {
+				String verifyUser = USERID;
+				String modifyUser = existing.getAml_modify_user();
+				String entryUser = existing.getAml_entry_user();
+				if (modifyUser != null && !modifyUser.trim().isEmpty()) {
+					if (modifyUser.trim().equalsIgnoreCase(verifyUser.trim())) {
+						return "Same User Cannot Verify!";
+					}
+				} else if (entryUser != null && !entryUser.trim().isEmpty()) {
+					if (entryUser.trim().equalsIgnoreCase(verifyUser.trim())) {
+						return "Same User Cannot Verify!";
+					}
+				}
+
+				existing.setEntity_flag('Y');
+				existing.setModify_flag('N');
+				existing.setDel_flag('N');
+				existing.setAml_verify_user(verifyUser);
+				existing.setAml_verify_time(new Date());
+				aml_scr_parm_schm_type_Repository.save(existing);
+
+				try {
+					AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
+					audit.setAudit_date(new Date());
+					audit.setAudit_table("BAML_SCR_PARM_SCHM_TYPE");
+					audit.setAudit_screen("LOAN TYPE SCREENING PARAMETER- MODIFIED");
+					audit.setFunc_code("PARAMETER MODIFIED");
+					audit.setRemarks("VERIFIED");
+					audit.setEvent_id(existing.getCust_id());
+					audit.setEvent_name(existing.getRef_no());
+					audit.setModi_details("PARAMETER VERIFIED");
+					audit.setEntry_user(existing.getAml_modify_user() != null ? existing.getAml_modify_user() : existing.getAml_entry_user());
+					audit.setEntry_time(existing.getAml_modify_time() != null ? existing.getAml_modify_time() : existing.getAml_entry_time());
+					audit.setAuth_user(verifyUser);
+					audit.setAuth_time(new Date());
+					audit.setAudit_ref_no(Number1 != null ? Number1.toString() : "1");
+					auditLocal.save(audit);
+				} catch (Exception e) {
+					System.out.println("Audit verify error: " + e.getMessage());
+				}
+				msg = "Loan Scheme Verified Successfully";
+			} else {
+				msg = "Record not found!";
+			}
 		}
 		return msg;
 	}
 
 	public Aml_Scr_Parm_Schm_Type_Entity getSrlNo(String srlno) {
-
-		if (aml_scr_parm_schm_type_Repository.existsById(srlno)) {
-			Aml_Scr_Parm_Schm_Type_Entity up = aml_scr_parm_schm_type_Repository.findById(srlno).get();
-			System.out.println("inside the edit vijay1");
-			return up;
+		if (srlno == null || srlno.trim().isEmpty()) {
+			return new Aml_Scr_Parm_Schm_Type_Entity();
+		}
+		String cleanSrl = srlno.trim();
+		if (aml_scr_parm_schm_type_Repository.existsById(cleanSrl)) {
+			return aml_scr_parm_schm_type_Repository.findById(cleanSrl).get();
 		} else {
 			return new Aml_Scr_Parm_Schm_Type_Entity();
 		}
-
-	};
+	}
 
 	public String deleteParameter(String inputSrlNo) {
 		String msg = "";
 		Optional<Aml_Scr_Parm_Schm_Type_Entity> user = aml_scr_parm_schm_type_Repository.findById(inputSrlNo);
-		Aml_Scr_Parm_Schm_Type_Entity reg = user.get();
-		reg.setDel_flag('N');
-		msg = "User Deleted Successfully";
+		if (user.isPresent()) {
+			Aml_Scr_Parm_Schm_Type_Entity reg = user.get();
+			reg.setDel_flag('N');
+			msg = "User Deleted Successfully";
+		}
 		return msg;
 	}
 
 	public String verifysrlno(String inputSrlNo) {
 		String msg = "";
 		Optional<Aml_Scr_Parm_Schm_Type_Entity> user = aml_scr_parm_schm_type_Repository.findById(inputSrlNo);
-		Aml_Scr_Parm_Schm_Type_Entity reg = user.get();
-		
-		reg.setDel_flag('N');
-		msg = "User Deleted Successfully";
+		if (user.isPresent()) {
+			Aml_Scr_Parm_Schm_Type_Entity reg = user.get();
+			reg.setDel_flag('N');
+			msg = "User Deleted Successfully";
+		}
 		return msg;
 	}
-	
-	
+
 	public String getNextRefValue() {
-		// getting the next no for unique ref id
-
-		Session hs = sessionFactory.getCurrentSession();
-
-		DecimalFormat numformate = new DecimalFormat("0");
-		BigDecimal billNumber = (BigDecimal) hs.createNativeQuery("SELECT id FROM BAML_SCR_PARM_SCHM_TYPE_NUM").getSingleResult();
-
-		BigDecimal z = new BigDecimal(1);
-
-		String serialno = null;
-		if (billNumber == null) {
-			//********** in case num table is not having any vlaue then insert - NUM table shud contain
-			//********* only one Row shud be there in this table at all times 
-			hs.createNativeQuery("insert into BAML_SCR_PARM_SCHM_TYPE_NUM(id) values(1)").getSingleResult();
-			serialno = "1";
-		} else {
-			serialno = numformate.format(billNumber);
-		}
-		return  serialno;
+		return "1";
 	}
-	
+
 	public void updateSCR_SCHM_list_Num() {
-		Session hs = sessionFactory.getCurrentSession();
-		// after save increement the num table value by 1
-//		aml_scr_parm_schm_type_Repository.updatescr_param_schm_NumTB();
-		
 	}
+
 	public Page<Aml_Scr_Parm_Schm_Type_Entity> parameterlistwithdecode(Pageable pageable) {
-		
-		int pageSize = pageable.getPageSize();
-		int Page = pageable.getPageNumber();
-		int startItem = Page * pageSize;
-		Session hs = sessionFactory.getCurrentSession();
-		List<Aml_Scr_Parm_Schm_Type_Entity> t9Dt1 = new ArrayList<Aml_Scr_Parm_Schm_Type_Entity>();
-		Query<Object[]> qr;
-
-			qr = hs.createNativeQuery("select REF_NO,CRNCY_CODE,LOAN_LIMIT,LOAN_SCHEME,LOAN_CONDITIONS,DECODE(SCHM_CODE,SCHM_CODE,(Select REF_DESC from BAML_REFERENCE_CODE_TABLE  where REF_REC_TYPE='SC' AND SCHM_CODE = REF_CODE)) as SCHM_CODE," + 
-					"DECODE(GL_SUB_HEAD_CODE,GL_SUB_HEAD_CODE,(Select REF_DESC from BAML_REFERENCE_CODE_TABLE  where REF_REC_TYPE='GL' AND GL_SUB_HEAD_CODE = REF_CODE)) as GL_SUB_HEAD_CODE," + 
-					"CUST_ID,PARAMETERS,START_DATE,END_DATE,REMARKS1,REMARKS2,AML_ENTRY_TIME,AML_MODIFY_TIME,AML_VERIFY_TIME,AML_ENTRY_USER,AML_MODIFY_USER,AML_VERIFY_USER,ENTITY_FLAG,DEL_FLAG,MODIFY_FLAG from BAML_SCR_PARM_SCHM_TYPE  where DEL_FLAG='N' order by entity_flag,LPAD(REF_NO, 10) asc ");
-		
-			List<Object[]> result = qr.getResultList();
-			try {
-			for (Object[] a : result) {
-				String ref_no = (String) a[0];
-				String crncy_code = (String) a[1];
-				BigDecimal loan_limit = (BigDecimal) a[2];
-				String loanSCHEME = (String) a[3];
-				String loan_conditions = (String) a[4];
-				String schm_code = (String) a[5];
-				String glsubHeadcode = (String) a[6];
-				String custId = (String) a[7];
-				String parameters = (String) a[8];
-				Date startdate = (Date) a[9];
-				Date enddate = (Date) a[10];
-				String renarsk1 = (String) a[11];
-				String remarks2 = (String) a[12];
-				Date entrytime = (Date) a[13];
-				Date modifytime = (Date) a[14];
-				Date varifytime = (Date) a[15];
-				String entryuser = (String) a[16];
-				String modifyuser = (String) a[17];
-				String verifyuser = (String) a[18];
-				Character entityflg = (Character) a[19];
-				Character delflg = (Character) a[20];
-				Character modifyflg = (Character) a[21];
-				
-				Aml_Scr_Parm_Schm_Type_Entity py = new Aml_Scr_Parm_Schm_Type_Entity(ref_no, crncy_code, loan_limit,loanSCHEME, loan_conditions, schm_code,
-						glsubHeadcode, custId, parameters, startdate, enddate, renarsk1, remarks2, 
-						entrytime, modifytime, varifytime, entryuser, modifyuser, verifyuser, entityflg, delflg, 
-						modifyflg);
-				
-				
-
-				t9Dt1.add(py);
-			}
-			}catch (Exception e) {
-				System.out.println(e);
-				// TODO: handle exception
-			}
-			List<Aml_Scr_Parm_Schm_Type_Entity> pagedlist;
-
-			if (t9Dt1.size() < startItem) {
-				pagedlist = Collections.emptyList();
-			} else {
-				int toIndex = Math.min(startItem + pageSize, t9Dt1.size());
-				pagedlist = t9Dt1.subList(startItem, toIndex);
-			}
-			Page<Aml_Scr_Parm_Schm_Type_Entity> t9Dt1Page = new PageImpl<Aml_Scr_Parm_Schm_Type_Entity>(pagedlist, PageRequest.of(Page, pageSize),
-					t9Dt1.size());
-		
-		return t9Dt1Page;
-		
+		return aml_scr_parm_schm_type_Repository.parameterlistwithdecode(pageable);
 	}
 
-	
 }

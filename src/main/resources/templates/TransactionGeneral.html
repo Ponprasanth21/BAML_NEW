@@ -106,12 +106,14 @@ nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
 </style>
 <script type="text/javascript">
 	function back() {
-		$("#loadermodal").modal("toggle");
-		window.history.back();
+		if (window.history.length > 1) {
+			window.history.back();
+		} else {
+			location.href = 'TransactionInquiry';
+		}
 	}
 	function home() {
-		$("#loadermodal").modal("toggle");
-		location.href = 'TransactionInquiry'
+		location.href = 'Dashboard';
 	}
 	
 	function AccountTransaction(){
@@ -432,8 +434,8 @@ nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
 			style="background-color: #386276;">
 			<button type="button" class="btn btn-xs btn-primary" id="btnHome"
 				onclick="home();">Home</button>
-			<!-- <button type="button" class="btn btn-xs btn-primary" id="btnBack"
-				onclick="back();">Back</button> -->
+			<button type="button" class="btn btn-xs btn-primary" id="btnBack"
+				onclick="back();">Back</button>
 		</div>
 		<div class="modal fade" id="loadermodal" data-backdrop="static"
 					data-keyboard="false">

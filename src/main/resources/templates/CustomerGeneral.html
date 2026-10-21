@@ -172,12 +172,14 @@ nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
 	}
 
 	function back() {
-		$("#loadermodal").modal("toggle");
-		window.history.back();
+		if (window.history.length > 1) {
+			window.history.back();
+		} else {
+			location.href = 'CustomerInquiry';
+		}
 	}
 	function home() {
-		$("#loadermodal").modal("toggle");
-		location.href = 'CustomerInquiry'
+		location.href = 'Dashboard';
 	}
 
 	function ACCOUNTDETAILS() {

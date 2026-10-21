@@ -68,7 +68,9 @@ PURPOSE		:
 		var n = parseInt(num);
 		var max = parseInt(maxpage);
 
-		var Callurl = 'RejectReport?formmode=Customer';
+		var urlParams = new URLSearchParams(window.location.search);
+		var currentMode = urlParams.get('formmode') || 'Customer';
+		var Callurl = 'RejectReport?formmode=' + currentMode;
 
 		switch (mode) {
 		case "nextpage":
@@ -140,9 +142,20 @@ PURPOSE		:
 		location.href = './RejectReport?formmode=Transaction';
 	}
 
-	/* function Details(a) {
+	function Details(a) {
 		location.href = './RejectReport?formmode=Transaction';
-	} */
+	}
+
+	function closeAlertModal() {
+		var mode = $("#formmode1").val() || "";
+		if (mode.indexOf("Customer") !== -1) {
+			location.href = './RejectReport?formmode=Customer';
+		} else if (mode.indexOf("Account") !== -1) {
+			location.href = './RejectReport?formmode=Account';
+		} else {
+			location.href = './RejectReport?formmode=Transaction';
+		}
+	}
 
 	function CustomerSubmit(a) {
 
@@ -222,12 +235,11 @@ PURPOSE		:
 
 	function cust123(a) {
 
-		var cust_id = document.getElementById("cust_id12345").value;
-		//alert(cust_id);
-		if (cust_id != "") {
+		var cust_id = (a && a.value) ? a.value : (document.getElementById("cust_id12345") ? document.getElementById("cust_id12345").value : "");
+		if (cust_id && cust_id.trim() !== "") {
 
 			location.href = "./RejectReport?formmode=TransactionAdd1&cust_id="
-					+ cust_id;
+					+ encodeURIComponent(cust_id.trim());
 
 		}
 	}
@@ -266,7 +278,7 @@ PURPOSE		:
 
 	$(function() {
 
-		$("#date_of_appl1,date_of_rej1,modify_time1").datepicker({
+		$("#date_of_appl1, #date_of_rej1, #modify_time1").datepicker({
 			changeMonth : true,
 			changeYear : true,
 			maxDate : new Date(),
@@ -284,15 +296,21 @@ PURPOSE		:
 		if (mm < 10) {
 			mm = '0' + mm;
 		}
-		var today = dd + '/' + mm + '/' + yyyy;
-		document.getElementById('date_of_appl1').value = today;
-		document.getElementById('date_of_rej1').value = today;
-		document.getElementById('modify_time1').value = today;
+		var todayStr = dd + '/' + mm + '/' + yyyy;
+		if (document.getElementById('date_of_appl1')) {
+			document.getElementById('date_of_appl1').value = todayStr;
+		}
+		if (document.getElementById('date_of_rej1')) {
+			document.getElementById('date_of_rej1').value = todayStr;
+		}
+		if (document.getElementById('modify_time1')) {
+			document.getElementById('modify_time1').value = todayStr;
+		}
 	});
 
 	$(function() {
 
-		$("#date_of_appl2,date_of_rej2,modify_time2").datepicker({
+		$("#date_of_appl2, #date_of_rej2, #modify_time2").datepicker({
 			changeMonth : true,
 			changeYear : true,
 			maxDate : new Date(),
@@ -310,15 +328,21 @@ PURPOSE		:
 		if (mm < 10) {
 			mm = '0' + mm;
 		}
-		var today = dd + '/' + mm + '/' + yyyy;
-		document.getElementById('date_of_appl2').value = today;
-		document.getElementById('date_of_rej2').value = today;
-		document.getElementById('modify_time1').value = today;
+		var todayStr = dd + '/' + mm + '/' + yyyy;
+		if (document.getElementById('date_of_appl2')) {
+			document.getElementById('date_of_appl2').value = todayStr;
+		}
+		if (document.getElementById('date_of_rej2')) {
+			document.getElementById('date_of_rej2').value = todayStr;
+		}
+		if (document.getElementById('modify_time2')) {
+			document.getElementById('modify_time2').value = todayStr;
+		}
 	});
 
 	$(function() {
 
-		$("#date_tran3,date_of_rej3,modify_time3").datepicker({
+		$("#date_tran3, #date_of_rej3, #modify_time3").datepicker({
 			changeMonth : true,
 			changeYear : true,
 			maxDate : new Date(),
@@ -336,10 +360,16 @@ PURPOSE		:
 		if (mm < 10) {
 			mm = '0' + mm;
 		}
-		var today = dd + '/' + mm + '/' + yyyy;
-		document.getElementById('date_tran3').value = today;
-		document.getElementById('date_of_rej2').value = today;
-		document.getElementById('modify_time1').value = today;
+		var todayStr = dd + '/' + mm + '/' + yyyy;
+		if (document.getElementById('date_tran3')) {
+			document.getElementById('date_tran3').value = todayStr;
+		}
+		if (document.getElementById('date_of_rej3')) {
+			document.getElementById('date_of_rej3').value = todayStr;
+		}
+		if (document.getElementById('modify_time3')) {
+			document.getElementById('modify_time3').value = todayStr;
+		}
 	});
 
 	/*]]>*/
@@ -424,20 +454,21 @@ PURPOSE		:
 
 
 									</thead>
-									<tbody th:each="reportsummary : ${reportsummary}">
-										<tr>
-											<td th:text="${reportsummary?.srl_no}">CHENNAI</td>
-											<td th:text="${reportsummary?.cust_name}">CHENNAI</td>
-											<td th:text="${reportsummary?.cust_type}">CHENNAI</td>
+									<tbody>
+										<tr th:each="report : ${reportsummary.content}">
+											<td th:text="${report?.srl_no}">CHENNAI</td>
+											<td th:text="${report?.cust_name}">CHENNAI</td>
+											<td th:text="${report?.cust_type}">CHENNAI</td>
 											<td
-												th:text="${#dates.format(reportsummary?.date_of_appl,'dd/MM/yyyy')}">CHENNAI</td>
-											<td th:text="${reportsummary?.reason_reject}">CHENNAI</td>
+												th:text="${#dates.format(report?.date_of_appl,'dd/MM/yyyy')}">CHENNAI</td>
+											<td th:text="${report?.reason_reject}">CHENNAI</td>
 											<td
-												th:text="${#dates.format(reportsummary?.date_of_rej,'dd/MM/yyyy')}">CHENNAI</td>
-											<td th:text="${reportsummary?.remarks}">CHENNAI</td>
+												th:text="${#dates.format(report?.date_of_rej,'dd/MM/yyyy')}">CHENNAI</td>
+											<td th:text="${report?.remarks}">CHENNAI</td>
 										</tr>
-
-
+										<tr th:if="${reportsummary.content.empty}">
+											<td colspan="7" style="text-align: center;">No records found</td>
+										</tr>
 									</tbody>
 								</table>
 
@@ -465,7 +496,7 @@ PURPOSE		:
 								<button type="button" class="btn btn-xs btn-primary"
 									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
 								<button type="button" class="btn btn-xs btn-primary"
-									id="btnBack" onclick="back();">Back</button>
+									id="btnBack" onclick="window.history.back();">Back</button>
 							</div>
 						</div>
 					</div>
@@ -749,20 +780,21 @@ PURPOSE		:
 
 
 									</thead>
-									<tbody th:each="reportsummary : ${reportsummary}">
-										<tr>
-											<td th:text="${reportsummary.srl_no}">CHENNAI</td>
-											<td th:text="${reportsummary?.acct_name}">CHENNAI</td>
-											<td th:text="${reportsummary?.acct_type}">CHENNAI</td>
+									<tbody>
+										<tr th:each="report : ${reportsummary.content}">
+											<td th:text="${report?.srl_no}">CHENNAI</td>
+											<td th:text="${report?.acct_name}">CHENNAI</td>
+											<td th:text="${report?.acct_type}">CHENNAI</td>
 											<td
-												th:text="${#dates.format(reportsummary?.date_of_appl,'dd/MM/yyyy')}">CHENNAI</td>
-											<td th:text="${reportsummary?.reason_reject}">CHENNAI</td>
+												th:text="${#dates.format(report?.date_of_appl,'dd/MM/yyyy')}">CHENNAI</td>
+											<td th:text="${report?.reason_reject}">CHENNAI</td>
 											<td
-												th:text="${#dates.format(reportsummary?.date_of_rej,'dd/MM/yyyy')}">CHENNAI</td>
-											<td th:text="${reportsummary?.remarks}">CHENNAI</td>
+												th:text="${#dates.format(report?.date_of_rej,'dd/MM/yyyy')}">CHENNAI</td>
+											<td th:text="${report?.remarks}">CHENNAI</td>
 										</tr>
-
-
+										<tr th:if="${reportsummary.content.empty}">
+											<td colspan="7" style="text-align: center;">No records found</td>
+										</tr>
 									</tbody>
 								</table>
 
@@ -793,7 +825,7 @@ PURPOSE		:
 
 
 								<button type="button" class="btn btn-xs btn-primary"
-									id="btnBack" onclick="back1();">Back</button>
+									id="btnBack" onclick="window.history.back();">Back</button>
 							</div>
 						</div>
 
@@ -925,7 +957,7 @@ PURPOSE		:
 										onclick="AccountSubmit(this);" form="AccountRej"
 										id="btnSubmit" th:attr="data-formmode=${formmode}">Submit</button>
 									<button type="button" class="btn btn-xs btn-primary"
-										id="btnBack" style="margin-top: -12px;" onclick="back();">Back</button>
+										id="btnBack" style="margin-top: -12px;" onclick="Account(this);">Back</button>
 
 								</div>
 							</form>
@@ -1027,6 +1059,9 @@ PURPOSE		:
 
 
 										</tr>
+										<tr th:if="${reportdetails.content.empty}">
+											<td colspan="16" style="text-align: center;">No records found</td>
+										</tr>
 									</tbody>
 								</table>
 								<table th:if="${searchmsg} != null"
@@ -1056,7 +1091,7 @@ PURPOSE		:
 									</thead>
 									<tbody>
 										<tr>
-											<td colspan="10">No Data Available</td>
+											<td colspan="16" style="text-align: center;">No Data Available</td>
 										</tr>
 									</tbody>
 								</table>
@@ -1085,7 +1120,7 @@ PURPOSE		:
 								<button type="button" class="btn btn-xs btn-primary"
 									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
 								<button type="button" class="btn btn-xs btn-primary"
-									id="btnBack" onclick="back1();">Back</button>
+									id="btnBack" onclick="window.history.back();">Back</button>
 							</div>
 						</div>
 
@@ -1113,7 +1148,7 @@ PURPOSE		:
 												onclick='alert_add(this)' th:attr="frmode=add">Add
 												Parameter</button> -->
 											<button type="button" class="btn btn-xs btn-primary btns"
-												id="btnInq" onclick="Details(this)">List</button>
+												id="btnInq" onclick="Transaction(this)">List</button>
 										</div>
 
 									</div>
@@ -1421,7 +1456,7 @@ PURPOSE		:
 							onclick="TransactionSubmit(this);" form="TransactionRej"
 							id="btnSubmit" th:attr="data-formmode=${formmode}">Submit</button>
 						<button type="button" class="btn btn-xs btn-primary" id="btnBack"
-							style="margin-top: -12px;" onclick="back();">Back</button>
+							style="margin-top: -12px;" onclick="Transaction(this);">Back</button>
 
 					</div>
 					</form>
@@ -1450,7 +1485,7 @@ PURPOSE		:
 												onclick='alert_add(this)' th:attr="frmode=add">Add
 												Parameter</button> -->
 											<button type="button" class="btn btn-xs btn-primary btns"
-												id="btnInq" onclick="Details(this)">List</button>
+												id="btnInq" onclick="Transaction(this)">List</button>
 										</div>
 
 									</div>
@@ -1758,7 +1793,7 @@ PURPOSE		:
 							onclick="TransactionSubmit(this);" form="TransactionRej"
 							id="btnSubmit" th:attr="data-formmode=${formmode}">Submit</button>
 						<button type="button" class="btn btn-xs btn-primary" id="btnBack"
-							style="margin-top: -12px;" onclick="back();">Back</button>
+							style="margin-top: -12px;" onclick="Transaction(this);">Back</button>
 
 					</div>
 					</form>
@@ -1835,7 +1870,7 @@ PURPOSE		:
 				<div class="modal-body" style="text-align: center">
 					<p id="alertmsg"></p>
 					<button type="button" class="btn btn-primary"
-						onclick="Transaction(this);">Close</button>
+						onclick="closeAlertModal();">Close</button>
 				</div>
 			</div>
 		</div>

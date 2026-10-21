@@ -6,6 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "\"BAML_SOL\"", schema =  "\"AML\"")
@@ -91,18 +94,26 @@ public class BAMLSolEntity {
 	private String verify_user;
 
 	@Column(name = "\"ENTRY_TIME\"")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date entry_time;
 
 	@Column(name = "\"MODIFY_TIME\"")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date modify_time;
 
 	@Column(name = "\"VERIFY_TIME\"")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date verify_time;
 
 	@Column(name = "\"BR_CODE\"")
 	private String br_code;
 
 	@Column(name = "\"BOD_SYSDATE\"")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date bod_sysdate;
 
 	@Column(name = "\"SOL_TYPE\"")

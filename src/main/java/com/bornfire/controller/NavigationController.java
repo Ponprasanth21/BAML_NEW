@@ -582,6 +582,11 @@ public class NavigationController {
 		this.pagesize = pagesize;
 	}
 
+	@org.springframework.web.bind.annotation.InitBinder
+	public void initBinder(org.springframework.web.bind.WebDataBinder binder) {
+		binder.registerCustomEditor(String.class, new org.springframework.beans.propertyeditors.StringTrimmerEditor(true));
+	}
+
 	@RequestMapping("/logout")
 	public String index8() {
 		return "AMLStart.html";
@@ -1008,8 +1013,22 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			md.addAttribute("formmode", formmode);
 			md.addAttribute("AlertSrlNo", alertservices.getSrlNoValue());
 		} else if (formmode.equals("edit")) {
+			AlertManagementEntity alert = alertservices.getSrlNo(srlno);
+			if (alert != null && "N".equals(alert.getEntity_flg())) {
+				md.addAttribute("menu", "AMLAlertParameters");
+				md.addAttribute("menuname", "Alert Parameters");
+				md.addAttribute("formmode", "list");
+				md.addAttribute("AlertParameterList",
+						alertmanagementrepository.alertlist(PageRequest.of(currentPage, pageSize)));
+				md.addAttribute("message", "Record is pending verification and cannot be modified!");
+				return "AMLAlertParameters";
+			}
 			md.addAttribute("formmode", formmode);
-			// md.addAttribute("domains", userProfileDao.getDomainList());
+			md.addAttribute("AlertParameter", alert);
+
+		} else if (formmode.equals("verify")) {
+			md.addAttribute("formmode", formmode);
+			md.addAttribute("menuname1", "Alert Parameters-Verify");
 			md.addAttribute("AlertParameter", alertservices.getSrlNo(srlno));
 
 		} else if (formmode.equals("view")) {
@@ -3004,7 +3023,8 @@ System.out.println("AuditlogValue "+AuditlogValue);
 	public String createPepList(@RequestParam("formmode") String formmode,
 			@ModelAttribute Cust_Pep_List_Entity alertparam, Model md, HttpServletRequest rq) {
 
-		String msg = pepListservices.addPepList(alertparam, formmode);
+		String userid = (String) rq.getSession().getAttribute("USERID");
+		String msg = pepListservices.addPepList(alertparam, formmode, userid);
 
 //		if (msg.equals("Pep List Created Successfully")) {
 //			//after saving the new  record increementing the value by 1 for next record to insert
@@ -5277,36 +5297,38 @@ System.out.println("AuditlogValue "+AuditlogValue);
 		for (Object[] obj : lst_Objects) {
 			ACCT_MASTER info = new ACCT_MASTER();
 
-			info.setGl_sub_head_code(String.valueOf(obj[0]));
-			info.setSchm_code(String.valueOf(obj[1]));
-			info.setAcct_name(String.valueOf(obj[2]));
-			info.setForacid(String.valueOf(obj[3]));
-			if (String.valueOf(obj[4]) != "null") {
-				info.setAcct_opn_date(new SimpleDateFormat("dd/MM/yyyy").parse(String.valueOf(obj[4])));
-
+			info.setGl_sub_head_code(obj[0] != null ? String.valueOf(obj[0]) : null);
+			info.setSchm_code(obj[1] != null ? String.valueOf(obj[1]) : null);
+			info.setAcct_name(obj[2] != null ? String.valueOf(obj[2]) : null);
+			info.setForacid(obj[3] != null ? String.valueOf(obj[3]) : null);
+			if (obj[4] != null && !String.valueOf(obj[4]).equals("null") && !String.valueOf(obj[4]).trim().isEmpty()) {
+				try {
+					info.setAcct_opn_date(new SimpleDateFormat("dd/MM/yyyy").parse(String.valueOf(obj[4])));
+				} catch (Exception e) {}
 			}
-			if (String.valueOf(obj[5]) != "null") {
-				info.setAcct_cls_date(new SimpleDateFormat("dd/MM/yyyy").parse(String.valueOf(obj[5])));
-
+			if (obj[5] != null && !String.valueOf(obj[5]).equals("null") && !String.valueOf(obj[5]).trim().isEmpty()) {
+				try {
+					info.setAcct_cls_date(new SimpleDateFormat("dd/MM/yyyy").parse(String.valueOf(obj[5])));
+				} catch (Exception e) {}
 			}
-			info.setAcct_status(String.valueOf(obj[6]));
-			if (String.valueOf(obj[7]) != "null") {
-				info.setAcct_status_date(new SimpleDateFormat("dd/MM/yyyy").parse(String.valueOf(obj[7])));
-
+			info.setAcct_status(obj[6] != null ? String.valueOf(obj[6]) : null);
+			if (obj[7] != null && !String.valueOf(obj[7]).equals("null") && !String.valueOf(obj[7]).trim().isEmpty()) {
+				try {
+					info.setAcct_status_date(new SimpleDateFormat("dd/MM/yyyy").parse(String.valueOf(obj[7])));
+				} catch (Exception e) {}
 			}
-			info.setMode_of_oper_code(String.valueOf(obj[8]));
-			info.setClr_bal_amt(String.valueOf(obj[9]));
-			if (String.valueOf(obj[10]) != "null") {
-				info.setLast_tran_date(new SimpleDateFormat("dd/MM/yyyy").parse(String.valueOf(obj[10])));
+			info.setMode_of_oper_code(obj[8] != null ? String.valueOf(obj[8]) : null);
+			info.setClr_bal_amt(obj[9] != null ? String.valueOf(obj[9]) : "0");
+			if (obj[10] != null && !String.valueOf(obj[10]).equals("null") && !String.valueOf(obj[10]).trim().isEmpty()) {
+				try {
+					info.setLast_tran_date(new SimpleDateFormat("dd/MM/yyyy").parse(String.valueOf(obj[10])));
+				} catch (Exception e) {}
 			}
-			info.setAcid(String.valueOf(obj[11]));
-			// info.setClr_bal_amt(String.valueOf(obj[0]));
-			// info.setLast_frez_date(new
-			// SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf(obj[1])));
+			info.setAcid(obj[11] != null ? String.valueOf(obj[11]) : null);
 
 			custMaster_List.add(info);
-			md.addAttribute("AcctMaster", custMaster_List);
 		}
+		md.addAttribute("AcctMaster", custMaster_List);
 		md.addAttribute("inquiryflag", "inquiryflag");
 		return "CustomerGeneral";
 
@@ -5452,8 +5474,8 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			// md.addAttribute("AcctMaster1", custMaster_List);
 			md.addAttribute("clr_bal_amt", String.valueOf(obj[0]));
 			md.addAttribute("bal_date", String.valueOf(obj[1]));
-			md.addAttribute("inquiryflag", "inquiryflag");
 		}
+		md.addAttribute("inquiryflag", "inquiryflag");
 
 		return "AccountGeneral";
 	}
@@ -6136,9 +6158,18 @@ System.out.println("AuditlogValue "+AuditlogValue);
 
 		} else if (formmode.equals("Ind_edit")) {
 
-			md.addAttribute("formmode", "Ind_edit");
-			md.addAttribute("menuname1", "Customer Type List - Modify");
-			md.addAttribute("Ind_ListParameter", aml_scr_parm_cust_type_Services.getSrlNo(srlno));
+			Aml_Scr_Parm_Cust_Type_Entity param = aml_scr_parm_cust_type_Services.getSrlNo(srlno);
+			if (param != null && "N".equalsIgnoreCase(param.getEntity_flag())) {
+				md.addAttribute("menuname", "Customer Type List ");
+				md.addAttribute("formmode", "Ind_list");
+				md.addAttribute("custIndblackList",
+						aml_scr_parm_cust_type_repository.parameterlistwithdecode(PageRequest.of(currentPage, pageSize)));
+				md.addAttribute("message", "Record is pending verification and cannot be modified!");
+			} else {
+				md.addAttribute("formmode", "Ind_edit");
+				md.addAttribute("menuname1", "Customer Type List - Modify");
+				md.addAttribute("Ind_ListParameter", param);
+			}
 
 		} else if (formmode.equals("Ind_verify")) {
 
@@ -6236,9 +6267,18 @@ System.out.println("AuditlogValue "+AuditlogValue);
 
 		} else if (formmode.equals("Corp_edit")) {
 
-			md.addAttribute("formmode", "Corp_edit");
-			md.addAttribute("menuname_corp", "Loan Schemes - Modify");
-			md.addAttribute("Corp_ListParameter", aml_scr_parm_Schm_type_Services.getSrlNo(srlno));
+			Aml_Scr_Parm_Schm_Type_Entity param = aml_scr_parm_Schm_type_Services.getSrlNo(srlno);
+			if (param != null && "N".equalsIgnoreCase(String.valueOf(param.getEntity_flag()))) {
+				md.addAttribute("menuname_corp", "Loan Schemes  ");
+				md.addAttribute("formmode", "Corp_list");
+				md.addAttribute("custCorpblackList",
+						aml_scr_parm_Schm_type_Services.parameterlistwithdecode(PageRequest.of(currentPage, pageSize)));
+				md.addAttribute("message", "Record is pending verification and cannot be modified!");
+			} else {
+				md.addAttribute("formmode", "Corp_edit");
+				md.addAttribute("menuname_corp", "Loan Schemes - Modify");
+				md.addAttribute("Corp_ListParameter", param);
+			}
 
 		} else if (formmode.equals("Corp_verify")) {
 
@@ -6516,10 +6556,22 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			md.addAttribute("MonitoringParameterList", montRepository.parameter(PageRequest.of(currentPage, pageSize)));
 
 		} else if (formmode.equals("modify")) {
+			MONITORINGPARAMETERENTIRY mon = paraservices.getSrlNo1(srlno);
+			if (mon != null && "N".equals(mon.getEntity_flg())) {
+				md.addAttribute("menuname", "Operations Parameter");
+				md.addAttribute("formmode", "list");
+				md.addAttribute("MonitoringParameterList", montRepository.parameter(PageRequest.of(currentPage, pageSize)));
+				md.addAttribute("message", "Record is pending verification and cannot be modified!");
+				md.addAttribute("adminflag", "adminflag");
+				md.addAttribute("menu", "Operations Parameter");
+				md.addAttribute("parameterflag", "parameterflag");
+				return "MONITORINGPARAMETER";
+			}
 			md.addAttribute("menuname", "Operations Parameter");
 			md.addAttribute("formmode", "modify"); // to set which form - valid values are "edit" , "add" & "list"
 
-			md.addAttribute("MONITORINGPARAMETER", paraservices.getSrlNo1(srlno));
+			md.addAttribute("MONITORINGPARAMETER", mon);
+			md.addAttribute("ref_no", srlno);
 			req.getSession().getAttribute("USERID");
 
 		} else if (formmode.equals("view")) {
@@ -6552,6 +6604,9 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			@RequestParam(required = false) String user, @ModelAttribute MONITORINGPARAMETERENTIRY alertparam, Model md,
 			HttpServletRequest rq) {
 		String userid = (String) rq.getSession().getAttribute("USERID");
+		if (userid == null || userid.trim().isEmpty()) {
+			userid = "SYSTEM";
+		}
 
 		String msg = paraservices.EDITPARAMETER(alertparam, formmode, userid, user);
 		/* email.sendEmail(user, alertparam); */
@@ -7550,37 +7605,47 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			AML_KYC_Parameter list = kycParameterrep.parameterlist();
 			md.addAttribute("menuname", "KYC PARAMETER ");
 			md.addAttribute("formmode", "list"); // to set which form - valid values are "edit" , "add" & "list"
-			// md.addAttribute("srlno", list.getSrl_no());
+			if (list != null) {
+				md.addAttribute("srlno", list.getSrl_no());
+			} else {
+				md.addAttribute("srlno", "01");
+			}
 
 			md.addAttribute("KYCParameterList", list);
 
 		} else if (formmode.equals("Editlist")) {
 			AML_KYC_Parameter list = kycParameterrep.parameterlist();
-			md.addAttribute("srlno", list.getSrl_no());
+			if (list != null) {
+				md.addAttribute("srlno", list.getSrl_no());
+			} else {
+				md.addAttribute("srlno", srlno != null ? srlno : "01");
+			}
 			md.addAttribute("formmode", formmode);
-			md.addAttribute("menuname1", "KYC PARAMETER -Modify ");
+			md.addAttribute("menuname1", "KYC PARAMETER - Modify ");
 			md.addAttribute("kycParameter", kycParameterrep.parameterDropdown());
-			md.addAttribute("formmode", "Editlist"); // to set which form - valid values are "edit" , "add" & "list"
-			md.addAttribute("srlno", srlno);
+			if (srlno != null) {
+				md.addAttribute("srlno", srlno);
+			}
 
-			md.addAttribute("KYCParameterList", kycParameterrep.parameterlist());
+			md.addAttribute("KYCParameterList", list);
 
 		} else if (formmode.equals("verify")) {
 			AML_KYC_Parameter list = kycParameterrep.parameterlist();
-			md.addAttribute("srlno", list.getSrl_no());
+			if (list != null) {
+				md.addAttribute("srlno", list.getSrl_no());
+			} else {
+				md.addAttribute("srlno", srlno != null ? srlno : "01");
+			}
 			md.addAttribute("formmode", formmode);
-			md.addAttribute("KYCParameterList", kycParameterrep.parameterlist());
+			md.addAttribute("KYCParameterList", list);
+			md.addAttribute("menuname1", "KYC PARAMETER - Verify");
 
-			md.addAttribute("formmode", formmode);
-			md.addAttribute("menuname1", "KYC PARAMETER  - Verify");
-
-		}
-
-		else if (formmode.equals("view")) {
+		} else if (formmode.equals("view")) {
+			AML_KYC_Parameter list = kycParameterrep.parameterlist();
 			md.addAttribute("formmode", formmode);
 			md.addAttribute("menuname1", "KYC PARAMETER - Inquiry");
-			md.addAttribute("KycParameter", kycParameterServices.getreportcode(srlno));
-
+			md.addAttribute("KycParameter", kycParameterServices.getreportcode(srlno != null ? srlno : "01"));
+			md.addAttribute("KYCParameterList", list);
 		}
 		md.addAttribute("riskmgntflag", "riskmgntflag");
 		md.addAttribute("riskcatflag", "riskcatflag");
@@ -7987,10 +8052,12 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			@ModelAttribute BAML_Cust_Case_Docs baml_Cust_Case_Docs,
 			@ModelAttribute AML_Cust_Case_Mgmt aml_Cust_Case_Mgmt,
 			@ModelAttribute BAML_Cust_Case_Sheet baml_Cust_Case_Sheet, Model md, HttpServletRequest req,
-			@RequestParam MultipartFile file) throws IOException {
+			@RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
 
-		byte[] byteArr = file.getBytes();
-		baml_Cust_Case_Docs.setDoc_image(byteArr);
+		if (file != null && !file.isEmpty()) {
+			byte[] byteArr = file.getBytes();
+			baml_Cust_Case_Docs.setDoc_image(byteArr);
+		}
 		String msg = CMgmt.addCases(aml_Cust_Case_Mgmt, baml_Cust_Case_Sheet, baml_Cust_Case_Docs, formmode);
 		md.addAttribute("Adddoc", msg);
 		return msg;
@@ -9554,10 +9621,18 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			md.addAttribute("BankandBranchList",
 					bamlSolRepository.BankandBranchList(PageRequest.of(currentPage, pageSize)));
 		} else if (formmode.equals("edit")) {
+			BAMLSolEntity sol = bankandBranchServices.getSolID(solId);
+			if (sol != null && "N".equals(sol.getEntity_flg())) {
+				md.addAttribute("menuname", "Bank and Branch Details");
+				md.addAttribute("formmode", "list");
+				md.addAttribute("BankandBranchList",
+						bamlSolRepository.BankandBranchList(PageRequest.of(currentPage, pageSize)));
+				md.addAttribute("message", "Record is pending verification and cannot be modified!");
+				return "AMLBankandBranchMaster";
+			}
 			md.addAttribute("formmode", "edit");
 			md.addAttribute("menuname1", "Bank and Branch Details-Modify");
-			// md.addAttribute("domains", userProfileDao.getDomainList());
-			md.addAttribute("BankandBranch", bankandBranchServices.getSolID(solId));
+			md.addAttribute("BankandBranch", sol);
 		} else if (formmode.equals("view")) {
 			md.addAttribute("formmode", "view");
 			md.addAttribute("menuname1", "Bank and Branch Details-Inquiry");
@@ -9614,22 +9689,45 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			md.addAttribute("BATCHJOB", batchJobServices.getSrlNoValue());
 
 		} else if (formmode.equals("edit")) {
+			String trimmedJobId = jobId != null ? jobId.trim() : "";
+			BAMLBatchJobSchedular job = batchJobServices.getJobID(trimmedJobId);
+			if (job != null && "N".equals(job.getEntity_flg())) {
+				md.addAttribute("menuname", "Batch Job Schedule");
+				md.addAttribute("formmode", "list");
+				md.addAttribute("BatchJobSchedular",
+						bamlBatchJobSchedular.getBAMLBatchJobSchedular(PageRequest.of(currentPage, pageSize)));
+				md.addAttribute("message", "Record is pending verification and cannot be modified!");
+				md.addAttribute("adminflag", "adminflag");
+				return "BAMLBatchJob";
+			}
+			if (job == null) {
+				md.addAttribute("menuname", "Batch Job Schedule");
+				md.addAttribute("formmode", "list");
+				md.addAttribute("BatchJobSchedular",
+						bamlBatchJobSchedular.getBAMLBatchJobSchedular(PageRequest.of(currentPage, pageSize)));
+				md.addAttribute("message", "Batch Job record not found: " + jobId);
+				md.addAttribute("adminflag", "adminflag");
+				return "BAMLBatchJob";
+			}
 			md.addAttribute("formmode", "edit");
 			md.addAttribute("menuname1", "Batch Job Schedule - Modify");
-			md.addAttribute("batchJob", batchJobServices.getJobID(jobId));
+			md.addAttribute("batchJob", job);
 		} else if (formmode.equals("view")) {
+			String trimmedJobId = jobId != null ? jobId.trim() : "";
 			md.addAttribute("formmode", "view");
 			md.addAttribute("menuname1", "Batch Job Schedule - Inquiry");
-			md.addAttribute("batchJob", batchJobServices.getJobID(jobId));
+			md.addAttribute("batchJob", batchJobServices.getJobID(trimmedJobId));
 		} else if (formmode.equals("verify")) {
+			String trimmedJobId = jobId != null ? jobId.trim() : "";
 			md.addAttribute("formmode", "verify");
 			md.addAttribute("menuname1", "Batch Job Schedule - Verify");
-			md.addAttribute("batchJob", batchJobServices.getJobID(jobId));
+			md.addAttribute("batchJob", batchJobServices.getJobID(trimmedJobId));
 
 		} else if (formmode.equals("delete")) {
+			String trimmedJobId = jobId != null ? jobId.trim() : "";
 			md.addAttribute("formmode", "delete");
 			md.addAttribute("menuname1", "Batch Job Schedule - Delete");
-			md.addAttribute("batchJob", batchJobServices.getJobID(jobId));
+			md.addAttribute("batchJob", batchJobServices.getJobID(trimmedJobId));
 
 		}
 		md.addAttribute("adminflag", "adminflag");

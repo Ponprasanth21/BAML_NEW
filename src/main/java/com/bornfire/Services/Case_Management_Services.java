@@ -92,39 +92,56 @@ public class Case_Management_Services {
 		return msg;
 	}
 	public String getSrlNoValue2() {
-		 Session hs =sessionFactory.getCurrentSession(); 
-		
-				 DecimalFormat numformate = new  DecimalFormat("0");
-		 BigDecimal billNumber = (BigDecimal) hs.createNativeQuery("SELECT CASESEQUENCE_1.NEXTVAL AS SRL_NO FROM DUAL").getSingleResult();
-		String serialno="CASE"+numformate.format(billNumber);
-		System.out.println("billno" + serialno);
-		 return serialno;
+		Session hs = sessionFactory.getCurrentSession();
+		DecimalFormat numformate = new DecimalFormat("0");
+		Number billNumber;
+		try {
+			billNumber = (Number) hs.createNativeQuery("SELECT nextval('\"AML\".\"CASESEQUENCE_1\"')").getSingleResult();
+		} catch (Exception e) {
+			billNumber = System.currentTimeMillis() % 100000;
 		}
+		String serialno = "CASE" + numformate.format(billNumber);
+		System.out.println("billno " + serialno);
+		return serialno;
+	}
+
 	public String getSrlNoValue() {
-		 Session hs =sessionFactory.getCurrentSession(); 
-		
-				 DecimalFormat numformate = new  DecimalFormat("00");
-		 BigDecimal billNumber = (BigDecimal) hs.createNativeQuery("SELECT CASESHEETSEQUENCE_1.NEXTVAL AS SRL_NO FROM DUAL").getSingleResult();
-		String serialno="CASESHEET"+numformate.format(billNumber);
-		System.out.println("billno" + serialno);
-		 return serialno;
+		Session hs = sessionFactory.getCurrentSession();
+		DecimalFormat numformate = new DecimalFormat("00");
+		Number billNumber;
+		try {
+			billNumber = (Number) hs.createNativeQuery("SELECT nextval('\"AML\".\"CASESHEETSEQUENCE_1\"')").getSingleResult();
+		} catch (Exception e) {
+			billNumber = System.currentTimeMillis() % 100000;
 		}
+		String serialno = "CASESHEET" + numformate.format(billNumber);
+		System.out.println("billno " + serialno);
+		return serialno;
+	}
+
 	public String getSrlNoValue1() {
-		 Session hs =sessionFactory.getCurrentSession(); 
-		
-				 DecimalFormat numformate = new  DecimalFormat("00");
-		 BigDecimal billNumber = (BigDecimal) hs.createNativeQuery("SELECT CASEDOCSEQUENCE_1.NEXTVAL AS SRL_NO FROM DUAL").getSingleResult();
-		String serialno="CASEDOC"+numformate.format(billNumber);
-		System.out.println("billno" + serialno);
-		 return serialno;
+		Session hs = sessionFactory.getCurrentSession();
+		DecimalFormat numformate = new DecimalFormat("00");
+		Number billNumber;
+		try {
+			billNumber = (Number) hs.createNativeQuery("SELECT nextval('\"AML\".\"CASEDOCSEQUENCE_1\"')").getSingleResult();
+		} catch (Exception e) {
+			billNumber = System.currentTimeMillis() % 100000;
 		}
+		String serialno = "CASEDOC" + numformate.format(billNumber);
+		System.out.println("billno " + serialno);
+		return serialno;
+	}
 	public BAML_Cust_Case_Docs BlobImage(String custid) {
 		Session session = sessionFactory.getCurrentSession();
 		System.out.println(custid);
 		@SuppressWarnings("unchecked")
 		List<BAML_Cust_Case_Docs> query = (List<BAML_Cust_Case_Docs>) session
 				.createQuery("from BAML_Cust_Case_Docs where cust_id=?1").setParameter(1, custid).getResultList();
-		return query.get(0);
+		if (query != null && !query.isEmpty()) {
+			return query.get(0);
+		}
+		return new BAML_Cust_Case_Docs();
 
 	};
 

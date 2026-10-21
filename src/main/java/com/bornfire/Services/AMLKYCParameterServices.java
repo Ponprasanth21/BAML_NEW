@@ -32,7 +32,7 @@ public class AMLKYCParameterServices {
 		Session hs = sessionFactory.getCurrentSession();
 		String msg = "";
 		/* try { */
-		 if (formmode.equals("Editlist")) {
+		if (formmode != null && (formmode.equalsIgnoreCase("Editlist") || formmode.equalsIgnoreCase("edit"))) {
 			AML_KYC_Parameter up = alertparam;
 			up.setSrl_no("01");
 			up.setDel_flg("N");
@@ -40,23 +40,28 @@ public class AMLKYCParameterServices {
 			up.setEntity_flg("N");
 			kycParameterrep.save(up);
 			msg = "Parameter Edited Successfully";
-		}  else if (formmode.equals("verify")) {
-
-			T6Report qs =  (T6Report) sessionFactory.getCurrentSession().createQuery("from T6Report where report_date in (select max(report_date) from T6Report) ").getSingleResult();
+		} else if (formmode != null && formmode.equalsIgnoreCase("verify")) {
+			try {
+				@SuppressWarnings("rawtypes")
+				java.util.List qsList = sessionFactory.getCurrentSession()
+						.createQuery("from T6Report where report_date in (select max(report_date) from T6Report)")
+						.setMaxResults(1).getResultList();
+				if (!qsList.isEmpty()) {
+					T6Report qs = (T6Report) qsList.get(0);
+					T6Report t6 = new T6Report(alertparam);
+					t6.setReport_date(qs.getReport_date());
+					t6.setRep_period_from(qs.getRep_period_from());
+					t6.setRep_period_to(qs.getRep_period_to());
+					t6ReportsRep.save(t6);
+				}
+			} catch (Exception e) {
+				// Continue if T6Report doesn't exist
+			}
 			AML_KYC_Parameter up = alertparam;
-			T6Report t6 = new T6Report(up);
-			t6.setReport_date(qs.getReport_date());
-			t6.setRep_period_from(qs.getRep_period_from());
-			t6.setRep_period_to(qs.getRep_period_to());
-
 			up.setSrl_no("01");
 			up.setEntity_flg("Y");
 			up.setDel_flg("N");
 			kycParameterrep.save(up);
-						
-			t6ReportsRep.save(t6);
-			//hs.saveOrUpdate(up);
-			//hs.saveOrUpdate(t6);
 			msg = "Parameter Verified Successfully and Updated To Summary Table";
 		}
 		return msg;
@@ -64,13 +69,14 @@ public class AMLKYCParameterServices {
 
 	public AML_KYC_Parameter getreportcode(String srlno) {
 
-		if (kycParameterrep.existsById(srlno)) {
+		if (srlno != null && kycParameterrep.existsById(srlno)) {
 			System.out.println(srlno);
 			AML_KYC_Parameter up = kycParameterrep.findByIdCustom(srlno);
 
 			return up;
 		} else {
-			return new AML_KYC_Parameter();
+			AML_KYC_Parameter up = kycParameterrep.parameterlist();
+			return up != null ? up : new AML_KYC_Parameter();
 		}
 
 	}

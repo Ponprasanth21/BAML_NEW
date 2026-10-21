@@ -1,5 +1,6 @@
 package com.bornfire.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -13,14 +14,16 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Transactional
-public interface BAML_AUDIT_REPOSITRY extends JpaRepository<BAML_AUDIT_ENTITY, String> {
+public interface BAML_AUDIT_REPOSITRY extends JpaRepository<BAML_AUDIT_ENTITY, BigDecimal> {
 
-	@Query(value = "select distinct * from BAML_AUDIT_TABLE_FINACLE where foracid=?1 and modified_value is not null", nativeQuery = true)
+	@Query(value = "select distinct * from \"AML\".\"BAML_AUDIT_TABLE_FINACLE\" where \"FORACID\"=?1 and \"MODIFIED_VALUE\" is not null",
+	       countQuery = "select count(distinct \"SRL_NUM\") from \"AML\".\"BAML_AUDIT_TABLE_FINACLE\" where \"FORACID\"=?1 and \"MODIFIED_VALUE\" is not null",
+	       nativeQuery = true)
 	Page<BAML_AUDIT_ENTITY> getauditlist(String foracid,Pageable pageable);
 
-	
-	
-	@Query(value = "select  * from BAML_AUDIT_TABLE_FINACLE where foracid like %?1% and modified_value is not null", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_AUDIT_TABLE_FINACLE\" where (\"FORACID\" like concat('%', ?1, '%') or \"TABLE_KEY\" like concat('%', ?1, '%')) and \"MODIFIED_VALUE\" is not null",
+	       countQuery = "select count(*) from \"AML\".\"BAML_AUDIT_TABLE_FINACLE\" where (\"FORACID\" like concat('%', ?1, '%') or \"TABLE_KEY\" like concat('%', ?1, '%')) and \"MODIFIED_VALUE\" is not null",
+	       nativeQuery = true)
 	Page<BAML_AUDIT_ENTITY> getCustAuditlist(String cust_id,int acct_len,Pageable pageable);
 	
 

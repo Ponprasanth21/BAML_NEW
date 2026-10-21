@@ -1,6 +1,8 @@
 package com.bornfire.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -8,35 +10,53 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name = "BAML_AUDIT_TABLE_FINACLE")
+@Table(name = "\"BAML_AUDIT_TABLE_FINACLE\"", schema = "\"AML\"")
 public class BAML_AUDIT_ENTITY {
 
-	
 	@Id
-	private String  srl_num;
+	@Column(name = "\"SRL_NUM\"")
+	private BigDecimal srl_num;
+	@Column(name = "\"SOL_ID\"")
 	private String	sol_id;
+	@Column(name = "\"SOL_DESC\"")
 	private String	sol_desc;
 	
+	@Column(name = "\"FORACID\"")
 	private String	foracid;
+	@Column(name = "\"ACCT_NAME\"")
 	private String	acct_name;
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"AUDIT_DATE\"")
 	private Date	audit_date;
+	@Column(name = "\"INIT_SOL_ID\"")
 	private String	init_sol_id;
+	@Column(name = "\"CHAR_AUDIT_DATE\"")
 	private String	char_audit_date;
+	@Column(name = "\"FUNCT_CODE\"")
 	private String	funct_code;
+	@Column(name = "\"REMARKS\"")
 	private String	remarks;
+	@Column(name = "\"ENTERER_ID\"")
 	private String	enterer_id;
+	@Column(name = "\"AUTH_ID\"")
 	private String	auth_id;
+	@Column(name = "\"TABLE_NAME\"")
 	private String	table_name;
+	@Column(name = "\"TABLE_ABR\"")
 	private String	table_abr;
+	@Column(name = "\"MODIFIED_VALUE\"")
 	private String	modified_value;
+	@Column(name = "\"TABLE_KEY\"")
 	private String table_key;
 
-	public String getSrl_num() {
+	public BigDecimal getSrl_num() {
 		return srl_num;
 	}
-	public void setSrl_num(String srl_num) {
+	public void setSrl_num(BigDecimal srl_num) {
 		this.srl_num = srl_num;
+	}
+	public void setSrl_num(String srl_num) {
+		this.srl_num = srl_num != null && !srl_num.trim().isEmpty() ? new BigDecimal(srl_num.trim()) : null;
 	}
 	public String getSol_id() {
 		return sol_id;
@@ -133,7 +153,7 @@ public class BAML_AUDIT_ENTITY {
 			String enterer_id, String auth_id, String table_name, String table_abr, String modified_value,
 			String table_key) {
 		super();
-		this.srl_num = srl_num;
+		this.srl_num = srl_num != null && !srl_num.trim().isEmpty() ? new BigDecimal(srl_num.trim()) : null;
 		this.sol_id = sol_id;
 		this.sol_desc = sol_desc;
 		this.foracid = foracid;

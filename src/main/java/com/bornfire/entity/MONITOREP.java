@@ -12,18 +12,20 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface MONITOREP extends JpaRepository<MONITORINGPARAMETERENTIRY, String> {
 
-	@Query(value = "select * from BAML_MON_ALERT_PARAM where del_flg='N' ", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_MON_ALERT_PARAM\" where \"DEL_FLG\"='N' or \"DEL_FLG\" is null order by \"REF_NO\"",
+		   countQuery = "select count(*) from \"AML\".\"BAML_MON_ALERT_PARAM\" where \"DEL_FLG\"='N' or \"DEL_FLG\" is null",
+		   nativeQuery = true)
 	Page<MONITORINGPARAMETERENTIRY> parameter(Pageable page);
 
 	
-	@Query(value = "select * from BAML_MON_ALERT_PARAM where del_flg='N' and ref_no =?1 ", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_MON_ALERT_PARAM\" where (\"DEL_FLG\"='N' or \"DEL_FLG\" is null) and \"REF_NO\" = ?1 ", nativeQuery = true)
 	MONITORINGPARAMETERENTIRY findByIdCustom(String Id);
 	
 	
-	@Query(value = "select max(ref_no) from BAML_MON_ALERT_PARAM ", nativeQuery = true)
+	@Query(value = "select max(\"REF_NO\") from \"AML\".\"BAML_MON_ALERT_PARAM\" ", nativeQuery = true)
 	String getReferenceNo();
 	
-	@Query(value = "select count(*) from BAML_RULE_ENGINE_TABLE where rule_code = ?1", nativeQuery = true)
+	@Query(value = "select count(*) from \"AML\".\"BAML_RULE_ENGINE_TABLE\" where \"RULE_CODE\" = ?1", nativeQuery = true)
 	String getrulecount(String RuleCode);
 	
 	

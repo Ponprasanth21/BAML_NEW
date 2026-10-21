@@ -16,6 +16,7 @@ import java.io.OutputStream;
  * 
  * */
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -118,347 +119,284 @@ public class Cust_Pep_List_Service {
 	   
 	  private static List<BAML_Cust_PEP_RPT_Entity> pepList =  new ArrayList<BAML_Cust_PEP_RPT_Entity>();
 	public String addPepList(Cust_Pep_List_Entity alertparam, String formmode) {
-		// TODO Auto-generated method stub
+		return addPepList(alertparam, formmode, null);
+	}
+
+	public String addPepList(Cust_Pep_List_Entity alertparam, String formmode, String userid) {
 		String msg = "";
 		AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
 		Session hs = sessionFactory.getCurrentSession();
 		if (formmode.equals("add")) {
-			
 			Cust_Pep_List_Entity up = alertparam;
-		if(up.getRisk_category()==null || up.getRisk_category().isEmpty()) {
-				up.setRisk_category(null);
+			if (up.getRisk_category() == null || up.getRisk_category().isEmpty()) {
+				up.setRisk_category("LOW");
 			}
 			DecimalFormat numformate = new DecimalFormat("0");
-			BigDecimal billNumber = (BigDecimal) hs.createNativeQuery("SELECT PEP_LIST_SEQUENCE.NEXTVAL AS SRL_NO FROM DUAL").getSingleResult();
-			String serialno =  numformate.format(billNumber);
+			BigDecimal billNumber = null;
+			try {
+				billNumber = (BigDecimal) hs.createNativeQuery("SELECT CAST(nextval('\"AML\".\"PEP_LIST_SEQUENCE\"') AS NUMERIC)").getSingleResult();
+			} catch (Exception e) {
+				try {
+					BigInteger cnt = (BigInteger) hs.createNativeQuery("SELECT COUNT(*) FROM \"AML\".\"BAML_CUST_PEP_LIST\"").getSingleResult();
+					billNumber = new BigDecimal(cnt.longValue() + 1);
+				} catch (Exception ex) {
+					billNumber = new BigDecimal(System.currentTimeMillis() % 100000);
+				}
+			}
+			String serialno = numformate.format(billNumber);
 			up.setAcid(serialno);
 			alertparam.setAcid(serialno);
 			up.setDel_flag("N");
 			up.setEntity_flag("N");
+			up.setModify_flag("N");
+			String entryUser = (userid != null && !userid.trim().isEmpty()) ? userid : alertparam.getAml_entry_user();
+			up.setAml_entry_user(entryUser);
+			up.setAml_entry_time(new Date());
 			cust_pep_list_Repository.save(up);
-			
-			BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT AML_AUDIT_SEQ.NEXTVAL AS SRL_NO FROM DUAL")
-					.getSingleResult();
-			String modi = "PEP List OF "+alertparam.getCust_name()+" "+alertparam.getCust_short_name()+" is ADDED By " +alertparam.getAml_entry_time();
-			
-//				modi = modi + (" PEP_ID  " + up.getCif_id() + '+');
-//				modi = modi + (" CIF_ID  " + alertparam.getCif_id() + '+');
-//				modi = modi +(" CUSTOMER_SURNAME_NAME " + alertparam.getCust_short_name() + '+');
-//				modi = modi +(" CUST_NAME  " + alertparam.getCust_name() + '+');
-//				modi = modi +(" NID " + alertparam.getNat_id_card_num() + '+');
-//				modi = modi +(" RISK CATEGORY " + alertparam.getRisk_category() + '+');
-//				modi = modi +(" PEP_DESC " + alertparam.getPep_desc() + '+');
-//				modi = modi +(" CUST_POSITION " + alertparam.getCust_position() + '+');
-//				modi = modi +(" MEMBERSHIP_DATE " + alertparam.getMembership_date() + '+');
-//				modi = modi +(" DATE_OF_PEP " + alertparam.getDate_of_pep() + '+');
-//				modi = modi +(" DATE_OF_RESIGNATION " + alertparam.getDate_of_resig() + '+');
-//				modi = modi +(" DATE_OF_CLOSE " + alertparam.getDate_of_close() + '+');
-//				modi = modi +(" RESGN_REASON " + alertparam.getResig_reasons() + '+');
-//				modi = modi +(" ACT_PROD_TYPE " + alertparam.getActive_prod_type() + '+');
-//				modi = modi +(" SCHM_TYPE " + alertparam.getSchm_type() + '+');
-//				modi = modi +(" SCHEME_CODE " + alertparam.getSchm_code() + '+');
-//				modi = modi +(" ACCOUNT ID " + alertparam.getForacid() + '+');
-//				modi = modi +(" ACC_OPN_DATE " + alertparam.getAcct_open_date() + '+');
-//				modi = modi +(" REMSRKS " + alertparam.getRemarks() + '+');
-			
-			
-			
+
+			BigDecimal Number = null;
+			try {
+				Number = (BigDecimal) hs.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)").getSingleResult();
+			} catch (Exception e) {
+				Number = new BigDecimal(System.currentTimeMillis());
+			}
+			String modi = "PEP List OF " + (alertparam.getCust_name() != null ? alertparam.getCust_name() : "") + " " + (alertparam.getCust_short_name() != null ? alertparam.getCust_short_name() : "") + " is ADDED By " + entryUser;
+
 			audit.setAudit_date(new Date());
-			audit.setEntry_user(alertparam.getAml_entry_user());
+			audit.setEntry_user(entryUser);
 			audit.setFunc_code("RECORD CREATED");
 			audit.setRemarks("ADDED");
 			audit.setAudit_table("BAML_CUST_PEP_LIST");
 			audit.setAudit_screen("PEP LISTING MASTER");
 			audit.setEvent_id(alertparam.getAcid());
-			audit.setEvent_name(alertparam.getAcid()+"-"+"ADDED");
+			audit.setEvent_name(alertparam.getAcid() + "-ADDED");
 			audit.setModi_details(modi);
-			audit.setEntry_user(alertparam.getAml_entry_user());
-			audit.setEntry_time(alertparam.getAml_entry_time());
-			audit.setAudit_ref_no(Number.toString());
+			audit.setEntry_time(new Date());
+			audit.setAudit_ref_no(Number != null ? Number.toString() : "1");
 			auditLocal.save(audit);
-			
-			
-			
 
 			msg = "Pep List Created Successfully";
 
 		} else if (formmode.equals("edit")) {
-		
+			if (alertparam.getAcid() == null || alertparam.getAcid().trim().isEmpty()) {
+				return "PEP Record ID is required for modification!";
+			}
 			Optional<Cust_Pep_List_Entity> reg = cust_pep_list_Repository.findById(alertparam.getAcid());
 			if (reg.isPresent()) {
-				
-				Cust_Pep_List_Entity reg1 = new Cust_Pep_List_Entity();
-				reg1=reg.get();
-				if ((reg1.getCif_id().equals(alertparam.getCif_id()))
-						&& (reg1.getCust_short_name().equals(alertparam.getCust_short_name()))
-						&& (reg1.getCust_name().equals(alertparam.getCust_name()))
-						&& (alertparam.getNat_id_card_num() ==null || reg1.getNat_id_card_num() ==null  ? true : reg1.getNat_id_card_num().equals(alertparam.getNat_id_card_num()))
-						&& (alertparam.getNat_id_card_num()!=null ? reg1.getNat_id_card_num().equals(alertparam.getNat_id_card_num()) : true)
-
-						
-						&& (alertparam.getRisk_category() ==null || reg1.getRisk_category() ==null  ? true : reg1.getRisk_category().equals(alertparam.getRisk_category()))
-					
-						&& (reg1.getPep_desc().equals(alertparam.getPep_desc()))
-						&& (reg1.getCust_position().equals(alertparam.getCust_position()))
-						&& (reg1.getMembership_date().compareTo(alertparam.getMembership_date()) == 0)
-						&& (reg1.getDate_of_pep().compareTo(alertparam.getDate_of_pep()) == 0)
-						&& (reg1.getDate_of_resig().compareTo(alertparam.getDate_of_resig()) == 0)
-						&& (reg1.getDate_of_close().compareTo(alertparam.getDate_of_close()) == 0)
-
-						&& (reg1.getResig_reasons().equals(alertparam.getResig_reasons()))
-						
-						&& (reg1.getActive_prod_type().equals(alertparam.getActive_prod_type()))
-						&& (reg1.getSchm_type().equals(alertparam.getSchm_type()))
-						&& (reg1.getSchm_code().equals(alertparam.getSchm_code()))
-						&& (reg1.getForacid().equals(alertparam.getForacid()))
-						&& (reg1.getAcct_open_date().compareTo(alertparam.getAcct_open_date()) == 0) ) {
-					msg = "No Modification done";
-				} else {
-					String modi = "";
-
-					BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT AML_AUDIT_SEQ.NEXTVAL AS SRL_NO FROM DUAL")
-							.getSingleResult();
-					
-				
-					
-					if (!reg1.getCif_id().equals(alertparam.getCif_id())) {
-					modi = modi + ("OLD CIF_ID + " + reg1.getCif_id() + "+ OLD CIF_ID " + alertparam.getCif_id() + '+');
-					} else if (!reg1.getCust_short_name().equals(alertparam.getCust_short_name())) {
-						modi = modi +("OLD - CUSTOMER_SURNAME_NAME " + reg1.getCust_short_name() + "+ NEW - CUSTOMER_SURNAME_NAME " + alertparam.getCust_short_name() + '+');
-					} else if (!reg1.getCust_name().equals(alertparam.getCust_name())) {
-						modi = modi +("OLD CUST_NAME  " + reg1.getCust_name() + "+ NEW CUST_NAME " + alertparam.getCust_name() + '+');
-					}  else if (!reg1.getCust_name().equals(alertparam.getCust_name())) {
-						modi = modi +("OLD CUST_NAME  " + reg1.getCust_name() + "+ NEW CUST_NAME " + alertparam.getCust_name() + '+');
-					}  else if (!reg1.getNat_id_card_num().equals(alertparam.getNat_id_card_num())) {
-							modi = modi +("OLD NID " + reg1.getNat_id_card_num() + "+ NEW NID " + alertparam.getNat_id_card_num() + '+');
-					} else if (!reg1.getRisk_category().equals(alertparam.getRisk_category())) {
-						modi = modi +("OLD RISK CATEGORY  " + reg1.getRisk_category() + "+ NEW RISK CATEGORY " + alertparam.getRisk_category() + '+');
-					} 
-					else if (!reg1.getPep_desc().equals(alertparam.getPep_desc())) {
-						modi = modi +("OLD BUS_DESC " + reg1.getPep_desc() + "+ NEW  BUS_DESC " + alertparam.getPep_desc() + '+');
-					}
-				
-					else if (!reg1.getPep_desc().equals(alertparam.getPep_desc())) {
-						modi = modi +("OLD PEP_DESC " + reg1.getPep_desc() + "+ NEW  PEP_DESC " + alertparam.getPep_desc() + '+');
-					} else if (!reg1.getCust_position().equals(alertparam.getCust_position())) {
-						modi = modi +("OLD CUST_POSTN  " + reg1.getCust_position() + "+ NEW  CUST_POSTN " + alertparam.getCust_position() + '+');
-					}else if (!reg1.getMembership_date().equals(alertparam.getMembership_date())) {
-						modi = modi +("OLD MEMBERSHIP_DATE  " + reg1.getMembership_date() + "+ NEW  MEMBERSHIP_DATE " + alertparam.getMembership_date() + '+');
-					}else if (!reg1.getDate_of_pep().equals(alertparam.getDate_of_pep())) {
-						modi = modi +("OLD DATE_OF_PEP  " + reg1.getDate_of_pep() + "+ NEW  DATE_OF_PEP " + alertparam.getDate_of_pep() + '+');
-					}else if (!reg1.getDate_of_resig().equals(alertparam.getDate_of_resig())) {
-					modi = modi +("OLD DATE_OF_RESGN  " + reg1.getDate_of_resig() + "+ NEW  DATE_OF_RESGN " + alertparam.getDate_of_resig() + '+');
-					}else if (!reg1.getDate_of_close().equals(alertparam.getDate_of_close())) {
-						modi = modi +("OLD DATE_OF_CLOSE  " + reg1.getDate_of_close() + "+ NEW  DATE_OF_CLOSE " + alertparam.getDate_of_close() + '+');
-					}else if (!reg1.getResig_reasons().equals(alertparam.getResig_reasons())) {
-						modi = modi +("OLD RESGN_REASON  " + reg1.getResig_reasons() + "+ NEW  RESGN_REASON " + alertparam.getResig_reasons() + '+');
-					}else if (!reg1.getActive_prod_type().equals(alertparam.getActive_prod_type())) {
-						modi = modi +("OLD ACTIVE_PROD_TYPE " + reg1.getActive_prod_type() + "+ NEW ACTIVE_PROD_TYPE " + alertparam.getActive_prod_type() + '+');
-					} else if (!reg1.getSchm_type().equals(alertparam.getSchm_type())) {
-							modi = modi +("OLD ACTIVE_PROD_TYPE " + reg1.getSchm_type() + "+ NEW ACTIVE_PROD_TYPE " + alertparam.getSchm_type() + '+');
-					} else if (!reg1.getSchm_code().equals(alertparam.getSchm_code())) {
-						modi = modi +("OLD SCHM_CODE " + reg1.getSchm_code() + "+ NEW SCHM_CODE " + alertparam.getSchm_code() + '+');
-					} else if (!reg1.getForacid().equals(alertparam.getForacid())) {
-						modi = modi +("OLD FORACID " + reg1.getForacid() + "+ NEW FORACID " + alertparam.getForacid() + '+');
-					} else if (!reg1.getAcct_open_date().equals(alertparam.getAcct_open_date())) {
-						modi = modi +("OLD ACC_OPN_DATE  " + reg1.getAcct_open_date() + "+ NEW ACC_OPN_DATE " + alertparam.getAcct_open_date() + '+');
-					}else if (!reg1.getDel_flag().equals(alertparam.getDel_flag())) {
-						modi = modi +("OLD DEL_FLAG " + reg1.getDel_flag() + "+ NEW DEL_FLAG " + alertparam.getDel_flag() + '+');
-					}else if (!reg1.getModify_flag().equals(alertparam.getModify_flag())) {
-						modi = modi +("OLD MODI_FLAG  " + reg1.getModify_flag() + "+ NEW MODI_FLAG " + alertparam.getModify_flag() + '+');
-					}else if (!reg1.getEntity_flag().equals(alertparam.getEntity_flag())) {
-						modi = modi +("OLD ENTITY_FLAG " + reg1.getEntity_flag() + "+ NEW ENTITY_FLAG " + alertparam.getEntity_flag() + '+');
-					}
-						
-					audit.setAudit_date(new Date());
-					audit.setEntry_user(alertparam.getAml_entry_user());
-					audit.setFunc_code("RECORD MODIFIED");
-					audit.setRemarks("MODIFIED");
-					audit.setAudit_table("BAML_CUST_PEP_LIST");
-					audit.setAudit_screen("PEP LISTING MASTER");
-					audit.setEvent_id(alertparam.getAcid());
-					audit.setEvent_name(alertparam.getCust_name()+" "+alertparam.getCust_short_name()+"-"+"MODIFIED");
-					audit.setModi_details(modi);
-					audit.setEntry_user(alertparam.getAml_modify_user());
-					audit.setEntry_time(alertparam.getAml_modify_time());
-					audit.setAudit_ref_no(Number.toString());
-			
-			if(alertparam.getRisk_category()==null || alertparam.getRisk_category().isEmpty() || alertparam.getRisk_category().equals("")) {
-				alertparam.setRisk_category("LOW");
-			}
-			Cust_Pep_List_Entity up = alertparam;
-			alertparam.setAcid(up.getAcid());
-			alertparam.setDel_flag("N");
-			alertparam.setModify_flag("Y");
-			alertparam.setEntity_flag("N");
-			
-			cust_pep_list_Repository.saveAndFlush(alertparam);
-			
-			msg = "Pep List Edited Successfully";
-			auditLocal.save(audit);
+				Cust_Pep_List_Entity reg1 = reg.get();
+				if ("N".equalsIgnoreCase(reg1.getEntity_flag())) {
+					return "Record is pending verification and cannot be modified!";
 				}
+
+				if (alertparam.getCif_id() != null) reg1.setCif_id(alertparam.getCif_id());
+				if (alertparam.getCust_short_name() != null) reg1.setCust_short_name(alertparam.getCust_short_name());
+				if (alertparam.getCust_name() != null) reg1.setCust_name(alertparam.getCust_name());
+				if (alertparam.getNat_id_card_num() != null) reg1.setNat_id_card_num(alertparam.getNat_id_card_num());
+				if (alertparam.getRisk_category() != null && !alertparam.getRisk_category().trim().isEmpty()) {
+					reg1.setRisk_category(alertparam.getRisk_category());
+				} else if (reg1.getRisk_category() == null) {
+					reg1.setRisk_category("LOW");
+				}
+				if (alertparam.getPep_desc() != null) reg1.setPep_desc(alertparam.getPep_desc());
+				if (alertparam.getCust_position() != null) reg1.setCust_position(alertparam.getCust_position());
+				if (alertparam.getMembership_date() != null) reg1.setMembership_date(alertparam.getMembership_date());
+				if (alertparam.getDate_of_pep() != null) reg1.setDate_of_pep(alertparam.getDate_of_pep());
+				if (alertparam.getDate_of_resig() != null) reg1.setDate_of_resig(alertparam.getDate_of_resig());
+				if (alertparam.getDate_of_close() != null) reg1.setDate_of_close(alertparam.getDate_of_close());
+				if (alertparam.getResig_reasons() != null) reg1.setResig_reasons(alertparam.getResig_reasons());
+				if (alertparam.getActive_prod_type() != null) reg1.setActive_prod_type(alertparam.getActive_prod_type());
+				if (alertparam.getSchm_type() != null) reg1.setSchm_type(alertparam.getSchm_type());
+				if (alertparam.getSchm_code() != null) reg1.setSchm_code(alertparam.getSchm_code());
+				if (alertparam.getForacid() != null) reg1.setForacid(alertparam.getForacid());
+				if (alertparam.getAcct_open_date() != null) reg1.setAcct_open_date(alertparam.getAcct_open_date());
+				if (alertparam.getRemarks() != null) reg1.setRemarks(alertparam.getRemarks());
+				if (alertparam.getPep_type() != null) reg1.setPep_type(alertparam.getPep_type());
+
+				reg1.setDel_flag("N");
+				reg1.setModify_flag("Y");
+				reg1.setEntity_flag("N");
+				String modifyUser = (userid != null && !userid.trim().isEmpty()) ? userid : alertparam.getAml_modify_user();
+				reg1.setAml_modify_user(modifyUser);
+				reg1.setAml_modify_time(new Date());
+
+				cust_pep_list_Repository.save(reg1);
+
+				BigDecimal Number = null;
+				try {
+					Number = (BigDecimal) hs.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)").getSingleResult();
+				} catch (Exception e) {
+					Number = new BigDecimal(System.currentTimeMillis());
+				}
+
+				audit.setAudit_date(new Date());
+				audit.setEntry_user(modifyUser);
+				audit.setFunc_code("RECORD MODIFIED");
+				audit.setRemarks("MODIFIED");
+				audit.setAudit_table("BAML_CUST_PEP_LIST");
+				audit.setAudit_screen("PEP LISTING MASTER");
+				audit.setEvent_id(reg1.getAcid());
+				audit.setEvent_name((reg1.getCust_name() != null ? reg1.getCust_name() : "") + " " + (reg1.getCust_short_name() != null ? reg1.getCust_short_name() : "") + "-MODIFIED");
+				audit.setModi_details("PEP List modified for " + reg1.getAcid());
+				audit.setEntry_time(new Date());
+				audit.setAudit_ref_no(Number != null ? Number.toString() : "1");
+				auditLocal.save(audit);
+
+				msg = "Pep List Edited Successfully";
+			} else {
+				msg = "Record not found for ID: " + alertparam.getAcid();
 			}
+
 		} else if (formmode.equals("delete")) {
 			Optional<Cust_Pep_List_Entity> regs = cust_pep_list_Repository.findById(alertparam.getAcid());
 			if (regs.isPresent()) {
-				Cust_Pep_List_Entity reg1 = new Cust_Pep_List_Entity();
-				reg1=regs.get();
-			
-			
-			BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT AML_AUDIT_SEQ.NEXTVAL AS SRL_NO FROM DUAL")
-					.getSingleResult();
-			
-			audit.setAudit_date(new Date());
-			audit.setEntry_user(alertparam.getAml_entry_user());
-			audit.setFunc_code("RECORD DELETED");
-			audit.setRemarks("DELETED");
-			audit.setAudit_table("BAML_CUST_PEP_LIST");
-			audit.setAudit_screen("PEP LISTING MASTER");
-			audit.setEvent_id(alertparam.getAcid());
-			audit.setEvent_name(alertparam.getCust_name()+" "+alertparam.getCust_short_name()+"-"+"DELETED");
-			
-			audit.setEntry_user(alertparam.getAml_modify_user());
-			audit.setEntry_time(alertparam.getAml_modify_time());
-			audit.setAudit_ref_no(Number.toString());
-			
-			
-			if(alertparam.getRisk_category()==null || alertparam.getRisk_category().isEmpty()) {
-				alertparam.setRisk_category("LOW");
+				Cust_Pep_List_Entity reg1 = regs.get();
+
+				BigDecimal Number = null;
+				try {
+					Number = (BigDecimal) hs.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)").getSingleResult();
+				} catch (Exception e) {
+					Number = new BigDecimal(System.currentTimeMillis());
+				}
+
+				String modifyUser = (userid != null && !userid.trim().isEmpty()) ? userid : alertparam.getAml_modify_user();
+				audit.setAudit_date(new Date());
+				audit.setEntry_user(modifyUser);
+				audit.setFunc_code("RECORD DELETED");
+				audit.setRemarks("DELETED");
+				audit.setAudit_table("BAML_CUST_PEP_LIST");
+				audit.setAudit_screen("PEP LISTING MASTER");
+				audit.setEvent_id(alertparam.getAcid());
+				audit.setEvent_name((alertparam.getCust_name() != null ? alertparam.getCust_name() : "") + " " + (alertparam.getCust_short_name() != null ? alertparam.getCust_short_name() : "") + "-DELETED");
+				audit.setEntry_time(new Date());
+				audit.setAudit_ref_no(Number != null ? Number.toString() : "1");
+
+				reg1.setDel_flag("Y");
+				reg1.setEntity_flag("N");
+				reg1.setAml_modify_user(modifyUser);
+				reg1.setAml_modify_time(new Date());
+				cust_pep_list_Repository.save(reg1);
+				msg = "Pep List Deleted Successfully";
+
+				String modi = "PEP Customer : " + (alertparam.getCust_name() != null ? alertparam.getCust_name() : "") + " " + (alertparam.getCust_short_name() != null ? alertparam.getCust_short_name() : "") + " is Deleted by " + modifyUser;
+				audit.setModi_details(modi);
+				auditLocal.save(audit);
 			}
-			Cust_Pep_List_Entity up = alertparam;
-			alertparam.setAcid(up.getAcid());
-			alertparam.setDel_flag("Y");
-			alertparam.setEntity_flag("N");
-			cust_pep_list_Repository.save(alertparam);
-			msg = "Pep List Deleted Successfully";
-			
-			
-			String modi="PEP Customer : "+alertparam.getCust_name()+" "+alertparam.getCust_short_name()+" is Deleted by "+alertparam.getAml_entry_user();
-		
-			audit.setModi_details(modi);
-			auditLocal.save(audit);
-			
-			}
-			
-			
-			
+
 		} else if (formmode.equals("verify")) {
 			Optional<Cust_Pep_List_Entity> regv = cust_pep_list_Repository.findById(alertparam.getAcid());
 			if (regv.isPresent()) {
-				Cust_Pep_List_Entity reg1 = new Cust_Pep_List_Entity();
-				reg1=regv.get();
-			
-				String modi="PEP Customer : "+alertparam.getCust_name()+" "+alertparam.getCust_short_name()+" is Verified by "+alertparam.getAml_verify_user();
-		/*	if (!reg1.getDel_flag().equals(alertparam.getDel_flag())) {
-				modi = modi +("OLD DEL_FLAG " + reg1.getDel_flag() + "+ NEW DEL_FLAG " + alertparam.getDel_flag() + '+');
-			}else if (!reg1.getModify_flag().equals(alertparam.getModify_flag())) {
-				modi = modi +("OLD MODI_FLAG  " + reg1.getModify_flag() + "+ NEW MODI_FLAG " + alertparam.getModify_flag() + '+');
-			}else if (!reg1.getEntity_flag().equals(alertparam.getEntity_flag())) {
-				modi = modi +("OLD ENTITY_FLAG " + reg1.getEntity_flag() + "+ NEW ENTITY_FLAG + ");
-			}*/
-				AML_AUDIT_LOCAL audit1 = auditLocal.getAuditVerifyUserPEP(alertparam.getAcid());
-			BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT AML_AUDIT_SEQ.NEXTVAL AS SRL_NO FROM DUAL")
-					.getSingleResult();
-			BigDecimal EMAIL = (BigDecimal) hs.createNativeQuery("SELECT EMAILSEQUENCE.NEXTVAL AS SRL_NO FROM DUAL")
-					.getSingleResult();
-			if (audit1 !=null && audit1.getRemarks().equals("ADDED")) {
-				audit1.setAudit_date(new Date());
-				audit1.setAudit_table("BAML_CUST_PEP_LIST");
-				audit1.setAudit_screen("PEP LIST - CREATION");
-				audit1.setFunc_code("PEP VERIFIED");
-				audit1.setRemarks("VERIFIED");
-				audit1.setEvent_id(alertparam.getAcid());
-				audit1.setEvent_name(alertparam.getCust_name());
-				audit1.setModi_details(audit1.getModi_details());
-				audit1.setAuth_user(alertparam.getAml_verify_user());
-				audit1.setAuth_time(new Date());
-				audit1.setAudit_ref_no(audit1.getAudit_ref_no());
-				EmailAlert EA = new EmailAlert();
-				String alertcode = "PEP-ADD";
-				AlertManagementEntity  AM= alertrep.getalertdetail(alertcode);
-				if(AM.getEmail_flg().equals("Y")) {
-					EA.setEmail_id(AM.getEmail_1());
-					EA.setEmail_id_cc1(AM.getEmail_2());
-					EA.setEmail_id_cc2(AM.getEmail_3());
-					EA.setEmail_sub(AM.getParam_1());
-					EA.setEmail_body("PEP LIST RECORD CREATED ..../ PEP ID :"+alertparam.getAcid()+", PEP NAME :"+alertparam.getCust_name()+" "+alertparam.getCust_short_name()+" /PROCESSED BY : "+alertparam.getAml_verify_user());
-					EA.setEmail_date(new Date());
-					EA.setEmail_srl_no(EMAIL);
-					EA.setSend_flg("N");
-					emailRep.save(EA);
-				}
-			}else if (audit1!=null && audit1.getRemarks().equals("MODIFIED")) {
-				audit1.setAudit_date(new Date());
-				audit1.setAudit_table("BAML_CUST_PEP_LIST");
-				audit1.setAudit_screen("PEP LIST - MODIFIED");
-				audit1.setFunc_code("PEP LIST MODIFIED");
-				audit1.setRemarks("VERIFIED");
-				audit1.setEvent_id(alertparam.getAcid());
-				audit1.setEvent_name(alertparam.getCust_name());
-				audit1.setModi_details(audit1.getModi_details());
-				audit1.setAuth_user(alertparam.getAml_verify_user());
-				audit1.setAuth_time(new Date());
-				audit1.setAudit_ref_no(audit1.getAudit_ref_no());
-				EmailAlert EA = new EmailAlert();
-				String alertcode = "PEP-MODIFY";
-				AlertManagementEntity  AM= alertrep.getalertdetail(alertcode);
-				if(AM.getEmail_flg().equals("Y")) {
-					EA.setEmail_id(AM.getEmail_1());
-					EA.setEmail_id_cc1(AM.getEmail_2());
-					EA.setEmail_id_cc2(AM.getEmail_3());
-					EA.setEmail_sub(AM.getParam_1());
-					EA.setEmail_body("PEP LIST RECORD MODIFIED ..../ PEP ID :"+alertparam.getAcid()+", PEP NAME :"+alertparam.getCust_name()+" "+alertparam.getCust_short_name()+" /PROCESSED BY : "+alertparam.getAml_verify_user());
-					EA.setEmail_date(new Date());
-					EA.setEmail_srl_no(EMAIL);
-					EA.setSend_flg("N");
-					emailRep.save(EA);
-				}
-			}else if (audit1!=null && audit1.getRemarks().equals("DELETED")) {
-				audit1.setAudit_date(new Date());
-				audit1.setAudit_table("BAML_CUST_PEP_LIST");
-				audit1.setAudit_screen("PEP LIST - DELETED");
-				audit1.setFunc_code("PEP LIST DELETED");
-				audit1.setRemarks("VERIFIED");
-				audit1.setEvent_id(alertparam.getAcid());
-				audit1.setEvent_name(alertparam.getCust_name());
-				audit1.setModi_details(audit1.getModi_details());
-				audit1.setAuth_user(alertparam.getAml_verify_user());
-				System.out.println("verify user"+alertparam.getAml_verify_user());
-				audit1.setAuth_time(new Date());
-				audit1.setAudit_ref_no(audit1.getAudit_ref_no());
-				EmailAlert EA = new EmailAlert();
-				String alertcode = "PEP-MODIFY";
-				AlertManagementEntity  AM= alertrep.getalertdetail(alertcode);
-				if(AM.getEmail_flg().equals("Y")) {
-					EA.setEmail_id(AM.getEmail_1());
-					EA.setEmail_id_cc1(AM.getEmail_2());
-					EA.setEmail_id_cc2(AM.getEmail_3());
-					EA.setEmail_sub(AM.getParam_1());
-					EA.setEmail_body("PEP LIST RECORD DELETED ..../ PEP ID :"+alertparam.getAcid()+", PEP NAME :"+alertparam.getCust_name()+" "+alertparam.getCust_short_name()+" /PROCESSED BY : "+alertparam.getAml_verify_user());
-					EA.setEmail_date(new Date());
-					EA.setEmail_srl_no(EMAIL);
-					EA.setSend_flg("N");
-					emailRep.save(EA);
-				}
-			}
-			if(audit1!=null) {
-				auditLocal.save(audit1);
-				}
-			
-			
-			
+				Cust_Pep_List_Entity reg1 = regv.get();
+				String verifyUser = (userid != null && !userid.trim().isEmpty()) ? userid : alertparam.getAml_verify_user();
 
-			Cust_Pep_List_Entity up = alertparam;
-			if(up.getRisk_category()==null || up.getRisk_category().isEmpty()) {
-				up.setRisk_category("LOW");
-			}
-			alertparam.setAcid(up.getAcid());
-			up.setEntity_flag("Y");
-			up.setDel_flag("N");
-			cust_pep_list_Repository.save(up);
-			msg = "Pep List Verified Successfully";
-			
-			//auditLocal.save(audit1);
+				String modifyUser = reg1.getAml_modify_user();
+				String entryUser = reg1.getAml_entry_user();
+				if (modifyUser != null && !modifyUser.trim().isEmpty()) {
+					if (modifyUser.equalsIgnoreCase(verifyUser)) {
+						return "Same User Cannot Verify!";
+					}
+				} else if (entryUser != null && !entryUser.trim().isEmpty()) {
+					if (entryUser.equalsIgnoreCase(verifyUser)) {
+						return "Same User Cannot Verify!";
+					}
+				}
+
+				AML_AUDIT_LOCAL audit1 = auditLocal.getAuditVerifyUserPEP(alertparam.getAcid());
+				BigDecimal Number = null;
+				try {
+					Number = (BigDecimal) hs.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)").getSingleResult();
+				} catch (Exception e) {
+					Number = new BigDecimal(System.currentTimeMillis());
+				}
+				BigDecimal EMAIL = null;
+				try {
+					EMAIL = (BigDecimal) hs.createNativeQuery("SELECT CAST(nextval('\"AML\".\"EMAILSEQUENCE\"') AS NUMERIC)").getSingleResult();
+				} catch (Exception e) {
+					EMAIL = new BigDecimal(System.currentTimeMillis());
+				}
+				if (audit1 != null && "ADDED".equals(audit1.getRemarks())) {
+					audit1.setAudit_date(new Date());
+					audit1.setAudit_table("BAML_CUST_PEP_LIST");
+					audit1.setAudit_screen("PEP LIST - CREATION");
+					audit1.setFunc_code("PEP VERIFIED");
+					audit1.setRemarks("VERIFIED");
+					audit1.setEvent_id(alertparam.getAcid());
+					audit1.setEvent_name(alertparam.getCust_name());
+					audit1.setAuth_user(verifyUser);
+					audit1.setAuth_time(new Date());
+					EmailAlert EA = new EmailAlert();
+					String alertcode = "PEP-ADD";
+					AlertManagementEntity AM = alertrep.getalertdetail(alertcode);
+					if (AM != null && "Y".equals(AM.getEmail_flg())) {
+						EA.setEmail_id(AM.getEmail_1());
+						EA.setEmail_id_cc1(AM.getEmail_2());
+						EA.setEmail_id_cc2(AM.getEmail_3());
+						EA.setEmail_sub(AM.getParam_1());
+						EA.setEmail_body("PEP LIST RECORD CREATED ..../ PEP ID :" + alertparam.getAcid() + ", PEP NAME :" + alertparam.getCust_name() + " " + alertparam.getCust_short_name() + " /PROCESSED BY : " + verifyUser);
+						EA.setEmail_date(new Date());
+						EA.setEmail_srl_no(EMAIL);
+						EA.setSend_flg("N");
+						emailRep.save(EA);
+					}
+				} else if (audit1 != null && "MODIFIED".equals(audit1.getRemarks())) {
+					audit1.setAudit_date(new Date());
+					audit1.setAudit_table("BAML_CUST_PEP_LIST");
+					audit1.setAudit_screen("PEP LIST - MODIFIED");
+					audit1.setFunc_code("PEP LIST MODIFIED");
+					audit1.setRemarks("VERIFIED");
+					audit1.setEvent_id(alertparam.getAcid());
+					audit1.setEvent_name(alertparam.getCust_name());
+					audit1.setAuth_user(verifyUser);
+					audit1.setAuth_time(new Date());
+					EmailAlert EA = new EmailAlert();
+					String alertcode = "PEP-MODIFY";
+					AlertManagementEntity AM = alertrep.getalertdetail(alertcode);
+					if (AM != null && "Y".equals(AM.getEmail_flg())) {
+						EA.setEmail_id(AM.getEmail_1());
+						EA.setEmail_id_cc1(AM.getEmail_2());
+						EA.setEmail_id_cc2(AM.getEmail_3());
+						EA.setEmail_sub(AM.getParam_1());
+						EA.setEmail_body("PEP LIST RECORD MODIFIED ..../ PEP ID :" + alertparam.getAcid() + ", PEP NAME :" + alertparam.getCust_name() + " " + alertparam.getCust_short_name() + " /PROCESSED BY : " + verifyUser);
+						EA.setEmail_date(new Date());
+						EA.setEmail_srl_no(EMAIL);
+						EA.setSend_flg("N");
+						emailRep.save(EA);
+					}
+				} else if (audit1 != null && "DELETED".equals(audit1.getRemarks())) {
+					audit1.setAudit_date(new Date());
+					audit1.setAudit_table("BAML_CUST_PEP_LIST");
+					audit1.setAudit_screen("PEP LIST - DELETED");
+					audit1.setFunc_code("PEP LIST DELETED");
+					audit1.setRemarks("VERIFIED");
+					audit1.setEvent_id(alertparam.getAcid());
+					audit1.setEvent_name(alertparam.getCust_name());
+					audit1.setAuth_user(verifyUser);
+					audit1.setAuth_time(new Date());
+					EmailAlert EA = new EmailAlert();
+					String alertcode = "PEP-MODIFY";
+					AlertManagementEntity AM = alertrep.getalertdetail(alertcode);
+					if (AM != null && "Y".equals(AM.getEmail_flg())) {
+						EA.setEmail_id(AM.getEmail_1());
+						EA.setEmail_id_cc1(AM.getEmail_2());
+						EA.setEmail_id_cc2(AM.getEmail_3());
+						EA.setEmail_sub(AM.getParam_1());
+						EA.setEmail_body("PEP LIST RECORD DELETED ..../ PEP ID :" + alertparam.getAcid() + ", PEP NAME :" + alertparam.getCust_name() + " " + alertparam.getCust_short_name() + " /PROCESSED BY : " + verifyUser);
+						EA.setEmail_date(new Date());
+						EA.setEmail_srl_no(EMAIL);
+						EA.setSend_flg("N");
+						emailRep.save(EA);
+					}
+				}
+				if (audit1 != null) {
+					auditLocal.save(audit1);
+				}
+
+				reg1.setEntity_flag("Y");
+				reg1.setModify_flag("N");
+				reg1.setDel_flag("N");
+				reg1.setAml_verify_user(verifyUser);
+				reg1.setAml_verify_time(new Date());
+				cust_pep_list_Repository.save(reg1);
+				msg = "Pep List Verified Successfully";
 			}
 		}
 		return msg;

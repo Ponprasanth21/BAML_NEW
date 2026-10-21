@@ -1,6 +1,7 @@
 package com.bornfire.Services;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -51,8 +52,13 @@ public class AlertManagementServices {
 		String msg = "";
 		Session hs1 = sessionFactory.getCurrentSession();
 
-		BigDecimal Number1 = (BigDecimal) hs1.createNativeQuery("SELECT aml_audit_seq.NEXTVAL AS SRL_NO FROM DUAL")
-				.getSingleResult();
+		BigDecimal Number1 = null;
+		try {
+			Number1 = (BigDecimal) hs1.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
+					.getSingleResult();
+		} catch (Exception e) {
+			Number1 = new BigDecimal(System.currentTimeMillis());
+		}
 
 		/* try { */
 
@@ -74,7 +80,7 @@ public class AlertManagementServices {
 			audit.setEvent_id(up.getSrl_no());
 			audit.setEvent_name("ALERT PARAMETER");
 			audit.setModi_details("ALERT CREATED");
-			audit.setAudit_ref_no(Number1.toString());
+			audit.setAudit_ref_no(Number1 != null ? Number1.toString() : "1");
 			auditLocal.save(audit);
 
 			msg = "User Created Successfully";
@@ -83,15 +89,112 @@ public class AlertManagementServices {
 		// When the user data modifed and submitted.
 
 		else if (formmode.equals("edit")) {
-			AlertManagementEntity up = alertparam;
+			AlertManagementEntity existing = getSrlNo(alertparam.getSrl_no());
+			if (existing != null && existing.getSrl_no() != null) {
+				if ("N".equals(existing.getEntity_flg())) {
+					return "Record is pending verification and cannot be modified!";
+				}
+				if (alertparam.getAlert_date() != null) existing.setAlert_date(alertparam.getAlert_date());
+				if (alertparam.getAlert_code() != null) existing.setAlert_code(alertparam.getAlert_code());
+				if (alertparam.getAlert_desc() != null) existing.setAlert_desc(alertparam.getAlert_desc());
+				if (alertparam.getParam_1() != null) existing.setParam_1(alertparam.getParam_1());
+				existing.setParam_value_1(alertparam.getParam_value_1());
+				if (alertparam.getParam_2() != null) existing.setParam_2(alertparam.getParam_2());
+				existing.setParam_value_2(alertparam.getParam_value_2());
+				if (alertparam.getParam_3() != null) existing.setParam_3(alertparam.getParam_3());
+				existing.setParam_value_3(alertparam.getParam_value_3());
+				if (alertparam.getEmail_flg() != null) existing.setEmail_flg(alertparam.getEmail_flg());
+				if (alertparam.getEmail_1() != null) existing.setEmail_1(alertparam.getEmail_1());
+				if (alertparam.getEmail_2() != null) existing.setEmail_2(alertparam.getEmail_2());
+				if (alertparam.getEmail_3() != null) existing.setEmail_3(alertparam.getEmail_3());
+				if (alertparam.getEmail_user_1() != null) existing.setEmail_user_1(alertparam.getEmail_user_1());
+				if (alertparam.getEmail_user_2() != null) existing.setEmail_user_2(alertparam.getEmail_user_2());
+				if (alertparam.getEmail_user_3() != null) existing.setEmail_user_3(alertparam.getEmail_user_3());
+				if (alertparam.getSms_flg() != null) existing.setSms_flg(alertparam.getSms_flg());
+				existing.setMobile_1(alertparam.getMobile_1());
+				existing.setMobile_2(alertparam.getMobile_2());
+				existing.setMobile_3(alertparam.getMobile_3());
+				if (alertparam.getMobile_user_1() != null) existing.setMobile_user_1(alertparam.getMobile_user_1());
+				if (alertparam.getMobile_user_2() != null) existing.setMobile_user_2(alertparam.getMobile_user_2());
+				if (alertparam.getMobile_user_3() != null) existing.setMobile_user_3(alertparam.getMobile_user_3());
+				if (alertparam.getAlert_flg() != null) existing.setAlert_flg(alertparam.getAlert_flg());
+				if (alertparam.getAlert_userid_1() != null) existing.setAlert_userid_1(alertparam.getAlert_userid_1());
+				if (alertparam.getAlert_userid_2() != null) existing.setAlert_userid_2(alertparam.getAlert_userid_2());
+				if (alertparam.getAlert_userid_3() != null) existing.setAlert_userid_3(alertparam.getAlert_userid_3());
+				if (alertparam.getAlert_user_1() != null) existing.setAlert_user_1(alertparam.getAlert_user_1());
+				if (alertparam.getAlert_user_2() != null) existing.setAlert_user_2(alertparam.getAlert_user_2());
+				if (alertparam.getAlert_user_3() != null) existing.setAlert_user_3(alertparam.getAlert_user_3());
+				if (alertparam.getStart_date() != null) existing.setStart_date(alertparam.getStart_date());
+				if (alertparam.getEnd_date() != null) existing.setEnd_date(alertparam.getEnd_date());
+				if (alertparam.getSuspend_flg() != null) existing.setSuspend_flg(alertparam.getSuspend_flg());
+				existing.setSuspend_date(alertparam.getSuspend_date());
+				existing.setActivate_date(alertparam.getActivate_date());
+				if (alertparam.getRemarks() != null) existing.setRemarks(alertparam.getRemarks());
 
-			up.setModify_user(userid);
-			up.setModify_time(new Date());
-			up.setMod_flg("Y");
-			up.setDel_flg("N");
-			alertrepository.save(up);/* } */
+				existing.setModify_user(userid);
+				existing.setModify_time(new Date());
+				existing.setMod_flg("Y");
+				existing.setEntity_flg("N");
+				existing.setDel_flg("N");
+				alertrepository.save(existing);
+			} else {
+				AlertManagementEntity up = alertparam;
+				up.setModify_user(userid);
+				up.setModify_time(new Date());
+				up.setMod_flg("Y");
+				up.setEntity_flg("N");
+				up.setDel_flg("N");
+				alertrepository.save(up);
+			}
 
-			msg = "User Edited Successfully";
+			AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
+			audit.setAudit_date(new Date());
+			audit.setEntry_time(new Date());
+			audit.setEntry_user(userid);
+			audit.setFunc_code("ALERT MODIFIED");
+			audit.setRemarks("MODIFIED");
+			audit.setAudit_table("ALERT_MGMT_TABLE");
+			audit.setAudit_screen("ALERT PARAMETER MODIFY");
+			audit.setEvent_id(alertparam.getSrl_no());
+			audit.setEvent_name("ALERT PARAMETER");
+			audit.setModi_details("ALERT MODIFIED");
+			audit.setAudit_ref_no(Number1 != null ? Number1.toString() : "1");
+			auditLocal.save(audit);
+
+			msg = "Alert Parameter Modified Successfully";
+
+		} else if (formmode.equals("verify")) {
+			AlertManagementEntity existing = getSrlNo(alertparam.getSrl_no());
+			if (existing != null && existing.getSrl_no() != null) {
+				String verifyUser = userid;
+				String modifyUser = existing.getModify_user();
+				String entryUser = existing.getEntry_user();
+				if (modifyUser != null && !modifyUser.trim().isEmpty()) {
+					if (modifyUser.equalsIgnoreCase(verifyUser)) {
+						return "Same User Cannot Verify!";
+					}
+				} else if (entryUser != null && !entryUser.trim().isEmpty()) {
+					if (entryUser.equalsIgnoreCase(verifyUser)) {
+						return "Same User Cannot Verify!";
+					}
+				}
+				existing.setAuth_user(verifyUser);
+				existing.setAuth_time(new Date());
+				existing.setEntity_flg("Y");
+				existing.setMod_flg("N");
+				existing.setDel_flg("N");
+				alertrepository.save(existing);
+			} else {
+				AlertManagementEntity up = alertparam;
+				up.setAuth_user(userid);
+				up.setAuth_time(new Date());
+				up.setEntity_flg("Y");
+				up.setMod_flg("N");
+				up.setDel_flg("N");
+				alertrepository.save(up);
+			}
+
+			msg = "Alert Parameter Verified Successfully";
 
 		}
 
@@ -126,10 +229,19 @@ public class AlertManagementServices {
 		Session hs = sessionFactory.getCurrentSession();
 
 		DecimalFormat numformate = new DecimalFormat("000");
-		BigDecimal billNumber = (BigDecimal) hs.createNativeQuery("SELECT ALERTSEQUENCE_1.NEXTVAL AS SRL_NO FROM DUAL")
-				.getSingleResult();
+		BigDecimal billNumber = null;
+		try {
+			billNumber = (BigDecimal) hs.createNativeQuery("SELECT CAST(nextval('\"AML\".\"ALERTSEQUENCE_1\"') AS NUMERIC)")
+					.getSingleResult();
+		} catch (Exception e) {
+			try {
+				BigInteger cnt = (BigInteger) hs.createNativeQuery("SELECT COUNT(*) FROM \"AML\".\"BAML_ALERT_MGMT_TABLE\"").getSingleResult();
+				billNumber = new BigDecimal(cnt.longValue() + 1);
+			} catch (Exception ex) {
+				billNumber = new BigDecimal(System.currentTimeMillis() % 1000);
+			}
+		}
 		String serialno = "ALT" + numformate.format(billNumber);
-		System.out.println("billno" + serialno);
 		return serialno;
 	}
 
@@ -154,8 +266,13 @@ public class AlertManagementServices {
 		msg = "User Deleted Successfully";
 		Session hs1 = sessionFactory.getCurrentSession();
 
-		BigDecimal Number1 = (BigDecimal) hs1.createNativeQuery("SELECT RULESEQUENCE_1.NEXTVAL AS SRL_NO FROM DUAL")
-				.getSingleResult();
+		BigDecimal Number1 = null;
+		try {
+			Number1 = (BigDecimal) hs1.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
+					.getSingleResult();
+		} catch (Exception e) {
+			Number1 = new BigDecimal(System.currentTimeMillis());
+		}
 
 		AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
 
@@ -169,7 +286,7 @@ public class AlertManagementServices {
 		audit.setEvent_id(reg.getSrl_no());
 		audit.setEvent_name("RULE ENGINE");
 		audit.setModi_details("RECORD REMOVED");
-		audit.setAudit_ref_no(Number1.toString());
+		audit.setAudit_ref_no(Number1 != null ? Number1.toString() : "1");
 		auditLocal.save(audit);
 
 		return msg;

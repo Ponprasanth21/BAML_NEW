@@ -159,12 +159,18 @@ public class AlertManagementEntity implements Serializable{
 	private String	auth_user;
 
 	@Column(name = "\"ENTRY_TIME\"")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date	entry_time;
 
 	@Column(name = "\"MODIFY_TIME\"")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date	modify_time;
 
 	@Column(name = "\"AUTH_TIME\"")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date	auth_time;
 	public String getSrl_no() {
 		return srl_no;

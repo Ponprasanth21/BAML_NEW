@@ -23,7 +23,7 @@ public interface AML_KYC_Parameter_Repository extends JpaRepository<AML_KYC_Para
 	  @Query(value = "select * from BAML_KYC_PARAMETER_TABLE ", nativeQuery = true)
 	 Page<AML_KYC_Parameter> paramlist(Pageable page);
 	 
-	  @Query(value = "select * from BAML_KYC_PARAMETER_TABLE ", nativeQuery = true) 
+	  @Query(value = "select * from BAML_KYC_PARAMETER_TABLE order by srl_no asc limit 1", nativeQuery = true) 
 		 AML_KYC_Parameter parameterlist();
 	  
 	  
@@ -36,7 +36,7 @@ public interface AML_KYC_Parameter_Repository extends JpaRepository<AML_KYC_Para
 		 
 		 
 		 
-		 @Query(value = "select * from BAML_KYC_PARAMETER_TABLE ", nativeQuery = true)
+		 @Query(value = "select * from BAML_KYC_PARAMETER_TABLE where srl_no = ?1", nativeQuery = true)
 		 AML_KYC_Parameter findByIdCustom(String srlno);
 		 
 		 

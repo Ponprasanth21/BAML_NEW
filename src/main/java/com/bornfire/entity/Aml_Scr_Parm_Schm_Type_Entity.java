@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -14,7 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name="BAML_SCR_PARM_SCHM_TYPE")
+@Table(name="\"BAML_SCR_PARM_SCHM_TYPE\"", schema="\"AML\"")
 public class Aml_Scr_Parm_Schm_Type_Entity implements Serializable{
 	public Aml_Scr_Parm_Schm_Type_Entity() {
 		super();
@@ -53,46 +54,68 @@ public class Aml_Scr_Parm_Schm_Type_Entity implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
+	@Column(name = "\"REF_NO\"")
 	private String	ref_no;
+	@Column(name = "\"CRNCY_CODE\"")
 	private String	crncy_code;
+	@Column(name = "\"LOAN_LIMIT\"")
 	private BigDecimal	loan_limit;
+	@Column(name = "\"LOAN_SCHEME\"")
 	private String	loan_scheme;
+	@Column(name = "\"LOAN_CONDITIONS\"")
 	private String	loan_conditions;
+	@Column(name = "\"SCHM_CODE\"")
 	private String	schm_code;
+	@Column(name = "\"GL_SUB_HEAD_CODE\"")
 	private String	gl_sub_head_code;
+	@Column(name = "\"CUST_ID\"")
 	private String	cust_id;
+	@Column(name = "\"PARAMETERS\"")
 	private String	parameters;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"START_DATE\"")
 	private Date	start_date;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"END_DATE\"")
 	private Date	end_date;
+	@Column(name = "\"REMARKS1\"")
 	private String	remarks1;
+	@Column(name = "\"REMARKS2\"")
 	private String	remarks2;
 
 	
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"AML_ENTRY_TIME\"")
 	private Date	aml_entry_time;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"AML_MODIFY_TIME\"")
 	private Date	aml_modify_time;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@Column(name = "\"AML_VERIFY_TIME\"")
 	private Date	aml_verify_time;
 	
 	
+	@Column(name = "\"AML_ENTRY_USER\"")
 	private String	aml_entry_user;
+	@Column(name = "\"AML_MODIFY_USER\"")
 	private String	aml_modify_user;
+	@Column(name = "\"AML_VERIFY_USER\"")
 	private String	aml_verify_user;
+	@Column(name = "\"ENTITY_FLAG\"")
 	private Character	entity_flag;
+	@Column(name = "\"DEL_FLAG\"")
 	private Character	del_flag;
+	@Column(name = "\"MODIFY_FLAG\"")
 	private Character	modify_flag;
 	public String getRef_no() {
 		return ref_no;
@@ -228,6 +251,44 @@ public class Aml_Scr_Parm_Schm_Type_Entity implements Serializable{
 	}
 	public void setModify_flag(Character modify_flag) {
 		this.modify_flag = modify_flag;
+	}
+
+	public void setEntity_flag(String entity_flag) {
+		this.entity_flag = (entity_flag != null && !entity_flag.isEmpty()) ? entity_flag.charAt(0) : null;
+	}
+	public void setDel_flag(String del_flag) {
+		this.del_flag = (del_flag != null && !del_flag.isEmpty()) ? del_flag.charAt(0) : null;
+	}
+	public void setModify_flag(String modify_flag) {
+		this.modify_flag = (modify_flag != null && !modify_flag.isEmpty()) ? modify_flag.charAt(0) : null;
+	}
+
+	public Character getEntity_flg() {
+		return entity_flag;
+	}
+	public void setEntity_flg(Character entity_flg) {
+		this.entity_flag = entity_flg;
+	}
+	public void setEntity_flg(String entity_flg) {
+		setEntity_flag(entity_flg);
+	}
+	public Character getDel_flg() {
+		return del_flag;
+	}
+	public void setDel_flg(Character del_flg) {
+		this.del_flag = del_flg;
+	}
+	public void setDel_flg(String del_flg) {
+		setDel_flag(del_flg);
+	}
+	public Character getModify_flg() {
+		return modify_flag;
+	}
+	public void setModify_flg(Character modify_flg) {
+		this.modify_flag = modify_flag;
+	}
+	public void setModify_flg(String modify_flg) {
+		setModify_flag(modify_flg);
 	}
 
 }

@@ -148,66 +148,66 @@ public class BAML_STR_SERVICE {
 
 	public String getcustAudit(String cust_id) {
 		Session hs = sessionFactory.getCurrentSession();
-		String Number = (String) hs.createNativeQuery("SELECT cust_id from BAML_CUST_MAST_TABLE where cif_id =?1")
-				.setParameter(1, cust_id).getSingleResult();
-
-		int cust_len = Number.length();
-		return Number;
-
+		List<?> list = hs.createNativeQuery("SELECT \"CUST_ID\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\" = ?1 or \"CUST_ID\" = ?1 limit 1")
+				.setParameter(1, cust_id).getResultList();
+		if (list.isEmpty() || list.get(0) == null) {
+			return cust_id;
+		}
+		return list.get(0).toString();
 	};
 
 	public String getMobAudit(String cust_id) {
 		Session hs = sessionFactory.getCurrentSession();
-		String Number = (String) hs
-				.createNativeQuery("SELECT cust_id from BAML_CUST_MAST_TABLE where PREFERREDPHONE =?1")
-				.setParameter(1, cust_id).getSingleResult();
-
-		int cust_len = Number.length();
-		return Number;
-
+		List<?> list = hs
+				.createNativeQuery("SELECT \"CUST_ID\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"PREFERREDPHONE\" = ?1 limit 1")
+				.setParameter(1, cust_id).getResultList();
+		if (list.isEmpty() || list.get(0) == null) {
+			return cust_id;
+		}
+		return list.get(0).toString();
 	};
 
 	public int getMobAuditlen(String cust_id) {
 		Session hs = sessionFactory.getCurrentSession();
-		String Number = (String) hs
-				.createNativeQuery("SELECT cust_id from BAML_CUST_MAST_TABLE where PREFERREDPHONE =?1")
-				.setParameter(1, cust_id).getSingleResult();
-
-		int cust_len = Number.length();
-		return cust_len;
-
+		List<?> list = hs
+				.createNativeQuery("SELECT \"CUST_ID\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"PREFERREDPHONE\" = ?1 limit 1")
+				.setParameter(1, cust_id).getResultList();
+		if (list.isEmpty() || list.get(0) == null) {
+			return cust_id != null ? cust_id.length() : 0;
+		}
+		return list.get(0).toString().length();
 	};
 
 	public String getNIDAudit(String cust_id) {
 		Session hs = sessionFactory.getCurrentSession();
-		String Number = (String) hs
-				.createNativeQuery("SELECT cust_id from BAML_CUST_MAST_TABLE where NAT_ID_CARD_NUM =?1")
-				.setParameter(1, cust_id).getSingleResult();
-
-		int cust_len = Number.length();
-		return Number;
-
+		List<?> list = hs
+				.createNativeQuery("SELECT \"CUST_ID\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"NAT_ID_CARD_NUM\" = ?1 limit 1")
+				.setParameter(1, cust_id).getResultList();
+		if (list.isEmpty() || list.get(0) == null) {
+			return cust_id;
+		}
+		return list.get(0).toString();
 	};
 
 	public int getNIDAuditlen(String cust_id) {
 		Session hs = sessionFactory.getCurrentSession();
-		String Number = (String) hs
-				.createNativeQuery("SELECT cust_id from BAML_CUST_MAST_TABLE where NAT_ID_CARD_NUM =?1")
-				.setParameter(1, cust_id).getSingleResult();
-
-		int cust_len = Number.length();
-		return cust_len;
-
+		List<?> list = hs
+				.createNativeQuery("SELECT \"CUST_ID\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"NAT_ID_CARD_NUM\" = ?1 limit 1")
+				.setParameter(1, cust_id).getResultList();
+		if (list.isEmpty() || list.get(0) == null) {
+			return cust_id != null ? cust_id.length() : 0;
+		}
+		return list.get(0).toString().length();
 	};
 
 	public int getcustAuditlen(String cust_id) {
 		Session hs = sessionFactory.getCurrentSession();
-		String Number = (String) hs.createNativeQuery("SELECT cust_id from BAML_CUST_MAST_TABLE where cif_id =?1")
-				.setParameter(1, cust_id).getSingleResult();
-
-		int cust_len = Number.length();
-		return cust_len;
-
+		List<?> list = hs.createNativeQuery("SELECT \"CUST_ID\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\" = ?1 or \"CUST_ID\" = ?1 limit 1")
+				.setParameter(1, cust_id).getResultList();
+		if (list.isEmpty() || list.get(0) == null) {
+			return cust_id != null ? cust_id.length() : 0;
+		}
+		return list.get(0).toString().length();
 	};
 
 	public Date getTranDet(Date tran_date) {

@@ -466,8 +466,10 @@ public class AMLRestController {
 	@ResponseBody
 	public String BlobImage1(@PathVariable("custid") String custid, Model md) {
 		BAML_Cust_Case_Docs baml_Cust_Case_Docs = case_management_services.BlobImage(custid);
-		System.out.println(baml_Cust_Case_Docs.getDoc_image());
-		return Base64.getEncoder().encodeToString(baml_Cust_Case_Docs.getDoc_image());
+		if (baml_Cust_Case_Docs != null && baml_Cust_Case_Docs.getDoc_image() != null) {
+			return Base64.getEncoder().encodeToString(baml_Cust_Case_Docs.getDoc_image());
+		}
+		return "";
 	}
 
 	public static File multipartToFile(MultipartFile multipart, String fileName)

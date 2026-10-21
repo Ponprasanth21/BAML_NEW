@@ -27,13 +27,13 @@ public interface ACCT_MASTER_REPOSITRY extends JpaRepository<ACCT_MASTER, String
 			nativeQuery = true)
 	Page<ACCT_MASTER> findAllAcctIdCustom(Pageable pageable);
 
-	@Query(value = "select * from BAML_ACCT_MAST_TABLE  where acid=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"ACID\"=?1 or \"FORACID\"=?1 limit 1", nativeQuery = true)
 	ACCT_MASTER getAccountDetails(String acctnum);
 	
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='GL' and ref_code in (select gl_sub_head_code from BAML_ACCT_MAST_TABLE where cIF_ID=?1 and foracid=?2)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='GL' and \"REF_CODE\" in (select \"GL_SUB_HEAD_CODE\" from \"AML\".\"BAML_ACCT_MAST_TABLE\" where (\"CIF_ID\"=?1 or \"CUST_ID\"=?1) and \"FORACID\"=?2) limit 1", nativeQuery = true)
 	String getglsubheadcode(String custid,String acctnum);
 	
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='SC' and ref_code in (select schm_code from BAML_ACCT_MAST_TABLE where cIF_ID=?1 and foracid=?2)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='SC' and \"REF_CODE\" in (select \"SCHM_CODE\" from \"AML\".\"BAML_ACCT_MAST_TABLE\" where (\"CIF_ID\"=?1 or \"CUST_ID\"=?1) and \"FORACID\"=?2) limit 1", nativeQuery = true)
 	String getschmcode(String custid,String acctnum);
 	
 	@Query(value = "select maturity_date from baml_tam where acid=?1", nativeQuery = true)
@@ -42,22 +42,20 @@ public interface ACCT_MASTER_REPOSITRY extends JpaRepository<ACCT_MASTER, String
 	@Query(value = "select REP_PERD_MTHS from baml_lam where acid=?1", nativeQuery = true)
 	String getLOANPERIOD(String acid);
 	
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='TYPE_ADVN' and ref_code in (select TYPE_OF_ADVN from BAML_ACCT_MAST_TABLE where acid=?1)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='TYPE_ADVN' and \"REF_CODE\" in (select \"TYPE_OF_ADVN\" from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"ACID\"=?1 or \"FORACID\"=?1) limit 1", nativeQuery = true)
 	String getDESTINATIONOFFUND(String acid);
 	
 	
-	@Query(value = "select * from BAML_ACCT_MAST_TABLE  where foracid=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"FORACID\"=?1 or \"ACID\"=?1 limit 1", nativeQuery = true)
 	ACCT_MASTER getAuditAccount(String acctnum);
 	
-	@Query(value="select * from BAML_ACCT_MAST_TABLE where cif_id = ?1",nativeQuery = true)
+	@Query(value="select * from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"CIF_ID\" = ?1 or \"CUST_ID\" = ?1",nativeQuery = true)
 	List<ACCT_MASTER> getAuditCustomer(String custId);
  	
-	
-	@Query(value = "select   B.TRAN_DATE_BAL,to_char(B.EOD_DATE,'dd/mm/yyyy')EOD_DATE from BAML_ACCT_MAST_TABLE A,BAML_ACCT_BAL_TABLE B where A.ACID = B.ACID AND SYSDATE BETWEEN B.EOD_DATE AND B.END_EOD_DATE AND B.acid=?1", nativeQuery = true)
+	@Query(value = "select cast(\"CLR_BAL_AMT\" as varchar) as \"TRAN_DATE_BAL\", to_char(\"ACCT_OPN_DATE\",'dd/MM/yyyy') as \"EOD_DATE\" from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"ACID\"=?1 or \"FORACID\"=?1 limit 1", nativeQuery = true)
 	List<Object[]> getAccountDetails1(String acctnum);
 	
-	
-	@Query(value = "select A.gl_sub_head_code,A.SCHM_CODE,A.ACCT_NAME,A.FORACID,to_char(A.ACCT_OPN_DATE,'dd/mm/yyyy')ACCT_OPN_DATE,to_char(A.ACCT_CLS_DATE,'dd/mm/yyyy')ACCT_CLS_DATE,A.ACCT_STATUS,to_char(A.ACCT_STATUS_DATE,'dd/mm/yyyy')ACCT_STATUS_DATE,A.MODE_OF_OPER_CODE,B.TRAN_DATE_BAL,to_char(B.EOD_DATE,'dd/mm/yyyy')EOD_DATE,A.ACID from BAML_ACCT_MAST_TABLE A,BAML_ACCT_BAL_TABLE B where A.ACID = B.ACID AND SYSDATE BETWEEN B.EOD_DATE AND B.END_EOD_DATE AND a.cif_id=?1", nativeQuery = true)
+	@Query(value = "select \"GL_SUB_HEAD_CODE\", \"SCHM_CODE\", \"ACCT_NAME\", \"FORACID\", to_char(\"ACCT_OPN_DATE\",'dd/MM/yyyy') as \"ACCT_OPN_DATE\", to_char(\"ACCT_CLS_DATE\",'dd/MM/yyyy') as \"ACCT_CLS_DATE\", \"ACCT_STATUS\", to_char(\"ACCT_STATUS_DATE\",'dd/MM/yyyy') as \"ACCT_STATUS_DATE\", \"MODE_OF_OPER_CODE\", CAST(\"CLR_BAL_AMT\" AS VARCHAR) as \"CLR_BAL_AMT\", to_char(\"LAST_TRAN_DATE\",'dd/MM/yyyy') as \"LAST_TRAN_DATE\", \"ACID\" from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"CIF_ID\" = ?1 or \"CUST_ID\" = ?1", nativeQuery = true)
 	List<Object[]> findAllCustIdCustom1(String acctnum);
 /*	AND SYSDATE BETWEEN B.EOD_DATE AND B.END_EOD_DATE*/
 	/*@Query(value = "select * from BAML_ACCT_MAST_TABLE where cust_id in (select cust_id from BAML_CUST_MAST_TABLE where cif_id =?1) ", nativeQuery = true)
@@ -65,26 +63,22 @@ public interface ACCT_MASTER_REPOSITRY extends JpaRepository<ACCT_MASTER, String
 	@Query(value = "select * from baml_acct_mast_table where acct_ownership !='O'  and acid in  (select acid from baml_acct_mast_table where ACCT_OCCP_CODE is null or PURPOSE_OF_ADVN is null or cust_id is not null ) and  rownum < 1000 ", nativeQuery = true)
 	List<ACCT_MASTER> findAllCustom1();
 
-	
-	@Query(value = "select count(*) from BAML_ACCT_MAST_TABLE where cif_id =?1 and schm_type in ('TUA','TDA') and acct_cls_flg!='Y'", nativeQuery = true)
+	@Query(value = "select count(*) from \"AML\".\"BAML_ACCT_MAST_TABLE\" where (\"CIF_ID\" = ?1 or \"CUST_ID\" = ?1) and \"SCHM_TYPE\" in ('TUA','TDA') and \"ACCT_CLS_FLG\" != 'Y'", nativeQuery = true)
 	String getCountOfDeposit(String AcctNumber);
 	
-	
-	@Query(value = "select count(*) from BAML_ACCT_MAST_TABLE where cust_id in (select cust_id from BAML_CUST_MAST_TABLE where cif_id =?1)", nativeQuery = true)
+	@Query(value = "select count(*) from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"CIF_ID\" = ?1 or \"CUST_ID\" = ?1", nativeQuery = true)
 	String countCustom(String AcctNumber);
-
 	
-	@Query(value = "select cust_id from BAML_CUST_MAST_TABLE where cif_id =?1", nativeQuery = true)
+	@Query(value = "select \"CUST_ID\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\" = ?1 or \"CUST_ID\" = ?1 limit 1", nativeQuery = true)
 	String getAuditcustid(String custid);
 	
-	@Query(value = "select * from BAML_ACCT_MAST_TABLE where acid=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"FORACID\" = ?1 or \"ACID\" = ?1 limit 1", nativeQuery = true)
 	ACCT_MASTER getacctdetailsfroname(String foracid);
 
-	@Query(value = "select * from BAML_ACCT_MAST_TABLE where acid=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"ACID\" = ?1 limit 1", nativeQuery = true)
 	ACCT_MASTER getacctdetailsfronameacid(String acid);
-
 	
-	@Query(value = "select acct_opn_date from BAML_ACCT_MAST_TABLE where acid=?1", nativeQuery = true)
+	@Query(value = "select \"ACCT_OPN_DATE\" from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"ACID\" = ?1 limit 1", nativeQuery = true)
 	Date getacctopndate(String acid);
 
 	/************************************************************************SEARCH ACCOUNT INQUIRY*********************************************************************/

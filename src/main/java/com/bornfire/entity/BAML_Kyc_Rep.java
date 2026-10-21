@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 public interface BAML_Kyc_Rep extends JpaRepository<BAML_Kyc_Table, String> {
 	Optional<BAML_Kyc_Table> findById(String directorId);
 
-	@Query(value = "select * from BAML_KYC_TABLE order by kyc_review_date ", nativeQuery = true)
+	@Query(value = "select * from BAML_KYC_TABLE order by kyc_review_date ", countQuery = "select count(*) from BAML_KYC_TABLE", nativeQuery = true)
 	Page<BAML_Kyc_Table> findAllCustom(Pageable pageable);
 
 	@Query(value = "select * from BAML_KYC_TABLE where cust_id=?1", nativeQuery = true)
@@ -29,8 +29,8 @@ public interface BAML_Kyc_Rep extends JpaRepository<BAML_Kyc_Table, String> {
 	long findCustomcount();
 	
 	
-	@Query(value = "select * from BAML_CUST_MAST_TABLE where cust_name LIKE %?1%", nativeQuery = true)
-	Page<CMG_MASTER> getlistByFIRSTname(Pageable page, String name);
+	@Query(value = "select * from BAML_KYC_TABLE where UPPER(cust_name) LIKE UPPER(CONCAT('%', ?1, '%'))", countQuery = "select count(*) from BAML_KYC_TABLE where UPPER(cust_name) LIKE UPPER(CONCAT('%', ?1, '%'))", nativeQuery = true)
+	Page<BAML_Kyc_Table> getlistByFIRSTname(Pageable page, String name);
 	
 	
 	@Query(value = "select * from BAML_CUST_MAST_TABLE where cust_id=?1", nativeQuery = true)

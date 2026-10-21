@@ -47,10 +47,10 @@ public interface TRAN_MASTER_REPOSITRY extends JpaRepository<TRAN_MASTER, String
 	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_CRNCY_CODE\" = ?1", nativeQuery = true)
 	String getTRANCRNCYcount(String CustName2);
 
-	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"REF_NUM\" LIKE %?1% ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
+	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"REF_NUM\" LIKE concat('%', ?1, '%') ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	List<TRAN_MASTER> getTRANREF(String CustName2);
 
-	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"REF_NUM\" LIKE %?1%", nativeQuery = true)
+	@Query(value = "SELECT COUNT(*) FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"REF_NUM\" LIKE concat('%', ?1, '%')", nativeQuery = true)
 	String getTRANREFcount(String CustName2);
 
 	@Query(value = "SELECT * FROM \"AML\".\"BAML_ACCT_TRANS_TABLE\" WHERE \"TRAN_DATE\" = ?1 ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
@@ -650,16 +650,16 @@ public interface TRAN_MASTER_REPOSITRY extends JpaRepository<TRAN_MASTER, String
 	 * , nativeQuery = true) List<Object[]> getAccountDetailsCust(String CUSTID);
 	 */
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where cust_id in (select cust_id from BAML_CUST_MAST_TABLE where cif_id = ?1)  ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"CUST_ID\" in (select \"CUST_ID\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\" = ?1 or \"CUST_ID\" = ?1) or \"CUST_ID\" = ?1 or \"ACID\" in (select \"ACID\" from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"CIF_ID\" = ?1 or \"CUST_ID\" = ?1) ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	List<TRAN_MASTER> getAccountDetailsCust(String CUSTID);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where  tran_date between ?1 and ?2 and cust_id in (select cust_id from BAML_CUST_MAST_TABLE where cif_id = ?3) ", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"TRAN_DATE\" between ?1 and ?2 and (\"CUST_ID\" in (select \"CUST_ID\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\" = ?3 or \"CUST_ID\" = ?3) or \"CUST_ID\" = ?3 or \"ACID\" in (select \"ACID\" from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"CIF_ID\" = ?3 or \"CUST_ID\" = ?3)) ORDER BY \"TRAN_DATE\" DESC, \"TRAN_ID\" DESC, \"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	List<TRAN_MASTER> getAccountDetailsCustdate(Date fromdate, Date todate, String acid);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where  tran_date between ?1 and ?2 and cust_id in (select cust_id from BAML_CUST_MAST_TABLE where cif_id = ?3)  ", nativeQuery = true)
+	@Query(value = "select count(*) from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"TRAN_DATE\" between ?1 and ?2 and (\"CUST_ID\" in (select \"CUST_ID\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\" = ?3 or \"CUST_ID\" = ?3) or \"CUST_ID\" = ?3 or \"ACID\" in (select \"ACID\" from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"CIF_ID\" = ?3 or \"CUST_ID\" = ?3))", nativeQuery = true)
 	String TranCount(Date fromdate, Date todate, String acid);
 
-	@Query(value = "select count(*) from BAML_ACCT_TRANS_TABLE where cust_id in (select cust_id from BAML_CUST_MAST_TABLE where cif_id = ?1) ", nativeQuery = true)
+	@Query(value = "select count(*) from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"CUST_ID\" in (select \"CUST_ID\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\" = ?1 or \"CUST_ID\" = ?1) or \"CUST_ID\" = ?1 or \"ACID\" in (select \"ACID\" from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"CIF_ID\" = ?1 or \"CUST_ID\" = ?1)", nativeQuery = true)
 	String TranCount(String acid);
 
 	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where  tran_date =?1", nativeQuery = true)

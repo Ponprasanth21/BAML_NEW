@@ -92,9 +92,12 @@ PURPOSE		:
 			mm = '0' + mm;
 		}
 		var today = dd + '-' + mm + '-' + yyyy;
-		document.getElementById('entry_time1').value = today;
-		document.getElementById('verify_time1').value = today;
-		document.getElementById('modify_time1').value = today;
+		var elem1 = document.getElementById('entry_time1');
+		if (elem1) elem1.value = today;
+		var elem2 = document.getElementById('verify_time1');
+		if (elem2) elem2.value = today;
+		var elem3 = document.getElementById('modify_time1');
+		if (elem3) elem3.value = today;
 	});
 	$(function() {
 
@@ -117,9 +120,12 @@ PURPOSE		:
 			mm = '0' + mm;
 		}
 		var today = dd + '-' + mm + '-' + yyyy;
-		document.getElementById('entry_time3').value = today;
-		document.getElementById('verify_time1').value = today;
-		document.getElementById('modify_time1').value = today;
+		var elem1 = document.getElementById('entry_time3');
+		if (elem1) elem1.value = today;
+		var elem2 = document.getElementById('verify_time1');
+		if (elem2) elem2.value = today;
+		var elem3 = document.getElementById('modify_time1');
+		if (elem3) elem3.value = today;
 	});
 	$(function() {
 
@@ -142,9 +148,12 @@ PURPOSE		:
 			mm = '0' + mm;
 		}
 		var today = dd + '-' + mm + '-' + yyyy;
-		document.getElementById('entry_time2').value = today;
-		document.getElementById('verify_time1').value = today;
-		document.getElementById('modify_time1').value = today;
+		var elem1 = document.getElementById('entry_time2');
+		if (elem1) elem1.value = today;
+		var elem2 = document.getElementById('verify_time1');
+		if (elem2) elem2.value = today;
+		var elem3 = document.getElementById('modify_time1');
+		if (elem3) elem3.value = today;
 	});
 </script>
 <script th:inline="javascript">
@@ -237,7 +246,7 @@ PURPOSE		:
 
 	$(document).ready(function() {
 
-		$("#dobfield").onblur(function() {
+		$("#dobfield").on('blur', function() {
 			var dob = $("#dobfield").val().trim();
 			var calculatedDob = GetAge(dob);
 			$("#inputId").val("new value");
@@ -351,21 +360,21 @@ function finuser(a) {
 	}
 </script>
 <script>
-	
 	function openimage() {
 		$("#imageshow").modal("toggle");
 	}
-	$("#dt1").datepicker({
-		changeMonth : true,
-		changeYear : true,
-		maxDate: new Date(),
-		dateFormat : "dd-mm-yy"
-	});
-	$("#dt2").datepicker({
-		changeMonth : true,
-		changeYear : true,
-		dateFormat : "dd-mm-yy"
-	});
+	$(function() {
+		$("#dt1").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			maxDate: new Date(),
+			dateFormat : "dd-mm-yy"
+		});
+		$("#dt2").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd-mm-yy"
+		});
 	});
 </script>
 </head>
@@ -414,6 +423,9 @@ function finuser(a) {
 									</tr>
 								</thead>
 								<tbody>
+									<tr th:if="${CustomerKYC == null or CustomerKYC.empty}">
+										<td colspan="9" class="text-center">No Records Found</td>
+									</tr>
 									<tr th:each="FinCMG : ${CustomerKYC}">
 										<td th:text="${FinCMG.primary_sol_id}"></td>
 										<td class="underline" th:attr="data-custId=${FinCMG.cust_id}"
@@ -494,7 +506,7 @@ function finuser(a) {
 
 
 							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
-							<div class="float-right" th:if="${CustomerKYC.totalPages} gt 1">
+							<div class="float-right" th:if="${CustomerKYC != null and CustomerKYC.totalPages gt 1}">
 								<a href="#"><i class="fas fa-caret-left fa-2x"
 									th:onclick="|getUserlist('prevpage',${CustomerKYC.number},${CustomerKYC.totalPages});|"></i></a>
 								<input type="text" id="pageno" style="width: 30px"
@@ -797,6 +809,9 @@ function finuser(a) {
 									</tr>
 								</thead>
 								<tbody>
+									<tr th:if="${History == null or #lists.isEmpty(History)}">
+										<td colspan="6" class="text-center">No Records Found</td>
+									</tr>
 									<tr th:each="hist : ${History}">
 										<!-- <td th:text="${hist.primary_sol_id}"></td> -->
 										<td th:text="${hist.primary_sol_id}"></td>
@@ -890,6 +905,9 @@ function finuser(a) {
 										</tr>
 									</thead>
 									<tbody id="listRisk">
+										<tr th:if="${Risk == null or #lists.isEmpty(Risk)}">
+											<td colspan="10" class="text-center">No Records Found</td>
+										</tr>
 										<tr th:each="risk : ${Risk}">
 											<td th:text="${risk.primary_sol_id}"></td>
 											<td th:text="${risk.cust_id}"></td>

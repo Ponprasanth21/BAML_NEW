@@ -18,7 +18,7 @@ public interface T4AccReportsRep extends JpaRepository<T4AccReport, String>{
 	Optional<T4AccReport> findById(String directorId);
 
 	
-	@Query(value = "select * from BAML_ACCT_APPL_REJ order by SRL_NO", nativeQuery = true)
+	@Query(value = "select * from BAML_ACCT_APPL_REJ order by SRL_NO", countQuery = "select count(*) from BAML_ACCT_APPL_REJ", nativeQuery = true)
 	Page<T4AccReport> rejAcctList(Pageable page);
 
 

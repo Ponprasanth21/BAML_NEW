@@ -11,14 +11,14 @@ public interface BAMLBatchJobSchedularRepository
         extends JpaRepository<BAMLBatchJobSchedular, String> {
 
     @Query(
-        value = "SELECT * FROM \"AML\".\"BAML_BATCH_JOB_SCHEDULER\"",
+        value = "SELECT * FROM \"AML\".\"BAML_BATCH_JOB_SCHEDULER\" ORDER BY \"JOB_ID\"",
         countQuery = "SELECT COUNT(*) FROM \"AML\".\"BAML_BATCH_JOB_SCHEDULER\"",
         nativeQuery = true
     )
     Page<BAMLBatchJobSchedular> getBAMLBatchJobSchedular(Pageable page);
 
     @Query(
-        value = "SELECT * FROM \"AML\".\"BAML_BATCH_JOB_SCHEDULER\" WHERE \"JOB_ID\" = ?1",
+        value = "SELECT * FROM \"AML\".\"BAML_BATCH_JOB_SCHEDULER\" WHERE TRIM(\"JOB_ID\") = TRIM(?1)",
         nativeQuery = true
     )
     BAMLBatchJobSchedular findByIdcustom(String jobId);

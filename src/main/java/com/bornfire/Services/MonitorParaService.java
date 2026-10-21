@@ -200,24 +200,38 @@ public class MonitorParaService {
 	};
 
 	public MONITORINGPARAMETERENTIRY getSrlNo1(String id) {
-
-		if (montREP.existsById(id)) {
-			System.out.println("getsrlno");
-			MONITORINGPARAMETERENTIRY up = montREP.findByIdCustom(id);
-
-			return up;
-		} else {
-			return new MONITORINGPARAMETERENTIRY();
+		if (id != null && !id.trim().isEmpty()) {
+			try {
+				MONITORINGPARAMETERENTIRY up = montREP.findByIdCustom(id.trim());
+				if (up != null && up.getRef_no() != null) {
+					return up;
+				}
+			} catch (Exception e) {
+				System.out.println("findByIdCustom error: " + e.getMessage());
+			}
+			try {
+				java.util.Optional<MONITORINGPARAMETERENTIRY> opt = montREP.findById(id.trim());
+				if (opt.isPresent()) {
+					return opt.get();
+				}
+			} catch (Exception e) {
+				System.out.println("findById error: " + e.getMessage());
+			}
 		}
-
+		return new MONITORINGPARAMETERENTIRY();
 	};
 
 	public String EDITPARAMETER(MONITORINGPARAMETERENTIRY alertparam, String formmode,String Userid,String user1) {
 		// TODO Auto-generated method stub
 		Session hs1 = sessionFactory.getCurrentSession();
 
-		BigDecimal Number1 = (BigDecimal) hs1.createNativeQuery("SELECT aml_audit_seq.NEXTVAL AS SRL_NO FROM DUAL")
-				.getSingleResult();
+		BigDecimal Number1 = null;
+		try {
+			Number1 = (BigDecimal) hs1.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
+					.getSingleResult();
+		} catch (Exception e) {
+			Number1 = new BigDecimal(System.currentTimeMillis());
+		}
 
 		String msg = "";
 		/* try { */
@@ -227,7 +241,7 @@ public class MonitorParaService {
 			Session hs = sessionFactory.getCurrentSession();
 
 			String ruleno = "";
-			BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT COUNT(*) FROM BAML_MON_ALERT_PARAM")
+			BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT COUNT(*) FROM \"AML\".\"BAML_MON_ALERT_PARAM\"")
 					.getSingleResult();
 
 			
@@ -257,26 +271,75 @@ public class MonitorParaService {
 			}
 			msg = "Parameter Created Successfully";
 		}else if (formmode.equals("modify")) {
-			MONITORINGPARAMETERENTIRY up = alertparam;
-			up.setDel_flg("N");
-			up.setModify_flg("Y");
-			up.setEntity_flg("N");
-			up.setModify_user(Userid);
-			up.setModify_time(new Date());
-			montREP.save(up);
-			BigDecimal Number = (BigDecimal) hs1.createNativeQuery("SELECT EMAILSEQUENCE.NEXTVAL AS SRL_NO FROM DUAL")
-					.getSingleResult();
+			MONITORINGPARAMETERENTIRY existing = getSrlNo1(alertparam.getRef_no());
+			if (existing != null && existing.getRef_no() != null) {
+				if ("N".equals(existing.getEntity_flg())) {
+					return "Record is pending verification and cannot be modified!";
+				}
+				if (alertparam.getMenu() != null) existing.setMenu(alertparam.getMenu());
+				if (alertparam.getValue1() != null) existing.setValue1(alertparam.getValue1());
+				if (alertparam.getTable1() != null) existing.setTable1(alertparam.getTable1());
+				if (alertparam.getTable_field() != null) existing.setTable_field(alertparam.getTable_field());
+				if (alertparam.getUser_id_one() != null) existing.setUser_id_one(alertparam.getUser_id_one());
+				if (alertparam.getUser_name_one() != null) existing.setUser_name_one(alertparam.getUser_name_one());
+				if (alertparam.getUser_mobile_one() != null) existing.setUser_mobile_one(alertparam.getUser_mobile_one());
+				if (alertparam.getUser_email_one() != null) existing.setUser_email_one(alertparam.getUser_email_one());
+				if (alertparam.getUser_id_two() != null) existing.setUser_id_two(alertparam.getUser_id_two());
+				if (alertparam.getUser_name_two() != null) existing.setUser_name_two(alertparam.getUser_name_two());
+				if (alertparam.getUser_mobile_two() != null) existing.setUser_mobile_two(alertparam.getUser_mobile_two());
+				if (alertparam.getUser_email_two() != null) existing.setUser_email_two(alertparam.getUser_email_two());
+				if (alertparam.getStart_date() != null) existing.setStart_date(alertparam.getStart_date());
+				if (alertparam.getEnd_date() != null) existing.setEnd_date(alertparam.getEnd_date());
+				if (alertparam.getRemarks() != null) existing.setRemarks(alertparam.getRemarks());
 
-			//String	MS = email.sendEmail(user1, up);
-			EmailAlert cv = new EmailAlert();
-			cv.setEmail_srl_no(Number);
-			cv.setEmail_id(user1);
-			cv.setEmail_sub("MONITORING PARAMETER CHANGES");
-			cv.setEmail_body(up.toString());
-			cv.setEmail_date(new Date());
-			cv.setSend_flg("N");
-			emailRep.save(cv);
-			
+				existing.setDel_flg("N");
+				existing.setModify_flg("Y");
+				existing.setEntity_flg("N");
+				existing.setModify_user(Userid);
+				existing.setModify_time(new Date());
+				montREP.save(existing);
+
+				try {
+					AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
+					audit.setAudit_date(new Date());
+					audit.setEntry_time(new Date());
+					audit.setEntry_user(Userid);
+					audit.setFunc_code("MONITORING PARAMETER MODIFIED");
+					audit.setRemarks("MODIFIED");
+					audit.setAudit_table("BAML_MON_ALERT_PARAM");
+					audit.setAudit_screen("MONITORING PARAMETER MODIFY");
+					audit.setEvent_id(existing.getRef_no());
+					audit.setEvent_name("MONITORING PARAMETER");
+					audit.setModi_details("PARAMETER MODIFIED");
+					audit.setAudit_ref_no(Number1 != null ? Number1.toString() : "1");
+					auditLocal.save(audit);
+				} catch (Exception e) {
+					System.out.println("Audit save error: " + e.getMessage());
+				}
+
+				try {
+					EmailAlert cv = new EmailAlert();
+					cv.setEmail_srl_no(Number1 != null ? Number1 : new BigDecimal(System.currentTimeMillis()));
+					cv.setEmail_id(user1);
+					cv.setEmail_sub("MONITORING PARAMETER CHANGES");
+					cv.setEmail_body("OPERATIONS PARAMETER " + existing.getRef_no() + " MODIFIED");
+					cv.setEmail_date(new Date());
+					cv.setSend_flg("N");
+					cv.setPhone_num(new BigDecimal(0));
+					cv.setCuntry_code(new BigDecimal(0));
+					emailRep.save(cv);
+				} catch (Exception e) {
+					System.out.println("Email alert error: " + e.getMessage());
+				}
+			} else {
+				MONITORINGPARAMETERENTIRY up = alertparam;
+				up.setDel_flg("N");
+				up.setModify_flg("Y");
+				up.setEntity_flg("N");
+				up.setModify_user(Userid);
+				up.setModify_time(new Date());
+				montREP.save(up);
+			}
 
 			msg = "Parameter Edited Successfully";
 		} else if (formmode.equals("delete")) {
@@ -301,40 +364,67 @@ public class MonitorParaService {
 
 			msg = "Parameter Deleted Successfully";
 		} else if (formmode.equals("verify")) {
+			MONITORINGPARAMETERENTIRY existing = getSrlNo1(alertparam.getRef_no());
+			if (existing != null && existing.getRef_no() != null) {
+				String verifyUser = Userid;
+				String modifyUser = existing.getModify_user();
+				String entryUser = existing.getEntry_user();
+				if (modifyUser != null && !modifyUser.trim().isEmpty()) {
+					if (modifyUser.trim().equalsIgnoreCase(verifyUser.trim())) {
+						return "Same User Cannot Verify!";
+					}
+				} else if (entryUser != null && !entryUser.trim().isEmpty()) {
+					if (entryUser.trim().equalsIgnoreCase(verifyUser.trim())) {
+						return "Same User Cannot Verify!";
+					}
+				}
 
-			MONITORINGPARAMETERENTIRY up = alertparam;
-			up.setEntity_flg("Y");
-			up.setDel_flg("N");
-			montREP.save(up);
-			 AML_AUDIT_LOCAL audit = auditLocal.getAuditVerifyUser(alertparam.getRef_no());
+				existing.setVerify_user(verifyUser);
+				existing.setVerify_time(new Date());
+				existing.setEntity_flg("Y");
+				existing.setModify_flg("N");
+				existing.setDel_flg("N");
+				montREP.save(existing);
 
-			if (audit.getRemarks().equals("ADDED")) {
-				audit.setAudit_date(new Date());
-				audit.setAudit_table("BAML_MON_ALERT_PARAM");
-				audit.setAudit_screen("MONITORING PARAMETER - CREATION");
-				audit.setFunc_code("PARAMETER VERIFIED");
-				audit.setRemarks("VERIFIED");
-				audit.setEvent_id(up.getRef_no());
-				audit.setEvent_name("MONITORING PARAMETER");
-				audit.setModi_details(audit.getModi_details());
-				audit.setAuth_user(up.getVerify_user());
-				audit.setAuth_time(new Date());
-				audit.setAudit_ref_no(audit.getAudit_ref_no());
-			}else if (audit.getRemarks().equals("MODIFIED")) {
-				audit.setAudit_date(new Date());
-				audit.setAudit_table("BAML_MON_ALERT_PARAM");
-				audit.setAudit_screen("MONITORING PARAMETER - MODIFIED");
-				audit.setFunc_code("PARAMETER MODIFIED");
-				audit.setRemarks("VERIFIED");
-				audit.setEvent_id(up.getRef_no());
-				audit.setEvent_name("MONITORING PARAMETER");
-				audit.setModi_details(audit.getModi_details());
-				audit.setAuth_user(up.getVerify_user());
-				audit.setAuth_time(new Date());
-				audit.setAudit_ref_no(audit.getAudit_ref_no());
+				try {
+					AML_AUDIT_LOCAL audit = auditLocal.getAuditVerifyUser(alertparam.getRef_no());
+					if (audit != null) {
+						if ("ADDED".equals(audit.getRemarks())) {
+							audit.setAudit_date(new Date());
+							audit.setAudit_table("BAML_MON_ALERT_PARAM");
+							audit.setAudit_screen("MONITORING PARAMETER - CREATION");
+							audit.setFunc_code("PARAMETER VERIFIED");
+							audit.setRemarks("VERIFIED");
+							audit.setEvent_id(existing.getRef_no());
+							audit.setEvent_name("MONITORING PARAMETER");
+							audit.setModi_details(audit.getModi_details());
+							audit.setAuth_user(verifyUser);
+							audit.setAuth_time(new Date());
+							audit.setAudit_ref_no(audit.getAudit_ref_no());
+							auditLocal.save(audit);
+						} else if ("MODIFIED".equals(audit.getRemarks())) {
+							audit.setAudit_date(new Date());
+							audit.setAudit_table("BAML_MON_ALERT_PARAM");
+							audit.setAudit_screen("MONITORING PARAMETER - MODIFIED");
+							audit.setFunc_code("PARAMETER MODIFIED");
+							audit.setRemarks("VERIFIED");
+							audit.setEvent_id(existing.getRef_no());
+							audit.setEvent_name("MONITORING PARAMETER");
+							audit.setModi_details(audit.getModi_details());
+							audit.setAuth_user(verifyUser);
+							audit.setAuth_time(new Date());
+							audit.setAudit_ref_no(audit.getAudit_ref_no());
+							auditLocal.save(audit);
+						}
+					}
+				} catch (Exception e) {
+					System.out.println("Audit verify error: " + e.getMessage());
+				}
+
+				msg = "Parameter Verified Successfully";
+			} else {
+				msg = "Record Not Found!";
 			}
-			
-			msg = "Parameter Verified Successfully";
 		}
 		return msg;
 	}

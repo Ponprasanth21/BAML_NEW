@@ -86,7 +86,10 @@ PURPOSE		:
 			mm = '0' + mm;
 		}
 		var today = dd + '-' + mm + '-' + yyyy;
-		document.getElementById('alert_date').value = today;
+		var alertDateElem = document.getElementById('alert_date');
+		if (alertDateElem) {
+			alertDateElem.value = today;
+		}
 	});
 $(function() {
 		
@@ -111,9 +114,18 @@ $(function() {
 			mm = '0' + mm;
 		}
 		var today = dd + '-' + mm + '-' + yyyy;  
-		document.getElementById('entry_time1').value = today;
-		document.getElementById('verify_time1').value = today; 
-		document.getElementById('modify_time1').value = today;
+		var entryTime1 = document.getElementById('entry_time1');
+		if (entryTime1) {
+			entryTime1.value = today;
+		}
+		var verifyTime1 = document.getElementById('verify_time1');
+		if (verifyTime1) {
+			verifyTime1.value = today;
+		}
+		var modifyTime1 = document.getElementById('modify_time1');
+		if (modifyTime1) {
+			modifyTime1.value = today;
+		}
 	});
 
 	$(document).ready(function() {
@@ -212,15 +224,15 @@ $(function() {
 				
 				
 
-				$.({
+				$.ajax({
 					type : 'get',
 					url : "./AML/getScriptDesc/" + Ruletype,
 
 					success : function(response) {
 					
 						$("#script_name").val(response);
-						}
-});
+					}
+				});
 				
 				
 
@@ -539,21 +551,22 @@ function Ruledesc(a){
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="alert: ${MonitoringParameterList.content}"
-										th:attr="data-srl_no=${alert.srl_no}" th:id="${alert.srl_no}"
+									<tr th:each="alert: ${MonitoringParameterList}"
+										th:attr="data-srl_no=${alert?.srl_no}" th:id="${alert?.srl_no}"
 										class="userlist">
 
-										<td th:text="${alert.srl_no}"></td>
-										<td th:text="${alert.rule_type}"></td>
-										<td th:text="${alert.rule_sub_type}"></td>
-										<!-- <td th:text="${alert.rule_type_desc}"></td> -->
-										<td th:text="${alert.rule_code}"></td>
-										<td th:text="${alert.rule_code_desc}"></td>
-										<td th:text="${alert.exec_type}"></td>
+										<td th:text="${alert?.srl_no}"></td>
+										<td th:text="${alert?.rule_type}"></td>
+										<td th:text="${alert?.rule_sub_type}"></td>
+										<!-- <td th:text="${alert?.rule_type_desc}"></td> -->
+										<td th:text="${alert?.rule_code}"></td>
+										<td th:text="${alert?.rule_code_desc}"></td>
+										<td th:text="${alert?.exec_type}"></td>
 
-										<th:block th:switch="${alert.entity_flag}">
+										<th:block th:switch="${alert?.entity_flag}">
 											<td th:case="'Y'" style="color: green;">Verified</td>
 											<td th:case="'N'" style="color: red;">UnVerified</td>
+											<td th:case="*"></td>
 										</th:block>
 										<td>
 											<div class="dropdown">
@@ -565,48 +578,42 @@ function Ruledesc(a){
 												<div class="dropdown-menu"
 													aria-labelledby="dropdownMenuButton"
 													style="background-color: #e3e3e4; color: #3a4550;">
-													<a th:attr="data-srl_no=${alert.srl_no}"
+													<a th:attr="data-srl_no=${alert?.srl_no}"
 														class="dropdown-item" title="Inquiry"
 														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														onclick="view_btn_submit(this)" id="view_btn">Inquiry
 													</a>
 													<div class="dropdown-divider"
-														th:if="${alert.entity_flag}=='Y'"></div>
-													<a th:attr="data-srl_no=${alert.srl_no}"
-														th:if="${alert.entity_flag}=='Y'" class="dropdown-item"
+														th:if="${alert?.entity_flag}=='Y' or ${alert?.entity_flag}==null"></div>
+													<a th:attr="data-srl_no=${alert?.srl_no}"
+														th:if="${alert?.entity_flag}=='Y' or ${alert?.entity_flag}==null" class="dropdown-item"
 														title="Modify"
 														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
-													<div class="dropdown-divider"></div>
-													<!-- <a th:attr="frmode=add"
-														class="dropdown-item" style="cursor: pointer;"
-														id="edit_value" onclick="'alert_add(this)'">Add</a> -->
+													<div class="dropdown-divider"
+														th:if="${AMLRoleMenu?.work_class} == 'C'"></div>
 
-
-													<a th:attr="data-srl_no=${alert.srl_no}"
-														th:if="${AMLRoleMenu.work_class} == 'C'"
+													<a th:attr="data-srl_no=${alert?.srl_no}"
+														th:if="${AMLRoleMenu?.work_class} == 'C'"
 														class="dropdown-item" title="Delete"
 														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														onclick="delete_btn_submit(this)" id="delete_value">Delete</a>
 													<div class="dropdown-divider"
-														th:if="${alert.entity_flag}=='N' and ${AMLRoleMenu.work_class} == 'C'"></div>
+														th:if="${alert?.entity_flag}=='N' and ${AMLRoleMenu?.work_class} == 'C'"></div>
 													<a
-														th:if="${alert.entity_flag}=='N' and ${AMLRoleMenu.work_class} == 'C'"
-														th:attr="data-srl_no=${alert.srl_no}"
+														th:if="${alert?.entity_flag}=='N' and ${AMLRoleMenu?.work_class} == 'C'"
+														th:attr="data-srl_no=${alert?.srl_no}"
 														class="dropdown-item" title="Verify"
 														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														id="verify_value" onclick="alert_verify(this)">Verify</a>
 
-													<!-- <button type="button"
-												class="btn btn-xs btn-primary btns  active"
-												onclick='alert_add(this)' th:attr="frmode=add">Add
-												Parameter</button> -->
-
 												</div>
 											</div>
 										</td>
-										<!-- <td th:text="${#numbers.formatDecimal(account.clr_bal_amt,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td> -->
 
+									</tr>
+									<tr th:if="${MonitoringParameterList == null or MonitoringParameterList.totalElements == 0}">
+										<td colspan="8" class="text-center">No Data Available</td>
 									</tr>
 								</tbody>
 							</table>
@@ -615,7 +622,7 @@ function Ruledesc(a){
 
 							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
 							<div class="float-right"
-								th:if="${MonitoringParameterList.totalPages} gt 1">
+								th:if="${MonitoringParameterList?.totalPages} gt 1">
 								<a href="#"><i class="fas fa-caret-left fa-2x"
 									th:onclick="|getUserlist('prevpage',${MonitoringParameterList.number},${MonitoringParameterList.totalPages});|"></i></a>
 								<input type="text" id="pageno" style="width: 30px"

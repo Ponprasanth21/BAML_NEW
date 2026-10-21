@@ -89,11 +89,13 @@ th {
 			mm = '0' + mm;
 		}
 		var today = dd + '-' + mm + '-' + yyyy;
-		document.getElementById('alert_date').value = today;
+		var elAlert = document.getElementById('alert_date');
+		if (elAlert) {
+			elAlert.value = today;
+		}
 	});
 	$(function() {
-
-		$("#entry_time1,verify_time1,modify_time1").datepicker({
+		$("#entry_time1, #verify_time1, #modify_time1").datepicker({
 			changeMonth : true,
 			changeYear : true,
 			maxDate : new Date(),
@@ -111,30 +113,36 @@ th {
 		if (mm < 10) {
 			mm = '0' + mm;
 		}
-		var today = dd + '-' + mm + '-' + yyyy;
-		document.getElementById('entry_time1').value = today;
-		document.getElementById('verify_time1').value = today;
-		document.getElementById('modify_time1').value = today;
+		var todayFormatted = dd + '-' + mm + '-' + yyyy;
+		var elE = document.getElementById('entry_time1');
+		if (elE && !elE.value) {
+			elE.value = todayFormatted;
+		}
+		var elV = document.getElementById('verify_time1');
+		if (elV && !elV.value) {
+			elV.value = todayFormatted;
+		}
+		var elM = document.getElementById('modify_time1');
+		if (elM && !elM.value) {
+			elM.value = todayFormatted;
+		}
 	});
 	$(function() {
 		$("#start_date").datepicker({
-
+			changeMonth : true,
+			changeYear : true,
 			dateFormat : "dd-mm-yy",
 			onSelect : function(selected) {
 				var dt = $(this).datepicker('getDate');
-				dt.setDate(dt.getDate());
-				$("#end_date").datepicker("option", "minDate", dt);
-
+				if (dt) {
+					$("#end_date").datepicker("option", "minDate", dt);
+				}
 			}
 		});
 		$("#end_date").datepicker({
-			minDate : 0,
-			dateFormat : "dd-mm-yy",
-			onSelect : function(selected) {
-				var dt = new Date(selected);
-				dt.setDate(dt.getDate() - 1);
-				//$("#start_date").datepicker("option", "maxDate", dt);
-			}
+			changeMonth : true,
+			changeYear : true,
+			dateFormat : "dd-mm-yy"
 		});
 	});
 	var deleteval;
@@ -212,99 +220,105 @@ th {
 	}
 
 	function verifyform(a) {
-		if ($("#MONITORINGPARAMETER").valid()) {
-			var entry = $("#entry_user").val();
-			var modify = $("#modify_user").val();
-			var verify = $("#verify_user").val();
+		var entry = ($("#entry_user").val() || "").trim();
+		var modify = ($("#modify_user").val() || "").trim();
+		var verify = ($("#verify_user").val() || "").trim();
 
-			if (modify != null) {
-				if (modify != verify) {
-					var formmode = a.getAttribute("data-formmode");
-					var url = "./createMONITORINGPARAMETER?formmode="
-							+ formmode;
+		if (modify !== "") {
+			if (modify.toUpperCase() !== verify.toUpperCase()) {
+				var formmode = a.getAttribute("data-formmode");
+				var url = "./createMONITORINGPARAMETER?formmode=" + formmode;
 
-					$("#MONITORINGPARAMETER").attr('action', url);
+				$("#MONITORINGPARAMETER").attr('action', url);
 
-					var options = {
-						success : showResponse
-					// post-submit callback 
-					};
-
-					$("#MONITORINGPARAMETER").ajaxSubmit(options);
-
-					function showResponse(responseText, statusText, xhr, $form) {
-
-						$("#alertmsg").text(responseText);
-
+				var options = {
+					success : showResponse,
+					error : function(xhr) {
+						$("#alertmsg").text("Failed to verify: " + (xhr.responseText || "Server error"));
 						$('#alert').modal("toggle");
-
 					}
-					;
-				} else {
-					$("#verifyboxmsg").text("Same User Cannot Verify!");
-					$('#verifybox').modal("toggle");
+				};
 
+				$("#MONITORINGPARAMETER").ajaxSubmit(options);
+
+				function showResponse(responseText, statusText, xhr, $form) {
+					$("#alertmsg").text(responseText);
+					$('#alert').modal("toggle");
 				}
-			} else if (modify == null) {
-				if (entry != verify) {
-					var formmode = a.getAttribute("data-formmode");
-					var url = "./createMONITORINGPARAMETER?formmode="
-							+ formmode;
-
-					$("#MONITORINGPARAMETER").attr('action', url);
-
-					var options = {
-						success : showResponse
-					// post-submit callback 
-					};
-
-					$("#MONITORINGPARAMETER").ajaxSubmit(options);
-
-					function showResponse(responseText, statusText, xhr, $form) {
-
-						$("#alertmsg").text(responseText);
-
-						$('#alert').modal("toggle");
-
-					}
-					;
-				} else {
-					$("#verifyboxmsg").text("Same User Cannot Verify!");
-					$('#verifybox').modal("toggle");
-
-				}
-
+			} else {
+				$("#verifyboxmsg").text("Same User Cannot Verify!");
+				$('#verifybox').modal("toggle");
 			}
+		} else if (entry !== "") {
+			if (entry.toUpperCase() !== verify.toUpperCase()) {
+				var formmode = a.getAttribute("data-formmode");
+				var url = "./createMONITORINGPARAMETER?formmode=" + formmode;
 
-		}
-	};
+				$("#MONITORINGPARAMETER").attr('action', url);
 
-	function submitform(a) {
+				var options = {
+					success : showResponse,
+					error : function(xhr) {
+						$("#alertmsg").text("Failed to verify: " + (xhr.responseText || "Server error"));
+						$('#alert').modal("toggle");
+					}
+				};
 
-		if ($("#MONITORINGPARAMETER").valid()) {
+				$("#MONITORINGPARAMETER").ajaxSubmit(options);
+
+				function showResponse(responseText, statusText, xhr, $form) {
+					$("#alertmsg").text(responseText);
+					$('#alert').modal("toggle");
+				}
+			} else {
+				$("#verifyboxmsg").text("Same User Cannot Verify!");
+				$('#verifybox').modal("toggle");
+			}
+		} else {
 			var formmode = a.getAttribute("data-formmode");
-			var user = $("#user_email_one").val();
-			var url = "./createMONITORINGPARAMETER?formmode=" + formmode
-					+ "&user=" + user;
+			var url = "./createMONITORINGPARAMETER?formmode=" + formmode;
 
 			$("#MONITORINGPARAMETER").attr('action', url);
 
 			var options = {
-				success : showResponse
-			// post-submit callback 
+				success : showResponse,
+				error : function(xhr) {
+					$("#alertmsg").text("Failed to verify: " + (xhr.responseText || "Server error"));
+					$('#alert').modal("toggle");
+				}
 			};
 
 			$("#MONITORINGPARAMETER").ajaxSubmit(options);
 
 			function showResponse(responseText, statusText, xhr, $form) {
-
 				$("#alertmsg").text(responseText);
-
 				$('#alert').modal("toggle");
-
 			}
-			;
 		}
+	};
+
+	function submitform(a) {
+		var formmode = a.getAttribute("data-formmode");
+		var user = $("#user_email_one").val();
+		var url = "./createMONITORINGPARAMETER?formmode=" + formmode
+				+ "&user=" + encodeURIComponent(user || "");
+
+		$("#MONITORINGPARAMETER").attr('action', url);
+
+		var options = {
+			success : showResponse,
+			error : function(xhr) {
+				$("#alertmsg").text("Failed to save: " + (xhr.responseText || "Server error"));
+				$('#alert').modal("toggle");
+			}
+		};
+
+		$("#MONITORINGPARAMETER").ajaxSubmit(options);
+
+		function showResponse(responseText, statusText, xhr, $form) {
+			$("#alertmsg").text(responseText);
+			$('#alert').modal("toggle");
+		};
 	};
 
 	function modify_btn_submit(a) {
@@ -389,6 +403,7 @@ th {
 								</div>
 
 							</div>
+							<div class="alert alert-danger" th:if="${message}" th:text="${message}"></div>
 							 	<div class="table-responsive"
 								style="overflow-x: scroll; overflow-y: hidden;"> 
 								<table class="table table-bordered  table-hover table-sm"
@@ -448,9 +463,10 @@ th {
 											<td th:text="${alert.user_email_two}"></td>
 											<td th:text="${#dates.format(alert.start_date,'dd-MM-yyyy')}"></td>
 											<td th:text="${#dates.format(alert.end_date,'dd-MM-yyyy')}"></td>
-											<th:block th:switch="${alert.entity_flg}">
+											<th:block th:switch="${alert?.entity_flg}">
 												<td th:case="'Y'" style="color: green;">Verified</td>
 												<td th:case="'N'" style="color: red;">UnVerified</td>
+												<td th:case="*" style="color: red;">UnVerified</td>
 											</th:block>
 
 
@@ -470,15 +486,15 @@ th {
 															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 															onclick="view_btn_submit(this)" id="view_btn">Inquiry
 														</a>
-														<div class="dropdown-divider" th:if="${alert.entity_flg}=='Y'"></div>
-														<a th:if="${alert.entity_flg}=='Y'"
+														<div class="dropdown-divider" th:if="${alert.entity_flg}=='Y' or ${alert.entity_flg}==null"></div>
+														<a th:if="${alert.entity_flg}=='Y' or ${alert.entity_flg}==null"
 															th:attr="data-ref_no=${alert.ref_no},data-value1=${alert.value1}"
 															class="dropdown-item" title="Modify"
 															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 															id="modify_value" onclick="modify_btn_submit(this)">Modify</a>
 														<div class="dropdown-divider"
-															th:if="${alert.entity_flg}=='N' and ${AMLRoleMenu.work_class} == 'C'"></div>
-														<a th:if="${alert.entity_flg}=='N' and ${AMLRoleMenu.work_class} == 'C'" class="dropdown-item"
+															th:if="${alert.entity_flg}=='N'"></div>
+														<a th:if="${alert.entity_flg}=='N'" class="dropdown-item"
 															th:attr="data-ref_no=${alert.ref_no},data-value1=${alert.value1}"
 															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 															id="verify_value" onclick="alert_verify(this)">Verify</a>
@@ -537,37 +553,33 @@ th {
 								id="MONITORINGPARAMETER" th:fragment="finuserapply">
 								<div class="modal-body"
 									style="margin-top: 8px; text-align: center; color: aliceblue;">
+									<div class="card-header" style="text-align: left; background-color: #386276; color: white; margin-bottom: 15px;">
+										<h4 th:if="${formmode}=='add'">Operations Parameter - ADD</h4>
+										<h4 th:if="${formmode}=='modify'">Operations Parameter - MODIFY</h4>
+										<h4 th:if="${formmode}=='verify'">Operations Parameter - VERIFY</h4>
+										<h4 th:if="${formmode}=='view'">Operations Parameter - INQUIRY</h4>
+									</div>
 									<input
 										th:if="${formmode}=='modify' OR ${formmode}=='view' OR ${formmode}=='verify'"
-										type="hidden" th:field="*{ref_no}" th:value="${ref_no}"
+										type="hidden" th:value="${MONITORINGPARAMETER?.ref_no}"
 										id="ref_no" name="ref_no">
 
-									<!-- <div class="row formline" th:if="${formmode}=='add'">
-										<div class="col-sm-3">
-											<label for="cust_id">REF NO:</label>
-										</div>
-										<div class="col-sm-3">
-											<input type="text" th:field="*{ref_no}" th:value="${ref_no}"
-										id="ref_no" name="ref_no"class="form-control form-control-sm"
-												autocomplete="off">
-										</div>
-									</div> -->
 									<div class="row formline">
 										<div class="col-sm-3">
 											<label for="cust_id">MENU:*</label>
 										</div>
 										<div class="col-sm-3">
-											<input type="text" th:readonly="${formmode}=='view'"
-												th:field="*{menu}" th:value="${menu}" id="menus"
-												name="menus" class="form-control form-control-sm"
+											<input type="text" th:readonly="${formmode}=='view' OR ${formmode}=='verify'"
+												th:value="${MONITORINGPARAMETER?.menu}" id="menu"
+												name="menu" class="form-control form-control-sm"
 												autocomplete="off">
 										</div>
 										<div class="col-sm-2">
 											<label for="cust_id">VALUE:*</label>
 										</div>
 										<div class="col-sm-3">
-											<input type="text" th:readonly="${formmode}=='view'"
-												th:field="*{value1}" th:value="${value1}" id="value1"
+											<input type="text" th:readonly="${formmode}=='view' OR ${formmode}=='verify'"
+												th:value="${MONITORINGPARAMETER?.value1}" id="value1"
 												name="value1" class="form-control form-control-sm"
 												autocomplete="off" style="display: block">
 										</div>
@@ -577,8 +589,8 @@ th {
 											<label for="cust_id">TABLE:*</label>
 										</div>
 										<div class="col-sm-3">
-											<input type="text" th:readonly="${formmode}=='view'"
-												th:field="*{table1}" th:value="${table1}" id="table1"
+											<input type="text" th:readonly="${formmode}=='view' OR ${formmode}=='verify'"
+												th:value="${MONITORINGPARAMETER?.table1}" id="table1"
 												name="table1" class="form-control form-control-sm"
 												autocomplete="off">
 										</div>
@@ -586,8 +598,8 @@ th {
 											<label for="cust_id">FIELD:</label>
 										</div>
 										<div class="col-sm-3">
-											<input type="text" th:readonly="${formmode}=='view'"
-												th:field="*{table_field}" th:value="${table_field}"
+											<input type="text" th:readonly="${formmode}=='view' OR ${formmode}=='verify'"
+												th:value="${MONITORINGPARAMETER?.table_field}"
 												id="table_field" name="table_field"
 												class="form-control form-control-sm" autocomplete="off">
 										</div>
@@ -600,8 +612,8 @@ th {
 											<label for="cust_id">USER ID:</label>
 										</div>
 										<div class="col-sm-3">
-											<input type="text" th:readonly="${formmode}=='view'"
-												th:field="*{user_id_one}" th:value="${user_id_one}"
+											<input type="text" th:readonly="${formmode}=='view' OR ${formmode}=='verify'"
+												th:value="${MONITORINGPARAMETER?.user_id_one}"
 												id="user_id_one" name="user_id_one"
 												class="form-control form-control-sm" autocomplete="off">
 										</div>
@@ -609,8 +621,8 @@ th {
 											<label for="cust_id">NAME:</label>
 										</div>
 										<div class="col-sm-3">
-											<input type="text" th:readonly="${formmode}=='view'"
-												th:field="*{user_name_one}" th:value="${user_name_one}"
+											<input type="text" th:readonly="${formmode}=='view' OR ${formmode}=='verify'"
+												th:value="${MONITORINGPARAMETER?.user_name_one}"
 												id="user_name_one" name="user_name_one"
 												class="form-control form-control-sm" autocomplete="off">
 										</div>
@@ -620,8 +632,8 @@ th {
 											<label for="cust_id">MOBILE:</label>
 										</div>
 										<div class="col-sm-3">
-											<input type="text" th:readonly="${formmode}=='view'"
-												th:field="*{user_mobile_one}" th:value="${user_mobile_one}"
+											<input type="text" th:readonly="${formmode}=='view' OR ${formmode}=='verify'"
+												th:value="${MONITORINGPARAMETER?.user_mobile_one}"
 												id="user_mobile_one" name="user_mobile_one"
 												class="form-control form-control-sm" autocomplete="off">
 										</div>
@@ -629,8 +641,8 @@ th {
 											<label for="cust_id">EMAIL:</label>
 										</div>
 										<div class="col-sm-3">
-											<input type="email" th:readonly="${formmode}=='view'"
-												th:field="*{user_email_one}" th:value="${user_email_one}"
+											<input type="email" th:readonly="${formmode}=='view' OR ${formmode}=='verify'"
+												th:value="${MONITORINGPARAMETER?.user_email_one}"
 												id="user_email_one" name="user_email_one"
 												class="form-control form-control-sm" autocomplete="off">
 										</div>
@@ -643,8 +655,8 @@ th {
 											<label for="cust_id">USER ID:</label>
 										</div>
 										<div class="col-sm-3">
-											<input type="text" th:readonly="${formmode}=='view'"
-												th:field="*{user_id_two}" th:value="${user_id_two}"
+											<input type="text" th:readonly="${formmode}=='view' OR ${formmode}=='verify'"
+												th:value="${MONITORINGPARAMETER?.user_id_two}"
 												id="user_id_two" name="user_id_two"
 												class="form-control form-control-sm" autocomplete="off">
 										</div>
@@ -652,8 +664,8 @@ th {
 											<label for="cust_id">NAME :</label>
 										</div>
 										<div class="col-sm-3">
-											<input type="text" th:readonly="${formmode}=='view'"
-												th:field="*{user_name_two}" th:value="${user_name_two}"
+											<input type="text" th:readonly="${formmode}=='view' OR ${formmode}=='verify'"
+												th:value="${MONITORINGPARAMETER?.user_name_two}"
 												id="user_name_two" name="user_name_two"
 												class="form-control form-control-sm" autocomplete="off">
 										</div>
@@ -663,8 +675,8 @@ th {
 											<label for="cust_id">MOBILE:</label>
 										</div>
 										<div class="col-sm-3">
-											<input type="text" th:readonly="${formmode}=='view'"
-												th:field="*{user_mobile_two}" th:value="${user_mobile_two}"
+											<input type="text" th:readonly="${formmode}=='view' OR ${formmode}=='verify'"
+												th:value="${MONITORINGPARAMETER?.user_mobile_two}"
 												id="user_mobile_two" name="user_mobile_two"
 												class="form-control form-control-sm" autocomplete="off">
 										</div>
@@ -672,8 +684,8 @@ th {
 											<label for="cust_id">EMAIL:</label>
 										</div>
 										<div class="col-sm-3">
-											<input type="email" th:readonly="${formmode}=='view'"
-												th:field="*{user_email_two}" th:value="${user_email_two}"
+											<input type="email" th:readonly="${formmode}=='view' OR ${formmode}=='verify'"
+												th:value="${MONITORINGPARAMETER?.user_email_two}"
 												id="user_email_two" name="user_email_two"
 												class="form-control form-control-sm" autocomplete="off">
 										</div>
@@ -683,9 +695,8 @@ th {
 											<label for="cust_id">START DATE:</label>
 										</div>
 										<div class="col-sm-3">
-											<input type="text" th:readonly="${formmode}=='view'"
-												th:field="*{start_date}"
-												th:value="${#dates.format(start_date,'dd-MM-yyyy')}"
+											<input type="text" th:readonly="${formmode}=='view' OR ${formmode}=='verify'"
+												th:value="${#dates.format(MONITORINGPARAMETER?.start_date,'dd-MM-yyyy')}"
 												id="start_date" name="start_date"
 												class="form-control form-control-sm" autocomplete="off">
 										</div>
@@ -693,9 +704,8 @@ th {
 											<label for="cust_id">END DATE:</label>
 										</div>
 										<div class="col-sm-3">
-											<input type="text" th:readonly="${formmode}=='view'"
-												th:field="*{end_date}"
-												th:value="${#dates.format(end_date,'dd-MM-yyyy')}"
+											<input type="text" th:readonly="${formmode}=='view' OR ${formmode}=='verify'"
+												th:value="${#dates.format(MONITORINGPARAMETER?.end_date,'dd-MM-yyyy')}"
 												id="end_date" name="end_date"
 												class="form-control form-control-sm" autocomplete="off">
 										</div>
@@ -710,7 +720,7 @@ th {
 										th:attr="data-formmode=${formmode}">Submit</button>
 									<button type="button" class="btn btn-primary"
 										th:if="${formmode}=='verify'" onclick="verifyform(this);"
-										th:attr="data-formmode=${formmode}">Submit</button>
+										th:attr="data-formmode=${formmode}">Verify</button>
 									<button type="button" class="btn btn-primary" onclick="list()">Cancel</button>
 								</div>
 
@@ -722,10 +732,10 @@ th {
 										<div class="col-sm-2">
 											<input type="text"
 												th:if="${formmode}=='modify' OR ${formmode}=='verify' OR ${formmode}=='view' "
-												th:value="${entry_user}" id="entry_user"
-												class="form-control form-control-sm"
-												th:field="*{entry_user}" autocomplete="off" readonly /> <input
-												type="text" th:if="${formmode}=='add'"
+												th:value="${MONITORINGPARAMETER?.entry_user}" id="entry_user"
+												name="entry_user"
+												class="form-control form-control-sm" autocomplete="off" readonly />
+											<input type="text" th:if="${formmode}=='add'"
 												th:value="${session.USERID}" id="entry_user"
 												name="entry_user" class="form-control form-control-sm"
 												autocomplete="off" readonly />
@@ -735,10 +745,11 @@ th {
 										<div class="col-sm-2">
 											<input type="text"
 												th:if="${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='view' "
-												th:value="${modify_user}" id="modify_user"
-												th:field="*{modify_user}"
+												th:value="${MONITORINGPARAMETER?.modify_user}" id="modify_user"
+												name="modify_user"
 												class="form-control form-control-sm" autocomplete="off"
-												readonly /> <input type="text"
+												readonly />
+											<input type="text"
 												th:if="${formmode}=='modify' " th:value="${session.USERID}"
 												id="modify_user" name="modify_user"
 												class="form-control form-control-sm" autocomplete="off"
@@ -748,10 +759,11 @@ th {
 										<div class="col-sm-2">
 											<input type="text"
 												th:if="${formmode}=='modify' OR ${formmode}=='add' OR ${formmode}=='view' "
-												th:value="${verify_user}" id="verify_user"
-												th:field="*{verify_user}"
+												th:value="${MONITORINGPARAMETER?.verify_user}" id="verify_user"
+												name="verify_user"
 												class="form-control form-control-sm" autocomplete="off"
-												readonly /> <input type="text"
+												readonly />
+											<input type="text"
 												th:if="${formmode}=='verify' " th:value="${session.USERID}"
 												id="verify_user" name="verify_user"
 												class="form-control form-control-sm" autocomplete="off"
@@ -769,12 +781,13 @@ th {
 										<div class="col-sm-2">
 											<input type="text"
 												th:if="${formmode}=='modify' OR ${formmode}=='verify' OR ${formmode}=='view' "
-												th:value="${#dates.format(entry_time,'dd-MM-yyyy')}"
-												id="entry_time" th:field="*{entry_time}"
+												th:value="${#dates.format(MONITORINGPARAMETER?.entry_time,'dd-MM-yyyy')}"
+												id="entry_time" name="entry_time"
 												class="form-control form-control-sm" autocomplete="off"
-												readonly /> <input type="text" th:if="${formmode}=='add'"
-												th:value="${#dates.format(entry_time,'dd-MM-yyyy')}"
-												id="entry_time1" th:field="*{entry_time}"
+												readonly />
+											<input type="text" th:if="${formmode}=='add'"
+												th:value="${#dates.format(#dates.createNow(),'dd-MM-yyyy')}"
+												id="entry_time1" name="entry_time"
 												class="form-control form-control-sm" autocomplete="off"
 												readonly />
 										</div>
@@ -783,13 +796,14 @@ th {
 										<div class="col-sm-2">
 											<input type="text"
 												th:if="${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='view' "
-												th:value="${#dates.format(modify_time,'dd-MM-yyyy')}"
-												id="modify_time" th:field="*{modify_time}"
+												th:value="${#dates.format(MONITORINGPARAMETER?.modify_time,'dd-MM-yyyy')}"
+												id="modify_time" name="modify_time"
 												class="form-control form-control-sm" autocomplete="off"
-												readonly /> <input type="text"
+												readonly />
+											<input type="text"
 												th:if="${formmode}=='modify' "
-												th:value="${#dates.format(modify_time,'dd-MM-yyyy')}"
-												id="entry_time1" th:field="*{modify_time}"
+												th:value="${#dates.format(#dates.createNow(),'dd-MM-yyyy')}"
+												id="modify_time1" name="modify_time"
 												class="form-control form-control-sm" autocomplete="off"
 												readonly />
 
@@ -801,13 +815,14 @@ th {
 										<div class="col-sm-2">
 											<input type="text"
 												th:if="${formmode}=='modify' OR ${formmode}=='add' OR ${formmode}=='view' "
-												th:value="${#dates.format(verify_time,'dd-MM-yyyy')}"
-												id="verify_time" th:field="*{verify_time}"
+												th:value="${#dates.format(MONITORINGPARAMETER?.verify_time,'dd-MM-yyyy')}"
+												id="verify_time" name="verify_time"
 												class="form-control form-control-sm" autocomplete="off"
-												readonly /> <input type="text"
+												readonly />
+											<input type="text"
 												th:if="${formmode}=='verify'"
-												th:value="${#dates.format(verify_time,'dd-MM-yyyy')}"
-												id="entry_time1" th:field="*{verify_time}"
+												th:value="${#dates.format(#dates.createNow(),'dd-MM-yyyy')}"
+												id="verify_time1" name="verify_time"
 												class="form-control form-control-sm" autocomplete="off"
 												readonly />
 

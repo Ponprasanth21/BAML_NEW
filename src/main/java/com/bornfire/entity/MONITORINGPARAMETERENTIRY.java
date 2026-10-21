@@ -2,6 +2,7 @@ package com.bornfire.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,45 +12,71 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "BAML_MON_ALERT_PARAM")
+@Table(name = "\"BAML_MON_ALERT_PARAM\"", schema = "\"AML\"")
 public class MONITORINGPARAMETERENTIRY {
 
 	@Id
+	@Column(name = "\"REF_NO\"")
 	private String ref_no;
+	@Column(name = "\"MENU\"")
 	private String menu;
+	@Column(name = "\"VALUE1\"")
 	private String value1;
+	@Column(name = "\"TABLE1\"")
 	private String table1;
+	@Column(name = "\"TABLE_FIELD\"")
 	private String table_field;
+	@Column(name = "\"USER_ID_ONE\"")
 	private String user_id_one;
+	@Column(name = "\"USER_NAME_ONE\"")
 	private String user_name_one;
+	@Column(name = "\"USER_EMAIL_ONE\"")
 	private String user_email_one;
+	@Column(name = "\"USER_MOBILE_ONE\"")
 	private String user_mobile_one;
+	@Column(name = "\"USER_ID_TWO\"")
 	private String user_id_two;
+	@Column(name = "\"USER_NAME_TWO\"")
 	private String user_name_two;
+	@Column(name = "\"USER_EMAIL_TWO\"")
 	private String user_email_two;
+	@Column(name = "\"USER_MOBILE_TWO\"")
 	private String user_mobile_two;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"START_DATE\"")
 	private Date start_date;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"END_DATE\"")
 	private Date end_date;
+	@Column(name = "\"SUSPEND_FLG\"")
 	private String suspend_flg;
+	@Column(name = "\"REMARKS\"")
 	private String remarks;
+	@Column(name = "\"ENTITY_FLG\"")
 	private String entity_flg;
+	@Column(name = "\"DEL_FLG\"")
 	private String del_flg;
+	@Column(name = "\"MODIFY_FLG\"")
 	private String modify_flg;
+	@Column(name = "\"ENTRY_USER\"")
 	private String entry_user;
+	@Column(name = "\"MODIFY_USER\"")
 	private String modify_user;
+	@Column(name = "\"VERIFY_USER\"")
 	private String verify_user;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"ENTRY_TIME\"")
 	private Date entry_time;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"MODIFY_TIME\"")
 	private Date modify_time;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"VERIFY_TIME\"")
 	private Date verify_time;
 
 	public String getRef_no() {

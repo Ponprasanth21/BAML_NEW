@@ -68,13 +68,13 @@ public interface CMG_MASTER_REPOSITRY extends JpaRepository<CMG_MASTER, String> 
 	@Query(value = "select * from BAML_CUST_MAST_TABLE where CUST_SHORT_NAME=?1", nativeQuery = true)
 	CMG_MASTER getByShort(String CUST_NAME);
 
-	@Query(value = "select * from BAML_CUST_MAST_TABLE where cif_id=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1 limit 1", nativeQuery = true)
 	CMG_MASTER getAuditCustomer(String custId);
 
-	@Query(value = "select * from BAML_CUST_MAST_TABLE where UPPER(cust_name) like UPPER(?1)", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_MAST_TABLE\" where UPPER(\"CUST_NAME\") like UPPER(?1) limit 1", nativeQuery = true)
 	CMG_MASTER getAuditCustomerName(String cust_name);
 
-	@Query(value = "select * from BAML_CUST_MAST_TABLE where UPPER(cust_short_name) like UPPER(?1)", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_MAST_TABLE\" where UPPER(\"CUST_SHORT_NAME\") like UPPER(?1)", nativeQuery = true)
 	List<CMG_MASTER> getAuditCustomerSName(String cust_name);
 
 	/*
@@ -84,55 +84,55 @@ public interface CMG_MASTER_REPOSITRY extends JpaRepository<CMG_MASTER, String> 
 	 * PREFERREDEMAIL);
 	 */
 
-	@Query(value = "select * from BAML_CUST_MAST_TABLE where cust_id=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CUST_ID\"=?1 or \"CIF_ID\"=?1", nativeQuery = true)
 	Page<CMG_MASTER> findAllCustIdCustom(String custId, Pageable pageable);
 
-	@Query(value = "select * from BAML_CUST_MAST_TABLE where cIF_ID=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1 limit 1", nativeQuery = true)
 	CMG_MASTER getCustomer(String custid);
 
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='DEP' and ref_code in (select struserfield10 from BAML_CUST_MAST_TABLE where cIF_ID=?1)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='DEP' and \"REF_CODE\" in (select \"STRUSERFIELD10\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1) limit 1", nativeQuery = true)
 	String getDepartment(String custid);
 
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='PAYS' and ref_code in (select struserfield11 from BAML_CUST_MAST_TABLE where cIF_ID=?1)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='PAYS' and \"REF_CODE\" in (select \"STRUSERFIELD11\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1) limit 1", nativeQuery = true)
 	String getPaysiteCode(String custid);
 
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='CS' and ref_code in (select cust_stat_code from BAML_CUST_MAST_TABLE where cIF_ID=?1)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='CS' and \"REF_CODE\" in (select \"CUST_STAT_CODE\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1) limit 1", nativeQuery = true)
 	String getCustomerStatus(String custid);
 
-	@Query(value = "select dtdate1 from BAML_CUST_MAST_TABLE where cIF_ID=?1", nativeQuery = true)
+	@Query(value = "select \"DTDATE1\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1 limit 1", nativeQuery = true)
 	Date getcustopendate(String custid);
 
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='BABR' and ref_code in (select struserfield13 from BAML_CUST_MAST_TABLE where cIF_ID=?1)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='BABR' and \"REF_CODE\" in (select \"STRUSERFIELD13\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1) limit 1", nativeQuery = true)
 	String getBankBranch(String custid);
 
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='BK' and ref_code in (select SUBSTR(struserfield13,1,2) from BAML_CUST_MAST_TABLE where cIF_ID=?1)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='BK' and \"REF_CODE\" in (select SUBSTR(\"STRUSERFIELD13\",1,2) from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1) limit 1", nativeQuery = true)
 	String getBankName(String custid);
 
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='21' and ref_code in (select occupation from BAML_CUST_MAST_TABLE where cIF_ID=?1)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='21' and \"REF_CODE\" in (select \"OCCUPATION\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1) limit 1", nativeQuery = true)
 	String getOccupation(String custid);
 
-	@Query(value = "select ref_code from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='21' and upper(trim(ref_desc)) = ?1", nativeQuery = true)
+	@Query(value = "select \"REF_CODE\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='21' and upper(trim(\"REF_DESC\")) = ?1 limit 1", nativeQuery = true)
 	String getOccupationcode(String custid);
 
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='01' and ref_code in (select city_code from BAML_CUST_MAST_TABLE where cIF_ID=?1)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='01' and \"REF_CODE\" in (select \"CITY_CODE\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1) limit 1", nativeQuery = true)
 	String getcitycode(String custid);
 
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='02' and ref_code in (select state_code from BAML_CUST_MAST_TABLE where cIF_ID=?1)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='02' and \"REF_CODE\" in (select \"STATE_CODE\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1) limit 1", nativeQuery = true)
 	String getstatecode(String custid);
 
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='03' and ref_code in (select cntry_code from BAML_CUST_MAST_TABLE where cIF_ID=?1)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='03' and \"REF_CODE\" in (select \"CNTRY_CODE\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1) limit 1", nativeQuery = true)
 	String getcountrycode(String custid);
 
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='03' and ref_code in (select residence_country from BAML_CUST_MAST_TABLE where cIF_ID=?1)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='03' and \"REF_CODE\" in (select \"RESIDENCE_COUNTRY\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1) limit 1", nativeQuery = true)
 	String getcountryresidence(String custid);
 
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='01' and ref_code in (select placeofbirth from BAML_CUST_MAST_TABLE where cIF_ID=?1)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='01' and \"REF_CODE\" in (select \"PLACEOFBIRTH\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1) limit 1", nativeQuery = true)
 	String getplaceofbirth(String custid);
 
-	@Query(value = "select ref_desc from BAML_REFERENCE_CODE_TABLE where ref_rec_type ='43' and ref_code in (select cust_type_code from BAML_CUST_MAST_TABLE where cIF_ID=?1)", nativeQuery = true)
+	@Query(value = "select \"REF_DESC\" from \"AML\".\"BAML_REFERENCE_CODE_TABLE\" where \"REF_REC_TYPE\" ='43' and \"REF_CODE\" in (select \"CUST_TYPE_CODE\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1) limit 1", nativeQuery = true)
 	String getcustomertype(String custid);
 
-	@Query(value = "select * from BAML_CUST_MAST_TABLE where cif_id=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"CIF_ID\"=?1 or \"CUST_ID\"=?1 limit 1", nativeQuery = true)
 	CMG_MASTER getAccountDetailsCust(String CUSTID);
 
 	@Query(value = "select distinct cust_id,cust_name,riskrating from CUST_MAST_GEN_TABLE ", nativeQuery = true)

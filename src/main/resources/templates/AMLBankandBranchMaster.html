@@ -138,7 +138,10 @@ PURPOSE		: MASTER_SCREEN
 			mm = '0' + mm;
 		}
 		var today = dd + '-' + mm + '-' + yyyy;
-		document.getElementById('rule_date').value = today;
+		var ruleDateElem = document.getElementById('rule_date');
+		if (ruleDateElem) {
+			ruleDateElem.value = today;
+		}
 
 	});
 
@@ -199,65 +202,6 @@ PURPOSE		: MASTER_SCREEN
 	}
 	
 
-	function submitform(a) {
-
-		$.validator.addMethod("regex", function(value, element, regexp) {
-			var re = new RegExp(regexp);
-			return this.optional(element) || re.test(value);
-		}, "Date required format dd-mm-yyyy");
-
-		$("#RuleEngine")
-				.validate(
-						{
-							rules : {
-								start_date : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
-								},
-								end_date : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
-								},
-								activated_date : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
-								},
-								suspended_date : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
-								},
-
-							},
-							messages : {
-
-							}
-
-						});
-		if ($("#RuleEngine").valid()) {
-			var formmode = a.getAttribute("data-formmode");
-			var url = "./createRule?formmode=" + formmode;
-
-			$("#RuleEngine").attr('action', url);
-
-			var options = {
-				success : showResponse
-			// post-submit callback 
-			};
-
-			$("#RuleEngine").ajaxSubmit(options);
-
-			function showResponse(responseText, statusText, xhr, $form) {
-
-				$("#alertmsg").text(responseText);
-
-				$('#alert').modal("toggle");
-
-			}
-			;
-		}
-
-	};
-
 	function edit_btn_submit(a) {
 
 		var solId = a.getAttribute("data-sol_id");
@@ -281,6 +225,8 @@ PURPOSE		: MASTER_SCREEN
 
 	}
 	function submitform(a) {
+
+		$('select option').prop('disabled', false);
 
 		if ($("#BankDetails").valid()) {
 			var formmode = a.getAttribute("data-formmode");
@@ -314,7 +260,7 @@ PURPOSE		: MASTER_SCREEN
 
 			var verify = $("#verify_user").val();
 
-			if (modify != null) {
+			if (modify != null && modify.trim() !== "") {
 
 				if (modify != verify) {
 
@@ -352,7 +298,7 @@ PURPOSE		: MASTER_SCREEN
 
 				}
 
-			} else if (modify == null) {
+			} else {
 
 				if (entry != verify) {
 
@@ -419,9 +365,18 @@ PURPOSE		: MASTER_SCREEN
 		}
 
 		var today = dd + '/' + mm + '/' + yyyy;
-		document.getElementById('entry_date').value = today;
-		document.getElementById('verify_date').value = today;
-		document.getElementById('modify_date').value = today;
+		var entryDateElem = document.getElementById('entry_date');
+		if (entryDateElem) {
+			entryDateElem.value = today;
+		}
+		var verifyDateElem = document.getElementById('verify_date');
+		if (verifyDateElem) {
+			verifyDateElem.value = today;
+		}
+		var modifyDateElem = document.getElementById('modify_date');
+		if (modifyDateElem) {
+			modifyDateElem.value = today;
+		}
 
 	});
 	function soltype(a)  {
@@ -561,8 +516,10 @@ PURPOSE		: MASTER_SCREEN
 														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														onclick="view_btn_submit(this)" id="view_btn">Inquiry
 													</a>
-													<div class="dropdown-divider"></div>
-													<a th:attr="data-sol_id=${bankdetails?.sol_id}"
+													<div class="dropdown-divider"
+														th:if="${bankdetails?.entity_flg}=='Y' or ${bankdetails?.entity_flg}==null"></div>
+													<a th:if="${bankdetails?.entity_flg}=='Y' or ${bankdetails?.entity_flg}==null"
+														th:attr="data-sol_id=${bankdetails?.sol_id}"
 														class="dropdown-item" title="Modify"
 														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
@@ -654,6 +611,9 @@ PURPOSE		: MASTER_SCREEN
 										<input type="hidden" th:value="${formmode}" id="formmode1"
 											style="display: none;"> <input autocomplete="false"
 											name="hidden" type="text" style="display: none;">
+										<input type="hidden" name="bank_code" th:value="${BankandBranch?.bank_code}">
+										<input type="hidden" name="bank_name" th:value="${BankandBranch?.bank_name}">
+										<input type="hidden" name="br_code" th:value="${BankandBranch?.br_code}">
 										<div class="form-group"
 											style="font-size: 11px; line-height: 0px;">
 											<div class="row formline">
@@ -694,9 +654,9 @@ PURPOSE		: MASTER_SCREEN
 														class="form-control form-control-sm" autocomplete="off"
 														>
 														<option th:value="${BankandBranch?.sol_type}">SELECT</option>
-														<option value="Head Office" disabled>Head Office</option>
-														<option value="Admin Office" disabled>Admin Office</option>
-														<option value="Branch Office" disabled>Both</option>
+														<option value="Head Office">Head Office</option>
+														<option value="Admin Office">Admin Office</option>
+														<option value="Branch Office">Both</option>
 													</select>
 												</div>
 
@@ -1090,7 +1050,7 @@ PURPOSE		: MASTER_SCREEN
 
 												<input type="text"
 													th:if="${formmode}=='edit' OR ${formmode}=='verify' "
-													th:value="${session.USERID}" id="entry_user"
+													th:value="${alert?.entry_user}" id="entry_user"
 													name="entry_user" class="form-control form-control-sm"
 													autocomplete="off" readonly />
 
@@ -1235,7 +1195,7 @@ PURPOSE		: MASTER_SCREEN
 							<div class="modal-body" style="text-align: center">
 								<p id="alertmsg"></p>
 								<button type="button" class="btn btn-primary"
-									data-dismiss="modal" onclick="back();">Close</button>
+									data-dismiss="modal" onclick="list();">Close</button>
 							</div>
 						</div>
 					</div>

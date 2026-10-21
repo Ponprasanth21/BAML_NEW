@@ -3,6 +3,7 @@ package com.bornfire.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,78 +13,123 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "BAML_RULE_ENGINE_TABLE")
+@Table(name = "\"BAML_RULE_ENGINE_TABLE\"", schema = "\"AML\"")
 public class Monitoringparameter  {
 	
-	
-	
 	@Id
+	@Column(name = "\"SRL_NO\"")
 	private String	srl_no;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"ALERT_DATE\"")
 	private Date	alert_date;
+	@Column(name = "\"RULE_TYPE\"")
 	private String	rule_type;
+	@Column(name = "\"RULE_SUB_TYPE\"")
 	private String	rule_sub_type;
+	@Column(name = "\"RULE_TYPE_DESC\"")
 	private String	rule_type_desc;
+	@Column(name = "\"RULE_REMARKS\"")
 	private String	rule_remarks;
+	@Column(name = "\"RULE_CODE\"")
 	private String	rule_code;
+	@Column(name = "\"RULE_CODE_DESC\"")
 	private String	rule_code_desc;
+	@Column(name = "\"SCRIPT_TYPE\"")
 	private String	script_type;
+	@Column(name = "\"SCRIPT_NAME\"")
 	private String	script_name;
+	@Column(name = "\"EXEC_TYPE\"")
 	private String	exec_type;
+	@Column(name = "\"FREQUENCY\"")
 	private String	frequency;
+	@Column(name = "\"START_DAY\"")
 	private BigDecimal	start_day;
+	@Column(name = "\"BJ_REMARKS\"")
 	private String	bj_remarks;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"START_DATE\"")
 	private Date	start_date;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"END_DATE\"")
 	private Date	end_date;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"LAST_TRIED_DATE\"")
 	private Date	last_tried_date;
+	@Column(name = "\"EXCE_STATUS\"")
 	private String	exce_status;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"NEXT_EXEC_STATUS\"")
 	private Date	next_exec_status;
+	@Column(name = "\"SUSP_FLAG\"")
 	private String	susp_flag;
+	@Column(name = "\"ADD_PARM_FLAG\"")
 	private String	add_parm_flag;
+	@Column(name = "\"PARAM_REMARKS\"")
 	private String	param_remarks;
+	@Column(name = "\"GIVEN_PERIOD_FLAG\"")
 	private String	given_period_flag;
+	@Column(name = "\"NO_OF_DAYS\"")
 	private BigDecimal	no_of_days;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"PERIOD_START_DATE\"")
 	private Date	period_start_date;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"PERIOD_END_DATE\"")
 	private Date	period_end_date;
+	@Column(name = "\"CUSTOMER_TYPE\"")
 	private String	customer_type;
+	@Column(name = "\"ACCOUNT_TYPE\"")
 	private String	account_type;
+	@Column(name = "\"THRESHOLD_LIMIT\"")
 	private BigDecimal	threshold_limit;
+	@Column(name = "\"PERCENTAGE\"")
 	private BigDecimal	percentage;
+	@Column(name = "\"AVG_TRANS\"")
 	private BigDecimal	avg_trans;
+	@Column(name = "\"AVG_AMOUNT\"")
 	private BigDecimal	avg_amount;
+	@Column(name = "\"LOW_VALUE\"")
 	private BigDecimal	low_value;
+	@Column(name = "\"HIGH_VALUE\"")
 	private BigDecimal	high_value;
+	@Column(name = "\"MATCH_CRITERIA\"")
 	private String	match_criteria;
+	@Column(name = "\"MATCH_REMARKS\"")
 	private String	match_remarks;
+	@Column(name = "\"MENU_IND\"")
 	private String	menu_ind;
+	@Column(name = "\"MENU_NAMES\"")
 	private String	menu_names;
+	@Column(name = "\"ENTITY_FLAG\"")
 	private String	entity_flag;
+	@Column(name = "\"DEL_FLAG\"")
 	private String	del_flag;
+	@Column(name = "\"MODIFY_FLAG\"")
 	private String	modify_flag;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"ENTRY_TIME\"")
 	private Date	entry_time;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"MODIFY_TIME\"")
 	private Date	modify_time;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "\"VERIFY_TIME\"")
 	private Date	verify_time;
+	@Column(name = "\"ENTRY_USER\"")
 	private String	entry_user;
+	@Column(name = "\"MODIFY_USER\"")
 	private String	modify_user;
+	@Column(name = "\"VERIFY_USER\"")
 	private String	verify_user;
 	public String getSrl_no() {
 		return srl_no;
