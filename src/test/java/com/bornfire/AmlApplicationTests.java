@@ -12,5 +12,4 @@ public class AmlApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
-
 }

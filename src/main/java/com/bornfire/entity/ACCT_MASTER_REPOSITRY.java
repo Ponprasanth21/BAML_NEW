@@ -60,7 +60,7 @@ public interface ACCT_MASTER_REPOSITRY extends JpaRepository<ACCT_MASTER, String
 /*	AND SYSDATE BETWEEN B.EOD_DATE AND B.END_EOD_DATE*/
 	/*@Query(value = "select * from BAML_ACCT_MAST_TABLE where cust_id in (select cust_id from BAML_CUST_MAST_TABLE where cif_id =?1) ", nativeQuery = true)
 	List<ACCT_MASTER> findAllCustIdCustom1(String AcctNumber);*/
-	@Query(value = "select * from baml_acct_mast_table where acct_ownership !='O'  and acid in  (select acid from baml_acct_mast_table where ACCT_OCCP_CODE is null or PURPOSE_OF_ADVN is null or cust_id is not null ) and  rownum < 1000 ", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"ACCT_OWNERSHIP\" !='O' and \"ACID\" in (select \"ACID\" from \"AML\".\"BAML_ACCT_MAST_TABLE\" where \"ACCT_OCCP_CODE\" is null or \"PURPOSE_OF_ADVN\" is null or \"CUST_ID\" is not null) limit 1000", nativeQuery = true)
 	List<ACCT_MASTER> findAllCustom1();
 
 	@Query(value = "select count(*) from \"AML\".\"BAML_ACCT_MAST_TABLE\" where (\"CIF_ID\" = ?1 or \"CUST_ID\" = ?1) and \"SCHM_TYPE\" in ('TUA','TDA') and \"ACCT_CLS_FLG\" != 'Y'", nativeQuery = true)

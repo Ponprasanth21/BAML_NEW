@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "BAML_TRAN_ALERTS_MASTER")
+@Table(name="\"BAML_TRAN_ALERTS_MASTER\"", schema="\"AML\"")
 public class BAMLTranAlertsMaster {
 	
 

@@ -64,71 +64,80 @@ public class BAMLTranAlertsMasterService {
 	public String addPARAMETER(BAMLTranAlertsMaster alertparam, String formmode,String USERID,String Tranid,String Trandate,String ParttranId) throws ParseException {
 		// TODO Auto-generated method stub
 		
-		System.out.println(Trandate);
-		System.out.println(Tranid.trim());
-		System.out.println(ParttranId.trim());
+		if (Trandate != null) System.out.println(Trandate.trim());
+		if (Tranid != null) System.out.println(Tranid.trim());
+		if (ParttranId != null) System.out.println(ParttranId.trim());
 		SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat dateFormat1=new SimpleDateFormat("dd-MMM-yyyy");
-		Date date1=dateFormat.parse(Trandate);
+		Date date1 = null;
+		if (Trandate != null && !Trandate.trim().isEmpty()) {
+			try {
+				date1 = dateFormat.parse(Trandate.trim());
+			} catch (Exception e1) {
+				try {
+					date1 = dateFormat1.parse(Trandate.trim());
+				} catch (Exception e2) {
+					try {
+						date1 = new SimpleDateFormat("dd-MM-yyyy").parse(Trandate.trim());
+					} catch (Exception ignored) {}
+				}
+			}
+		}
 		
-		System.out.println(dateFormat1.format(date1));
-		
-		
-		
-		Optional<BAMLTranAlertsMaster> reg = bamlTranAlertsMasterRepository.findByIdcustomResult(Tranid);
+		Optional<BAMLTranAlertsMaster> reg = (Tranid != null && !Tranid.trim().isEmpty()) ? bamlTranAlertsMasterRepository.findByIdcustomResult(Tranid.trim()) : Optional.empty();
 
 		String msg = "";
-		/* try { */
-		  if (formmode.equals("edit")) {
-			  System.out.println("edit");
-			 
-			  BAMLTranAlertsMaster up = alertparam;
-			  up.setEntity_flag("N");
-			  up.setDel_flg("N");
-			  up.setPart_tran_type(reg.get().getPart_tran_type());
-			  up.setTran_id(reg.get().getTran_id());
-			  up.setPart_tran_srl_num(reg.get().getPart_tran_srl_num());
-			  up.setTran_sub_type(reg.get().getTran_sub_type());
-
-			  //reg.get().getAlerttransaction();
-			  //System.out.println(up.getAlerttransaction().toString());
-			  System.out.println(reg.get().getTran_crncy_code());
-			  up.setAlert_code(reg.get().getAlert_code());
-			  up.setValue_date(reg.get().getValue_date());
-			  up.setTran_type(reg.get().getTran_type());
-			  up.setTran_crncy_code(reg.get().getTran_crncy_code());
-			  up.setTran_amt(reg.get().getTran_amt());
-
-			//  up.setAlerttransaction(reg.get().getAlerttransaction());
-			  up.setEntry_user_id(USERID);
-			  System.out.println(up.getEntity_flag());
-			  bamlTranAlertsMasterRepository.save(up);
+		if (formmode.equals("edit")) {
+			BAMLTranAlertsMaster up = alertparam;
+			up.setEntity_flag("N");
+			up.setDel_flg("N");
+			if (reg.isPresent()) {
+				up.setPart_tran_type(reg.get().getPart_tran_type());
+				up.setTran_id(reg.get().getTran_id());
+				up.setPart_tran_srl_num(reg.get().getPart_tran_srl_num());
+				up.setTran_sub_type(reg.get().getTran_sub_type());
+				up.setAlert_code(reg.get().getAlert_code());
+				up.setValue_date(reg.get().getValue_date());
+				up.setTran_type(reg.get().getTran_type());
+				up.setTran_crncy_code(reg.get().getTran_crncy_code());
+				up.setTran_amt(reg.get().getTran_amt());
+			}
+			if (date1 != null) {
+				up.setTran_date(date1);
+			}
+			up.setEntry_user_id(USERID);
+			up.setEntry_date(new Date());
+			bamlTranAlertsMasterRepository.save(up);
 			msg = "Edited Successfully";
 		} 
 		  
-		  if (formmode.equals("verify")) {
-
-			  BAMLTranAlertsMaster up = alertparam;
-			  if(!(up.getEntry_user_id()).equals(USERID)) {
-				  up.setEntity_flag("Y");
-				  up.setDel_flg("N");
-				  up.setVfd_user_id(USERID);
-				  up.setTran_id(reg.get().getTran_id());
-				  up.setPart_tran_type(reg.get().getPart_tran_type());
-				  up.setPart_tran_srl_num(reg.get().getPart_tran_srl_num());
-				  up.setTran_sub_type(reg.get().getTran_sub_type());
-				  up.setTran_type(reg.get().getTran_type());
-				  up.setTran_crncy_code(reg.get().getTran_crncy_code());
-				  up.setTran_amt(reg.get().getTran_amt());
-				//  up.setAlerttransaction(reg.get().getAlerttransaction());
-				  up.setAlert_code(reg.get().getAlert_code());
-				  up.setValue_date(reg.get().getValue_date());
-			  bamlTranAlertsMasterRepository.save(up);
-			msg = "Parameter Verified Successfully";
-		}else {
-		msg = "Same User cannot Verify!";	
+		if (formmode.equals("verify")) {
+			BAMLTranAlertsMaster up = alertparam;
+			if (up.getEntry_user_id() == null || !up.getEntry_user_id().equals(USERID)) {
+				up.setEntity_flag("Y");
+				up.setDel_flg("N");
+				up.setVfd_user_id(USERID);
+				up.setVfd_date(new Date());
+				if (reg.isPresent()) {
+					up.setTran_id(reg.get().getTran_id());
+					up.setPart_tran_type(reg.get().getPart_tran_type());
+					up.setPart_tran_srl_num(reg.get().getPart_tran_srl_num());
+					up.setTran_sub_type(reg.get().getTran_sub_type());
+					up.setTran_type(reg.get().getTran_type());
+					up.setTran_crncy_code(reg.get().getTran_crncy_code());
+					up.setTran_amt(reg.get().getTran_amt());
+					up.setAlert_code(reg.get().getAlert_code());
+					up.setValue_date(reg.get().getValue_date());
+				}
+				if (date1 != null) {
+					up.setTran_date(date1);
+				}
+				bamlTranAlertsMasterRepository.save(up);
+				msg = "Parameter Verified Successfully";
+			} else {
+				msg = "Same User cannot Verify!";	
+			}
 		}
-		  }	  
 		return msg;
 	}
 	

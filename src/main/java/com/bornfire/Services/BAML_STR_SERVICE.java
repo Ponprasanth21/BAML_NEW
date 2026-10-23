@@ -37,11 +37,13 @@ import com.bornfire.entity.STR_REPOSITRY;
 import com.bornfire.entity.TRAN_MASTER_REPOSITRY;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
+import org.springframework.core.env.Environment;
 
 @Service
 @Transactional
@@ -65,38 +67,67 @@ public class BAML_STR_SERVICE {
 	@Autowired
 	private AML_AUDIT_LOCAL_REP auditLocal;
 
+	@Autowired
+	private Environment env;
+
 	private String pstd_date;
 
 	public String addPARAMETER(AML_STR_ENTITY alertparam, String Formmode, String Userid) {
 		Session hs = sessionFactory.getCurrentSession();
 
 		String msg = "";
-		if (Formmode.equals("add")) {
+		if ("add".equalsIgnoreCase(Formmode)) {
 			AML_STR_ENTITY up = alertparam;
 
-			BigDecimal Number1 = (BigDecimal) hs.createNativeQuery("SELECT RULESEQUENCE_1.NEXTVAL AS SRL_NO FROM DUAL")
-					.getSingleResult();
+			String auditRef = "1";
+			try {
+				BigDecimal Number1 = (BigDecimal) hs
+						.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
+						.getSingleResult();
+				if (Number1 != null) {
+					auditRef = Number1.toString();
+				}
+			} catch (Exception e) {
+				auditRef = String.valueOf(System.currentTimeMillis());
+			}
 
 			DecimalFormat numformate = new DecimalFormat("000");
-			BigDecimal billNumber = (BigDecimal) hs
-					.createNativeQuery("SELECT STR_RECORD_ID.NEXTVAL AS SRL_NO FROM DUAL").getSingleResult();
+			BigDecimal billNumber = null;
+			try {
+				billNumber = (BigDecimal) hs
+						.createNativeQuery("SELECT CAST(nextval('\"AML\".\"STR_RECORD_ID\"') AS NUMERIC)")
+						.getSingleResult();
+			} catch (Exception e1) {
+				try {
+					billNumber = (BigDecimal) hs
+							.createNativeQuery("SELECT CAST(nextval('\"AML\".\"STRSEQUENCE_1\"') AS NUMERIC)")
+							.getSingleResult();
+				} catch (Exception e2) {
+					long count = str_rep.count();
+					billNumber = BigDecimal.valueOf(count + 1);
+				}
+			}
 			String serialno = "RPT" + numformate.format(billNumber);
-			System.out.println("billno" + serialno);
+			logger.info("Generated STR Record ID: " + serialno);
 			up.setReport_id(serialno);
 
-			AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
-			audit.setAudit_date(new Date());
-			audit.setEntry_time(new Date());
-			audit.setEntry_user(Userid);
-			audit.setFunc_code("STR REPORT CREATED");
-			audit.setRemarks("ADDED");
-			audit.setAudit_table("BAML_STR_TABLE");
-			audit.setAudit_screen("STR REPORT CREATED");
-			audit.setEvent_id(up.getReport_id());
-			audit.setEvent_name("STR REPORT");
-			audit.setModi_details("REPORT CREATED");
-			audit.setAudit_ref_no(Number1.toString());
-			auditLocal.save(audit);
+			try {
+				AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
+				audit.setAudit_date(new Date());
+				audit.setEntry_time(new Date());
+				audit.setEntry_user(Userid);
+				audit.setFunc_code("STR REPORT CREATED");
+				audit.setRemarks("ADDED");
+				audit.setAudit_table("BAML_STR_TABLE");
+				audit.setAudit_screen("STR REPORT CREATED");
+				audit.setEvent_id(up.getReport_id());
+				audit.setEvent_name("STR REPORT");
+				audit.setModi_details("REPORT CREATED");
+				audit.setAudit_ref_no(auditRef);
+				auditLocal.save(audit);
+			} catch (Exception e) {
+				logger.warn("Audit record save failed: " + e.getMessage());
+			}
 			str_rep.save(up);
 
 			msg = "STR Created: RECORD_ID: " + serialno;
@@ -108,26 +139,40 @@ public class BAML_STR_SERVICE {
 		Session hs = sessionFactory.getCurrentSession();
 
 		String msg = "";
-		if (Formmode.equals("edit")) {
+		if ("edit".equalsIgnoreCase(Formmode)) {
 			AML_STR_ENTITY up = alertparam;
-
-			BigDecimal Number1 = (BigDecimal) hs.createNativeQuery("SELECT RULESEQUENCE_1.NEXTVAL AS SRL_NO FROM DUAL")
-					.getSingleResult();
 			up.setReport_id(reportid);
 			str_rep.save(up);
-			AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
-			audit.setAudit_date(new Date());
-			audit.setEntry_time(new Date());
-			audit.setEntry_user(Userid);
-			audit.setFunc_code("STR REPORT MODIFIED");
-			audit.setRemarks("MODIFIED");
-			audit.setAudit_table("BAML_STR_TABLE");
-			audit.setAudit_screen("STR REPORT MODIFIED");
-			audit.setEvent_id(reportid);
-			audit.setEvent_name("STR REPORT");
-			audit.setModi_details("REPORT MODIFIED");
-			audit.setAudit_ref_no(Number1.toString());
-			auditLocal.save(audit);
+
+			String auditRef = "1";
+			try {
+				BigDecimal Number1 = (BigDecimal) hs
+						.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
+						.getSingleResult();
+				if (Number1 != null) {
+					auditRef = Number1.toString();
+				}
+			} catch (Exception e) {
+				auditRef = String.valueOf(System.currentTimeMillis());
+			}
+
+			try {
+				AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
+				audit.setAudit_date(new Date());
+				audit.setEntry_time(new Date());
+				audit.setEntry_user(Userid);
+				audit.setFunc_code("STR REPORT MODIFIED");
+				audit.setRemarks("MODIFIED");
+				audit.setAudit_table("BAML_STR_TABLE");
+				audit.setAudit_screen("STR REPORT MODIFIED");
+				audit.setEvent_id(reportid);
+				audit.setEvent_name("STR REPORT");
+				audit.setModi_details("REPORT MODIFIED");
+				audit.setAudit_ref_no(auditRef);
+				auditLocal.save(audit);
+			} catch (Exception e) {
+				logger.warn("Audit record save failed: " + e.getMessage());
+			}
 
 			msg = "STR RECORD EDITED SUCCESSFULLY : RECORD_ID : " + up.getReport_id();
 		}
@@ -262,72 +307,71 @@ public class BAML_STR_SERVICE {
 
 	public File getFile(String reportId) throws FileNotFoundException, JRException, SQLException {
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-		String msg;
 		String path = "";
-		String fileName = "";
+		String fileName = reportId + "_" + "MCS";
 
-		File outputFile;
+		File outputFile = null;
 
 		logger.info("Getting Output file :" + reportId);
 
-		fileName = reportId + "_" + "MCS";
-
 		try {
 			logger.info("Getting Jasper file :" + reportId);
-			InputStream fileStream = null;
-			HashMap<String, Object> map = new HashMap<String, Object>();
-
-			fileStream = this.getClass().getResourceAsStream("/static/jasper/STR/STR_MAIN.jasper");
-			/*
-			 * fileStream = this.getClass().getResourceAsStream(
-			 * "/static/jasper/AMLReports/MonitoringReports/PepList.jasper");
-			 */
+			JasperReport jr;
+			InputStream jrxmlStream = this.getClass().getResourceAsStream("/static/jasper/STR/STR_MAIN.jrxml");
+			if (jrxmlStream != null) {
+				try {
+					jr = JasperCompileManager.compileReport(jrxmlStream);
+				} catch (Exception ce) {
+					logger.warn("Dynamic compilation of STR_MAIN.jrxml failed, falling back to precompiled jasper: " + ce.getMessage());
+					InputStream fileStream = this.getClass().getResourceAsStream("/static/jasper/STR/STR_MAIN.jasper");
+					jr = (JasperReport) JRLoader.loadObject(fileStream);
+				}
+			} else {
+				InputStream fileStream = this.getClass().getResourceAsStream("/static/jasper/STR/STR_MAIN.jasper");
+				jr = (JasperReport) JRLoader.loadObject(fileStream);
+			}
 
 			InputStream subrep1 = this.getClass().getResourceAsStream("/static/jasper/STR/STR_1.jasper");
 			InputStream subrep2 = this.getClass().getResourceAsStream("/static/jasper/STR/STR_2.jasper");
 			InputStream subrep3 = this.getClass().getResourceAsStream("/static/jasper/STR/STR_3.jasper");
 
-			/*
-			 * File tempFile = File.createTempFile( "myfile", ".xls" );
-			 * FileUtils.copyToFile( fileStream, tempFile );
-			 */
-
+			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("DIR_FILE1", subrep1);
 			map.put("DIR_FILE2", subrep2);
 			map.put("DIR_FILE3", subrep3);
-			System.out.println("reportid -> " + reportId);
+			logger.info("reportid -> " + reportId);
 			map.put("REPORT_ID", reportId);
 
-			JasperReport jr = (JasperReport) JRLoader.loadObject(fileStream);
+			String exportPath = env != null ? env.getProperty("output.exportpath") : null;
+			if (exportPath == null || exportPath.trim().isEmpty()) {
+				exportPath = System.getProperty("java.io.tmpdir");
+			}
+			File dir = new File(exportPath);
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
 
-			logger.info("Assigning Parameters for Jasper");
+			outputFile = new File(dir, fileName + ".pdf");
+			path = outputFile.getAbsolutePath();
 
-			fileName = fileName + ".pdf";
-			path = fileName;
 			JasperPrint jp = JasperFillManager.fillReport(jr, map, srcdataSource.getConnection());
 			JasperExportManager.exportReportToPdfFile(jp, path);
-			logger.info("PDF File exported");
+			logger.info("PDF File exported to: " + path);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error in generating STR Jasper report", e);
+			throw new RuntimeException("Error generating STR report: " + e.getMessage(), e);
 		}
 
-		outputFile = new File(path);
-		System.out.println(outputFile);
-
-		msg = "PDF GENERATED SUCCESFULLY";
-
 		return outputFile;
-
 	}
 
 	public String getSrlNoValue() {
 		Session hs = sessionFactory.getCurrentSession();
 
 		DecimalFormat numformate = new DecimalFormat("000");
-		BigDecimal billNumber = (BigDecimal) hs.createNativeQuery("SELECT STRSEQUENCE_1.NEXTVAL AS SRL_NO FROM DUAL")
+		BigDecimal billNumber = (BigDecimal) hs
+				.createNativeQuery("SELECT CAST(nextval('\"AML\".\"STRSEQUENCE_1\"') AS NUMERIC)")
 				.getSingleResult();
 		String serialno = "STR" + numformate.format(billNumber);
 		System.out.println("billno" + serialno);
@@ -510,9 +554,9 @@ public class BAML_STR_SERVICE {
 
 			bamlSearch.setTran_id((String) obj[2]);
 			bamlSearch.setPart_tran_srl_num((String) obj[3]);
-			bamlSearch.setTran_type((Character) obj[4]);
+			bamlSearch.setTran_type(obj[4] != null ? obj[4].toString().charAt(0) : null);
 			bamlSearch.setTran_sub_type((String) obj[5]);
-			bamlSearch.setPart_tran_type((Character) obj[6]);
+			bamlSearch.setPart_tran_type(obj[6] != null ? obj[6].toString().charAt(0) : null);
 			bamlSearch.setTran_crncy_code((String) obj[7]);
 			bamlSearch.setTran_amt((BigDecimal) obj[8]);
 			bamlSearch.setTran_particular((String) obj[9]);
@@ -548,7 +592,7 @@ public class BAML_STR_SERVICE {
 
 		List<BAMLSearchIntFilter> bamlSearchList = new ArrayList<>();
 		List<Object[]> tranSearchList = TRANMaster.getBAMLSearchIntFilter(tran_id, date_tran, part_tran_srl_num);
-		System.out.println(tranSearchList = TRANMaster.getSTRTranDet(tran_id, date_tran, part_tran_srl_num));
+		System.out.println("tranSearchList int count: " + (tranSearchList != null ? tranSearchList.size() : 0));
 		Date dt1;
 		for (Object[] obj : tranSearchList) {
 			BAMLSearchIntFilter bamlSearch = new BAMLSearchIntFilter();
@@ -557,9 +601,9 @@ public class BAML_STR_SERVICE {
 			bamlSearch.setTran_date((String) obj[1]);
 			bamlSearch.setTran_id((String) obj[2]);
 			bamlSearch.setPart_tran_srl_num((String) obj[3]);
-			bamlSearch.setTran_type((Character) obj[4]);
+			bamlSearch.setTran_type(obj[4] != null ? obj[4].toString().charAt(0) : null);
 			bamlSearch.setTran_sub_type((String) obj[5]);
-			bamlSearch.setPart_tran_type((Character) obj[6]);
+			bamlSearch.setPart_tran_type(obj[6] != null ? obj[6].toString().charAt(0) : null);
 			bamlSearch.setTran_amt((BigDecimal) obj[7]);
 			bamlSearch.setAddress1((String) obj[8]);
 			bamlSearch.setAddress2((String) obj[9]);

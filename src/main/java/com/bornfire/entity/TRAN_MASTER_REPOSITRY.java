@@ -157,37 +157,37 @@ public interface TRAN_MASTER_REPOSITRY extends JpaRepository<TRAN_MASTER, String
 	/***************************************************************
 	 * HVNCD
 	 ****************************************************/
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where TRAN_AMT between ?1 and ?2 and tran_date =?3 and tran_type = 'T' AND CUST_ID IS NOT NULL and tran_sub_type in ('IC','BI','CI','I') and part_tran_type ='C'  ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"TRAN_AMT\" between ?1 and ?2 and \"TRAN_DATE\" =?3 and \"TRAN_TYPE\" = 'T' AND \"CUST_ID\" IS NOT NULL and \"TRAN_SUB_TYPE\" in ('IC','BI','CI','I') and \"PART_TRAN_TYPE\" ='C'  ORDER BY \"TRAN_DATE\" DESC,\"TRAN_ID\" DESC,\"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	Page<TRAN_MASTER> findAllCustomListHVNCD(BigDecimal value_min, BigDecimal value_max, Date today, Pageable page);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where acid =?1 and tran_date between ?2 and ?3  and tran_type != 'C' AND CUST_ID IS NOT NULL and part_tran_type ='D'  ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"ACID\" =?1 and \"TRAN_DATE\" between ?2 and ?3  and \"TRAN_TYPE\" != 'C' AND \"CUST_ID\" IS NOT NULL and \"PART_TRAN_TYPE\" ='D'  ORDER BY \"TRAN_DATE\" DESC,\"TRAN_ID\" DESC,\"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	Page<TRAN_MASTER> getCVNCW1(String acid, Date fromdate, Date todate, Pageable page);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where acid =?1 and tran_date between ?2 and ?3  and tran_type = 'C' and tran_sub_type = 'NR' AND CUST_ID IS NOT NULL  and part_tran_type ='C'  ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"ACID\" =?1 and \"TRAN_DATE\" between ?2 and ?3  and \"TRAN_TYPE\" = 'C' and \"TRAN_SUB_TYPE\" = 'NR' AND \"CUST_ID\" IS NOT NULL  and \"PART_TRAN_TYPE\" ='C'  ORDER BY \"TRAN_DATE\" DESC,\"TRAN_ID\" DESC,\"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	Page<TRAN_MASTER> getCVCDP(String acid, Date fromdate, Date todate, Pageable page);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where acid =?1 and tran_date between ?2 and ?3  and  tran_type = 'T' and part_tran_type ='C' AND CUST_ID IS NOT NULL  ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"ACID\" =?1 and \"TRAN_DATE\" between ?2 and ?3  and  \"TRAN_TYPE\" = 'T' and \"PART_TRAN_TYPE\" ='C' AND \"CUST_ID\" IS NOT NULL  ORDER BY \"TRAN_DATE\" DESC,\"TRAN_ID\" DESC,\"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	Page<TRAN_MASTER> getCVNCD(String acid, Date fromdate, Date todate, Pageable page);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where acid =?1 and tran_date between ?2 and ?3  and CUST_ID IS NOT NULL and tran_type = 'T' and part_tran_type ='D'  ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"ACID\" =?1 and \"TRAN_DATE\" between ?2 and ?3  and \"CUST_ID\" IS NOT NULL and \"TRAN_TYPE\" = 'T' and \"PART_TRAN_TYPE\" ='D'  ORDER BY \"TRAN_DATE\" DESC,\"TRAN_ID\" DESC,\"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	Page<TRAN_MASTER> getCVNCW(String acid, Date fromdate, Date todate, Pageable page);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where acid =?1 and tran_date between ?2 and ?3  and tran_type = 'C'and tran_sub_type = 'NP' AND CUST_ID IS NOT NULL and part_tran_type ='D'  ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"ACID\" =?1 and \"TRAN_DATE\" between ?2 and ?3  and \"TRAN_TYPE\" = 'C' and \"TRAN_SUB_TYPE\" = 'NP' AND \"CUST_ID\" IS NOT NULL and \"PART_TRAN_TYPE\" ='D'  ORDER BY \"TRAN_DATE\" DESC,\"TRAN_ID\" DESC,\"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	Page<TRAN_MASTER> getCVCWL(String acid, Date fromdate, Date todate, Pageable page);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where acid =?1 and tran_date between ?2 and ?3  and tran_type != 'C' AND CUST_ID IS NOT NULL and part_tran_type ='D'  ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"ACID\" =?1 and \"TRAN_DATE\" between ?2 and ?3  and \"TRAN_TYPE\" != 'C' AND \"CUST_ID\" IS NOT NULL and \"PART_TRAN_TYPE\" ='D'  ORDER BY \"TRAN_DATE\" DESC,\"TRAN_ID\" DESC,\"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	Page<TRAN_MASTER> getCVCDP1(String acid, Date fromdate, Date todate, Pageable page);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where acid =?1 and tran_date between ?2 and ?3  and tran_type = 'C'and tran_sub_type = 'NP' AND CUST_ID IS NOT NULL and part_tran_type ='D'  ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"ACID\" =?1 and \"TRAN_DATE\" between ?2 and ?3  and \"TRAN_TYPE\" = 'C' and \"TRAN_SUB_TYPE\" = 'NP' AND \"CUST_ID\" IS NOT NULL and \"PART_TRAN_TYPE\" ='D'  ORDER BY \"TRAN_DATE\" DESC,\"TRAN_ID\" DESC,\"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	Page<TRAN_MASTER> getCVCWL1(String acid, Date fromdate, Date todate, Pageable page);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where acid =?1 and tran_date between ?2 and ?3  and  tran_type = 'T' and part_tran_type ='C' AND CUST_ID IS NOT NULL  ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"ACID\" =?1 and \"TRAN_DATE\" between ?2 and ?3  and  \"TRAN_TYPE\" = 'T' and \"PART_TRAN_TYPE\" ='C' AND \"CUST_ID\" IS NOT NULL  ORDER BY \"TRAN_DATE\" DESC,\"TRAN_ID\" DESC,\"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	Page<TRAN_MASTER> getCVNCD1(String acid, Date fromdate, Date todate, Pageable page);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where acid =?1 and tran_date between ?2 and ?3  and tran_type = 'C' AND CUST_ID IS NOT NULL and part_tran_type ='C'  ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"ACID\" =?1 and \"TRAN_DATE\" between ?2 and ?3  and \"TRAN_TYPE\" = 'C' AND \"CUST_ID\" IS NOT NULL and \"PART_TRAN_TYPE\" ='C'  ORDER BY \"TRAN_DATE\" DESC,\"TRAN_ID\" DESC,\"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	Page<TRAN_MASTER> getTSCTP(String acid, Date fromdate, Date todate, Pageable page);
 
-	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where acid =?1 and tran_date between ?2 and ?3  and tran_type = 'C' AND CUST_ID IS NOT NULL and part_tran_type ='D'  ORDER BY tran_date DESC,tran_id DESC,part_tran_srl_num ASC", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"ACID\" =?1 and \"TRAN_DATE\" between ?2 and ?3  and \"TRAN_TYPE\" = 'C' AND \"CUST_ID\" IS NOT NULL and \"PART_TRAN_TYPE\" ='D'  ORDER BY \"TRAN_DATE\" DESC,\"TRAN_ID\" DESC,\"PART_TRAN_SRL_NUM\" ASC", nativeQuery = true)
 	Page<TRAN_MASTER> getDTCDT(String acid, Date fromdate, Date todate, Pageable page);
 
 	/*
@@ -671,12 +671,12 @@ public interface TRAN_MASTER_REPOSITRY extends JpaRepository<TRAN_MASTER, String
 	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where  part_tran_srl_no =?1", nativeQuery = true)
 	List<TRAN_MASTER> getSTRTranSrlDet(String part_tran_srl_no);
 
-	@Query(value = "select b.cust_id,to_char(b.tran_date,'dd/MM/yyyy')tran_date,b.tran_id,b.part_tran_srl_num,b.tran_type,b.tran_sub_type,b.part_tran_type,b.tran_crncy_code,b.tran_amt,b.tran_particular,b.fx_tran_amt,to_char(b.pstd_date,'dd/MM/yyyy')pstd_date,(Case when b.rate_code = 'b.rate_code' then '' else '' end) as rate_code,a.foracid,a.acct_name,to_char(a.acct_opn_date,'dd/MM/yyyy')acct_opn_date,to_char(a.acct_cls_date,'dd/MM/yyyy')acct_cls_date,(Case when c.cntry_code = 'MU' then 'Mauritius' else '' end) as cntry_code,c.CUST_SECTOR_CODE,c.ADDRESS1,c.ADDRESS2,c.CITY_CODE,c.PREFERREDPHONE,(Case when c.cust_sex = 'M' then 'Male' when c.cust_sex = 'F' then 'Female' else 'Other' end) as SEX,c.CUST_FIRST_NAME,c.CUST_LAST_NAME,(Case when c.nationality = 'MU' then 'Mauritius' else '' end) as nationality,to_char(c.cust_dob,'dd/MM/yyyy')cust_dob\r\n"
-			+ "from baml_acct_mast_table a,BAML_ACCT_TRANS_TABLE b,BAML_CUST_MAST_TABLE c where a.acid=b.acid and b.cust_id=c.cust_id and trim(b.tran_id) =?1 and b.tran_date =?2 and trim(b.part_tran_srl_num) =?3", nativeQuery = true)
+	@Query(value = "select b.\"CUST_ID\", to_char(b.\"TRAN_DATE\",'dd/MM/yyyy') as tran_date, b.\"TRAN_ID\", b.\"PART_TRAN_SRL_NUM\", b.\"TRAN_TYPE\", b.\"TRAN_SUB_TYPE\", b.\"PART_TRAN_TYPE\", b.\"TRAN_CRNCY_CODE\", b.\"TRAN_AMT\", b.\"TRAN_PARTICULAR\", b.\"FX_TRAN_AMT\", to_char(b.\"PSTD_DATE\",'dd/MM/yyyy') as pstd_date, (Case when b.\"RATE_CODE\" = 'b.rate_code' then '' else '' end) as rate_code, a.\"FORACID\", a.\"ACCT_NAME\", to_char(a.\"ACCT_OPN_DATE\",'dd/MM/yyyy') as acct_opn_date, to_char(a.\"ACCT_CLS_DATE\",'dd/MM/yyyy') as acct_cls_date, (Case when c.\"CNTRY_CODE\" = 'MU' then 'Mauritius' else '' end) as cntry_code, c.\"CUST_SECTOR_CODE\", c.\"ADDRESS1\", c.\"ADDRESS2\", c.\"CITY_CODE\", c.\"PREFERREDPHONE\", (Case when c.\"CUST_SEX\" = 'M' then 'Male' when c.\"CUST_SEX\" = 'F' then 'Female' else 'Other' end) as sex, c.\"CUST_FIRST_NAME\", c.\"CUST_LAST_NAME\", (Case when c.\"NATIONALITY\" = 'MU' then 'Mauritius' else '' end) as nationality, to_char(c.\"CUST_DOB\",'dd/MM/yyyy') as cust_dob \r\n"
+			+ "from \"AML\".\"BAML_ACCT_MAST_TABLE\" a, \"AML\".\"BAML_ACCT_TRANS_TABLE\" b, \"AML\".\"BAML_CUST_MAST_TABLE\" c where a.\"ACID\" = b.\"ACID\" and b.\"CUST_ID\" = c.\"CUST_ID\" and trim(b.\"TRAN_ID\") = ?1 and to_char(b.\"TRAN_DATE\", 'dd-Mon-yyyy') ILIKE ?2 and trim(b.\"PART_TRAN_SRL_NUM\") = ?3", nativeQuery = true)
 	List<Object[]> getSTRTranDet(String tran_id, String tran_date, String part_tran_srl_num);
 
-	@Query(value = "select a.cif_id,to_char(b.tran_date,'dd/MM/yyyy')tran_date,b.tran_id,b.part_tran_srl_num,b.tran_type,b.tran_sub_type,b.part_tran_type,b.tran_amt,a.ADDRESS1,a.ADDRESS2,a.nat_id_card_num,a.PREFERREDPHONE,a.CUST_NAME,a.occupation,a.placeofbirth \r\n"
-			+ "from BAML_ACCT_TRANS_TABLE b,BAML_CUST_MAST_TABLE a where b.cust_id=a.cust_id and trim(b.tran_id) =?1 and b.tran_date =?2 and trim(b.part_tran_srl_num) =?3", nativeQuery = true)
+	@Query(value = "select a.\"CIF_ID\", to_char(b.\"TRAN_DATE\",'dd/MM/yyyy') as tran_date, b.\"TRAN_ID\", b.\"PART_TRAN_SRL_NUM\", b.\"TRAN_TYPE\", b.\"TRAN_SUB_TYPE\", b.\"PART_TRAN_TYPE\", b.\"TRAN_AMT\", a.\"ADDRESS1\", a.\"ADDRESS2\", a.\"NAT_ID_CARD_NUM\", a.\"PREFERREDPHONE\", a.\"CUST_NAME\", a.\"OCCUPATION\", a.\"PLACEOFBIRTH\" \r\n"
+			+ "from \"AML\".\"BAML_ACCT_TRANS_TABLE\" b, \"AML\".\"BAML_CUST_MAST_TABLE\" a where b.\"CUST_ID\" = a.\"CUST_ID\" and trim(b.\"TRAN_ID\") = ?1 and to_char(b.\"TRAN_DATE\", 'dd-Mon-yyyy') ILIKE ?2 and trim(b.\"PART_TRAN_SRL_NUM\") = ?3", nativeQuery = true)
 	List<Object[]> getBAMLSearchIntFilter(String tran_id, String tran_date, String part_tran_srl_num);
 
 	@Query(value = "select * from BAML_ACCT_TRANS_TABLE where trim(tran_id) =?1 and trim(part_tran_srl_num) =?2 and tran_type =?3 and part_tran_type =?4 ", nativeQuery = true)

@@ -68,7 +68,8 @@ PURPOSE		:
 		var n = parseInt(num);
 		var max = parseInt(maxpage);
 
-		var Callurl = 'AMLUNSCList?formmode=listindividual';
+		var currentFormmode = /*[[${formmode}]]*/ 'listindividual';
+		var Callurl = 'AMLUNSCList?formmode=' + (currentFormmode ? currentFormmode : 'listindividual');
 
 		switch (mode) {
 		case "nextpage":
@@ -689,8 +690,6 @@ PURPOSE		:
 											<th>Place Of Birth</th>
 											<th>Country</th>
 											<th>Inquiry</th>
-											<th>Status</th>
-											<th>Action</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -716,43 +715,6 @@ PURPOSE		:
 											<td class="underline"><i
 												th:attr="data-dataId=${alert.dataid}" title="Inquiry"
 												class="fa fa-eye" onclick="fnClick(this)" id="view"></i></td>
-											<th:block th:switch="${alert?.entity_flg}">
-												<td th:case="'Y'" style="color: green;">Verified</td>
-												<td th:case="'N'" style="color: red;">UnVerified</td>
-											</th:block>
-											<td>
-												<div class="dropdown">
-													<button class="btn btn-secondary dropdown-toggle"
-														type="button" id="dropdownMenuButton"
-														style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
-														data-toggle="dropdown" aria-haspopup="true"
-														aria-expanded="false">Action</button>
-													<div class="dropdown-menu"
-														aria-labelledby="dropdownMenuButton"
-														style="background-color: #e3e3e4; color: #3a4550;">
-
-														<a th:attr="data-dataid=${alert.dataid}"
-															th:if="${AMLRoleMenu.work_class} == 'M'"
-															class="dropdown-item" title="Modify"
-															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
-															id="edit_value" onclick="edit_btn_submitInt(this)">Modify</a>
-
-
-														<div class="dropdown-divider"
-															th:if="${alert.entity_flg}=='N'"></div>
-														<a
-															th:if="${alert.entity_flg}=='N'and ${AMLRoleMenu.work_class} == 'C'"
-															th:attr="data-dataid=${alert.dataid}"
-															class="dropdown-item" title="Verify"
-															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
-															id="verify_value" onclick="verify_btn_submitInt(this)">verify</a>
-
-
-
-													</div>
-												</div>
-											</td>
-
 										</tr>
 									</tbody>
 								</table>
@@ -847,12 +809,10 @@ PURPOSE		:
 											<th>Country</th>
 
 											<th>Inquiry</th>
-											<th>Status</th>
-											<th>Action</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="alert: ${NegativeList}" class="userlist">
+										<tr th:each="alert: ${NegativeList?.content != null ? NegativeList.content : NegativeList}" class="userlist">
 
 											<td style="width: 9%;"
 												th:text="${#dates.format(alert.listed_on, 'dd/MM/yyyy')}"></td>
@@ -870,41 +830,6 @@ PURPOSE		:
 											<td class="underline"><i
 												th:attr="data-dataId=${alert.dataid}" title="Inquiry"
 												class="fa fa-eye" onclick="fnClick12(this)" id="view"></i></td>
-
-											<th:block th:switch="${alert?.entity_flg}">
-												<td th:case="'Y'" style="color: green;">Verified</td>
-												<td th:case="'N'" style="color: red;">UnVerified</td>
-											</th:block>
-											<td>
-												<div class="dropdown">
-													<button class="btn btn-secondary dropdown-toggle"
-														type="button" id="dropdownMenuButton"
-														style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
-														data-toggle="dropdown" aria-haspopup="true"
-														aria-expanded="false">Action</button>
-													<div class="dropdown-menu"
-														aria-labelledby="dropdownMenuButton"
-														style="background-color: #e3e3e4; color: #3a4550;">
-
-														<a th:attr="data-dataid=${alert.dataid}"
-															class="dropdown-item" title="Modify"
-															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
-															id="edit_value" onclick="edit_btn_submitEnt(this)">Modify</a>
-
-
-														<div class="dropdown-divider"
-															th:if="${alert.entity_flg}=='N'"></div>
-														<a th:if="${alert.entity_flg}=='N'"
-															th:attr="data-dataid=${alert.dataid}"
-															class="dropdown-item" title="Verify"
-															style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
-															id="verify_value" onclick="verify_btn_submitEnt(this)">verify</a>
-
-
-
-													</div>
-												</div>
-											</td>
 										</tr>
 									</tbody>
 								</table>
@@ -912,7 +837,7 @@ PURPOSE		:
 
 
 								<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
-								<div class="float-right" th:if="${NegativeList.totalPages} gt 1">
+								<div class="float-right" th:if="${NegativeList != null and NegativeList?.totalPages != null and NegativeList.totalPages gt 1}">
 									<a href="#"><i class="fas fa-caret-left fa-2x"
 										th:onclick="|getUserlist('prevpage',${NegativeList.number},${NegativeList.totalPages});|"></i></a>
 									<input type="text" id="pageno" style="width: 30px"

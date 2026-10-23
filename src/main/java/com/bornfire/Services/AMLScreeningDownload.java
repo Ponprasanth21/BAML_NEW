@@ -67,7 +67,7 @@ public class AMLScreeningDownload {
 
 		Query query = null;
 		try {
-			query = hs.createNativeQuery("select count(*) from BAML_SCR_ALERT_OPER a where a.SCR_DATE=?1 ")
+			query = hs.createNativeQuery("select count(*) from \"AML\".\"BAML_SCR_ALERT_OPER\" a where a.\"SCR_DATE\"=?1 ")
 					.setParameter(1, df.parse(todate));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -75,9 +75,9 @@ public class AMLScreeningDownload {
 			
 		}
 
-		BigDecimal count = (BigDecimal) query.getSingleResult();
+		Number count = (Number) query.getSingleResult();
 
-		int value = count.intValue();
+		int value = count != null ? count.intValue() : 0;
 		if (value > 0) {
 			msg = "success";
 		} else {

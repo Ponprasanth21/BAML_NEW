@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface STR_REPOSITRY extends JpaRepository<AML_STR_ENTITY, String> {
 
-	@Query(value = "select * from BAML_STR_TABLE  ", nativeQuery = true)
+	@Query(value = "SELECT * FROM BAML_STR_TABLE ORDER BY REPORT_ID DESC", countQuery = "SELECT COUNT(*) FROM BAML_STR_TABLE", nativeQuery = true)
 	Page<AML_STR_ENTITY> reportlist(Pageable page);
 	
 	

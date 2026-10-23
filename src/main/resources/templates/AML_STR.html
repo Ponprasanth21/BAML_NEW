@@ -25,14 +25,18 @@ PURPOSE		:
 <link rel="stylesheet" type="text/css"
 	href="/webjars/datatables/1.10.19/css/jquery.dataTables.min.css"
 	th:href="@{/webjars/datatables/1.10.19/css/jquery.dataTables.min.css}">
-<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
-	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
-	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
 <script src="/webjars/jquery/3.4.1/jquery.min.js"
 	th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
 <script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"
 	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/webjars/popper.js/1.14.7/umd/popper.min.js"
+	th:src="@{/webjars/popper.js/1.14.7/umd/popper.min.js}"></script>
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script src="/webjars/jquery-form/4.2.2/jquery.form.min.js"
+	th:src="@{/webjars/jquery-form/4.2.2/jquery.form.min.js}"></script>
+<script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"
+	th:src="@{/webjars/jquery-validation/1.19.0/jquery.validate.min.js}"></script>
 <script src="/webjars/datatables/1.10.19/js/jquery.dataTables.min.js"
 	th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.min.js}"></script>
 <script
@@ -220,14 +224,19 @@ td input {
 						dt.setDate(dt.getDate());
 					}
 				});
-		$("").datepicker({
-			minDate : 0,
-			dateFormat : "dd/mm/yy",
-			onSelect : function(selected) {
-				var dt = new Date(selected);
-				dt.setDate(dt.getDate() + 1);
+		var formmode = '[[${formmode}]]';
+		if (formmode === 'view') {
+			$('#aml_str_rep input, #aml_str_rep select, #aml_str_rep textarea').prop('disabled', true);
+			$('#btnHome, #btnBack').prop('disabled', false);
+		} else if (formmode === 'add') {
+			var today = $.datepicker.formatDate('dd/mm/yy', new Date());
+			if (!$('#submission_date').val()) {
+				$('#submission_date').val(today);
 			}
-		});
+			if (!$('#report_type').val()) {
+				$('#report_type').val('STR');
+			}
+		}
 	});
 
 	function list() {
@@ -235,183 +244,92 @@ td input {
 	}
 
 	function submitform(a) {
-
 		$('select option').prop('disabled', false);
-
-		//Creating Validating Rules
-		$('#aml_str_rep').validate({
-			messages : {
-				userid : "Please Provide User ID"
-			}
-		});
-
-		$.validator.addMethod("regex", function(value, element, regexp) {
-			var re = new RegExp(regexp);
-			return this.optional(element) || re.test(value);
-		}, "Date required format dd/mm/yy");
-
-		$("#aml_str_rep")
-				.validate(
-						{
-							rules : {
-								disableDate : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
-								},
-								disableTilDate : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
-								},
-								passExDate : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
-								},
-								expiryDate : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
-								},
-
-							},
-							messages : {
-
-							}
-
-						});
 
 		if ($("#aml_str_rep").valid()) {
 			var formmode = a.getAttribute("data-formmode");
-
-			var formmode1 = /*[[${formmode}]]*/null;
-
 			var url = "./createSTR?formmode=" + formmode;
 
 			$("#aml_str_rep").attr('action', url);
 
 			var options = {
 				success : showResponse
-			// post-submit callback 
 			};
 
 			$("#aml_str_rep").ajaxSubmit(options);
 
 			function showResponse(responseText, statusText, xhr, $form) {
-
 				$("#alertmsg").text(responseText);
-
 				$('#alert').modal("toggle");
-
 			}
-			;
-
+		} else {
+			$('#warning').modal("toggle");
 		}
+	}
 
-	};
 	function submitform1(a) {
-
 		$('select option').prop('disabled', false);
-
-		//Creating Validating Rules
-		$('#aml_str_rep').validate({
-			messages : {
-				userid : "Please Provide User ID"
-			}
-		});
-
-		$.validator.addMethod("regex", function(value, element, regexp) {
-			var re = new RegExp(regexp);
-			return this.optional(element) || re.test(value);
-		}, "Date required format dd/mm/yy");
-
-		$("#aml_str_rep")
-				.validate(
-						{
-							rules : {
-								disableDate : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
-								},
-								disableTilDate : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
-								},
-								passExDate : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
-								},
-								expiryDate : {
-									required : true,
-									regex : "^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{4}$"
-								},
-
-							},
-							messages : {
-
-							}
-
-						});
 
 		if ($("#aml_str_rep").valid()) {
 			var formmode = a.getAttribute("data-formmode");
 			var reportid = $("#rep_id").val();
 
-			var formmode1 = /*[[${formmode}]]*/null;
-
-			var url = "./createSTR1?formmode=" + formmode + "&reportid="
-					+ reportid;
+			var url = "./createSTR1?formmode=" + formmode + "&reportid=" + encodeURIComponent(reportid);
 
 			$("#aml_str_rep").attr('action', url);
 
 			var options = {
 				success : showResponse
-			// post-submit callback 
 			};
 
 			$("#aml_str_rep").ajaxSubmit(options);
 
 			function showResponse(responseText, statusText, xhr, $form) {
-
 				$("#alertmsg").text(responseText);
-
 				$('#alert').modal("toggle");
-
 			}
-			;
-
+		} else {
+			$('#warning').modal("toggle");
 		}
+	}
 
-	};
 	function client(a) {
 		var aud = a.id;
 	}
 
 	function fnClickModify(a) {
-		var userid = a.getAttribute("data-userid")
-		location.href = 'AML_STR_REPORT?formmode=edit&report_id=' + userid
+		var userid = a.getAttribute("data-userid");
+		location.href = 'AML_STR_REPORT?formmode=edit&report_id=' + encodeURIComponent(userid);
 	}
 	function fnClickVerify(a) {
-		var userid = a.getAttribute("data-userid")
-		location.href = 'AML_STR_REPORT?formmode=verify&report_id=' + userid
+		var userid = a.getAttribute("data-userid");
+		location.href = 'AML_STR_REPORT?formmode=verify&report_id=' + encodeURIComponent(userid);
 	}
 
 	function fnClickview(a) {
-		var userid = a.getAttribute("data-userid")
-		location.href = 'AML_STR_REPORT?formmode=view&report_id=' + userid
+		var userid = a.getAttribute("data-userid");
+		location.href = 'AML_STR_REPORT?formmode=view&report_id=' + encodeURIComponent(userid);
 	}
 	function adduser(a) {
 		location.href = 'AML_STR_REPORT?formmode=add';
 	}
 	function fnClickDownload(a) {
-		var userid = a.getAttribute("data-userid")
-		//location.href = 'AML_STR_REPORTDOWNLOAD?&report_id=' + userid + 'filetype = pdf';
-		location.href = 'AML_STR_REPORTDOWNLOAD?&report_id=' + userid;
+		var userid = a.getAttribute("data-userid");
+		location.href = 'AML_STR_REPORTDOWNLOAD?report_id=' + encodeURIComponent(userid);
 	}
 	function back1() {
 		$("#dataBack").modal("toggle");
-
 	}
 </script>
 
 <script>
+	function setVal(id, val) {
+		var el = document.getElementById(id);
+		if (el) {
+			el.value = (val !== undefined && val !== null) ? val : '';
+		}
+	}
+
 	function childwindow(tran_id, part_tran_srl_num, tran_type, part_tran_type,
 			tran_crncy_code, cust_id, tran_date, tran_amt, tran_particular,
 			fx_tran_amt, pstd_date, foracid, acct_name, acct_opn_date,
@@ -419,44 +337,41 @@ td input {
 			address1, address2, city_code, preferredphone, cust_sex,
 			cust_first_name, cust_last_name, nationality, cust_dob) {
 
-		document.getElementById('tran_id1').value = tran_id.trimLeft() + part_tran_srl_num;
-		document.getElementById('tran_id2').value = tran_id.trimLeft() + part_tran_srl_num;
-		document.getElementById('tran_id3').value = tran_id.trimLeft() + part_tran_srl_num;
-		document.getElementById('tran').value = tran_id.trimLeft() + part_tran_srl_num;
+		var tranFull = (tran_id ? tran_id.trim() : '') + (part_tran_srl_num ? part_tran_srl_num : '');
+		setVal('tran_id1', tranFull);
+		setVal('tran_id2', tranFull);
+		setVal('tran_id3', tranFull);
+		setVal('tran', tranFull);
 		
-		document.getElementById('tran_crncy_code').value = tran_crncy_code;
-		document.getElementById('tran_date11').value = tran_date;
-		document.getElementById('tran_amt').value = tran_amt;
-		document.getElementById('tran_particular').value = tran_particular;
-		document.getElementById('fx_tran_amt').value = fx_tran_amt;
-		document.getElementById('pstd_date').value = pstd_date;
-		document.getElementById('foracid').value = foracid;
-		document.getElementById('acct_name').value = acct_name;
-		document.getElementById('opendate').value = acct_opn_date;
-		document.getElementById('closedate').value = acct_cls_date;
-		document.getElementById('cntry_code').value = cntry_code;
-		document.getElementById('cntry_code99').value = cntry_code;
-		document.getElementById('cntry_code1').value = cntry_code;
-		document.getElementById('cntry_code98').value = cntry_code;
-		//document.getElementById('cust_sector_code').value = cust_sector_code;
-		document.getElementById('address1').value = address1 + address2;
-		document.getElementById('address99').value = address1 + address2;
-		//document.getElementById('address2').value = address2;
-		document.getElementById('city_code').value = city_code;
-		document.getElementById('city_code99').value = city_code;
-		document.getElementById('Preferredphone').value = preferredphone;
-		document.getElementById('Preferredphone99').value = preferredphone;
-		document.getElementById('cust_sex').value = cust_sex;
-		document.getElementById('cust_first_name99').value = cust_first_name;
-		document.getElementById('cust_first_name98').value = cust_first_name;
-		document.getElementById('cust_last_name98').value = cust_last_name;
-		document.getElementById('cust_last_name99').value = cust_last_name;
-		document.getElementById('nationality').value = nationality;
-		document.getElementById('cust_dob').value = cust_dob;
-		document.getElementById('cust_dob99').value = cust_dob;
-		//document.getElementById('acct_tran_sub_type').value = acct_tran_sub_type;
-		//document.getElementById('entry_date').value = today;
-
+		setVal('tran_crncy_code', tran_crncy_code);
+		setVal('tran_date11', tran_date);
+		setVal('tran_amt', tran_amt);
+		setVal('tran_particular', tran_particular);
+		setVal('fx_tran_amt', fx_tran_amt);
+		setVal('pstd_date', pstd_date);
+		setVal('foracid', foracid);
+		setVal('acct_name', acct_name);
+		setVal('opendate', acct_opn_date);
+		setVal('closedate', acct_cls_date);
+		setVal('cntry_code', cntry_code);
+		setVal('cntry_code99', cntry_code);
+		setVal('cntry_code1', cntry_code);
+		setVal('cntry_code98', cntry_code);
+		var fullAddr = (address1 ? address1 : '') + (address2 ? ' ' + address2 : '');
+		setVal('address1', fullAddr);
+		setVal('address99', fullAddr);
+		setVal('city_code', city_code);
+		setVal('city_code99', city_code);
+		setVal('Preferredphone', preferredphone);
+		setVal('Preferredphone99', preferredphone);
+		setVal('cust_sex', cust_sex);
+		setVal('cust_first_name99', cust_first_name);
+		setVal('cust_first_name98', cust_first_name);
+		setVal('cust_last_name98', cust_last_name);
+		setVal('cust_last_name99', cust_last_name);
+		setVal('nationality', nationality);
+		setVal('cust_dob', cust_dob);
+		setVal('cust_dob99', cust_dob);
 	}
 
 	//if ((part_tran_srl_num != '' ||)) {
@@ -465,19 +380,26 @@ td input {
 
 <script>
 	function SearchGo(a) {
-		
-		if ($("#search").valid()) {
 		var tran_id = document.getElementById("id_tran").value;
 		var tran_date = document.getElementById("date_tran").value;
 		var part_tran_srl_num = document.getElementById("part_tran_srl_num").value;
+		if (!tran_id || !tran_id.trim()) {
+			alert("Please enter Tran ID");
+			return;
+		}
+		if (!tran_date || !tran_date.trim()) {
+			alert("Please select Tran Date");
+			return;
+		}
+		if (!part_tran_srl_num || !part_tran_srl_num.trim()) {
+			alert("Please enter Part Tran Srl Num");
+			return;
+		}
 		$('#acctaudit').modal("hide");
-		var chidWin = window.open("STRReportSearch?tran_id=" + tran_id
-				+ '&tran_date=' + tran_date + '&part_tran_srl_num='
-				+ part_tran_srl_num);
-		}else{
-			//$("#warning").modal("toggle");
-		}
-		}
+		var chidWin = window.open("STRReportSearch?tran_id=" + encodeURIComponent(tran_id.trim())
+				+ '&tran_date=' + encodeURIComponent(tran_date.trim())
+				+ '&part_tran_srl_num=' + encodeURIComponent(part_tran_srl_num.trim()));
+	}
 
 	
 </script>
@@ -565,7 +487,7 @@ td input {
 												<td th:text="${str_rep.name_entity}">123</td>
 												<td th:text="${str_rep.tran_id}">123</td>
 												<td th:text="${str_rep.acct_name}">CHENNAI</td>
-												<td th:text="${str_rep.acct_name}">CHENNAI</td>
+												<td th:text="${str_rep.description_taken_3_2}">Reason</td>
 
 
 												<td>
@@ -722,9 +644,10 @@ td input {
 								<div class="float-left">
 									<h4>PART II INFORMATION ON REPORTING ENTITY/PERSON</h4>
 								</div>
-								<a href="#"><i class="fas fa-search searchico"
+								<a href="#" th:if="${formmode}=='add'"><i class="fas fa-search searchico"
 									style="margin-left: 19px; font-weight: bolder; font-size: 21px;"
-									data-toggle="modal" data-target="#acctaudit" id="iconacc"></i></a>
+									data-toggle="modal" data-target="#acctaudit" id="iconacc"
+									title="Search and Auto-fill Transaction Details"></i></a>
 							</div>
 							<div class="card-body">
 
@@ -1341,8 +1264,7 @@ td input {
 										</div>
 										<div th:if="${formmode}=='add'" class="col-sm-3">
 											<input type="text" id="pstd_date" name="tran_date_1"
-												class="form-control form-control-sm" autocomplete="off"
-												required>
+												class="form-control form-control-sm" autocomplete="off">
 										</div>
 										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
 											class="col-sm-3">
@@ -1441,8 +1363,7 @@ td input {
 										</div>
 										<div th:if="${formmode}=='add'" class="col-sm-3">
 											<input type="text" id="fx_tran_amt" name="fx_tran_amt"
-												class="form-control form-control-sm" autocomplete="off"
-												required>
+												class="form-control form-control-sm" autocomplete="off">
 										</div>
 										<div th:if="${formmode}=='edit' OR ${formmode}=='view'"
 											class="col-sm-3">
@@ -1596,8 +1517,7 @@ td input {
 											<input type="number" th:readonly="${formmode}=='view'"
 												th:field="*{estimate_value}" th:value="${estimate_value}"
 												id="estimate_value" name="estimate_value"
-												class="form-control form-control-sm" autocomplete="off"
-												required>
+												class="form-control form-control-sm" autocomplete="off">
 										</div>
 									</div>
 									<div class="row formline">
@@ -1609,8 +1529,7 @@ td input {
 											<input type="text" th:readonly="${formmode}=='view'"
 												th:field="*{status_code}" th:value="${status_code}"
 												id="status_code" name="status_code"
-												class="form-control form-control-sm" autocomplete="off"
-												required>
+												class="form-control form-control-sm" autocomplete="off">
 										</div>
 									</div>
 									<div class="row formline">
@@ -1622,8 +1541,7 @@ td input {
 											<input type="number" th:readonly="${formmode}=='view'"
 												th:field="*{disposed_value}" th:value="${disposed_value}"
 												id="disposed_value" name="disposed_value"
-												class="form-control form-control-sm" autocomplete="off"
-												required>
+												class="form-control form-control-sm" autocomplete="off">
 										</div>
 									</div>
 									<div class="row formline">
@@ -2063,8 +1981,7 @@ td input {
 											<input type="text" th:readonly="${formmode}=='view'"
 												th:field="*{acct_name_1}" th:value="${acct_name_1}"
 												id="acct_name_1" name="acct_name_1"
-												class="form-control form-control-sm" autocomplete="off"
-												required>
+												class="form-control form-control-sm" autocomplete="off">
 										</div>
 									</div>
 									<div class="row formline">
@@ -2172,12 +2089,11 @@ td input {
 												th:field="*{acct_closed_date}"
 												th:value="${acct_closed_date}" id="acct_closed_date1"
 												name="acct_closed_date" class="form-control form-control-sm"
-												autocomplete="off" required>
+												autocomplete="off">
 										</div>
 										<div th:if="${formmode}=='add'" class="col-sm-3">
 											<input type="text" id="closedate" name="acct_closed_date"
-												class="form-control form-control-sm" autocomplete="off"
-												required>
+												class="form-control form-control-sm" autocomplete="off">
 										</div>
 
 									</div>
@@ -3088,12 +3004,12 @@ td input {
 											onclick="passwordReset();">PasswordReset</button> -->
 							<span>
 								<button type="button" class="btn btn-xs btn-primary"
-									style="margin-top: -12px;" form="userProfile" id="btnSubmit"
+									style="margin-top: -12px;" form="aml_str_rep" id="btnSubmitAdd"
 									onclick="submitform(this);" th:if="${formmode}=='add'"
 									th:attr="data-formmode=${formmode},data-entity=${entity_flg}">Submit</button>
 							</span> <span>
 								<button type="button" class="btn btn-xs btn-primary"
-									style="margin-top: -12px;" form="userProfile" id="btnSubmit"
+									style="margin-top: -12px;" form="aml_str_rep" id="btnSubmitEdit"
 									onclick="submitform1(this);" th:if="${formmode} =='edit'"
 									th:attr="data-formmode=${formmode},data-entity=${entity_flg}">Submit</button>
 							</span>
@@ -3137,14 +3053,14 @@ td input {
 					Are you Sure want to Leave?
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" onclick="back();">Yes</button>
+					<button type="button" class="btn btn-primary" onclick="list();">Yes</button>
 					<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="modal fade" id="alert" th:if="${formmode}=='download'">
+	<div class="modal fade" id="alertDownload" th:if="${formmode}=='download'">
 		<div
 			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
@@ -3185,7 +3101,7 @@ td input {
 
 								<label class="col-sm-4">Tran ID</label>
 								<div class="col-sm-5">
-									<input type="text" id="id_tran"
+									<input type="text" id="id_tran" name="id_tran"
 										class="form-control form-control-sm" required />
 
 
@@ -3199,7 +3115,7 @@ td input {
 
 								<label class="col-sm-4">Tran Date</label>
 								<div class="col-sm-5">
-									<input type="text" id="date_tran"
+									<input type="text" id="date_tran" name="date_tran"
 										class="form-control form-control-sm" required />
 
 

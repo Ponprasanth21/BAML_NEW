@@ -92,17 +92,15 @@ function home() {
     return "" + day + "/" + month_names[month_index] + "/" + year;
 } */
 Date.prototype.toShortFormat = function() {
-
-    var month_names =["Jan","Feb","Mar",
-                      "Apr","May","Jun",
-                      "Jul","Aug","Sep",
-                      "Oct","Nov","Dec"];
-    
     var day = this.getDate();
-    var month_index = this.getMonth();
+    var month = this.getMonth() + 1;
     var year = this.getFullYear();
-    
-    return "" + day + "/" + month_index + "/" + year;
+    var dStr = (day < 10 ? '0' : '') + day;
+    var mStr = (month < 10 ? '0' : '') + month;
+    return dStr + "/" + mStr + "/" + year;
+};
+function home() {
+	location.href = 'Dashboard';
 }
 function back() {
 	$("#datadelete").modal("toggle");
@@ -145,8 +143,8 @@ function fnClickTran(a) {
 }
 
 $(function() {
-	var rulecode = $("#rule_code_id").val();
     $("#suspended_date").change(function() {
+        var rulecode = $("#rule_code_id").val() || $("#rule_code").val();
         $(this).datepicker().datepicker( "show" )
         var today = $("#suspended_date").val();
         var lowvalue = $("#lowvalue1").val();
@@ -356,6 +354,17 @@ $(function() {
 			var fromdate = $("#activated_date").val();
 			
 			location.href = 'AMLTransMonitoring?TRANTYPE=LVDFS' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold + '&noofdays=' +noofdays;
+		} else {
+			var date2 = $('#suspended_date').datepicker('getDate');
+			var fromdate = "";
+			if (date2 && noofdays && parseInt(noofdays) > 0) {
+				var d2 = new Date(date2.getTime());
+				d2.setDate(d2.getDate() - parseInt(noofdays));
+				fromdate = d2.toShortFormat();
+			} else {
+				fromdate = $("#activated_date").val() || "";
+			}
+			location.href = 'AMLTransMonitoring?TRANTYPE=' + encodeURIComponent(rulecode || '') + '&rulecode=' + encodeURIComponent(rulecode || '') + '&today=' + encodeURIComponent(today || '') + (fromdate ? '&fromdate=' + encodeURIComponent(fromdate) : '') + (lowvalue ? '&lowvalue=' + encodeURIComponent(lowvalue) : '') + (highvalue ? '&highvalue=' + encodeURIComponent(highvalue) : '') + '&rolecodedesc=' + encodeURIComponent(rolecodedesc || '') + (threshold ? '&threshold=' + encodeURIComponent(threshold) : '') + (noofdays ? '&noofdays=' + encodeURIComponent(noofdays) : '');
 		}
 });
 	
@@ -622,6 +631,13 @@ function finuser(a) {
 	
 	location.href = 'AMLTransMonitoring?TRANTYPE=LVDFS' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&noofdays=' +noofdays+ '&threshold=' +threshold;
 	
+} else {
+	var fortnightAway = new Date();
+	if (noofdays && parseInt(noofdays) > 0) {
+		fortnightAway.setDate(fortnightAway.getDate() - parseInt(noofdays));
+	}
+	var fromdate = fortnightAway.toShortFormat();
+	location.href = 'AMLTransMonitoring?TRANTYPE=' + encodeURIComponent(rulecode || '') + '&rulecode=' + encodeURIComponent(rulecode || '') + '&today=' + encodeURIComponent(today || '') + '&fromdate=' + encodeURIComponent(fromdate || '') + (lowvalue ? '&lowvalue=' + encodeURIComponent(lowvalue) : '') + (highvalue ? '&highvalue=' + encodeURIComponent(highvalue) : '') + '&rolecodedesc=' + encodeURIComponent(rolecodedesc || '') + (threshold ? '&threshold=' + encodeURIComponent(threshold) : '') + (noofdays ? '&noofdays=' + encodeURIComponent(noofdays) : '');
 }
 }
 
@@ -828,35 +844,41 @@ function getUserlist(mode, num, maxpage) {
 				var Callurl = 'AMLTransMonitoring?TRANTYPE=LVDFS' +'&rulecode=' +rulecode+ '&today=' +today+ '&fromdate=' +fromdate+'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc+ '&threshold=' +threshold;
 			}
 
+	if (typeof Callurl === "undefined" || !Callurl) {
+		var date2 = $('#suspended_date').datepicker('getDate');
+		var fromdate = $("#activated_date").val() || "";
+		if (!fromdate && date2 && noofdays && parseInt(noofdays) > 0) {
+			var d2 = new Date(date2.getTime());
+			d2.setDate(d2.getDate() - parseInt(noofdays));
+			fromdate = d2.toShortFormat();
+		}
+		Callurl = 'AMLTransMonitoring?TRANTYPE=' + encodeURIComponent(rulecode || '') + '&rulecode=' + encodeURIComponent(rulecode || '') + '&today=' + encodeURIComponent(today || '') + (fromdate ? '&fromdate=' + encodeURIComponent(fromdate) : '') + (lowvalue ? '&lowvalue=' + encodeURIComponent(lowvalue) : '') + (highvalue ? '&highvalue=' + encodeURIComponent(highvalue) : '') + '&rolecodedesc=' + encodeURIComponent(rolecodedesc || '') + (threshold ? '&threshold=' + encodeURIComponent(threshold) : '') + (noofdays ? '&noofdays=' + encodeURIComponent(noofdays) : '');
+	}
 
 	switch (mode) {
 	case "nextpage":
 		n = n + 1;
-		if (n > max) {
-			break;
+		if (n >= max) {
+			return;
 		}
 		Callurl = Callurl + "&page=" + n;
-		
-		
 		break;
 	case "prevpage":
 		n = n - 1;
 		if (n < 0) {
-			break;
+			return;
 		}
 		Callurl = Callurl + "&page=" + n;
-		
 		break;
 	case "givenpage":
 		n = parseInt($("#pageno").val()) - 1;
-		if (n > max || n < 0) {
-			break;
+		if (isNaN(n) || n >= max || n < 0) {
+			return;
 		}
 		Callurl = Callurl + "&page=" + n;
-		
+		break;
 	}
 
-		
  location.href = Callurl;
 } 
 
@@ -879,12 +901,26 @@ function getUserlist(mode, num, maxpage) {
 
   
  
-	function finuser(this) {
-
-		 var rulecode = $(this).val();
-		
-		location.href = 'AMLTransMonitoring?&rulecode=' +rulecode;	
+	function gettrans() {
+		$("#datadelete").modal("toggle");
+		var rulecode = $("#rule_code_id").val() || $("#rule_code").val();
+		var today = $("#suspended_date").val();
+		var lowvalue = $("#lowvalue1").val();
+		var highvalue = $("#highvalue1").val();
+		var rolecodedesc = $("#rule_code_desc").val();
+		var noofdays = $("#noofdays").val();
+		var threshold = $("#threshold").val();
+		var date2 = $('#suspended_date').datepicker('getDate');
+		var fromdate = "";
+		if (date2 && noofdays && parseInt(noofdays) > 0) {
+			var d2 = new Date(date2.getTime());
+			d2.setDate(d2.getDate() - parseInt(noofdays));
+			fromdate = d2.toShortFormat();
+		} else {
+			fromdate = $("#activated_date").val() || "";
 		}
+		location.href = 'AMLTransMonitoring?TRANTYPE=' + encodeURIComponent(rulecode || '') + '&rulecode=' + encodeURIComponent(rulecode || '') + '&today=' + encodeURIComponent(today || '') + (fromdate ? '&fromdate=' + encodeURIComponent(fromdate) : '') + (lowvalue ? '&lowvalue=' + encodeURIComponent(lowvalue) : '') + (highvalue ? '&highvalue=' + encodeURIComponent(highvalue) : '') + '&rolecodedesc=' + encodeURIComponent(rolecodedesc || '') + (threshold ? '&threshold=' + encodeURIComponent(threshold) : '') + (noofdays ? '&noofdays=' + encodeURIComponent(noofdays) : '');
+	}
 	function fnClick(a) {
 		var tranId = a.getAttribute("data-tranId")
 		location.href = 'AMLTransactionMaster?tranId=' + tranId;
@@ -998,7 +1034,7 @@ function getUserlist(mode, num, maxpage) {
 												autocomplete="off" readonly>
 										</div>
 										<div class="col-sm-1" th:if="${formmode}=='list'">
-											<a href="#"><i class="fas fa-search searchico"
+											<a href="javascript:void(0);"><i class="fas fa-search searchico"
 												data-toggle="modal" data-target="#finusers" id="iconacc"></i></a>
 										</div>
 
@@ -1012,7 +1048,7 @@ function getUserlist(mode, num, maxpage) {
 
 										</div>
 										<div class="col-sm-1" th:if="${formmode}=='tranlist'">
-											<a href="#"><i class="fas fa-search searchico"
+											<a href="javascript:void(0);"><i class="fas fa-search searchico"
 												data-toggle="modal" data-target="#finusers" id="iconacc"></i></a>
 										</div>
 
@@ -1063,11 +1099,13 @@ function getUserlist(mode, num, maxpage) {
 										<label class="col-sm-2">Celling(Rs)</label>
 										<div class="col-sm-3">
 											<input type="text" id="lowvalue12" 
-											th:value="${#numbers.formatDecimal(lowvalue 	,1,'COMMA',2,'POINT')}"
+											th:value="${lowvalue != null ? #numbers.formatDecimal(lowvalue, 1, 'COMMA', 2, 'POINT') : ''}"
 												name="lowvalue12" style="background-color: #d2dae0"
 												class="form-control form-control-sm" autocomplete="off" />
 										</div>
-										<div class="col-sm-1"></div>
+										<div class="col-sm-1">
+											<a href="javascript:void(0);" onclick="gettrans();" title="Search"><i class="fas fa-arrow-circle-right" style="font-size: 20px; color: #386276; margin-top: 5px; cursor: pointer;"></i></a>
+										</div>
 										
 									</div>
 								</div>
@@ -1128,18 +1166,19 @@ function getUserlist(mode, num, maxpage) {
 									<tr th:if="${TransactionMaster.totalPages}!='0'"
 										th:each="transactionMaster : ${TransactionMaster}">
 										<td class="underline" onclick="fnClick1(this);"
-											th:attr="data-custId=${transactionMaster.aCCT_MASTER.cif_id}"
-											th:text="${transactionMaster.aCCT_MASTER.cif_id}"></td>
-											<td th:text="${transactionMaster.aCCT_MASTER.acct_name}"></td>
+											th:attr="data-custId=${transactionMaster.aCCT_MASTER?.cif_id}"
+											th:text="${transactionMaster.aCCT_MASTER?.cif_id}"></td>
+											<td th:text="${transactionMaster.aCCT_MASTER?.acct_name}"></td>
 											<td
-											th:text="${#dates.format(transactionMaster.tran_date,'dd/MM/yyyy')}"></td>
-											<td th:text="${#dates.format(transactionMaster.tran_date,'dd/MM/yyyy')}"></td>
+											th:text="${transactionMaster.tran_date != null ? #dates.format(transactionMaster.tran_date,'dd/MM/yyyy') : ''}"></td>
+											<td th:text="${transactionMaster.tran_date != null ? #dates.format(transactionMaster.tran_date,'dd/MM/yyyy') : ''}"></td>
 											<td
-											th:text="${#numbers.formatDecimal(transactionMaster.tran_amt 	,1,'COMMA',2,'POINT')}"
+											th:text="${transactionMaster.tran_amt != null ? #numbers.formatDecimal(transactionMaster.tran_amt, 1, 'COMMA', 2, 'POINT') : ''}"
 											align="right"></td>
 										<th:block th:switch="${transactionMaster.tran_type}">
 											<td th:case="'C'">Cash</td>
 											<td th:case="'T'">Transfer</td>
+											<td th:case="*"></td>
 										</th:block>
 
 										<th:block th:switch="${transactionMaster.tran_sub_type}">
@@ -1152,25 +1191,27 @@ function getUserlist(mode, num, maxpage) {
 											<td th:case="'IC'">Interest Collected</td>
 											<td th:case="'BS'">Customer Induced</td>
 											<td th:case="'SC'">Service Charge</td>
+											<td th:case="*"></td>
 										</th:block>
 										<td th:text="${transactionMaster.tran_particular}"></td>
 										<th:block
-											th:switch="${transactionMaster.transactionmasterembeddedid.part_tran_type}">
+											th:switch="${transactionMaster.transactionmasterembeddedid?.part_tran_type}">
 											<td th:case="'D'">Debit</td>
 											<td th:case="'C'">Credit</td>
+											<td th:case="*"></td>
 										</th:block>
 										<td th:if="${MODE}=='CTACP'"
 											th:text="${transactionMaster.tran_particular_code}"></td>
 											<td class="underline" onclick="fnClickTran(this);"
-											th:attr="data-tran_id=${transactionMaster.transactionmasterembeddedid.tran_id},data-tran_date=${#dates.format(transactionMaster.tran_date,'dd-MMM-yyyy')},data-foracid=${transactionMaster.aCCT_MASTER.foracid},data-parttran=${transactionMaster.part_tran_srl_num}"
-											th:text="${transactionMaster.transactionmasterembeddedid.tran_id}">
+											th:attr="data-tran_id=${transactionMaster.transactionmasterembeddedid?.tran_id},data-tran_date=${transactionMaster.tran_date != null ? #dates.format(transactionMaster.tran_date,'dd-MMM-yyyy') : ''},data-foracid=${transactionMaster.aCCT_MASTER?.foracid},data-parttran=${transactionMaster.part_tran_srl_num}"
+											th:text="${transactionMaster.transactionmasterembeddedid?.tran_id}">
 										</td>
 										<td th:text="${transactionMaster.part_tran_srl_num}"></td>
 										<!-- <td th:text="${transactionMaster.tran_crncy_code}"></td> -->
 									
 										<td class="underline" onclick="fnClickAcct(this);"
-											th:attr="data-acctnum=${transactionMaster.aCCT_MASTER.foracid},data-custid=${transactionMaster.aCCT_MASTER.cif_id},data-acid=${transactionMaster.aCCT_MASTER.acid}"
-											th:text="${transactionMaster.aCCT_MASTER.foracid}"></td>
+											th:attr="data-acctnum=${transactionMaster.aCCT_MASTER?.foracid},data-custid=${transactionMaster.aCCT_MASTER?.cif_id},data-acid=${transactionMaster.aCCT_MASTER?.acid}"
+											th:text="${transactionMaster.aCCT_MASTER?.foracid}"></td>
 										
 										<!-- <td th:text="${transactionMaster.tr_status}"></td> -->
 
@@ -1186,13 +1227,13 @@ function getUserlist(mode, num, maxpage) {
 						</div>
 						<div class="float-right"
 							th:if="${TransactionMaster.totalPages} gt 1">
-							<a href="#"><i class="fas fa-caret-left fa-2x"
+							<a href="javascript:void(0);"><i class="fas fa-caret-left fa-2x"
 								th:onclick="|getUserlist('prevpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></i></a>
 							<input type="text" id="pageno" style="width: 30px"
 								th:value="${TransactionMaster.number+1}"
 								th:onchange="|getUserlist('givenpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></input>
 							of <font th:text="${TransactionMaster.totalPages}"></font> <a
-								href="#"><i class="fas fa-caret-right fa-2x"
+								href="javascript:void(0);"><i class="fas fa-caret-right fa-2x"
 								th:onclick="|getUserlist('nextpage',${TransactionMaster.number},${TransactionMaster.totalPages});|"></i></a>
 						</div>
 

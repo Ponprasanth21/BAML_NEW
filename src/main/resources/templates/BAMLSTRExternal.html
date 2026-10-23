@@ -166,9 +166,8 @@ PURPOSE		:
 		location.href = './BAMLSTRExternal';
 	}
 	function fnClickDownload(a){
-		var userid = a.getAttribute("data-userid")
-		//location.href = 'AML_STR_REPORTDOWNLOAD?&report_id=' + userid + 'filetype = pdf';
-		location.href = 'AML_STR_REPORTDOWNLOAD?&report_id=' + userid;
+		var userid = a.getAttribute("data-userid");
+		location.href = 'AML_STR_REPORTDOWNLOAD?report_id=' + encodeURIComponent(userid);
 	}
 
 	/*]]>*/

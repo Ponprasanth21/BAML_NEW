@@ -66,10 +66,13 @@ function home() {
 }
 
 function back() {
+	try {
+		if (window.opener && typeof window.opener.childwindow === 'function') {
+			window.opener.childwindow();
+		}
+	} catch (e) {
+	}
 	window.close();
-
-	window.opener.childwindow();
-
 }
 
 </script>

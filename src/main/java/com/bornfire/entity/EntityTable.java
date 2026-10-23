@@ -13,7 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name="BAML_UNSC_ENTITY_TABLE")
+@Table(name="\"BAML_UNSC_ENTITY_TABLE\"", schema="\"AML\"")
 public class EntityTable implements Serializable {
 	
 	

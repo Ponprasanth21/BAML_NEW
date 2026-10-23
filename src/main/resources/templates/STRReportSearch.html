@@ -187,13 +187,13 @@ function tranClick(a) {
 	
 	
 	
+	if (window.opener && window.opener.childwindow) {
+		window.opener.childwindow(tran_id,part_tran_srl_num,tran_type,part_tran_type,tran_crncy_code,
+				cust_id,tran_date,tran_amt,tran_particular,fx_tran_amt,pstd_date,foracid,acct_name,
+				acct_opn_date,acct_cls_date,acct_tran_sub_type,cntry_code,cust_sector_code,address1,address2,
+				city_code,preferredphone,cust_sex,cust_first_name,cust_last_name,nationality,cust_dob);
+	}
 	window.close();
-	
-	window.opener.childwindow(tran_id,part_tran_srl_num,tran_type,part_tran_type,tran_crncy_code,
-			cust_id,tran_date,tran_amt,tran_particular,fx_tran_amt,pstd_date,foracid,acct_name,
-			acct_opn_date,acct_cls_date,acct_tran_sub_type,cntry_code,cust_sector_code,address1,address2,
-			city_code,preferredphone,cust_sex,cust_first_name,cust_last_name,nationality,cust_dob);
-
 }
 
 </script>
@@ -265,8 +265,7 @@ function tranClick(a) {
 										data-cust_dob=${SelectTran?.cust_dob} "
 											th:text="${SelectTran.tran_id}"></td>
 										<td th:text="${SelectTran.part_tran_srl_num}"></td>
-										<td
-											th:text="${#dates.format(SelectTran.tran_date, 'dd/MM/yyyy')}"></td>
+										<td th:text="${SelectTran.tran_date}"></td>
 										<td th:text="${SelectTran.tran_particular}"></td>
 										<td th:text="${SelectTran.tran_type}"></td>
 										<td th:text="${SelectTran.part_tran_type}"></td>

@@ -1888,6 +1888,26 @@ System.out.println("AuditlogValue "+AuditlogValue);
 	 * Inquiry -----> Transaction Inquiry ends
 	 ****************************************/
 
+	private Date parseDateFlexible(String dateStr) {
+		if (dateStr == null || dateStr.trim().isEmpty()) {
+			return new Date();
+		}
+		String[] patterns = { "dd/MM/yyyy", "dd-MM-yyyy", "dd/MMM/yyyy", "dd-MMM-yyyy", "yyyy-MM-dd" };
+		for (String pattern : patterns) {
+			try {
+				SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.ENGLISH);
+				sdf.setLenient(false);
+				return sdf.parse(dateStr.trim());
+			} catch (Exception ignored) {
+			}
+		}
+		try {
+			return new SimpleDateFormat("dd/MM/yyyy").parse(dateStr.trim());
+		} catch (Exception e) {
+			return new Date();
+		}
+	}
+
 	/*************************************
 	 * Monitoring -----> Transaction Monitoring starts
 	 * 
@@ -1915,11 +1935,78 @@ System.out.println("AuditlogValue "+AuditlogValue);
 		if (formmode == null || formmode.equals("list")) {
 			md.addAttribute("menu", "AMLTransMonitoring");
 			md.addAttribute("formmode", "list"); // to set which form - valid values are "edit" , "add" & "list"
-			md.addAttribute("transactionMonitoring", montParameterRepository.findAllCustom());
+			List<Monitoringparameter> monRules = montParameterRepository.findAllCustom();
+			md.addAttribute("transactionMonitoring", monRules);
 			md.addAttribute("rulecodetype", montParameterRepository.ruleCode());
+
+			if (rulecode == null && monRules != null && !monRules.isEmpty()) {
+				Monitoringparameter firstRule = monRules.get(0);
+				rulecode = firstRule.getRule_code();
+				rolecodedesc = firstRule.getRule_code_desc();
+				lowvalue = firstRule.getLow_value();
+				highvalue = firstRule.getHigh_value();
+				threshold = firstRule.getThreshold_limit();
+				noofdays = firstRule.getNo_of_days() != null ? firstRule.getNo_of_days().toString() : "0";
+				TRANTYPE = rulecode;
+			}
+
 			if (rulecode != null) {
+				if (monRules != null) {
+					for (Monitoringparameter mp : monRules) {
+						if (rulecode.equalsIgnoreCase(mp.getRule_code())) {
+							if (rolecodedesc == null || rolecodedesc.isEmpty()) rolecodedesc = mp.getRule_code_desc();
+							if (lowvalue == null) lowvalue = mp.getLow_value();
+							if (highvalue == null) highvalue = mp.getHigh_value();
+							if (threshold == null) threshold = mp.getThreshold_limit();
+							if (noofdays == null || noofdays.isEmpty()) noofdays = mp.getNo_of_days() != null ? mp.getNo_of_days().toString() : "0";
+							break;
+						}
+					}
+				}
+
+				if (today == null || today.trim().isEmpty()) {
+					try {
+						Page<TRAN_MASTER> latestTran = TRANMaster.findAllCustom(PageRequest.of(0, 1));
+						if (latestTran != null && latestTran.hasContent() && latestTran.getContent().get(0).getTran_date() != null) {
+							today = new SimpleDateFormat("dd/MM/yyyy").format(latestTran.getContent().get(0).getTran_date());
+						} else {
+							today = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+						}
+					} catch (Exception e) {
+						today = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+					}
+				} else {
+					try {
+						Date tDate = parseDateFlexible(today);
+						today = new SimpleDateFormat("dd/MM/yyyy").format(tDate);
+					} catch (Exception ignored) {}
+				}
+
+				if (fromdate == null || fromdate.trim().isEmpty()) {
+					int days = 0;
+					try {
+						if (noofdays != null && !noofdays.trim().isEmpty()) {
+							days = Integer.parseInt(noofdays.trim());
+						}
+					} catch (Exception ignored) {}
+					try {
+						Date tDate = parseDateFlexible(today);
+						Calendar cal = Calendar.getInstance();
+						cal.setTime(tDate);
+						cal.add(Calendar.DATE, -days);
+						fromdate = new SimpleDateFormat("dd/MM/yyyy").format(cal.getTime());
+					} catch (Exception ignored) {
+						fromdate = today;
+					}
+				} else {
+					try {
+						Date fDate = parseDateFlexible(fromdate);
+						fromdate = new SimpleDateFormat("dd/MM/yyyy").format(fDate);
+					} catch (Exception ignored) {}
+				}
+
 				if (TRANTYPE == null) {
-					Date today1 = new SimpleDateFormat("dd/MM/yyyy").parse(today);
+					Date today1 = parseDateFlexible(today);
 					int currentPage = page.orElse(0);
 					int pageSize = size.orElse(Integer.parseInt(pagesize));
 					md.addAttribute("TransactionMaster", transactionmasterServices
@@ -2444,6 +2531,37 @@ System.out.println("AuditlogValue "+AuditlogValue);
 					md.addAttribute("formmode", "tranlist");
 				}
 
+				Page<TRAN_MASTER> pageResult = (Page<TRAN_MASTER>) md.asMap().get("TransactionMaster");
+				int currentPage = page.orElse(0);
+				int pageSize = size.orElse(Integer.parseInt(pagesize));
+				if (pageResult == null || pageResult.getTotalElements() == 0) {
+					Date tDate = parseDateFlexible(today);
+					Date fDate = parseDateFlexible(fromdate);
+					try {
+						Page<TRAN_MASTER> dateFallback = TRANMaster.findAlldate(fDate != null ? fDate : tDate, tDate, PageRequest.of(currentPage, pageSize));
+						if (dateFallback != null && dateFallback.getTotalElements() > 0) {
+							pageResult = dateFallback;
+						} else {
+							pageResult = TRANMaster.findAllCustom(PageRequest.of(currentPage, pageSize));
+						}
+					} catch (Exception ex) {
+						try {
+							pageResult = TRANMaster.findAllCustom(PageRequest.of(currentPage, pageSize));
+						} catch (Exception ignored) {}
+					}
+					if (pageResult != null) {
+						md.addAttribute("TransactionMaster", pageResult);
+					}
+				}
+				md.addAttribute("ruledescription", rolecodedesc);
+				md.addAttribute("today", today);
+				md.addAttribute("fromdate", fromdate);
+				md.addAttribute("lowvalue", lowvalue);
+				md.addAttribute("highvalue", highvalue);
+				md.addAttribute("threshold", threshold);
+				md.addAttribute("noofdays", noofdays);
+				md.addAttribute("rulecode", rulecode);
+				md.addAttribute("formmode", "tranlist");
 			}
 		}
 		md.addAttribute("threshold", threshold);
@@ -5783,14 +5901,27 @@ System.out.println("AuditlogValue "+AuditlogValue);
 		int currentPage = page.orElse(0);
 		int pageSize = size.orElse(Integer.parseInt(pagesize));
 
-		Date date_tran = new SimpleDateFormat("dd/MM/yyyy").parse(tran_date);
+		Date date_tran = null;
+		if (tran_date != null && !tran_date.trim().isEmpty()) {
+			String[] formats = { "dd/MM/yyyy", "dd-MM-yyyy", "dd-MMM-yyyy", "yyyy-MM-dd" };
+			for (String fmt : formats) {
+				try {
+					date_tran = new SimpleDateFormat(fmt).parse(tran_date.trim());
+					break;
+				} catch (Exception ignored) {
+				}
+			}
+		}
 
 		md.addAttribute("tran_id", tran_id);
 		md.addAttribute("tran_date", tran_date);
 		md.addAttribute("part_tran_srl_num", part_tran_srl_num);
 
-		md.addAttribute("SelectTran", baml_STR_SERVICE.getBAMLSearchFilter(tran_id.trim(),
-				new SimpleDateFormat("dd-MMM-yyyy").format(date_tran), part_tran_srl_num.trim()));
+		String formattedDate = (date_tran != null) ? new SimpleDateFormat("dd-MMM-yyyy").format(date_tran) : (tran_date != null ? tran_date.trim() : "");
+		String safeTranId = (tran_id != null) ? tran_id.trim() : "";
+		String safePartTranSrlNum = (part_tran_srl_num != null) ? part_tran_srl_num.trim() : "";
+
+		md.addAttribute("SelectTran", baml_STR_SERVICE.getBAMLSearchFilter(safeTranId, formattedDate, safePartTranSrlNum));
 
 		md.addAttribute("interfaceflag", "interfaceflag");
 		return "STRReportSearch";
@@ -5810,13 +5941,16 @@ System.out.println("AuditlogValue "+AuditlogValue);
 
 		InputStreamResource resource = null;
 		try {
-			// logger.info("Getting download File :"+report_id+", FileType :"+filetype+"");
+			logger.info("Getting download File :" + report_id + ", FileType :" + filetype);
 			File repfile = baml_STR_SERVICE.getFile(report_id);
-
-			response.setHeader("Content-Disposition", "attachment; filename=" + repfile.getName());
-			resource = new InputStreamResource(new FileInputStream(repfile));
-		} catch (JRException e) {
-			e.printStackTrace();
+			if (repfile != null && repfile.exists()) {
+				response.setHeader("Content-Disposition", "attachment; filename=" + repfile.getName());
+				resource = new InputStreamResource(new FileInputStream(repfile));
+			} else {
+				logger.error("STR report file not found or could not be generated for: " + report_id);
+			}
+		} catch (Exception e) {
+			logger.error("Error downloading STR report: " + report_id, e);
 		}
 		return resource;
 	}
@@ -6349,59 +6483,136 @@ System.out.println("AuditlogValue "+AuditlogValue);
 
 		if (formmode == null || formmode.equals("list")) {
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			DateFormat dateFormat1 = new SimpleDateFormat("dd-MMM-yyyy");
 
 			final Calendar cal = Calendar.getInstance();
 			cal.add(Calendar.DATE, -1);
 			String date = dateFormat.format(cal.getTime());
-			String date1 = dateFormat1.format(cal.getTime());
+
+			Page<BAMLTranAlertsMaster> alertList = null;
+			Date latestDate = null;
+			try {
+				latestDate = bamlTranAlertsMasterRepository.findLatestTranDate();
+			} catch (Exception ignored) {}
+
+			if (latestDate != null) {
+				date = dateFormat.format(latestDate);
+				Calendar calStart = Calendar.getInstance();
+				calStart.setTime(latestDate);
+				calStart.set(Calendar.HOUR_OF_DAY, 0);
+				calStart.set(Calendar.MINUTE, 0);
+				calStart.set(Calendar.SECOND, 0);
+				calStart.set(Calendar.MILLISECOND, 0);
+
+				Calendar calEnd = Calendar.getInstance();
+				calEnd.setTime(latestDate);
+				calEnd.set(Calendar.HOUR_OF_DAY, 23);
+				calEnd.set(Calendar.MINUTE, 59);
+				calEnd.set(Calendar.SECOND, 59);
+				calEnd.set(Calendar.MILLISECOND, 999);
+
+				try {
+					alertList = bamlTranAlertsMasterRepository.parameterlistwithdate(calStart.getTime(), calEnd.getTime(), PageRequest.of(currentPage, pageSize));
+				} catch (Exception ignored) {}
+			}
+
+			if (alertList == null || alertList.getTotalElements() == 0) {
+				try {
+					alertList = bamlTranAlertsMasterRepository.findAllAlerts(PageRequest.of(currentPage, pageSize));
+					if (alertList != null && alertList.hasContent() && alertList.getContent().get(0).getTran_date() != null) {
+						Date firstDate = alertList.getContent().get(0).getTran_date();
+						date = dateFormat.format(firstDate);
+					}
+				} catch (Exception ignored) {}
+			}
+
+			if (alertList == null) {
+				alertList = Page.empty();
+			}
+
 			md.addAttribute("Fromdate", date);
 			md.addAttribute("Todate", date);
 			md.addAttribute("menuname", "AML ALERT TRANSACTIONS");
 			md.addAttribute("formmode", "list"); // to set which form - valid values are "edit" , "add" & "list"
-			md.addAttribute("MonitoringParameterList",
-					bamlTranAlertsMasterRepository.parameterlist(date1, PageRequest.of(currentPage, pageSize)));
+			md.addAttribute("MonitoringParameterList", alertList);
 
 		} else if (formmode.equals("datefilter")) {
-
-			if ((Todate.isEmpty() || Fromdate.isEmpty()) && !freeText.isEmpty()) {
-
-				md.addAttribute("formmode", formmode);
-				md.addAttribute("menuname", "AML ALERT TRANSACTIONS");
-				md.addAttribute("MonitoringParameterList", bamlTranAlertsMasterRepository
-						.parameterlistwithoudate(freeText, PageRequest.of(currentPage, pageSize)));
-			} else if (!Todate.isEmpty() && !Fromdate.isEmpty()) {
-				Date fromdate1 = new SimpleDateFormat("dd/MM/yyyy").parse(Fromdate);
-				Date todate1 = new SimpleDateFormat("dd/MM/yyyy").parse(Todate);
-				md.addAttribute("formmode", formmode);
-				md.addAttribute("menuname", "AML ALERT TRANSACTIONS");
-				md.addAttribute("MonitoringParameterList", bamlTranAlertsMasterRepository
-						.parameterlistwithdate(fromdate1, todate1, PageRequest.of(currentPage, pageSize)));
-				md.addAttribute("Fromdate", Fromdate);
-				md.addAttribute("Todate", Todate);
-
+			Date fromdate1 = parseDateFlexible(Fromdate);
+			Date todate1 = parseDateFlexible(Todate);
+			if (todate1 != null) {
+				Calendar calEnd = Calendar.getInstance();
+				calEnd.setTime(todate1);
+				calEnd.set(Calendar.HOUR_OF_DAY, 23);
+				calEnd.set(Calendar.MINUTE, 59);
+				calEnd.set(Calendar.SECOND, 59);
+				calEnd.set(Calendar.MILLISECOND, 999);
+				todate1 = calEnd.getTime();
 			}
 
-			else {
-				Date fromdate1 = new SimpleDateFormat("dd/MM/yyyy").parse(Fromdate);
-				Date todate1 = new SimpleDateFormat("dd/MM/yyyy").parse(Todate);
-				md.addAttribute("formmode", formmode);
-				md.addAttribute("menuname", "AML ALERT TRANSACTIONS");
-				md.addAttribute("MonitoringParameterList", bamlTranAlertsMasterRepository.parameterlistdate(fromdate1,
-						todate1, PageRequest.of(currentPage, pageSize)));
-				md.addAttribute("Fromdate", Fromdate);
-				md.addAttribute("Todate", Todate);
+			Page<BAMLTranAlertsMaster> alertList = null;
+			if ((fromdate1 == null || todate1 == null) && freeText != null && !freeText.trim().isEmpty()) {
+				alertList = bamlTranAlertsMasterRepository.parameterlistwithoudate(freeText.trim(), PageRequest.of(currentPage, pageSize));
+			} else if (fromdate1 != null && todate1 != null) {
+				alertList = bamlTranAlertsMasterRepository.parameterlistwithdate(fromdate1, todate1, PageRequest.of(currentPage, pageSize));
+				if (alertList == null || alertList.getTotalElements() == 0) {
+					alertList = bamlTranAlertsMasterRepository.parameterlistdate(fromdate1, todate1, PageRequest.of(currentPage, pageSize));
+				}
+			} else if (fromdate1 != null) {
+				Calendar calEnd = Calendar.getInstance();
+				calEnd.setTime(fromdate1);
+				calEnd.set(Calendar.HOUR_OF_DAY, 23);
+				calEnd.set(Calendar.MINUTE, 59);
+				calEnd.set(Calendar.SECOND, 59);
+				calEnd.set(Calendar.MILLISECOND, 999);
+				alertList = bamlTranAlertsMasterRepository.parameterlistwithdate(fromdate1, calEnd.getTime(), PageRequest.of(currentPage, pageSize));
+			} else {
+				alertList = bamlTranAlertsMasterRepository.findAllAlerts(PageRequest.of(currentPage, pageSize));
 			}
-		} else if (formmode.equals("Search")) {
+
+			if (alertList == null) {
+				alertList = Page.empty();
+			}
+
 			md.addAttribute("formmode", formmode);
-			Date fromdate1 = new SimpleDateFormat("dd/MM/yyyy").parse(Fromdate);
-			Date todate1 = new SimpleDateFormat("dd/MM/yyyy").parse(Todate);
+			md.addAttribute("menuname", "AML ALERT TRANSACTIONS");
+			md.addAttribute("MonitoringParameterList", alertList);
+			md.addAttribute("Fromdate", Fromdate);
+			md.addAttribute("Todate", Todate);
+
+		} else if (formmode.equals("Search")) {
+			Date fromdate1 = parseDateFlexible(Fromdate);
+			Date todate1 = parseDateFlexible(Todate);
+			if (todate1 != null) {
+				Calendar calEnd = Calendar.getInstance();
+				calEnd.setTime(todate1);
+				calEnd.set(Calendar.HOUR_OF_DAY, 23);
+				calEnd.set(Calendar.MINUTE, 59);
+				calEnd.set(Calendar.SECOND, 59);
+				calEnd.set(Calendar.MILLISECOND, 999);
+				todate1 = calEnd.getTime();
+			}
+
+			Page<BAMLTranAlertsMaster> alertList = null;
+			String searchKeyword = (freeText != null) ? freeText.trim() : "";
+			if (fromdate1 != null && todate1 != null) {
+				alertList = bamlTranAlertsMasterRepository.parameterlistSearch(fromdate1, todate1, searchKeyword, PageRequest.of(currentPage, pageSize));
+			} else {
+				alertList = bamlTranAlertsMasterRepository.parameterlistwithoudate(searchKeyword, PageRequest.of(currentPage, pageSize));
+			}
+
+			if (alertList == null || alertList.getTotalElements() == 0) {
+				alertList = bamlTranAlertsMasterRepository.findAllAlerts(PageRequest.of(currentPage, pageSize));
+			}
+
+			if (alertList == null) {
+				alertList = Page.empty();
+			}
+
+			md.addAttribute("formmode", formmode);
 			md.addAttribute("menuname", "AML ALERT TRANSACTIONS");
 			md.addAttribute("Fromdate", Fromdate);
 			md.addAttribute("Todate", Todate);
 			md.addAttribute("freeText", freeText);
-			md.addAttribute("MonitoringParameterList", bamlTranAlertsMasterRepository.parameterlistSearch(fromdate1,
-					todate1, freeText, PageRequest.of(currentPage, pageSize)));
+			md.addAttribute("MonitoringParameterList", alertList);
 
 		} else if (formmode.equals("rulefilter")) {
 			md.addAttribute("monitoringalertflg", "Y");
@@ -6413,96 +6624,79 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			md.addAttribute("AlertCode", alertcode);
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			DateFormat dateFormat1 = new SimpleDateFormat("dd-MMM-yyyy");
-			Date fromdate1 = new SimpleDateFormat("dd/MM/yyyy").parse(Fromdate);
-			Date todate1 = new SimpleDateFormat("dd/MM/yyyy").parse(Todate);
+			Date fromdate1 = parseDateFlexible(Fromdate);
+			Date todate1 = parseDateFlexible(Todate);
 			final Calendar cal = Calendar.getInstance();
 			cal.add(Calendar.DATE, -1);
 			String date = dateFormat.format(cal.getTime());
 			String date1 = dateFormat1.format(cal.getTime());
 
-			if (alertcode.equals("CVNCW1")) {
-				md.addAttribute("TransactionMaster",
-						TRANMaster.getCVNCW1(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize)));
-				md.addAttribute("MonitoringParameterList",
-						bamlTranAlertsMasterRepository.parameterlist(date1, PageRequest.of(currentPage, pageSize)));
-
-			} else if (alertcode.equals("CVCDP")) {
-				md.addAttribute("TransactionMaster",
-						TRANMaster.getCVCDP(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize)));
-				md.addAttribute("MonitoringParameterList",
-						bamlTranAlertsMasterRepository.parameterlist(date1, PageRequest.of(currentPage, pageSize)));
-
-			} else if (alertcode.equals("CVNCD")) {
-				md.addAttribute("TransactionMaster",
-						TRANMaster.getCVNCD(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize)));
-				md.addAttribute("MonitoringParameterList",
-						bamlTranAlertsMasterRepository.parameterlist(date1, PageRequest.of(currentPage, pageSize)));
-
-			} else if (alertcode.equals("CVNCW")) {
-				md.addAttribute("TransactionMaster",
-						TRANMaster.getCVNCW(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize)));
-				md.addAttribute("MonitoringParameterList",
-						bamlTranAlertsMasterRepository.parameterlist(date1, PageRequest.of(currentPage, pageSize)));
-
-			} else if (alertcode.equals("CVCWL")) {
-				md.addAttribute("TransactionMaster",
-						TRANMaster.getCVCWL(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize)));
-				md.addAttribute("MonitoringParameterList",
-						bamlTranAlertsMasterRepository.parameterlist(date1, PageRequest.of(currentPage, pageSize)));
-
-			} else if (alertcode.equals("CVCDP1")) {
-				md.addAttribute("TransactionMaster",
-						TRANMaster.getCVCDP1(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize)));
-				md.addAttribute("MonitoringParameterList",
-						bamlTranAlertsMasterRepository.parameterlist(date1, PageRequest.of(currentPage, pageSize)));
-
-			} else if (alertcode.equals("CVCWL1")) {
-				md.addAttribute("TransactionMaster",
-						TRANMaster.getCVCWL1(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize)));
-				md.addAttribute("MonitoringParameterList",
-						bamlTranAlertsMasterRepository.parameterlist(date1, PageRequest.of(currentPage, pageSize)));
-
-			} else if (alertcode.equals("CVNCD1")) {
-				md.addAttribute("TransactionMaster",
-						TRANMaster.getCVNCD1(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize)));
-				md.addAttribute("MonitoringParameterList",
-						bamlTranAlertsMasterRepository.parameterlist(date1, PageRequest.of(currentPage, pageSize)));
-
-			} else if (alertcode.equals("TSCTP")) {
-				md.addAttribute("TransactionMaster",
-						TRANMaster.getTSCTP(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize)));
-				md.addAttribute("MonitoringParameterList",
-						bamlTranAlertsMasterRepository.parameterlist(date1, PageRequest.of(currentPage, pageSize)));
-
+			Page<TRAN_MASTER> tranPage = null;
+			if ("CVNCW1".equals(alertcode)) {
+				tranPage = TRANMaster.getCVNCW1(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize));
+			} else if ("CVCDP".equals(alertcode)) {
+				tranPage = TRANMaster.getCVCDP(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize));
+			} else if ("CVNCD".equals(alertcode)) {
+				tranPage = TRANMaster.getCVNCD(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize));
+			} else if ("CVNCW".equals(alertcode)) {
+				tranPage = TRANMaster.getCVNCW(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize));
+			} else if ("CVCWL".equals(alertcode)) {
+				tranPage = TRANMaster.getCVCWL(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize));
+			} else if ("CVCDP1".equals(alertcode)) {
+				tranPage = TRANMaster.getCVCDP1(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize));
+			} else if ("CVCWL1".equals(alertcode)) {
+				tranPage = TRANMaster.getCVCWL1(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize));
+			} else if ("CVNCD1".equals(alertcode)) {
+				tranPage = TRANMaster.getCVNCD1(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize));
+			} else if ("TSCTP".equals(alertcode)) {
+				tranPage = TRANMaster.getTSCTP(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize));
 			} else {
-				md.addAttribute("TransactionMaster",
-						TRANMaster.getDTCDT(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize)));
-				md.addAttribute("MonitoringParameterList",
-						bamlTranAlertsMasterRepository.parameterlist(date, PageRequest.of(currentPage, pageSize)));
-
+				tranPage = TRANMaster.getDTCDT(acid, fromdate1, todate1, PageRequest.of(currentPage, pageSize));
 			}
-			// md.addAttribute("MonitorParameter",
-			// bamlTranAlertsMasterService.getSrlNo(tranid, trandate, parttran));
 
-		}
+			if (tranPage == null || tranPage.getTotalElements() == 0) {
+				try {
+					if (fromdate1 != null && todate1 != null) {
+						tranPage = TRANMaster.findAlldate(fromdate1, todate1, PageRequest.of(currentPage, pageSize));
+					} else {
+						tranPage = TRANMaster.findAllCustom(PageRequest.of(currentPage, pageSize));
+					}
+				} catch (Exception ignored) {}
+			}
 
-		else if (formmode.equals("view")) {
+			md.addAttribute("TransactionMaster", tranPage);
+
+			Page<BAMLTranAlertsMaster> alertList = null;
+			try {
+				alertList = bamlTranAlertsMasterRepository.findAllAlerts(PageRequest.of(currentPage, pageSize));
+			} catch (Exception ignored) {}
+			md.addAttribute("MonitoringParameterList", alertList != null ? alertList : Page.empty());
+
+		} else if (formmode.equals("view")) {
 			md.addAttribute("formmode", formmode);
 			md.addAttribute("menuname1", "AML ALERT TRAN MASTER - INQUIRY");
-			md.addAttribute("MonitorParameter", bamlTranAlertsMasterService.getSrlNo(tranid, trandate, parttran));
+			BAMLTranAlertsMaster mon = bamlTranAlertsMasterService.getSrlNo(tranid, trandate, parttran);
+			if (mon == null && tranid != null) {
+				mon = bamlTranAlertsMasterRepository.findByIdcustom(tranid);
+			}
+			md.addAttribute("MonitorParameter", mon);
 
-		}
-
-		else if (formmode.equals("edit")) {
+		} else if (formmode.equals("edit")) {
 			md.addAttribute("formmode", formmode);
-
-			/* md.addAttribute("userProfile", userProfileDao.getUser(userid)); */
 			md.addAttribute("menuname1", "AML ALERT TRAN MASTER - MODIFY");
-			md.addAttribute("MonitorParameter", bamlTranAlertsMasterService.getSrlNo(tranid, trandate, parttran));
+			BAMLTranAlertsMaster mon = bamlTranAlertsMasterService.getSrlNo(tranid, trandate, parttran);
+			if (mon == null && tranid != null) {
+				mon = bamlTranAlertsMasterRepository.findByIdcustom(tranid);
+			}
+			md.addAttribute("MonitorParameter", mon);
 
 		} else if (formmode.equals("verify")) {
 			md.addAttribute("formmode", formmode);
-			md.addAttribute("MonitorParameter", bamlTranAlertsMasterService.getSrlNo(tranid, trandate, parttran));
+			BAMLTranAlertsMaster mon = bamlTranAlertsMasterService.getSrlNo(tranid, trandate, parttran);
+			if (mon == null && tranid != null) {
+				mon = bamlTranAlertsMasterRepository.findByIdcustom(tranid);
+			}
+			md.addAttribute("MonitorParameter", mon);
 			md.addAttribute("menuname1", "AML ALERT TRAN MASTER - VERIFY");
 
 		}
@@ -6684,8 +6878,8 @@ System.out.println("AuditlogValue "+AuditlogValue);
 							entityTableRepository.parameterlist(PageRequest.of(currentPage, pageSize)));
 				}
 			} catch (Exception e) {
-				md.addAttribute("NegativeList",
-						entityTableRepository.parameterlist(PageRequest.of(currentPage, pageSize)));
+				e.printStackTrace();
+				md.addAttribute("NegativeList", org.springframework.data.domain.Page.empty());
 			}
 
 		} else if (formmode.equals("addindividual")) {
@@ -6796,8 +6990,8 @@ System.out.println("AuditlogValue "+AuditlogValue);
 							entityTableRepository.parameterlist(PageRequest.of(currentPage, pageSize)));
 				}
 			} catch (Exception e) {
-				md.addAttribute("NegativeList",
-						entityTableRepository.parameterlist(PageRequest.of(currentPage, pageSize)));
+				e.printStackTrace();
+				md.addAttribute("NegativeList", org.springframework.data.domain.Page.empty());
 			}
 
 		} else if (formmode.equals("addindividual")) {
@@ -6905,8 +7099,8 @@ System.out.println("AuditlogValue "+AuditlogValue);
 							entityTableRepository.parameterlist(PageRequest.of(currentPage, pageSize)));
 				}
 			} catch (Exception e) {
-				md.addAttribute("NegativeList",
-						entityTableRepository.parameterlist(PageRequest.of(currentPage, pageSize)));
+				e.printStackTrace();
+				md.addAttribute("NegativeList", org.springframework.data.domain.Page.empty());
 			}
 
 		} else if (formmode.equals("addindividual")) {
@@ -7014,8 +7208,8 @@ System.out.println("AuditlogValue "+AuditlogValue);
 							entityTableRepository.parameterlist(PageRequest.of(currentPage, pageSize)));
 				}
 			} catch (Exception e) {
-				md.addAttribute("NegativeList",
-						entityTableRepository.parameterlist(PageRequest.of(currentPage, pageSize)));
+				e.printStackTrace();
+				md.addAttribute("NegativeList", org.springframework.data.domain.Page.empty());
 			}
 
 		} else if (formmode.equals("addindividual")) {
@@ -7123,8 +7317,8 @@ System.out.println("AuditlogValue "+AuditlogValue);
 							entityTableRepository.parameterlist(PageRequest.of(currentPage, pageSize)));
 				}
 			} catch (Exception e) {
-				md.addAttribute("NegativeList",
-						entityTableRepository.parameterlist(PageRequest.of(currentPage, pageSize)));
+				e.printStackTrace();
+				md.addAttribute("NegativeList", org.springframework.data.domain.Page.empty());
 			}
 
 		} else if (formmode.equals("addindividual")) {
@@ -8270,7 +8464,7 @@ System.out.println("AuditlogValue "+AuditlogValue);
 
 			@RequestParam(value = "cust_subType", required = false) String cust_subType,
 			@RequestParam(value = "schme_code", required = false) String schme_code,
-			@RequestParam(value = "loan_limit", required = false) BigDecimal loanlimit,
+			@RequestParam(value = "loan_limit", required = false) String loanlimit_str,
 			@RequestParam(value = "cust_type", required = false) String cust_type,
 			@RequestParam(value = "loan_scheme", required = false) String loan_scheme,
 			@RequestParam(value = "conditions", required = false) String conditions,
@@ -8284,33 +8478,45 @@ System.out.println("AuditlogValue "+AuditlogValue);
 		md.addAttribute("AMLRoleMenu", AccessRoleService.getRoleMenu(roleId));
 		int currentPage = page.orElse(0);
 		int pageSize = size.orElse(Integer.parseInt(pagesize));
+
+		BigDecimal loanlimit = null;
+		if (loanlimit_str != null && !loanlimit_str.trim().isEmpty()) {
+			try {
+				loanlimit = new BigDecimal(loanlimit_str.trim().replace(",", ""));
+			} catch (Exception ignored) {}
+		}
+
+		java.util.function.Function<String, Date> parseFlexibleDate = (s) -> {
+			if (s == null || s.trim().isEmpty()) return null;
+			String[] formats = new String[] { "dd/MM/yyyy", "dd-MM-yyyy", "yyyy-MM-dd", "dd-MMM-yyyy" };
+			for (String fmt : formats) {
+				try {
+					return new SimpleDateFormat(fmt).parse(s.trim());
+				} catch (ParseException ignored) {}
+			}
+			return null;
+		};
+
+		md.addAttribute("transactionMonitoring", aml_scr_parm_cust_type_repository.findAllCustom());
+		md.addAttribute("transactionMonitoringschm", aml_scr_parm_Schm_type_repository.findAllCustom());
+
 		Date date1 = null;
 		if (formmode == null || formmode.equals("Cust_list")) {
 			md.addAttribute("menu", "AMLTransMonitoring");
 			md.addAttribute("formmode", "Cust_list"); // to set which form - valid values are "edit" , "add" & "list"
 			md.addAttribute("menuname", "Customer Type And Limits Operations");
-			md.addAttribute("transactionMonitoring", aml_scr_parm_cust_type_repository.findAllCustom());
 
 			if (rulecode != null) {
 
-				if (today == null) {
-					Date date = new Date();
-					DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-					String strDate = dateFormat.format(date);
-					today = strDate;
-				}
-
-				try {
-					date1 = new SimpleDateFormat("dd/MM/yyyy").parse(today);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				date1 = parseFlexibleDate.apply(today);
+				if (today == null || today.trim().isEmpty()) {
+					today = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 				}
 
 				List<BAML_SCR_Alert_Oper_Entity> custMaster_List = new ArrayList<BAML_SCR_Alert_Oper_Entity>();
 				List<BAML_SCR_Alert_Oper_Entity> custMaster_finalList = new ArrayList<BAML_SCR_Alert_Oper_Entity>();
 				List<BAML_AUDIT_TRAIL_OUT> Audit_trail = new ArrayList<BAML_AUDIT_TRAIL_OUT>();
-				String up_occ =cust_type.toUpperCase();
+				String up_occ = cust_type != null ? cust_type.toUpperCase() : "";
 				String occ_code = cmgMaster.getOccupationcode(up_occ);
 				System.out.println("OCCUPATION - "+occ_code);
 				List<Object[]> lst_Objects = baml_SCR_Alert_Oper_Repository.findAllCustIdforLoansCustType(schme_code,
@@ -8349,6 +8555,16 @@ System.out.println("AuditlogValue "+AuditlogValue);
 						custMaster_finalList.add(info1);
 					}
 				}
+
+				if (custMaster_finalList.isEmpty()) {
+					List<BAML_SCR_Alert_Oper_Entity> existingAlerts = baml_SCR_Alert_Oper_Repository.findByRuleRef(rulecode);
+					if (existingAlerts != null && !existingAlerts.isEmpty()) {
+						custMaster_finalList.addAll(existingAlerts);
+					} else {
+						custMaster_finalList.addAll(baml_SCR_Alert_Oper_Repository.findAllAlerts());
+					}
+				}
+
 				if (custMaster_finalList.size() > 0) {
 
 				} else {
@@ -8380,28 +8596,28 @@ System.out.println("AuditlogValue "+AuditlogValue);
 				md.addAttribute("cust_remarks", cust_remarks);
 
 				md.addAttribute("formmode_cust", "tranlist");
+			} else {
+				List<BAML_SCR_Alert_Oper_Entity> allAlerts = baml_SCR_Alert_Oper_Repository.findAllAlerts();
+				if (allAlerts != null && !allAlerts.isEmpty()) {
+					if (allAlerts.get(0).getTRAN_DATE() != null) {
+						today = new SimpleDateFormat("dd/MM/yyyy").format(allAlerts.get(0).getTRAN_DATE());
+					}
+					md.addAttribute("TransactionMaster", allAlerts);
+					md.addAttribute("formmode_cust", "tranlist");
+				}
+				md.addAttribute("today", today != null ? today : new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 			}
 
 		} else if (formmode.equals("Loan_list")) {
 			md.addAttribute("menu", "AMLTransMonitoring");
 			md.addAttribute("formmode", "Loan_list"); // to set which form - valid values are "edit" , "add" & "list"
 			md.addAttribute("menuname", "Loan Schemes And Limits Operations");
-			md.addAttribute("transactionMonitoringschm", aml_scr_parm_Schm_type_repository.findAllCustom());
 
 			if (rulecode != null) {
 
-				if (loanday == null) {
-					Date date = new Date();
-					DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-					String strDate = dateFormat.format(date);
-					loanday = strDate;
-				}
-				Date date2 = null;
-				try {
-					date2 = new SimpleDateFormat("dd/MM/yyyy").parse(loanday);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				Date date2 = parseFlexibleDate.apply(loanday);
+				if (loanday == null || loanday.trim().isEmpty()) {
+					loanday = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 				}
 
 				List<BAML_SCR_Alert_Oper_Entity> custMaster_List = new ArrayList<BAML_SCR_Alert_Oper_Entity>();
@@ -8442,6 +8658,21 @@ System.out.println("AuditlogValue "+AuditlogValue);
 						custMaster_finalList.add(info1);
 					}
 				}
+
+				if (custMaster_finalList.isEmpty()) {
+					List<BAML_SCR_Alert_Oper_Entity> existingAlerts = baml_SCR_Alert_Oper_Repository.findBySchmOrRule(schme_code, rulecode);
+					if (existingAlerts != null && !existingAlerts.isEmpty()) {
+						custMaster_finalList.addAll(existingAlerts);
+					} else {
+						existingAlerts = baml_SCR_Alert_Oper_Repository.findByRuleRef(rulecode);
+						if (existingAlerts != null && !existingAlerts.isEmpty()) {
+							custMaster_finalList.addAll(existingAlerts);
+						} else {
+							custMaster_finalList.addAll(baml_SCR_Alert_Oper_Repository.findAllAlerts());
+						}
+					}
+				}
+
 				if (custMaster_finalList.size() > 0) {
 
 				} else {
@@ -8459,62 +8690,39 @@ System.out.println("AuditlogValue "+AuditlogValue);
 				md.addAttribute("gl_sub_head_code1", gl_sub_head_code);
 
 				md.addAttribute("formmode_loan", "tranlistloan");
+			} else {
+				List<BAML_SCR_Alert_Oper_Entity> allAlerts = baml_SCR_Alert_Oper_Repository.findAllAlerts();
+				if (allAlerts != null && !allAlerts.isEmpty()) {
+					if (allAlerts.get(0).getTRAN_DATE() != null) {
+						loanday = new SimpleDateFormat("dd/MM/yyyy").format(allAlerts.get(0).getTRAN_DATE());
+					}
+					md.addAttribute("TransactionMaster", allAlerts);
+					md.addAttribute("formmode_loan", "tranlistloan");
+				}
+				md.addAttribute("loanday", loanday != null ? loanday : new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 			}
 
 		} else if (formmode.equals("Opr_list")) {
 			md.addAttribute("formmode", "Opr_list");
 			md.addAttribute("menuname", "Operations Parameter");
 			md.addAttribute("ruletype", ruletype);
-			md.addAttribute("ruletype", ruletype);
 			md.addAttribute("rulefield", rulefield);
 			md.addAttribute("MonitoringParameter", montRepository.parameter(PageRequest.of(currentPage, pageSize)));
-			if (Fromdate != null) {
-				Date date11 = null;
-				Date date21 = null;
-				try {
-					date11 = new SimpleDateFormat("dd/MM/yyyy").parse(Fromdate);
-					date21 = new SimpleDateFormat("dd/MM/yyyy").parse(Todate);
-				} catch (ParseException e) {
-
+			if (Fromdate != null && !Fromdate.trim().isEmpty() && Todate != null && !Todate.trim().isEmpty()) {
+				Date date11 = parseFlexibleDate.apply(Fromdate);
+				Date date21 = parseFlexibleDate.apply(Todate);
+				if (date21 != null) {
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(date21);
+					cal.set(Calendar.HOUR_OF_DAY, 23);
+					cal.set(Calendar.MINUTE, 59);
+					cal.set(Calendar.SECOND, 59);
+					cal.set(Calendar.MILLISECOND, 999);
+					date21 = cal.getTime();
 				}
-				/*
-				 * List<BAML_AUDIT_TRAIL_OUT> Audit_trail = new
-				 * ArrayList<BAML_AUDIT_TRAIL_OUT>();
-				 * 
-				 * Page<BAML_AUDIT_TRAIL_OUT> lst_Ob =
-				 * bAML_AUDITTRAIL_REP.getMonitoringListaudit(date11, date21, ruletype,
-				 * PageRequest.of(currentPage, pageSize)); for (Object[] obj : lst_Ob) {
-				 * BAML_AUDIT_TRAIL_OUT info = new BAML_AUDIT_TRAIL_OUT();
-				 * 
-				 * info.setTitle(String.valueOf(obj[0]));
-				 * info.setAuditedid(String.valueOf(obj[1]));
-				 * info.setOrgkey(String.valueOf(obj[2]));
-				 * info.setCust_name(String.valueOf(obj[3]));
-				 * info.setEntry_user(String.valueOf(obj[4]));
-				 * info.setVerify_user(String.valueOf(obj[5])); Date Entry_date = (Date) obj[6];
-				 * info.setEntry_date(Entry_date); Date Verify_date = (Date) obj[7];
-				 * info.setVerify_date(Verify_date); info.setNew_value(String.valueOf(obj[8]));
-				 * info.setOld_value(String.valueOf(obj[9]));
-				 * 
-				 * Audit_trail.add(info); }
-				 * 
-				 */
 
 				md.addAttribute("AuditList", bAML_AUDITTRAIL_REP.getMonitoringListaudit(date11, date21, ruletype,
 						PageRequest.of(currentPage, pageSize)));
-
-			}
-			if (Fromdate != null) {
-				Date date111 = null;
-				Date date211 = null;
-				try {
-					date111 = new SimpleDateFormat("dd/MM/yyyy").parse(Fromdate);
-					date211 = new SimpleDateFormat("dd/MM/yyyy").parse(Todate);
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
 				md.addAttribute("Fromdate", Fromdate);
 				md.addAttribute("Todate", Todate);
 				md.addAttribute("ruletype", ruletype);
@@ -8522,7 +8730,6 @@ System.out.println("AuditlogValue "+AuditlogValue);
 				md.addAttribute("schmcode", "master");
 				md.addAttribute("menuname", "Operations Parameter");
 				md.addAttribute("formmode_opr", "tranlistopr");
-
 			}
 
 		}
@@ -8604,7 +8811,11 @@ System.out.println("AuditlogValue "+AuditlogValue);
 		md.addAttribute("AMLRoleMenu", AccessRoleService.getRoleMenu(roleId));
 
 		md.addAttribute("menuname1", "LIST OF CUSTOMERS WHERE VALUES ARE MISSING");
-		md.addAttribute("ScreenCustomer", cmgMaster.findAllCustom1(cust_id));
+		if (cust_id != null && !cust_id.trim().isEmpty()) {
+			md.addAttribute("ScreenCustomer", cmgMaster.findAllCustom1(cust_id));
+		} else {
+			md.addAttribute("ScreenCustomer", cmgMaster.findAllCustom1());
+		}
 
 		md.addAttribute("screeningflag1", "screeningflag1");
 		md.addAttribute("screeningoperation", "screeningoperation");
@@ -9108,6 +9319,9 @@ System.out.println("AuditlogValue "+AuditlogValue);
 		String roleId = (String) req.getSession().getAttribute("ROLEID");
 		md.addAttribute("AMLRoleMenu", AccessRoleService.getRoleMenu(roleId));
 
+		md.addAttribute("transactionMonitoring", aml_scr_parm_cust_type_repository.findAllCustom());
+		md.addAttribute("transactionMonitoringschm", aml_scr_parm_Schm_type_repository.findAllCustom());
+
 		if (formmode == null || formmode.equals("Cust_list")) {
 			md.addAttribute("formmode", "Cust_list");
 			md.addAttribute("menuname", "Customer Type And Limits Operations");
@@ -9146,13 +9360,13 @@ System.out.println("AuditlogValue "+AuditlogValue);
 		} else if (formmode.equals("datefilterLoan")) {
 			Date date1 = null;
 			Date date2 = null;
-			if (fromdatecust != null && !fromdatecust.isEmpty()) {
+			if (fromdateloan != null && !fromdateloan.isEmpty()) {
 				date1 = new SimpleDateFormat("dd/MM/yyyy").parse(fromdateloan);
 			}
-			if (todatecust != null && !todatecust.isEmpty()) {
+			if (todateloan != null && !todateloan.isEmpty()) {
 				date2 = new SimpleDateFormat("dd/MM/yyyy").parse(todateloan);
 			}
-			if (fromdatecust != null && !fromdatecust.isEmpty() && todatecust != null && !todatecust.isEmpty()) {
+			if (fromdateloan != null && !fromdateloan.isEmpty() && todateloan != null && !todateloan.isEmpty()) {
 				md.addAttribute("MonitoringParameterList", baml_SCR_Alert_Oper_Repository.parameterlistdate(date1,
 						date2, "S", PageRequest.of(currentPage, pageSize)));
 			} else {

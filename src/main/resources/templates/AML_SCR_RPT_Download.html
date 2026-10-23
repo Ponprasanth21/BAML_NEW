@@ -87,20 +87,12 @@ PURPOSE		:
 		
 		 $("#reportform").validate({
 			 rules: {
-				 reportid: { valueNotEquals: "Select" },
-		 		 function: { valueNotEquals: "Select" },
-		 		reportingTime: { valueNotEquals: "Select" }
-				  },
-				  messages: {
-				   reportid : { valueNotEquals: "Please Select a Report Id" },
-				   function :  { valueNotEquals: "Please Select a function" },
-				   reportingTime : { valueNotEquals : "Please Select Reporting Time" },
-				   asondate : "Please Select Report Date",
-				   fromdate : "Plese Select From Date",
-				   todate	: "Plesae Select To Date",
-				   currency : "Plesae Select Reporting currency"
-				  }  ,
-			  submitHandler: function(form) {
+				 todate: { required: true }
+			 },
+			 messages: {
+				 todate: "Please Select Report Date"
+			 },
+			 submitHandler: function(form) {
 					 var fun = $('#function :selected').val();
 					 /*var selectedIndex = $("#reportlist option:selected").index();
 					var report = reportlist[selectedIndex - 1];
@@ -292,6 +284,9 @@ PURPOSE		:
 	function home() {
 		location.href = 'Dashboard'
 	}
+	function back() {
+		window.history.back();
+	}
 	function showReportName() {
 		/* var fun = $('#function :selected').val();
 		var selectedIndex = $("#reportlist option:selected").index();
@@ -415,12 +410,10 @@ PURPOSE		:
 						<div class="card-footer text-center">
 
 							<button type="submit" class="btn btn-xs btn-primary" id="btnDownload"
-									onclick="submitform(this);" form="reportform"
-							
-							>Download</button>
+									form="reportform">Download</button>
 							<button type="reset" class="btn btn-xs btn-primary" id="btnClear">Clear</button>
-
-
+							<button type="button" class="btn btn-xs btn-primary" id="btnHome" onclick="home();">Home</button>
+							<button type="button" class="btn btn-xs btn-primary" id="btnBack" onclick="back();">Back</button>
 
 						</div>
 					</div>

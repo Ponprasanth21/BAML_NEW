@@ -14,7 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name="BAML_SCR_ALERT_OPER")
+@Table(name="\"BAML_SCR_ALERT_OPER\"", schema="\"AML\"")
 public class BAML_SCR_Alert_Oper_Entity implements Serializable{
 	public BAML_SCR_Alert_Oper_Entity() {
 		super();

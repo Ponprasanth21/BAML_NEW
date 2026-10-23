@@ -53,7 +53,10 @@ public interface CMG_MASTER_REPOSITRY extends JpaRepository<CMG_MASTER, String> 
 	@Query(value = "select * from BAML_CUST_MAST_TABLE where cust_name LIKE  %?1% ", nativeQuery = true)
 	List<CMG_MASTER> getcustname(String custname);
 
-	@Query(value = "select * from BAML_CUST_MAST_TABLE where ANNUAL_SALARY_INCOME !='0' and cust_id in  (select cust_id from BAML_CUST_MAST_TABLE where ANNUAL_SALARY_INCOME is null or SOURCEOFINCOME is null or PLACEOFBIRTH is null or OCCUPATION is null or COUNTRY_OF_BIRTH is null)and rownum < 1100 order by cust_opn_date desc", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"ANNUAL_SALARY_INCOME\" is null or \"ANNUAL_SALARY_INCOME\" = 0 or \"SOURCEOFINCOME\" is null or \"PLACEOFBIRTH\" is null or \"OCCUPATION\" is null or \"COUNTRY_OF_BIRTH\" is null order by \"CUST_OPN_DATE\" desc limit 1100", nativeQuery = true)
+	List<CMG_MASTER> findAllCustom1();
+
+	@Query(value = "select * from \"AML\".\"BAML_CUST_MAST_TABLE\" where (\"CIF_ID\" = ?1 or \"CUST_ID\" = ?1) and (\"ANNUAL_SALARY_INCOME\" is null or \"ANNUAL_SALARY_INCOME\" = 0 or \"SOURCEOFINCOME\" is null or \"PLACEOFBIRTH\" is null or \"OCCUPATION\" is null or \"COUNTRY_OF_BIRTH\" is null) order by \"CUST_OPN_DATE\" desc limit 1100", nativeQuery = true)
 	List<CMG_MASTER> findAllCustom1(String cust_id);
 
 	@Query(value = "select * from BAML_CUST_MAST_TABLE where PREFERREDPHONE=?1", nativeQuery = true)

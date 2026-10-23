@@ -140,6 +140,12 @@ function getCorp_Userlist(mode, num, maxpage) {
  function Customer(a){
 	  location.href = 'AML_SCR_Cust_Values';
 	  }
+ function home() {
+	 location.href = 'Dashboard';
+ }
+ function back() {
+	 window.history.back();
+ }
  
  $(function() {
 
@@ -179,14 +185,14 @@ function getCorp_Userlist(mode, num, maxpage) {
 								<button  type="button"
 									class="btn btn-primary "
 									style="border: 2px solid black; width: 50%; BACKGROUND-COLOR: #0c869a;"
-									id="btnBack" onclick="Customer(this);">Customer</button>
+									id="btnCustTab" onclick="Customer(this);">Customer</button>
 							
 								
 								
 								<button type="button"
 									class="btn btn-primary "
 									style="border: 2px solid black; width: 50%;"
-									id="btnBack1" onclick="Accounts(this);">Accounts</button>
+									id="btnAcctTab" onclick="Accounts(this);">Accounts</button>
 							</div>
 
 							<label></label>
