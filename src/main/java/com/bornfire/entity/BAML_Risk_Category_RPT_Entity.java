@@ -12,7 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name="BAML_RISK_REPORTS")
+@Table(name="\"BAML_RISK_REPORTS\"", schema="\"AML\"")
 public class BAML_Risk_Category_RPT_Entity implements Serializable{
 	public BAML_Risk_Category_RPT_Entity() {
 		super();

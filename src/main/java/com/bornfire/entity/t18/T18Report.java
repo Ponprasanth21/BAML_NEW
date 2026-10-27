@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "T18DIST_CHANNELS_TABLE")
+@Table(name = "\"T18DIST_CHANNELS_TABLE\"", schema = "\"AML\"")
 public class T18Report {
 	
 	private String	d1a_agents;

@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface RISKREVIEWREP extends JpaRepository<RiskSuma, String> {
 
-	@Query(value = "select * from table(BAML_CUST_RISK_REVIEW_FUN(?1,?2))", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_RISK_REVIEW_FUN\"(?1,?2)", nativeQuery = true)
 	RiskSuma RISKREVIEW(String fromdate, String todate);
 
-	@Query(value = "select * from table(BAML_CUST_RISK_REVIEW_DETAIL_FUN(?1,?2))", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_RISK_REVIEW_DETAIL_FUN\"(?1,?2)", nativeQuery = true)
 	Page<RiskDetails> RISKREVIEWDetail(String fromdate, String todate, Pageable page);
 
 }

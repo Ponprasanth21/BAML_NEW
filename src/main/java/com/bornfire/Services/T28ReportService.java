@@ -89,7 +89,7 @@ public class T28ReportService {
 		Query<Object[]> qr;
 
 		logger.info("Inside archive");
-		qr = hs.createNativeQuery("select * from T28_AML_CFT_INF ORDER BY LENGTH(srl_client),srl_client ,srl_no");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T28_AML_CFT_INF\" ORDER BY LENGTH(srl_client),srl_client ,srl_no");
 
 		List<Object[]> result = qr.getResultList();
 
@@ -208,7 +208,7 @@ public class T28ReportService {
 		Query<Object[]> qr;
 
 		logger.info("Inside archive");
-		qr = hs.createNativeQuery("select * from T28_AML_CFT_INF ORDER BY LENGTH(srl_client),srl_client");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T28_AML_CFT_INF\" ORDER BY LENGTH(srl_client),srl_client");
 
 		List<Object[]> result = qr.getResultList();
 		for (Object[] a : result) {
@@ -262,9 +262,9 @@ public class T28ReportService {
 		Query<Object[]> qr;
 
 		if (dtltype.equals("report")) {
-			qr = hs.createNativeQuery("select * from T28_AML_CFT_DET_INF a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T28_AML_CFT_DET_INF\" a where report_date = ?1");
 		} else {
-			qr = hs.createNativeQuery("select * from T28_AML_CFT_DET_INF a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T28_AML_CFT_DET_INF\" a where report_date = ?1");
 		}
 		try {
 			qr.setParameter(1, df.parse(todate));

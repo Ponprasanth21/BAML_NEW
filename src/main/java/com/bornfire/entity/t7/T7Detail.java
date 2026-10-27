@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "T7CUST_KYC_CDD_REVIEW_MAST_TB")
+@Table(name = "\"T7CUST_KYC_CDD_REVIEW_MAST_TB\"", schema = "\"AML\"")
 public class T7Detail implements Serializable{
 	
 	@EmbeddedId

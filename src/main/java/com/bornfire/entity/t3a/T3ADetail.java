@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "T3A_PROFILE_FACE_TO_FACE_DET_TB")
+@Table(name = "\"T3A_PROFILE_FACE_TO_FACE_DET_TB\"", schema = "\"AML\"")
 public class T3ADetail {
 	
 	private String	cust_id;

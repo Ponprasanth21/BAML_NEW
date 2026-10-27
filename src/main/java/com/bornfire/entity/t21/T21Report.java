@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "T21_INACTIVE_DORM_ACCTS_TABLE")
+@Table(name = "\"T21_INACTIVE_DORM_ACCTS_TABLE\"", schema = "\"AML\"")
 public class T21Report {
 	
 	

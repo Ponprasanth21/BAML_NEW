@@ -85,7 +85,7 @@ public class T21ReportService {
 		List<Object> t21Rep = new ArrayList<Object>();
 		Query<Object[]> qr;
 
-		qr = hs.createNativeQuery("select * from T21_INACTIVE_DORM_ACCTS_TABLE where REPORT_DATE = ?1");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T21_INACTIVE_DORM_ACCTS_TABLE\" where REPORT_DATE = ?1");
 		try {
 			qr.setParameter(1, df.parse(todate));
 		} catch (ParseException e) {
@@ -209,7 +209,7 @@ public class T21ReportService {
 		List<Object> t21Rep = new ArrayList<Object>();
 		Query<Object[]> qr;
 
-		qr = hs.createNativeQuery("select * from T21_INACTIVE_DORM_ACCTS_TABLE where REPORT_DATE = ?1");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T21_INACTIVE_DORM_ACCTS_TABLE\" where REPORT_DATE = ?1");
 		try {
 			qr.setParameter(1, df.parse(todate));
 		} catch (ParseException e) {
@@ -298,13 +298,13 @@ public class T21ReportService {
 		if (dtltype.equals("report")) {
 			if(!filter.equals("null")) {
 				logger.info("Conver");
-			qr = hs.createNativeQuery("select * from T21_INACTIVE_DORM_ACCTS_DETAILS a where REPORT_DATE = ?1 and cell_mapping =?2");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T21_INACTIVE_DORM_ACCTS_DETAILS\" a where REPORT_DATE = ?1 and cell_mapping =?2");
 			qr.setParameter(2,filter);
 		} else {
-			qr = hs.createNativeQuery("select * from T21_INACTIVE_DORM_ACCTS_DETAILS a where REPORT_DATE = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T21_INACTIVE_DORM_ACCTS_DETAILS\" a where REPORT_DATE = ?1");
 		} 
 		}else {
-			qr = hs.createNativeQuery("select * from T21_INACTIVE_DORM_ACCTS_DETAILS a where REPORT_DATE = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T21_INACTIVE_DORM_ACCTS_DETAILS\" a where REPORT_DATE = ?1");
 		}
 		try {
 			qr.setParameter(1, df.parse(todate));

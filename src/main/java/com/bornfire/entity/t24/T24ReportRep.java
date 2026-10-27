@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface T24ReportRep extends JpaRepository<T24Report, Date> {
 	
-	@Query(value = "select * from T24_INT_ADT_AML_CFT_TABLE where REPORT_DATE=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"T24_INT_ADT_AML_CFT_TABLE\" where REPORT_DATE=?1", nativeQuery = true)
 	List<T24Report> gett24Report(Date d1);
 
 }

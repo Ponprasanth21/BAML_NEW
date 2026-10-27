@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="T28_AML_CFT_INF")
+@Table(name="\"T28_AML_CFT_INF\"", schema="\"AML\"")
 public class T28Report {
 	
 	

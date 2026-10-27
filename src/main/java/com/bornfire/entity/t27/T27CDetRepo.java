@@ -12,7 +12,7 @@ public interface T27CDetRepo  extends JpaRepository<T27CDetail, String> {
 	
 	
 	
-	@Query(value = "select * from T27C_TRAN_NRE_DET_TABLE where report_date=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"T27C_TRAN_NRE_DET_TABLE\" where report_date=?1", nativeQuery = true)
 	Page<T27CDetail> getReportList(String report_date,Pageable page);
 
 }

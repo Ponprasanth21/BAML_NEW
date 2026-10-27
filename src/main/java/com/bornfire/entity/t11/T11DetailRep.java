@@ -17,10 +17,10 @@ public interface T11DetailRep  extends JpaRepository<T11Details,String> {
 	 Optional<T11Details> findById( String directorId);
 	 
 	 
-	 @Query(value = "select * from T11_CDD_TRAN_TERM_DETAILS order by CUST_ID", countQuery = "select count(*) from T11_CDD_TRAN_TERM_DETAILS", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T11_CDD_TRAN_TERM_DETAILS\" order by CUST_ID", countQuery = "select count(*) from \"AML\".\"T11_CDD_TRAN_TERM_DETAILS\"", nativeQuery = true)
 		Page<T11Details> rejectList(Pageable page);
 	 
-	 @Query(value = "select distinct cust_id,cust_name,riskrating from CUST_MAST_GEN_TABLE ", nativeQuery = true)
+	 @Query(value = "select distinct cust_id,cust_name,riskrating from \"AML\".\"CUST_MAST_GEN_TABLE\" ", nativeQuery = true)
 		List<Object[]>  findAllCustom();
 	 
 }

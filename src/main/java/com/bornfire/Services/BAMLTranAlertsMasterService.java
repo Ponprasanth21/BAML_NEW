@@ -88,26 +88,33 @@ public class BAMLTranAlertsMasterService {
 
 		String msg = "";
 		if (formmode.equals("edit")) {
-			BAMLTranAlertsMaster up = alertparam;
-			up.setEntity_flag("N");
-			up.setDel_flg("N");
 			if (reg.isPresent()) {
-				up.setPart_tran_type(reg.get().getPart_tran_type());
-				up.setTran_id(reg.get().getTran_id());
-				up.setPart_tran_srl_num(reg.get().getPart_tran_srl_num());
-				up.setTran_sub_type(reg.get().getTran_sub_type());
-				up.setAlert_code(reg.get().getAlert_code());
-				up.setValue_date(reg.get().getValue_date());
-				up.setTran_type(reg.get().getTran_type());
-				up.setTran_crncy_code(reg.get().getTran_crncy_code());
-				up.setTran_amt(reg.get().getTran_amt());
+				BAMLTranAlertsMaster up = reg.get();
+				up.setAlert_remarks(alertparam.getAlert_remarks());
+				up.setUser_observations(alertparam.getUser_observations());
+				up.setStr_ref(alertparam.getStr_ref());
+				up.setCase_ref(alertparam.getCase_ref());
+				up.setFree_field_1(alertparam.getFree_field_1());
+				up.setFree_field_2(alertparam.getFree_field_2());
+				up.setEntity_flag("N");
+				up.setDel_flg("N");
+				up.setEntry_user_id(USERID);
+				up.setEntry_date(new Date());
+				if (date1 != null) {
+					up.setTran_date(date1);
+				}
+				bamlTranAlertsMasterRepository.save(up);
+			} else {
+				BAMLTranAlertsMaster up = alertparam;
+				up.setEntity_flag("N");
+				up.setDel_flg("N");
+				up.setEntry_user_id(USERID);
+				up.setEntry_date(new Date());
+				if (date1 != null) {
+					up.setTran_date(date1);
+				}
+				bamlTranAlertsMasterRepository.save(up);
 			}
-			if (date1 != null) {
-				up.setTran_date(date1);
-			}
-			up.setEntry_user_id(USERID);
-			up.setEntry_date(new Date());
-			bamlTranAlertsMasterRepository.save(up);
 			msg = "Edited Successfully";
 		} 
 		  

@@ -12,7 +12,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "T14_CHQ_INW_TABLE")
+@Table(name = "\"T14_CHQ_INW_TABLE\"", schema = "\"AML\"")
 public class T14Report {
 	
 	private String	d1a_cur_bmur100k;

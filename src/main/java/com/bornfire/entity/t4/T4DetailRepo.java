@@ -13,13 +13,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface T4DetailRepo extends JpaRepository<T4ReportDetail, Date> {
 	
-	 @Query(value = "select * from T4_CUSTOMER_PROFILING_DETAILED_TABLE  where report_date = ?1 and cell_mapping =?2", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T4_CUSTOMER_PROFILING_DETAILED_TABLE\" where \"REPORT_DATE\" = ?1 and \"CELL_MAPPING\" =?2", nativeQuery = true)
 		Page<T4ReportDetail> detailList(Date todate,String filter,Pageable page);
 	 
-	 @Query(value = "select * from T4_CUSTOMER_PROFILING_DETAILED_TABLE  where report_date = ?1", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T4_CUSTOMER_PROFILING_DETAILED_TABLE\" where \"REPORT_DATE\" = ?1", nativeQuery = true)
 		Page<T4ReportDetail> detailList1(Date todate,Pageable page);
 	 
-	 @Query(value = "select * from T4_CUSTOMER_PROFILING_DETAILED_TABLE where report_date=?1", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T4_CUSTOMER_PROFILING_DETAILED_TABLE\" where \"REPORT_DATE\"=?1", nativeQuery = true)
 	 Page<T4ReportDetail> getReportList(String report_date ,Pageable page);
 
 }

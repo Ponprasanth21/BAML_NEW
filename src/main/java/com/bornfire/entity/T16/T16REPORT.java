@@ -12,7 +12,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "T16_CASH_TRAN_QTR_TABLE")
+@Table(name = "\"T16_CASH_TRAN_QTR_TABLE\"", schema = "\"AML\"")
 public class T16REPORT {
 
 	

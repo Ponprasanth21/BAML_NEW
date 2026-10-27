@@ -14,7 +14,7 @@ import com.bornfire.entity.t1.T1DataMaintenanceId;
 
 
 @Entity
-@Table(name="T12_IND_CASH_DEP_DETILS")
+@Table(name="\"T12_IND_CASH_DEP_DETILS\"", schema="\"AML\"")
 @IdClass(T12DataMaintenanceId.class)
 public class T12DataMaintenance {
 	

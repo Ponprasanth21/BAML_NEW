@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "CUST_REVIEW_RISK_DETAIL_TEMP")
+@Table(name = "\"CUST_REVIEW_RISK_DETAIL_TEMP\"", schema = "\"AML\"")
 public class RiskDetails {
 	
 	private String	cust_name;

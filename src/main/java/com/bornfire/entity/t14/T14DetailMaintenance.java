@@ -12,7 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name="T14_CHQ_INW_DETAILS")
+@Table(name="\"T14_CHQ_INW_DETAILS\"", schema="\"AML\"")
 @IdClass(T14DataMaintenanceId.class)
 public class T14DetailMaintenance {
 	

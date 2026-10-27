@@ -15,13 +15,13 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface BAMLCustomerChecksRepo extends JpaRepository<BAMLCustomerChecks, BigDecimal>{
 	
-	 @Query(value = "select * from BAML_ON_BOARD_CHECKS order by REF_DATE desc", nativeQuery = true) 
+	 @Query(value = "select * from \"AML\".\"BAML_ON_BOARD_CHECKS\" order by \"REF_DATE\" desc", nativeQuery = true) 
 	 Page<BAMLCustomerChecks> customerchecklist(Pageable page);
 	 
-	 @Query(value="select count(*) from BAML_ON_BOARD_CHECKS where REF_DATE = ?1 ", nativeQuery = true)
+	 @Query(value="select count(*) from \"AML\".\"BAML_ON_BOARD_CHECKS\" where \"REF_DATE\" = ?1 ", nativeQuery = true)
 	 Long count(Date searchDate);
 	 
-	 @Query(value = "select * from BAML_ON_BOARD_CHECKS where REF_DATE = ?1 ", nativeQuery = true) 
+	 @Query(value = "select * from \"AML\".\"BAML_ON_BOARD_CHECKS\" where \"REF_DATE\" = ?1 ", nativeQuery = true) 
 	 Page<BAMLCustomerChecks> customerCheckListWithDateFilter(Date searchDate,Pageable page);
 	
 	

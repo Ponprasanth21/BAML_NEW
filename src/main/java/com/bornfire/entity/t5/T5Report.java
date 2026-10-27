@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "T5_RISK_RATING_MIG_SUMARY_TABLE")
+@Table(name = "\"T5_RISK_RATING_MIG_SUMARY_TABLE\"", schema = "\"AML\"")
 public class T5Report {
 	
 	private String	t5_1_name;

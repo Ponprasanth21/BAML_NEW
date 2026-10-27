@@ -14,7 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name="BAML_DAILY_LOAN_BLACKLIST_RPT_TEMP_TABLE")
+@Table(name="\"BAML_DAILY_LOAN_BLACKLIST_RPT_TEMP_TABLE\"", schema="\"AML\"")
 public class BAML_Daily_Loan_Blacklist_RT_Entity implements Serializable{
 	public BAML_Daily_Loan_Blacklist_RT_Entity() {
 		super();

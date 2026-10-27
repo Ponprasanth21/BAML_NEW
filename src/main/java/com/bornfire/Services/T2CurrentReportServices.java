@@ -89,7 +89,7 @@ public class T2CurrentReportServices {
 
 		logger.info("Inside archive");
 		qr = hs.createNativeQuery(
-				"select * from T2_CFT_CUSTOMER_RATING_RPT_TB a where REPORT_DATE = ?1 ");
+				"select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_RPT_TB\" a where \"REPORT_DATE\" = ?1 ");
 		try {
 			qr.setParameter(1, df.parse(todate));
 		
@@ -225,7 +225,7 @@ public class T2CurrentReportServices {
 
 		logger.info("Inside archive");
 		qr = hs.createNativeQuery(
-				"select * from T2_CFT_CUSTOMER_RATING_RPT_TB a where REPORT_DATE = ?1 ");
+				"select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_RPT_TB\" a where \"REPORT_DATE\" = ?1 ");
 	try {
 			qr.setParameter(1, df.parse(todate));
 			
@@ -302,52 +302,52 @@ public class T2CurrentReportServices {
 /*
 		if (dtltype.equals("report")) {
 			if (ratvalue == null) {
-				qr = hs.createNativeQuery("select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where report_date = ?1");
+				qr = hs.createNativeQuery("select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where report_date = ?1");
 			} else if (ratvalue.equals("high") && (tablecol.equals("ff"))) {
 				qr = hs.createNativeQuery(
-						"select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where MIS_FACE_TO_FACE='HIGH' and report_date = ?1");
+						"select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where MIS_FACE_TO_FACE='HIGH' and report_date = ?1");
 			} else if (ratvalue.equals("high") && (tablecol.equals("nff"))) {
 				qr = hs.createNativeQuery(
-						"select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where MIS_NON_FACE_TO_FACE='HIGH' and report_date = ?1");
+						"select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where MIS_NON_FACE_TO_FACE='HIGH' and report_date = ?1");
 			} else if (ratvalue.equals("high") && (tablecol.equals("irg"))) {
 				qr = hs.createNativeQuery(
-						"select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where MIS_INTERNAL_RATING_GRADE='HIGH' and report_date = ?1");
+						"select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where MIS_INTERNAL_RATING_GRADE='HIGH' and report_date = ?1");
 			} else if (ratvalue.equals("high") && (tablecol.equals("irs"))) {
 				qr = hs.createNativeQuery(
-						"select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where MIS_INTERNAL_RATING_SCALE='HIGH' and report_date = ?1");
+						"select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where MIS_INTERNAL_RATING_SCALE='HIGH' and report_date = ?1");
 			} else if (ratvalue.equals("medium") && (tablecol.equals("ff"))) {
 				qr = hs.createNativeQuery(
-						"select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where MIS_FACE_TO_FACE='MEDIUM' and report_date = ?1");
+						"select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where MIS_FACE_TO_FACE='MEDIUM' and report_date = ?1");
 			} else if (ratvalue.equals("medium") && (tablecol.equals("nff"))) {
 				qr = hs.createNativeQuery(
-						"select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where MIS_NON_FACE_TO_FACE='MEDIUM' and report_date = ?1");
+						"select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where MIS_NON_FACE_TO_FACE='MEDIUM' and report_date = ?1");
 			} else if (ratvalue.equals("medium") && (tablecol.equals("irg"))) {
 				qr = hs.createNativeQuery(
-						"select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where MIS_INTERNAL_RATING_GRADE='MEDIUM' and report_date = ?1");
+						"select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where MIS_INTERNAL_RATING_GRADE='MEDIUM' and report_date = ?1");
 			} else if (ratvalue.equals("medium") && (tablecol.equals("irs"))) {
 				qr = hs.createNativeQuery(
-						"select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where MIS_INTERNAL_RATING_SCALE='MEDIUM' and report_date = ?1");
+						"select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where MIS_INTERNAL_RATING_SCALE='MEDIUM' and report_date = ?1");
 			}
 
 			else if (ratvalue.equals("low") && (tablecol.equals("ff"))) {
 				qr = hs.createNativeQuery(
-						"select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where MIS_FACE_TO_FACE='LOW' and report_date = ?1");
+						"select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where MIS_FACE_TO_FACE='LOW' and report_date = ?1");
 			} else if (ratvalue.equals("low") && (tablecol.equals("nff"))) {
 				qr = hs.createNativeQuery(
-						"select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where MIS_NON_FACE_TO_FACE='LOW' and report_date = ?1");
+						"select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where MIS_NON_FACE_TO_FACE='LOW' and report_date = ?1");
 			} else if (ratvalue.equals("low") && (tablecol.equals("irg"))) {
 				qr = hs.createNativeQuery(
-						"select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where MIS_INTERNAL_RATING_GRADE='LOW' and report_date = ?1");
+						"select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where MIS_INTERNAL_RATING_GRADE='LOW' and report_date = ?1");
 			} else if (ratvalue.equals("low") && (tablecol.equals("irs"))) {
 				qr = hs.createNativeQuery(
-						"select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where MIS_INTERNAL_RATING_SCALE='LOW' and report_date = ?1");
+						"select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where MIS_INTERNAL_RATING_SCALE='LOW' and report_date = ?1");
 			}
 
 			else {
-				qr = hs.createNativeQuery("select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where report_date = ?1");
+				qr = hs.createNativeQuery("select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where report_date = ?1");
 			}
 		} else {
-			qr = hs.createNativeQuery("select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where report_date = ?1");
 		}
 		try {
 			qr.setParameter(1, df.parse(todate));
@@ -359,13 +359,13 @@ public class T2CurrentReportServices {
 		
 		if (dtltype.equals("report")) {
 			if(!filter.equals("null")) {
-				qr = hs.createNativeQuery("select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where report_date = ?1 and CUST_RATING =?2");
+				qr = hs.createNativeQuery("select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where \"REPORT_DATE\" = ?1 and \"CUST_RATING\" =?2");
 				qr.setParameter(2,filter);
 			}else {
-				qr = hs.createNativeQuery("select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where report_date = ?1");
+				qr = hs.createNativeQuery("select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where \"REPORT_DATE\" = ?1");
 			}
 		} else {
-			qr = hs.createNativeQuery("select * from T2_CFT_CUSTOMER_RATING_MAST_TB a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" a where \"REPORT_DATE\" = ?1");
 		}
 
 		try {
@@ -578,7 +578,7 @@ public class T2CurrentReportServices {
 		List<T2CurrentMast> t9Dt1 = new ArrayList<T2CurrentMast>();
 		Query<Object[]> qr;
 
-			qr = hs.createNativeQuery("select * from T2_CFT_CUSTOMER_RATING_MAST_TB where report_date=?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" where \"REPORT_DATE\"=?1");
 			qr.setParameter(1,rpt_date);
 			List<Object[]> result = qr.getResultList();
 			
@@ -690,7 +690,7 @@ public class T2CurrentReportServices {
 		List<T2CurrentMast> t9Dt1 = new ArrayList<T2CurrentMast>();
 		Query<Object[]> qr;
 
-			qr = hs.createNativeQuery("select * from T2_CFT_CUSTOMER_RATING_MAST_TB where report_date=?1 and cust_id=?2 and process_owner= ?3 and UPPER(customer_name) like UPPER(?4)");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" where report_date=?1 and cust_id=?2 and process_owner= ?3 and UPPER(customer_name) like UPPER(?4)");
 			qr.setParameter(1,rpt_date);
 			qr.setParameter(2,Cust_ID);
 			qr.setParameter(3,P_O);
@@ -802,7 +802,7 @@ public class T2CurrentReportServices {
 		List<T2CurrentMast> t9Dt1 = new ArrayList<T2CurrentMast>();
 		Query<Object[]> qr;
 
-			qr = hs.createNativeQuery("select * from T2_CFT_CUSTOMER_RATING_MAST_TB where report_date=?1 and cust_id=?2 and UPPER(customer_name) like UPPER(?3)");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" where report_date=?1 and cust_id=?2 and UPPER(customer_name) like UPPER(?3)");
 			qr.setParameter(1,rpt_date);
 			qr.setParameter(2,Cust_ID);
 			
@@ -912,7 +912,7 @@ public class T2CurrentReportServices {
 		List<T2CurrentMast> t9Dt1 = new ArrayList<T2CurrentMast>();
 		Query<Object[]> qr;
 
-			qr = hs.createNativeQuery("select * from T2_CFT_CUSTOMER_RATING_MAST_TB where report_date=?1 and cust_id=?2 ");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" where report_date=?1 and cust_id=?2 ");
 			qr.setParameter(1,rpt_date);
 			qr.setParameter(2,Cust_ID);
 			List<Object[]> result = qr.getResultList();
@@ -1019,7 +1019,7 @@ public class T2CurrentReportServices {
 		List<T2CurrentMast> t9Dt1 = new ArrayList<T2CurrentMast>();
 		Query<Object[]> qr;
 
-			qr = hs.createNativeQuery("select * from T2_CFT_CUSTOMER_RATING_MAST_TB where report_date=?1 and process_owner=?2 ");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" where report_date=?1 and process_owner=?2 ");
 			qr.setParameter(1,rpt_date);
 			qr.setParameter(2,P_O);
 			List<Object[]> result = qr.getResultList();
@@ -1124,7 +1124,7 @@ public class T2CurrentReportServices {
 		List<T2CurrentMast> t9Dt1 = new ArrayList<T2CurrentMast>();
 		Query<Object[]> qr;
 
-			qr = hs.createNativeQuery("select * from T2_CFT_CUSTOMER_RATING_MAST_TB where report_date=?1 and UPPER(customer_name) like UPPER(?2)");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" where report_date=?1 and UPPER(customer_name) like UPPER(?2)");
 			qr.setParameter(1,rpt_date);
 			qr.setParameter(2,Cust_Name);
 			List<Object[]> result = qr.getResultList();

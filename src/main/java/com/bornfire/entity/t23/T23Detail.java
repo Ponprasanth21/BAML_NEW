@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "T23_AML_CFT_REVIEWS_DETAIL")
+@Table(name = "\"T23_AML_CFT_REVIEWS_DETAIL\"", schema = "\"AML\"")
 public class T23Detail {
 	
 	private String	primary_sol_id;

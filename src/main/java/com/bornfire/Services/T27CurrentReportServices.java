@@ -91,7 +91,7 @@ public class T27CurrentReportServices {
 
 		logger.info("Inside archive");
 		qr = hs.createNativeQuery(
-				"select * from T27C_TRAN_NRE_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2 order by instance_code  ");
+				"select * from \"AML\".\"T27C_TRAN_NRE_TABLE\" a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2 order by instance_code  ");
 		try {
 			qr.setParameter(1, df.parse(fromdate));
 			qr.setParameter(2, df.parse(todate));
@@ -228,7 +228,7 @@ public class T27CurrentReportServices {
 
 		logger.info("Inside archive");
 		qr = hs.createNativeQuery(
-				"select * from T27C_TRAN_NRE_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2 order by instance_code");
+				"select * from \"AML\".\"T27C_TRAN_NRE_TABLE\" a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2 order by instance_code");
 		try {
 			qr.setParameter(1, df.parse(fromdate));
 			qr.setParameter(2, df.parse(todate));
@@ -294,9 +294,9 @@ public class T27CurrentReportServices {
 		Query<Object[]> qr;
 
 		if (dtltype.equals("report")) {
-			qr = hs.createNativeQuery("select * from T27C_TRAN_NRE_DET_TABLE a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T27C_TRAN_NRE_DET_TABLE\" a where report_date = ?1");
 		} else {
-			qr = hs.createNativeQuery("select * from T27C_TRAN_NRE_DET_TABLE a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T27C_TRAN_NRE_DET_TABLE\" a where report_date = ?1");
 		}
 
 		try {

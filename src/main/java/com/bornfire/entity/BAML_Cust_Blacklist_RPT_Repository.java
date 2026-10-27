@@ -20,23 +20,23 @@ public interface BAML_Cust_Blacklist_RPT_Repository extends JpaRepository<BAML_C
 
 	//this class is used for aml monitoring reports - black list ind,corp, negatoive list 
 
-	@Query(value = "select * from table(BAML_CUST_BLACKLIST_IND_RPT_FUN(?1,?2))", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_BLACKLIST_IND_RPT_FUN\"(?1,?2)", nativeQuery = true)
 	Page<BAML_Cust_Blacklist_RPT_Entity> findAllCustBlackListIndReport(String fromdate,String todate,Pageable pageable);
 
-	@Query(value = "select * from table(BAML_CUST_BLACKLIST_CORP_RPT_FUN(?1,?2))", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_BLACKLIST_CORP_RPT_FUN\"(?1,?2)", nativeQuery = true)
 	Page<BAML_Cust_Blacklist_RPT_Entity> findAllCustBlackListCorpReport(String fromdate,String todate,Pageable pageable);
 	
-	@Query(value = "select * from table(BAML_CUST_NEGATIVE_LIST_RPT_FUN(?1,?2))", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_NEGATIVE_LIST_RPT_FUN\"(?1,?2)", nativeQuery = true)
 	Page<BAML_Cust_Blacklist_RPT_Entity> findAllCustNegativelistReport(String fromdate,String todate,Pageable pageable);
 
-	@Query(value = "select * from table(BAML_CUST_WHITE_LIST_RPT_FUN(?1,?2))", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_WHITE_LIST_RPT_FUN\"(?1,?2)", nativeQuery = true)
 	Page<BAML_Cust_Blacklist_RPT_Entity> findAllCustWhitelistReport(String fromdate,String todate,Pageable pageable);
 
 
-	@Query(value = "select * from table(BAML_CUST_BLACKLIST_CORP_RPT_FUN(?1,?2))", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_BLACKLIST_CORP_RPT_FUN\"(?1,?2)", nativeQuery = true)
 	List<BAML_Cust_Blacklist_RPT_Entity> findAllCustBlackListCorpReport(String fromdate,String todate);
 	
-	@Query(value = "select * from table(BAML_CUST_BLACKLIST_IND_RPT_FUN(?1,?2))", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_BLACKLIST_IND_RPT_FUN\"(?1,?2)", nativeQuery = true)
 	List<BAML_Cust_Blacklist_RPT_Entity> findAllCustBlackListIndReport(String fromdate,String todate);
 
 	

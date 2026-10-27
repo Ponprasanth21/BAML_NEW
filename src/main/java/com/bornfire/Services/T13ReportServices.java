@@ -86,7 +86,7 @@ public class T13ReportServices {
 
 		logger.info("Inside archive"+fromdate+todate);
 		qr = hs.createNativeQuery(
-				"select * from T13_IND_CASH_WDL_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
+				"select * from \"AML\".\"T13_IND_CASH_WDL_TABLE\" a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
 			try {
 		qr.setParameter(1, df.parse(fromdate));
 		qr.setParameter(2, df.parse(todate));
@@ -266,7 +266,7 @@ public class T13ReportServices {
 		Session hs = sessionFactory.getCurrentSession();
 		Query query = null;
 		try {
-			query = hs.createNativeQuery("select count(*) from T13_IND_CASH_WDL_TABLE where report_date = ?1 ")
+			query = hs.createNativeQuery("select count(*) from \"AML\".\"T13_IND_CASH_WDL_TABLE\" where report_date = ?1 ")
 					.setParameter(1, df.parse(todate));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -303,7 +303,7 @@ public class T13ReportServices {
 
 		logger.info("Inside archive");
 		qr = hs.createNativeQuery(
-				"select * from T13_IND_CASH_WDL_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
+				"select * from \"AML\".\"T13_IND_CASH_WDL_TABLE\" a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
 		try {
 			qr.setParameter(1, df.parse(fromdate));
 			qr.setParameter(2, df.parse(todate));
@@ -429,9 +429,9 @@ public class T13ReportServices {
 		Query<Object[]> qr;
 
 		if (dtltype.equals("report")) {
-			qr = hs.createNativeQuery("select * from T13_IND_CASH_DEP_DETAILS a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T13_IND_CASH_DEP_DETAILS\" a where report_date = ?1");
 		} else {
-			qr = hs.createNativeQuery("select * from T13_IND_CASH_DEP_DETAILS a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T13_IND_CASH_DEP_DETAILS\" a where report_date = ?1");
 		}
 
 		try {

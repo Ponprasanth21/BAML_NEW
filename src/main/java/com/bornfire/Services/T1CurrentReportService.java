@@ -174,13 +174,13 @@ public class T1CurrentReportService {
 		if (dtltype.equals("report")) {
 			if (!filter.equals("null")) {
 				qr = hs.createNativeQuery(
-						"select * from TRAN_MASTER_DETAIL_RBS  where report_date = ?1 and T1_REPORT =?2");
+						"select * from \"AML\".\"TRAN_MASTER_DETAIL_RBS\" where \"REPORT_DATE\" = ?1 and \"T1_REPORT\" =?2");
 				qr.setParameter(2, filter);
 			} else {
-				qr = hs.createNativeQuery("select * from TRAN_MASTER_DETAIL_RBS  where report_date = ?1");
+				qr = hs.createNativeQuery("select * from \"AML\".\"TRAN_MASTER_DETAIL_RBS\" where \"REPORT_DATE\" = ?1");
 			}
 		} else {
-			qr = hs.createNativeQuery("select * from TRAN_MASTER_DETAIL_RBS  where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"TRAN_MASTER_DETAIL_RBS\" where \"REPORT_DATE\" = ?1");
 		}
 		try {
 			qr.setParameter(1, df.parse(todate));
@@ -697,7 +697,7 @@ public class T1CurrentReportService {
 		List<T1CurProdDetail> t9Dt1 = new ArrayList<T1CurProdDetail>();
 		Query<Object[]> qr;
 
-		qr = hs.createNativeQuery("select * from T1_CUR_PROD_SERVICES_DET_TABLE where report_date=?1");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T1_CUR_PROD_SERVICES_DET_TABLE\" where \"REPORT_DATE\"=?1");
 		qr.setParameter(1, rpt_date);
 		List<Object[]> result = qr.getResultList();
 
@@ -798,7 +798,7 @@ public class T1CurrentReportService {
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T1_CUR_PROD_SERVICES_DET_TABLE where report_date=?1 and tran_date=?2 and process_owner=?3 and trim(tran_id)=?4 and trim(part_tran_id)=?5");
+				"select * from \"AML\".\"T1_CUR_PROD_SERVICES_DET_TABLE\" where \"REPORT_DATE\"=?1 and \"TRAN_DATE\"=?2 and \"PROCESS_OWNER\"=?3 and trim(\"TRAN_ID\")=?4 and trim(\"PART_TRAN_ID\")=?5");
 		qr.setParameter(1, rpt_date);
 		qr.setParameter(2, tran_date1);
 		qr.setParameter(3, P_O);
@@ -904,7 +904,7 @@ public class T1CurrentReportService {
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T1_CUR_PROD_SERVICES_DET_TABLE where report_date=?1 and process_owner=?2");
+				"select * from \"AML\".\"T1_CUR_PROD_SERVICES_DET_TABLE\" where \"REPORT_DATE\"=?1 and \"PROCESS_OWNER\"=?2");
 		qr.setParameter(1, rpt_date);
 
 		qr.setParameter(2, P_O);
@@ -1009,7 +1009,7 @@ public class T1CurrentReportService {
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T1_CUR_PROD_SERVICES_DET_TABLE where report_date=?1 and tran_date=?2 ");
+				"select * from \"AML\".\"T1_CUR_PROD_SERVICES_DET_TABLE\" where \"REPORT_DATE\"=?1 and \"TRAN_DATE\"=?2 ");
 		qr.setParameter(1, rpt_date);
 		qr.setParameter(2, tran_date1);
 		
@@ -1118,7 +1118,7 @@ public class T1CurrentReportService {
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T1_CUR_PROD_SERVICES_DET_TABLE where report_date=?1 and tran_date=?2 and trim(tran_id)=?3 and trim(part_tran_id)=?4 ");
+				"select * from \"AML\".\"T1_CUR_PROD_SERVICES_DET_TABLE\" where \"REPORT_DATE\"=?1 and \"TRAN_DATE\"=?2 and trim(\"TRAN_ID\")=?3 and trim(\"PART_TRAN_ID\")=?4 ");
 		qr.setParameter(1, rpt_date);
 		qr.setParameter(2, tran_date1);
 		qr.setParameter(3, tran_id1);

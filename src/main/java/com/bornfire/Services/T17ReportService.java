@@ -83,7 +83,7 @@ public class T17ReportService {
 		List<Object> t17Rep = new ArrayList<Object>();
 		Query<Object[]> qr;
 
-		qr = hs.createNativeQuery("select * from T17_TRAN_MON_TABLE where REPORT_DATE = ?1");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T17_TRAN_MON_TABLE\" where REPORT_DATE = ?1");
 		try {
 			qr.setParameter(1, df.parse(todate));
 		} catch (ParseException e) {
@@ -168,7 +168,7 @@ public class T17ReportService {
 
 		Query query = null;
 
-		query = hs.createNativeQuery("select count(*) from T17_TRAN_MON_TABLE where report_date = ?1 ");
+		query = hs.createNativeQuery("select count(*) from \"AML\".\"T17_TRAN_MON_TABLE\" where report_date = ?1 ");
 				
 
 				try {
@@ -200,7 +200,7 @@ public class T17ReportService {
 		List<Object> t17Rep = new ArrayList<Object>();
 		Query<Object[]> qr;
 
-		qr = hs.createNativeQuery("select * from T17_TRAN_MON_TABLE where REPORT_DATE = ?1");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T17_TRAN_MON_TABLE\" where REPORT_DATE = ?1");
 		try {
 			qr.setParameter(1, df.parse(todate));
 		} catch (ParseException e) {
@@ -289,9 +289,9 @@ public class T17ReportService {
 		Query<Object[]> qr;
 
 		if (dtltype.equals("report")) {
-			qr = hs.createNativeQuery("select * from T17_TRAN_MON_DETAILS a where REPORT_DATE = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T17_TRAN_MON_DETAILS\" a where REPORT_DATE = ?1");
 		} else {
-			qr = hs.createNativeQuery("select * from T17_TRAN_MON_DETAILS a where REPORT_DATE = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T17_TRAN_MON_DETAILS\" a where REPORT_DATE = ?1");
 		}
 
 		try {

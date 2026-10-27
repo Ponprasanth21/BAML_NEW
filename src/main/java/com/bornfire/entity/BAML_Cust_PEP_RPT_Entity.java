@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="BAML_CUST_PEP_RPT_TEMP_TABLE")
+@Table(name="\"BAML_CUST_PEPLIST_RPT_TEMP_TABLE\"", schema="\"AML\"")
 public class BAML_Cust_PEP_RPT_Entity implements Serializable{
 	public BAML_Cust_PEP_RPT_Entity() {
 		super();

@@ -87,7 +87,7 @@ public class T11ReportService {
 
 		logger.info("Inside archive" + fromdate);
 		qr = hs.createNativeQuery(
-				"select * from T11_CDD_TRAN_TERM_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
+				"select * from \"AML\".\"T11_CDD_TRAN_TERM_TABLE\" a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
 		try {
 
 			qr.setParameter(1, df.parse(fromdate));
@@ -241,7 +241,7 @@ public class T11ReportService {
 
 		logger.info("Inside archive");
 		qr = hs.createNativeQuery(
-				"select * from T11_CDD_TRAN_TERM_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
+				"select * from \"AML\".\"T11_CDD_TRAN_TERM_TABLE\" a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
 		try {
 			qr.setParameter(1, df.parse(fromdate));
 			qr.setParameter(2, df.parse(todate));
@@ -330,9 +330,9 @@ public class T11ReportService {
 		Query<Object[]> qr;
 
 		if (dtltype.equals("report")) {
-			qr = hs.createNativeQuery("select * from T11_CDD_TRAN_TERM_DETAILS a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T11_CDD_TRAN_TERM_DETAILS\" a where report_date = ?1");
 		} else {
-			qr = hs.createNativeQuery("select * from T11_CDD_TRAN_TERM_DETAILS a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T11_CDD_TRAN_TERM_DETAILS\" a where report_date = ?1");
 		}
 		try {
 			qr.setParameter(1, df.parse(todate));
@@ -526,7 +526,7 @@ public class T11ReportService {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session
-				.createNativeQuery("select distinct(cust_name) from CUST_MAST_GEN_TABLE where cust_id=?1  ");
+				.createNativeQuery("select distinct(cust_name) from \"AML\".\"CUST_MAST_GEN_TABLE\" where cust_id=?1  ");
 		query.setParameter(1, custid);
 
 		String result = (String) query.getSingleResult();

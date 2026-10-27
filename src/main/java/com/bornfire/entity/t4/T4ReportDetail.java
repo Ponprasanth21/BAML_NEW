@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="T4_CUSTOMER_PROFILING_DETAILED_TABLE")
+@Table(name="\"T4_CUSTOMER_PROFILING_DETAILED_TABLE\"", schema="\"AML\"")
 public class T4ReportDetail {
 	
 	private String	cust_id;

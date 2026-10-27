@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "T12_RODRIGUES")
+@Table(name = "\"T12_RODRIGUES\"", schema = "\"AML\"")
 public class T12RODRIGUES {
 	@Id
 	private BigDecimal	sn;

@@ -16,7 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name="T1_CUR_PROD_SERVICES_DET_TABLE")
+@Table(name="\"T1_CUR_PROD_SERVICES_DET_TABLE\"", schema="\"AML\"")
 @IdClass(T1DataMaintenanceId.class)
 public class T1DataMaintenance {
 	

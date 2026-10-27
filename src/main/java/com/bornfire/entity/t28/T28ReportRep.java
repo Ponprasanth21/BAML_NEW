@@ -13,6 +13,6 @@ public interface T28ReportRep extends JpaRepository<T28Report, String> {
 	
 	//Optional<T28Report> findById(String directorId);
 	
-	@Query(value = "select * from T28_AML_CFT_INF ", nativeQuery = true) 
+	@Query(value = "select * from \"AML\".\"T28_AML_CFT_INF\" ", nativeQuery = true) 
 	T28Report findByIdcustom(String srlno);
 }

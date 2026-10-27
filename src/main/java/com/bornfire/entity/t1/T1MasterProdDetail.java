@@ -11,7 +11,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "T1_MAST_PROD_SER_DEL_CHANNEL")
+@Table(name = "\"T1_MAST_PROD_SER_DEL_CHANNEL\"", schema = "\"AML\"")
 public class T1MasterProdDetail {
 	
 	private String	d1a_dep_tkg_services;

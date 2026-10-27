@@ -13,7 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name = "T24_INT_ADT_AML_CFT_TABLE")
+@Table(name = "\"T24_INT_ADT_AML_CFT_TABLE\"", schema = "\"AML\"")
 public class T24Report {
 	
 	private String	d1a_int_adt_ho;

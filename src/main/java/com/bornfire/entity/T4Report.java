@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name= "BAML_CUST_APPL_REJ")
+@Table(name= "\"BAML_CUST_APPL_REJ\"", schema = "\"AML\"")
 public class T4Report {
 	
 	@Id

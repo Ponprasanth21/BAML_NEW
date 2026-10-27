@@ -16,7 +16,7 @@ public interface T11DetailsRep  extends JpaRepository<T11Details,String> {
 	 
 	 
 	 
-	 @Query(value = "select distinct cust_id,cust_name,riskrating from CUST_MAST_GEN_TABLE ", nativeQuery = true)
+	 @Query(value = "select distinct cust_id,cust_name,riskrating from \"AML\".\"CUST_MAST_GEN_TABLE\" ", nativeQuery = true)
 		List<Object[]>  findAllCustom();
 	 
 }

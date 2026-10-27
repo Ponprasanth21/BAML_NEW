@@ -13,7 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name = "T23_AML_CFT_REVIEWS_TABLE")
+@Table(name = "\"T23_AML_CFT_REVIEWS_TABLE\"", schema = "\"AML\"")
 public class T23Report {
 	
 	private String	d1a_acct_opn_appl;

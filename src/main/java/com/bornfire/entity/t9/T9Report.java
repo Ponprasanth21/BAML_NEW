@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "T9_DOM_OW_REMIT_TABLE")
+@Table(name = "\"T9_DOM_OW_REMIT_TABLE\"", schema = "\"AML\"")
 public class T9Report {
 	
 	private String	d1_cur_bmur30k;

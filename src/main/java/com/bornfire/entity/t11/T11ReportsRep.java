@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface T11ReportsRep extends JpaRepository<T11Reports,Date> {
 	 Optional<T11Reports> findById(Date directorId);
 	 
-	 @Query(value = "select * from T11_CDD_TRAN_TERM_TABLE", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T11_CDD_TRAN_TERM_TABLE\"", nativeQuery = true)
 		Page<T11Reports> rejectList(Pageable page);
 }

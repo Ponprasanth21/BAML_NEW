@@ -11,7 +11,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "T17_TRAN_MON_TABLE")
+@Table(name = "\"T17_TRAN_MON_TABLE\"", schema = "\"AML\"")
 public class T17Report {
 
 	private String d1a_cash_dep_wdl;

@@ -12,7 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name="T28_AML_CFT_INF_TABLE")
+@Table(name="\"T28_AML_CFT_INF_TABLE\"", schema="\"AML\"")
 public class T28Reports {
 	
     private String a1_srl_no;

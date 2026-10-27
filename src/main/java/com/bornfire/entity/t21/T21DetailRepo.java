@@ -15,10 +15,10 @@ import com.bornfire.entity.t18.T18Detail;
 @Repository
 public interface T21DetailRepo extends JpaRepository<T21Detail, String> {
 	
-	 @Query(value = "select * from T21_INACTIVE_DORM_ACCTS_DETAILS a where report_date = ?1", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T21_INACTIVE_DORM_ACCTS_DETAILS\" a where report_date = ?1", nativeQuery = true)
 		Page<T21Detail> detailList(Date todate,Pageable page);
 	 
-	 @Query(value = "select * from T21_INACTIVE_DORM_ACCTS_DETAILS where report_date=?1", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T21_INACTIVE_DORM_ACCTS_DETAILS\" where report_date=?1", nativeQuery = true)
 	 Page<T21Detail> getReportList(String report_date,Pageable page);
 
 }

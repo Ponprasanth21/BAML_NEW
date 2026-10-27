@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "BAML_ON_BOARD_CHECKS")
+@Table(name = "\"BAML_ON_BOARD_CHECKS\"", schema = "\"AML\"")
 public class BAMLCustomerChecks {
 	
 	@Id

@@ -85,7 +85,7 @@ public class T22ReportService {
 
 		logger.info("Inside archive" + fromdate);
 		qr = hs.createNativeQuery(
-				"select * from T22_ABAND_FUND_ACCTS_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
+				"select * from \"AML\".\"T22_ABAND_FUND_ACCTS_TABLE\" a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
 
 		try {
 			qr.setParameter(1, df.parse(fromdate));
@@ -215,7 +215,7 @@ public class T22ReportService {
 
 		logger.info("Inside archive");
 		qr = hs.createNativeQuery(
-				"select * from T22_ABAND_FUND_ACCTS_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
+				"select * from \"AML\".\"T22_ABAND_FUND_ACCTS_TABLE\" a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
 		try {
 			qr.setParameter(1, df.parse(fromdate));
 			qr.setParameter(2, df.parse(todate));
@@ -284,13 +284,13 @@ public class T22ReportService {
 		if (dtltype.equals("report")) {
 			if(!filter.equals("null")) {
 				logger.info("Conver");
-			qr = hs.createNativeQuery("select * from T22_ABAND_FUND_ACCTS_DETAILS a where REPORT_DATE = ?1 and cell_mapping =?2");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T22_ABAND_FUND_ACCTS_DETAILS\" a where REPORT_DATE = ?1 and cell_mapping =?2");
 			qr.setParameter(2,filter);
 		} else {
-			qr = hs.createNativeQuery("select * from T22_ABAND_FUND_ACCTS_DETAILS a where REPORT_DATE = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T22_ABAND_FUND_ACCTS_DETAILS\" a where REPORT_DATE = ?1");
 		} 
 		}else {
-			qr = hs.createNativeQuery("select * from T22_ABAND_FUND_ACCTS_DETAILS a where REPORT_DATE = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T22_ABAND_FUND_ACCTS_DETAILS\" a where REPORT_DATE = ?1");
 		}
 		try {
 			qr.setParameter(1, df.parse(todate));

@@ -12,7 +12,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "T7CUST_KYC_CDD_REVIEW_RPT_TABLE")
+@Table(name = "\"T7CUST_KYC_CDD_REVIEW_RPT_TABLE\"", schema = "\"AML\"")
 public class T7Report {
 
 	private String	d1a_ind_low;

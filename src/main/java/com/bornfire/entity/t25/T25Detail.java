@@ -11,7 +11,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "T25_AMLCFT_APPL_DETAIL")
+@Table(name = "\"T25_AMLCFT_APPL_DETAIL\"", schema = "\"AML\"")
 public class T25Detail {
 
 	private String ho_pre_applicable;

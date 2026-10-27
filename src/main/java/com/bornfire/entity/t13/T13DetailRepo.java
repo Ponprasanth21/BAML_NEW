@@ -17,10 +17,10 @@ import com.bornfire.entity.t12.T12Detail;
 @Repository
 public interface T13DetailRepo  extends JpaRepository<T13Detail, T13DetailId> {
 	
-	 @Query(value = "select * from T13_IND_CASH_DEP_DETAILS a where report_date = ?1", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T13_IND_CASH_DEP_DETAILS\" a where report_date = ?1", nativeQuery = true)
 		Page<T13Detail> detailList(Date todate,Pageable page);
 	 
-	 @Query(value = "select * from T12_IND_CASH_DEP_DETILS where report_date=?1", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T12_IND_CASH_DEP_DETILS\" where report_date=?1", nativeQuery = true)
 		List<T13Detail> getReportList(String report_date );
 
 }

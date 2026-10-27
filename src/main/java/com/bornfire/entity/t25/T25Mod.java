@@ -12,7 +12,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "T25_AMLCFT_APPL_MOD_TABLE")
+@Table(name = "\"T25_AMLCFT_APPL_MOD_TABLE\"", schema = "\"AML\"")
 public class T25Mod {
 
 	private String d1a_ho;

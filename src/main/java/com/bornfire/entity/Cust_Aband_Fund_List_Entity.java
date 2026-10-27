@@ -14,7 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name="BAML_CUST_ABAND_FUND_LIST")
+@Table(name="\"BAML_CUST_ABAND_FUND_LIST\"", schema="\"AML\"")
 public class Cust_Aband_Fund_List_Entity implements Serializable{
 	public Cust_Aband_Fund_List_Entity() {
 		super();

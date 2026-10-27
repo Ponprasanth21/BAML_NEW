@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "T3A_PROFILE_FACE_TO_FACE")
+@Table(name = "\"T3A_PROFILE_FACE_TO_FACE\"", schema = "\"AML\"")
 public class T3AReport {
 	
 	private String	a_1_ind_res;

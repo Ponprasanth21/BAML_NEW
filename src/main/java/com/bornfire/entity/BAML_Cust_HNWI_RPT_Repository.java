@@ -20,17 +20,17 @@ public interface BAML_Cust_HNWI_RPT_Repository extends JpaRepository<BAML_Cust_H
 
 //	this calss is ussed fro hnwi and unsc report (aml monitoring reports)
 
-	@Query(value = "select * from table(BAML_CUST_HNWI_LIST_RPT_FUN(?1,?2))", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_HNWI_LIST_RPT_FUN\"(?1,?2)", nativeQuery = true)
 	Page<BAML_Cust_HNWI_RPT_Entity> findAllCustHNWIListReport(String fromdate,String todate,Pageable pageable);
 
 	
-	@Query(value = "select * from table(BAML_CUST_UNSC_RPT_FUN(?1,?2))", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_UNSC_RPT_FUN\"(?1,?2)", nativeQuery = true)
 	Page<BAML_Cust_HNWI_RPT_Entity> findAllCustUNSClistReport(String fromdate,String todate,Pageable pageable);
 
-	@Query(value = "select * from table(BAML_CUST_HNWI_LIST_RPT_FUN(?1,?2))", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_HNWI_LIST_RPT_FUN\"(?1,?2)", nativeQuery = true)
 	List<BAML_Cust_HNWI_RPT_Entity> findAllCustHNWIListReport(String fromdate,String todate);
 	
-	@Query(value = "select * from table(BAML_CUST_UNSC_RPT_FUN(?1,?2))", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_UNSC_RPT_FUN\"(?1,?2)", nativeQuery = true)
 	List<BAML_Cust_HNWI_RPT_Entity> findAllCustUNSClistReport(String fromdate,String todate);
 
 

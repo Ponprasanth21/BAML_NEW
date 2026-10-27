@@ -17,7 +17,7 @@ import com.bornfire.entity.t6.T6Report;
 public interface T8Repositry extends JpaRepository<T8Detail,String> {
 
 	
-	@Query(value="select * from T8_TRAN_CUST_TYPE_DETAIL a where REPORT_DATE = ?1",nativeQuery = true)
+	@Query(value="select * from \"AML\".\"T8_TRAN_CUST_TYPE_DETAIL\" a where REPORT_DATE = ?1",nativeQuery = true)
 	Page<T8Detail> gett8details(String custId,Pageable pageable);
 
 

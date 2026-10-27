@@ -89,7 +89,7 @@ public class T19ReportService {
 
 		logger.info("Inside archive"+fromdate);
 		qr = hs.createNativeQuery(
-				"select * from T19_TYPES_HITS_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
+				"select * from \"AML\".\"T19_TYPES_HITS_TABLE\" a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
 		try {
 			qr.setParameter(1, df.parse(fromdate));
 			qr.setParameter(2, df.parse(todate));
@@ -333,7 +333,7 @@ public class T19ReportService {
 
 		logger.info("Inside archive");
 		qr = hs.createNativeQuery(
-				"select * from T19_TYPES_HITS_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
+				"select * from \"AML\".\"T19_TYPES_HITS_TABLE\" a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
 		try {
 			qr.setParameter(1, df.parse(fromdate));
 			qr.setParameter(2, df.parse(todate));
@@ -511,9 +511,9 @@ public class T19ReportService {
 		Query<Object[]> qr;
 
 		if (dtltype.equals("report")) {
-			qr = hs.createNativeQuery("select * from T19_TYPES_HITS_DETAILS a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T19_TYPES_HITS_DETAILS\" a where report_date = ?1");
 		} else {
-			qr = hs.createNativeQuery("select * from T19_TYPES_HITS_DETAILS a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T19_TYPES_HITS_DETAILS\" a where report_date = ?1");
 		}
 
 		try {

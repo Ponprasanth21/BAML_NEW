@@ -14,7 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.bornfire.entity.AML_KYC_Parameter;
 
 @Entity
-@Table(name = "T6_KYC_CDD_REVIEW_FREQ_TABLE")
+@Table(name = "\"T6_KYC_CDD_REVIEW_FREQ_TABLE\"", schema = "\"AML\"")
 public class T6Report implements Serializable {
 
 	/**

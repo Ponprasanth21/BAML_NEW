@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "T25_AMLCFT_APPL_TABLE")
+@Table(name = "\"T25_AMLCFT_APPL_TABLE\"", schema = "\"AML\"")
 public class T25Report {
 
 	private String d1a_ho;

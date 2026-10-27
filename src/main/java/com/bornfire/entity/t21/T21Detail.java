@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = " T21_INACTIVE_DORM_ACCTS_DETAILS")
+@Table(name = "\"T21_INACTIVE_DORM_ACCTS_DETAILS\"", schema = "\"AML\"")
 public class T21Detail implements Serializable {
 
 	@EmbeddedId

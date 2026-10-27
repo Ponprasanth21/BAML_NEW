@@ -92,7 +92,7 @@ public class T7ReportServices {
 
 		logger.info("Inside archive"+fromdate+todate);
 		qr = hs.createNativeQuery(
-				"select * from T7CUST_KYC_CDD_REVIEW_RPT_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
+				"select * from \"AML\".\"T7CUST_KYC_CDD_REVIEW_RPT_TABLE\" a where \"REP_PERIOD_FROM\" = ?1 and \"REP_PERIOD_TO\" = ?2");
 	try {
 			qr.setParameter(1, df.parse(fromdate));
 			qr.setParameter(2, df.parse(todate));
@@ -324,7 +324,7 @@ public class T7ReportServices {
 
 		logger.info("Inside archive");
 		qr = hs.createNativeQuery(
-				"select * from T7CUST_KYC_CDD_REVIEW_RPT_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
+				"select * from \"AML\".\"T7CUST_KYC_CDD_REVIEW_RPT_TABLE\" a where \"REP_PERIOD_FROM\" = ?1 and \"REP_PERIOD_TO\" = ?2");
 	try {
 			qr.setParameter(1, df.parse(fromdate));
 			qr.setParameter(2, df.parse(todate));
@@ -506,12 +506,12 @@ t7rep.add(t7report);
 		if (dtltype.equals("report")) {
 			if(!filter.equals("null")) {
 				logger.info("Conver");
-			qr = hs.createNativeQuery("select * from T7CUST_KYC_CDD_REVIEW_MAST_TB a where REPORT_DATE = ?1 and cell_mapping =?2");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T7CUST_KYC_CDD_REVIEW_MAST_TB\" a where \"REPORT_DATE\" = ?1 and \"CELL_MAPPING\" =?2");
 			qr.setParameter(2,filter);
 			}else {
-			qr = hs.createNativeQuery("select * from T7CUST_KYC_CDD_REVIEW_MAST_TB a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T7CUST_KYC_CDD_REVIEW_MAST_TB\" a where \"REPORT_DATE\" = ?1");
 		} }else {
-			qr = hs.createNativeQuery("select * from T7CUST_KYC_CDD_REVIEW_MAST_TB a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T7CUST_KYC_CDD_REVIEW_MAST_TB\" a where \"REPORT_DATE\" = ?1");
 		}
 		try {
 			qr.setParameter(1, df.parse(todate));

@@ -22,16 +22,16 @@ public interface T1CurProdServicesRepo extends JpaRepository<T1CurProdServices, 
 	
 	
 	
-	@Query(value = "select * from T1_CUR_PROD_SERVICES where REPORT_DATE=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"T1_CUR_PROD_SERVICES\" where \"REPORT_DATE\"=?1", nativeQuery = true)
 	List<T1CurProdServices> getT1CurProdServices(Date d1);
 	
-	@Query(value = "select * from T1_CUR_PROD_SERVICES where REPORT_DATE=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"T1_CUR_PROD_SERVICES\" where \"REPORT_DATE\"=?1", nativeQuery = true)
 	T1CurProdServices getT1CurProdServicesmast(Date d1);
 	
-	@Query(value = "select * from T1_CUR_PROD_SERVICES where report_date not in (select max(report_date) from T1_CUR_PROD_SERVICES)", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"T1_CUR_PROD_SERVICES\" where \"REPORT_DATE\" not in (select max(\"REPORT_DATE\") from \"AML\".\"T1_CUR_PROD_SERVICES\")", nativeQuery = true)
 	List<T1CurProdServices> getReportList();
 	
-	@Query(value = "select * from T1_CUR_PROD_SERVICES_DET_TABLE where report_date=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"T1_CUR_PROD_SERVICES_DET_TABLE\" where \"REPORT_DATE\"=?1", nativeQuery = true)
 	Page<T1CurProdDetail> getReportList(String report_date,Pageable page );
 	
 	

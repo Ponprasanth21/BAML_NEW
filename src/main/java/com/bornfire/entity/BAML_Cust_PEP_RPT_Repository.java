@@ -19,10 +19,10 @@ public interface BAML_Cust_PEP_RPT_Repository extends JpaRepository<BAML_Cust_PE
 	Optional<BAML_Cust_PEP_RPT_Entity> findById(String directorId);
 
 
-	@Query(value = "select * from table(BAML_CUST_PEP_LIST_RPT_FUN(?1,?2))", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_PEP_LIST_RPT_FUN\"(?1,?2)", nativeQuery = true)
 	Page<BAML_Cust_PEP_RPT_Entity> findAllCustPEPListReport(String fromdate,String todate,Pageable pageable);
 
-	@Query(value = "select * from table(BAML_CUST_PEP_LIST_RPT_FUN(?1,?2))", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_CUST_PEP_LIST_RPT_FUN\"(?1,?2)", nativeQuery = true)
 	List<BAML_Cust_PEP_RPT_Entity> findAllCustPEPListReport(String fromdate,String todate);
 
 	

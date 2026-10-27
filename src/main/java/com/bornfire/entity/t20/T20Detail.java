@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "T20_STR_DETAILS")
+@Table(name = "\"T20_STR_DETAILS\"", schema = "\"AML\"")
 public class T20Detail {
 
 	private String	cust_id;

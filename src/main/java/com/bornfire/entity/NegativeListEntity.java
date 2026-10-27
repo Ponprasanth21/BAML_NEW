@@ -14,7 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name="BAML_NEGATIVE_LIST")
+@Table(name="\"BAML_NEGATIVE_LIST\"", schema="\"AML\"")
 public class NegativeListEntity implements Serializable{
 	public NegativeListEntity() {
 		super();

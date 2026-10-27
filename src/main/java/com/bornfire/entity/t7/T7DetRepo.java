@@ -12,12 +12,12 @@ import com.bornfire.entity.t5.T5Detail;
 
 public interface T7DetRepo extends JpaRepository<T7Detail, String> {
 	
-	 @Query(value = "select * from T5_RISK_RATING_MIG_DETAILED_TABLE  where report_date = ?1 and cell_mapping =?2", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T5_RISK_RATING_MIG_DETAILED_TABLE\" where \"REPORT_DATE\" = ?1 and \"CELL_MAPPING\" =?2", nativeQuery = true)
 		Page<T5Detail> detailList(Date todate,String filter,Pageable page);
 	 
-	 @Query(value = "select * from T5_RISK_RATING_MIG_DETAILED_TABLE  where report_date = ?1", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T5_RISK_RATING_MIG_DETAILED_TABLE\" where \"REPORT_DATE\" = ?1", nativeQuery = true)
 		Page<T5Detail> detailList1(Date todate,Pageable page);
 	 
-	 @Query(value = "select * from T5_RISK_RATING_MIG_DETAILED_TABLE where report_date=?1", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T5_RISK_RATING_MIG_DETAILED_TABLE\" where \"REPORT_DATE\"=?1", nativeQuery = true)
 		List<T5Detail> getReportList(String report_date );
 }

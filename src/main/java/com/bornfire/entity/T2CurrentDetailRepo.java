@@ -17,12 +17,12 @@ import com.bornfire.entity.t5.T5Detail;
 @Transactional
 public interface T2CurrentDetailRepo extends JpaRepository<T2CurrentMast, String> {
 	
-	 @Query(value = "select * from T2_CFT_CUSTOMER_RATING_MAST_TB where report_date = ?1", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" where \"REPORT_DATE\" = ?1", nativeQuery = true)
 		Page<T2CurrentMast> detailList(Date todate,Pageable page);
 	 
-	 @Query(value = "select * from T2_CFT_CUSTOMER_RATING_MAST_TB where report_date=?1", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" where \"REPORT_DATE\"=?1", nativeQuery = true)
 	    Page<T2CurrentMast> getReportList(String report_date,Pageable page);
 
-	 @Query(value = "select * from T2_CFT_CUSTOMER_RATING_MAST_TB where report_date=?1 and cust_id=?2", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" where \"REPORT_DATE\"=?1 and \"CUST_ID\"=?2", nativeQuery = true)
 	 T2CurrentMast getview(String d1, String cif_id);
 }

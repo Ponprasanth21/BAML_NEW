@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "T8_TRAN_CUST_TYPE_MOD_TABLE")
+@Table(name = "\"T8_TRAN_CUST_TYPE_MOD_TABLE\"", schema = "\"AML\"")
 public class T8ReportMod {
 
 	private String d1a_cash_dep;

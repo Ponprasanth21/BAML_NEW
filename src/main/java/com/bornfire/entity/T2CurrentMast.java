@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 @Entity
-@Table(name = "T2_CFT_CUSTOMER_RATING_MAST_TB")
+@Table(name = "\"T2_CFT_CUSTOMER_RATING_MAST_TB\"", schema = "\"AML\"")
 public class T2CurrentMast implements Serializable{
 
 	private static final long serialVersionUID = 1L;

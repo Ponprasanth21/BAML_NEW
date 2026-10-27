@@ -136,8 +136,8 @@ public class T8ReportService {
 		Query<Object[]> qr;
 		Query<Object[]> qr2;
 
-		qr = hs.createNativeQuery("select * from T8_TRAN_CUST_TYPE_TABLE where REPORT_DATE = ?1");
-		qr2 = hs.createNativeQuery("select * from T8_TRAN_CUST_TYPE_MOD_TABLE WHERE REPORT_DATE = ?1");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T8_TRAN_CUST_TYPE_TABLE\" where REPORT_DATE = ?1");
+		qr2 = hs.createNativeQuery("select * from \"AML\".\"T8_TRAN_CUST_TYPE_MOD_TABLE\" WHERE REPORT_DATE = ?1");
 		try {
 			qr.setParameter(1, df.parse(todate));
 			qr2.setParameter(1, df.parse(todate));
@@ -613,7 +613,7 @@ public class T8ReportService {
 
 		Query query = null;
 
-		query = hs.createNativeQuery("select count(*) from T8_TRAN_CUST_TYPE_DETAIL where report_date = ?1 ");
+		query = hs.createNativeQuery("select count(*) from \"AML\".\"T8_TRAN_CUST_TYPE_DETAIL\" where report_date = ?1 ");
 		try {
 			query.setParameter(1, df.parse(todate));
 
@@ -646,8 +646,8 @@ public class T8ReportService {
 		Query<Object[]> qr;
 		Query<Object[]> qr2;
 
-		qr = hs.createNativeQuery("select * from T8_TRAN_CUST_TYPE_TABLE where REPORT_DATE = ?1");
-		qr2 = hs.createNativeQuery("select * from T8_TRAN_CUST_TYPE_MOD_TABLE WHERE REPORT_DATE =?1");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T8_TRAN_CUST_TYPE_TABLE\" where REPORT_DATE = ?1");
+		qr2 = hs.createNativeQuery("select * from \"AML\".\"T8_TRAN_CUST_TYPE_MOD_TABLE\" WHERE REPORT_DATE =?1");
 		try {
 			qr.setParameter(1, df.parse(todate));
 			qr2.setParameter(1, df.parse(todate));
@@ -1132,13 +1132,13 @@ public class T8ReportService {
 				if (dtltype.equals("report")) {
 					if (!filter.equals("null")) {
 						qr = hs.createNativeQuery(
-								"select * from TRAN_MASTER_DETAIL_RBS  where report_date = ?1 and T8_REPORT =?2");
+								"select * from \"AML\".\"TRAN_MASTER_DETAIL_RBS\"  where report_date = ?1 and T8_REPORT =?2");
 						qr.setParameter(2, filter);
 					} else {
-						qr = hs.createNativeQuery("select * from TRAN_MASTER_DETAIL_RBS  where report_date = ?1 and T8_REPORT  is not null");
+						qr = hs.createNativeQuery("select * from \"AML\".\"TRAN_MASTER_DETAIL_RBS\"  where report_date = ?1 and T8_REPORT  is not null");
 					}
 				} else {
-					qr = hs.createNativeQuery("select * from TRAN_MASTER_DETAIL_RBS  where report_date = ?1 and T8_REPORT is not null");
+					qr = hs.createNativeQuery("select * from \"AML\".\"TRAN_MASTER_DETAIL_RBS\"  where report_date = ?1 and T8_REPORT is not null");
 				}
 				try {
 					qr.setParameter(1, df.parse(todate));
@@ -1624,7 +1624,7 @@ public class T8ReportService {
 		List<T8Detail> t9Dt1 = new ArrayList<T8Detail>();
 		Query<Object[]> qr;
 
-			qr = hs.createNativeQuery("select * from T8_TRAN_CUST_TYPE_DETAIL where report_date=?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T8_TRAN_CUST_TYPE_DETAIL\" where report_date=?1");
 			qr.setParameter(1,rpt_date);
 			List<Object[]> result = qr.getResultList();
 			
@@ -1729,7 +1729,7 @@ public class T8ReportService {
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T8_TRAN_CUST_TYPE_DETAIL where report_date=?1 and tran_date=?2 and process_owner=?3 and trim(tran_id)=?4 and trim(part_tran_id)=?5");
+				"select * from \"AML\".\"T8_TRAN_CUST_TYPE_DETAIL\" where report_date=?1 and tran_date=?2 and process_owner=?3 and trim(tran_id)=?4 and trim(part_tran_id)=?5");
 		qr.setParameter(1, rpt_date);
 		qr.setParameter(2, tran_date1);
 		qr.setParameter(3, P_O);
@@ -1863,7 +1863,7 @@ public class T8ReportService {
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T8_TRAN_CUST_TYPE_DETAIL where report_date=?1 and process_owner=?2");
+				"select * from \"AML\".\"T8_TRAN_CUST_TYPE_DETAIL\" where report_date=?1 and process_owner=?2");
 		qr.setParameter(1, rpt_date);
 
 		qr.setParameter(2, P_O);
@@ -1966,7 +1966,7 @@ public class T8ReportService {
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T8_TRAN_CUST_TYPE_DETAIL where report_date=?1 and tran_date=?2 ");
+				"select * from \"AML\".\"T8_TRAN_CUST_TYPE_DETAIL\" where report_date=?1 and tran_date=?2 ");
 		qr.setParameter(1, rpt_date);
 		qr.setParameter(2, tran_date1);
 		
@@ -2074,7 +2074,7 @@ public class T8ReportService {
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T8_TRAN_CUST_TYPE_DETAIL where report_date=?1 and tran_date=?2 and trim(tran_id)=?3 and trim(part_tran_id)=?4 ");
+				"select * from \"AML\".\"T8_TRAN_CUST_TYPE_DETAIL\" where report_date=?1 and tran_date=?2 and trim(tran_id)=?3 and trim(part_tran_id)=?4 ");
 		qr.setParameter(1, rpt_date);
 		qr.setParameter(2, tran_date1);
 		qr.setParameter(3, tran_id1);

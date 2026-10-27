@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface T23ReportRepo extends JpaRepository<T23Report, Date> {
 	
-	@Query(value = "select * from T23_AML_CFT_REVIEWS_TABLE where REPORT_DATE=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"T23_AML_CFT_REVIEWS_TABLE\" where REPORT_DATE=?1", nativeQuery = true)
 	List<T23Report> gett23Report(Date d1);
 	
 

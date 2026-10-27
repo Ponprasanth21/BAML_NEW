@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "BAML_RPT_MAST")
+@Table(name = "\"BAML_RPT_MAST\"", schema = "\"AML\"")
 public class RBSReport {
 	
 

@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "T11_CDD_TRAN_TERM_TABLE")
+@Table(name = "\"T11_CDD_TRAN_TERM_TABLE\"", schema = "\"AML\"")
 public class T11Reports {
 
 	private String d4a_cur_cdd_tran_term;

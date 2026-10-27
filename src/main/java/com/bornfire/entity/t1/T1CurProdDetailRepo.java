@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface T1CurProdDetailRepo extends CrudRepository<T1DataMaintenance,String>{
 	
-	@Query(value = "select * from T1_CUR_PROD_SERVICES_DET_TABLE where report_date=?1 and tran_id=?2 and tran_date=?3 and part_tran_id=?4", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"T1_CUR_PROD_SERVICES_DET_TABLE\" where \"REPORT_DATE\"=?1 and \"TRAN_ID\"=?2 and \"TRAN_DATE\"=?3 and \"PART_TRAN_ID\"=?4", nativeQuery = true)
 	T1DataMaintenance getview(String d1, String tran_id, String tran_date, BigDecimal part_tran_id);
 
 }

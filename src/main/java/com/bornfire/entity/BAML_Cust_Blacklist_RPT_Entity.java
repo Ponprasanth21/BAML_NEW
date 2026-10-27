@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="BAML_BLACKLIST_RPT_TEMP_TABLE")
+@Table(name="\"BAML_BLACKLIST_RPT_TEMP_TABLE\"", schema="\"AML\"")
 public class BAML_Cust_Blacklist_RPT_Entity implements Serializable{
 	public BAML_Cust_Blacklist_RPT_Entity() {
 		super();

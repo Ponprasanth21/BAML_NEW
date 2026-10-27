@@ -14,7 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name="BAML_CUST_WHITE_LIST")
+@Table(name="\"BAML_CUST_WHITE_LIST\"", schema="\"AML\"")
 public class Cust_White_List_Entity implements Serializable{
 	public Cust_White_List_Entity() {
 		super();

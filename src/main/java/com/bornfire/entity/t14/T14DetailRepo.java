@@ -14,13 +14,13 @@ import com.bornfire.entity.t15.T15Detail;
 @Repository
 public interface T14DetailRepo extends JpaRepository<T14Detail, String> {
 	
-	 @Query(value = "select * from T14_CHQ_INW_DETAILS a where report_date = ?1", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T14_CHQ_INW_DETAILS\" a where report_date = ?1", nativeQuery = true)
 		Page<T14Detail> detailList(Date todate,Pageable page);
 	 
-	 @Query(value = "select * from T14_CHQ_INW_DETAILS where report_date=?1", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T14_CHQ_INW_DETAILS\" where report_date=?1", nativeQuery = true)
 	 Page<T14Detail> getReportList(String report_date ,Pageable page);
 
-	 @Query(value = "select * from T14_CHQ_INW_DETAILS where report_date=?1 and cust_id=?2", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T14_CHQ_INW_DETAILS\" where report_date=?1 and cust_id=?2", nativeQuery = true)
 	 T14Detail getview(String d1, String cif_id);
 	 
 }

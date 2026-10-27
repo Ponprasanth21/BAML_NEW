@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="BAML_REPORT_VALIDATION_TABLE")
+@Table(name="\"BAML_REPORT_VALIDATION_TABLE\"", schema="\"AML\"")
 public class ReportValidations {
 	@Id
 	private String srl_no;

@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
-@Table(name = "T2P_CFT_CUSTOMER_RATING_MAST_TB")
+@Table(name = "\"T2P_CFT_CUSTOMER_RATING_MAST_TB\"", schema = "\"AML\"")
 public class T2PreviousMast implements Serializable{
 
 	private String	customer_id;

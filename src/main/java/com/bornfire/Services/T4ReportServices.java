@@ -92,7 +92,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 			logger.info("Inside archive");
 			qr = hs.createNativeQuery(
-					"select * from T4_CUSTOMER_PROFILING_SUMMARY_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2 ORDER BY instance_code");
+					"select * from \"AML\".\"T4_CUSTOMER_PROFILING_SUMMARY_TABLE\" a where \"REP_PERIOD_FROM\" = ?1 and \"REP_PERIOD_TO\" = ?2 ORDER BY \"INSTANCE_CODE\"");
 			try {
 				qr.setParameter(1, df.parse(fromdate));
 				qr.setParameter(2, df.parse(todate));
@@ -219,7 +219,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 			logger.info("Inside archive");
 			qr = hs.createNativeQuery(
-					"select * from T4_CUSTOMER_PROFILING_SUMMARY_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2 ORDER BY instance_code" );
+					"select * from \"AML\".\"T4_CUSTOMER_PROFILING_SUMMARY_TABLE\" a where \"REP_PERIOD_FROM\" = ?1 and \"REP_PERIOD_TO\" = ?2 ORDER BY \"INSTANCE_CODE\"" );
 			try {
 				qr.setParameter(1, df.parse(fromdate));
 				qr.setParameter(2, df.parse(todate));
@@ -279,13 +279,13 @@ System.out.println("testing"+filter);
 
 			if (dtltype.equals("report")) {
 				if(!filter.equals("null")) {
-					qr = hs.createNativeQuery("select * from T4_CUSTOMER_PROFILING_DETAILED_TABLE a where report_date = ?1 and CUST_RATING =?2");
+					qr = hs.createNativeQuery("select * from \"AML\".\"T4_CUSTOMER_PROFILING_DETAILED_TABLE\" a where \"REPORT_DATE\" = ?1 and \"CUST_RATING\" =?2");
 					qr.setParameter(2,filter);
 				}else {
-					qr = hs.createNativeQuery("select * from T4_CUSTOMER_PROFILING_DETAILED_TABLE a where report_date = ?1");
+					qr = hs.createNativeQuery("select * from \"AML\".\"T4_CUSTOMER_PROFILING_DETAILED_TABLE\" a where \"REPORT_DATE\" = ?1");
 				}
 			} else {
-				qr = hs.createNativeQuery("select * from T4_CUSTOMER_PROFILING_DETAILED_TABLE a where report_date = ?1");
+				qr = hs.createNativeQuery("select * from \"AML\".\"T4_CUSTOMER_PROFILING_DETAILED_TABLE\" a where \"REPORT_DATE\" = ?1");
 			}
 
 			try {

@@ -14,12 +14,12 @@ public interface RBSReportRepo extends JpaRepository<RBSReport, Integer> {
 	
 
 	
-	@Query(value = "select * from BAML_RPT_MAST ORDER BY srl_no", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_RPT_MAST\" ORDER BY \"SRL_NO\"", nativeQuery = true)
 	List<RBSReport> getReportList();
 	
 	
 	
-	@Query(value = "select * from BAML_RPT_MAST  where det_flg='Y' ORDER BY srl_no", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"BAML_RPT_MAST\" where \"DET_FLG\"='Y' ORDER BY \"SRL_NO\"", nativeQuery = true)
 	List<RBSReport> getReportList1();
 	
 }

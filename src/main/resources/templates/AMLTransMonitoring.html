@@ -66,12 +66,62 @@
 }
 </style>
 <script type="text/javascript">
+function ruleCodeSelected(elem) {
+	var opt = elem.options[elem.selectedIndex];
+	if (opt && opt.value) {
+		var desc = opt.getAttribute("data-rolecodedesc") || "";
+		var low = opt.getAttribute("data-low") || "";
+		var high = opt.getAttribute("data-high") || "";
+		var threshold = opt.getAttribute("data-threshold") || "";
+		var noofdays = opt.getAttribute("data-date") || "0";
+		
+		$("#rule_code_desc").val(desc);
+		$("#rule_code_id").val(opt.value);
+		$("#lowvalue1").val(low);
+		$("#highvalue1").val(high);
+		$("#threshold").val(threshold);
+		$("#noofdays").val(noofdays);
+		$("#noofdays1").val(noofdays);
+		$("#lowvalue12").val(low);
+
+		var reportDate = $("#suspended_date").val();
+		if (reportDate && reportDate.trim() !== "") {
+			gettrans();
+		}
+	} else {
+		$("#rule_code_desc").val("");
+	}
+}
+
 $(function() {
-    $("#start_date,#end_date,#suspended_date,#activated_date").datepicker({
+    $("#start_date,#end_date,#activated_date").datepicker({
         changeMonth : true,
         changeYear : true,
-         maxDate: new Date(),
+        maxDate: new Date(),
         dateFormat : "dd/mm/yy"
+    });
+
+    $("#suspended_date").datepicker({
+        changeMonth : true,
+        changeYear : true,
+        maxDate: new Date(),
+        dateFormat : "dd/mm/yy",
+        onSelect: function(dateText) {
+            gettrans();
+        }
+    });
+
+    $("#suspended_date").on("change", function() {
+        if ($(this).val()) {
+            gettrans();
+        }
+    });
+
+    $("#suspended_date").on("keypress", function(e) {
+        if (e.which == 13) {
+            e.preventDefault();
+            gettrans();
+        }
     });
 });
 function home() {
@@ -385,23 +435,29 @@ $(function() {
     });
 
 function finuser(a) {
-	
 	$("#finusers").modal("hide"); 
-	$("#datadelete").modal("toggle");
-	var rulecode = a.getAttribute("data-rulecode");
-	var lowvalue = a.getAttribute("data-low");
-	var highvalue = a.getAttribute("data-high");
-	var rolecodedesc = a.getAttribute("data-rolecodedesc");
-	var noofdays =  a.getAttribute("data-date");
-	var threshold = a.getAttribute("data-threshold");
-	
+	var rulecode = a.getAttribute("data-rulecode") || a.id;
+	var lowvalue = a.getAttribute("data-low") || "";
+	var highvalue = a.getAttribute("data-high") || "";
+	var rolecodedesc = a.getAttribute("data-rolecodedesc") || "";
+	var noofdays =  a.getAttribute("data-date") || "0";
+	var threshold = a.getAttribute("data-threshold") || "";
 
-	$("#rule_code").val(a.id);
-	var rulecode=a.id;
-	
-	var current = new Date();
+	$("#rule_code").val(rulecode);
+	$("#rule_code_id").val(rulecode);
+	$("#rule_code_desc").val(rolecodedesc);
+	$("#lowvalue1").val(lowvalue);
+	$("#highvalue1").val(highvalue);
+	$("#threshold").val(threshold);
+	$("#noofdays").val(noofdays);
+	$("#noofdays1").val(noofdays);
+	$("#lowvalue12").val(lowvalue);
 
-	var today = current.toShortFormat();
+	var reportDate = $("#suspended_date").val();
+	if (reportDate && reportDate.trim() !== "") {
+		gettrans();
+	}
+	return;
 	
 		if (rulecode == "HVCDP"){
 			var master = 'AMLTransMonitoring?TRANTYPE=HVCDP' +'&rulecode=' +rulecode+ '&today=' +today +'&lowvalue=' + lowvalue + '&highvalue=' +highvalue+ '&rolecodedesc='+rolecodedesc + '&noofdays=' +noofdays;	
@@ -967,11 +1023,11 @@ function getUserlist(mode, num, maxpage) {
 	 */
 	/*]]>*/
 	 $(function() {
-        $("#start_date,#end_date,#suspended_date,#activated_date").datepicker({
+        $("#start_date,#end_date,#activated_date").datepicker({
             changeMonth : true,
             changeYear : true,
              maxDate: new Date(),
-            dateFormat : "dd-mm-yy"
+            dateFormat : "dd/mm/yy"
         });
     });
 </script>
@@ -1023,52 +1079,34 @@ function getUserlist(mode, num, maxpage) {
 
 
 
-										<div class="col-sm-2" th:if="${formmode}=='list'">
-											<label for="srl_no">Select Rule Code</label>
+										<label class="col-sm-2">Rule Code</label>
+										<div class="col-sm-3">
+											<select class="form-control form-control-sm" id="rule_code" name="rule_code" onchange="ruleCodeSelected(this)">
+												<option value="">-- Select Rule Code --</option>
+												<option th:each="rule : ${transactionMonitoring}"
+													th:value="${rule.rule_code}"
+													th:text="${rule.rule_code} + ' - ' + ${rule.rule_code_desc}"
+													th:attr="data-desc=${rule.rule_code_desc},data-low=${rule.low_value},data-high=${rule.high_value},data-threshold=${rule.threshold_limit},data-days=${rule.no_of_days}"
+													th:selected="${rule.rule_code == rulecode}">
+												</option>
+											</select>
 										</div>
-										<div class="col-sm-3" th:if="${formmode}=='list'">
-											<input type="text" th:value="${TransMonitoring?.rule_code}"
-												style="background-color: #d2dae0;" id="rule_code"
-												placeholder="Select Rule Code"
-												class="form-control form-control-sm" name="rule_code"
-												autocomplete="off" readonly>
-										</div>
-										<div class="col-sm-1" th:if="${formmode}=='list'">
+										<div class="col-sm-1">
 											<a href="javascript:void(0);"><i class="fas fa-search searchico"
-												data-toggle="modal" data-target="#finusers" id="iconacc"></i></a>
+												data-toggle="modal" data-target="#finusers" id="iconacc" title="Search Rule"></i></a>
 										</div>
 
-										<label class="col-sm-2" th:if="${formmode}=='tranlist'">Rule
-											Code</label>
-										<div class="col-sm-3" th:if="${formmode}=='tranlist'">
-											<input type="text" th:value="${rulecode}" id="rule_code_id"
-												name="rule_code_desc" value=""
-												class="form-control form-control-sm" autocomplete="off"
-												required />
-
-										</div>
-										<div class="col-sm-1" th:if="${formmode}=='tranlist'">
-											<a href="javascript:void(0);"><i class="fas fa-search searchico"
-												data-toggle="modal" data-target="#finusers" id="iconacc"></i></a>
-										</div>
-
-										<!-- <div>
-											<input type="hidden" id="valuemax"> <input
-												type="hidden" id="valuemin">
-
-										</div>
- -->
 										<label class="col-sm-2">Code Description</label>
 										<div class="col-sm-3">
-											<input type="hidden" id="activated_date"> <input
-												type="hidden" id="lowvalue1" th:value="${lowvalue}">
+											<input type="hidden" id="activated_date" th:value="${fromdate}">
+											<input type="hidden" id="lowvalue1" th:value="${lowvalue}">
 											<input type="hidden" id="highvalue1" th:value="${highvalue}">
 											<input type="hidden" id="noofdays" th:value="${noofdays}">
 											<input type="hidden" id="threshold" th:value="${threshold}">
 											<input type="text" th:value="${ruledescription}"
-												id="rule_code_desc" name="rule_code_desc" value=""
+												id="rule_code_desc" name="rule_code_desc"
 												class="form-control form-control-sm" autocomplete="off"
-												required />
+												readonly style="background-color: #e9ecef;" />
 										</div>
 										<div class="col-sm-1"></div>
 
@@ -1081,15 +1119,17 @@ function getUserlist(mode, num, maxpage) {
 										<label class="col-sm-2">Report Date</label>
 										<div class="col-sm-3">
 											<input type="text" th:value="${today}" id="suspended_date"
-												name="suspended_date" style="background-color: #d2dae0"
+												name="suspended_date" placeholder="dd/mm/yyyy"
 												class="form-control form-control-sm" autocomplete="off" />
 										</div>
-										<div class="col-sm-1"></div>
+										<div class="col-sm-1">
+											<a href="javascript:void(0);" onclick="gettrans();" title="Search"><i class="fas fa-arrow-circle-right" style="font-size: 20px; color: #386276; margin-top: 5px; cursor: pointer;"></i></a>
+										</div>
 										<label class="col-sm-2">No Of Days</label>
 										<div class="col-sm-3">
 											<input type="text" id="noofdays1" th:value="${noofdays}"
-												name="noofdays" style="background-color: #d2dae0"
-												class="form-control form-control-sm" autocomplete="off" />
+												name="noofdays" style="background-color: #e9ecef"
+												class="form-control form-control-sm" autocomplete="off" readonly />
 										</div>
 									</div>
 										<label></label>
@@ -1100,11 +1140,10 @@ function getUserlist(mode, num, maxpage) {
 										<div class="col-sm-3">
 											<input type="text" id="lowvalue12" 
 											th:value="${lowvalue != null ? #numbers.formatDecimal(lowvalue, 1, 'COMMA', 2, 'POINT') : ''}"
-												name="lowvalue12" style="background-color: #d2dae0"
-												class="form-control form-control-sm" autocomplete="off" />
+												name="lowvalue12" style="background-color: #e9ecef"
+												class="form-control form-control-sm" autocomplete="off" readonly />
 										</div>
 										<div class="col-sm-1">
-											<a href="javascript:void(0);" onclick="gettrans();" title="Search"><i class="fas fa-arrow-circle-right" style="font-size: 20px; color: #386276; margin-top: 5px; cursor: pointer;"></i></a>
 										</div>
 										
 									</div>
@@ -1135,50 +1174,32 @@ function getUserlist(mode, num, maxpage) {
 
 
 							<table class="table table-bordered  table-hover table-sm"
-								style="overflow-x: scroll; overflow-y: hidden; width: 180%"
+								style="width: 100%"
 								id="usertable">
 								<thead class="thead-light">
-								<thead class="thead-light">
 									<tr>
-										<th>Customer ID</th>
-										<th>Account Name</th>
-										<th>Tran Date</th>
-										<th>Value Date</th>
-										<th>Tran Amount</th>
 										<th>Tran Type</th>
 										<th>Tran Sub Type</th>
-										<th>Tran Particulars</th>
-										<th>Part Tran Type</th>
-										<th th:if="${MODE}=='CTACP'">Tran Purpose Code</th>
+										<th>Tran Date</th>
 										<th>Tran ID</th>
-										<th>Part Tran ID</th>
-										<!-- <th>Tran Currency</th> -->
+										<th>Part Tran Type</th>
+										<th>Tran Currency</th>
+										<th>Tran Amount</th>
 										<th>Account Number</th>
-										<!-- <th>Tran Status</th> -->
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:if="${TransactionMaster.totalPages} == '0'">
-										<td colspan="14" style="text-align: left; color: red">No
-											record available for this peroid</td>
+									<tr th:if="${TransactionMaster == null || TransactionMaster.totalElements == 0}">
+										<td colspan="8" style="text-align: center; color: red">No
+											record available for this period</td>
 									</tr>
 
-									<tr th:if="${TransactionMaster.totalPages}!='0'"
+									<tr th:if="${TransactionMaster != null && TransactionMaster.totalElements != 0}"
 										th:each="transactionMaster : ${TransactionMaster}">
-										<td class="underline" onclick="fnClick1(this);"
-											th:attr="data-custId=${transactionMaster.aCCT_MASTER?.cif_id}"
-											th:text="${transactionMaster.aCCT_MASTER?.cif_id}"></td>
-											<td th:text="${transactionMaster.aCCT_MASTER?.acct_name}"></td>
-											<td
-											th:text="${transactionMaster.tran_date != null ? #dates.format(transactionMaster.tran_date,'dd/MM/yyyy') : ''}"></td>
-											<td th:text="${transactionMaster.tran_date != null ? #dates.format(transactionMaster.tran_date,'dd/MM/yyyy') : ''}"></td>
-											<td
-											th:text="${transactionMaster.tran_amt != null ? #numbers.formatDecimal(transactionMaster.tran_amt, 1, 'COMMA', 2, 'POINT') : ''}"
-											align="right"></td>
 										<th:block th:switch="${transactionMaster.tran_type}">
 											<td th:case="'C'">Cash</td>
 											<td th:case="'T'">Transfer</td>
-											<td th:case="*"></td>
+											<td th:case="*" th:text="${transactionMaster.tran_type}"></td>
 										</th:block>
 
 										<th:block th:switch="${transactionMaster.tran_sub_type}">
@@ -1191,37 +1212,28 @@ function getUserlist(mode, num, maxpage) {
 											<td th:case="'IC'">Interest Collected</td>
 											<td th:case="'BS'">Customer Induced</td>
 											<td th:case="'SC'">Service Charge</td>
-											<td th:case="*"></td>
+											<td th:case="*" th:text="${transactionMaster.tran_sub_type}"></td>
 										</th:block>
-										<td th:text="${transactionMaster.tran_particular}"></td>
+										<td
+											th:text="${transactionMaster.tran_date != null ? #dates.format(transactionMaster.tran_date,'dd/MM/yyyy') : ''}"></td>
+										<td class="underline" onclick="fnClickTran(this);"
+											th:attr="data-tran_id=${transactionMaster.transactionmasterembeddedid?.tran_id},data-tran_date=${transactionMaster.tran_date != null ? #dates.format(transactionMaster.tran_date,'dd-MMM-yyyy') : ''},data-foracid=${transactionMaster.aCCT_MASTER?.foracid},data-parttran=${transactionMaster.part_tran_srl_num}"
+											th:text="${transactionMaster.transactionmasterembeddedid?.tran_id}">
+										</td>
 										<th:block
 											th:switch="${transactionMaster.transactionmasterembeddedid?.part_tran_type}">
 											<td th:case="'D'">Debit</td>
 											<td th:case="'C'">Credit</td>
-											<td th:case="*"></td>
+											<td th:case="*" th:text="${transactionMaster.transactionmasterembeddedid?.part_tran_type}"></td>
 										</th:block>
-										<td th:if="${MODE}=='CTACP'"
-											th:text="${transactionMaster.tran_particular_code}"></td>
-											<td class="underline" onclick="fnClickTran(this);"
-											th:attr="data-tran_id=${transactionMaster.transactionmasterembeddedid?.tran_id},data-tran_date=${transactionMaster.tran_date != null ? #dates.format(transactionMaster.tran_date,'dd-MMM-yyyy') : ''},data-foracid=${transactionMaster.aCCT_MASTER?.foracid},data-parttran=${transactionMaster.part_tran_srl_num}"
-											th:text="${transactionMaster.transactionmasterembeddedid?.tran_id}">
-										</td>
-										<td th:text="${transactionMaster.part_tran_srl_num}"></td>
-										<!-- <td th:text="${transactionMaster.tran_crncy_code}"></td> -->
-									
+										<td th:text="${transactionMaster.tran_crncy_code != null ? transactionMaster.tran_crncy_code : (transactionMaster.crncy_code != null ? transactionMaster.crncy_code : 'MUR')}"></td>
+										<td
+											th:text="${transactionMaster.tran_amt != null ? #numbers.formatDecimal(transactionMaster.tran_amt, 1, 'COMMA', 2, 'POINT') : ''}"
+											align="right"></td>
 										<td class="underline" onclick="fnClickAcct(this);"
-											th:attr="data-acctnum=${transactionMaster.aCCT_MASTER?.foracid},data-custid=${transactionMaster.aCCT_MASTER?.cif_id},data-acid=${transactionMaster.aCCT_MASTER?.acid}"
-											th:text="${transactionMaster.aCCT_MASTER?.foracid}"></td>
-										
-										<!-- <td th:text="${transactionMaster.tr_status}"></td> -->
-
-
+											th:attr="data-acctnum=${transactionMaster.aCCT_MASTER?.foracid != null ? transactionMaster.aCCT_MASTER?.foracid : transactionMaster.cust_id},data-custid=${transactionMaster.aCCT_MASTER?.cif_id != null ? transactionMaster.aCCT_MASTER?.cif_id : transactionMaster.cust_id},data-acid=${transactionMaster.aCCT_MASTER?.acid}"
+											th:text="${transactionMaster.aCCT_MASTER?.foracid != null ? transactionMaster.aCCT_MASTER?.foracid : transactionMaster.cust_id}"></td>
 									</tr>
-
-
-
-
-
 								</tbody>
 							</table>
 						</div>

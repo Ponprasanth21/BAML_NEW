@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "T2P_CFT_CUSTOMER_RATING_RPT_TB")
+@Table(name = "\"T2P_CFT_CUSTOMER_RATING_RPT_TB\"", schema = "\"AML\"")
 public class T2PreviousRpt implements Serializable{
 	@EmbeddedId
 	T2PreviousId t2previousid;

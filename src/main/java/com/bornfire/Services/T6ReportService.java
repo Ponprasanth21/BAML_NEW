@@ -82,7 +82,7 @@ public class T6ReportService {
 
 		logger.info("Inside archive" + fromdate);
 		qr = hs.createNativeQuery(
-				"select * from T6_KYC_CDD_REVIEW_FREQ_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
+				"select * from \"AML\".\"T6_KYC_CDD_REVIEW_FREQ_TABLE\" a where \"REP_PERIOD_FROM\" = ?1 and \"REP_PERIOD_TO\" = ?2");
 		try {
 			qr.setParameter(1, df.parse(fromdate));
 			qr.setParameter(2, df.parse(todate));
@@ -241,7 +241,7 @@ public class T6ReportService {
 
 		logger.info("Inside archive");
 		qr = hs.createNativeQuery(
-				"select * from T6_KYC_CDD_REVIEW_FREQ_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
+				"select * from \"AML\".\"T6_KYC_CDD_REVIEW_FREQ_TABLE\" a where \"REP_PERIOD_FROM\" = ?1 and \"REP_PERIOD_TO\" = ?2");
 		try {
 			qr.setParameter(1, df.parse(fromdate));
 			qr.setParameter(2, df.parse(todate));
@@ -337,9 +337,9 @@ public class T6ReportService {
 		Query<Object[]> qr;
 
 		if (dtltype.equals("report")) {
-			qr = hs.createNativeQuery("select * from T6_KYC_CDD_REVIEW_FREQ_DET_TABLE a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T6_KYC_CDD_REVIEW_FREQ_DET_TABLE\" a where \"REPORT_DATE\" = ?1");
 		} else {
-			qr = hs.createNativeQuery("select * from T6_KYC_CDD_REVIEW_FREQ_DET_TABLE a where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T6_KYC_CDD_REVIEW_FREQ_DET_TABLE\" a where \"REPORT_DATE\" = ?1");
 		}
 		try {
 			qr.setParameter(1, df.parse(todate));

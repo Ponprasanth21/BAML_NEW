@@ -88,7 +88,7 @@ private static final Logger logger = LoggerFactory.getLogger(T20ReportService.cl
 		List<Object> t17Rep = new ArrayList<Object>();
 		Query<Object[]> qr;
 
-		qr = hs.createNativeQuery("select * from T20_STR_TABLE where REPORT_DATE = ?1");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T20_STR_TABLE\" where REPORT_DATE = ?1");
 		
 	try {
 			qr.setParameter(1, df.parse(todate));
@@ -161,7 +161,7 @@ private static final Logger logger = LoggerFactory.getLogger(T20ReportService.cl
 
 		Query query = null;
 
-		query = hs.createNativeQuery("select count(*) from T20_STR_TABLE where report_date = ?1 ");
+		query = hs.createNativeQuery("select count(*) from \"AML\".\"T20_STR_TABLE\" where report_date = ?1 ");
 				
 		try {
 			query.setParameter(1, df.parse(todate));
@@ -207,7 +207,7 @@ private static final Logger logger = LoggerFactory.getLogger(T20ReportService.cl
 		List<Object> t17Rep = new ArrayList<Object>();
 		Query<Object[]> qr;
 
-		qr = hs.createNativeQuery("select * from T20_STR_TABLE where REPORT_DATE = ?1");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T20_STR_TABLE\" where REPORT_DATE = ?1");
 		qr.setParameter(1, dT19);
 		/*try {
 			qr.setParameter(1, df.parse(todate));
@@ -284,9 +284,9 @@ private static final Logger logger = LoggerFactory.getLogger(T20ReportService.cl
 		Query<Object[]> qr;
 
 		if (dtltype.equals("report")) {
-			qr = hs.createNativeQuery("select * from T20_STR_DETAILS a where REPORT_DATE = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T20_STR_DETAILS\" a where REPORT_DATE = ?1");
 		} else {
-			qr = hs.createNativeQuery("select * from T20_STR_DETAILS a where REPORT_DATE = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T20_STR_DETAILS\" a where REPORT_DATE = ?1");
 		}
 		qr.setParameter(1, todate);
 

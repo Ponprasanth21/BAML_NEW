@@ -17,15 +17,15 @@ import com.bornfire.entity.t12.T12Detail;
 @Transactional
 public interface T10DetailRepo extends JpaRepository<T10Detail, Date> {
 
-	@Query(value = "select * from T10_DOM_INW_REMIT_DETAILS  where report_date = ?1 and cell_mapping =?2", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"T10_DOM_INW_REMIT_DETAILS\"  where report_date = ?1 and cell_mapping =?2", nativeQuery = true)
 	Page<T10Detail> detailList(Date todate, String filter, Pageable page);
 
-	@Query(value = "select * from T10_DOM_INW_REMIT_DETAILS  where report_date = ?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"T10_DOM_INW_REMIT_DETAILS\"  where report_date = ?1", nativeQuery = true)
 	Page<T10Detail> detailList1(Date todate, Pageable page);
 
-	@Query(value = "select * from T10_DOM_INW_REMIT_DETAILS where report_date=?1", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"T10_DOM_INW_REMIT_DETAILS\" where report_date=?1", nativeQuery = true)
 	Page<T10Detail> getReportList(String report_date, Pageable page);
 
-	@Query(value = "select * from T10_DOM_INW_REMIT_DETAILS where report_date=?1 and cust_id=?2", nativeQuery = true)
+	@Query(value = "select * from \"AML\".\"T10_DOM_INW_REMIT_DETAILS\" where report_date=?1 and cust_id=?2", nativeQuery = true)
 	T10Detail getview(String d1, String cif_id);
 }

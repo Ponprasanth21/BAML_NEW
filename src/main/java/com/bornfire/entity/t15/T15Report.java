@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "T15_CHQ_OUT_TABLE")
+@Table(name = "\"T15_CHQ_OUT_TABLE\"", schema = "\"AML\"")
 public class T15Report {
 	
 	private String	d1a_cur_bmur100k;

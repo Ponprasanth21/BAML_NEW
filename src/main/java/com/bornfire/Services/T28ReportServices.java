@@ -122,7 +122,7 @@ public class T28ReportServices {
 			logger.info("Getting No of records in Master table :" + reportId);
 			Query query = null;
 
-			query = hs.createNativeQuery("select count(*) from T28_AML_CFT_INF_TABLE a where a.report_date=?1 ");
+			query = hs.createNativeQuery("select count(*) from \"AML\".\"T28_AML_CFT_INF_TABLE\" a where a.report_date=?1 ");
 			System.out.println(todate);
 
 			try {
@@ -203,9 +203,9 @@ public class T28ReportServices {
 	 * new ArrayList<Object>(); Query<Object[]> qr;
 	 * 
 	 * if (dtltype.equals("report")) { qr = hs.
-	 * createNativeQuery("select * from T23_AML_CFT_REVIEWS_DETAIL a where report_date = ?1"
+	 * createNativeQuery("select * from \"AML\".\"T23_AML_CFT_REVIEWS_DETAIL\" a where \"REPORT_DATE\" = ?1"
 	 * ); } else { qr = hs.
-	 * createNativeQuery("select * from T23_AML_CFT_REVIEWS_DETAIL a where report_date = ?1"
+	 * createNativeQuery("select * from \"AML\".\"T23_AML_CFT_REVIEWS_DETAIL\" a where \"REPORT_DATE\" = ?1"
 	 * ); }
 	 * 
 	 * try { qr.setParameter(1, df.parse(todate));

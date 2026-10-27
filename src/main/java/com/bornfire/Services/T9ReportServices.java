@@ -124,7 +124,7 @@ public class T9ReportServices {
 
 		logger.info("Inside archive"+fromdate+todate);
 		qr = hs.createNativeQuery(
-				"select * from T9_DOM_OW_REMIT_TABLE a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
+				"select * from \"AML\".\"T9_DOM_OW_REMIT_TABLE\" a where REP_PERIOD_FROM = ?1 and REP_PERIOD_TO = ?2");
 		try {
 			qr.setParameter(1, df.parse(fromdate));
 			qr.setParameter(2,df.parse( todate));
@@ -322,7 +322,7 @@ System.out.println("fromdate"+fromdate);
 
 		logger.info("Inside archive");
 		qr = hs.createNativeQuery(
-				"select * from T9_DOM_OW_REMIT_TABLE a where rep_period_from = ?1 and rep_period_to = ?2");
+				"select * from \"AML\".\"T9_DOM_OW_REMIT_TABLE\" a where rep_period_from = ?1 and rep_period_to = ?2");
 		try {
 			qr.setParameter(1, df.parse(fromdate));
 			qr.setParameter(2, df.parse(todate));
@@ -467,13 +467,13 @@ System.out.println("fromdate"+fromdate);
 		if (dtltype.equals("report")) {
 			if (!filter.equals("null")) {
 				qr = hs.createNativeQuery(
-						"select * from TRAN_MASTER_DETAIL_RBS  where report_date = ?1 and T9_REPORT =?2");
+						"select * from \"AML\".\"TRAN_MASTER_DETAIL_RBS\"  where report_date = ?1 and T9_REPORT =?2");
 				qr.setParameter(2, filter);
 			} else {
-				qr = hs.createNativeQuery("select * from TRAN_MASTER_DETAIL_RBS  where report_date = ?1");
+				qr = hs.createNativeQuery("select * from \"AML\".\"TRAN_MASTER_DETAIL_RBS\"  where report_date = ?1");
 			}
 		} else {
-			qr = hs.createNativeQuery("select * from TRAN_MASTER_DETAIL_RBS  where report_date = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"TRAN_MASTER_DETAIL_RBS\"  where report_date = ?1");
 		}
 		try {
 			qr.setParameter(1, df.parse(todate));
@@ -926,7 +926,7 @@ System.out.println("fromdate"+fromdate);
 		List<T9Detail> t9Dt1 = new ArrayList<T9Detail>();
 		Query<Object[]> qr;
 
-			qr = hs.createNativeQuery("select * from T9_DOM_OW_REMIT_DETAILS where report_date=?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T9_DOM_OW_REMIT_DETAILS\" where report_date=?1");
 			qr.setParameter(1,rpt_date);
 			List<Object[]> result = qr.getResultList();
 			
@@ -1030,7 +1030,7 @@ System.out.println("fromdate"+fromdate);
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T9_DOM_OW_REMIT_DETAILS where report_date=?1 and tran_date=?2 and process_owner=?3 and trim(tran_id)=?4 and trim(part_tran_id)=?5");
+				"select * from \"AML\".\"T9_DOM_OW_REMIT_DETAILS\" where report_date=?1 and tran_date=?2 and process_owner=?3 and trim(tran_id)=?4 and trim(part_tran_id)=?5");
 		qr.setParameter(1, rpt_date);
 		qr.setParameter(2, tran_date1);
 		qr.setParameter(3, P_O);
@@ -1161,7 +1161,7 @@ System.out.println("fromdate"+fromdate);
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T9_DOM_OW_REMIT_DETAILS where report_date=?1 and process_owner=?2");
+				"select * from \"AML\".\"T9_DOM_OW_REMIT_DETAILS\" where report_date=?1 and process_owner=?2");
 		qr.setParameter(1, rpt_date);
 
 		qr.setParameter(2, P_O);
@@ -1264,7 +1264,7 @@ System.out.println("fromdate"+fromdate);
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T9_DOM_OW_REMIT_DETAILS where report_date=?1 and tran_date=?2 ");
+				"select * from \"AML\".\"T9_DOM_OW_REMIT_DETAILS\" where report_date=?1 and tran_date=?2 ");
 		qr.setParameter(1, rpt_date);
 		qr.setParameter(2, tran_date1);
 		
@@ -1372,7 +1372,7 @@ System.out.println("fromdate"+fromdate);
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T9_DOM_OW_REMIT_DETAILS where report_date=?1 and tran_date=?2 and trim(tran_id)=?3 and trim(part_tran_id)=?4 ");
+				"select * from \"AML\".\"T9_DOM_OW_REMIT_DETAILS\" where report_date=?1 and tran_date=?2 and trim(tran_id)=?3 and trim(part_tran_id)=?4 ");
 		qr.setParameter(1, rpt_date);
 		qr.setParameter(2, tran_date1);
 		qr.setParameter(3, tran_id1);

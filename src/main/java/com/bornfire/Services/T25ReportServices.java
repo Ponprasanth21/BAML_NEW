@@ -140,7 +140,7 @@ public class T25ReportServices {
 	 * ArrayList<Object>(); Query<Object[]> qr;
 	 * 
 	 * qr = hs.
-	 * createNativeQuery("select * from T25_AMLCFT_APPL_MOD_TABLE where REPORT_CODE = ?1"
+	 * createNativeQuery("select * from \"AML\".\"T25_AMLCFT_APPL_MOD_TABLE\" where REPORT_CODE = ?1"
 	 * ); try { qr.setParameter(1, df.parse(todate)); } catch (ParseException e) {
 	 * e.printStackTrace(); }
 	 * 
@@ -544,7 +544,7 @@ public class T25ReportServices {
 		List<Object> t25Rep = new ArrayList<Object>();
 		Query<Object[]> qr;
 
-		qr = hs.createNativeQuery("select * from T25_AMLCFT_APPL_MOD_TABLE where REPORT_DATE = ?1");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T25_AMLCFT_APPL_MOD_TABLE\" where REPORT_DATE = ?1");
 		try {
 			qr.setParameter(1, df.parse(todate));
 		} catch (ParseException e) {

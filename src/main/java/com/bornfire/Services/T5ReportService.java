@@ -83,7 +83,7 @@ public class T5ReportService {
 
 		// getting the output from report table
 		logger.info("getting output from report table");
-		qr = hs.createNativeQuery("select * from T5_RISK_RATING_MIG_SUMARY_TABLE where T5_REPORT_TO_DATE = ?1");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T5_RISK_RATING_MIG_SUMARY_TABLE\" where \"T5_REPORT_TO_DATE\" = ?1");
 
 		try {
 			qr.setParameter(1, df.parse(todate));
@@ -222,7 +222,7 @@ public class T5ReportService {
 
 		Query query = null;
 
-		query = hs.createNativeQuery("select count(*) from T5_RISK_RATING_MIG_DETAILED_TABLE where report_date = ?1 ");
+		query = hs.createNativeQuery("select count(*) from \"AML\".\"T5_RISK_RATING_MIG_DETAILED_TABLE\" where \"REPORT_DATE\" = ?1 ");
 		try {
 			query.setParameter(1, df.parse(todate));
 
@@ -254,7 +254,7 @@ public class T5ReportService {
 
 		// getting the output from report table
 		logger.info("getting output from report table");
-		qr = hs.createNativeQuery("select * from T5_RISK_RATING_MIG_SUMARY_TABLE where T5_REPORT_TO_DATE = ?1 ");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T5_RISK_RATING_MIG_SUMARY_TABLE\" where \"T5_REPORT_TO_DATE\" = ?1 ");
 		try {
 			qr.setParameter(1, df.parse(todate));
 
@@ -394,13 +394,13 @@ public class T5ReportService {
 		if (dtltype.equals("report")) {
 			if (!filter.equals("null")) {
 				qr = hs.createNativeQuery(
-						"select * from T5_RISK_RATING_MIG_DETAILED_TABLE a where REPORT_DATE = ?1 and cell_mapping=?2");
+						"select * from \"AML\".\"T5_RISK_RATING_MIG_DETAILED_TABLE\" a where \"REPORT_DATE\" = ?1 and \"CELL_MAPPING\"=?2");
 				qr.setParameter(2, filter);
 			} else {
-				qr = hs.createNativeQuery("select * from T5_RISK_RATING_MIG_DETAILED_TABLE a where REPORT_DATE = ?1");
+				qr = hs.createNativeQuery("select * from \"AML\".\"T5_RISK_RATING_MIG_DETAILED_TABLE\" a where \"REPORT_DATE\" = ?1");
 			}
 		} else {
-			qr = hs.createNativeQuery("select * from T5_RISK_RATING_MIG_DETAILED_TABLE a where REPORT_DATE = ?1");
+			qr = hs.createNativeQuery("select * from \"AML\".\"T5_RISK_RATING_MIG_DETAILED_TABLE\" a where \"REPORT_DATE\" = ?1");
 		}
 
 		try {
@@ -608,7 +608,7 @@ public class T5ReportService {
 		List<T5Detail> t9Dt1 = new ArrayList<T5Detail>();
 		Query<Object[]> qr;
 
-		qr = hs.createNativeQuery("select * from T5_RISK_RATING_MIG_DETAILED_TABLE where report_date=?1");
+		qr = hs.createNativeQuery("select * from \"AML\".\"T5_RISK_RATING_MIG_DETAILED_TABLE\" where \"REPORT_DATE\"=?1");
 		qr.setParameter(1, rpt_date);
 		List<Object[]> result = qr.getResultList();
 
@@ -712,7 +712,7 @@ public class T5ReportService {
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T5_RISK_RATING_MIG_DETAILED_TABLE  where report_date=?1 and cust_id=?2 and process_owner= ?3 and UPPER(customer_name) like UPPER(?4)");
+				"select * from \"AML\".\"T5_RISK_RATING_MIG_DETAILED_TABLE\" where report_date=?1 and cust_id=?2 and process_owner= ?3 and UPPER(customer_name) like UPPER(?4)");
 		qr.setParameter(1, rpt_date);
 		qr.setParameter(2, Cust_ID);
 		qr.setParameter(3, P_O);
@@ -825,7 +825,7 @@ public class T5ReportService {
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T5_RISK_RATING_MIG_DETAILED_TABLE  where report_date=?1 and cust_id=?2 and UPPER(customer_name) like UPPER(?3)");
+				"select * from \"AML\".\"T5_RISK_RATING_MIG_DETAILED_TABLE\" where report_date=?1 and cust_id=?2 and UPPER(customer_name) like UPPER(?3)");
 		qr.setParameter(1, rpt_date);
 		qr.setParameter(2, Cust_ID);
 		
@@ -934,7 +934,7 @@ public class T5ReportService {
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T5_RISK_RATING_MIG_DETAILED_TABLE  where report_date=?1 and cust_id=?2 ");
+				"select * from \"AML\".\"T5_RISK_RATING_MIG_DETAILED_TABLE\" where report_date=?1 and cust_id=?2 ");
 		qr.setParameter(1, rpt_date);
 		qr.setParameter(2, Cust_ID);
 		
@@ -1048,7 +1048,7 @@ public class T5ReportService {
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T5_RISK_RATING_MIG_DETAILED_TABLE  where report_date=?1 and process_owner=?2 ");
+				"select * from \"AML\".\"T5_RISK_RATING_MIG_DETAILED_TABLE\" where report_date=?1 and process_owner=?2 ");
 		qr.setParameter(1, rpt_date);
 		qr.setParameter(2, P_O);
 		
@@ -1161,7 +1161,7 @@ public class T5ReportService {
 		Query<Object[]> qr;
 
 		qr = hs.createNativeQuery(
-				"select * from T5_RISK_RATING_MIG_DETAILED_TABLE  where report_date=?1 and UPPER(customer_name) like UPPER(?2)");
+				"select * from \"AML\".\"T5_RISK_RATING_MIG_DETAILED_TABLE\" where report_date=?1 and UPPER(customer_name) like UPPER(?2)");
 		qr.setParameter(1, rpt_date);
 		qr.setParameter(2, Cust_Name);
 		

@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "T6_KYC_CDD_REVIEW_FREQ_DET_TABLE")
+@Table(name = "\"T6_KYC_CDD_REVIEW_FREQ_DET_TABLE\"", schema = "\"AML\"")
 public class T6Details implements Serializable {
 	@Id
 	private String	cust_id;

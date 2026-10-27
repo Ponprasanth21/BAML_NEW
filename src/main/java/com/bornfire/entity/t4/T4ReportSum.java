@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="T4_CUSTOMER_PROFILING_SUMMARY_TABLE")
+@Table(name="\"T4_CUSTOMER_PROFILING_SUMMARY_TABLE\"", schema="\"AML\"")
 public class T4ReportSum {
 	
 	

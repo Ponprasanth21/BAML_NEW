@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface T8ModRep extends JpaRepository<T8ReportMod,Date> {
 	Optional<T8ReportMod> findById(Date directorId);
 	
-	@Query(value="select * from T8_TRAN_CUST_TYPE_MOD_TABLE ",nativeQuery = true)
+	@Query(value="select * from \"AML\".\"T8_TRAN_CUST_TYPE_MOD_TABLE\" ",nativeQuery = true)
 	T8ReportMod  gett8details(Date reportDate);
 }

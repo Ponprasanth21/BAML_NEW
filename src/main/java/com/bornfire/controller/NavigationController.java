@@ -4816,7 +4816,7 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			}
 			Session hs1 = sessionFactory.getCurrentSession();
 			hs1.flush();
-			String query1 = "delete from BAML_DAILY_LOAN_BLACKLIST_RPT_TEMP_TABLE";
+			String query1 = "delete from \"AML\".\"BAML_DAILY_LOAN_BLACKLIST_RPT_TEMP_TABLE\"";
 			hs1.createNativeQuery(query1);
 			hs1.clear();
 			hs1.flush();
@@ -4827,7 +4827,7 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			if (from_Date != null && !from_Date.isEmpty()) {
 				Session hs = sessionFactory.getCurrentSession();
 
-				String query = "select distinct * from BAML_DAILY_LOAN_BLACKLIST_RPT_TEMP_TABLE";
+				String query = "select distinct * from \"AML\".\"BAML_DAILY_LOAN_BLACKLIST_RPT_TEMP_TABLE\"";
 				List<BAML_Daily_Loan_Blacklist_RT_Entity> lst = new ArrayList<BAML_Daily_Loan_Blacklist_RT_Entity>();
 				Query<Object[]> qr;
 				qr = hs.createNativeQuery(query);
@@ -4949,7 +4949,7 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			}
 			Session hs1 = sessionFactory.getCurrentSession();
 			hs1.flush();
-			String query1 = "delete from BAML_DAILY_LOAN_BLACKLIST_RPT_TEMP_TABLE";
+			String query1 = "delete from \"AML\".\"BAML_DAILY_LOAN_BLACKLIST_RPT_TEMP_TABLE\"";
 			hs1.createNativeQuery(query1);
 			hs1.clear();
 			hs1.flush();
@@ -4960,7 +4960,7 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			if (from_Date != null && !from_Date.isEmpty()) {
 				Session hs = sessionFactory.getCurrentSession();
 
-				String query = "select distinct * from BAML_DAILY_LOAN_BLACKLIST_RPT_TEMP_TABLE";
+				String query = "select distinct * from \"AML\".\"BAML_DAILY_LOAN_BLACKLIST_RPT_TEMP_TABLE\"";
 				List<BAML_Daily_Loan_Blacklist_RT_Entity> lst = new ArrayList<BAML_Daily_Loan_Blacklist_RT_Entity>();
 				Query<Object[]> qr;
 				qr = hs.createNativeQuery(query);
@@ -5080,7 +5080,7 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			}
 			Session hs1 = sessionFactory.getCurrentSession();
 			hs1.flush();
-			String query1 = "delete from BAML_DAILY_LOAN_BLACKLIST_RPT_TEMP_TABLE";
+			String query1 = "delete from \"AML\".\"BAML_DAILY_LOAN_BLACKLIST_RPT_TEMP_TABLE\"";
 			hs1.createNativeQuery(query1);
 			hs1.clear();
 			hs1.flush();
@@ -5091,7 +5091,7 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			if (from_Date != null && !from_Date.isEmpty()) {
 				Session hs = sessionFactory.getCurrentSession();
 
-				String query = "select distinct * from BAML_DAILY_LOAN_BLACKLIST_RPT_TEMP_TABLE";
+				String query = "select distinct * from \"AML\".\"BAML_DAILY_LOAN_BLACKLIST_RPT_TEMP_TABLE\"";
 				List<BAML_Daily_Loan_Blacklist_RT_Entity> lst = new ArrayList<BAML_Daily_Loan_Blacklist_RT_Entity>();
 				Query<Object[]> qr;
 				qr = hs.createNativeQuery(query);
@@ -9103,6 +9103,9 @@ System.out.println("AuditlogValue "+AuditlogValue);
 		s.add("MEDIUM");
 		s.add("LOW");
 		if (formmode == null || formmode.equals("Cust_list")) {
+			if (riskcategory == null || riskcategory.isEmpty()) {
+				riskcategory = "LOW";
+			}
 			md.addAttribute("menu", "AMLTransMonitoring");
 			md.addAttribute("formmode", "Cust_list"); // to set which form - valid values are "edit" , "add" & "list"
 			md.addAttribute("menuname", "Loan Monitoring Report Per Risk Category");
@@ -9148,6 +9151,9 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			md.addAttribute("formmode_cust", "tranlist");
 
 		} else if (formmode.equals("Loan_list")) {
+			if (riskcategoryrss == null || riskcategoryrss.isEmpty()) {
+				riskcategoryrss = "LOW";
+			}
 			md.addAttribute("menu", "AMLTransMonitoring");
 			md.addAttribute("formmode", "Loan_list"); // to set which form - valid values are "edit" , "add" & "list"
 			md.addAttribute("menuname", "Retirement Saving Scheme Report Per Risk Category");
@@ -9172,6 +9178,9 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			md.addAttribute("formmode_loan", "tranlistloan");
 
 		} else if (formmode.equals("Opr_list")) {
+			if (riskcategorydep == null || riskcategorydep.isEmpty()) {
+				riskcategorydep = "LOW";
+			}
 			md.addAttribute("formmode", "Opr_list");
 			md.addAttribute("menuname", "Deposits Report Per Risk Category");
 

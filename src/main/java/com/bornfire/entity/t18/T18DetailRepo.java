@@ -16,13 +16,13 @@ import com.bornfire.entity.t15.T15Detail;
 @Repository
 public interface T18DetailRepo extends JpaRepository<T18Detail, String> {
 	
-	 @Query(value = "select * from T18DIST_CHANNELS_DETAILS a where report_date = ?1", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T18DIST_CHANNELS_DETAILS\" a where report_date = ?1", nativeQuery = true)
 		Page<T18Detail> detailList(Date todate,Pageable page);
 	 
-	 @Query(value = "select * from T18DIST_CHANNELS_DETAILS where report_date=?1", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T18DIST_CHANNELS_DETAILS\" where report_date=?1", nativeQuery = true)
 	 Page<T18Detail> getReportList(String report_date,Pageable page);
 	 
-	 @Query(value = "select * from T18DIST_CHANNELS_DETAILS where report_date=?1 and cust_id=?2", nativeQuery = true)
+	 @Query(value = "select * from \"AML\".\"T18DIST_CHANNELS_DETAILS\" where report_date=?1 and cust_id=?2", nativeQuery = true)
 	 T18Detail getview(String d1, String cif_id);
 
 }
