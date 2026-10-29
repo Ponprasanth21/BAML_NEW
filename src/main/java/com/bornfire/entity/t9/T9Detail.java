@@ -473,7 +473,58 @@ public class T9Detail implements Serializable{
 			String mis_internal_rating_scale2) {
 		
 		super();
-		
+		this.t9detailid = new T9DetailId(cust_id, report_date);
+		this.cust_name = cust_name2;
+		this.cust_type = cust_type2;
+		this.cust_rating = cust_rating2;
+		this.acct_no = acct_no2;
+		this.acct_name = acct_name2;
+		this.tran_type = tran_type2;
+		this.tran_sub_type = tran_sub_type2;
+		this.tran_date = tran_date2;
+		this.tran_id = tran_id2;
+		this.part_tran_id = part_tran_id2;
+		this.part_tran_type = part_tran_type2;
+		this.tran_crncy = tran_crncy2;
+		this.tran_amt = tran_amt2;
+		this.tran_category = tran_category2;
+		this.qtr_flg = qtr_flg2;
+		this.entity_flg = entity_flg2;
+		this.del_flg = del_flg2;
+		this.modify_flg = modify_flg2;
+		this.entry_date = entry_date2;
+		this.modify_date = modify_date2;
+		this.verify_date = verify_date2;
+		this.entry_user = entry_user2;
+		this.modify_user = modify_user2;
+		this.verify_user = verify_user2;
+		this.report_code = report_code2;
+		this.report_name = report_name2;
+		this.arch_flg = arch_flg2;
+		this.cell_mapping = cell_mapping2;
+		this.process_owner = process_owner2;
+		this.bank_id = bank_id2;
+		this.cust_rating_date = cust_rating_date2;
+		this.tran_particulars = tran_particulars2;
+		this.tran_channel = tran_channel2;
+		this.cntry_res = cntry_res2;
+		this.cnty_incorp = cnty_incorp2;
+		this.cntry_oper = cntry_oper2;
+		this.aml_code_1 = aml_code_12;
+		this.aml_code_2 = aml_code_22;
+		this.aml_code_3 = aml_code_32;
+		this.aml_code_4 = aml_code_42;
+		this.aml_code_5 = aml_code_52;
+		this.aml_code_6 = aml_code_62;
+		this.aml_code_7 = aml_code_72;
+		this.aml_code_8 = aml_code_82;
+		this.aml_code_9 = aml_code_92;
+		this.aml_code_10 = aml_code_102;
+		this.relationship_date = relationship_date2;
+		this.mis_face_to_face = mis_face_to_face2;
+		this.mis_non_face_to_face = mis_non_face_to_face2;
+		this.mis_internal_rating_grade = mis_internal_rating_grade2;
+		this.mis_internal_rating_scale = mis_internal_rating_scale2;
 	}
 
 

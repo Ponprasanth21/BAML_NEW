@@ -1189,8 +1189,18 @@ public class T12ReportService {
 		List<T12Detail> t9Dt1 = new ArrayList<T12Detail>();
 		Query<Object[]> qr;
 
-			qr = hs.createNativeQuery("select * from \"AML\".\"T12_IND_CASH_DEP_DETILS\" where report_date=?1");
-			qr.setParameter(1,rpt_date);
+			Date parsedDate;
+			try {
+				parsedDate = new SimpleDateFormat("dd-MMM-yyyy").parse(rpt_date);
+			} catch (Exception e) {
+				try {
+					parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(rpt_date);
+				} catch (Exception ex) {
+					parsedDate = new SimpleDateFormat("dd/MM/yyyy").parse(rpt_date);
+				}
+			}
+			qr = hs.createNativeQuery("select * from \"AML\".\"T12_IND_CASH_DEP_DETILS\" where \"REPORT_DATE\"=?1");
+			qr.setParameter(1, parsedDate);
 			List<Object[]> result = qr.getResultList();
 			
 			try {

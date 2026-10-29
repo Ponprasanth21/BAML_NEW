@@ -697,8 +697,18 @@ public class T1CurrentReportService {
 		List<T1CurProdDetail> t9Dt1 = new ArrayList<T1CurProdDetail>();
 		Query<Object[]> qr;
 
+		Date parsedDate;
+		try {
+			parsedDate = new SimpleDateFormat("dd-MMM-yyyy").parse(rpt_date);
+		} catch (Exception e) {
+			try {
+				parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(rpt_date);
+			} catch (Exception ex) {
+				parsedDate = new SimpleDateFormat("dd/MM/yyyy").parse(rpt_date);
+			}
+		}
 		qr = hs.createNativeQuery("select * from \"AML\".\"T1_CUR_PROD_SERVICES_DET_TABLE\" where \"REPORT_DATE\"=?1");
-		qr.setParameter(1, rpt_date);
+		qr.setParameter(1, parsedDate);
 		List<Object[]> result = qr.getResultList();
 
 		try {

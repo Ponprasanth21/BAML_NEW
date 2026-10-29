@@ -646,8 +646,18 @@ public class T3AReportService {
 		List<T3ADataMaintenance> t9Dt1 = new ArrayList<T3ADataMaintenance>();
 		Query<Object[]> qr;
 
-		qr = hs.createNativeQuery("select * from \"AML\".\"T3_RBS_MASTER\" where report_date=?1");
-		qr.setParameter(1, rpt_date);
+		Date parsedDate;
+		try {
+			parsedDate = new SimpleDateFormat("dd-MMM-yyyy").parse(rpt_date);
+		} catch (Exception e) {
+			try {
+				parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(rpt_date);
+			} catch (Exception ex) {
+				parsedDate = new SimpleDateFormat("dd/MM/yyyy").parse(rpt_date);
+			}
+		}
+		qr = hs.createNativeQuery("select * from \"AML\".\"T3_RBS_MASTER\" where \"REPORT_DATE\"=?1");
+		qr.setParameter(1, parsedDate);
 		List<Object[]> result = qr.getResultList();
 
 		try {

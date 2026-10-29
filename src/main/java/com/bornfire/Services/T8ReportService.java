@@ -1624,46 +1624,56 @@ public class T8ReportService {
 		List<T8Detail> t9Dt1 = new ArrayList<T8Detail>();
 		Query<Object[]> qr;
 
-			qr = hs.createNativeQuery("select * from \"AML\".\"T8_TRAN_CUST_TYPE_DETAIL\" where report_date=?1");
-			qr.setParameter(1,rpt_date);
+			Date parsedDate;
+			try {
+				parsedDate = new SimpleDateFormat("dd-MMM-yyyy").parse(rpt_date);
+			} catch (Exception e) {
+				try {
+					parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(rpt_date);
+				} catch (Exception ex) {
+					parsedDate = new SimpleDateFormat("dd/MM/yyyy").parse(rpt_date);
+				}
+			}
+			qr = hs.createNativeQuery("select * from \"AML\".\"T8_TRAN_CUST_TYPE_DETAIL\" where \"REPORT_DATE\"=?1");
+			qr.setParameter(1, parsedDate);
 			List<Object[]> result = qr.getResultList();
 			
 			try {
 			for (Object[] a : result) {
 				String cust_id = (String) a[0];
 				String cust_name = (String) a[1];
-				String acct_no = (String) a[2];
-				String acct_name = (String) a[3];
-				Date tran_date = (Date) a[4];
-				String tran_id = (String) a[5];
-				BigDecimal part_tran_id = (BigDecimal) a[6];
-				String part_tran_type = (String) a[7];
-				String tran_crncy = (String) a[8];
-				BigDecimal tran_amt = (BigDecimal) a[9];
-				String tran_particulars = (String) a[10];
-				String tran_type = (String) a[11];
-				String tran_sub_type = (String) a[12];
-				Character qtr_flg = (Character) a[13];
-				Character entity_flg = (Character) a[14];
-				Character del_flg = (Character) a[15];
-				Character modify_flg = (Character) a[16];
-				Date entry_date = (Date) a[17];
-				Date modify_date = (Date) a[18];
-				Date verify_date = (Date) a[19];
-				String entry_user = (String) a[20];
-				String modify_user = (String) a[21];
-				String verify_user = (String) a[22];
-				String report_code = (String) a[23];
-				String report_name = (String) a[24];
-				Date report_date = (Date) a[25];
-				Character arch_flg = (Character) a[26];
-				String cust_rating = (String) a[27];
-				String cell_mapping = (String) a[28];
-				String process_owner = (String) a[29];
-				String bank_id = (String) a[30];
-				String cust_type = (String) a[31];
+				String cust_type = (String) a[2];
+				String cust_rating = (String) a[3];
+				String acct_no = (String) a[4];
+				String acct_name = (String) a[5];
+				String tran_type = (String) a[6];
+				String tran_sub_type = (String) a[7];
+				Date tran_date = (Date) a[8];
+				String tran_id = (String) a[9];
+				BigDecimal part_tran_id = (BigDecimal) a[10];
+				String part_tran_type = a[11] != null ? a[11].toString() : null;
+				String tran_crncy = (String) a[12];
+				BigDecimal tran_amt = (BigDecimal) a[13];
+				String tran_category = (String) a[14];
+				Character qtr_flg = a[15] == null ? null : (a[15] instanceof Character ? (Character) a[15] : a[15].toString().charAt(0));
+				Character entity_flg = a[16] == null ? null : (a[16] instanceof Character ? (Character) a[16] : a[16].toString().charAt(0));
+				Character del_flg = a[17] == null ? null : (a[17] instanceof Character ? (Character) a[17] : a[17].toString().charAt(0));
+				Character modify_flg = a[18] == null ? null : (a[18] instanceof Character ? (Character) a[18] : a[18].toString().charAt(0));
+				Date entry_date = (Date) a[19];
+				Date modify_date = (Date) a[20];
+				Date verify_date = (Date) a[21];
+				String entry_user = (String) a[22];
+				String modify_user = (String) a[23];
+				String verify_user = (String) a[24];
+				String report_code = (String) a[25];
+				String report_name = (String) a[26];
+				Date report_date = (Date) a[27];
+				Character arch_flg = a[28] == null ? null : (a[28] instanceof Character ? (Character) a[28] : a[28].toString().charAt(0));
+				String cell_mapping = (String) a[29];
+				String process_owner = (String) a[30];
+				String bank_id = (String) a[31];
 				Date cust_rating_date = (Date) a[32];
-				String tran_category = (String) a[33];
+				String tran_particulars = (String) a[33];
 				String tran_channel = (String) a[34];
 				String cntry_res = (String) a[35];
 				String cnty_incorp = (String) a[36];

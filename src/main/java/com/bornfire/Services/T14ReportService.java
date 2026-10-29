@@ -675,8 +675,18 @@ public class T14ReportService {
 		List<T14Detail> t9Dt1 = new ArrayList<T14Detail>();
 		Query<Object[]> qr;
 
-			qr = hs.createNativeQuery("select * from \"AML\".\"T14_CHQ_INW_DETAILS\" where report_date=?1");
-			qr.setParameter(1,rpt_date);
+			Date parsedDate;
+			try {
+				parsedDate = new SimpleDateFormat("dd-MMM-yyyy").parse(rpt_date);
+			} catch (Exception e) {
+				try {
+					parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(rpt_date);
+				} catch (Exception ex) {
+					parsedDate = new SimpleDateFormat("dd/MM/yyyy").parse(rpt_date);
+				}
+			}
+			qr = hs.createNativeQuery("select * from \"AML\".\"T14_CHQ_INW_DETAILS\" where \"REPORT_DATE\"=?1");
+			qr.setParameter(1, parsedDate);
 			List<Object[]> result = qr.getResultList();
 			
 			try {
@@ -688,16 +698,16 @@ public class T14ReportService {
 				Date tran_date = (Date) a[4];
 				String tran_id = (String) a[5];
 				BigDecimal part_tran_id = (BigDecimal) a[6];
-				String part_tran_type = (String) a[7];
+				String part_tran_type = a[7] != null ? a[7].toString() : null;
 				String tran_crncy = (String) a[8];
 				BigDecimal tran_amt = (BigDecimal) a[9];
 				String tran_particulars = (String) a[10];
-				String tran_type = (String) a[11];
-				String tran_sub_type = (String) a[12];
-				Character qtr_flg = (Character) a[13];
-				Character entity_flg = (Character) a[14];
-				Character del_flg = (Character) a[15];
-				Character modify_flg = (Character) a[16];
+				String tran_type = a[11] != null ? a[11].toString() : null;
+				String tran_sub_type = a[12] != null ? a[12].toString() : null;
+				Character qtr_flg = a[13] == null ? null : (a[13] instanceof Character ? (Character) a[13] : a[13].toString().charAt(0));
+				Character entity_flg = a[14] == null ? null : (a[14] instanceof Character ? (Character) a[14] : a[14].toString().charAt(0));
+				Character del_flg = a[15] == null ? null : (a[15] instanceof Character ? (Character) a[15] : a[15].toString().charAt(0));
+				Character modify_flg = a[16] == null ? null : (a[16] instanceof Character ? (Character) a[16] : a[16].toString().charAt(0));
 				Date entry_date = (Date) a[17];
 				Date modify_date = (Date) a[18];
 				Date verify_date = (Date) a[19];
@@ -707,7 +717,7 @@ public class T14ReportService {
 				String report_code = (String) a[23];
 				String report_name = (String) a[24];
 				Date report_date = (Date) a[25];
-				Character arch_flg = (Character) a[26];
+				Character arch_flg = a[26] == null ? null : (a[26] instanceof Character ? (Character) a[26] : a[26].toString().charAt(0));
 				String cust_rating = (String) a[27];
 				String cell_mapping = (String) a[28];
 				String process_owner = (String) a[29];

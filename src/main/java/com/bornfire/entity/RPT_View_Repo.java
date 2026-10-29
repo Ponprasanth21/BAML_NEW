@@ -15,7 +15,7 @@ public interface RPT_View_Repo extends JpaRepository<Report_View, String> {
 
 	Optional<Report_View> findById(String directorId);
 
-	@Query(value = "select * from RPT_LIST_VIEW", nativeQuery = true)
+	@Query(value = "select \"REPORT_CODE\" as rpt_code, \"REPORT_NAME\" as rpt_description, \"REPORT_DATE\" as rpt_date from \"AML\".\"BAML_RBS_REPORT_MAINTENANCE\" order by \"REPORT_CODE\"", nativeQuery = true)
 	List<Report_View> getValidationList();
 
 }

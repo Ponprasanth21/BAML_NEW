@@ -578,8 +578,18 @@ public class T2CurrentReportServices {
 		List<T2CurrentMast> t9Dt1 = new ArrayList<T2CurrentMast>();
 		Query<Object[]> qr;
 
+			Date parsedDate;
+			try {
+				parsedDate = new SimpleDateFormat("dd-MMM-yyyy").parse(rpt_date);
+			} catch (Exception e) {
+				try {
+					parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(rpt_date);
+				} catch (Exception ex) {
+					parsedDate = new SimpleDateFormat("dd/MM/yyyy").parse(rpt_date);
+				}
+			}
 			qr = hs.createNativeQuery("select * from \"AML\".\"T2_CFT_CUSTOMER_RATING_MAST_TB\" where \"REPORT_DATE\"=?1");
-			qr.setParameter(1,rpt_date);
+			qr.setParameter(1, parsedDate);
 			List<Object[]> result = qr.getResultList();
 			
 			try {

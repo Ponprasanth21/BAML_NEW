@@ -2,18 +2,23 @@ package com.bornfire.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="BAML_RBS_REPORT_MAINTENANCE")
+@Table(name = "\"BAML_RBS_REPORT_MAINTENANCE\"", schema = "\"AML\"")
 public class BAML_RBS_REPORT_PROCEDURE {
 	
 	@Id
+	@Column(name = "\"REPORT_CODE\"")
 	private String report_code;
+	@Column(name = "\"REPORT_NAME\"")
 	private String report_name;
+	@Column(name = "\"REPORT_FLAG\"")
 	private Character report_flag;
+	@Column(name = "\"REPORT_DATE\"")
 	private Date report_date;
 	public String getReport_code() {
 		return report_code;

@@ -904,8 +904,18 @@ System.out.println(new File(".").getAbsolutePath());
 		List<T10Detail> t9Dt1 = new ArrayList<T10Detail>();
 		Query<Object[]> qr;
 
-			qr = hs.createNativeQuery("select * from \"AML\".\"T10_DOM_INW_REMIT_DETAILS\" where report_date=?1");
-			qr.setParameter(1,rpt_date);
+			Date parsedDate;
+			try {
+				parsedDate = new SimpleDateFormat("dd-MMM-yyyy").parse(rpt_date);
+			} catch (Exception e) {
+				try {
+					parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(rpt_date);
+				} catch (Exception ex) {
+					parsedDate = new SimpleDateFormat("dd/MM/yyyy").parse(rpt_date);
+				}
+			}
+			qr = hs.createNativeQuery("select * from \"AML\".\"T10_DOM_INW_REMIT_DETAILS\" where \"REPORT_DATE\"=?1");
+			qr.setParameter(1, parsedDate);
 			List<Object[]> result = qr.getResultList();
 			
 			try {
