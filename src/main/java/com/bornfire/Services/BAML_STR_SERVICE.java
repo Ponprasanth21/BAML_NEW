@@ -257,53 +257,47 @@ public class BAML_STR_SERVICE {
 
 	public Date getTranDet(Date tran_date) {
 		Session hs = sessionFactory.getCurrentSession();
-		String Number = (String) hs.createNativeQuery("SELECT tran_date from BAML_STR_TABLE where tran_date =?1")
-				.setParameter(1, tran_date).getSingleResult();
-
+		List<?> list = hs.createNativeQuery("SELECT \"TRAN_DATE\" from \"AML\".\"BAML_STR_TABLE\" where \"TRAN_DATE\" =?1 limit 1")
+				.setParameter(1, tran_date).getResultList();
 		return tran_date;
-
-	};
+	}
 
 	public String getTranDet(String tran_id) {
 		Session hs = sessionFactory.getCurrentSession();
-		String Number = (String) hs.createNativeQuery("SELECT tran_id from BAML_STR_TABLE where tran_id =?1")
-				.setParameter(1, tran_id).getSingleResult();
-
+		List<?> list = hs.createNativeQuery("SELECT \"TRAN_ID\" from \"AML\".\"BAML_STR_TABLE\" where \"TRAN_ID\" =?1 limit 1")
+				.setParameter(1, tran_id).getResultList();
 		return tran_id;
-
-	};
+	}
 
 	public String getTranDetNo(String part_tran_srl_no) {
 		Session hs = sessionFactory.getCurrentSession();
-		String Number = (String) hs
-				.createNativeQuery("SELECT part_tran_srl_no from BAML_STR_TABLE where part_tran_srl_no =?1")
-				.setParameter(1, part_tran_srl_no).getSingleResult();
-
+		List<?> list = hs
+				.createNativeQuery("SELECT \"PART_TRAN_SRL_NUM\" from \"AML\".\"BAML_ACCT_TRANS_TABLE\" where \"PART_TRAN_SRL_NUM\" =?1 limit 1")
+				.setParameter(1, part_tran_srl_no).getResultList();
 		return part_tran_srl_no;
-
-	};
+	}
 
 	public String getMAILAudit(String cust_id) {
 		Session hs = sessionFactory.getCurrentSession();
-		String Number = (String) hs
-				.createNativeQuery("SELECT cust_id from BAML_CUST_MAST_TABLE where PREFERREDEMAIL =?1")
-				.setParameter(1, cust_id).getSingleResult();
-
-		int cust_len = Number.length();
-		return Number;
-
-	};
+		List<?> list = hs
+				.createNativeQuery("SELECT \"CUST_ID\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"PREFERREDEMAIL\" =?1 limit 1")
+				.setParameter(1, cust_id).getResultList();
+		if (list.isEmpty() || list.get(0) == null) {
+			return cust_id;
+		}
+		return list.get(0).toString();
+	}
 
 	public int getMAILAuditlen(String cust_id) {
 		Session hs = sessionFactory.getCurrentSession();
-		String Number = (String) hs
-				.createNativeQuery("SELECT cust_id from BAML_CUST_MAST_TABLE where PREFERREDEMAIL =?1")
-				.setParameter(1, cust_id).getSingleResult();
-
-		int cust_len = Number.length();
-		return cust_len;
-
-	};
+		List<?> list = hs
+				.createNativeQuery("SELECT \"CUST_ID\" from \"AML\".\"BAML_CUST_MAST_TABLE\" where \"PREFERREDEMAIL\" =?1 limit 1")
+				.setParameter(1, cust_id).getResultList();
+		if (list.isEmpty() || list.get(0) == null) {
+			return cust_id != null ? cust_id.length() : 0;
+		}
+		return list.get(0).toString().length();
+	}
 
 	public File getFile(String reportId) throws FileNotFoundException, JRException, SQLException {
 
@@ -370,154 +364,124 @@ public class BAML_STR_SERVICE {
 		Session hs = sessionFactory.getCurrentSession();
 
 		DecimalFormat numformate = new DecimalFormat("000");
-		BigDecimal billNumber = (BigDecimal) hs
-				.createNativeQuery("SELECT CAST(nextval('\"AML\".\"STRSEQUENCE_1\"') AS NUMERIC)")
-				.getSingleResult();
+		BigDecimal billNumber = null;
+		try {
+			billNumber = (BigDecimal) hs
+					.createNativeQuery("SELECT CAST(nextval('\"AML\".\"STRSEQUENCE_1\"') AS NUMERIC)")
+					.getSingleResult();
+		} catch (Exception e1) {
+			try {
+				billNumber = (BigDecimal) hs
+						.createNativeQuery("SELECT CAST(nextval('\"AML\".\"STR_RECORD_ID\"') AS NUMERIC)")
+						.getSingleResult();
+			} catch (Exception e2) {
+				long count = str_rep.count();
+				billNumber = BigDecimal.valueOf(count + 1);
+			}
+		}
 		String serialno = "STR" + numformate.format(billNumber);
-		System.out.println("billno" + serialno);
+		logger.info("Generated STR Ref No: " + serialno);
 		return serialno;
 	}
 
 	public File getFile1(String str_ref_no) throws FileNotFoundException, JRException, SQLException {
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
 		String path = "";
-		String fileName = "";
-		String zipFileName = "";
-		String msg = "";
-		File outputFile;
+		String fileName = str_ref_no + "_" + "MCS";
+		File outputFile = null;
 
 		logger.info("Getting Output file :" + str_ref_no);
 
-		fileName = str_ref_no + "_" + "MCS";
-
-		zipFileName = fileName + ".zip";
-
 		try {
-			InputStream fileStream = null;
-			logger.info("Getting Jasper file :" + str_ref_no);
+			JasperReport jr;
+			InputStream jrxmlStream = this.getClass().getResourceAsStream("/static/jasper/STR/BAML_STR_INTERNAL.jrxml");
+			if (jrxmlStream != null) {
+				try {
+					jr = JasperCompileManager.compileReport(jrxmlStream);
+				} catch (Exception ce) {
+					logger.warn("Dynamic compilation of BAML_STR_INTERNAL.jrxml failed, falling back to precompiled jasper: " + ce.getMessage());
+					InputStream fileStream = this.getClass().getResourceAsStream("/static/jasper/STR/BAML_STR_INTERNAL.jasper");
+					jr = (JasperReport) JRLoader.loadObject(fileStream);
+				}
+			} else {
+				InputStream fileStream = this.getClass().getResourceAsStream("/static/jasper/STR/BAML_STR_INTERNAL.jasper");
+				jr = (JasperReport) JRLoader.loadObject(fileStream);
+			}
 
-			System.out.println("pdf");
-			fileStream = this.getClass().getResourceAsStream("/static/jasper/STR/BAML_STR_INTERNAL.jasper");
-//				jasperFile = ResourceUtils.getFile("classpath:static/jasper/AMLReports/MonitoringReports/PepList.jasper");
 			HashMap<String, Object> map = new HashMap<String, Object>();
-
-			/*
-			 * try { logger.info("Getting Jasper file :" + str_ref_no); //File jasperFile =
-			 * null; HashMap<String, Object> map = new HashMap<String, Object>();
-			 * 
-			 * 
-			 * 
-			 * 
-			 * //File jasperFile =
-			 * ResourceUtils.getFile("classpath:static/jasper/STR/STR_MAIN.jasper"); //File
-			 * subrep1 =
-			 * ResourceUtils.getFile("classpath:static/jasper/STR/BAML_STR_INTERNAL.jasper")
-			 * ; //File subrep2 =
-			 * ResourceUtils.getFile("classpath:static/jasper/STR/STR_2.jasper"); //File
-			 * subrep3 = ResourceUtils.getFile("classpath:static/jasper/STR/STR_3.jasper");
-			 * 
-			 * // map.put("DIR_1", subrep1); //map.put("DIR_2", subrep2); //map.put("DIR_3",
-			 * subrep3);
-			 * 
-			 */
-
-			JasperReport jr = (JasperReport) JRLoader.loadObject(fileStream);
-
-			logger.info("Assigning Parameters for Jasper");
 			map.put("STR_REF_NO", str_ref_no);
 
-			/*
-			 * File folders = new File(path); if (!folders.exists()) { folders.mkdirs(); }
-			 */
+			String exportPath = env != null ? env.getProperty("output.exportpath") : null;
+			if (exportPath == null || exportPath.trim().isEmpty()) {
+				exportPath = System.getProperty("java.io.tmpdir");
+			}
+			File dir = new File(exportPath);
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
 
-			fileName = fileName + ".pdf";
-			path = fileName;
+			outputFile = new File(dir, fileName + ".pdf");
+			path = outputFile.getAbsolutePath();
+
 			JasperPrint jp = JasperFillManager.fillReport(jr, map, srcdataSource.getConnection());
 			JasperExportManager.exportReportToPdfFile(jp, path);
-			logger.info("PDF File exported");
+			logger.info("PDF File exported to: " + path);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error in generating BAML_STR_INTERNAL report", e);
+			throw new RuntimeException("Error generating BAML_STR_INTERNAL report: " + e.getMessage(), e);
 		}
-
-		outputFile = new File(path);
-		System.out.println(outputFile);
-
-		msg = "Pdf Generated Sucessfullly";
 
 		return outputFile;
 	}
 
 	public File getFile2(String str_ref_no) throws FileNotFoundException, JRException, SQLException {
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
 		String path = "";
-		String fileName = "";
-		String zipFileName = "";
-		String msg = "";
-		File outputFile;
+		String fileName = str_ref_no + "_" + "MCS";
+		File outputFile = null;
 
 		logger.info("Getting Output file :" + str_ref_no);
 
-		fileName = str_ref_no + "_" + "MCS";
-
-		zipFileName = fileName + ".zip";
-
 		try {
-			InputStream fileStream = null;
-			logger.info("Getting Jasper file :" + str_ref_no);
+			JasperReport jr;
+			InputStream jrxmlStream = this.getClass().getResourceAsStream("/static/jasper/STR/BAML_STR1.jrxml");
+			if (jrxmlStream != null) {
+				try {
+					jr = JasperCompileManager.compileReport(jrxmlStream);
+				} catch (Exception ce) {
+					logger.warn("Dynamic compilation of BAML_STR1.jrxml failed, falling back to precompiled jasper: " + ce.getMessage());
+					InputStream fileStream = this.getClass().getResourceAsStream("/static/jasper/STR/BAML_STR1.jasper");
+					jr = (JasperReport) JRLoader.loadObject(fileStream);
+				}
+			} else {
+				InputStream fileStream = this.getClass().getResourceAsStream("/static/jasper/STR/BAML_STR1.jasper");
+				jr = (JasperReport) JRLoader.loadObject(fileStream);
+			}
 
-			System.out.println("pdf");
-			fileStream = this.getClass().getResourceAsStream("/static/jasper/STR/BAML_STR1.jasper");
-//				jasperFile = ResourceUtils.getFile("classpath:static/jasper/AMLReports/MonitoringReports/PepList.jasper");
 			HashMap<String, Object> map = new HashMap<String, Object>();
-
-			/*
-			 * try { logger.info("Getting Jasper file :" + str_ref_no); //File jasperFile =
-			 * null; HashMap<String, Object> map = new HashMap<String, Object>();
-			 * 
-			 * 
-			 * 
-			 * 
-			 * //File jasperFile =
-			 * ResourceUtils.getFile("classpath:static/jasper/STR/STR_MAIN.jasper"); //File
-			 * subrep1 =
-			 * ResourceUtils.getFile("classpath:static/jasper/STR/BAML_STR_INTERNAL.jasper")
-			 * ; //File subrep2 =
-			 * ResourceUtils.getFile("classpath:static/jasper/STR/STR_2.jasper"); //File
-			 * subrep3 = ResourceUtils.getFile("classpath:static/jasper/STR/STR_3.jasper");
-			 * 
-			 * // map.put("DIR_1", subrep1); //map.put("DIR_2", subrep2); //map.put("DIR_3",
-			 * subrep3);
-			 * 
-			 */
-
-			JasperReport jr = (JasperReport) JRLoader.loadObject(fileStream);
-
-			logger.info("Assigning Parameters for Jasper");
 			map.put("STR_REF_NO", str_ref_no);
 
-			/*
-			 * File folders = new File(path); if (!folders.exists()) { folders.mkdirs(); }
-			 */
+			String exportPath = env != null ? env.getProperty("output.exportpath") : null;
+			if (exportPath == null || exportPath.trim().isEmpty()) {
+				exportPath = System.getProperty("java.io.tmpdir");
+			}
+			File dir = new File(exportPath);
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
 
-			fileName = fileName + ".pdf";
-			path = fileName;
+			outputFile = new File(dir, fileName + ".pdf");
+			path = outputFile.getAbsolutePath();
+
 			JasperPrint jp = JasperFillManager.fillReport(jr, map, srcdataSource.getConnection());
 			JasperExportManager.exportReportToPdfFile(jp, path);
-			logger.info("PDF File exported");
+			logger.info("PDF File exported to: " + path);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error in generating BAML_STR1 report", e);
+			throw new RuntimeException("Error generating BAML_STR1 report: " + e.getMessage(), e);
 		}
-
-		outputFile = new File(path);
-		System.out.println(outputFile);
-
-		msg = "Pdf Generated Sucessfullly";
 
 		return outputFile;
 	}

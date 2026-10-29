@@ -5,7 +5,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="STR_REF_NO" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select  STR_REF_NO,STR_DATE,STR_BY_PERSON,STR_TO_MLRO_DMLRO,STR_INFORM,STR_ACTION,DATE_OF_REPORT,DATE_SUBMISSION,REMARKS from  baml_str_internal WHERE str_ref_no=$P{STR_REF_NO}]]>
+		<![CDATA[select "STR_REF_NO" as "STR_REF_NO", "STR_DATE" as "STR_DATE", "STR_BY_PERSON" as "STR_BY_PERSON", "STR_TO_MLRO_DMLRO" as "STR_TO_MLRO_DMLRO", "STR_INFORM" as "STR_INFORM", "STR_ACTION" as "STR_ACTION", "DATE_OF_REPORT" as "DATE_OF_REPORT", "DATE_SUBMISSION" as "DATE_SUBMISSION", "REMARKS" as "REMARKS" from "AML"."BAML_STR_INTERNAL" WHERE "STR_REF_NO"=$P{STR_REF_NO}]]>
 	</queryString>
 	<field name="STR_REF_NO" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="STR_REF_NO"/>

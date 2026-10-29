@@ -5,7 +5,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="STR_REF_NO" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select str_ref_no,from_rptr_name,from_rptr_position,from_rpt_extn_ph,to_mlro_dmlro,cust_client_name,cust_client_addr,cust_client_tel,cust_client_fax,cust_client_mob,cust_client_occp,cust_client_employer,cust_client_id_card_no,cust_client_otr_id,cust_client_place_of_birth,tran_ref,tran_amount,resons_for_susp,mlro_remarks,date_of_report,date_submission from baml_str where str_ref_no = $P{STR_REF_NO}]]>
+		<![CDATA[select "STR_REF_NO" as "STR_REF_NO", "FROM_RPTR_NAME" as "FROM_RPTR_NAME", "FROM_RPTR_POSITION" as "FROM_RPTR_POSITION", "FROM_RPT_EXTN_PH" as "FROM_RPT_EXTN_PH", "TO_MLRO_DMLRO" as "TO_MLRO_DMLRO", "CUST_CLIENT_NAME" as "CUST_CLIENT_NAME", "CUST_CLIENT_ADDR" as "CUST_CLIENT_ADDR", "CUST_CLIENT_TEL" as "CUST_CLIENT_TEL", "CUST_CLIENT_FAX" as "CUST_CLIENT_FAX", "CUST_CLIENT_MOB" as "CUST_CLIENT_MOB", "CUST_CLIENT_OCCP" as "CUST_CLIENT_OCCP", "CUST_CLIENT_EMPLOYER" as "CUST_CLIENT_EMPLOYER", "CUST_CLIENT_ID_CARD_NO" as "CUST_CLIENT_ID_CARD_NO", "CUST_CLIENT_OTR_ID" as "CUST_CLIENT_OTR_ID", "CUST_CLIENT_PLACE_OF_BIRTH" as "CUST_CLIENT_PLACE_OF_BIRTH", "TRAN_REF" as "TRAN_REF", "TRAN_AMOUNT" as "TRAN_AMOUNT", "RESONS_FOR_SUSP" as "RESONS_FOR_SUSP", "MLRO_REMARKS" as "MLRO_REMARKS", "DATE_OF_REPORT" as "DATE_OF_REPORT", "DATE_SUBMISSION" as "DATE_SUBMISSION" from "AML"."BAML_STR" where "STR_REF_NO" = $P{STR_REF_NO}]]>
 	</queryString>
 	<field name="STR_REF_NO" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="STR_REF_NO"/>

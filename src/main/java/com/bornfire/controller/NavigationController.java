@@ -5833,15 +5833,25 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			// md.addAttribute("SEARCHFROMTRAN",
 			// TRANMaster.reportdet(tran_id, part_tran_srl_num, tran_type, part_tran_type));
 		} else if (formmode.equals("custname")) {
-			Date date_tran = new SimpleDateFormat("dd/MM/yyyy").parse(tran_date);
+			Date date_tran = null;
+			if (tran_date != null && !tran_date.trim().isEmpty()) {
+				String[] formats = { "dd/MM/yyyy", "dd-MM-yyyy", "dd-MMM-yyyy", "yyyy-MM-dd" };
+				for (String fmt : formats) {
+					try {
+						date_tran = new SimpleDateFormat(fmt).parse(tran_date.trim());
+						break;
+					} catch (Exception ignored) {
+					}
+				}
+			}
 
 			md.addAttribute("formmode", "custname");
 			md.addAttribute("tran_id", tran_id);
 			md.addAttribute("tran_date", tran_date);
 			md.addAttribute("part_tran_srl_num", part_tran_srl_num);
 
-			md.addAttribute("SelectTran", TRANMaster.getSTRTranDet(tran_id,
-					new SimpleDateFormat("dd-MMM-yyyy").format(date_tran), part_tran_srl_num));
+			String formattedDate = (date_tran != null) ? new SimpleDateFormat("dd-MMM-yyyy").format(date_tran) : (tran_date != null ? tran_date.trim() : "");
+			md.addAttribute("SelectTran", TRANMaster.getSTRTranDet(tran_id, formattedDate, part_tran_srl_num));
 		} else if (formmode.equals("edit")) {
 			md.addAttribute("formmode", "edit");
 			md.addAttribute("reportid", report_id);

@@ -11,7 +11,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "BAML_STR_INTERNAL")
+@Table(name = "\"BAML_STR_INTERNAL\"", schema = "\"AML\"")
 public class BAML_STR_Internal {
 
 	@Id

@@ -10,7 +10,7 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 @Entity
-@Table(name="BAML_STR_EXTERNAL")
+@Table(name = "\"BAML_STR_EXTERNAL\"", schema = "\"AML\"")
 public class BAML_STR_External {
 	
 	
