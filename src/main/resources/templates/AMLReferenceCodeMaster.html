@@ -323,6 +323,24 @@ PURPOSE		:
 		var recordtype = a.getAttribute("data-ref_rec_type");
 		var refcode = a.getAttribute("data-ref_code");
 		var reportcode = a.getAttribute("data-rpt_code");
+		var entryuser = a.getAttribute("data-entry_user");
+		var modifyuser = a.getAttribute("data-modify_user");
+		var loginuser = /*[[${session.USERID}]]*/ null;
+
+		if (modifyuser && modifyuser !== "" && modifyuser !== "null") {
+			if (modifyuser === loginuser) {
+				$("#verifyboxmsg").text("Same User Cannot Verify!");
+				$('#verifybox').modal("toggle");
+				return;
+			}
+		} else if (entryuser && entryuser !== "" && entryuser !== "null") {
+			if (entryuser === loginuser) {
+				$("#verifyboxmsg").text("Same User Cannot Verify!");
+				$('#verifybox').modal("toggle");
+				return;
+			}
+		}
+
 		location.href = 'ReferenceCodeMaster?formmode=verify&refcode='
 				+ refcode + '&recordtype=' + recordtype + '&reportcode='
 				+ reportcode;
@@ -707,41 +725,29 @@ PURPOSE		:
 													<a
 														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
 														class="dropdown-item"
-														style="background-color: #e3e3e4; color: #3a4550; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														style="cursor: pointer; background-color: #e3e3e4; color: #3a4550; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														onclick="view_btn_submit(this)" id="view_btn">Inquiry
 													</a>
 													<div class="dropdown-divider"></div>
 													<a
 														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
-														class="dropdown-item" th:if="${alert.entity_flag}=='Y'"
-														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														class="dropdown-item"
+														style="cursor: pointer; height: 16px; color: #12161b; background: #e3e3e4; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
-													<div class="dropdown-divider"
-														th:if="${alert.entity_flag}=='Y' "></div>
-													<!-- <a th:attr="frmode=add"
-														class="dropdown-item" style="cursor: pointer;"
-														id="edit_value" onclick="'alert_add(this)'">Add</a> -->
-
-
+													<div class="dropdown-divider"></div>
 													<a
 														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
 														class="dropdown-item"
-														th:if="${AMLRoleMenu.work_class} == 'C'"
-														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														style="cursor: pointer; height: 16px; color: #12161b; background: #e3e3e4; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														onclick="delete_btn_submit(this)" id="delete_value">Delete</a>
 													<div class="dropdown-divider"
-														th:if="${alert.entity_flag}=='N'  and ${AMLRoleMenu.work_class} == 'C'"></div>
+														th:if="${alert.entity_flag}=='N'"></div>
 													<a
-														th:if="${alert.entity_flag}=='N' and ${AMLRoleMenu.work_class} == 'C'"
-														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
+														th:if="${alert.entity_flag}=='N'"
+														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code},data-entry_user=${alert.entry_user},data-modify_user=${alert.modify_user}"
 														class="dropdown-item"
-														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														style="cursor: pointer; height: 16px; color: #12161b; background: #e3e3e4; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														id="verify_value" onclick="alert_verify(this)">Verify</a>
-													<!-- <button type="button"
-												class="btn btn-xs btn-primary btns  active"
-												onclick='alert_add(this)' th:attr="frmode=add">Add
-												Parameter</button> -->
-
 												</div>
 											</div>
 										</td>
@@ -806,41 +812,29 @@ PURPOSE		:
 													<a
 														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
 														class="dropdown-item"
-														style="background-color: #e3e3e4; color: #3a4550; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														style="cursor: pointer; background-color: #e3e3e4; color: #3a4550; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														onclick="view_btn_submit(this)" id="view_btn">Inquiry
 													</a>
 													<div class="dropdown-divider"></div>
 													<a
 														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
-														class="dropdown-item" th:if="${alert.entity_flag}=='Y'"
-														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														class="dropdown-item"
+														style="cursor: pointer; height: 16px; color: #12161b; background: #e3e3e4; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
-													<div class="dropdown-divider"
-														th:if="${alert.entity_flag}=='Y' "></div>
-													<!-- <a th:attr="frmode=add"
-														class="dropdown-item" style="cursor: pointer;"
-														id="edit_value" onclick="'alert_add(this)'">Add</a> -->
-
-
+													<div class="dropdown-divider"></div>
 													<a
 														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
 														class="dropdown-item"
-														th:if="${AMLRoleMenu.work_class} == 'C'"
-														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														style="cursor: pointer; height: 16px; color: #12161b; background: #e3e3e4; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														onclick="delete_btn_submit(this)" id="delete_value">Delete</a>
 													<div class="dropdown-divider"
-														th:if="${alert.entity_flag}=='N'  and ${AMLRoleMenu.work_class} == 'C'"></div>
+														th:if="${alert.entity_flag}=='N'"></div>
 													<a
-														th:if="${alert.entity_flag}=='N' and ${AMLRoleMenu.work_class} == 'C'"
-														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
+														th:if="${alert.entity_flag}=='N'"
+														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code},data-entry_user=${alert.entry_user},data-modify_user=${alert.modify_user}"
 														class="dropdown-item"
-														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+														style="cursor: pointer; height: 16px; color: #12161b; background: #e3e3e4; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														id="verify_value" onclick="alert_verify(this)">Verify</a>
-													<!-- <button type="button"
-												class="btn btn-xs btn-primary btns  active"
-												onclick='alert_add(this)' th:attr="frmode=add">Add
-												Parameter</button> -->
-
 												</div>
 											</div>
 										</td>

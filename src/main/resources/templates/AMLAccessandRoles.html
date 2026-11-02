@@ -140,6 +140,23 @@
 	}
 	function verify_btn_submit(a) {
 		var srlno = a.getAttribute("data-role_id");
+		var entryuser = a.getAttribute("data-entry_user");
+		var modifyuser = a.getAttribute("data-modify_user");
+		var loginuser = /*[[${session.USERID}]]*/ null;
+
+		if (modifyuser && modifyuser !== "" && modifyuser !== "null") {
+			if (modifyuser === loginuser) {
+				$("#alertmsg").text("Same user cannot verify");
+				$('#alert').modal("toggle");
+				return;
+			}
+		} else if (entryuser && entryuser !== "" && entryuser !== "null") {
+			if (entryuser === loginuser) {
+				$("#alertmsg").text("Same user cannot verify");
+				$('#alert').modal("toggle");
+				return;
+			}
+		}
 
 		location.href = 'AMLAccessandRoles?formmode=verify&userid=' + srlno;
 
@@ -175,47 +192,7 @@
 
 	};
 	function verify(a) {
-
-		var entryuser = a.getAttribute("data-entry_user");
-		var modifyuser = a.getAttribute("data-modify_user");
-
-		var loginuser = /*[[${session.USERID}]]*/null;
-
-		if ((modifyuser != null && modifyuser == loginuser)
-				|| (modifyuser == null && entryuser == loginuser)) {
-
-			$("#alertmsg").text("Same user cannot verify");
-
-			$('#alert').modal("toggle");
-
-		} else {
-
-			if ($("#userProfile").valid()) {
-
-				var userid = a.getAttribute("data-userid");
-				var url = './verifyUser';
-				$("#userProfile").attr('action', url);
-
-				var options = {
-					success : showResponse
-				// post-submit callback 
-				};
-
-				$('#userProfile').ajaxSubmit(options);
-
-				function showResponse(responseText, statusText, xhr, $form) {
-
-					$("#alertmsg").text(responseText);
-
-					$('#alert').modal("toggle");
-
-				}
-				;
-
-			}
-
-		}
-
+		submitform(a);
 	};
 
 	function roledesc() {
@@ -326,6 +303,26 @@
 		}
 
 		var formmode = (a && a.getAttribute) ? a.getAttribute("data-formmode") : $("#btnSubmit").attr("data-formmode") || new URLSearchParams(window.location.search).get('formmode') || "add";
+
+		if (formmode === "verify") {
+			var entryuser = (a && a.getAttribute && a.getAttribute("data-entry_user")) ? a.getAttribute("data-entry_user") : $("#entry_user").val();
+			var modifyuser = (a && a.getAttribute && a.getAttribute("data-modify_user")) ? a.getAttribute("data-modify_user") : $("#modify_user").val();
+			var loginuser = /*[[${session.USERID}]]*/ null;
+
+			if (modifyuser && modifyuser !== "" && modifyuser !== "null") {
+				if (modifyuser === loginuser) {
+					$("#alertmsg").text("Same user cannot verify");
+					$('#alert').modal("toggle");
+					return;
+				}
+			} else if (entryuser && entryuser !== "" && entryuser !== "null") {
+				if (entryuser === loginuser) {
+					$("#alertmsg").text("Same user cannot verify");
+					$('#alert').modal("toggle");
+					return;
+				}
+			}
+		}
 
 		//comma separated
 		var finalString = finalVar.join(',');
@@ -486,9 +483,9 @@
 														onclick="delete_btn_submit(this)" id="MFundtransfer1">Delete
 													</a>
 													<div class="dropdown-divider"
-														th:if="${AMLAccessRole.entity_flg} == 'N' and ${AMLRoleMenu.work_class} == 'C'"></div>
-													<a th:attr="data-role_id=${AMLAccessRole.role_id}"
-														th:if="${AMLAccessRole.entity_flg} == 'N' and ${AMLRoleMenu.work_class} == 'C'"
+														th:if="${AMLAccessRole.entity_flg} == 'N'"></div>
+													<a th:attr="data-role_id=${AMLAccessRole.role_id},data-entry_user=${AMLAccessRole.entry_user},data-modify_user=${AMLAccessRole.modify_user}"
+														th:if="${AMLAccessRole.entity_flg} == 'N'"
 														class="dropdown-item" title="Verify"
 														style="cursor: pointer; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														onclick="verify_btn_submit(this)" id="MFundtransfer1">Verify
@@ -542,6 +539,8 @@
 								<form action="#" th:object="${AMLAccessRole}" method="post"
 									style="margin: 52px;" autocomplete="off" id="AMLAccessRole"
 									th:fragment="finuserapply">
+									<input type="hidden" th:field="*{entry_user}" th:value="${AMLAccessRole.entry_user}" id="entry_user" />
+									<input type="hidden" th:field="*{modify_user}" th:value="${AMLAccessRole.modify_user}" id="modify_user" />
 
 									<div class="row formline">
 										<label class="col-sm-2">Role ID</label>
@@ -875,8 +874,8 @@
 									onclick="submitform(this);">Submit</button>
 								<button th:if="${formmode}=='verify'" type="button"
 									class="btn btn-xs btn-primary" form="AMLAccessRole"
-									th:attr="data-formmode=${formmode}" id="btnSubmit"
-									style="margin-top: -12px; margin-right: 10px;" onclick="submitform(this);">Submit</button>
+									th:attr="data-formmode=${formmode},data-entry_user=${AMLAccessRole.entry_user},data-modify_user=${AMLAccessRole.modify_user}" id="btnSubmit"
+									style="margin-top: -12px; margin-right: 10px;" onclick="submitform(this);">Verify</button>
 								<button type="button" class="btn btn-xs btn-primary"
 									id="btnBack" style="margin-top: -12px;" onclick="back();">Back</button>
 

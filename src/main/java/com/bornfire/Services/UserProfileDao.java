@@ -43,6 +43,7 @@ import com.bornfire.entity.EmailAlert;
 import com.bornfire.entity.FinUserProfileRep;
 import com.bornfire.entity.UserProfile;
 import com.bornfire.entity.UserProfileModEn;
+import com.bornfire.entity.UserProfileModRep;
 import com.bornfire.entity.UserProfileRep;
 
 import net.sf.jasperreports.engine.JRException;
@@ -63,6 +64,9 @@ public class UserProfileDao {
 
 	@Autowired
 	UserProfileRep userProfileRep;
+
+	@Autowired
+	UserProfileModRep userProfileModRep;
 
 	
 	@Autowired
@@ -825,6 +829,29 @@ public List<Object> getUsersListsearch( String Userid) {
 	public String verifyUser(UserProfileModEn up, String inputUser) {
 		String msg = "";
 		Session session = sessionFactory.getCurrentSession();
+
+		if (inputUser != null) {
+			Optional<UserProfileModEn> modOpt = userProfileModRep.findById(up.getUserid());
+			String modifyUser = null;
+			String entryUser = null;
+			if (modOpt.isPresent()) {
+				modifyUser = modOpt.get().getModify_user();
+				entryUser = modOpt.get().getEntry_user();
+			} else {
+				modifyUser = up.getModify_user();
+				entryUser = up.getEntry_user();
+			}
+
+			if (modifyUser != null && !modifyUser.trim().isEmpty() && !modifyUser.equalsIgnoreCase("null")) {
+				if (modifyUser.trim().equalsIgnoreCase(inputUser.trim())) {
+					return "Same user cannot verify";
+				}
+			} else if (entryUser != null && !entryUser.trim().isEmpty() && !entryUser.equalsIgnoreCase("null")) {
+				if (entryUser.trim().equalsIgnoreCase(inputUser.trim())) {
+					return "Same user cannot verify";
+				}
+			}
+		}
 		
 		//used to update the password in userprofile mod object 
 		 Optional<UserProfile> user1 = userProfileRep.findById(up.getUserid());

@@ -137,9 +137,23 @@ public class AMLAccessRoleService {
 			accessandrolesrepository.save(up);
 			msg = "Role Deleted Successfully";
 		} else if (formmode.equals("verify")) {
-			 AML_AUDIT_LOCAL audit = auditLocal.getAuditVerifyUseraccess(alertparam.getRole_id());
-			 Optional<AMLAccessRole> user = accessandrolesrepository.findById(alertparam.getRole_id());
+			Optional<AMLAccessRole> user = accessandrolesrepository.findById(alertparam.getRole_id());
+			if (user.isPresent() && USERID != null) {
 				AMLAccessRole user1 = user.get();
+				String modifyUser = user1.getModify_user();
+				String entryUser = user1.getEntry_user();
+				if (modifyUser != null && !modifyUser.trim().isEmpty() && !modifyUser.equalsIgnoreCase("null")) {
+					if (modifyUser.trim().equalsIgnoreCase(USERID.trim())) {
+						return "Same user cannot verify";
+					}
+				} else if (entryUser != null && !entryUser.trim().isEmpty() && !entryUser.equalsIgnoreCase("null")) {
+					if (entryUser.trim().equalsIgnoreCase(USERID.trim())) {
+						return "Same user cannot verify";
+					}
+				}
+			}
+			AML_AUDIT_LOCAL audit = auditLocal.getAuditVerifyUseraccess(alertparam.getRole_id());
+			AMLAccessRole user1 = user.get();
 			AMLAccessRole up = alertparam;
 			up.setAdmin(adminValue);
 			up.setInquiry(inquiryValue);

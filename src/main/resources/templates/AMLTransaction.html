@@ -503,9 +503,9 @@ location.href = Callurl;
 		var acid = a.getAttribute("data-foracid");
 		var parttranid = a.getAttribute("data-parttran");
 		var trandate = a.getAttribute("data-trandate");
-		location.href = 'AMLTranInquiry?tranid=' + tranid + '&tranrefno='
-				+ tranrefno + '&acid=' + acid + '&parttranid=' + parttranid
-				+ '&trandate=' + trandate;
+		location.href = 'AMLTranInquiry?tranid=' + encodeURIComponent(tranid ? tranid.trim() : '') + '&tranrefno='
+				+ encodeURIComponent(tranrefno || '') + '&acid=' + encodeURIComponent(acid || '') + '&parttranid=' + encodeURIComponent(parttranid || '')
+				+ '&trandate=' + encodeURIComponent(trandate || '');
 	}
 
 	function gettrandate() {

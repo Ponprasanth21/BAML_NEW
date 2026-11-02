@@ -89,9 +89,6 @@ public class Aml_Scr_Parm_Cust_Type_Service {
 		} else if (formmode.equals("Ind_edit")) {
 			Aml_Scr_Parm_Cust_Type_Entity existing = getSrlNo(alertparam.getRef_no());
 			if (existing != null && existing.getRef_no() != null) {
-				if ("N".equalsIgnoreCase(existing.getEntity_flag())) {
-					return "Record is pending verification and cannot be modified!";
-				}
 				if (alertparam.getCrncy_code() != null) existing.setCrncy_code(alertparam.getCrncy_code());
 				if (alertparam.getLoan_limit() != null) existing.setLoan_limit(alertparam.getLoan_limit());
 				if (alertparam.getCust_type() != null) existing.setCust_type(alertparam.getCust_type());

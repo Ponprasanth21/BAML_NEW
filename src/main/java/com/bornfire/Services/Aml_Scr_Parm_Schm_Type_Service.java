@@ -100,9 +100,6 @@ public class Aml_Scr_Parm_Schm_Type_Service {
 		} else if (formmode.equals("Corp_edit")) {
 			Aml_Scr_Parm_Schm_Type_Entity existing = getSrlNo(alertparam.getRef_no());
 			if (existing != null && existing.getRef_no() != null) {
-				if ("N".equalsIgnoreCase(String.valueOf(existing.getEntity_flag()))) {
-					return "Record is pending verification and cannot be modified!";
-				}
 				if (alertparam.getCrncy_code() != null) existing.setCrncy_code(alertparam.getCrncy_code());
 				if (alertparam.getLoan_limit() != null) existing.setLoan_limit(alertparam.getLoan_limit());
 				if (alertparam.getLoan_scheme() != null) existing.setLoan_scheme(alertparam.getLoan_scheme());

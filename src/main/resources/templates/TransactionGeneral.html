@@ -277,11 +277,11 @@ nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
 													</tr>
 												</thead>
 												<tbody>
-													<tr th:if="${TranCount}=='0'">
+													<tr th:if="${TranCount}=='0' or ${AcctMaster == null or #lists.isEmpty(AcctMaster)}">
 														<td colspan="10" style="text-align: center; color: red">No
 															Data Found</td>
 													</tr>
-													<tr th:if="${TranCount}!='0'"
+													<tr th:if="${TranCount}!='0' and ${AcctMaster != null and not #lists.isEmpty(AcctMaster)}"
 														th:each="AcctMasterdetail1 : ${AcctMaster}"
 														class="userlist">
 														<td
@@ -296,11 +296,12 @@ nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
 												th:switch="${AcctMasterdetail1.part_tran_type}">
 												<td th:case="'D'">Debit</td>
 												<td th:case="'C'">Credit</td>
+												<td th:case="*" th:text="${AcctMasterdetail1.part_tran_type}"></td>
 											</th:block>
 														<td th:text="${AcctMasterdetail1.tran_id}">123</td> 
 														<td th:text="${AcctMasterdetail1?.part_tran_srl_num}" align="right">123</td>						
 														<td th:text="${AcctMasterdetail1?.tran_crncy_code}">123</td>
-											<td th:text="${#numbers.formatDecimal(AcctMasterdetail1.tran_amt 	,1,'COMMA',2,'POINT')}"
+											<td th:text="${AcctMasterdetail1?.tran_amt != null ? #numbers.formatDecimal(AcctMasterdetail1.tran_amt, 1, 'COMMA', 2, 'POINT') : '0.00'}"
 															align="right">CHENNAI</td>
 											<td th:text="${AcctMasterdetail1.acct_name}">123</td>
 

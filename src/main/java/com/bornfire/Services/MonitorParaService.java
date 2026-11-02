@@ -145,42 +145,59 @@ public class MonitorParaService {
 			auditLocal.save(audit);
 			msg = "Parameter Deleted Successfully";
 		} else if (formmode.equals("verify")) {
-			 AML_AUDIT_LOCAL audit = auditLocal.getAuditVerifyMONITORING(alertparam.getSrl_no());
-			 
+			Monitoringparameter existing = getSrlNo(alertparam.getSrl_no());
+			String modifyUser = (existing != null && existing.getModify_user() != null) ? existing.getModify_user() : alertparam.getModify_user();
+			String entryUser = (existing != null && existing.getEntry_user() != null) ? existing.getEntry_user() : alertparam.getEntry_user();
+
+			if (modifyUser != null && !modifyUser.trim().isEmpty()) {
+				if (modifyUser.trim().equalsIgnoreCase(Userid.trim())) {
+					return "Same User Cannot Verify!";
+				}
+			} else if (entryUser != null && !entryUser.trim().isEmpty()) {
+				if (entryUser.trim().equalsIgnoreCase(Userid.trim())) {
+					return "Same User Cannot Verify!";
+				}
+			}
+
+			AML_AUDIT_LOCAL audit = auditLocal.getAuditVerifyMONITORING(alertparam.getSrl_no());
+
 			Monitoringparameter up = alertparam;
 			up.setEntity_flag("Y");
 			up.setDel_flag("N");
-			if(!(up.getModify_user()).equals(Userid)) {
+			up.setVerify_user(Userid);
+			up.setVerify_time(new Date());
 			montParameterRepository.save(up);
-			if (audit.getRemarks().equals("ADDED")) {
-				audit.setAudit_date(new Date());
-				audit.setAudit_table("BAML_RULE_ENGINE_TABLE");
-				audit.setAudit_screen("RULE ENGINE - CREATION");
-				audit.setFunc_code("RULE VERIFIED");
-				audit.setRemarks("VERIFIED");
-				audit.setEvent_id(up.getSrl_no());
-				audit.setEvent_name("RULE ENGINE");
-				audit.setModi_details(audit.getModi_details());
-				audit.setAuth_user(up.getVerify_user());
-				audit.setAuth_time(new Date());
-				audit.setAudit_ref_no(audit.getAudit_ref_no());
-			}else if (audit.getRemarks().equals("MODIFIED")) {
-				audit.setAudit_date(new Date());
-				audit.setAudit_table("BAML_RULE_ENGINE_TABLE");
-				audit.setAudit_screen("RULE ENGINE - MODIFIED");
-				audit.setFunc_code("RULE MODIFIED");
-				audit.setRemarks("VERIFIED");
-				audit.setEvent_id(up.getSrl_no());
-				audit.setEvent_name("RULE ENGINE");
-				audit.setModi_details(audit.getModi_details());
-				audit.setAuth_user(up.getVerify_user());
-				audit.setAuth_time(new Date());
-				audit.setAudit_ref_no(audit.getAudit_ref_no());
+			if (audit != null) {
+				if ("ADDED".equals(audit.getRemarks())) {
+					audit.setAudit_date(new Date());
+					audit.setAudit_table("BAML_RULE_ENGINE_TABLE");
+					audit.setAudit_screen("RULE ENGINE - CREATION");
+					audit.setFunc_code("RULE VERIFIED");
+					audit.setRemarks("VERIFIED");
+					audit.setEvent_id(up.getSrl_no());
+					audit.setEvent_name("RULE ENGINE");
+					audit.setModi_details(audit.getModi_details());
+					audit.setAuth_user(up.getVerify_user());
+					audit.setAuth_time(new Date());
+					audit.setAudit_ref_no(audit.getAudit_ref_no());
+					auditLocal.save(audit);
+				} else if ("MODIFIED".equals(audit.getRemarks())) {
+					audit.setAudit_date(new Date());
+					audit.setAudit_table("BAML_RULE_ENGINE_TABLE");
+					audit.setAudit_screen("RULE ENGINE - MODIFIED");
+					audit.setFunc_code("RULE MODIFIED");
+					audit.setRemarks("VERIFIED");
+					audit.setEvent_id(up.getSrl_no());
+					audit.setEvent_name("RULE ENGINE");
+					audit.setModi_details(audit.getModi_details());
+					audit.setAuth_user(up.getVerify_user());
+					audit.setAuth_time(new Date());
+					audit.setAudit_ref_no(audit.getAudit_ref_no());
+					auditLocal.save(audit);
+				}
 			}
-			
+
 			msg = "Parameter Verified Successfully";
-		}else {
-			msg = "Same User Cannot Verify!";}
 		}
 		
 		return msg;

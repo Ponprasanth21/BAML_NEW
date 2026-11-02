@@ -1,5 +1,6 @@
 package com.bornfire.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TRANTEMP {
@@ -9,7 +10,7 @@ public class TRANTEMP {
 	private String tran_sub_type;
 	private String part_tran_srl_num;
 	private String tran_crncy_code;
-	private String tran_amt;
+	private BigDecimal tran_amt;
 	private String tran_particular;
 	private String foracid;
 	private String module_id;
@@ -88,12 +89,24 @@ public class TRANTEMP {
 		this.tran_crncy_code = tran_crncy_code;
 	}
 
-	public String getTran_amt() {
+	public BigDecimal getTran_amt() {
 		return tran_amt;
 	}
 
-	public void setTran_amt(String tran_amt) {
+	public void setTran_amt(BigDecimal tran_amt) {
 		this.tran_amt = tran_amt;
+	}
+
+	public void setTran_amt(String tran_amt) {
+		if (tran_amt != null && !tran_amt.trim().isEmpty() && !"null".equalsIgnoreCase(tran_amt.trim())) {
+			try {
+				this.tran_amt = new BigDecimal(tran_amt.trim());
+			} catch (Exception e) {
+				this.tran_amt = BigDecimal.ZERO;
+			}
+		} else {
+			this.tran_amt = BigDecimal.ZERO;
+		}
 	}
 
 	public String getTran_particular() {
@@ -147,7 +160,7 @@ public class TRANTEMP {
 		this.tran_sub_type = tran_sub_type;
 		this.part_tran_srl_num = part_tran_srl_num;
 		this.tran_crncy_code = tran_crncy_code;
-		this.tran_amt = tran_amt;
+		setTran_amt(tran_amt);
 		this.tran_particular = tran_particular;
 		this.foracid = foracid;
 		this.module_id = module_id;

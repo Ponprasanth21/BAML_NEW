@@ -293,7 +293,7 @@ $(function() {
 
 	/*]]>*/
 </script>
-<script>
+<script th:inline="javascript">
 function edit_btn_submit(a) {
 
 	var srlno = a.getAttribute("data-srl_no");
@@ -301,6 +301,23 @@ function edit_btn_submit(a) {
 }
 
 function alert_verify(a) {
+	var entryuser = a.getAttribute("data-entry_user");
+	var modifyuser = a.getAttribute("data-modify_user");
+	var loginuser = /*[[${session.USERID}]]*/ null;
+
+	if (modifyuser && modifyuser !== "" && modifyuser !== "null") {
+		if (modifyuser === loginuser) {
+			$("#verifyboxmsg").text("Same User Cannot Verify!");
+			$('#verifybox').modal("toggle");
+			return;
+		}
+	} else if (entryuser && entryuser !== "" && entryuser !== "null") {
+		if (entryuser === loginuser) {
+			$("#verifyboxmsg").text("Same User Cannot Verify!");
+			$('#verifybox').modal("toggle");
+			return;
+		}
+	}
 
 	var srlno = a.getAttribute("data-srl_no");
 	location.href = 'monitoringparameter?formmode=verify&srlno=' + srlno;
@@ -583,10 +600,8 @@ function Ruledesc(a){
 														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														onclick="view_btn_submit(this)" id="view_btn">Inquiry
 													</a>
-													<div class="dropdown-divider"
-														th:if="${alert?.entity_flag}=='Y' or ${alert?.entity_flag}==null"></div>
-													<a th:attr="data-srl_no=${alert?.srl_no}"
-														th:if="${alert?.entity_flag}=='Y' or ${alert?.entity_flag}==null" class="dropdown-item"
+													<div class="dropdown-divider"></div>
+													<a th:attr="data-srl_no=${alert?.srl_no}" class="dropdown-item"
 														title="Modify"
 														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
@@ -599,10 +614,10 @@ function Ruledesc(a){
 														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														onclick="delete_btn_submit(this)" id="delete_value">Delete</a>
 													<div class="dropdown-divider"
-														th:if="${alert?.entity_flag}=='N' and ${AMLRoleMenu?.work_class} == 'C'"></div>
+														th:if="${alert?.entity_flag}=='N'"></div>
 													<a
-														th:if="${alert?.entity_flag}=='N' and ${AMLRoleMenu?.work_class} == 'C'"
-														th:attr="data-srl_no=${alert?.srl_no}"
+														th:if="${alert?.entity_flag}=='N'"
+														th:attr="data-srl_no=${alert?.srl_no},data-entry_user=${alert?.entry_user},data-modify_user=${alert?.modify_user}"
 														class="dropdown-item" title="Verify"
 														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														id="verify_value" onclick="alert_verify(this)">Verify</a>

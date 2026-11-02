@@ -297,6 +297,23 @@ PURPOSE		:
 		}
 
 		function verify_btn_submit(a) {
+			var entryuser = a.getAttribute("data-entry_user");
+			var modifyuser = a.getAttribute("data-modify_user");
+			var loginuser = /*[[${session.USERID}]]*/ null;
+
+			if (modifyuser && modifyuser !== "" && modifyuser !== "null") {
+				if (modifyuser === loginuser) {
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+					$('#verifybox').modal("toggle");
+					return;
+				}
+			} else if (entryuser && entryuser !== "" && entryuser !== "null") {
+				if (entryuser === loginuser) {
+					$("#verifyboxmsg").text("Same User Cannot Verify!");
+					$('#verifybox').modal("toggle");
+					return;
+				}
+			}
 
 			var srlno = a.getAttribute("data-srl_no");
 			location.href = 'AMLAlertParameters?formmode=verify&srlno=' + srlno;
@@ -476,15 +493,14 @@ PURPOSE		:
 													aria-expanded="false">Action</button>
 												<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
 													style="background-color: #e3e3e4; color: #3a4550;">
-													<a th:if="${alert.entity_flg}=='Y' or ${alert.entity_flg}==null"
-														th:attr="data-srl_no=${alert.srl_no}" class="dropdown-item"
+													<a th:attr="data-srl_no=${alert.srl_no}" class="dropdown-item"
 														title="Modify"
 														style="cursor: pointer; height: 20px; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
 													<div class="dropdown-divider" th:if="${alert.entity_flg}=='N'">
 													</div>
 													<a th:if="${alert.entity_flg}=='N'"
-														th:attr="data-srl_no=${alert.srl_no}" class="dropdown-item"
+														th:attr="data-srl_no=${alert.srl_no},data-entry_user=${alert.entry_user},data-modify_user=${alert.modify_user}" class="dropdown-item"
 														title="Verify"
 														style="cursor: pointer; height: 20px; color: #3a4550; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
 														id="verify_value" onclick="verify_btn_submit(this)">Verify</a>

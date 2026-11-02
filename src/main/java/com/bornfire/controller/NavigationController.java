@@ -697,6 +697,7 @@ public class NavigationController {
 		// loginServices.SessionLogging("USERPROFILE", "M2", req.getSession().getId(),
 		// loginuserid, req.getRemoteAddr(),
 		// "ACTIVE");
+		md.addAttribute("loginuser", loginuserid);
 		md.addAttribute("RuleIDType", accessandrolesrepository.roleidtype());
 		md.addAttribute("menu", "UserProfile"); // To highlight the menu
 		String roleId = (String) req.getSession().getAttribute("ROLEID");
@@ -829,7 +830,9 @@ public class NavigationController {
 		String userid = (String) rq.getSession().getAttribute("USERID");
 
 		String msg = userProfileDao.verifyUser(userProfilemoden, userid);
-		md.addAttribute("modtable", userProfileModSer.deleteUser(userProfilemoden, userid));
+		if ("User Verified Successfully".equals(msg)) {
+			md.addAttribute("modtable", userProfileModSer.deleteUser(userProfilemoden, userid));
+		}
 		md.addAttribute("menu", "UserProfile - VERIFY"); // To highlight the menu
 		md.addAttribute("adminflag", "adminflag");
 		md.addAttribute("userprofileflag", "userprofileflag");
@@ -928,6 +931,7 @@ public class NavigationController {
 			md.addAttribute("AccessandRoles", accessandrolesrepository.rulelist(PageRequest.of(currentPage, pageSize)));
 		}
 
+		md.addAttribute("loginuser", (String) req.getSession().getAttribute("USERID"));
 		md.addAttribute("adminflag", "adminflag");
 		md.addAttribute("userprofileflag", "userprofileflag");
 
@@ -1328,6 +1332,7 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			/* md.addAttribute("RefCodeMaster", refCodeService.getRefcode(refcode)); */
 
 		}
+		md.addAttribute("loginuser", (String) req.getSession().getAttribute("USERID"));
 		md.addAttribute("adminflag", "adminflag");
 		md.addAttribute("menu", "ReferenceCodeMaster");
 
@@ -5675,7 +5680,7 @@ System.out.println("AuditlogValue "+AuditlogValue);
 			@RequestParam(value = "tranrefno", required = false) String tranrefno,
 			@RequestParam(value = "parttranid", required = false) String parttranid,
 			@RequestParam(value = "acid", required = false) String acid,
-			@RequestParam(value = "trandate", required = true) String trandate,
+			@RequestParam(value = "trandate", required = false) String trandate,
 			@RequestParam(required = false) Optional<Integer> page,
 			@RequestParam(value = "size", required = false) Optional<Integer> size, Model md, HttpServletRequest req)
 			throws ParseException {
@@ -5686,38 +5691,51 @@ System.out.println("AuditlogValue "+AuditlogValue);
 		md.addAttribute("formmode", "TransactionGeneral");
 		md.addAttribute("menu", "Monitoring");
 		md.addAttribute("menuname", "Account Master");
-		md.addAttribute("tranid", tranid);
+		String cleanTranId = tranid != null ? tranid.trim() : "";
+		md.addAttribute("tranid", cleanTranId);
 		md.addAttribute("AccName", ACCTMaster.getacctdetailsfronameacid(acid));
 		md.addAttribute("inquiryflag", "inquiryflag");
 
-		// md.addAttribute("AcctMaster",
-		// transRepository.getTransactionDetails(tranid,parttranid,PageRequest.of(currentPage,
-		// pageSize)));
-
 		List<TRANTEMP> custMaster_List = new ArrayList<>();
 
-		List<Object[]> lst_Objects = transRepository.getTransactionDetails(tranid, trandate, parttranid);
+		List<Object[]> lst_Objects = transRepository.getTransactionDetails(cleanTranId, parttranid, trandate);
 
 		for (Object[] obj : lst_Objects) {
 			TRANTEMP info = new TRANTEMP();
-			info.setTran_date(new SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf(obj[0])));
-			info.setForacid(String.valueOf(obj[1]));
-			info.setAcct_name(String.valueOf(obj[2]));
-			info.setPart_tran_type(String.valueOf(obj[3]));
-			info.setTran_id((String.valueOf(obj[4])));
-			info.setPart_tran_srl_num(String.valueOf(obj[5]));
-			info.setCust_id(String.valueOf(obj[6]));
-			info.setTran_crncy_code(String.valueOf(obj[7]));
-			info.setTran_amt(String.valueOf(obj[8]));
-			info.setTran_particular(String.valueOf(obj[9]));
-			info.setModule_id(String.valueOf(obj[10]));
-			info.setAcid(String.valueOf(obj[11]));
-			info.setCif_id(String.valueOf(obj[12]));
+			if (obj[0] != null && !String.valueOf(obj[0]).trim().isEmpty() && !"null".equalsIgnoreCase(String.valueOf(obj[0]).trim())) {
+				try {
+					info.setTran_date(new SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf(obj[0]).trim()));
+				} catch (Exception e) {
+					// ignore
+				}
+			}
+			info.setForacid(obj[1] != null ? String.valueOf(obj[1]).trim() : "");
+			info.setAcct_name(obj[2] != null ? String.valueOf(obj[2]).trim() : "");
+			info.setPart_tran_type(obj[3] != null ? String.valueOf(obj[3]).trim() : "");
+			info.setTran_id(obj[4] != null ? String.valueOf(obj[4]).trim() : "");
+			info.setPart_tran_srl_num(obj[5] != null ? String.valueOf(obj[5]).trim() : "");
+			info.setCust_id(obj[6] != null ? String.valueOf(obj[6]).trim() : "");
+			info.setTran_crncy_code(obj[7] != null ? String.valueOf(obj[7]).trim() : "");
+			if (obj[8] != null) {
+				try {
+					info.setTran_amt(new BigDecimal(String.valueOf(obj[8]).trim()));
+				} catch (Exception e) {
+					info.setTran_amt(BigDecimal.ZERO);
+				}
+			} else {
+				info.setTran_amt(BigDecimal.ZERO);
+			}
+			info.setTran_particular(obj[9] != null ? String.valueOf(obj[9]).trim() : "");
+			info.setModule_id(obj[10] != null ? String.valueOf(obj[10]).trim() : "");
+			info.setAcid(obj[11] != null ? String.valueOf(obj[11]).trim() : "");
+			info.setCif_id(obj[12] != null ? String.valueOf(obj[12]).trim() : "");
 
 			custMaster_List.add(info);
 
 		}
 		md.addAttribute("AcctMaster", custMaster_List);
+		md.addAttribute("TranCount", String.valueOf(custMaster_List.size()));
+		md.addAttribute("count", String.valueOf(custMaster_List.size()));
 
 		return "TransactionGeneral";
 	}
@@ -5738,38 +5756,51 @@ System.out.println("AuditlogValue "+AuditlogValue);
 		md.addAttribute("formmode", "TransactionGeneral");
 		md.addAttribute("menu", "Monitoring");
 		md.addAttribute("menuname", "Account Master");
-		md.addAttribute("tranid", tranid);
+		String cleanTranId = tranid != null ? tranid.trim() : "";
+		md.addAttribute("tranid", cleanTranId);
 		md.addAttribute("AccName", ACCTMaster.getacctdetailsfronameacid(acid));
 		md.addAttribute("inquiryflag", "inquiryflag");
 
-		// md.addAttribute("AcctMaster",
-		// transRepository.getTransactionDetails(tranid,parttranid,PageRequest.of(currentPage,
-		// pageSize)));
-
 		List<TRANTEMP> custMaster_List = new ArrayList<>();
 
-		List<Object[]> lst_Objects = transRepository.getTransactionDate(tranid, tranDate);
+		List<Object[]> lst_Objects = transRepository.getTransactionDate(cleanTranId, tranDate);
 
 		for (Object[] obj : lst_Objects) {
 			TRANTEMP info = new TRANTEMP();
-			info.setTran_date(new SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf(obj[0])));
-			info.setForacid(String.valueOf(obj[1]));
-			info.setAcct_name(String.valueOf(obj[2]));
-			info.setPart_tran_type(String.valueOf(obj[3]));
-			info.setTran_id((String.valueOf(obj[4])));
-			info.setPart_tran_srl_num(String.valueOf(obj[5]));
-			info.setCust_id(String.valueOf(obj[6]));
-			info.setTran_crncy_code(String.valueOf(obj[7]));
-			info.setTran_amt(String.valueOf(obj[8]));
-			info.setTran_particular(String.valueOf(obj[9]));
-			info.setModule_id(String.valueOf(obj[10]));
-			info.setAcid(String.valueOf(obj[11]));
-			info.setCif_id(String.valueOf(obj[12]));
+			if (obj[0] != null && !String.valueOf(obj[0]).trim().isEmpty() && !"null".equalsIgnoreCase(String.valueOf(obj[0]).trim())) {
+				try {
+					info.setTran_date(new SimpleDateFormat("dd-MM-yyyy").parse(String.valueOf(obj[0]).trim()));
+				} catch (Exception e) {
+					// ignore
+				}
+			}
+			info.setForacid(obj[1] != null ? String.valueOf(obj[1]).trim() : "");
+			info.setAcct_name(obj[2] != null ? String.valueOf(obj[2]).trim() : "");
+			info.setPart_tran_type(obj[3] != null ? String.valueOf(obj[3]).trim() : "");
+			info.setTran_id(obj[4] != null ? String.valueOf(obj[4]).trim() : "");
+			info.setPart_tran_srl_num(obj[5] != null ? String.valueOf(obj[5]).trim() : "");
+			info.setCust_id(obj[6] != null ? String.valueOf(obj[6]).trim() : "");
+			info.setTran_crncy_code(obj[7] != null ? String.valueOf(obj[7]).trim() : "");
+			if (obj[8] != null) {
+				try {
+					info.setTran_amt(new BigDecimal(String.valueOf(obj[8]).trim()));
+				} catch (Exception e) {
+					info.setTran_amt(BigDecimal.ZERO);
+				}
+			} else {
+				info.setTran_amt(BigDecimal.ZERO);
+			}
+			info.setTran_particular(obj[9] != null ? String.valueOf(obj[9]).trim() : "");
+			info.setModule_id(obj[10] != null ? String.valueOf(obj[10]).trim() : "");
+			info.setAcid(obj[11] != null ? String.valueOf(obj[11]).trim() : "");
+			info.setCif_id(obj[12] != null ? String.valueOf(obj[12]).trim() : "");
 
 			custMaster_List.add(info);
 
 		}
 		md.addAttribute("AcctMaster", custMaster_List);
+		md.addAttribute("TranCount", String.valueOf(custMaster_List.size()));
+		md.addAttribute("count", String.valueOf(custMaster_List.size()));
 
 		return "TransactionGeneral";
 	}

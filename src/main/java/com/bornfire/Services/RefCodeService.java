@@ -158,6 +158,23 @@ public class RefCodeService {
 			msg = "Parameter Deleted Successfully";
 		} else if (formmode.equals("verify")) {
 			Optional<RefcodeEntity> reg = refCodeRepository.findById(new RefCodeMasterEmbeddedID(recordtype, refcode));
+			if (reg.isPresent()) {
+				RefcodeEntity reg1 = reg.get();
+				String verifyUser = alertparam.getVerify_user();
+				String modifyUser = reg1.getModify_user();
+				String entryUser = reg1.getEntry_user();
+				if (verifyUser != null && !verifyUser.trim().isEmpty()) {
+					if (modifyUser != null && !modifyUser.trim().isEmpty() && !modifyUser.equalsIgnoreCase("null")) {
+						if (modifyUser.trim().equalsIgnoreCase(verifyUser.trim())) {
+							return "Same User Cannot Verify!";
+						}
+					} else if (entryUser != null && !entryUser.trim().isEmpty() && !entryUser.equalsIgnoreCase("null")) {
+						if (entryUser.trim().equalsIgnoreCase(verifyUser.trim())) {
+							return "Same User Cannot Verify!";
+						}
+					}
+				}
+			}
 			RefcodeEntity reg1 = reg.get();
 			reg1.setDel_flg("N");
 			reg1.setEntity_flag("Y");
