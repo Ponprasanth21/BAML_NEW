@@ -224,12 +224,13 @@ public class NegativeListService {
 
 	public NegativeListEntity getSrlNo(BigDecimal srlno) {
 
-		if (negativeListRepository.existsById(srlno)) {
-			NegativeListEntity up = negativeListRepository.findById(srlno).get();
-			return up;
-		} else {
-			return new NegativeListEntity();
+		if (srlno != null) {
+			NegativeListEntity up = negativeListRepository.findByIdcustom(srlno);
+			if (up != null) {
+				return up;
+			}
 		}
+		return new NegativeListEntity();
 
 	};
 

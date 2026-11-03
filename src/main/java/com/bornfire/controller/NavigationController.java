@@ -3407,7 +3407,7 @@ System.out.println("AuditlogValue "+AuditlogValue);
 	 * List Management -----> Customized List ------>Negative List Starts
 	 ****************************************/
 
-	@RequestMapping(value = "AMLnegativelist", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = { "AMLnegativelist", "AMLNegativelist", "AMLNegativeList" }, method = { RequestMethod.GET, RequestMethod.POST })
 	public String AMLnegativelist(@RequestParam(required = false) String formmode,
 			@RequestParam(required = false) BigDecimal srlno, @RequestParam(value = "cif", required = false) String cif,
 			@RequestParam(value = "lastname", required = false) String lastname,
@@ -3492,8 +3492,12 @@ System.out.println("AuditlogValue "+AuditlogValue);
 
 				}
 			} catch (Exception e) {
-				md.addAttribute("NegativeList",
-						negativeListRepository.parameterlist(PageRequest.of(currentPage, pageSize)));
+				try {
+					md.addAttribute("NegativeList",
+							negativeListRepository.parameterlist(PageRequest.of(currentPage, pageSize)));
+				} catch (Exception ex) {
+					md.addAttribute("NegativeList", org.springframework.data.domain.Page.empty());
+				}
 			}
 		} else if (formmode.equals("add")) {
 

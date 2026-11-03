@@ -168,9 +168,15 @@ PURPOSE		:
 			mm = '0' + mm;
 		}
 		var today = dd + '-' + mm + '-' + yyyy;
-		document.getElementById('entry_time1').value = today;
-		document.getElementById('verify_time1').value = today;
-		document.getElementById('modify_time1').value = today;
+		if (document.getElementById('entry_time1')) {
+			document.getElementById('entry_time1').value = today;
+		}
+		if (document.getElementById('verify_time1')) {
+			document.getElementById('verify_time1').value = today;
+		}
+		if (document.getElementById('modify_time1')) {
+			document.getElementById('modify_time1').value = today;
+		}
 	});
 
 	$(document)
@@ -182,9 +188,9 @@ PURPOSE		:
 						if (formode == "view") {
 							$('input').attr('readonly', true);
 							$('select').attr('readonly', true);
-							document.querySelector('#maturity_date').style.background = '#9a9fa5';
-							document.querySelector('#acct_opn_date').style.background = '#9a9fa5';
-							document.querySelector('#last_tran_date').style.background = '#9a9fa5';
+							if (document.querySelector('#maturity_date')) document.querySelector('#maturity_date').style.background = '#9a9fa5';
+							if (document.querySelector('#acct_opn_date')) document.querySelector('#acct_opn_date').style.background = '#9a9fa5';
+							if (document.querySelector('#last_tran_date')) document.querySelector('#last_tran_date').style.background = '#9a9fa5';
 
 							$("last_tran_date").attr('readonly', true);
 							$("maturity_date").attr('readonly', true);
@@ -193,9 +199,9 @@ PURPOSE		:
 						} else if (formode == "verify") {
 							$('input').attr('readonly', true);
 							$('select').attr('readonly', true);
-							document.querySelector('#maturity_date').style.background = '#9a9fa5';
-							document.querySelector('#acct_opn_date').style.background = '#9a9fa5';
-							document.querySelector('#last_tran_date').style.background = '#9a9fa5';
+							if (document.querySelector('#maturity_date')) document.querySelector('#maturity_date').style.background = '#9a9fa5';
+							if (document.querySelector('#acct_opn_date')) document.querySelector('#acct_opn_date').style.background = '#9a9fa5';
+							if (document.querySelector('#last_tran_date')) document.querySelector('#last_tran_date').style.background = '#9a9fa5';
 							$("last_tran_date").attr('readonly', true);
 							$("maturity_date").attr('readonly', true);
 							$("acct_opn_date").attr('readonly', true);
@@ -203,9 +209,9 @@ PURPOSE		:
 						} else if (formode == "delete") {
 							$('input').attr('readonly', true);
 							$('select').attr('readonly', true);
-							document.querySelector('#maturity_date').style.background = '#9a9fa5';
-							document.querySelector('#acct_opn_date').style.background = '#9a9fa5';
-							document.querySelector('#last_tran_date').style.background = '#9a9fa5';
+							if (document.querySelector('#maturity_date')) document.querySelector('#maturity_date').style.background = '#9a9fa5';
+							if (document.querySelector('#acct_opn_date')) document.querySelector('#acct_opn_date').style.background = '#9a9fa5';
+							if (document.querySelector('#last_tran_date')) document.querySelector('#last_tran_date').style.background = '#9a9fa5';
 							$("maturity_date").attr('readonly', true);
 							$("acct_opn_date").attr('readonly', true);
 							$("last_tran_date").attr('readonly', true);
@@ -549,7 +555,7 @@ PURPOSE		:
 								</thead>
 
 								<tbody class="databody det1" id="det1">
-									<tr th:if="${AbondList.totalPages} == '0'">
+									<tr th:if="${AbondList == null or AbondList.totalPages == 0}">
 										<td colspan="14" style="text-align: left; color: red">No
 											record available</td>
 									</tr>
@@ -621,7 +627,7 @@ PURPOSE		:
 								</tbody>
 							</table>
 							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
-							<div class="float-right" th:if="${AbondList.totalPages} gt 1">
+							<div class="float-right" th:if="${AbondList != null and AbondList.totalPages gt 1}">
 								<a href="#"><i class="fas fa-caret-left fa-2x"
 									th:onclick="|getUserlist('prevpage',${AbondList.number},${AbondList.totalPages});|"></i></a>
 								<input type="text" id="pageno" style="width: 30px"
@@ -1456,7 +1462,7 @@ PURPOSE		:
 												class="form-control form-control-sm" autocomplete="off"
 												readonly /> <input type="text" th:if="${formmode}=='edit' "
 												th:value="${#dates.format(AbondParameter?.aml_modify_time,'dd-MM-yyyy')}"
-												id="entry_time1" name="aml_modify_time"
+												id="modify_time1" name="aml_modify_time"
 												class="form-control form-control-sm" autocomplete="off"
 												readonly />
 
@@ -1473,7 +1479,7 @@ PURPOSE		:
 												readonly /> <input type="text"
 												th:if="${formmode}=='verify'"
 												th:value="${#dates.format(AbondParameter?.aml_verify_time,'dd-MM-yyyy')}"
-												id="entry_time1" name="aml_verify_time"
+												id="verify_time1" name="aml_verify_time"
 												class="form-control form-control-sm" autocomplete="off"
 												readonly />
 
@@ -1502,7 +1508,7 @@ PURPOSE		:
 						<div class="modal-content">
 							<div class="modal-body"
 								style="margin-top: 8px; text-align: center; color: aliceblue;">
-								<button type="button" class="close" data-dismiss="modal">×</button>
+								<button type="button" class="close" data-dismiss="modal">ï¿½</button>
 								Are you Sure want to delete?
 							</div>
 							<div class="modal-footer">
@@ -1522,7 +1528,7 @@ PURPOSE		:
 						<div class="modal-content">
 							<div class="modal-body"
 								style="margin-top: 8px; text-align: center; color: aliceblue;">
-								<button type="button" class="close" data-dismiss="modal">×</button>
+								<button type="button" class="close" data-dismiss="modal">ï¿½</button>
 								Are you Sure want to Leave?
 							</div>
 							<div class="modal-footer">
@@ -1539,7 +1545,7 @@ PURPOSE		:
 						<div class="modal-content">
 							<div class="modal-body"
 								style="margin-top: 8px; text-align: center; color: aliceblue;">
-								<button type="button" class="close" data-dismiss="modal">×</button>
+								<button type="button" class="close" data-dismiss="modal">ï¿½</button>
 								Are you Sure want to Leave?
 							</div>
 							<div class="modal-footer">

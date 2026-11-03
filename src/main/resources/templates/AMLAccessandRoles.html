@@ -421,18 +421,18 @@
 										style="background-color: #0e2840;">Add Role</button>
 								</div>
 							</div>
-
-							<table class="table  table-bordered  table-hover table-sm"
-								id="usertable" style="width: 100%">
+						<div style="max-height: 350px; overflow-y: auto; overflow-x: hidden;">
+					<table class="table  table-bordered  table-hover table-sm"
+								id="usertable" style="width: 100% ;  margin-bottom: 0">
 								<thead class="thead-light">
 									<tr>
 										<!-- <th></th> -->
-										<th style="width: 10%">Role ID</th>
-										<th style="width: 15%">Role Description</th>
-										<th style="width: 20%">Work Class</th>
-										<th style="width: 20%">Menu List</th>
-										<th style="width: 15%">Status</th>
-										<th style="width: 10%">Select</th>
+										<th style="position: sticky; top: 0;">Role ID</th>
+										<th style="position: sticky; top: 0;">Role Description</th>
+										<th style="position: sticky; top: 0;">Work Class</th>
+										<th style="position: sticky; top: 0;">Menu List</th>
+										<th style="position: sticky; top: 0; ">Status</th>
+										<th style="position: sticky; top: 0; z-index: 2;">Select</th>
 
 
 									</tr>
@@ -496,6 +496,8 @@
 										</td>
 								</tbody>
 							</table>
+						</div>
+							
 							<div class="float-right"
 								th:if="${AccessandRoles.totalPages} gt 1">
 								<a href="#"><i class="fas fa-caret-left fa-2x"
@@ -509,7 +511,10 @@
 							</div>
 
 							<div class="text-center"
-								style="background-color: #386276; padding: 5px; width: 100%;">
+							style="background-color: #386276;
+							           padding: 5px;
+							           width: 100%;
+							           margin-top: 0; border-radius: 0 0 5px 5px;">
 
 								<div class="btn-group nav-buttons " style="align: center;">
 									<button type="button" class="btn btn-xs btn-primary"

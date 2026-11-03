@@ -24,96 +24,134 @@ public class Cust_Aband_Fund_List_Entity implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 	@Id
+	@javax.persistence.Column(name = "\"FORACID\"")
 	private String foracid;
+	@javax.persistence.Column(name = "\"ACID\"")
 	private String acid;
+	@javax.persistence.Column(name = "\"CIF_ID\"")
 	private String cif_id;
+	@javax.persistence.Column(name = "\"CUST_ID\"")
 	private String cust_id;
+	@javax.persistence.Column(name = "\"CUST_NAME\"")
 	private String cust_name;
+	@javax.persistence.Column(name = "\"ACCT_NAME\"")
 	private String acct_name;
 	
+	@javax.persistence.Column(name = "\"SCHM_TYPE\"")
 	private String schm_type;
+	@javax.persistence.Column(name = "\"SCHM_CODE\"")
 	private String schm_code;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@javax.persistence.Column(name = "\"ACCT_OPN_DATE\"")
 	private Date acct_opn_date;
 	
+	@javax.persistence.Column(name = "\"NATURE_OF_TRAN\"")
 	private String nature_of_tran;
+	@javax.persistence.Column(name = "\"PROD_TYPE\"")
 	private String prod_type;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@javax.persistence.Column(name = "\"MATURITY_DATE\"")
 	private Date maturity_date;
 	
+	@javax.persistence.Column(name = "\"ACCT_BAL\"")
 	private BigDecimal acct_bal;
+	@javax.persistence.Column(name = "\"INTEREST_PAID\"")
 	private BigDecimal interest_paid;
+	@javax.persistence.Column(name = "\"REMARKS1\"")
 	private String remarks1;
+	@javax.persistence.Column(name = "\"REMARKS2\"")
 	private String remarks2;
+	@javax.persistence.Column(name = "\"ADDRESS\"")
 	private String address;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
-	private Date	aml_entry_time;
+	@javax.persistence.Column(name = "\"AML_ENTRY_TIME\"")
+	private Date aml_entry_time;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
-	private Date	aml_modify_time;
+	@javax.persistence.Column(name = "\"AML_MODIFY_TIME\"")
+	private Date aml_modify_time;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
-	private Date	aml_verify_time;
+	@javax.persistence.Column(name = "\"AML_VERIFY_TIME\"")
+	private Date aml_verify_time;
 	
-	private String	aml_entry_user;
-	private String	aml_modify_user;
-	private String	aml_verify_user;
-	private String	entity_flag;
-	private String	del_flag;
-	private String	modify_flag;
+	@javax.persistence.Column(name = "\"AML_ENTRY_USER\"")
+	private String aml_entry_user;
+	@javax.persistence.Column(name = "\"AML_MODIFY_USER\"")
+	private String aml_modify_user;
+	@javax.persistence.Column(name = "\"AML_VERIFY_USER\"")
+	private String aml_verify_user;
+	@javax.persistence.Column(name = "\"ENTITY_FLAG\"")
+	private String entity_flag;
+	@javax.persistence.Column(name = "\"DEL_FLAG\"")
+	private String del_flag;
+	@javax.persistence.Column(name = "\"MODIFY_FLAG\"")
+	private String modify_flag;
 	
+	@javax.persistence.Column(name = "\"PRIMARY_BRANCH_CODE\"")
 	private String primary_branch_code;
+	@javax.persistence.Column(name = "\"BRANCH_NAME\"")
 	private String branch_name;
+	@javax.persistence.Column(name = "\"GL_SUB_HEAD_CODE\"")
 	private String gl_sub_head_code;
+	@javax.persistence.Column(name = "\"CURRENCY_CODE\"")
 	private String currency_code;
-	private String  acct_status;
+	@javax.persistence.Column(name = "\"ACCT_STATUS\"")
+	private String acct_status;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@javax.persistence.Column(name = "\"LAST_TRAN_DATE\"")
 	private Date last_tran_date;
-	 
+	
+	@javax.persistence.Column(name = "\"INTEREST_ACCRUED\"")
 	private BigDecimal interest_accrued;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@javax.persistence.Column(name = "\"ABANDONED_FUND_TRANSFER_DATE\"")
 	private Date abandoned_fund_transfer_date;
 	
-	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@javax.persistence.Column(name = "\"DATE_OF_TRAN_BOM\"")
 	private Date date_of_tran_bom;
 	
-	private BigDecimal  amount_transferred;
+	@javax.persistence.Column(name = "\"AMOUNT_TRANSFERRED\"")
+	private BigDecimal amount_transferred;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@javax.persistence.Column(name = "\"DATE_OF_CLAIM\"")
 	private Date date_of_claim;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@javax.persistence.Column(name = "\"REQUEST_TO_BOM_DATE\"")
 	private Date request_to_bom_date;
-	
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@javax.persistence.Column(name = "\"RECEIVED_FROM_BOM_DATE\"")
 	private Date received_from_bom_date;
 	
-	
+	@javax.persistence.Column(name = "\"AMOUNT_RECEIVED\"")
 	private BigDecimal amount_received;
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern =  "dd-MM-yyyy")
+	@javax.persistence.Column(name = "\"SETTLEMENT_DATE\"")
 	private Date settlement_date;
 	
+	@javax.persistence.Column(name = "\"AMOUNT_PAID\"")
 	private BigDecimal amount_paid;
 	
 	public String getCust_id() {

@@ -103,7 +103,8 @@ import java.util.Properties;
 import javax.sql.DataSource;
 import javax.validation.constraints.NotNull;
 
-import org.postgresql.ds.PGSimpleDataSource;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import
 org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -169,16 +170,22 @@ public class AMLDataSource {
 	    return hibernateProperties;
 	}
 
-	@Bean
+	@Bean(destroyMethod = "close")
 	DataSource srcdataSource() throws SQLException {
 
-	    PGSimpleDataSource dataSource = new PGSimpleDataSource();
+		HikariConfig config = new HikariConfig();
+		config.setJdbcUrl(url);
+		config.setUsername(username);
+		config.setPassword(password);
+		config.setDriverClassName("org.postgresql.Driver");
+		config.setMaximumPoolSize(10);
+		config.setMinimumIdle(2);
+		config.setIdleTimeout(300000);
+		config.setMaxLifetime(600000);
+		config.setConnectionTimeout(20000);
+		config.setPoolName("AMLHikariPool");
 
-	    dataSource.setUser(username);
-	    dataSource.setPassword(password);
-	    dataSource.setUrl(url);
-
-	    return dataSource;
+		return new HikariDataSource(config);
 	}
 
 	@Bean

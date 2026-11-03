@@ -22,6 +22,9 @@ public interface Cust_Aband_Fund_List_Repository extends JpaRepository<Cust_Aban
 
 	Optional<Cust_Aband_Fund_List_Entity> findById(String directorId);
 
+	@Query(value = "select * from \"AML\".\"BAML_CUST_ABAND_FUND_LIST\" where trim(\"FORACID\") = trim(?1)", nativeQuery = true)
+	Cust_Aband_Fund_List_Entity findByIdcustom(String foracid);
+
 	@Query(value = "select * from \"AML\".\"BAML_CUST_ABAND_FUND_LIST\"  where \"DEL_FLAG\"='N'", nativeQuery = true)
 	Page<Cust_Aband_Fund_List_Entity> findAllRandom(Pageable pageable);
 

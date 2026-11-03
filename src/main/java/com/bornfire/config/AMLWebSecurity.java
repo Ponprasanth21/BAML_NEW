@@ -277,11 +277,6 @@ public class AMLWebSecurity extends WebSecurityConfigurerAdapter {
 	@Bean
 	public AuthenticationSuccessHandler amlAuthSuccessHandle() {
 		return new AuthenticationSuccessHandler() {
-			Session hs1 = sessionFactory.openSession();
-
-			BigDecimal Number1 = (BigDecimal) hs1
-					.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
-					.getSingleResult();
 
 			@Override
 			public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -293,6 +288,16 @@ public class AMLWebSecurity extends WebSecurityConfigurerAdapter {
 				user.setUser_locked_flg("N");
 				AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
 
+				BigDecimal Number1 = null;
+				Session hs1 = sessionFactory.openSession();
+				try {
+					Number1 = (BigDecimal) hs1
+							.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
+							.getSingleResult();
+				} finally {
+					hs1.close();
+				}
+
 				audit.setAudit_date(new Date());
 				audit.setEntry_time(new Date());
 				audit.setEntry_user(user.getUserid());
@@ -303,11 +308,10 @@ public class AMLWebSecurity extends WebSecurityConfigurerAdapter {
 				audit.setEvent_id(user.getUserid());
 				audit.setEvent_name(user.getUsername());
 				audit.setModi_details("USER LOGIN ");
-				audit.setAudit_ref_no(Number1.toString());
+				audit.setAudit_ref_no(Number1 != null ? Number1.toString() : "");
 				auditLocal.save(audit);
 
 				userProfileRep.save(user);
-				hs1.close();
 				/*
 				 * long custcount =cmgrepository.findCustomcount(); long trancount =
 				 * transmonitoringrepository.findtrancount(); long transucescount =
@@ -354,10 +358,15 @@ public class AMLWebSecurity extends WebSecurityConfigurerAdapter {
 				UserProfile user = up.get();
 
 				AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
+				BigDecimal Number1 = null;
 				Session hs1 = sessionFactory.openSession();
-
-				BigDecimal Number1 = (BigDecimal) hs1
-						.createNativeQuery("SELECT aml_audit_seq.NEXTVAL AS SRL_NO FROM DUAL").getSingleResult();
+				try {
+					Number1 = (BigDecimal) hs1
+							.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
+							.getSingleResult();
+				} finally {
+					hs1.close();
+				}
 
 				audit.setAudit_date(new Date());
 				audit.setEntry_time(new Date());
@@ -369,11 +378,10 @@ public class AMLWebSecurity extends WebSecurityConfigurerAdapter {
 				audit.setEvent_id(user.getUserid());
 				audit.setEvent_name(user.getUsername());
 				audit.setModi_details("USER LOGOUT ");
-				audit.setAudit_ref_no(Number1.toString());
+				audit.setAudit_ref_no(Number1 != null ? Number1.toString() : "");
 				auditLocal.save(audit);
 
 				response.sendRedirect("login?logout");
-				hs1.close();
 
 			}
 

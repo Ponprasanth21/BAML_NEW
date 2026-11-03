@@ -90,7 +90,9 @@ PURPOSE		:
 			mm = '0' + mm;
 		}
 		var today = dd + '-' + mm + '-' + yyyy;
-		document.getElementById('alert_date').value = today;
+		if (document.getElementById('alert_date')) {
+			document.getElementById('alert_date').value = today;
+		}
 	});
 $(function() {
 		
@@ -115,9 +117,15 @@ $(function() {
 			mm = '0' + mm;
 		}
 		var today = dd + '-' + mm + '-' + yyyy;  
-		document.getElementById('entry_time1').value = today;
-		document.getElementById('verify_time1').value = today; 
-		document.getElementById('modify_time1').value = today;
+		if (document.getElementById('entry_time1')) {
+			document.getElementById('entry_time1').value = today;
+		}
+		if (document.getElementById('verify_time1')) {
+			document.getElementById('verify_time1').value = today;
+		}
+		if (document.getElementById('modify_time1')) {
+			document.getElementById('modify_time1').value = today;
+		}
 	});
 
 	$(document).ready(function() {
@@ -127,13 +135,13 @@ $(function() {
 			if(formode == "view"){
 				$('input').attr('readonly', true);
 				$('select').attr('readonly', true);
-				 document.querySelector('#dateofbirth').style.background = '#9a9fa5';
-				 document.querySelector('#date_freezed').style.background = '#9a9fa5';
-				 document.querySelector('#date_defreezed').style.background = '#9a9fa5';
+				if (document.querySelector('#dateofbirth')) document.querySelector('#dateofbirth').style.background = '#9a9fa5';
+				if (document.querySelector('#date_freezed')) document.querySelector('#date_freezed').style.background = '#9a9fa5';
+				if (document.querySelector('#date_defreezed')) document.querySelector('#date_defreezed').style.background = '#9a9fa5';
 				 
-				document.querySelector('#bodatecreated').style.background = '#9a9fa5';
-				document.querySelector('#bodateverified').style.background = '#9a9fa5'; 
-				document.querySelector('#bodatemodified').style.background = '#9a9fa5';
+				if (document.querySelector('#bodatecreated')) document.querySelector('#bodatecreated').style.background = '#9a9fa5';
+				if (document.querySelector('#bodateverified')) document.querySelector('#bodateverified').style.background = '#9a9fa5'; 
+				if (document.querySelector('#bodatemodified')) document.querySelector('#bodatemodified').style.background = '#9a9fa5';
 
 				$("dateofbirth").attr('readonly', true);
 				$("date_freezed").attr('readonly', true);	
@@ -145,13 +153,13 @@ $(function() {
 			}else if(formode == "verify"){
 				$('input').attr('readonly', true);
 				$('select').attr('readonly', true);
-				 document.querySelector('#dateofbirth').style.background = '#9a9fa5';
-				 document.querySelector('#date_freezed').style.background = '#9a9fa5';
-				 document.querySelector('#date_defreezed').style.background = '#9a9fa5';
+				if (document.querySelector('#dateofbirth')) document.querySelector('#dateofbirth').style.background = '#9a9fa5';
+				if (document.querySelector('#date_freezed')) document.querySelector('#date_freezed').style.background = '#9a9fa5';
+				if (document.querySelector('#date_defreezed')) document.querySelector('#date_defreezed').style.background = '#9a9fa5';
 				 
-				 document.querySelector('#bodatecreated').style.background = '#9a9fa5';
-				document.querySelector('#bodateverified').style.background = '#9a9fa5';
-				document.querySelector('#bodatemodified').style.background = '#9a9fa5';
+				if (document.querySelector('#bodatecreated')) document.querySelector('#bodatecreated').style.background = '#9a9fa5';
+				if (document.querySelector('#bodateverified')) document.querySelector('#bodateverified').style.background = '#9a9fa5';
+				if (document.querySelector('#bodatemodified')) document.querySelector('#bodatemodified').style.background = '#9a9fa5';
 				$("dateofbirth").attr('readonly', true);
 				$("date_freezed").attr('readonly', true);	
 				$("date_defreezed").attr('readonly', true);
@@ -162,13 +170,13 @@ $(function() {
 			}else if(formode == "delete"){
 				$('input').attr('readonly', true);
 				$('select').attr('readonly', true);
-				 document.querySelector('#dateofbirth').style.background = '#9a9fa5';
-				 document.querySelector('#date_freezed').style.background = '#9a9fa5';
-				 document.querySelector('#date_defreezed').style.background = '#9a9fa5';
+				if (document.querySelector('#dateofbirth')) document.querySelector('#dateofbirth').style.background = '#9a9fa5';
+				if (document.querySelector('#date_freezed')) document.querySelector('#date_freezed').style.background = '#9a9fa5';
+				if (document.querySelector('#date_defreezed')) document.querySelector('#date_defreezed').style.background = '#9a9fa5';
 				 
-				 document.querySelector('#bodatecreated').style.background = '#9a9fa5';
-				document.querySelector('#bodateverified').style.background = '#9a9fa5';
-				document.querySelector('#bodatemodified').style.background = '#9a9fa5';
+				if (document.querySelector('#bodatecreated')) document.querySelector('#bodatecreated').style.background = '#9a9fa5';
+				if (document.querySelector('#bodateverified')) document.querySelector('#bodateverified').style.background = '#9a9fa5';
+				if (document.querySelector('#bodatemodified')) document.querySelector('#bodatemodified').style.background = '#9a9fa5';
 				$("dateofbirth").attr('readonly', true);
 				$("date_freezed").attr('readonly', true);	
 				$("date_defreezed").attr('readonly', true);
@@ -646,11 +654,11 @@ $("#bodatemodified").datepicker({
 									</tr>
 								</thead>
 								<tbody>
-											<tr th:if="${NegativeList.totalPages} == '0'">
+											<tr th:if="${NegativeList == null or NegativeList.totalPages == 0}">
 										<td colspan="14" style="text-align: left; color: red">No
 											record available</td>
 									</tr>
-									<tr th:each="alert: ${NegativeList.content}"
+									<tr th:each="alert: ${NegativeList?.content}"
 										th:attr="data-uniqueidnumber=${alert.negativelistdatasetid}" th:id="${alert.negativelistdatasetid}"
 										class="userlist">
 
@@ -729,7 +737,7 @@ $("#bodatemodified").datepicker({
 
 							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
 							<div class="float-right" id="paginationCust"
-								th:if="${NegativeList.totalPages} gt 1">
+								th:if="${NegativeList != null and NegativeList.totalPages gt 1}">
 								<a href="#"><i class="fas fa-caret-left fa-2x"
 									th:onclick="|getUserlist('prevpage',${NegativeList.number},${NegativeList.totalPages});|"></i></a>
 								<input type="text" id="pageno" style="width: 30px"

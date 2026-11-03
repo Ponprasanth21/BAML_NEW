@@ -21,6 +21,9 @@ public interface NegativeListRepository extends JpaRepository<NegativeListEntity
 
 	Optional<NegativeListEntity> findById(BigDecimal directorId);
 
+	@Query(value = "select * from \"AML\".\"BAML_NEGATIVE_LIST\" where \"NEGATIVELISTDATASETID\" = ?1", nativeQuery = true)
+	NegativeListEntity findByIdcustom(BigDecimal negativelistdatasetid);
+
 	@Query(value = "select * from \"AML\".\"BAML_NEGATIVE_LIST\" where \"DEL_FLAG\"='N'", nativeQuery = true)
 	Page<NegativeListEntity> findAllRandom(Pageable pageable);
 

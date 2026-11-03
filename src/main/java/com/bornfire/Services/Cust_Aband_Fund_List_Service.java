@@ -137,7 +137,7 @@ public class Cust_Aband_Fund_List_Service {
 			up.setEntity_flag("N");
 			cust_abond_list_Repository.save(up);
 
-			BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT AML_AUDIT_SEQ.NEXTVAL AS SRL_NO FROM DUAL")
+			BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
 					.getSingleResult();
 			String modi = "RECORD ADDED";
 
@@ -182,7 +182,7 @@ public class Cust_Aband_Fund_List_Service {
 							+ alertparam.getEntity_flag() + '+');
 				}
 				BigDecimal Number = (BigDecimal) hs
-						.createNativeQuery("SELECT AML_AUDIT_SEQ.NEXTVAL AS SRL_NO FROM DUAL").getSingleResult();
+						.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)").getSingleResult();
 
 				audit.setAudit_date(new Date());
 				audit.setEntry_user(alertparam.getAml_entry_user());
@@ -231,7 +231,7 @@ public class Cust_Aband_Fund_List_Service {
 							+ alertparam.getEntity_flag() + '+');
 				}
 				BigDecimal Number = (BigDecimal) hs
-						.createNativeQuery("SELECT AML_AUDIT_SEQ.NEXTVAL AS SRL_NO FROM DUAL").getSingleResult();
+						.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)").getSingleResult();
 
 				audit.setAudit_date(new Date());
 				audit.setEntry_user(alertparam.getAml_entry_user());
@@ -256,12 +256,13 @@ public class Cust_Aband_Fund_List_Service {
 
 	public Cust_Aband_Fund_List_Entity getSrlNo(String srlno) {
 
-		if (cust_abond_list_Repository.existsById(srlno)) {
-			Cust_Aband_Fund_List_Entity up = cust_abond_list_Repository.findById(srlno).get();
-			return up;
-		} else {
-			return new Cust_Aband_Fund_List_Entity();
+		if (srlno != null) {
+			Cust_Aband_Fund_List_Entity up = cust_abond_list_Repository.findByIdcustom(srlno.trim());
+			if (up != null) {
+				return up;
+			}
 		}
+		return new Cust_Aband_Fund_List_Entity();
 
 	};
 
@@ -839,7 +840,7 @@ public class Cust_Aband_Fund_List_Service {
 
 							AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
 							BigDecimal Number = (BigDecimal) hs
-									.createNativeQuery("SELECT AML_AUDIT_SEQ.NEXTVAL AS SRL_NO FROM DUAL")
+									.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
 									.getSingleResult();
 							String modi = "RECORD ADDED";
 							audit.setAudit_date(new Date());
@@ -1076,7 +1077,7 @@ public class Cust_Aband_Fund_List_Service {
 
 							AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
 							BigDecimal Number = (BigDecimal) hs
-									.createNativeQuery("SELECT AML_AUDIT_SEQ.NEXTVAL AS SRL_NO FROM DUAL")
+									.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
 									.getSingleResult();
 							String modi = "RECORD ADDED";
 							audit.setAudit_date(new Date());
@@ -1646,7 +1647,7 @@ public class Cust_Aband_Fund_List_Service {
 
 							AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
 							BigDecimal Number = (BigDecimal) hs
-									.createNativeQuery("SELECT AML_AUDIT_SEQ.NEXTVAL AS SRL_NO FROM DUAL")
+									.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
 									.getSingleResult();
 							String modi = "RECORD ADDED";
 							audit.setAudit_date(new Date());
@@ -1884,7 +1885,7 @@ public class Cust_Aband_Fund_List_Service {
 
 							AML_AUDIT_LOCAL audit = new AML_AUDIT_LOCAL();
 							BigDecimal Number = (BigDecimal) hs
-									.createNativeQuery("SELECT AML_AUDIT_SEQ.NEXTVAL AS SRL_NO FROM DUAL")
+									.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
 									.getSingleResult();
 							String modi = "RECORD ADDED";
 							audit.setAudit_date(new Date());
@@ -2115,7 +2116,7 @@ public class Cust_Aband_Fund_List_Service {
 			// Closing the workbook
 			workbook.close();
 
-			BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT AML_AUDIT_SEQ.NEXTVAL AS SRL_NO FROM DUAL")
+			BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
 					.getSingleResult();
 			String modi = "FROM DATE-" + fromdate + "TO DATE-" + todate;
 
@@ -2399,7 +2400,7 @@ private void writeBook(Cust_Aband_Fund_List_Entity aBook, Row row, CellStyle dat
 			// Closing the workbook
 			workbook.close();
 
-			BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT AML_AUDIT_SEQ.NEXTVAL AS SRL_NO FROM DUAL")
+			BigDecimal Number = (BigDecimal) hs.createNativeQuery("SELECT CAST(nextval('\"AML\".\"AML_AUDIT_SEQ\"') AS NUMERIC)")
 					.getSingleResult();
 			String modi = "FROM DATE-" + fromdate + "TO DATE-" + todate;
 
