@@ -136,6 +136,31 @@ td input {
 	border-radius: 16px;
 	BACKGROUND: silver;
 }
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}
 </style>
 
 <style>
@@ -404,26 +429,11 @@ td input {
 	
 </script>
 <body>
-	<div th:replace="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('AML_STR_REPORT_ADD')" id="ques"></i>
-	<div class="content-page">
+	<div th:insert="AStartheader :: header"></div>
+	<div class="content-page" style="margin-top: 5px;">
 		<div class="content">
-
-
-
-
-
 			<form action="#" th:object="${aml_str_rep}" method="post"
-				autocomplete="off" id="aml_str_rep" th:fragment="finuserapply">
-
-
-
-
-
-
-
-
+				autocomplete="off" id="aml_str_rep" th:fragment="finuserapply"
 				<!--  ***************************************************CUSTOMER SUB TAB MENU*************************************************************  -->
 
 
@@ -440,7 +450,7 @@ td input {
 								<div class="card">
 									<div class="card-header" style="background-color: #386276;">
 										<div class="float-left">
-											<h6 style="margin-top: 4px;">STR DETAILS</h6>
+											<h6 style="margin-top: 1px;">STR DETAILS</h6>
 										</div>
 										<div class="btn-group nav-buttons float-right">
 											<button type="button" class="btn btn-xs btn-primary btns"
@@ -455,6 +465,7 @@ td input {
 										</div>
 									</div>
 									<!-- <div class="card-body"> -->
+										<div style="height: 350px; overflow-y: scroll; overflow-x: auto; display: block;">
 									<table class="table  table-bordered  table-hover table-sm"
 										style="margin-bottom: 0px" id="usertable">
 										<thead class="thead-light">
@@ -531,14 +542,26 @@ td input {
 											</tr>
 										</tbody>
 									</table>
-									<div class="card-footer text-center">
-										<button type="button" class="btn btn-xs btn-primary"
-											id="btnHome" onclick="home();">Home</button>
-										<button type="button" class="btn btn-xs btn-primary"
-											id="btnBack" onclick="back();">Back</button>
 									</div>
-									<!-- </div> -->
-								</div>
+									<div class="text-center"
+															     style="background-color: #386276;
+															            padding: 5px;
+															            width: 100%;
+															            box-sizing: border-box;
+															            margin: 0;">
+															    <div class="btn-group nav-buttons">
+															        <button type="button"
+															                class="btn btn-xs btn-primary"
+															                id="btnHome"
+															                onclick="home()"
+															                style="margin-right: 10px;">Home</button>
+
+															        <button type="button"
+															                class="btn btn-xs btn-primary"
+															                id="btnBack"
+															                onclick="back()">Back</button>
+															    </div>
+															</div>
 							</div>
 						</div>
 					</div>

@@ -56,6 +56,31 @@ PURPOSE		:
 	color: #08a6f1;
 	cursor: pointer;
 }
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}
 </style>
 
 <link rel="stylesheet"
@@ -79,6 +104,7 @@ PURPOSE		:
 			$("#repname").text(report.reportname);
 
 		};
+		
 		
 		
 		$(function(){
@@ -173,7 +199,17 @@ PURPOSE		:
 			  
 			  
 		  }
-
+		  function home() {
+		  		location.href = 'Dashboard';
+		  	}
+		  	function back() {
+		  		var formmode = $("#formmode1").val() || new URLSearchParams(window.location.search).get('formmode');
+		  		if (formmode && formmode !== "list") {
+		  			location.href = 'ReferenceCodeMaster?formmode=list';
+		  		} else {
+		  			location.href = 'Dashboard';
+		  		}
+		  	}
 	
 
 	/*]]>*/
@@ -183,10 +219,8 @@ PURPOSE		:
 
 <body>
 	<div th:insert="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" aria-hidden="true"style="float: right; margin-top: 10%;"
-		onclick="docEmb('rbsreports')" id="ques"></i>
 
-	<div class="content-page">
+		<div class="content-page" style="margin-top: 5px;">
 		<div class="content">
 			<div class="container-fluid">
 			<form class="form-horizontal" method="post" name="CriteriaForm"
@@ -197,7 +231,8 @@ PURPOSE		:
 							<div class="card-header " id="modheadtitle">
 								<b>RBS REPORTS</b>
 							</div>					
-							<div class="card-body" style="height: 740px;">
+							<div class="card-body" s>
+								<div style="height:200px; overflow-y: scroll; overflow-x: auto; display: block;">
 						<table class="table table-bordered  table-hover table-sm"
 								style="width: 100%" id="usertable">
 								<thead class="thead-light">
@@ -240,15 +275,32 @@ PURPOSE		:
 									</tr>
 								</tbody>
 							</table>
+							</div>
 
 						
 
 						</div>
-						<div class="card-footer text-center">
 
-							
+						<div class="col-sm-12 ">
+						<div class="text-center"
+						     style="background-color: #386276;
+						            padding: 5px;
+						            width: 100%;
+						            box-sizing: border-box;
+						            margin: 0;">
+						    <div class="btn-group nav-buttons">
+						        <button type="button"
+						                class="btn btn-xs btn-primary"
+						                id="btnHome"
+						                onclick="home()"
+						                style="margin-right: 10px;">Home</button>
 
-
+						        <button type="button"
+						                class="btn btn-xs btn-primary"
+						                id="btnBack"
+						                onclick="back()">Back</button>
+						    </div>
+						</div>
 						</div>
 					</div>
 			</div>

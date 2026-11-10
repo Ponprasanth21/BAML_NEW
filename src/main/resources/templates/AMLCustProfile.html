@@ -354,16 +354,41 @@ PURPOSE		:
 	color: #08a6f1;
 	cursor: pointer;
 }
+
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}
+
 </style>
 
 </head>
 <title>AML</title>
 
 <body>
-	<div th:replace="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('CustomerInquiry')" id="ques"></i>
-	<div class="content-page">
+	<div th:insert="AStartheader :: header"></div>
+	<div class="content-page" style="margin-top: 5px;">
 		<div class="content">
 			<div class="container-fluid">
 				<div class="content">
@@ -372,7 +397,6 @@ PURPOSE		:
 							<div class="card-header " id="modheadtitle">
 								<b>Customer List</b>
 							</div>
-							<label></label>
 							<!-- 	<div class="row formline">
 							<div class="col-sm-1">
 													<label for="ref_code">Search</label>
@@ -387,6 +411,7 @@ PURPOSE		:
 													<a href="#"><i class="fas fa-search searchico"
 														 id="iconacc1"onclick="search()"></i></a>
 												</div></div> -->
+												<div style="height: 350px; overflow-y: scroll; overflow-x: auto; display: block;">
 							<table class="table table-bordered  table-hover table-sm"
 								style="width: 100%" id="usertable">
 								<thead class="thead-light">
@@ -417,7 +442,7 @@ PURPOSE		:
 
 									</tr>
 								</thead>
-								<tbody id="CustomerInq">
+								<tbody>
 									<tr th:if="${COUNT} == '0'">
 										<td colspan="9" style="text-align: center; color: red">No
 											Data Found</td>
@@ -443,6 +468,7 @@ PURPOSE		:
 									</tr>
 								</tbody>
 							</table>
+							</div>
 
 
 							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
@@ -462,16 +488,27 @@ PURPOSE		:
 
 
 						</div>
+						<div class="col-sm-12 ">
 						<div class="text-center"
-							style="background-color: #386276; padding: 5px; width: 100%;">
+												     style="background-color: #386276;
+												            padding: 5px;
+												            width: 100%;
+												            box-sizing: border-box;
+												            margin: 0;">
+												    <div class="btn-group nav-buttons">
+												        <button type="button"
+												                class="btn btn-xs btn-primary"
+												                id="btnHome"
+												                onclick="home()"
+												                style="margin-right: 10px;">Home</button>
 
-							<div class="btn-group nav-buttons " style="align: center;">
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnBack" onclick="back();">Back</button>
-							</div>
-						</div>
+												        <button type="button"
+												                class="btn btn-xs btn-primary"
+												                id="btnBack"
+												                onclick="back()">Back</button>
+												    </div>
+												</div>
+					</div>
 					</div>
 				</div>
 

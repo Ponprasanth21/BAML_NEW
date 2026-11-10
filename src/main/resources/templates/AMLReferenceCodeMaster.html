@@ -56,8 +56,29 @@ PURPOSE		:
 #iconacc2 {
 	display: none;
 }
-</style>
-<style type="text/css">
+
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
 .btn {
 	line-height: 0.5rem;
 }
@@ -646,9 +667,8 @@ PURPOSE		:
 <body>
 	<div th:insert="AStartheader :: header"
 			th:if="${formmode}=='list' OR ${formmode}=='view' OR ${formmode}=='search' OR ${formmode}=='edit' OR ${formmode}=='add' OR ${formmode}=='verify' OR ${formmode}=='delete'"></div>
-		<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-			aria-hidden="true" onclick="docEmb('AccessAndRoles')" id="ques"></i>
-		<div class="content-page">
+	
+		<div class="content-page" style="margin-top: 5px;">
 			<div class="content">
 				<div class="container-fluid">
 					<!---------------------User List Starts------------------------------------------------------->
@@ -669,6 +689,7 @@ PURPOSE		:
 										id="btnInq" onclick="list()" style="border-color: #66dbe0;">List</button>
 								</div>
 							</div>
+							<div style="height: 350px; overflow-y: scroll; overflow-x: auto; display: block;">
 							<table class="table table-bordered  table-hover table-sm" th:if="${master}!='master'"
 								style="width: 100%" id="usertable">
 								<thead class="thead-light">
@@ -676,23 +697,23 @@ PURPOSE		:
 
 									<tr>
 										<!-- <th></th> -->
-										<th>Record Type <i class="fas fa-search searchico"
+										<th style="width: 10%;position: sticky; top: 0;">Record Type <i class="fas fa-search searchico"
 											style="float: right;" for="custid" aria-hidden="true"
 											onclick="recordtypesearch()"></i></th>
-										<th>Record Description<i class="fas fa-search searchico"
+										<th style="width: 12%;position: sticky; top: 0;">Record Description<i class="fas fa-search searchico"
 											style="float: right;" for="custid" aria-hidden="true"
 											onclick="recdescsearch()"></i></th>
-										<th>Reference Code<i class="fas fa-search searchico"
+										<th style="width: 10%;position: sticky; top: 0;">Reference Code<i class="fas fa-search searchico"
 											style="float: right;" for="custid" aria-hidden="true"
 											onclick="refcodesearch()"></i></th>
-										<th>Code Description<i class="fas fa-search searchico"
+										<th style="width: 10%;position: sticky; top: 0;">Code Description<i class="fas fa-search searchico"
 											style="float: right;" for="custid" aria-hidden="true"
 											onclick="custidsearch()"></i></th>
-										<th>Reference Type</th>
-										<th>Module</th>
-										<th>Report</th>
-										<th>Verification</th>
-										<th>Select</th>
+										<th style="width: 10%;position: sticky; top: 0;">Reference Type</th>
+										<th style="width: 6%;position: sticky; top: 0;">Module</th>
+										<th style="width: 6%;position: sticky; top: 0;">Report</th>
+										<th style="width: 10%;position: sticky; top: 0;">Verification</th>
+										<th style="width: 10%;position: sticky; top: 0;z-index: 2;">Select</th>
 
 									</tr>
 								</thead>
@@ -756,93 +777,7 @@ PURPOSE		:
 									</tr>
 								</tbody>
 							</table>
-							<table class="table table-bordered  table-hover table-sm" th:if="${master}=='master'"
-								style="width: 100%" id="usertable">
-								<thead class="thead-light">
-
-
-									<tr>
-										<!-- <th></th> -->
-										<th>Record Type<i class="fas fa-search searchico"
-											style="float: right;" for="custid" aria-hidden="true"
-											onclick="recordtypesearch()"></i></th>
-										<th>Record Description<i class="fas fa-search searchico"
-											style="float: right;" for="custid" aria-hidden="true"
-											onclick="recdescsearch()"></i></th>
-										<th>Reference Code<i class="fas fa-search searchico"
-											style="float: right;" for="custid" aria-hidden="true"
-											onclick="refcodesearch()"></i></th>
-										<th>Code Description<i class="fas fa-search searchico"
-											style="float: right;" for="custid" aria-hidden="true"
-											onclick="custidsearch()"></i></th>
-										<th>Reference Type</th>
-										<th>Module</th>
-										<th>Report</th>
-										<th>Verification</th>
-										<th>Select</th>
-
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="alert: ${RefCodemasterList}"
-										th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type}"
-										th:id="${alert.refCodeId.ref_code}" class="userlist">
-										<td th:text="${alert.refCodeId.ref_rec_type}"></td>
-										<td th:text="${alert.ref_rec_desc}"></td>
-										<td th:text="${alert.refCodeId.ref_code}"></td>
-										<td th:text="${alert.ref_desc}"></td>
-										<td th:text="${alert.ref_type}"></td>
-										<td th:text="${alert.module}"></td>
-										<td th:text="${alert.rpt_code}"></td>
-
-										<th:block th:switch="${alert.entity_flag}">
-											<td th:case="'Y'" style="color: green;">Verified</td>
-											<td th:case="'N'" style="color: red;">UnVerified</td>
-										</th:block>
-										<td>
-											<div class="dropdown">
-												<button class="btn btn-secondary dropdown-toggle"
-													type="button" id="dropdownMenuButton"
-													style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
-													data-toggle="dropdown" aria-haspopup="true"
-													aria-expanded="false">Action</button>
-												<div class="dropdown-menu"
-													aria-labelledby="dropdownMenuButton"
-													style="background-color: #e3e3e4; color: #3a4550;">
-													<a
-														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
-														class="dropdown-item"
-														style="cursor: pointer; background-color: #e3e3e4; color: #3a4550; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
-														onclick="view_btn_submit(this)" id="view_btn">Inquiry
-													</a>
-													<div class="dropdown-divider"></div>
-													<a
-														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
-														class="dropdown-item"
-														style="cursor: pointer; height: 16px; color: #12161b; background: #e3e3e4; border-radius: .20rem; padding: 2px 10px; top: 10px;"
-														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
-													<div class="dropdown-divider"></div>
-													<a
-														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code}"
-														class="dropdown-item"
-														style="cursor: pointer; height: 16px; color: #12161b; background: #e3e3e4; border-radius: .20rem; padding: 2px 10px; top: 10px;"
-														onclick="delete_btn_submit(this)" id="delete_value">Delete</a>
-													<div class="dropdown-divider"
-														th:if="${alert.entity_flag}=='N'"></div>
-													<a
-														th:if="${alert.entity_flag}=='N'"
-														th:attr="data-ref_code=${alert.refCodeId.ref_code},data-ref_rec_type=${alert.refCodeId.ref_rec_type},data-rpt_code=${alert.rpt_code},data-entry_user=${alert.entry_user},data-modify_user=${alert.modify_user}"
-														class="dropdown-item"
-														style="cursor: pointer; height: 16px; color: #12161b; background: #e3e3e4; border-radius: .20rem; padding: 2px 10px; top: 10px;"
-														id="verify_value" onclick="alert_verify(this)">Verify</a>
-												</div>
-											</div>
-										</td>
-										<!-- <td th:text="${#numbers.formatDecimal(account.clr_bal_amt,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td> -->
-
-									</tr>
-								</tbody>
-							</table>
+							</div>
 
 
 

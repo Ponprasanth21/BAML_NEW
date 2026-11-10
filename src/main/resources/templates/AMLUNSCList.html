@@ -57,6 +57,57 @@ PURPOSE		:
 .dropdown-menu a:hover {
 	background-color: black;
 }
+
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}
 </style>
 
 <link rel="stylesheet"
@@ -626,14 +677,12 @@ PURPOSE		:
 
 <body>
 	<div th:insert="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('UNSCLIST')" id="ques"></i>
-	<div class="content-page">
+		<div class="content-page" style="margin-top: 5px;">
 
 		<div class="content">
 			<div class="container-fluid">	
 
-				<div th:if="${formmode}=='listindividual'" class="container content">
+				<div th:if="${formmode}=='listindividual'" class="content">
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="card-header " id="modheadtitle" style="height: 50px;">
@@ -669,27 +718,28 @@ PURPOSE		:
 
 								</div>
 								<label></label>
+								<div style="height: 200px; overflow-y: scroll; overflow-x: auto; display: block;">
 								<table class="table table-bordered  table-hover table-sm"
 									style="width: 100%" id="usertable">
 									<thead class="thead-light">
 
 										<tr>
-											<th>Date Freezed</th>
-											<th>Master Data ID<i class="fas fa-search searchico"
+											<th style="width: 10%;position: sticky; top: 0;">Date Freezed</th>
+											<th style="width: 10%;position: sticky; top: 0;">Master Data ID<i class="fas fa-search searchico"
 												style="float: right;" aria-hidden="true"
 												onclick="custDataIdSearch()"></i></th>
-											<th>Reference No<i class="fas fa-search searchico"
+											<th style="width: 10%;position: sticky; top: 0;">Reference No<i class="fas fa-search searchico"
 												style="float: right;" aria-hidden="true"
 												onclick="custRefNoSearch()"></i></th>
-											<th>Unlist Type</th>
-											<th style="width: 12%;">Name<i
+											<th style="width: 10%;position: sticky; top: 0;">Unlist Type</th>
+											<th style="width: 10%;position: sticky; top: 0;">Name<i
 												class="fas fa-search searchico" style="float: right;"
 												aria-hidden="true" onclick="custlastnamesearch()"></i></th>
-											<th>Address</th>
+											<th style="width: 10%;position: sticky; top: 0;">Address</th>
 											<!-- 	<th>Date Of Birth</th> -->
-											<th>Place Of Birth</th>
-											<th>Country</th>
-											<th>Inquiry</th>
+											<th style="width: 10%;position: sticky; top: 0;">Place Of Birth</th>
+											<th style="width: 10%;position: sticky; top: 0;">Country</th>
+											<th style="width: 10%;position: sticky; top: 0;">Inquiry</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -718,6 +768,7 @@ PURPOSE		:
 										</tr>
 									</tbody>
 								</table>
+								</div>
 
 
 							</div>
@@ -737,23 +788,34 @@ PURPOSE		:
 
 
 						</div>
+						<div class="col-sm-12 ">
 						<div class="text-center"
-							style="background-color: #386276; padding: 5px; width: 100%;">
+												     style="background-color: #386276;
+												            padding: 5px;
+												            width: 100%;
+												            box-sizing: border-box;
+												            margin: 0;">
+												    <div class="btn-group nav-buttons">
+												        <button type="button"
+												                class="btn btn-xs btn-primary"
+												                id="btnHome"
+												                onclick="home()"
+												                style="margin-right: 10px;">Home</button>
 
-							<div class="btn-group nav-buttons " style="align: center;">
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnBack" onclick="back();">Back</button>
-							</div>
-						</div>
+												        <button type="button"
+												                class="btn btn-xs btn-primary"
+												                id="btnBack"
+												                onclick="back()">Back</button>
+												    </div>
+												</div>
+												</div>
 					</div>
 				</div>
 				<!-- ------------------Entity-List -->
-				<div th:if="${formmode}=='listentity'" class="container content">
+				<div th:if="${formmode}=='listentity'" class="content">
 					<div class="row">
 						<div class="col-sm-12">
-							<div class="card-header " id="modheadtitle" style="height: 50px;">
+							<div class="card-header " id="modheadtitle" >
 								<b th:text="${menuname}"></b>
 								<div class="btn-group nav-buttons float-right">
 									<button type="button" class="btn btn-xs btn-primary "
@@ -785,30 +847,30 @@ PURPOSE		:
 
 								</div>
 								<label></label>
-
+								<div style="height: 200px; overflow-y: scroll; overflow-x: auto; display: block;">
 								<table class="table table-bordered  table-hover table-sm"
 									style="width: 100%" id="usertable">
 									<thead class="thead-light">
 
-										<tr>
-											<th>Date Freezed</th>
-											<th>Master Data ID<i class="fas fa-search searchico"
+										<tr> 
+											<th style="width: 10%;position: sticky; top: 0;">Date Freezed</th>
+											<th style="width: 10%;position: sticky; top: 0;">Master Data ID<i class="fas fa-search searchico"
 												style="float: right;" aria-hidden="true"
 												onclick="custDataIdSearch1()"></i></th>
-											<th>Reference No<i class="fas fa-search searchico"
+											<th style="width: 10%;position: sticky; top: 0;">Reference No<i class="fas fa-search searchico"
 												style="float: right;" aria-hidden="true"
 												onclick="custRefNoSearch1()"></i></th>
-											<th>Unlist Type</th>
-											<th>Name<i class="fas fa-search searchico"
+											<th style="width: 10%;position: sticky; top: 0;">Unlist Type</th>
+											<th style="width: 10%;position: sticky; top: 0;">Name<i class="fas fa-search searchico"
 												style="float: right;" aria-hidden="true"
 												onclick="custlastnamesearchEntity()"></i></th>
 
-											<th>Address</th>
+											<th style="width: 10%;position: sticky; top: 0;">Address</th>
 											<!-- <th>Date Of Birth</th> -->
 
-											<th>Country</th>
+											<th style="width: 10%;position: sticky; top: 0;">Country</th>
 
-											<th>Inquiry</th>
+											<th style="width: 10%;position: sticky; top: 0;">Inquiry</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -833,6 +895,7 @@ PURPOSE		:
 										</tr>
 									</tbody>
 								</table>
+								</div>
 
 
 
@@ -851,17 +914,27 @@ PURPOSE		:
 
 							</div>
 						</div>
+						<div class="col-sm-12 ">
 						<div class="text-center"
-							style="background-color: #386276; padding: 5px; width: 100%;">
+												     style="background-color: #386276;
+												            padding: 5px;
+												            width: 100%;
+												            box-sizing: border-box;
+												            margin: 0;">
+												    <div class="btn-group nav-buttons">
+												        <button type="button"
+												                class="btn btn-xs btn-primary"
+												                id="btnHome"
+												                onclick="home()"
+												                style="margin-right: 10px;">Home</button>
 
-							<div class="btn-group nav-buttons " style="align: center;">
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnBack" onclick="back1();">Back</button>
-							</div>
-						</div>
-
+												        <button type="button"
+												                class="btn btn-xs btn-primary"
+												                id="btnBack"
+												                onclick="back()">Back</button>
+												    </div>
+												</div>
+                     </div>
 					</div>
 
 				</div>

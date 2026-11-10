@@ -117,11 +117,36 @@ PURPOSE		:
 		 */location.href = Callurl;
 	}
 </script>
+<style>
+	#usertable thead th {
+	    font-weight: 600 !important;
+		padding: 8px 9px;
+		font-size: 12px;
+	}
+
+	/* White table background */
+	#usertable,
+	#usertable tbody td {
+	    background-color: #ffffff !important;
+	}
+
+	/* Keep hover effect subtle */
+	#usertable tbody tr:hover td {
+	    background-color: #f8f9fa !important;
+	}
+
+	/* Table row hover color */
+	#usertable tbody tr:hover td {
+	    background-color: #dce5ed !important;
+	}
+
+	.btn {
+		line-height: 0.5rem;
+	}
+</style>
 <body>
 	<div th:insert="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
-	<div class="content-page">
+		<div class="content-page" style="margin-top: 5px;">
 		<div class="content">
 			<div class="container-fluid">
 				<div th:if="${formmode}=='list'" class="content">
@@ -132,6 +157,7 @@ PURPOSE		:
 							</div>
 							<div class="table-responsive"
 								style="overflow-x: scroll; overflow-y: hidden;">
+								
 								<table class="table table-bordered  table-hover table-sm"
 									style="overflow-x: scroll; overflow-y: hidden; width: 180%"
 									id="usertable">
@@ -217,6 +243,6 @@ PURPOSE		:
 	</div>
 
 	<!--------------------------------------------------------------- Modal for alert messages-------------------------------->
-	</
+	</style
 </body>
 </html>

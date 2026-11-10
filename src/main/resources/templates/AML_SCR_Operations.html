@@ -98,6 +98,31 @@ PURPOSE		:
 	.searchico {
 		cursor: pointer;
 	}
+	#usertable thead th {
+	    font-weight: 600 !important;
+		padding: 8px 9px;
+		font-size: 12px;
+	}
+
+	/* White table background */
+	#usertable,
+	#usertable tbody td {
+	    background-color: #ffffff !important;
+	}
+
+	/* Keep hover effect subtle */
+	#usertable tbody tr:hover td {
+	    background-color: #f8f9fa !important;
+	}
+
+	/* Table row hover color */
+	#usertable tbody tr:hover td {
+	    background-color: #dce5ed !important;
+	}
+
+	.btn {
+		line-height: 0.5rem;
+	}
 </style>
 <script type="text/javascript">
 	function CustType() {
@@ -389,10 +414,8 @@ PURPOSE		:
 </script>
 
 <body>
-	<div th:replace="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%; cursor: pointer;" aria-hidden="true"
-		onclick="docEmb('AML_SCR_OPERATION')" id="ques" title="Help"></i>
-	<div class="content-page">
+	<div th:insert="AStartheader :: header"></div>
+		<div class="content-page" style="margin-top: 5px;">
 		<div class="content">
 
 			<div class="container-fluid">
@@ -603,7 +626,7 @@ PURPOSE		:
 
 														<div class="table-responsive">
 
-
+															<div style="height: 200px; overflow-y: scroll; overflow-x: auto; display: block;">
 															<table class="table table-bordered  table-hover table-sm"
 																id="usertable">
 																<thead class="thead-light">
@@ -654,6 +677,7 @@ PURPOSE		:
 																	</tr>
 																</tbody>
 															</table>
+															</div>
 															<!-- <div class="float-right"
 																th:if="${TransactionMaster.totalPages} gt 1">
 																<a href="#"><i class="fas fa-caret-left fa-2x"
@@ -916,7 +940,7 @@ PURPOSE		:
 
 													<div class="table-responsive">
 
-
+														<div style="height: 200px; overflow-y: scroll; overflow-x: auto; display: block;">
 														<table class="table table-bordered  table-hover table-sm"
 															id="usertable">
 															<thead class="thead-light">
@@ -964,6 +988,7 @@ PURPOSE		:
 																</tr>
 															</tbody>
 														</table>
+														</div>
 														<!-- <div class="float-right"
 																th:if="${TransactionMaster.totalPages} gt 1">
 																<a href="#"><i class="fas fa-caret-left fa-2x"
@@ -1152,7 +1177,7 @@ PURPOSE		:
 										<div th:if="${formmode_opr}=='tranlistopr'" class="container content">
 											<div class="row">
 												<div class="col-sm-12">
-
+													<div style="height: 350px; overflow-y: scroll; overflow-x: auto; display: block;">
 													<div class="table-responsive"
 														style="overflow-x: scroll; overflow-y: hidden;">
 
@@ -1274,6 +1299,7 @@ PURPOSE		:
 																</tr>
 															</tbody>
 														</table>
+														</div>
 													</div>
 													<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
 													<div>
@@ -1420,9 +1446,27 @@ PURPOSE		:
 				</div>
 			</div>
 		</div>
-		<div class="card-footer text-center" style="background-color: #386276;">
-			<button type="button" class="btn btn-xs btn-primary" id="btnHomeFooter" onclick="home();">Home</button>
-			<button type="button" class="btn btn-xs btn-primary" id="btnBackFooter" onclick="back();">Back</button>
+
+		<div class="col-sm-12 ">
+		<div class="text-center"
+		     style="background-color: #386276;
+		            padding: 5px;
+		            width: 100%;
+		            box-sizing: border-box;
+		            margin: 0;">
+		    <div class="btn-group nav-buttons">
+		        <button type="button"
+		                class="btn btn-xs btn-primary"
+		                id="btnHome"
+		                onclick="home()"
+		                style="margin-right: 10px;">Home</button>
+
+		        <button type="button"
+		                class="btn btn-xs btn-primary"
+		                id="btnBack"
+		                onclick="back()">Back</button>
+		    </div>
+		</div>
 		</div>
 	</div>
 	</div>

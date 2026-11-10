@@ -50,6 +50,31 @@ PURPOSE		: MASTER_SCREEN
 .dataTables_wrapper .dataTables_filter input {
 	margin-left: 0em;
 }
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}
 </style>
 <script th:inline="javascript">
 
@@ -1862,12 +1887,10 @@ PURPOSE		: MASTER_SCREEN
 
 <body>
 	<div th:insert="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('BankBranchMaster')" id="ques"></i>
 	<!-- <div th:replace="AStartheader :: header"></div> -->
 
 
-	<div class="content-page">
+		<div class="content-page" style="margin-top: 5px;">
 		<div class="content">
 
 			<!-- Start Content-->
@@ -2026,6 +2049,7 @@ PURPOSE		: MASTER_SCREEN
 										<label style="height: 0px;"></label>
 
 									</div>
+									<div style="height: 350px; overflow-y: scroll; overflow-x: auto; display: block;">
 
 									<table class="table table-bordered  table-hover table-sm"
 										style="width: 100%" id="usertable">
@@ -2127,6 +2151,7 @@ PURPOSE		: MASTER_SCREEN
 											</tr>
 										</tbody>
 									</table>
+									</div>
 
 									<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
 									<div class="float-right" th:if="${Details.totalPages} gt 1">
@@ -2143,14 +2168,27 @@ PURPOSE		: MASTER_SCREEN
 								</div>
 
 							</div>
-							<div class="card-footer text-center" style="padding: 5px;">
 
-								<div class="btn-group nav-buttons " style="align: center;">
-									<button type="button" class="btn btn-xs btn-primary"
-										id="btnHome" onclick="home();" style="margin-right: 5px;">Home</button>
-									<button type="button" class="btn btn-xs btn-primary"
-										id="btnBack" onclick="back();">Back</button>
-								</div>
+							<div class="col-sm-12 ">
+							<div class="text-center"
+							     style="background-color: #386276;
+							            padding: 5px;
+							            width: 100%;
+							            box-sizing: border-box;
+							            margin: 0;">
+							    <div class="btn-group nav-buttons">
+							        <button type="button"
+							                class="btn btn-xs btn-primary"
+							                id="btnHome"
+							                onclick="home()"
+							                style="margin-right: 10px;">Home</button>
+
+							        <button type="button"
+							                class="btn btn-xs btn-primary"
+							                id="btnBack"
+							                onclick="back()">Back</button>
+							    </div>
+							</div>
 							</div>
 						</div>
 						<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->

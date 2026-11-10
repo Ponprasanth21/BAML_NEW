@@ -57,6 +57,56 @@ PURPOSE		:
 .dropdown-menu a:hover {
 	background-color: black;
 }
+
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}
 </style>
 
 <link rel="stylesheet"
@@ -385,17 +435,15 @@ PURPOSE		:
 
 <body>
 	<div th:insert="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('RejectReport')" id="ques"></i>
-	<div class="content-page">
+	<div class="content-page" style="margin-top: 5px;">
 
 		<div class="content">
 			<div class="container-fluid">
 
-				<div th:if="${formmode}=='Customer'" class="container content">
+				<div th:if="${formmode}=='Customer'" class="content">
 					<div class="row">
 						<div class="col-sm-12">
-							<div class="card-header " id="modheadtitle" style="height: 65px;">
+							<div class="card-header " id="modheadtitle" >
 								<b th:text="${menuname}"></b>
 
 								<div class="btn-group nav-buttons float-right">
@@ -436,6 +484,7 @@ PURPOSE		:
 
 								</div>
 								<label></label>
+								<div style="height: 350px; overflow-y: scroll; overflow-x: auto; display: block;">
 								<table class="table  table-bordered  table-hover table-sm" id="">
 									<thead class="thead-light">
 										<tr>
@@ -471,6 +520,7 @@ PURPOSE		:
 										</tr>
 									</tbody>
 								</table>
+								</div>
 
 							</div>
 							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
@@ -490,15 +540,25 @@ PURPOSE		:
 
 						</div>
 						<div class="text-center"
-							style="background-color: #386276; padding: 5px; width: 100%;">
+												     style="background-color: #386276;
+												            padding: 5px;
+												            width: 100%;
+												            box-sizing: border-box;
+												            margin: 0;">
+												    <div class="btn-group nav-buttons">
+												        <button type="button"
+												                class="btn btn-xs btn-primary"
+												                id="btnHome"
+												                onclick="home()"
+												                style="margin-right: 10px;">Home</button>
 
-							<div class="btn-group nav-buttons " style="align: center;">
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnBack" onclick="window.history.back();">Back</button>
-							</div>
-						</div>
+												        <button type="button"
+												                class="btn btn-xs btn-primary"
+												                id="btnBack"
+												                onclick="back()">Back</button>
+												    </div>
+												</div>
+												
 					</div>
 				</div>
 

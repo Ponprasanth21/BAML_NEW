@@ -46,6 +46,40 @@ PURPOSE		: MASTER_SCREEN
 .btn {
 	line-height: 0.5rem;
 }
+/* Make Action dropdown compact */
+.dropdown-menu {
+    min-width: 85px !important;
+    padding: 2px 0 !important;
+    margin: 0 !important;
+    font-size: 11px !important;
+}
+
+.dropdown-menu .dropdown-item {
+    font-size: 11px !important;
+    line-height: 14px !important;
+    height: 20px !important;
+    padding: 2px 10px !important;
+}
+
+.dropdown-menu .dropdown-divider {
+    margin: 2px 0 !important;
+}
+
+.action-small {
+    min-width: 85px !important;
+    padding: 2px 0 !important;
+}
+
+.action-small .dropdown-item {
+    font-size: 11px !important;
+    line-height: 14px !important;
+    height: 20px !important;
+    padding: 2px 10px !important;
+}
+
+.action-small .dropdown-divider {
+    margin: 2px 0 !important;
+}
 </style>
 <script th:inline="javascript">
 	$(document).ready(function() {
@@ -435,10 +469,6 @@ PURPOSE		: MASTER_SCREEN
 
 <body>
 	<div th:insert="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('BankBranchMaster')" id="ques"></i>
-	<!-- <div th:replace="AStartheader :: header"></div> -->
-
 
 	<div class="content-page">
 		<div class="content">
@@ -458,9 +488,6 @@ PURPOSE		: MASTER_SCREEN
 								<thead class="thead-light">
 
 									<tr>
-
-
-
 										<!-- <th></th> -->
 										<th>Bank ID</th>
 										<th>Bank Name</th>
@@ -501,45 +528,49 @@ PURPOSE		: MASTER_SCREEN
 										<td th:text="${bankdetails?.country_code}"></td>
 										<td th:text="${bankdetails?.sol_type}"></td>
 										<td th:text="${bankdetails?.br_code}"></td>
-										<td style="width: 10px;">
+										<td style="width: 10%;">
 											<div class="dropdown">
-												<button class="btn btn-secondary dropdown-toggle"
-													type="button" id="dropdownMenuButton"
-													style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
-													data-toggle="dropdown" aria-haspopup="true"
-													aria-expanded="false">Action</button>
-												<div class="dropdown-menu"
-													aria-labelledby="dropdownMenuButton"
-													style="background-color: #e3e3e4; color: #3a4550;">
-													<a th:attr="data-sol_id=${bankdetails?.sol_id}"
-														class="dropdown-item" title="Inquiry"
-														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
-														onclick="view_btn_submit(this)" id="view_btn">Inquiry
-													</a>
-													<div class="dropdown-divider"
-														th:if="${bankdetails?.entity_flg}=='Y' or ${bankdetails?.entity_flg}==null"></div>
-													<a th:if="${bankdetails?.entity_flg}=='Y' or ${bankdetails?.entity_flg}==null"
-														th:attr="data-sol_id=${bankdetails?.sol_id}"
-														class="dropdown-item" title="Modify"
-														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
-														id="edit_value" onclick="edit_btn_submit(this)">Modify</a>
 
-													<div class="dropdown-divider"
-														th:if="${bankdetails.entity_flg}=='N'"></div>
-													<a th:if="${bankdetails.entity_flg}=='N'"
-														th:attr="data-sol_id=${bankdetails?.sol_id}"
-														class="dropdown-item" title="Verify"
-														style="cursor: pointer; height: 20px; color: #12161b; background: #e3e3e4; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
-														id="verify_value" onclick="verify_btn_submit(this)">Verify</a>
+											    <button class="btn btn-secondary dropdown-toggle"
+											        type="button" id="dropdownMenuButton"
+											        style="line-height: 0.7; font-size: 11px; color: #3a4550; background: #e3e3e4;"
+											        data-toggle="dropdown" aria-haspopup="true"
+											        aria-expanded="false">Action</button>
+													<div class="dropdown-menu action-small"
+													     aria-labelledby="dropdownMenuButton"
+													     style="background-color: #e3e3e4; color: #3a4550;">
 
-													<!-- <button type="button"
-												class="btn btn-xs btn-primary btns  active"
-												onclick='alert_add(this)' th:attr="frmode=add">Add
-												Parameter</button> -->
+											        <a th:attr="data-sol_id=${bankdetails?.sol_id}"
+											            class="dropdown-item"
+											            title="Inquiry"
+											            style="cursor: pointer; background-color: #e3e3e4; color: #3a4550; height: 16px; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+											            onclick="view_btn_submit(this)"
+											            id="view_btn">Inquiry</a>
 
-												</div>
+											        <div class="dropdown-divider"
+											            th:if="${bankdetails?.entity_flg}=='Y' or ${bankdetails?.entity_flg}==null"></div>
+
+											        <a th:if="${bankdetails?.entity_flg}=='Y' or ${bankdetails?.entity_flg}==null"
+											            th:attr="data-sol_id=${bankdetails?.sol_id}"
+											            class="dropdown-item"
+											            title="Modify"
+											            style="cursor: pointer; height: 16px; color: #12161b; background: #e3e3e4; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+											            id="edit_value"
+											            onclick="edit_btn_submit(this)">Modify</a>
+
+											        <div class="dropdown-divider"
+											            th:if="${bankdetails.entity_flg}=='N'"></div>
+
+											        <a th:if="${bankdetails.entity_flg}=='N'"
+											            th:attr="data-sol_id=${bankdetails?.sol_id}"
+											            class="dropdown-item"
+											            title="Verify"
+											            style="cursor: pointer; height: 16px; color: #12161b; background: #e3e3e4; border-radius: .20rem; padding: 2px 10px; top: 10px;"
+											            id="verify_value"
+											            onclick="verify_btn_submit(this)">Verify</a>
+
+											    </div>
 											</div>
-
 										</td>
 										<!-- <td th:text="${#numbers.formatDecimal(account.clr_bal_amt,1,'COMMA',2,'POINT')}"  align="right" >CHENNAI</td> -->
 
@@ -594,17 +625,6 @@ PURPOSE		: MASTER_SCREEN
 											<button type="button" class="btn btn-xs btn-primary btns"
 												id="btnInq" onclick="list()" style="border-color: #66dbe0;">List</button>
 										</div>
-
-
-
-
-
-
-
-
-
-
-
 
 									</div>
 									<div class="card-body">

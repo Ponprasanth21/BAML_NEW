@@ -407,12 +407,10 @@ PURPOSE		:
 
 <body>
 	<div th:insert="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
 	<!-- <div th:replace="AStartheader :: header"></div> -->
 
 
-	<div class="content-page">
+	<div class="content-page" style="margin-top: 5px;">
 		<div class="content">
 
 			<!-- Start Content-->
@@ -492,16 +490,27 @@ PURPOSE		:
 								</tbody>
 							</table>
 
-							<div class="text-center"
-								style="background-color: #386276; padding: 5px;">
+							<div class="text-center role-list-footer"
+														    style="background-color: #386276;
+														           padding: 5px;
+														           width: 100%;
+														           margin-top: 0;
+														           border-radius: 0 0 5px 5px;">
 
-								<div class="btn-group nav-buttons " style="align: center;">
-									<button type="button" class="btn btn-xs btn-primary"
-										id="btnHome" onclick="home();" style="margin-right: 5px;">Home</button>
-									<button type="button" class="btn btn-xs btn-primary"
-										id="btnBack" onclick="back();">Back</button>
-								</div>
-							</div>
+
+															<div class="btn-group nav-buttons " style="align: center;">
+
+																<button type="button" class="btn btn-xs btn-primary"
+
+																	id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
+
+																<button type="button" class="btn btn-xs btn-primary"
+
+																	id="btnBack" onclick="back();">Back</button>
+
+															</div>
+
+														</div>
 
 							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
 							<!-- 			<div class="float-right" th:if="${RuleList.totalPages} gt 1">

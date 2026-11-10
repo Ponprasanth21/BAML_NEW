@@ -58,8 +58,36 @@ PURPOSE		:
 	width: 139% !important;
 }
 
+
 th {
 	vertical-align: top;
+}
+
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+</style>
+<style type="text/css">
+.btn {
+	line-height: 0.5rem;
 }
 </style>
 
@@ -401,13 +429,12 @@ th {
 <body>
 		<div th:insert="AStartheader :: header" th:if="${formmode}=='list' OR ${formmode}=='view' "></div>
 	<div th:insert="TESTHEADER :: header"th:if="${formmode}=='modify' OR ${formmode}=='add' OR ${formmode}=='verify'OR ${formmode}=='delete' "></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('Report')" id="ques"></i>
-	<div class="content-page">
+	
+	<div class="content-page"style="margin-top: 5px;">
 		<div class="content">
 			<div class="container-fluid">
 
-				<div th:if="${formmode}=='list'" class="container content">
+				<div th:if="${formmode}=='list'" class=" content">
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="card-header " id="modheadtitle" style="height: 50px;">
@@ -421,8 +448,10 @@ th {
 
 							</div>
 							<div class="alert alert-danger" th:if="${message}" th:text="${message}"></div>
+							<div style="height: 350px; overflow-y: scroll; overflow-x: auto; display: block;">
 							 	<div class="table-responsive"
 								style="overflow-x: scroll; overflow-y: hidden;"> 
+								
 								<table class="table table-bordered  table-hover table-sm"
 									style="overflow-x: scroll; overflow-y: hidden; width: 120%"
 									id="usertable">
@@ -544,15 +573,24 @@ th {
 
 						</div>
 						<div class="text-center"
-							style="background-color: #386276; padding: 5px; width: 100%;">
+											     style="background-color: #386276;
+											            padding: 5px;
+											            width: 100%;
+											            box-sizing: border-box;
+											            margin: 0;">
+											    <div class="btn-group nav-buttons">
+											        <button type="button"
+											                class="btn btn-xs btn-primary"
+											                id="btnHome"
+											                onclick="home()"
+											                style="margin-right: 10px;">Home</button>
 
-							<div class="btn-group nav-buttons " style="align: center;">
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnBack" onclick="back();">Back</button>
-							</div>
-						</div>
+											        <button type="button"
+											                class="btn btn-xs btn-primary"
+											                id="btnBack"
+											                onclick="back()">Back</button>
+											    </div>
+											</div>
 					</div>
 				</div>
 

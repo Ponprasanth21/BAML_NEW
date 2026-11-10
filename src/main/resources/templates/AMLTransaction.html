@@ -59,6 +59,32 @@ PURPOSE		:
 	color: #08a6f1;
 	cursor: pointer;
 }
+
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}
 </style>
 <script th:inline="javascript">
 	$(function() {
@@ -600,10 +626,8 @@ location.href = Callurl;
 <title>AML</title>
 
 <body>
-	<div th:replace="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('TransactionInquiry')" id="ques"></i>
-	<div class="content-page">
+	<div th:insert="AStartheader :: header"></div> 
+	<div class="content-page"style="margin-top: 5px;" >
 		<div class="content">
 			<div class="container-fluid">
 
@@ -617,10 +641,8 @@ location.href = Callurl;
 									th:value="${fromdate}"> <input type="hidden" id="t1"
 									th:value="${todate}">
 							</div>
-							<label></label>
 							<div class="row formline" style="padding-left: 40px;"
 								>
-<!-- th:if="${datatype}=='list' AND ${fromdate} != ''" -->
 								<div class="col-sm-2" style="padding-top: 8px;">
 									<label for="userId">Start Date</label>
 								</div>
@@ -645,6 +667,7 @@ location.href = Callurl;
 									onclick="gettrandate();"></i> -->
 							</div>
 							<label></label>
+							<div style="height: 200px; overflow-y: scroll; overflow-x: auto; display: block;">
 							<div class="table-responsive"
 								style="overflow-x: scroll; overflow-y: hidden;">
 
@@ -796,9 +819,7 @@ location.href = Callurl;
 												<td th:case="'R'">Renewal</td>
 												<td th:case="*">Others</td>
 											</th:block>
-											
-<!-- 											<td th:text="${transaction.tran_crncy_code}"></td>
- -->
+
 											
 										
 
@@ -808,6 +829,7 @@ location.href = Callurl;
 										</tr>
 									</tbody>
 								</table>
+								</div>
 
 							</div>
 							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
@@ -825,35 +847,30 @@ location.href = Callurl;
 										th:onclick="|getUserlist1('nextpage',${transactionInquiry.number},${transactionInquiry.totalPages});|"></i></a>
 								</div>
 							</div> 
-							<!--  <div th:if="${select}=='datefield'">
-								<div class="float-right"
-									th:if="${transactionInquiry.totalPages} gt 1"
-									id="paginationCust">
-									<a href="#"><i class="fas fa-caret-left fa-2x"
-										th:onclick="|getUserlist1('prevpage',${transactionInquiry.number},${transactionInquiry.totalPages});|"></i></a>
-									<input type="text" id="pageno" style="width: 30px"
-										th:value="${transactionInquiry.number+1}"
-										th:onchange="|getUserlist1('givenpage',${transactionInquiry.number},${transactionInquiry.totalPages});|"></input>
-									of <font th:text="${transactionInquiry.totalPages}"></font> <a
-										href="#"><i class="fas fa-caret-right fa-2x"
-										th:onclick="|getUserlist1('nextpage',${transactionInquiry.number},${transactionInquiry.totalPages});|"></i></a>
-								</div>
-							</div> 
- -->
+							 
 
 						</div>
 					</div>
 				</div>
 				<div class="text-center"
-					style="background-color: #386276; padding: 5px; width: 100%;">
+										     style="background-color: #386276;
+										            padding: 5px;
+										            width: 100%;
+										            box-sizing: border-box;
+										            margin: 0;">
+										    <div class="btn-group nav-buttons">
+										        <button type="button"
+										                class="btn btn-xs btn-primary"
+										                id="btnHome"
+										                onclick="home()"
+										                style="margin-right: 10px;">Home</button>
 
-					<div class="btn-group nav-buttons " style="align: center;">
-						<button type="button" class="btn btn-xs btn-primary" id="btnHome"
-							onclick="home();" style="margin-right: 10px;">Home</button>
-						<button type="button" class="btn btn-xs btn-primary" id="btnBack"
-							onclick="back();">Back</button>
-					</div>
-				</div>
+										        <button type="button"
+										                class="btn btn-xs btn-primary"
+										                id="btnBack"
+										                onclick="back()">Back</button>
+										    </div>
+										</div>
 
 				<!------------------------Pop window - Domain  list Ends--------------------------------->
 				<!--------------------------------------------------------------- Modal for alert messages-------------------------------->

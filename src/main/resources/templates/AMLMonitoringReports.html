@@ -53,6 +53,31 @@ PURPOSE		:
 			color: #08a6f1;
 			cursor: pointer;
 		}
+		#usertable thead th {
+		    font-weight: 600 !important;
+			padding: 8px 9px;
+			font-size: 12px;
+		}
+
+		/* White table background */
+		#usertable,
+		#usertable tbody td {
+		    background-color: #ffffff !important;
+		}
+
+		/* Keep hover effect subtle */
+		#usertable tbody tr:hover td {
+		    background-color: #f8f9fa !important;
+		}
+
+		/* Table row hover color */
+		#usertable tbody tr:hover td {
+		    background-color: #dce5ed !important;
+		}
+
+		.btn {
+			line-height: 0.5rem;
+		}
 	</style>
 
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -469,14 +494,12 @@ PURPOSE		:
 
 <body>
 	<div th:insert="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;" aria-hidden="true"
-		onclick="docEmb('AMLMonitoringReports')" id="ques"></i>
-	<div class="content-page">
+		<div class="content-page" style="margin-top: 5px;">
 		<div class="content">
 			<div class="container-fluid">
 
 				<div th:if="${formmode}=='list' OR ${formmode}=='datefilter' OR ${formmode}=='Search'"
-					class="container content">
+					class="content">
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="card-header " id="modheadtitle" style="height: 50px;">
@@ -543,27 +566,27 @@ PURPOSE		:
 
 
 
-
+							<div style="height: 350px; overflow-y: scroll; overflow-x: auto; display: block;">
 							<table class="table table-bordered  table-hover table-sm" style="width: 100%"
 								id="usertable">
 								<thead class="thead-light">
 
 									<tr>
-										<th style="width:7%;">Tran Date</th>
+										<th style="width: 10%;position: sticky; top: 0;">Tran Date</th>
 										<!-- <th></th> -->
-										<th>Tran ID</th>
-										<th>Tran Type</th>
-										<th>Sub Type</th>
-										<th>Part Tran</th>
-										<th>Currency</th>
-										<th>Amount</th>
-										<th>Customer ID</th>
-										<th>Account No</th>
-										<th>Account Name</th>
-										<th>Tran Particular</th>
-										<th>Rule</th>
-										<th>Verification</th>
-										<th>Action</th>
+										<th style="width: 10%;position: sticky; top: 0;">Tran ID</th>
+										<th style="width: 10%;position: sticky; top: 0;">Tran Type</th>
+										<th style="width: 10%;position: sticky; top: 0;">Sub Type</th>
+										<th style="width: 10%;position: sticky; top: 0;">Part Tran</th>
+										<th style="width: 10%;position: sticky; top: 0;">Currency</th>
+										<th style="width: 10%;position: sticky; top: 0;">Amount</th>
+										<th style="width: 10%;position: sticky; top: 0;">Customer ID</th>
+										<th style="width: 10%;position: sticky; top: 0;">Account No</th>
+										<th style="width: 10%;position: sticky; top: 0;">Account Name</th>
+										<th style="width: 10%;position: sticky; top: 0;">Tran Particular</th>
+										<th style="width: 10%;position: sticky; top: 0;">Rule</th>
+										<th style="width: 10%;position: sticky; top: 0;">Verification</th>
+										<th style="width: 10%;position: sticky; top: 0;z-index: 2;">Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -669,6 +692,7 @@ PURPOSE		:
 									</tr>
 								</tbody>
 							</table>
+							</div>
 
 
 
@@ -686,14 +710,27 @@ PURPOSE		:
 
 
 						</div>
-						<div class="text-center" style="background-color: #386276; padding: 5px; width: 100%;">
 
-							<div class="btn-group nav-buttons " style="align: center;">
-								<button type="button" class="btn btn-xs btn-primary" id="btnHome" onclick="home();"
-									style="margin-right: 10px;">Home</button>
-								<button type="button" class="btn btn-xs btn-primary" id="btnBack"
-									onclick="back();">Back</button>
-							</div>
+						<div class="col-sm-12 ">
+						<div class="text-center"
+						     style="background-color: #386276;
+						            padding: 5px;
+						            width: 100%;
+						            box-sizing: border-box;
+						            margin: 0;">
+						    <div class="btn-group nav-buttons">
+						        <button type="button"
+						                class="btn btn-xs btn-primary"
+						                id="btnHome"
+						                onclick="home()"
+						                style="margin-right: 10px;">Home</button>
+
+						        <button type="button"
+						                class="btn btn-xs btn-primary"
+						                id="btnBack"
+						                onclick="back()">Back</button>
+						    </div>
+						</div>
 						</div>
 					</div>
 				</div>

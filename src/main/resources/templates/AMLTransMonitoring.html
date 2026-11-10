@@ -64,6 +64,31 @@
 	/* width: 17%;
 	padding: 5px; */
 }
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}
 </style>
 <script type="text/javascript">
 function ruleCodeSelected(elem) {
@@ -1035,10 +1060,8 @@ function getUserlist(mode, num, maxpage) {
 <title>AML</title>
 
 <body>
-	<div th:replace="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('AMLTransMonitoring')" id="ques"></i>
-	<div class="content-page">
+	<div th:insert="AStartheader :: header"></div>
+		<div class="content-page" style="margin-top: 5px;">
 		<div class="content">
 			<div class="container-fluid">
 
@@ -1168,6 +1191,7 @@ function getUserlist(mode, num, maxpage) {
 			<div th:if="${formmode}=='tranlist'" class="container content">
 				<div class="row">
 					<div class="col-sm-12">
+						<div style="height: 350px; overflow-y: scroll; overflow-x: auto; display: block;">
 
 						<div class="table-responsive"
 							style="overflow-x: scroll; overflow-y: hidden;">
@@ -1236,6 +1260,7 @@ function getUserlist(mode, num, maxpage) {
 									</tr>
 								</tbody>
 							</table>
+							</div>
 						</div>
 						<div class="float-right"
 							th:if="${TransactionMaster.totalPages} gt 1">
@@ -1257,14 +1282,27 @@ function getUserlist(mode, num, maxpage) {
 				</div>
 			</div>
 
-			<div class="card-footer text-center"
-				style="background-color: #386276;">
 
-				<button type="button" class="btn btn-xs btn-primary" id="btnHome"
-					onclick="home();">Home</button>
-				<button type="button" class="btn btn-xs btn-primary" id="btnBack"
-					onclick="back();">Back</button>
+			<div class="col-sm-12 ">
+			<div class="text-center"
+			     style="background-color: #386276;
+			            padding: 5px;
+			            width: 100%;
+			            box-sizing: border-box;
+			            margin: 0;">
+			    <div class="btn-group nav-buttons">
+			        <button type="button"
+			                class="btn btn-xs btn-primary"
+			                id="btnHome"
+			                onclick="home()"
+			                style="margin-right: 10px;">Home</button>
 
+			        <button type="button"
+			                class="btn btn-xs btn-primary"
+			                id="btnBack"
+			                onclick="back()">Back</button>
+			    </div>
+			</div>
 			</div>
 
 
@@ -1281,6 +1319,7 @@ function getUserlist(mode, num, maxpage) {
 
 						<!-- Modal body -->
 						<div class="modal-body" style="background-color: #e6eaed;">
+							<div style="height: 350px; overflow-y: scroll; overflow-x: auto; display: block;">
 							<table class="table table-hover" id="finusertb">
 								<thead class="thead-light" style="background-color: #386276;">
 									<tr>
@@ -1304,6 +1343,7 @@ function getUserlist(mode, num, maxpage) {
 									</tr>
 								</tbody>
 							</table>
+							</div>
 						</div>
 
 					</div>

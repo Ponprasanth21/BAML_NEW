@@ -70,6 +70,55 @@ PURPOSE		:
 .dropdown-menu a:hover {
 	background-color: black;
 }
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}
 </style>
 
 
@@ -899,22 +948,20 @@ PURPOSE		:
 
 	<div th:insert="AStartheader :: header"></div>
 
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('kycparameter')" id="ques"></i>
-	<div class="content-page">
+	<div class="content-page" style="margin-top: 5px;">
 
 		<div class="content">
 
 			<div class="container-fluid">
 
 
-				<div th:if="${formmode}=='list'" class="container content">
+				<div th:if="${formmode}=='list'" class="content">
 
 					<div class="row">
 
 						<div class="col-sm-12">
 
-							<div class="card-header " id="modheadtitle" style="height: 50px;">
+							<div class="card-header " id="modheadtitle">
 
 								<b th:text="${menuname}"></b>
 
@@ -951,7 +998,7 @@ PURPOSE		:
 
 							</div>
 
-
+					<div style="height: 300px; overflow-y: scroll; overflow-x: auto; display: block;">
 							<table class="table table-bordered  table-hover table-sm"
 								style="width: 100%" id="usertable">
 
@@ -1205,30 +1252,37 @@ PURPOSE		:
 								</tbody>
 
 							</table>
-
-
-
-
-
-
-
-						</div>
-
-						<div class="text-center"
-							style="background-color: #386276; padding: 5px; width: 100%;">
-
-
-							<div class="btn-group nav-buttons " style="align: center;">
-
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
-
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnBack" onclick="back();">Back</button>
-
 							</div>
 
+
+
+
+
+
+
 						</div>
+						<div class="col-sm-12 ">
+
+						<div class="text-center"
+												     style="background-color: #386276;
+												            padding: 5px;
+												            width: 100%;
+												            box-sizing: border-box;
+												            margin: 0;">
+												    <div class="btn-group nav-buttons">
+												        <button type="button"
+												                class="btn btn-xs btn-primary"
+												                id="btnHome"
+												                onclick="home()"
+												                style="margin-right: 10px;">Home</button>
+
+												        <button type="button"
+												                class="btn btn-xs btn-primary"
+												                id="btnBack"
+												                onclick="back()">Back</button>
+												    </div>
+												</div>
+												</div>
 
 					</div>
 

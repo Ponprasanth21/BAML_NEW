@@ -57,6 +57,32 @@ PURPOSE		:
 .dropdown-menu a:hover {
 	background-color: black;
 }
+
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}
 </style>
 
 <link rel="stylesheet"
@@ -601,16 +627,14 @@ $("#bodatemodified").datepicker({
 
 <body>
 	<div th:insert="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('NegList')" id="ques"></i>
-	<div class="content-page">
+		<div class="content-page" style="margin-top: 5px;">
 		<div class="content">
 			<div class="container-fluid">
 
-				<div th:if="${formmode}=='list'" class="container content">
+				<div th:if="${formmode}=='list'" class="content">
 					<div class="row">
 						<div class="col-sm-12">
-							<div class="card-header " id="modheadtitle" style="height: 50px;">
+							<div class="card-header " id="modheadtitle">
 								<b th:text="${menuname}"></b>
 
 								<!-- <div class="btn-group nav-buttons float-right">
@@ -625,6 +649,7 @@ $("#bodatemodified").datepicker({
 										id="btnInq" onclick="list()" style="border-color: #66dbe0;">List</button>
 								</div> -->
 							</div>
+							<div style="height: 350px; overflow-y: scroll; overflow-x: auto; display: block;">
 							<table class="table table-bordered  table-hover table-sm"
 								style="width: 100%" id="usertable">
 								<thead class="thead-light">
@@ -638,15 +663,15 @@ $("#bodatemodified").datepicker({
 
 									<tr>
 <!-- 										<th style="width:8%;">Master Data Id</th>
- -->										<th style="width:7%;">Customer ID <i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custidsearch()"></i></th>
-										<th style="width:12%;">Last Name<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custlastnamesearch()"></i></th>
-										<th style="width:12%;">First Name <i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custfirstnamesearch()"></i></th>
-										<th style="width:7%;">NID <i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custnidsearch()"></i></th>
+ -->									<th style="width:7%;">Customer ID <i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custidsearch()"></i></th>
+										<th style="width:10%;">Last Name<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custlastnamesearch()"></i></th>
+										<th style="width:9%;">First Name <i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custfirstnamesearch()"></i></th>
+										<th style="width:5%;">NID <i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custnidsearch()"></i></th>
 										<th style="width: 7%;">Risk Category <i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custriskcategorysearch()"></i></th>
-															<th style="width: 6%;">Status<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custstatussearch()"></i></th>
-															<th style="width: 9%;">Reasons</th>
-															<th style="width: 8%;">Date freezed<i class="fas fa-search searchico" style="float: right;" aria-hidden="true" onclick="custdatefreezedsearch()"></i></th>
-															<th style="width: 8%;">Date de-freezed<i class="fas fa-search searchico" style="float: right;" aria-hidden="true" onclick="custdatedefreezedsearch()"></i></th>
+										<th style="width: 6%;">Status<i class="fas fa-search searchico" style="float: right;"aria-hidden="true" onclick="custstatussearch()"></i></th>
+										<th style="width: 9%;">Reasons</th>
+										<th style="width: 8%;">Date freezed<i class="fas fa-search searchico" style="float: right;" aria-hidden="true" onclick="custdatefreezedsearch()"></i></th>
+										<th style="width: 8%;">Date de-freezed<i class="fas fa-search searchico" style="float: right;" aria-hidden="true" onclick="custdatedefreezedsearch()"></i></th>
 <!-- 															<th style="width: 11%;">Active Product Type<i class="fas fa-search searchico" style="float: right;" aria-hidden="true" onclick="custprodtypesearch()"></i></th>
  -->
 									<!-- 	<th>Status</th>
@@ -732,6 +757,7 @@ $("#bodatemodified").datepicker({
 									</tr>
 								</tbody>
 							</table>
+							</div>
 
 
 
@@ -750,16 +776,28 @@ $("#bodatemodified").datepicker({
 
 
 						</div>
+						<div class="col-sm-12 ">
 						<div class="text-center"
-							style="background-color: #386276; padding: 5px; width: 100%;">
+												     style="background-color: #386276;
+												            padding: 5px;
+												            width: 100%;
+												            box-sizing: border-box;
+												            margin: 0;">
+												    <div class="btn-group nav-buttons">
+												        <button type="button"
+												                class="btn btn-xs btn-primary"
+												                id="btnHome"
+												                onclick="home()"
+												                style="margin-right: 10px;">Home</button>
 
-							<div class="btn-group nav-buttons " style="align: center;">
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnBack" onclick="back();">Back</button>
-							</div>
-						</div>
+												        <button type="button"
+												                class="btn btn-xs btn-primary"
+												                id="btnBack"
+												                onclick="back()">Back</button>
+												    </div>
+								
+												</div>	
+													</div>
 					</div>
 				</div>
 				

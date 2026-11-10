@@ -95,6 +95,32 @@ nav>div a.nav-item.nav-link:hover, nav>div a.nav-item.nav-link:focus {
 	border-radius: 0;
 	transition: background 0.20s linear;
 }
+
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}
 </style>
 
 <script type="text/javascript">
@@ -159,8 +185,8 @@ function getCorp_Userlist(mode, num, maxpage) {
 </script>
 
 <body>
-	<div th:replace="AStartheader :: header"></div>
-	<div class="content-page">
+	<div th:insert="AStartheader :: header"></div>
+		<div class="content-page" style="margin-top: 5px;">
 		<div class="content">
 
 			<div class="container-fluid">
@@ -201,7 +227,7 @@ function getCorp_Userlist(mode, num, maxpage) {
 								<div class="card-header " id="modheadtitle">
 									<b th:text="${menuname1}"></b>
 								</div>
-
+								<div style="height: 350px; overflow-y: scroll; overflow-x: auto; display: block;">
 								<table class="table table-bordered  table-hover table-sm"
 									style="width: 100%" id="usertable">
 									<thead class="thead-light">
@@ -236,15 +262,31 @@ function getCorp_Userlist(mode, num, maxpage) {
 										</tr>
 									</tbody>
 								</table>
+								</div>
 							</div>
 							
-				<div class="card-footer text-center"
-					style="background-color: #386276";>
-					<button type="button" class="btn btn-xs btn-primary" id="btnHome"
-						onclick="home();">Home</button>
-					<button type="button" class="btn btn-xs btn-primary" id="btnBack"
-						onclick="back();">Back</button>
-				</div>
+
+							<div class="col-sm-12 ">
+							<div class="text-center"
+							     style="background-color: #386276;
+							            padding: 5px;
+							            width: 100%;
+							            box-sizing: border-box;
+							            margin: 0;">
+							    <div class="btn-group nav-buttons">
+							        <button type="button"
+							                class="btn btn-xs btn-primary"
+							                id="btnHome"
+							                onclick="home()"
+							                style="margin-right: 10px;">Home</button>
+
+							        <button type="button"
+							                class="btn btn-xs btn-primary"
+							                id="btnBack"
+							                onclick="back()">Back</button>
+							    </div>
+							</div>
+							</div>
 			</div>
 		</div>
 	</div>

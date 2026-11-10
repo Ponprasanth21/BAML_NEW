@@ -49,6 +49,33 @@ PURPOSE		:
 	color: #08a6f1;
 	cursor: pointer;
 }
+
+
+#usertable thead th {
+    font-weight: 600 !important;
+	padding: 8px 9px;
+	font-size: 12px;
+}
+
+/* White table background */
+#usertable,
+#usertable tbody td {
+    background-color: #ffffff !important;
+}
+
+/* Keep hover effect subtle */
+#usertable tbody tr:hover td {
+    background-color: #f8f9fa !important;
+}
+
+/* Table row hover color */
+#usertable tbody tr:hover td {
+    background-color: #dce5ed !important;
+}
+
+.btn {
+	line-height: 0.5rem;
+}
 </style>
 <!----------------------------------------Scripts to edit report details-------------------------------------------->
 <script th:inline="javascript">
@@ -508,16 +535,14 @@ PURPOSE		:
 </script>
 <body>
 	<div th:insert="AStartheader :: header"></div>
-	<i class="fa fa-question-circle" style="float: right; margin-top: 10%;"
-		aria-hidden="true" onclick="docEmb('AbandList')" id="ques"></i>
-	<div class="content-page">
+		<div class="content-page" style="margin-top: 5px;">
 		<div class="content">
 			<div class="container-fluid">
 
-				<div th:if="${formmode}=='list'" class="container content">
+				<div th:if="${formmode}=='list'" class="content">
 					<div class="row">
 						<div class="col-sm-12">
-							<div class="card-header " id="modheadtitle" style="height: 50px;">
+							<div class="card-header " id="modheadtitle">
 								<b th:text="${menuname}"></b>
 
 								<div class="btn-group nav-buttons float-right">
@@ -529,28 +554,28 @@ PURPOSE		:
 										id="btnInq" onclick="list()" style="border-color: #66dbe0;">List</button>
 								</div>
 							</div>
-
+							<div style="height: 350px; overflow-y: scroll; overflow-x: auto; display: block;">   
 							<table class="table table-bordered  table-hover table-sm"
 								style="width: 100%" id="usertable">
 								<thead class="thead-light">
 									<tr>
 
 
-										<th>Customer ID <i class="fas fa-search searchico"
+										<th style="width: 10%;position: sticky; top: 0;">Customer ID <i class="fas fa-search searchico"
 											style="float: right;" aria-hidden="true"
 											onclick="custidsearch()"></i></th>
-										<th>Customer Name<i class="fas fa-search searchico"
+										<th style="width: 15%;position: sticky; top: 0;">Customer Name<i class="fas fa-search searchico"
 											style="float: right;" aria-hidden="true"
 											onclick="custlastnamesearch()"></i></th>
-										<th>Account No</th>
-										<th>Account Name</th>
-										<th>Account Open Date</th>
-										<th>Type of Account</th>
-										<th>Balance(Rs)</th>
-										<th>Interest Paid(Rs)</th>
-										<th>Date of Transfer to BOM</th>
-										<th>Status</th>
-										<th>Select</th>
+										<th style="width: 10%;position: sticky; top: 0;" >Account No</th>
+										<th style="width: 10%;position: sticky; top: 0;">Account Name</th>
+										<th style="width: 10%;position: sticky; top: 0;">Account Open Date</th>
+										<th style="width: 10%;position: sticky; top: 0;">Type of Account</th>
+										<th style="width: 10%;position: sticky; top: 0;">Balance(Rs)</th>
+										<th style="width: 10%;position: sticky; top: 0;">Interest Paid(Rs)</th>
+										<th style="width: 10%;position: sticky; top: 0;">Date of Transfer to BOM</th>
+										<th style="width: 10%;position: sticky; top: 0;">Status</th>
+										<th style="width: 10%;position: sticky; top: 0; z-index: 2;">Select</th>
 									</tr>
 								</thead>
 
@@ -626,6 +651,7 @@ PURPOSE		:
 									</tr>
 								</tbody>
 							</table>
+							</div>
 							<!------------------------------ Report Details pagination - shown if paginated -------------------------------------------------->
 							<div class="float-right" th:if="${AbondList != null and AbondList.totalPages gt 1}">
 								<a href="#"><i class="fas fa-caret-left fa-2x"
@@ -639,17 +665,28 @@ PURPOSE		:
 							</div>
 
 
-						</div>
-						<div class="text-center"
-							style="background-color: #386276; padding: 5px; width: 100%;">
+						</div>					
+						<div class="col-sm-12 ">
+							<div class="text-center"
+												     style="background-color: #386276;
+												            padding: 5px;
+												            width: 100%;
+												            box-sizing: border-box;
+												            margin: 0;">
+												    <div class="btn-group nav-buttons">
+												        <button type="button"
+												                class="btn btn-xs btn-primary"
+												                id="btnHome"
+												                onclick="home()"
+												                style="margin-right: 10px;">Home</button>
 
-							<div class="btn-group nav-buttons " style="align: center;">
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnHome" onclick="home();" style="margin-right: 10px;">Home</button>
-								<button type="button" class="btn btn-xs btn-primary"
-									id="btnBack" onclick="back();">Back</button>
-							</div>
-						</div>
+												        <button type="button"
+												                class="btn btn-xs btn-primary"
+												                id="btnBack"
+												                onclick="back()">Back</button>
+												    </div>
+												</div>
+												</div>
 					</div>
 				</div>
 
